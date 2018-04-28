@@ -30,19 +30,33 @@ final class WatchFaceStatsDrawable extends WatchFaceDrawable {
     @Deprecated
     static long now[] = new long[5];
 
+    static final String INVALID_COMPLICATION = "Complication";
+    static final String INVALID_TIME_TICK = "Time Tick";
+    static final String INVALID_TIMER_HANDLER = "Timer Handler";
+    static final String INVALID_TIMEZONE = "Time Zone Change";
+    static final String INVALID_LOCATION = "Location Change";
+    static final String INVALID_AMBIENT = "Ambient Change";
+    static final String INVALID_INTERRUPTION = "Interruption Filter";
+    static final String INVALID_SURFACE = "Surface Change";
+    static final String INVALID_NOTIFICATION = "Notification Change";
+
+    static String mInvalidTrigger = "";
+
     @Override
     public void draw(@NonNull Canvas canvas) {
         super.draw(canvas);
 
         Paint textPaint = mStateObject.ambient
                 ? mPalette.getAmbientPaint() : mPalette.getFillHighlightPaint();
-        String pos = invalid
-                + String.format(" Alt: %.2f° / ", mLocationCalculator.getSunAltitude());
 
-        canvas.drawText(pos
+        canvas.drawText(mInvalidTrigger, 20f * pc, 35f * pc, textPaint);
+
+        canvas.drawText(invalid
+                        + String.format(" Alt: %.2f° / ", mLocationCalculator.getSunAltitude())
                         + String.format("%.2f", (double) (now[0] + now[1] + now[2] + now[3] + now[4]) / 1000000d)
                         + (canvas.isHardwareAccelerated() ? " (hw)" : " (sw)"),
                 12f * pc, 55f * pc, textPaint);
+
         canvas.drawText(String.format("%.2f / %.2f / %.2f / %.2f / %.2f",
                 (double) (now[0]) / 1000000d,
                 (double) (now[1]) / 1000000d,

@@ -169,6 +169,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                     @Override
                     public void onReceive(Context context, Intent intent) {
                         mCalendar.setTimeZone(TimeZone.getDefault());
+                        WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_TIMEZONE;
                         invalidate();
                     }
                 };
@@ -177,6 +178,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
         private final Handler mUpdateTimeHandler = new UpdateTimeHandler(this);
 
         private void updateTimeViaHandler() {
+            WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_TIMER_HANDLER;
             invalidate();
             if (shouldTimerBeRunning()) {
                 long timeMs = System.currentTimeMillis();
@@ -241,6 +243,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                                                     + " / " + location.getAltitude()));
                                     // Note: can be null in rare situations; handle accordingly.
                                     mLocationCalculator.setLocation(location);
+                                    WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_LOCATION;
                                     postInvalidate();
                                 }
                             }
@@ -385,6 +388,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                     complication.setComplicationData(complicationData);
                 }
             }
+            WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_COMPLICATION;
             invalidate();
         }
 
@@ -420,6 +424,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
         @Override
         public void onTimeTick() {
             super.onTimeTick();
+            WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_TIME_TICK;
             invalidate();
         }
 
@@ -441,6 +446,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             // Check and trigger whether or not timer should be running (only in active mode).
             updateTimer();
 
+            WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_AMBIENT;
             invalidate();
         }
 
@@ -455,6 +461,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                 //mHourPaint.setAlpha(inMuteMode ? 100 : 255);
                 //mMinutePaint.setAlpha(inMuteMode ? 100 : 255);
                 //mSecondAndHighlightPaint.setAlpha(inMuteMode ? 80 : 255);
+                WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_INTERRUPTION;
                 invalidate();
             }
         }
@@ -506,6 +513,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                 }
             }
 
+            WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_SURFACE;
             invalidate();
         }
 
@@ -590,6 +598,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                 registerReceiver();
                 // Update time zone in case it changed while we weren't visible.
                 mCalendar.setTimeZone(TimeZone.getDefault());
+                WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_TIMEZONE;
                 invalidate();
             } else {
                 unregisterReceiver();
@@ -604,6 +613,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             Log.d(TAG, "onNotificationCountChanged(): " + count);
 
             if (mUnreadNotificationsPreference) {
+                WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_NOTIFICATION;
                 invalidate();
             }
         }
@@ -613,6 +623,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             Log.d(TAG, "onUnreadCountChanged(): " + count);
 
             if (mUnreadNotificationsPreference) {
+                WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_NOTIFICATION;
                 invalidate();
             }
         }
