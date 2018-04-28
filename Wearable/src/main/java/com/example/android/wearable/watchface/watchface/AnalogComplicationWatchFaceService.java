@@ -70,7 +70,6 @@ import com.google.android.gms.tasks.Task;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
@@ -157,7 +156,6 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
          * the complication data on the watch face.
          */
         //private SparseArray<ComplicationDrawable> mComplicationDrawableSparseArray;
-        private Collection<ComplicationHolder> complications;
 
         // Used to pull user's preferences for background color, highlight color, and visual
         // indicating there are unread notifications.
@@ -207,10 +205,10 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                             .setViewProtectionMode(WatchFaceStyle.PROTECT_STATUS_BAR)
                             .build());
 
+            mStateObject = mWatchFaceDrawables[0].new StateObject();
+
             loadSavedPreferences();
             initializeComplications();
-
-            mStateObject = mWatchFaceDrawables[0].new StateObject();
 
             for (WatchFaceDrawable d : mWatchFaceDrawables) {
                 d.setState(mStateObject, mPalette, mCalendar, mLocationCalculator);
@@ -300,29 +298,29 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
             Context context = getApplicationContext();
 
-            complications = new ArrayList<>();
+            mStateObject.complications = new ArrayList<>();
             {
                 final ComplicationHolder b = new ComplicationHolder(context);
                 b.isForeground = false;
                 b.isActive = false;
                 b.setDrawableCallback(this);
-                complications.add(b);
+                mStateObject.complications.add(b);
             }
 
             for (int i = 0; i < FOREGROUND_COMPLICATION_COUNT; i++) {
                 final ComplicationHolder f = new ComplicationHolder(context);
                 f.isForeground = true;
                 f.setDrawableCallback(this);
-                complications.add(f);
+                mStateObject.complications.add(f);
             }
 
             // Adds new complications to a SparseArray to simplify setting styles and ambient
             // properties for all complications, i.e., iterate over them all.
             setComplicationsActiveAndAmbientColors(mPalette.getHighlightColor());
 
-            int[] complicationIds = new int[complications.size()];
+            int[] complicationIds = new int[mStateObject.complications.size()];
             int i = 0;
-            for (ComplicationHolder complication : complications) {
+            for (ComplicationHolder complication : mStateObject.complications) {
                 complicationIds[i] = complication.getId();
                 i++;
             }
@@ -338,7 +336,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
          * again if the user changes the highlight color via AnalogComplicationConfigActivity.
          */
         private void setComplicationsActiveAndAmbientColors(int primaryComplicationColor) {
-            for (ComplicationHolder complication : complications) {
+            for (ComplicationHolder complication : mStateObject.complications) {
                 complication.setColors(primaryComplicationColor);
             }
         }
@@ -356,7 +354,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
             // Updates complications to properly render in ambient mode based on the
             // screen's capabilities.
-            for (ComplicationHolder complication : complications) {
+            for (ComplicationHolder complication : mStateObject.complications) {
                 complication.setLowBitAmbientBurnInProtection(lowBitAmbient, burnInProtection);
             }
         }
@@ -372,7 +370,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             // Adds/updates active complication data in the array.
 
             // Updates correct ComplicationDrawable with updated data.
-            for (ComplicationHolder complication : complications) {
+            for (ComplicationHolder complication : mStateObject.complications) {
                 if (complication.getId() == complicationId) {
                     switch (complicationData.getType()) {
                         case ComplicationData.TYPE_EMPTY:
@@ -396,7 +394,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             switch (tapType) {
                 case TAP_TYPE_TAP:
                     // Try all foreground complications first, before background complications.
-                    for (ComplicationHolder complication : complications) {
+                    for (ComplicationHolder complication : mStateObject.complications) {
                         if (complication.isForeground) {
                             boolean successfulTap = complication.onDrawableTap(x, y);
 
@@ -406,7 +404,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                         }
                     }
                     // Try all background complications.
-                    for (ComplicationHolder complication : complications) {
+                    for (ComplicationHolder complication : mStateObject.complications) {
                         if (!complication.isForeground) {
                             boolean successfulTap = complication.onDrawableTap(x, y);
 
@@ -436,7 +434,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             // Update drawable complications' ambient state.
             // Note: ComplicationDrawable handles switching between active/ambient colors, we just
             // have to inform it to enter ambient mode.
-            for (ComplicationHolder complication : complications) {
+            for (ComplicationHolder complication : mStateObject.complications) {
                 complication.setAmbientMode(inAmbientMode);
             }
 
@@ -479,7 +477,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             int midpointOfScreen = width / 2;
 
             int i = 0;
-            for (ComplicationHolder complication : complications) {
+            for (ComplicationHolder complication : mStateObject.complications) {
                 if (complication.isForeground) {
                     // Foreground
                     float degrees = (float) ((i + 0.5f) * Math.PI * 2 / FOREGROUND_COMPLICATION_COUNT);
@@ -533,7 +531,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
                 if (currentComplicationWhite != newComplicationWhite
                         || currentComplicationGrey != newComplicationGrey) {
-                    for (ComplicationHolder complication : complications) {
+                    for (ComplicationHolder complication : mStateObject.complications) {
                         complication.setAmbientColors(newComplicationWhite, newComplicationGrey,
                                 newComplicationGrey);
 //                        complication.drawable.setTextColorAmbient(newComplicationWhite);
@@ -559,7 +557,6 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                 mCalendar.setTimeInMillis(now);
                 mStateObject.unreadNotifications = unreadNotifications;
                 mStateObject.totalNotifications = totalNotifications;
-                mStateObject.complications = complications;
                 mStateObject.preset = preset;
 
                 int s = 0;
