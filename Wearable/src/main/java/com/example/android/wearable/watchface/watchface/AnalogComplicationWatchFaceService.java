@@ -117,17 +117,15 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
         @Override
         protected void beforeDoFrame(int invalidated) {
-            WatchFaceStatsDrawable stats = (WatchFaceStatsDrawable)(mWatchFaceDrawables[4]);
-            if (stats.invalid < invalidated) {
+            if (WatchFaceStatsDrawable.invalid < invalidated) {
                 // Set painter invalid display to the maximum we've seen for a while
-                stats.invalid = invalidated;
+                WatchFaceStatsDrawable.invalid = invalidated;
             }
         }
 
         @Override
         protected void afterDoFrame(int invalidated) {
-            WatchFaceStatsDrawable stats = (WatchFaceStatsDrawable)(mWatchFaceDrawables[4]);
-            stats.invalid = 0;
+            WatchFaceStatsDrawable.invalid = 0;
         }
 
         private WatchFacePreset preset = new WatchFacePreset();
@@ -564,14 +562,13 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                 mStateObject.complications = complications;
                 mStateObject.preset = preset;
 
-                WatchFaceStatsDrawable stats = (WatchFaceStatsDrawable)(mWatchFaceDrawables[4]);
                 int s = 0;
                 long now0 = SystemClock.elapsedRealtimeNanos();
                 for (WatchFaceDrawable d : mWatchFaceDrawables) {
                     // For each of our drawables: draw it!
                     d.draw(canvas);
                     long now1 = SystemClock.elapsedRealtimeNanos();
-                    stats.now[s] = now1 - now0;
+                    WatchFaceStatsDrawable.now[s] = now1 - now0;
                     now0 = now1;
                     s++;
                 }

@@ -26,8 +26,9 @@ import android.support.annotation.NonNull;
 @Deprecated
 final class WatchFaceStatsDrawable extends WatchFaceDrawable {
     @Deprecated
-    int invalid = 0;
-    long now[] = new long[5];
+    static int invalid = 0;
+    @Deprecated
+    static long now[] = new long[5];
 
     @Override
     public void draw(@NonNull Canvas canvas) {
