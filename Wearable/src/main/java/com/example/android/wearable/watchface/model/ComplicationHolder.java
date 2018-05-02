@@ -170,10 +170,13 @@ public final class ComplicationHolder implements Drawable.Callback {
 
     private final Handler mHandler = new Handler();
 
+    private boolean itWasMe = false;
+
     @Override
     public void invalidateDrawable(@NonNull Drawable who) {
         Log.d("AnalogWatchFace", "invalidateDrawable() (" + getId() //+ "): " + mComplicationDescription);
                 + ")");
+        itWasMe = true;
         invalidate();
         if (mInvalidateCallback != null) {
             mInvalidateCallback.invalidate();
@@ -271,6 +274,13 @@ public final class ComplicationHolder implements Drawable.Callback {
 //            Drawable.Callback obj = drawable.getCallback();
 //            Log.d("AnalogWatchFace", "Complication draw (id=" + getId()
 //                    + "): callback is " + (obj == null ? "null" : obj.toString()));
+            if (itWasMe) {
+                drawable.setBorderStyleAmbient(ComplicationDrawable.BORDER_STYLE_DASHED);
+                drawable.setBorderColorAmbient(Color.WHITE);
+                itWasMe = false;
+            } else {
+                drawable.setBorderStyleAmbient(ComplicationDrawable.BORDER_STYLE_NONE);
+            }
             drawable.draw(canvas, currentTimeMillis);
         }
     }
