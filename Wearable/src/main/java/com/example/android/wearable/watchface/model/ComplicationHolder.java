@@ -170,13 +170,13 @@ public final class ComplicationHolder implements Drawable.Callback {
 
     private final Handler mHandler = new Handler();
 
-    private boolean itWasMe = false;
+    private long itWasMe = 0;
 
     @Override
     public void invalidateDrawable(@NonNull Drawable who) {
-        Log.d("AnalogWatchFace", "invalidateDrawable() (" + getId() //+ "): " + mComplicationDescription);
-                + ")");
-        itWasMe = true;
+//        Log.d("AnalogWatchFace", "invalidateDrawable() (" + getId() //+ "): " + mComplicationDescription);
+//                + ")");
+        itWasMe = System.currentTimeMillis();
         invalidate();
         if (mInvalidateCallback != null) {
             mInvalidateCallback.invalidate();
@@ -266,6 +266,8 @@ public final class ComplicationHolder implements Drawable.Callback {
         return mActiveBitmap;
     }
 
+    final static boolean highlightItWasMe = false;
+
     public void draw(Canvas canvas, long currentTimeMillis) {
         if (cacheImages) {
             Bitmap bitmap = mIsInAmbientMode ? getAmbientBitmap(currentTimeMillis) : getActiveBitmap(currentTimeMillis);
@@ -274,10 +276,11 @@ public final class ComplicationHolder implements Drawable.Callback {
 //            Drawable.Callback obj = drawable.getCallback();
 //            Log.d("AnalogWatchFace", "Complication draw (id=" + getId()
 //                    + "): callback is " + (obj == null ? "null" : obj.toString()));
-            if (itWasMe) {
+            if (highlightItWasMe && itWasMe > currentTimeMillis - 500) {
+                // if itWasMe triggered in the last 500 ms
                 drawable.setBorderStyleAmbient(ComplicationDrawable.BORDER_STYLE_DASHED);
                 drawable.setBorderColorAmbient(Color.WHITE);
-                itWasMe = false;
+                Log.d("AnalogWatchFace", "invalidateDrawable(itWasMe) (" + getId() + ")");
             } else {
                 drawable.setBorderStyleAmbient(ComplicationDrawable.BORDER_STYLE_NONE);
             }

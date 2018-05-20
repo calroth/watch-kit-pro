@@ -124,7 +124,9 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
         @Override
         protected void afterDoFrame(int invalidated) {
-            WatchFaceStatsDrawable.invalid = 0;
+            if (invalidated == 0) {
+                WatchFaceStatsDrawable.invalid = 0;
+            }
         }
 
         private WatchFacePreset preset = new WatchFacePreset();
@@ -526,6 +528,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
+            boolean prevAmbient = mStateObject.ambient;
             super.onDraw(canvas, bounds);
             long now = System.currentTimeMillis();
 
@@ -577,6 +580,11 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                     now0 = now1;
                     s++;
                 }
+            }
+
+            if (prevAmbient != mStateObject.ambient) {
+                WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_WTF;
+                invalidate();
             }
         }
 
