@@ -17,8 +17,9 @@ package com.example.android.wearable.watchface.config;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.wear.widget.WearableRecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.wear.widget.WearableRecyclerView;
 
 import com.example.android.wearable.watchface.R;
 import com.example.android.wearable.watchface.model.AnalogComplicationConfigData;
@@ -26,7 +27,7 @@ import com.example.android.wearable.watchface.model.AnalogComplicationConfigData
 /**
  * Allows user to select color for something on the watch face (background, highlight,etc.) and
  * saves it to {@link android.content.SharedPreferences} in
- * {@link android.support.v7.widget.RecyclerView.Adapter}.
+ * {@link RecyclerView.Adapter}.
  */
 public class ColorSelectionActivity extends Activity {
 

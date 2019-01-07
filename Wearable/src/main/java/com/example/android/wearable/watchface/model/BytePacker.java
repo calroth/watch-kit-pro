@@ -19,7 +19,7 @@
 package com.example.android.wearable.watchface.model;
 
 import android.annotation.SuppressLint;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import java.security.InvalidKeyException;

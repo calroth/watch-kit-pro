@@ -20,8 +20,8 @@ package com.example.android.wearable.watchface.watchface;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.os.SystemClock;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 @Deprecated
 final class WatchFaceStatsDrawable extends WatchFaceDrawable {

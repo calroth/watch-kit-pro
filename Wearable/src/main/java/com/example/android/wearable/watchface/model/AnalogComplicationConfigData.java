@@ -17,8 +17,8 @@ package com.example.android.wearable.watchface.model;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v7.widget.RecyclerView.ViewHolder;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.wearable.watchface.R;
 import com.example.android.wearable.watchface.config.AnalogComplicationConfigRecyclerViewAdapter;

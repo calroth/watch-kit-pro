@@ -21,17 +21,16 @@ repositories {
 
 dependencies {
 
-    implementation 'com.android.support:palette-v7:26.0.2'
-    implementation 'com.android.support:wear:26.0.2'
+    implementation 'androidx.palette:palette:1.0.0'
+    implementation 'androidx.wear:wear:1.0.0'
 
+    implementation 'com.google.android.gms:play-services-wearable:16.0.1'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation 'androidx.legacy:legacy-support-v13:1.0.0'
 
-    implementation 'com.google.android.gms:play-services-wearable:11.8.0'
-    implementation 'com.google.android.gms:play-services-location:11.8.0'
-    implementation 'com.android.support:support-v13:26.0.2'
+    compileOnly 'com.google.android.wearable:wearable:2.4.0'
 
-    compileOnly 'com.google.android.wearable:wearable:2.3.0'
-
-    implementation 'com.google.android.support:wearable:2.3.0'
+    implementation 'com.google.android.support:wearable:2.4.0'
     implementation 'net.e175.klaus:solarpositioning:0.0.9'
 }
 
@@ -45,7 +44,7 @@ List<String> dirs = [
 
 android {
 
-    compileSdkVersion 27
+    compileSdkVersion 28
 
     buildToolsVersion "28.0.3"
 
@@ -55,7 +54,7 @@ android {
 
         minSdkVersion 24
 
-        targetSdkVersion 27
+        targetSdkVersion 28
 
         multiDexEnabled true
 
