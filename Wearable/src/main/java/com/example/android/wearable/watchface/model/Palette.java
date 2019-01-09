@@ -4,11 +4,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorSpace;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
 import android.graphics.SweepGradient;
+import android.os.Build;
 
 import com.example.android.wearable.watchface.model.WatchFacePreset;
 
@@ -187,15 +189,112 @@ public final class Palette {
     }
 
     private void addSweepGradient(Paint paint, int colorA, int colorB) {
-        paint.setShader(new SweepGradient(mCenterX, mCenterY,
-                new int[]{colorA, colorB, colorA, colorB, colorA},
-                null));
+//        paint.setShader(new SweepGradient(mCenterX, mCenterY,
+//                new int[]{colorA, colorB, colorA, colorB, colorA},
+//                null));
+        int[] gradient = new int[] {
+                colorA,
+                getIntermediateColor(colorA, colorB, 0.8d),
+                getIntermediateColor(colorA, colorB, 0.6d),
+                getIntermediateColor(colorA, colorB, 0.4d),
+                getIntermediateColor(colorA, colorB, 0.2d),
+                colorB,
+                getIntermediateColor(colorA, colorB, 0.2d),
+                getIntermediateColor(colorA, colorB, 0.4d),
+                getIntermediateColor(colorA, colorB, 0.6d),
+                getIntermediateColor(colorA, colorB, 0.8d),
+                colorA,
+                getIntermediateColor(colorA, colorB, 0.8d),
+                getIntermediateColor(colorA, colorB, 0.6d),
+                getIntermediateColor(colorA, colorB, 0.4d),
+                getIntermediateColor(colorA, colorB, 0.2d),
+                colorB,
+                getIntermediateColor(colorA, colorB, 0.2d),
+                getIntermediateColor(colorA, colorB, 0.4d),
+                getIntermediateColor(colorA, colorB, 0.6d),
+                getIntermediateColor(colorA, colorB, 0.8d),
+                colorA
+        };
+        paint.setShader(new SweepGradient(mCenterX, mCenterY, gradient, null));
     }
 
     private void addRadialGradient(Paint paint, int colorA, int colorB) {
-        paint.setShader(new RadialGradient(mCenterX, mCenterY, mCenterY,
-                new int[]{colorB, colorB, colorB, colorA, colorA},
-                null, Shader.TileMode.CLAMP));
+//        paint.setShader(new RadialGradient(mCenterX, mCenterY, mCenterY,
+//                new int[]{colorB, colorB, colorB, colorA, colorA},
+//                null, Shader.TileMode.CLAMP));
+
+        int[] gradient = new int[] {
+                colorB, // Original
+                colorB,
+                colorB,
+                colorB,
+                colorB,
+                colorB, // Original
+                colorB,
+                colorB,
+                colorB,
+                colorB,
+                colorB, // Original
+                getIntermediateColor(colorA, colorB, 0.2d),
+                getIntermediateColor(colorA, colorB, 0.4d),
+                getIntermediateColor(colorA, colorB, 0.6d),
+                getIntermediateColor(colorA, colorB, 0.8d),
+                colorA, // Original
+                colorA,
+                colorA,
+                colorA,
+                colorA,
+                colorA // Original
+        };
+        paint.setShader(new RadialGradient(mCenterX, mCenterY, mCenterY, gradient, null,
+                Shader.TileMode.CLAMP));
+    }
+
+    /**
+     * Given two colors A and B, return an intermediate color between the two. The distance
+     * between the two is given by "d"; 1.0 means return "colorA", 0.0 means return "colorB",
+     * 0.5 means return something evenly between the two.
+     *
+     * For SDK 26 (Android O) and above, the calculation is done in the LAB color space for
+     * extra perceptual accuracy!
+     * @param colorA One color to calculate
+     * @param colorB The other color
+     * @param d The distance from colorB, between 0.0 and 1.0
+     * @return A color between colorA and colorB
+     */
+    static int getIntermediateColor(int colorA, int colorB, double d) {
+        // Clamp to [0, 1]
+        if (d < 0) d = 0;
+        else if (d > 1) d = 1;
+        double e = 1d - d;
+
+        // The "long colors" feature is only available in SDK 26 onwards!
+        if (Build.VERSION.SDK_INT >= 26) {
+            ColorSpace CIE_LAB = ColorSpace.get(ColorSpace.Named.CIE_LAB);
+            ColorSpace sRGB = ColorSpace.get(ColorSpace.Named.SRGB);
+
+            // Convert colors to LAB color space.
+            long colorAL = Color.convert(colorA, CIE_LAB);
+            long colorBL = Color.convert(colorB, CIE_LAB);
+
+            // Generate a new color that is between the two.
+            float a = (float) (Color.alpha(colorAL) * d + Color.alpha(colorBL) * e);
+            float r = (float) (Color.red(colorAL) * d + Color.red(colorBL) * e);
+            float g = (float) (Color.green(colorAL) * d + Color.green(colorBL) * e);
+            float b = (float) (Color.blue(colorAL) * d + Color.blue(colorBL) * e);
+
+            // Convert back to sRGB and return.
+            return Color.toArgb(Color.convert(r, g, b, a, CIE_LAB, sRGB));
+        } else {
+            // Generate a new color that is between the two.
+            int a = (int) (Color.alpha(colorA) * d + Color.alpha(colorB) * e);
+            int r = (int) (Color.red(colorA) * d + Color.red(colorB) * e);
+            int g = (int) (Color.green(colorA) * d + Color.green(colorB) * e);
+            int b = (int) (Color.blue(colorA) * d + Color.blue(colorB) * e);
+
+            // And return
+            return Color.argb(a, r, g, b);
+        }
     }
 
     private void addSpunMetalEffectToPaint(Paint paint) {

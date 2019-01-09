@@ -109,12 +109,14 @@ public final class LocationCalculator {
     }
 
     public int getDuskDawnColor(int original) {
-        double d = getDuskDawnMultiplier();
-        double e = 1d - d;
-        int a = (int) (Color.alpha(AMBIENT_WHITE_R) * d + Color.alpha(original) * e);
-        int r = (int) (Color.red(AMBIENT_WHITE_R) * d + Color.red(original) * e);
-        int g = (int) (Color.green(AMBIENT_WHITE_R) * d + Color.green(original) * e);
-        int b = (int) (Color.blue(AMBIENT_WHITE_R) * d + Color.blue(original) * e);
-        return Color.argb(a, r, g, b);
+        return Palette.getIntermediateColor(AMBIENT_WHITE_R, original, getDuskDawnMultiplier());
+
+//        double d = getDuskDawnMultiplier();
+//        double e = 1d - d;
+//        int a = (int) (Color.alpha(AMBIENT_WHITE_R) * d + Color.alpha(original) * e);
+//        int r = (int) (Color.red(AMBIENT_WHITE_R) * d + Color.red(original) * e);
+//        int g = (int) (Color.green(AMBIENT_WHITE_R) * d + Color.green(original) * e);
+//        int b = (int) (Color.blue(AMBIENT_WHITE_R) * d + Color.blue(original) * e);
+//        return Color.argb(a, r, g, b);
     }
 }
