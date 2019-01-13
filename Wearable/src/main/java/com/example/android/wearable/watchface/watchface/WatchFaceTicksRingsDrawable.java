@@ -91,9 +91,10 @@ final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
         int unreadNotifications = mStateObject.unreadNotifications;
         int totalNotifications = mStateObject.totalNotifications;
         Collection<ComplicationHolder> complications = mStateObject.complications;
+        Paint twelveTickPaint = mPalette.getPaintFromPreset(mStateObject.preset.getTwelveTickPalette());
 
         // Invalidate if complications, unread notifications or total notifications have changed.
-        int currentSerial = Objects.hash(complications, unreadNotifications, totalNotifications);
+        int currentSerial = Objects.hash(twelveTickPaint, complications, unreadNotifications, totalNotifications);
         if (mPreviousSerial != currentSerial) {
             mTicksActiveBitmapInvalidated = true;
             mTicksAmbientBitmapInvalidated = true;
@@ -148,6 +149,7 @@ final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
 
                 cacheHit = false;
                 mTicksActiveBitmapInvalidated = false;
+                Log.d("AnalogWatchFace", "BigInvalidated!");
             }
 
             ticksBitmap = mTicksActiveBitmap;
@@ -364,7 +366,8 @@ final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
                     color = mPalette.getAmbientPaint().getColor();
                     mPalette.getAmbientPaint().setColor(Palette.AMBIENT_WHITE);
                 }
-                drawPath(tempCanvas, p, mPalette.getTickPaint());
+                drawPath(tempCanvas, p, twelveTickPaint);
+//                drawPath(tempCanvas, p, mPalette.getTickPaint());
                 if (mStateObject.ambient) {
                     mPalette.getAmbientPaint().setColor(color);
                 }
@@ -380,7 +383,8 @@ final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
 //                    }
 //                }
             } else {
-                drawPath(canvas, p, mPalette.getTickPaint());
+                drawPath(canvas, p, twelveTickPaint);
+//                drawPath(canvas, p, mPalette.getTickPaint());
             }
 
 //        Log.d("AnalogWatchFace", "End ticks");
