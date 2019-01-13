@@ -78,7 +78,7 @@ public final class WatchFacePreset {
         setFillHighlightStyle(GradientStyle.RADIAL_BRUSHED);
         setAccentFillStyle(GradientStyle.SWEEP);
         setAccentHighlightStyle(GradientStyle.SWEEP);
-        setAccentBaseStyle(GradientStyle.SWEEP_BRUSHED);
+        setBaseAccentStyle(GradientStyle.SWEEP_BRUSHED);
 
 //        bytePacker.unitTest();
 
@@ -113,7 +113,7 @@ public final class WatchFacePreset {
         fillHighlightStyle.pack(bytePacker);
         accentFillStyle.pack(bytePacker);
         accentHighlightStyle.pack(bytePacker);
-        accentBaseStyle.pack(bytePacker);
+        baseAccentStyle.pack(bytePacker);
 
         String s = bytePacker.getString();
     }
@@ -146,7 +146,7 @@ public final class WatchFacePreset {
         fillHighlightStyle = GradientStyle.unpack(bytePacker);
         accentFillStyle = GradientStyle.unpack(bytePacker);
         accentHighlightStyle = GradientStyle.unpack(bytePacker);
-        accentBaseStyle = GradientStyle.unpack(bytePacker);
+        baseAccentStyle = GradientStyle.unpack(bytePacker);
     }
 
     public void setPalette(
@@ -280,8 +280,8 @@ public final class WatchFacePreset {
         this.accentHighlightStyle = accentHighlightStyle;
     }
 
-    public void setAccentBaseStyle(GradientStyle accentBaseStyle) {
-        this.accentBaseStyle = accentBaseStyle;
+    public void setBaseAccentStyle(GradientStyle baseAccentStyle) {
+        this.baseAccentStyle = baseAccentStyle;
     }
 
     public Palette getBackgroundPalette() {
@@ -420,8 +420,8 @@ public final class WatchFacePreset {
         return accentHighlightStyle;
     }
 
-    public GradientStyle getAccentBaseStyle() {
-        return accentBaseStyle;
+    public GradientStyle getBaseAccentStyle() {
+        return baseAccentStyle;
     }
 
     public HandStalk getHourHandStalk() {
@@ -637,5 +637,5 @@ public final class WatchFacePreset {
     private GradientStyle fillHighlightStyle;
     private GradientStyle accentFillStyle;
     private GradientStyle accentHighlightStyle;
-    private GradientStyle accentBaseStyle;
+    private GradientStyle baseAccentStyle;
 }
