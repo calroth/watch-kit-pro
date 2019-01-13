@@ -24,10 +24,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import android.support.wearable.complications.ComplicationHelperActivity;
@@ -768,6 +775,48 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
         public void setSharedPrefString(String sharedPrefString) {
             mSharedPrefResourceString = sharedPrefString;
+
+            Context context = mAppearanceButton.getContext();
+            SharedPreferences preferences =
+                    context.getSharedPreferences(
+                            context.getString(R.string.analog_complication_preference_file_key),
+                            Context.MODE_PRIVATE);
+            final int color = preferences.getInt(sharedPrefString, Color.BLACK);
+            Log.d("AnalogWatchFace", "Drawing color: " + sharedPrefString + " = " + color);
+
+            Drawable[] d = mAppearanceButton.getCompoundDrawables();
+            d[2] = new Drawable() {
+                @Override
+                public void draw(@NonNull Canvas canvas) {
+                    // Draw a circle that's 20px from right, top and left borders.
+                    float radius = (canvas.getHeight() / 2f) - 20f;
+                    Paint p = new Paint();
+                    p.setColor(color);
+                    p.setStyle(Paint.Style.FILL);
+                    p.setAntiAlias(true);
+                    android.graphics.Rect r = canvas.getClipBounds();
+                    canvas.drawCircle(r.right - 20f - radius,
+                            (r.top + r.bottom) / 2f, radius, p);
+                }
+
+                @Override
+                public void setAlpha(int alpha) {
+                    // Unused
+                }
+
+                @Override
+                public void setColorFilter(@Nullable ColorFilter colorFilter) {
+                    // Unused
+                }
+
+                @Override
+                public int getOpacity() {
+                    return PixelFormat.OPAQUE;
+                }
+            };
+
+            mAppearanceButton.setCompoundDrawablesWithIntrinsicBounds(
+                    d[0], d[1], d[2], d[3]);
         }
 
         public void setLaunchActivityToSelectColor(Class<ColorSelectionActivity> activity) {
