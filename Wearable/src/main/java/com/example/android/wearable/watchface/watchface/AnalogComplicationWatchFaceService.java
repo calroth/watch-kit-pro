@@ -129,10 +129,10 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             }
         }
 
-        private WatchFacePreset preset = new WatchFacePreset();
+//        private WatchFacePreset preset = new WatchFacePreset();
 
         private WatchFaceDrawable.StateObject mStateObject;
-        private Palette mPalette = new Palette();
+        private Palette mPalette;
         private GregorianCalendar mCalendar = new GregorianCalendar();
         private LocationCalculator mLocationCalculator = new LocationCalculator(mCalendar);
 
@@ -210,6 +210,8 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                             .build());
 
             mStateObject = mWatchFaceDrawables[0].new StateObject();
+            mStateObject.preset = new WatchFacePreset();
+            mPalette = new Palette(mStateObject.preset);
 
             loadSavedPreferences();
             initializeComplications();
@@ -268,20 +270,20 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
         // Pulls all user's preferences for watch face appearance.
         private void loadSavedPreferences() {
-            mPalette.setPalette(
-                    mSharedPref.getInt(
-                            getApplicationContext().getString(R.string.saved_fill_color),
-                            Color.WHITE),
-                    mSharedPref.getInt(
-                            getApplicationContext().getString(R.string.saved_accent_color),
-                            Color.BLUE),
-                    mSharedPref.getInt(
-                            getApplicationContext().getString(R.string.saved_marker_color),
-                            Color.RED),
-                    mSharedPref.getInt(
-                            getApplicationContext().getString(R.string.saved_base_color),
-                            Color.BLACK));
+            mStateObject.preset.setFillColor(mSharedPref.getInt(
+                    getApplicationContext().getString(R.string.saved_fill_color),
+                    Color.WHITE));
+            mStateObject.preset.setAccentColor(mSharedPref.getInt(
+                    getApplicationContext().getString(R.string.saved_accent_color),
+                    Color.BLUE));
+            mStateObject.preset.setHighlightColor(mSharedPref.getInt(
+                    getApplicationContext().getString(R.string.saved_marker_color),
+                    Color.RED));
+            mStateObject.preset.setBaseColor(mSharedPref.getInt(
+                    getApplicationContext().getString(R.string.saved_base_color),
+                    Color.BLACK));
 
+//            mPalette.setPalette(mStateObject.preset);
 
 //            painter.setPalette(-1, -10011977, -43230, -16777216);
 //            painter.setPalette(preset);
@@ -321,7 +323,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
             // Adds new complications to a SparseArray to simplify setting styles and ambient
             // properties for all complications, i.e., iterate over them all.
-            setComplicationsActiveAndAmbientColors(mPalette.getHighlightColor());
+            setComplicationsActiveAndAmbientColors(mStateObject.preset.getHighlightColor());
 
             int[] complicationIds = new int[mStateObject.complications.size()];
             int i = 0;
@@ -568,7 +570,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                 mCalendar.setTimeInMillis(now);
                 mStateObject.unreadNotifications = unreadNotifications;
                 mStateObject.totalNotifications = totalNotifications;
-                mStateObject.preset = preset;
+//                mStateObject.preset = preset;
 
                 int s = 0;
                 long now0 = SystemClock.elapsedRealtimeNanos();
@@ -601,7 +603,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                 // the active/ambient colors, we only need to update the complications' colors when
                 // the user actually makes a change to the highlight color, not when the watch goes
                 // in and out of ambient mode.
-                setComplicationsActiveAndAmbientColors(mPalette.getHighlightColor());
+                setComplicationsActiveAndAmbientColors(mStateObject.preset.getHighlightColor());
 
                 registerReceiver();
                 // Update time zone in case it changed while we weren't visible.
