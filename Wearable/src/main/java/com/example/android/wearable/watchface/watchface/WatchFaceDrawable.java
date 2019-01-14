@@ -74,18 +74,25 @@ abstract class WatchFaceDrawable extends Drawable {
         // And finally the path itself.
         if (!mStateObject.ambient) {
             float mBevelOffset = 0.2f; // 0.2%
+
             // Shadow
             canvas.drawPath(p, mPalette.getShadowPaint());
             // Primary bevel, offset to the top left
-            Path primaryP = new Path();
-            p.offset(-(mBevelOffset * pc), -(mBevelOffset * pc), primaryP);
-            mPalette.getAccentFillPaint().setStyle(Paint.Style.FILL_AND_STROKE);
-            canvas.drawPath(primaryP, mPalette.getAccentFillPaint());
+            {
+                Paint bezelPaint1 = mPalette.getBezelPaint1();
+                Path primaryP = new Path();
+                p.offset(-(mBevelOffset * pc), -(mBevelOffset * pc), primaryP);
+                bezelPaint1.setStyle(Paint.Style.FILL_AND_STROKE);
+                canvas.drawPath(primaryP, bezelPaint1);
+            }
             // Secondary bevel, offset to the top right
-            Path secondaryP = new Path();
-            p.offset((mBevelOffset * pc), (mBevelOffset * pc), secondaryP);
-            mPalette.getAccentFillPaint2().setStyle(Paint.Style.FILL_AND_STROKE);
-            canvas.drawPath(secondaryP, mPalette.getAccentFillPaint2());
+            {
+                Paint bezelPaint2 = mPalette.getBezelPaint2();
+                Path secondaryP = new Path();
+                p.offset((mBevelOffset * pc), (mBevelOffset * pc), secondaryP);
+                bezelPaint2.setStyle(Paint.Style.FILL_AND_STROKE);
+                canvas.drawPath(secondaryP, bezelPaint2);
+            }
             // The path itself.
             paint.setStyle(Paint.Style.FILL);
             canvas.drawPath(p, paint);

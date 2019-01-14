@@ -43,7 +43,8 @@ public final class Palette {
 
     private GradientPaint mFillHighlightPaint = new GradientPaint();
     private GradientPaint mAccentFillPaint = new GradientPaint(),
-            mAccentFillPaint2 = new GradientPaint();
+            mBezelPaint1,
+            mBezelPaint2 = new GradientPaint();
     private GradientPaint mAccentHighlightPaint = new GradientPaint();
     private GradientPaint mBaseAccentPaint = new GradientPaint();
 
@@ -62,14 +63,14 @@ public final class Palette {
         return mFillHighlightPaint;
     }
 
-    public Paint getAccentFillPaint() {
+    public Paint getBezelPaint1() {
         regeneratePaints2();
-        return mAccentFillPaint;
+        return mBezelPaint1;
     }
 
-    public Paint getAccentFillPaint2() {
+    public Paint getBezelPaint2() {
         regeneratePaints2();
-        return mAccentFillPaint2;
+        return mBezelPaint2;
     }
 
 //    public Paint getAccentHighlightPaint() {
@@ -105,7 +106,7 @@ public final class Palette {
 
 //        mFillHighlightPaint = newDefaultPaint();
 //        mAccentFillPaint = newDefaultPaint();
-//        mAccentFillPaint2 = newDefaultPaint();
+//        mBezelPaint2 = newDefaultPaint();
 //        mAccentHighlightPaint = newDefaultPaint();
 //        mBaseAccentPaint = newDefaultPaint();
 
@@ -309,7 +310,7 @@ public final class Palette {
 //        // Regenerate stroke widths based on value of "percent"
 //        mFillHighlightPaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
 //        mAccentFillPaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
-//        mAccentFillPaint2.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
+//        mBezelPaint2.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
 //        mAccentHighlightPaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
 //        mBaseAccentPaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
 //        mAmbientPaint.setStrokeWidth(AMBIENT_PAINT_STROKE_WIDTH_PERCENT * pc);
@@ -328,7 +329,7 @@ public final class Palette {
 //
 //        mFillHighlightPaint.setColors(mFillColor, mHighlightColor, WatchFacePreset.GradientStyle.RADIAL_BRUSHED);
 //        mAccentFillPaint.setColors(mAccentColor, mFillColor, WatchFacePreset.GradientStyle.SWEEP);
-//        mAccentFillPaint2.setColors(mFillColor, mAccentColor, WatchFacePreset.GradientStyle.SWEEP);
+//        mBezelPaint2.setColors(mFillColor, mAccentColor, WatchFacePreset.GradientStyle.SWEEP);
 //        mAccentHighlightPaint.setColors(mAccentColor, mHighlightColor, WatchFacePreset.GradientStyle.SWEEP);
 //        mBaseAccentPaint.setColors(mBaseColor, mAccentColor, WatchFacePreset.GradientStyle.SWEEP_BRUSHED);
 //
@@ -357,7 +358,7 @@ public final class Palette {
         if (mPreviousSerial == currentSerial || width <= 0 || height <= 0) {
             return;
         }
-        android.util.Log.d("AnalogWatchFace", String.format("BigInvalidated! Serial: Old: %d, New: %d", mPreviousSerial, currentSerial));
+//        android.util.Log.d("AnalogWatchFace", String.format("BigInvalidated! Serial: Old: %d, New: %d", mPreviousSerial, currentSerial));
 
         mPreviousSerial = currentSerial;
 
@@ -368,7 +369,8 @@ public final class Palette {
 
         mFillHighlightPaint.setColors(preset.getFillColor(), preset.getHighlightColor(), preset.getFillHighlightStyle());
         mAccentFillPaint.setColors(preset.getAccentColor(), preset.getFillColor(), preset.getAccentFillStyle());
-        mAccentFillPaint2.setColors(preset.getFillColor(), preset.getAccentColor(), preset.getAccentFillStyle());
+        mBezelPaint1 = mAccentFillPaint;
+        mBezelPaint2.setColors(preset.getFillColor(), preset.getAccentColor(), preset.getAccentFillStyle());
         mAccentHighlightPaint.setColors(preset.getAccentColor(), preset.getHighlightColor(), preset.getAccentHighlightStyle());
         mBaseAccentPaint.setColors(preset.getBaseColor(), preset.getAccentColor(), preset.getBaseAccentStyle());
 
@@ -379,7 +381,7 @@ public final class Palette {
         // Regenerate stroke widths based on value of "percent"
         mFillHighlightPaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
         mAccentFillPaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
-        mAccentFillPaint2.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
+        mBezelPaint2.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
         mAccentHighlightPaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
         mBaseAccentPaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
         mAmbientPaint.setStrokeWidth(AMBIENT_PAINT_STROKE_WIDTH_PERCENT * pc);
