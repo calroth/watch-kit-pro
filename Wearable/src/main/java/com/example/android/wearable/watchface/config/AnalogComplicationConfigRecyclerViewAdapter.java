@@ -34,6 +34,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -67,6 +68,7 @@ import com.example.android.wearable.watchface.watchface.AnalogComplicationWatchF
 import java.util.ArrayList;
 import java.util.Collection;
 //import java.util.List;
+import java.util.List;
 import java.util.concurrent.Executors;
 
 /**
@@ -178,6 +180,9 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         mProviderInfoRetriever.init();
     }
 
+    private List<ColorPickerViewHolder> mColorPickerViewHolders =
+            new ArrayList<ColorPickerViewHolder>();
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder(): viewType: " + viewType);
@@ -215,6 +220,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                         new ColorPickerViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.config_list_color_item, parent, false));
+                mColorPickerViewHolders.add((ColorPickerViewHolder)viewHolder);
                 break;
 
             case TYPE_UNREAD_NOTIFICATION_CONFIG:
@@ -389,6 +395,11 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         if (mPreviewAndComplicationsViewHolder != null) {
             mPreviewAndComplicationsViewHolder.updateWatchFaceColors();
         }
+
+        // Update our ColorPickerViewHolders.
+        for (ColorPickerViewHolder c : mColorPickerViewHolders) {
+            c.tickle();
+        }
     }
 
     /**
@@ -415,33 +426,33 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         private boolean mBackgroundComplicationEnabled;
 
         public PreviewAndComplicationsViewHolder(final View view) {
-            super(view);
+                super(view);
 
-            backgroundComplication = new ComplicationHolder(null);
-            backgroundComplication.background = (ImageView) view.findViewById(R.id.watch_face_background);
-            complications.add(backgroundComplication);
+                backgroundComplication = new ComplicationHolder(null);
+                backgroundComplication.background = (ImageView) view.findViewById(R.id.watch_face_background);
+                complications.add(backgroundComplication);
 //            mWatchFaceBackgroundPreviewImageView =
 //                    (ImageView) view.findViewById(R.id.watch_face_background);
-            mWatchFaceArmsAndTicksView = view.findViewById(R.id.watch_face_arms_and_ticks);
+                mWatchFaceArmsAndTicksView = view.findViewById(R.id.watch_face_arms_and_ticks);
 
-            // In our case, just the second arm.
-            mWatchFaceHighlightPreviewView = view.findViewById(R.id.watch_face_highlight);
+                // In our case, just the second arm.
+                mWatchFaceHighlightPreviewView = view.findViewById(R.id.watch_face_highlight);
 
-            // Sets up left complication preview.
-            {
-                ComplicationHolder f = new ComplicationHolder(null);
-                f.isForeground = true;
-                f.background =
-                        (ImageView) view.findViewById(R.id.left_complication_background);
-                f.imageButton = (ImageButton) view.findViewById(R.id.left_complication);
-                f.imageButton.setOnClickListener(this);
-                complications.add(f);
-            }
-            // Sets up bottom complication preview.
-            {
-                ComplicationHolder f = new ComplicationHolder(null);
-                f.isForeground = true;
-                f.background =
+                // Sets up left complication preview.
+                {
+                    ComplicationHolder f = new ComplicationHolder(null);
+                    f.isForeground = true;
+                    f.background =
+                            (ImageView) view.findViewById(R.id.left_complication_background);
+                    f.imageButton = (ImageButton) view.findViewById(R.id.left_complication);
+                    f.imageButton.setOnClickListener(this);
+                    complications.add(f);
+                }
+                // Sets up bottom complication preview.
+                {
+                    ComplicationHolder f = new ComplicationHolder(null);
+                    f.isForeground = true;
+                    f.background =
                         (ImageView) view.findViewById(R.id.bottom_complication_background);
                 f.imageButton = (ImageButton) view.findViewById(R.id.bottom_complication);
                 f.imageButton.setOnClickListener(this);
@@ -770,53 +781,54 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         public void setIcon(int resourceId) {
             Context context = mAppearanceButton.getContext();
             mAppearanceButton.setCompoundDrawablesWithIntrinsicBounds(
-                    context.getDrawable(resourceId), null, null, null);
+                    context.getDrawable(resourceId), null, mColorSwatchDrawable, null);
         }
+
+        public void tickle() {
+            itemView.invalidate();
+        }
+
+        private Drawable mColorSwatchDrawable = new Drawable() {
+            @Override
+            public void draw(@NonNull Canvas canvas) {
+                if (mSharedPrefResourceString == null) return;
+
+                Context context = mAppearanceButton.getContext();
+                SharedPreferences preferences =
+                        context.getSharedPreferences(
+                                context.getString(R.string.analog_complication_preference_file_key),
+                                Context.MODE_PRIVATE);
+                @ColorInt int color = preferences.getInt(mSharedPrefResourceString, Color.BLACK);
+
+                // Draw a circle that's 20px from right, top and left borders.
+                float radius = (canvas.getHeight() / 2f) - 20f;
+                Paint p = new Paint();
+                p.setColor(color);
+                p.setStyle(Paint.Style.FILL);
+                p.setAntiAlias(true);
+                android.graphics.Rect r = canvas.getClipBounds();
+                canvas.drawCircle(r.right - 20f - radius,
+                        (r.top + r.bottom) / 2f, radius, p);
+            }
+
+            @Override
+            public void setAlpha(int alpha) {
+                // Unused
+            }
+
+            @Override
+            public void setColorFilter(@Nullable ColorFilter colorFilter) {
+                // Unused
+            }
+
+            @Override
+            public int getOpacity() {
+                return PixelFormat.OPAQUE;
+            }
+        };
 
         public void setSharedPrefString(String sharedPrefString) {
             mSharedPrefResourceString = sharedPrefString;
-
-            Context context = mAppearanceButton.getContext();
-            SharedPreferences preferences =
-                    context.getSharedPreferences(
-                            context.getString(R.string.analog_complication_preference_file_key),
-                            Context.MODE_PRIVATE);
-            final int color = preferences.getInt(sharedPrefString, Color.BLACK);
-            Log.d("AnalogWatchFace", "Drawing color: " + sharedPrefString + " = " + color);
-
-            Drawable[] d = mAppearanceButton.getCompoundDrawables();
-            d[2] = new Drawable() {
-                @Override
-                public void draw(@NonNull Canvas canvas) {
-                    // Draw a circle that's 20px from right, top and left borders.
-                    float radius = (canvas.getHeight() / 2f) - 20f;
-                    Paint p = new Paint();
-                    p.setColor(color);
-                    p.setStyle(Paint.Style.FILL);
-                    p.setAntiAlias(true);
-                    android.graphics.Rect r = canvas.getClipBounds();
-                    canvas.drawCircle(r.right - 20f - radius,
-                            (r.top + r.bottom) / 2f, radius, p);
-                }
-
-                @Override
-                public void setAlpha(int alpha) {
-                    // Unused
-                }
-
-                @Override
-                public void setColorFilter(@Nullable ColorFilter colorFilter) {
-                    // Unused
-                }
-
-                @Override
-                public int getOpacity() {
-                    return PixelFormat.OPAQUE;
-                }
-            };
-
-            mAppearanceButton.setCompoundDrawablesWithIntrinsicBounds(
-                    d[0], d[1], d[2], d[3]);
         }
 
         public void setLaunchActivityToSelectColor(Class<ColorSelectionActivity> activity) {
