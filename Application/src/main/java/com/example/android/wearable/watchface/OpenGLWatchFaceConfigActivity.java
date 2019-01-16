@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.wearable.watchface;
+package pro.watchkit.wearable.watchface;
 
 import android.app.Activity;
 import android.content.ComponentName;

@@ -33,11 +33,11 @@
      limitations under the License.
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name">Watch Face Design Kit</string>
+    <string name="app_name">Watch Kit Pro</string>
 
     <!--<string name="opengl_name">Sample OpenGL</string>-->
     <!--<string name="interactive_name">Sample Interactive</string>-->
-    <string name="analog_complication">WFDK #1</string>
+    <string name="analog_complication">Watch Kit Pro #1</string>
     <!--<string name="digital_name">Sample Digital 1.0</string>-->
 
     <string name="digital_background_color">Background color</string>
@@ -47,7 +47,7 @@
 
     <string name="complications_provider_incrementing_number">Incrementing Number</string>
 
-    <string name="analog_complication_preference_file_key">com.example.android.wearable.watchface.ANALOG_COMPLICATION_PREFERENCE_FILE_KEY</string>
+    <string name="analog_complication_preference_file_key">pro.watchkit.wearable.watchface.ANALOG_COMPLICATION_PREFERENCE_FILE_KEY</string>
     <string name="saved_fill_color">saved_fill_color</string>
     <string name="saved_accent_color">saved_accent_color</string>
     <string name="saved_marker_color">saved_markers_color</string>

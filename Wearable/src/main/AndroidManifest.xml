@@ -14,7 +14,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<manifest package="com.example.android.wearable.watchface"
+<manifest package="pro.watchkit.wearable.watchface"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--<uses-sdk-->
@@ -62,7 +62,7 @@
                 <!--android:resource="@drawable/preview_opengl_circular"/>-->
             <!--<meta-data-->
                 <!--android:name="com.google.android.wearable.watchface.companionConfigurationAction"-->
-                <!--android:value="com.example.android.wearable.watchface.CONFIG_OPENGL"/>-->
+                <!--android:value="pro.watchkit.wearable.watchface.CONFIG_OPENGL"/>-->
 
             <!--<intent-filter>-->
                 <!--<action android:name="android.service.wallpaper.WallpaperService"/>-->
@@ -86,7 +86,7 @@
                 android:resource="@drawable/preview_analog_complication_circular"/>
             <meta-data
                 android:name="com.google.android.wearable.watchface.wearableConfigurationAction"
-                android:value="com.example.android.wearable.watchface.CONFIG_COMPLICATION_SIMPLE"/>
+                android:value="pro.watchkit.wearable.watchface.CONFIG_COMPLICATION_SIMPLE"/>
 
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService"/>
@@ -100,7 +100,7 @@
             android:name=".config.AnalogComplicationConfigActivity"
             android:label="@string/analog_complication_config">
             <intent-filter>
-                <action android:name="com.example.android.wearable.watchface.CONFIG_COMPLICATION_SIMPLE"/>
+                <action android:name="pro.watchkit.wearable.watchface.CONFIG_COMPLICATION_SIMPLE"/>
 
                 <category android:name="com.google.android.wearable.watchface.category.WEARABLE_CONFIGURATION"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -143,10 +143,10 @@
                 <!--android:resource="@drawable/preview_digital_circular"/>-->
             <!--<meta-data-->
                 <!--android:name="com.google.android.wearable.watchface.companionConfigurationAction"-->
-                <!--android:value="com.example.android.wearable.watchface.CONFIG_DIGITAL"/>-->
+                <!--android:value="pro.watchkit.wearable.watchface.CONFIG_DIGITAL"/>-->
             <!--<meta-data-->
                 <!--android:name="com.google.android.wearable.watchface.wearableConfigurationAction"-->
-                <!--android:value="com.example.android.wearable.watchface.CONFIG_DIGITAL"/>-->
+                <!--android:value="pro.watchkit.wearable.watchface.CONFIG_DIGITAL"/>-->
 
             <!--<intent-filter>-->
                 <!--<action android:name="android.service.wallpaper.WallpaperService"/>-->
@@ -165,7 +165,7 @@
             <!--android:name=".config.DigitalWatchFaceWearableConfigActivity"-->
             <!--android:label="@string/digital_config_name">-->
             <!--<intent-filter>-->
-                <!--<action android:name="com.example.android.wearable.watchface.CONFIG_DIGITAL"/>-->
+                <!--<action android:name="pro.watchkit.wearable.watchface.CONFIG_DIGITAL"/>-->
 
                 <!--<category android:name="com.google.android.wearable.watchface.category.WEARABLE_CONFIGURATION"/>-->
                 <!--<category android:name="android.intent.category.DEFAULT"/>-->
