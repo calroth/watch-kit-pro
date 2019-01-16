@@ -23,12 +23,13 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
-import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.example.android.wearable.watchface.model.WatchFacePreset;
 
 import java.util.Calendar;
+
+import androidx.annotation.NonNull;
 
 final class WatchFaceHandsDrawable extends WatchFaceDrawable {
     private static final float HUB_RADIUS_PERCENT = 3f; // 3% // 1.5f; // 1.5%

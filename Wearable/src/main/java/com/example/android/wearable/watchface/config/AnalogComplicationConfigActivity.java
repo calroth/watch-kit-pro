@@ -18,8 +18,6 @@ package com.example.android.wearable.watchface.config;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.wear.widget.WearableRecyclerView;
 import android.support.wearable.complications.ComplicationProviderInfo;
 import android.support.wearable.complications.ProviderChooserIntent;
 import android.util.Log;
@@ -27,6 +25,9 @@ import android.util.Log;
 import com.example.android.wearable.watchface.R;
 import com.example.android.wearable.watchface.model.AnalogComplicationConfigData;
 import com.example.android.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.wear.widget.WearableRecyclerView;
 
 /**
  * The watch-side config activity for {@link AnalogComplicationWatchFaceService}, which

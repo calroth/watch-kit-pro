@@ -16,8 +16,6 @@
 
 package com.example.android.wearable.watchface.config;
 
-import static com.example.android.wearable.watchface.config.ColorSelectionActivity.EXTRA_SHARED_PREF;
-
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -31,13 +29,7 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-
-import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 import android.support.wearable.complications.ComplicationHelperActivity;
 import android.support.wearable.complications.ComplicationProviderInfo;
 import android.support.wearable.complications.ProviderInfoRetriever;
@@ -55,7 +47,6 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.android.wearable.watchface.R;
-import com.example.android.wearable.watchface.model.ComplicationHolder;
 import com.example.android.wearable.watchface.model.AnalogComplicationConfigData.BackgroundComplicationConfigItem;
 import com.example.android.wearable.watchface.model.AnalogComplicationConfigData.ColorConfigItem;
 import com.example.android.wearable.watchface.model.AnalogComplicationConfigData.ConfigItemType;
@@ -63,13 +54,20 @@ import com.example.android.wearable.watchface.model.AnalogComplicationConfigData
 import com.example.android.wearable.watchface.model.AnalogComplicationConfigData.NightVisionConfigItem;
 import com.example.android.wearable.watchface.model.AnalogComplicationConfigData.PreviewAndComplicationsConfigItem;
 import com.example.android.wearable.watchface.model.AnalogComplicationConfigData.UnreadNotificationConfigItem;
+import com.example.android.wearable.watchface.model.ComplicationHolder;
 import com.example.android.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
 import java.util.ArrayList;
 import java.util.Collection;
-//import java.util.List;
 import java.util.List;
 import java.util.concurrent.Executors;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
+import static com.example.android.wearable.watchface.config.ColorSelectionActivity.EXTRA_SHARED_PREF;
 
 /**
  * Displays different layouts for configuring watch face's complications and appearance settings

@@ -21,9 +21,10 @@ package com.example.android.wearable.watchface.watchface;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import androidx.annotation.NonNull;
 
 import com.example.android.wearable.watchface.model.Palette;
+
+import androidx.annotation.NonNull;
 
 final class WatchFaceBackgroundDrawable extends WatchFaceDrawable {
     @Override

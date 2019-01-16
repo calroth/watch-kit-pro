@@ -19,7 +19,6 @@
 package com.example.android.wearable.watchface.model;
 
 import android.annotation.SuppressLint;
-import androidx.annotation.NonNull;
 import android.util.Log;
 
 import java.security.InvalidKeyException;
@@ -31,6 +30,8 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
+
+import androidx.annotation.NonNull;
 
 /**
  * A class that packs variable-length ints into a stream of mBytes.

@@ -42,7 +42,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import androidx.annotation.NonNull;
 import android.support.wearable.complications.rendering.ComplicationDrawable;
 import android.util.Log;
 
@@ -51,6 +50,8 @@ import com.example.android.wearable.watchface.model.Palette;
 
 import java.util.Collection;
 import java.util.Objects;
+
+import androidx.annotation.NonNull;
 
 final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
     private int mPreviousSerial = -1;

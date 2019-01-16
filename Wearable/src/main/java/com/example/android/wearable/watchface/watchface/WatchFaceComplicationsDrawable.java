@@ -19,9 +19,10 @@
 package com.example.android.wearable.watchface.watchface;
 
 import android.graphics.Canvas;
-import androidx.annotation.NonNull;
 
 import com.example.android.wearable.watchface.model.ComplicationHolder;
+
+import androidx.annotation.NonNull;
 
 final class WatchFaceComplicationsDrawable extends WatchFaceDrawable {
     @Override

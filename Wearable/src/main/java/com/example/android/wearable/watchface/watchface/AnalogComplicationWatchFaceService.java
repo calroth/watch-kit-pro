@@ -48,7 +48,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
-import androidx.annotation.NonNull;
 import android.support.wearable.complications.ComplicationData;
 import android.support.wearable.watchface.WatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
@@ -73,6 +72,8 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
+
+import androidx.annotation.NonNull;
 
 public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanvasWatchFaceService {
 //public class AnalogComplicationWatchFaceService extends WatchFaceService {

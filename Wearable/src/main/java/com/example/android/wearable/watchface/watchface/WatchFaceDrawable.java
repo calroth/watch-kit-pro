@@ -24,8 +24,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.example.android.wearable.watchface.model.ComplicationHolder;
 import com.example.android.wearable.watchface.model.LocationCalculator;
@@ -34,6 +32,9 @@ import com.example.android.wearable.watchface.model.WatchFacePreset;
 
 import java.util.Collection;
 import java.util.GregorianCalendar;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 abstract class WatchFaceDrawable extends Drawable {
     class StateObject {

@@ -18,7 +18,6 @@ package com.example.android.wearable.watchface.config;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import androidx.recyclerview.widget.RecyclerView;
 import android.support.wearable.view.CircledImageView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +27,8 @@ import android.view.ViewGroup;
 import com.example.android.wearable.watchface.R;
 
 import java.util.ArrayList;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Provides a binding from color selection data set to views that are displayed within

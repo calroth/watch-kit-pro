@@ -17,12 +17,13 @@ package com.example.android.wearable.watchface.config;
 
 import android.app.Activity;
 import android.os.Bundle;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.wear.widget.WearableRecyclerView;
 
 import com.example.android.wearable.watchface.R;
 import com.example.android.wearable.watchface.model.AnalogComplicationConfigData;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.wear.widget.WearableRecyclerView;
 
 /**
  * Allows user to select color for something on the watch face (background, highlight,etc.) and

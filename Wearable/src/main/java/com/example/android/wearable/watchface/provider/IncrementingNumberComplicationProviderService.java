@@ -25,8 +25,6 @@ import android.support.wearable.complications.ComplicationProviderService;
 import android.support.wearable.complications.ComplicationText;
 import android.util.Log;
 
-import com.example.android.wearable.watchface.provider.ComplicationToggleReceiver;
-
 import java.util.Locale;
 
 /**
