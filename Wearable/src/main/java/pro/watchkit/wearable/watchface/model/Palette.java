@@ -120,8 +120,8 @@ public final class Palette {
 //        mShadowPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mWatchHandShadowColor);
 //        mShadowPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, Color.WHITE);
 
-        generatePalette();
-        generateTuples();
+//        generatePalette();
+//        generateTuples();
     }
 
     private class GradientPaint extends Paint {

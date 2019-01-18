@@ -177,7 +177,7 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
         }
 
         if (!cacheHit) {
-            Log.d("AnalogWatchFace", "getMinuteHandShape: cache " + (cacheHit ? "hit" : "miss"));
+//            Log.d("AnalogWatchFace", "getMinuteHandShape: cache " + (cacheHit ? "hit" : "miss"));
 
             // Cache miss. Regenerate the hand.
             mMinuteHandActivePath.reset();
@@ -190,11 +190,11 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
             mMinuteHandAmbientPath.addPath(mMinuteHandActivePath);
             // Add the hub to the Minute hand in ambient mode.
             mMinuteHandAmbientPath.op(getHub(), Path.Op.UNION);
-            Log.d("AnalogWatchFace", "getMinuteHandShape: cache 2 " + (cacheHit ? "hit" : "miss"));
+//            Log.d("AnalogWatchFace", "getMinuteHandShape: cache 2 " + (cacheHit ? "hit" : "miss"));
 
             // Set the Minute preset to current. Next time this will ensure a cache hit.
             mMinutePreset = preset.clone();
-            Log.d("AnalogWatchFace", "getMinuteHandShape: cache 3 " + (cacheHit ? "hit" : "miss"));
+//            Log.d("AnalogWatchFace", "getMinuteHandShape: cache 3 " + (cacheHit ? "hit" : "miss"));
         }
 
         // Rotate the hand to its specified position.
@@ -225,7 +225,7 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
         }
 
         if (!cacheHit) {
-            Log.d("AnalogWatchFace", "getSecondHandShape: cache " + (cacheHit ? "hit" : "miss"));
+//            Log.d("AnalogWatchFace", "getSecondHandShape: cache " + (cacheHit ? "hit" : "miss"));
 
             // Cache miss. Regenerate the hand.
             mSecondHandActivePath.reset();
@@ -236,11 +236,11 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
 
             // Add the hub to the Second hand in active mode.
             mSecondHandActivePath.op(getHub(), Path.Op.UNION);
-            Log.d("AnalogWatchFace", "getSecondHandShape: cache 2 " + (cacheHit ? "hit" : "miss"));
+//            Log.d("AnalogWatchFace", "getSecondHandShape: cache 2 " + (cacheHit ? "hit" : "miss"));
 
             // Set the Second preset to current. Next time this will ensure a cache hit.
             mSecondPreset = preset.clone();
-            Log.d("AnalogWatchFace", "getSecondHandShape: cache 3 " + (cacheHit ? "hit" : "miss"));
+//            Log.d("AnalogWatchFace", "getSecondHandShape: cache 3 " + (cacheHit ? "hit" : "miss"));
         }
 
         // Rotate the hand to its specified position.

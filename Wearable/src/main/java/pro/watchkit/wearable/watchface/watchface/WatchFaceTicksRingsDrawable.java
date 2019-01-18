@@ -149,7 +149,7 @@ final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
 
                 cacheHit = false;
                 mTicksActiveBitmapInvalidated = false;
-                Log.d("AnalogWatchFace", "BigInvalidated!");
+//                Log.d("AnalogWatchFace", "BigInvalidated!");
             }
 
             ticksBitmap = mTicksActiveBitmap;

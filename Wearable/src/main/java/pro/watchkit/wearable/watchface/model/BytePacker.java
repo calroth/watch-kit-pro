@@ -132,12 +132,12 @@ final class BytePacker {
         }
 
         String TAG = "AnalogWatchFace";
-        Log.d(TAG, "Encrypted: " + byteArrayToString(encrypted));
+//        Log.d(TAG, "Encrypted: " + byteArrayToString(encrypted));
 
         try {
             mCipher.init(Cipher.DECRYPT_MODE, mKey);
             mBytes = mCipher.doFinal(encrypted);
-            Log.d(TAG, "Decrypted: " + byteArrayToString(mBytes));
+//            Log.d(TAG, "Decrypted: " + byteArrayToString(mBytes));
         } catch (IllegalBlockSizeException | BadPaddingException | InvalidKeyException ex) {
             Log.d(TAG, ex.toString());
         }
@@ -153,11 +153,11 @@ final class BytePacker {
     @NonNull
     public String getString() {
         String TAG = "AnalogWatchFace";
-        Log.d(TAG, "Unencrypted: " + byteArrayToString(mBytes));
+//        Log.d(TAG, "Unencrypted: " + byteArrayToString(mBytes));
         try {
             mCipher.init(Cipher.ENCRYPT_MODE, mKey);
             String result = byteArrayToString(mCipher.doFinal(mBytes));
-            Log.d(TAG, "Encrypted: " + result);
+//            Log.d(TAG, "Encrypted: " + result);
             return result;
         } catch (IllegalBlockSizeException | BadPaddingException | InvalidKeyException ex) {
             Log.d(TAG, ex.toString());
