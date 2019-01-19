@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Terence Tan
+ * Copyright (C) 2018-2019 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
