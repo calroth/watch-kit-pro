@@ -37,7 +37,7 @@ import androidx.annotation.NonNull;
  * A class that packs variable-length ints into a stream of mBytes.
  * We use this to fit all our config data into a single 128-bit
  * binary array.
- *
+ * <p>
  * We represent this data as 16-hex-digit strings that are reversibly
  * hashed for transport and packing.
  */
@@ -117,8 +117,8 @@ final class BytePacker {
         int length = s.length();
         mBytes = new byte[length / 2];
         for (int i = 0; i < length; i += 2) {
-            mBytes[i / 2] = (byte)((Character.digit(s.charAt(i), 16) << 4)
-                    + Character.digit(s.charAt(i+1), 16));
+            mBytes[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                    + Character.digit(s.charAt(i + 1), 16));
         }
     }
 
@@ -127,8 +127,8 @@ final class BytePacker {
         int length = s.length();
         byte[] encrypted = new byte[length / 2];
         for (int i = 0; i < length; i += 2) {
-            encrypted[i / 2] = (byte)((Character.digit(s.charAt(i), 16) << 4)
-                    + Character.digit(s.charAt(i+1), 16));
+            encrypted[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                    + Character.digit(s.charAt(i + 1), 16));
         }
 
         String TAG = "AnalogWatchFace";
@@ -301,7 +301,7 @@ final class BytePacker {
             // The mask is to zero out the bits we want overwritten.
             int mask0 = (0xff >> (8 - length)) << endBit;
             // Zero out the bits that we want overwritten and add "value" on.
-            mBytes[startByte] = (byte)(mBytes[startByte] & ~mask0 | byte0);
+            mBytes[startByte] = (byte) (mBytes[startByte] & ~mask0 | byte0);
         } else {
             // length = 5, start = 6
             // startBit = 2, endBit = 5
@@ -319,8 +319,8 @@ final class BytePacker {
             int mask0 = 0xff >>> (8 - startBit);
             int mask1 = ~(0xff >>> (8 - endBit));
             // Zero out the bits that we want overwritten and add "value" on.
-            mBytes[startByte] = (byte)(mBytes[startByte] & ~mask0 | byte0);
-            mBytes[startByte + 1] = (byte)(mBytes[startByte + 1] & ~mask1 | byte1);
+            mBytes[startByte] = (byte) (mBytes[startByte] & ~mask0 | byte0);
+            mBytes[startByte + 1] = (byte) (mBytes[startByte + 1] & ~mask1 | byte1);
         }
     }
 

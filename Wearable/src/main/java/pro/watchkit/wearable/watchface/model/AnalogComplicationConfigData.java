@@ -217,7 +217,7 @@ public class AnalogComplicationConfigData {
     /**
      * Data for color picker item in RecyclerView.
      */
-    public static class ColorConfigItem  implements ConfigItemType {
+    public static class ColorConfigItem implements ConfigItemType {
 
         private String name;
         private int iconResourceId;
@@ -260,7 +260,7 @@ public class AnalogComplicationConfigData {
     /**
      * Data for Unread Notification preference picker item in RecyclerView.
      */
-    public static class UnreadNotificationConfigItem  implements ConfigItemType {
+    public static class UnreadNotificationConfigItem implements ConfigItemType {
 
         private String name;
         private int iconEnabledResourceId;
@@ -303,7 +303,7 @@ public class AnalogComplicationConfigData {
     /**
      * Data for background image complication picker item in RecyclerView.
      */
-    public static class BackgroundComplicationConfigItem  implements ConfigItemType {
+    public static class BackgroundComplicationConfigItem implements ConfigItemType {
 
         private String name;
         private int iconResourceId;
@@ -333,7 +333,7 @@ public class AnalogComplicationConfigData {
     /**
      * Data for Night Vision preference picker item in RecyclerView.
      */
-    public static class NightVisionConfigItem  implements ConfigItemType {
+    public static class NightVisionConfigItem implements ConfigItemType {
 
         private String name;
         private int iconEnabledResourceId;

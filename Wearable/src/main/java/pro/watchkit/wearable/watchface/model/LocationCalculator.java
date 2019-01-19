@@ -55,6 +55,7 @@ public final class LocationCalculator {
     /**
      * Get the elevation of the sun, given the current location and date/time.
      * If location is unknown, return 90.
+     *
      * @return Elevation of the sun, between 90 and -90 degrees.
      */
     public double getSunAltitude() {
@@ -92,6 +93,7 @@ public final class LocationCalculator {
     /**
      * Get the night vision tint multiplier, between 0.0d and 1.0d.
      * 0.0 means no tint. 1.0 means maximum tint.
+     *
      * @return Night vision tint multiplier
      */
     private double getDuskDawnMultiplier() {

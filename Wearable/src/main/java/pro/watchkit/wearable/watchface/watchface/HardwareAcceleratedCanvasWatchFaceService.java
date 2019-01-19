@@ -67,14 +67,15 @@ public abstract class HardwareAcceleratedCanvasWatchFaceService extends CanvasWa
          * CanvasWatchFaceService.Engine. If we don't (i.e. by default)
          * calls to CanvasWatchFaceService.Engine perform a software render.
          * If we want to hardware render, we wedge ourselves in here...
+         *
          * @param frameTimeNanos The time in nanoseconds when the frame started being rendered.
          */
         @Override
         public void doFrame(long frameTimeNanos) {
 //            while (mInvalidated > 0) {
-                beforeDoFrame(mInvalidated);
-                drawHardwareAccelerated(getSurfaceHolder());
-                mInvalidated--;
+            beforeDoFrame(mInvalidated);
+            drawHardwareAccelerated(getSurfaceHolder());
+            mInvalidated--;
 //            }
             afterDoFrame(mInvalidated);
         }

@@ -95,7 +95,7 @@ public class ColorSelectionRecyclerViewAdapter extends
         }
 
         @Override
-        public void onClick (View view) {
+        public void onClick(View view) {
             int position = getAdapterPosition();
             Integer color = mColorOptionsDataSet.get(position);
 

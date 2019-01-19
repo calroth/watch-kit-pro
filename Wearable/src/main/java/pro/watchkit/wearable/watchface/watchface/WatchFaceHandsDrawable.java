@@ -23,7 +23,6 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
-import android.util.Log;
 
 import java.util.Calendar;
 
@@ -103,6 +102,7 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
     }
 
     private Path mHub;
+
     private Path getHub() {
         if (mHub == null) {
             mHub = new Path();
@@ -422,7 +422,7 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
 
                 float x = diamondWidth;
                 float y = diamondTop - diamondMidpoint;
-                float z = (float)Math.sqrt(x * x + y * y);
+                float z = (float) Math.sqrt(x * x + y * y);
 
                 float w = cutoutWidth;
 
@@ -442,7 +442,7 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
                 // w * z / x = y1
 
                 y = diamondMidpoint - diamondBottom;
-                z = (float)Math.sqrt(x * x + y * y);
+                z = (float) Math.sqrt(x * x + y * y);
                 float y3 = w * z / x;
 
                 Path cutout = new Path();

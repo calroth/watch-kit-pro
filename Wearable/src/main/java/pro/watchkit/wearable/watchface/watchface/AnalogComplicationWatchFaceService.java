@@ -76,7 +76,7 @@ import pro.watchkit.wearable.watchface.model.Palette;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 
 public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanvasWatchFaceService {
-//public class AnalogComplicationWatchFaceService extends WatchFaceService {
+    //public class AnalogComplicationWatchFaceService extends WatchFaceService {
     private static final String TAG = "AnalogWatchFace";
 
     // Unique IDs for each complication. The settings activity that supports allowing users
@@ -137,7 +137,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
         private GregorianCalendar mCalendar = new GregorianCalendar();
         private LocationCalculator mLocationCalculator = new LocationCalculator(mCalendar);
 
-        private WatchFaceDrawable[] mWatchFaceDrawables = new WatchFaceDrawable[] {
+        private WatchFaceDrawable[] mWatchFaceDrawables = new WatchFaceDrawable[]{
                 new WatchFaceBackgroundDrawable(),
                 new WatchFaceTicksRingsDrawable(),
                 new WatchFaceComplicationsDrawable(),

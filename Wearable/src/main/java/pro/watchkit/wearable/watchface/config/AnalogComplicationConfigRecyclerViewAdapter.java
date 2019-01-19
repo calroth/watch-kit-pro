@@ -217,7 +217,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                         new ColorPickerViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.config_list_color_item, parent, false));
-                mColorPickerViewHolders.add((ColorPickerViewHolder)viewHolder);
+                mColorPickerViewHolders.add((ColorPickerViewHolder) viewHolder);
                 break;
 
             case TYPE_UNREAD_NOTIFICATION_CONFIG:
@@ -365,7 +365,9 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         return mSettingsDataSet.size();
     }
 
-    /** Updates the selected complication id saved earlier with the new information. */
+    /**
+     * Updates the selected complication id saved earlier with the new information.
+     */
     public void updateSelectedComplication(ComplicationProviderInfo complicationProviderInfo) {
 
         Log.d(TAG, "updateSelectedComplication: " + mPreviewAndComplicationsViewHolder);
@@ -423,34 +425,34 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         private boolean mBackgroundComplicationEnabled;
 
         public PreviewAndComplicationsViewHolder(final View view) {
-                super(view);
+            super(view);
 
-                backgroundComplication = new ComplicationHolder(null);
-                backgroundComplication.background = view.findViewById(R.id.watch_face_background);
-                complications.add(backgroundComplication);
+            backgroundComplication = new ComplicationHolder(null);
+            backgroundComplication.background = view.findViewById(R.id.watch_face_background);
+            complications.add(backgroundComplication);
 //            mWatchFaceBackgroundPreviewImageView =
 //                    (ImageView) view.findViewById(R.id.watch_face_background);
-                mWatchFaceArmsAndTicksView = view.findViewById(R.id.watch_face_arms_and_ticks);
+            mWatchFaceArmsAndTicksView = view.findViewById(R.id.watch_face_arms_and_ticks);
 
-                // In our case, just the second arm.
-                mWatchFaceHighlightPreviewView = view.findViewById(R.id.watch_face_highlight);
+            // In our case, just the second arm.
+            mWatchFaceHighlightPreviewView = view.findViewById(R.id.watch_face_highlight);
 
-                // Sets up left complication preview.
-                {
-                    ComplicationHolder f = new ComplicationHolder(null);
-                    f.isForeground = true;
-                    f.background =
-                            view.findViewById(R.id.left_complication_background);
-                    f.imageButton = view.findViewById(R.id.left_complication);
-                    f.imageButton.setOnClickListener(this);
-                    complications.add(f);
-                }
-                // Sets up bottom complication preview.
-                {
-                    ComplicationHolder f = new ComplicationHolder(null);
-                    f.isForeground = true;
-                    f.background =
-                            view.findViewById(R.id.bottom_complication_background);
+            // Sets up left complication preview.
+            {
+                ComplicationHolder f = new ComplicationHolder(null);
+                f.isForeground = true;
+                f.background =
+                        view.findViewById(R.id.left_complication_background);
+                f.imageButton = view.findViewById(R.id.left_complication);
+                f.imageButton.setOnClickListener(this);
+                complications.add(f);
+            }
+            // Sets up bottom complication preview.
+            {
+                ComplicationHolder f = new ComplicationHolder(null);
+                f.isForeground = true;
+                f.background =
+                        view.findViewById(R.id.bottom_complication_background);
                 f.imageButton = view.findViewById(R.id.bottom_complication);
                 f.imageButton.setOnClickListener(this);
                 complications.add(f);
@@ -670,13 +672,13 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         }
 
         private void updateComplicationView(ComplicationProviderInfo complicationProviderInfo,
-            ImageButton button, ImageView background) {
+                                            ImageButton button, ImageView background) {
             if (complicationProviderInfo != null) {
                 button.setImageIcon(complicationProviderInfo.providerIcon);
                 button.setContentDescription(
-                    mContext.getString(R.string.edit_complication,
-                        complicationProviderInfo.appName + " " +
-                            complicationProviderInfo.providerName));
+                        mContext.getString(R.string.edit_complication,
+                                complicationProviderInfo.appName + " " +
+                                        complicationProviderInfo.providerName));
                 background.setVisibility(View.VISIBLE);
             } else {
                 button.setImageDrawable(mDefaultComplicationDrawable);
@@ -702,7 +704,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                     new PorterDuffColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
 
             backgroundComplication.background
-            //mWatchFaceBackgroundPreviewImageView
+                    //mWatchFaceBackgroundPreviewImageView
                     .getBackground()
                     .setColorFilter(backgroundColorFilter);
 
@@ -736,7 +738,9 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         }
     }
 
-    /** Displays icon to indicate there are more options below the fold. */
+    /**
+     * Displays icon to indicate there are more options below the fold.
+     */
     public class MoreOptionsViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView mMoreOptionsImageView;
@@ -934,7 +938,9 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         }
     }
 
-    /** Displays button to trigger background image complication selector. */
+    /**
+     * Displays button to trigger background image complication selector.
+     */
     public class BackgroundComplicationViewHolder extends RecyclerView.ViewHolder
             implements OnClickListener {
 
@@ -1070,8 +1076,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             Boolean newState = !mSharedPref.getBoolean(sharedPreferenceString, true);
 
             if (newState && context.checkSelfPermission(
-                        android.Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
                 Activity a = (Activity) context;
                 a.requestPermissions(new String[]{
                                 android.Manifest.permission.ACCESS_COARSE_LOCATION},

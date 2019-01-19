@@ -485,6 +485,7 @@ public final class WatchFacePreset {
             return values()[bytePacker.get(bits)];
         }
     }
+
     private HandShape hourHandShape, minuteHandShape, secondHandShape;
 
     public enum HandLength {
@@ -500,6 +501,7 @@ public final class WatchFacePreset {
             return values()[bytePacker.get(bits)];
         }
     }
+
     private HandLength hourHandLength, minuteHandLength, secondHandLength;
 
     public enum HandThickness {
@@ -515,6 +517,7 @@ public final class WatchFacePreset {
             return values()[bytePacker.get(bits)];
         }
     }
+
     private HandThickness hourHandThickness, minuteHandThickness, secondHandThickness;
 
     public enum HandStalk {
@@ -530,6 +533,7 @@ public final class WatchFacePreset {
             return values()[bytePacker.get(bits)];
         }
     }
+
     private HandStalk hourHandStalk;
     private HandStalk minuteHandStalk;
 
@@ -551,6 +555,7 @@ public final class WatchFacePreset {
             return values()[bytePacker.get(bits)];
         }
     }
+
     private TickShape fourTickShape, twelveTickShape, sixtyTickShape;
 
     public enum TickLength {
@@ -566,6 +571,7 @@ public final class WatchFacePreset {
             return values()[bytePacker.get(bits)];
         }
     }
+
     private TickLength fourTickLength, twelveTickLength, sixtyTickLength;
 
     public enum TickThickness {
@@ -581,6 +587,7 @@ public final class WatchFacePreset {
             return values()[bytePacker.get(bits)];
         }
     }
+
     private TickThickness fourTickThickness, twelveTickThickness, sixtyTickThickness;
 
     public enum TickRadiusPosition {
@@ -596,6 +603,7 @@ public final class WatchFacePreset {
             return values()[bytePacker.get(bits)];
         }
     }
+
     private TickRadiusPosition fourTickRadiusPosition, twelveTickRadiusPosition, sixtyTickRadiusPosition;
 
     private Palette fourTickPalette;
@@ -634,6 +642,7 @@ public final class WatchFacePreset {
             return values()[bytePacker.get(bits)];
         }
     }
+
     private GradientStyle fillHighlightStyle;
     private GradientStyle accentFillStyle;
     private GradientStyle accentHighlightStyle;

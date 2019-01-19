@@ -171,7 +171,7 @@ public final class Palette {
 //        paint.setShader(new SweepGradient(mCenterX, mCenterY,
 //                new int[]{colorA, colorB, colorA, colorB, colorA},
 //                null));
-            int[] gradient = new int[] {
+            int[] gradient = new int[]{
                     getIntermediateColor(colorA, colorB, 1.0d), // Original
                     getIntermediateColor(colorA, colorB, 0.8d),
                     getIntermediateColor(colorA, colorB, 0.6d),
@@ -202,7 +202,7 @@ public final class Palette {
 //                new int[]{colorB, colorB, colorB, colorA, colorA},
 //                null, Shader.TileMode.CLAMP));
 
-            int[] gradient = new int[] {
+            int[] gradient = new int[]{
                     colorB, // Original
                     colorB,
                     colorB,
@@ -344,7 +344,7 @@ public final class Palette {
     private int mPreviousSerial = -1;
 
     private void regeneratePaints2() {
-         // Invalidate if our preset has changed.
+        // Invalidate if our preset has changed.
         int currentSerial = Objects.hash(
                 preset.getFillColor(),
                 preset.getAccentColor(),
@@ -390,6 +390,7 @@ public final class Palette {
     private class Tuple {
         public int a, b, c;
         public float x, y, z;
+
         Tuple(int a, int b, int c, float x, float y, float z) {
             this.a = a;
             this.b = b;
@@ -419,7 +420,7 @@ public final class Palette {
                 group = "0x000000";
             }
 
-            String[] hexes = new String[] {"00", "55", "AA", "FF"};
+            String[] hexes = new String[]{"00", "55", "AA", "FF"};
             String original = "0x" + hexes[a] + hexes[b] + hexes[c];
 
             return String.format("{\"a\": %d, \"b\": %d, \"c\": %d, \"group\": \"%s\", \"original\": \"%s\", \"x\": %f, \"y\": %f, \"z\": %f},",
@@ -475,14 +476,14 @@ public final class Palette {
         long lab003 = Color.convert(Color.argb(255, 0, 0, 255), CIE_LAB);
         long lab000 = Color.convert(Color.argb(255, 0, 0, 0), CIE_LAB);
 
-        Tuple t333 = new Tuple(3,3,3, Color.red(lab333), Color.green(lab333), Color.blue(lab333)).log();
-        Tuple t330 = new Tuple(3,3,0, Color.red(lab330), Color.green(lab330), Color.blue(lab330)).log();
-        Tuple t303 = new Tuple(3,0,3, Color.red(lab303), Color.green(lab303), Color.blue(lab303)).log();
-        Tuple t300 = new Tuple(3,0,0, Color.red(lab300), Color.green(lab300), Color.blue(lab300)).log();
-        Tuple t033 = new Tuple(0,3,3, Color.red(lab033), Color.green(lab033), Color.blue(lab033)).log();
-        Tuple t030 = new Tuple(0,3,0, Color.red(lab030), Color.green(lab030), Color.blue(lab030)).log();
-        Tuple t003 = new Tuple(0,0,3, Color.red(lab003), Color.green(lab003), Color.blue(lab003)).log();
-        Tuple t000 = new Tuple(0,0,0, Color.red(lab000), Color.green(lab000), Color.blue(lab000)).log();
+        Tuple t333 = new Tuple(3, 3, 3, Color.red(lab333), Color.green(lab333), Color.blue(lab333)).log();
+        Tuple t330 = new Tuple(3, 3, 0, Color.red(lab330), Color.green(lab330), Color.blue(lab330)).log();
+        Tuple t303 = new Tuple(3, 0, 3, Color.red(lab303), Color.green(lab303), Color.blue(lab303)).log();
+        Tuple t300 = new Tuple(3, 0, 0, Color.red(lab300), Color.green(lab300), Color.blue(lab300)).log();
+        Tuple t033 = new Tuple(0, 3, 3, Color.red(lab033), Color.green(lab033), Color.blue(lab033)).log();
+        Tuple t030 = new Tuple(0, 3, 0, Color.red(lab030), Color.green(lab030), Color.blue(lab030)).log();
+        Tuple t003 = new Tuple(0, 0, 3, Color.red(lab003), Color.green(lab003), Color.blue(lab003)).log();
+        Tuple t000 = new Tuple(0, 0, 0, Color.red(lab000), Color.green(lab000), Color.blue(lab000)).log();
 
         // Edges
         Tuple t331 = generateMidPoint(t330, t333, 0.333333f).log();
@@ -552,12 +553,12 @@ public final class Palette {
         Tuple t212 = generateMidPoint(t210, t213, 0.666667f, t202, t232, 0.333333f, t012, t312, 0.666667f).log();
         Tuple t221 = generateMidPoint(t220, t223, 0.333333f, t201, t231, 0.666667f, t021, t321, 0.666667f).log();
         Tuple t222 = generateMidPoint(t220, t223, 0.666667f, t202, t232, 0.666667f, t022, t322, 0.666667f).log();
-}
+    }
 
     private static void generatePalette() {
         if (Build.VERSION.SDK_INT >= 26) {
-            int [] i = new int[] {255, 170, 85, 0};
-            String[] s = new String[] {"FF", "AA", "55", "00"};
+            int[] i = new int[]{255, 170, 85, 0};
+            String[] s = new String[]{"FF", "AA", "55", "00"};
             ColorSpace CIE_LAB = ColorSpace.get(ColorSpace.Named.CIE_LAB);
 //            ColorSpace sRGB = ColorSpace.get(ColorSpace.Named.SRGB);
 //            ColorSpace.Connector connector =
@@ -575,7 +576,7 @@ public final class Palette {
 //                                ));
 
                         sb.append(String.format("{\"group\": \"#%s%s%s\", \"x\": %d, \"y\": %d, \"z\": %d},",
-                                s[r], s[g], s[b], (int)Color.red(lab), (int)Color.green(lab), (int)Color.blue(lab)
+                                s[r], s[g], s[b], (int) Color.red(lab), (int) Color.green(lab), (int) Color.blue(lab)
                         ));
                         sb.append(System.lineSeparator());
                     }
@@ -588,11 +589,11 @@ public final class Palette {
 
     private static void generatePalette1() {
         if (Build.VERSION.SDK_INT >= 26) {
-            float [] ls = new float[] {100f, 75f, 50f, 25f, 0f};
+            float[] ls = new float[]{100f, 75f, 50f, 25f, 0f};
 //            float [] as = new float[] {-128f, -64f, 0f, 64f, 128f};
 //            float [] bs = new float[] {-128f, -64f, 0f, 64f, 128f};
-            float [] bs = new float[] {128f, 96f, 64f, 32f, 0f, -32f, -64f, -96f, -128f};
-            float [] as = new float[] {-128f, -96f, -64f, -32f, 0f, 32f, 64f, 96f, 128f};
+            float[] bs = new float[]{128f, 96f, 64f, 32f, 0f, -32f, -64f, -96f, -128f};
+            float[] as = new float[]{-128f, -96f, -64f, -32f, 0f, 32f, 64f, 96f, 128f};
 
             ColorSpace CIE_LAB = ColorSpace.get(ColorSpace.Named.CIE_LAB);
             ColorSpace.Connector connector =
@@ -626,12 +627,13 @@ public final class Palette {
      * Given two colors A and B, return an intermediate color between the two. The distance
      * between the two is given by "d"; 1.0 means return "colorA", 0.0 means return "colorB",
      * 0.5 means return something evenly between the two.
-     *
+     * <p>
      * For SDK 26 (Android O) and above, the calculation is done in the LAB color space for
      * extra perceptual accuracy!
+     *
      * @param colorA One color to calculate
      * @param colorB The other color
-     * @param d The distance from colorB, between 0.0 and 1.0
+     * @param d      The distance from colorB, between 0.0 and 1.0
      * @return A color between colorA and colorB
      */
     static int getIntermediateColor(int colorA, int colorB, double d) {
