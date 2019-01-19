@@ -25,11 +25,6 @@ import androidx.annotation.NonNull;
 
 @Deprecated
 final class WatchFaceStatsDrawable extends WatchFaceDrawable {
-    @Deprecated
-    static int invalid = 0;
-    @Deprecated
-    static long now[] = new long[5];
-
     static final String INVALID_COMPLICATION = "Complication";
     static final String INVALID_TIME_TICK = "Time Tick";
     static final String INVALID_TIMER_HANDLER = "Timer Handler";
@@ -40,10 +35,12 @@ final class WatchFaceStatsDrawable extends WatchFaceDrawable {
     static final String INVALID_SURFACE = "Surface Change";
     static final String INVALID_NOTIFICATION = "Notification Change";
     static final String INVALID_WTF = "WTF?";
-
-    static String mInvalidTrigger = "";
-
     final static boolean drawStats = false;
+    @Deprecated
+    static int invalid = 0;
+    @Deprecated
+    static long now[] = new long[5];
+    static String mInvalidTrigger = "";
 
     @Override
     public void draw(@NonNull Canvas canvas) {

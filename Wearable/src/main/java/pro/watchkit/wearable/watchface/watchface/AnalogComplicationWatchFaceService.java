@@ -115,6 +115,53 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
     private class Engine extends HardwareAcceleratedCanvasWatchFaceService.Engine implements ComplicationHolder.InvalidateCallback {
 
+        private static final int MSG_UPDATE_TIME = 0;
+        // Handler to update the time once a second in interactive mode.
+        private final Handler mUpdateTimeHandler = new UpdateTimeHandler(this);
+
+//        private WatchFacePreset preset = new WatchFacePreset();
+private final int COMPLICATION_AMBIENT_WHITE =
+        Color.argb(0xff, 0xff, 0xff, 0xff);
+        private final int COMPLICATION_AMBIENT_GREY =
+                Color.argb(0xff, 0xaa, 0xaa, 0xaa);
+        private final BroadcastReceiver mTimeZoneReceiver =
+                new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent intent) {
+                        mCalendar.setTimeZone(TimeZone.getDefault());
+                        WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_TIMEZONE;
+                        invalidate();
+                    }
+                };
+        private WatchFaceDrawable.StateObject mStateObject;
+        private Palette mPalette;
+        private GregorianCalendar mCalendar = new GregorianCalendar();
+        // Used to pull user's preferences for background color, highlight color, and visual
+        // indicating there are unread notifications.
+        SharedPreferences mSharedPref;
+        private LocationCalculator mLocationCalculator = new LocationCalculator(mCalendar);
+
+        /* Maps active complication ids to the data for that complication. Note: Data will only be
+         * present if the user has chosen a provider via the settings activity for the watch face.
+         */
+//        private SparseArray<ComplicationData> mActiveComplicationDataSparseArray;
+        /* Maps complication ids to corresponding ComplicationDrawable that renders the
+         * the complication data on the watch face.
+         */
+        //private SparseArray<ComplicationDrawable> mComplicationDrawableSparseArray;
+        private WatchFaceDrawable[] mWatchFaceDrawables = new WatchFaceDrawable[]{
+                new WatchFaceBackgroundDrawable(),
+                new WatchFaceTicksRingsDrawable(),
+                new WatchFaceComplicationsDrawable(),
+                new WatchFaceHandsDrawable(),
+                new WatchFaceStatsDrawable()
+        };
+        private boolean mRegisteredTimeZoneReceiver = false;
+        private boolean mMuteMode;
+        // User's preference for if they want visual shown to indicate unread notifications.
+        private boolean mUnreadNotificationsPreference;
+        private int currentComplicationWhite, currentComplicationGrey;
+
         @Override
         protected void beforeDoFrame(int invalidated) {
             if (WatchFaceStatsDrawable.invalid < invalidated) {
@@ -129,56 +176,6 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                 WatchFaceStatsDrawable.invalid = 0;
             }
         }
-
-//        private WatchFacePreset preset = new WatchFacePreset();
-
-        private WatchFaceDrawable.StateObject mStateObject;
-        private Palette mPalette;
-        private GregorianCalendar mCalendar = new GregorianCalendar();
-        private LocationCalculator mLocationCalculator = new LocationCalculator(mCalendar);
-
-        private WatchFaceDrawable[] mWatchFaceDrawables = new WatchFaceDrawable[]{
-                new WatchFaceBackgroundDrawable(),
-                new WatchFaceTicksRingsDrawable(),
-                new WatchFaceComplicationsDrawable(),
-                new WatchFaceHandsDrawable(),
-                new WatchFaceStatsDrawable()
-        };
-
-        private static final int MSG_UPDATE_TIME = 0;
-
-        private boolean mRegisteredTimeZoneReceiver = false;
-        private boolean mMuteMode;
-
-        /* Maps active complication ids to the data for that complication. Note: Data will only be
-         * present if the user has chosen a provider via the settings activity for the watch face.
-         */
-//        private SparseArray<ComplicationData> mActiveComplicationDataSparseArray;
-
-        /* Maps complication ids to corresponding ComplicationDrawable that renders the
-         * the complication data on the watch face.
-         */
-        //private SparseArray<ComplicationDrawable> mComplicationDrawableSparseArray;
-
-        // Used to pull user's preferences for background color, highlight color, and visual
-        // indicating there are unread notifications.
-        SharedPreferences mSharedPref;
-
-        // User's preference for if they want visual shown to indicate unread notifications.
-        private boolean mUnreadNotificationsPreference;
-
-        private final BroadcastReceiver mTimeZoneReceiver =
-                new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        mCalendar.setTimeZone(TimeZone.getDefault());
-                        WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_TIMEZONE;
-                        invalidate();
-                    }
-                };
-
-        // Handler to update the time once a second in interactive mode.
-        private final Handler mUpdateTimeHandler = new UpdateTimeHandler(this);
 
         private void updateTimeViaHandler() {
             WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_TIMER_HANDLER;
@@ -521,13 +518,6 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_SURFACE;
             invalidate();
         }
-
-        private final int COMPLICATION_AMBIENT_WHITE =
-                Color.argb(0xff, 0xff, 0xff, 0xff);
-        private final int COMPLICATION_AMBIENT_GREY =
-                Color.argb(0xff, 0xaa, 0xaa, 0xaa);
-
-        private int currentComplicationWhite, currentComplicationGrey;
 
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {

@@ -31,12 +31,13 @@ public final class LocationCalculator {
             Color.argb(0xff, 0x99, 0x00, 0x00);
 
     private GregorianCalendar mCalendar;
+    private Location mLocation = null;
+    private long previousSunAltitudeTime = 0;
+    private double previousSunAltitude = 90d;
 
     public LocationCalculator(GregorianCalendar mCalendar) {
         this.mCalendar = mCalendar;
     }
-
-    private Location mLocation = null;
 
     public void setLocation(Location location) {
         // Only set location if not null (and has changed).
@@ -47,10 +48,6 @@ public final class LocationCalculator {
             previousSunAltitudeTime = 0;
         }
     }
-
-    private long previousSunAltitudeTime = 0;
-
-    private double previousSunAltitude = 90d;
 
     /**
      * Get the elevation of the sun, given the current location and date/time.

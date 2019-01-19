@@ -90,11 +90,6 @@ import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.EXTR
 public class AnalogComplicationConfigRecyclerViewAdapter
         extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Collection<ComplicationHolder> complications;
-    private ComplicationHolder backgroundComplication;
-
-    private static final String TAG = "CompConfigAdapter";
-
     /**
      * Used by associated watch face ({@link AnalogComplicationWatchFaceService}) to let this
      * adapter know which complication locations are supported, their ids, and supported
@@ -114,17 +109,15 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     public static final int TYPE_UNREAD_NOTIFICATION_CONFIG = 3;
     public static final int TYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG = 4;
     public static final int TYPE_NIGHT_VISION_CONFIG = 5;
-
+    private static final String TAG = "CompConfigAdapter";
+    SharedPreferences mSharedPref;
+    private Collection<ComplicationHolder> complications;
+    private ComplicationHolder backgroundComplication;
     // ComponentName associated with watch face service (service that renders watch face). Used
     // to retrieve complication information.
     private ComponentName mWatchFaceComponentName;
-
     private ArrayList<ConfigItemType> mSettingsDataSet;
-
     private Context mContext;
-
-    SharedPreferences mSharedPref;
-
     // Selected complication id by user.
     //private int mSelectedComplicationId;
     private ComplicationHolder mSelectedComplication;
@@ -140,6 +133,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     // Maintains reference view holder to dynamically update watch face preview. Used instead of
     // notifyItemChanged(int position) to avoid flicker and re-inflating the view.
     private PreviewAndComplicationsViewHolder mPreviewAndComplicationsViewHolder;
+    private List<ColorPickerViewHolder> mColorPickerViewHolders =
+            new ArrayList<ColorPickerViewHolder>();
 
     public AnalogComplicationConfigRecyclerViewAdapter(
             Context context,
@@ -176,9 +171,6 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 new ProviderInfoRetriever(mContext, Executors.newCachedThreadPool());
         mProviderInfoRetriever.init();
     }
-
-    private List<ColorPickerViewHolder> mColorPickerViewHolders =
-            new ArrayList<ColorPickerViewHolder>();
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -767,28 +759,6 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         private String mSharedPrefResourceString;
 
         private Class<ColorSelectionActivity> mLaunchActivityToSelectColor;
-
-        public ColorPickerViewHolder(View view) {
-            super(view);
-
-            mAppearanceButton = view.findViewById(R.id.color_picker_button);
-            view.setOnClickListener(this);
-        }
-
-        public void setName(String name) {
-            mAppearanceButton.setText(name);
-        }
-
-        public void setIcon(int resourceId) {
-            Context context = mAppearanceButton.getContext();
-            mAppearanceButton.setCompoundDrawablesWithIntrinsicBounds(
-                    context.getDrawable(resourceId), null, mColorSwatchDrawable, null);
-        }
-
-        public void tickle() {
-            itemView.invalidate();
-        }
-
         private Drawable mColorSwatchDrawable = new Drawable() {
             @Override
             public void draw(@NonNull Canvas canvas) {
@@ -827,6 +797,27 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 return PixelFormat.OPAQUE;
             }
         };
+
+        public ColorPickerViewHolder(View view) {
+            super(view);
+
+            mAppearanceButton = view.findViewById(R.id.color_picker_button);
+            view.setOnClickListener(this);
+        }
+
+        public void setName(String name) {
+            mAppearanceButton.setText(name);
+        }
+
+        public void setIcon(int resourceId) {
+            Context context = mAppearanceButton.getContext();
+            mAppearanceButton.setCompoundDrawablesWithIntrinsicBounds(
+                    context.getDrawable(resourceId), null, mColorSwatchDrawable, null);
+        }
+
+        public void tickle() {
+            itemView.invalidate();
+        }
 
         public void setSharedPrefString(String sharedPrefString) {
             mSharedPrefResourceString = sharedPrefString;
@@ -1007,11 +998,10 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     public class NightVisionViewHolder extends RecyclerView.ViewHolder
             implements OnClickListener {
 
+        final private int MY_PERMISSION_ACCESS_COURSE_LOCATION = 1;
         private Switch mNightVisionSwitch;
-
         private int mEnabledIconResourceId;
         private int mDisabledIconResourceId;
-
         private int mSharedPrefResourceId;
 
         public NightVisionViewHolder(View view) {
@@ -1090,7 +1080,5 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
             updateIcon(context, newState);
         }
-
-        final private int MY_PERMISSION_ACCESS_COURSE_LOCATION = 1;
     }
 }

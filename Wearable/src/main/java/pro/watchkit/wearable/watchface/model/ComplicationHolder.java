@@ -37,13 +37,40 @@ import androidx.annotation.NonNull;
 
 public final class ComplicationHolder implements Drawable.Callback {
 
-    public interface InvalidateCallback {
-        /**
-         * Called when the drawable needs to be redrawn.  A view at this point
-         * should invalidate itself (or at least the part of itself where the
-         * drawable appears).
-         */
-        void invalidate();
+    final static boolean highlightItWasMe = false;
+    private static final boolean cacheImages = false;
+    private static int BASE_ID = 99;
+    private final Handler mHandler = new Handler();
+    public boolean isForeground = false;
+    public boolean isActive = false;
+    public ImageButton imageButton;
+    public ImageView background;
+    private int id;
+    private ComplicationDrawable drawable;
+    private boolean mIsInAmbientMode = false;
+    private Rect mBounds;
+    private long itWasMe = 0;
+    private InvalidateCallback mInvalidateCallback;
+    private boolean mAmbientBitmapInvalidated = true;
+    private boolean mActiveBitmapInvalidated = true;
+    private Bitmap mAmbientBitmap;
+    private Bitmap mActiveBitmap;
+
+    public ComplicationHolder(Context context) {
+        id = BASE_ID;
+        BASE_ID++;
+
+        if (context != null) {
+            drawable = new ComplicationDrawable(context);
+        } else {
+            drawable = new ComplicationDrawable();
+        }
+
+        drawable.setCallback(this);
+    }
+
+    public static void resetBaseId() {
+        BASE_ID = 99;
     }
 
     @Override
@@ -68,52 +95,15 @@ public final class ComplicationHolder implements Drawable.Callback {
         return "Complication " + getId() + (isForeground ? " (foreground)" : " (background)");
     }
 
-    private static int BASE_ID = 99;
-
-    public static void resetBaseId() {
-        BASE_ID = 99;
-    }
-
-    public ComplicationHolder(Context context) {
-        id = BASE_ID;
-        BASE_ID++;
-
-        if (context != null) {
-            drawable = new ComplicationDrawable(context);
-        } else {
-            drawable = new ComplicationDrawable();
-        }
-
-        drawable.setCallback(this);
-    }
-
-    private static final boolean cacheImages = false;
-
-    public boolean isForeground = false;
-
-    public boolean isActive = false;
-
-    private int id;
-
-    public ImageButton imageButton;
-
-    public ImageView background;
-
-    private ComplicationDrawable drawable;
-
     public boolean onDrawableTap(int x, int y) {
         return drawable.onTap(x, y);
     }
-
-    private boolean mIsInAmbientMode = false;
 
     public void setAmbientMode(boolean inAmbientMode) {
         drawable.setInAmbientMode(inAmbientMode);
         drawable.setRangedValueProgressHidden(inAmbientMode);
         mIsInAmbientMode = inAmbientMode;
     }
-
-    private Rect mBounds;
 
     public Rect getBounds() {
         return mBounds;
@@ -168,10 +158,7 @@ public final class ComplicationHolder implements Drawable.Callback {
         }
     }
 
-
-    private final Handler mHandler = new Handler();
-
-    private long itWasMe = 0;
+//    private String mComplicationDescription;
 
     @Override
     public void invalidateDrawable(@NonNull Drawable who) {
@@ -196,8 +183,6 @@ public final class ComplicationHolder implements Drawable.Callback {
         mHandler.removeCallbacks(what, who);
     }
 
-    private InvalidateCallback mInvalidateCallback;
-
     public void setDrawableCallback(InvalidateCallback invalidateCallback) {
         mInvalidateCallback = invalidateCallback;
 //        public void setDrawableCallback(Drawable.Callback cb) {
@@ -206,8 +191,6 @@ public final class ComplicationHolder implements Drawable.Callback {
         // Test it out?
 //        drawable.invalidateSelf();
     }
-
-//    private String mComplicationDescription;
 
     public void setComplicationData(ComplicationData complicationData) {
         drawable.setComplicationData(complicationData);
@@ -239,17 +222,10 @@ public final class ComplicationHolder implements Drawable.Callback {
         return id;
     }
 
-    private boolean mAmbientBitmapInvalidated = true;
-    private boolean mActiveBitmapInvalidated = true;
-
     private void invalidate() {
         mAmbientBitmapInvalidated = true;
         mActiveBitmapInvalidated = true;
     }
-
-    private Bitmap mAmbientBitmap;
-
-    private Bitmap mActiveBitmap;
 
     private Bitmap getAmbientBitmap(long currentTimeMillis) {
         if (mAmbientBitmapInvalidated) {
@@ -266,8 +242,6 @@ public final class ComplicationHolder implements Drawable.Callback {
         }
         return mActiveBitmap;
     }
-
-    final static boolean highlightItWasMe = false;
 
     public void draw(Canvas canvas, long currentTimeMillis) {
         if (cacheImages) {
@@ -287,5 +261,14 @@ public final class ComplicationHolder implements Drawable.Callback {
             }
             drawable.draw(canvas, currentTimeMillis);
         }
+    }
+
+    public interface InvalidateCallback {
+        /**
+         * Called when the drawable needs to be redrawn.  A view at this point
+         * should invalidate itself (or at least the part of itself where the
+         * drawable appears).
+         */
+        void invalidate();
     }
 }

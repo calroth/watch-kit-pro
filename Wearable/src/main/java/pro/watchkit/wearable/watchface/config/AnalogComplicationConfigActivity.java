@@ -35,11 +35,9 @@ import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceServ
  */
 public class AnalogComplicationConfigActivity extends Activity {
 
-    private static final String TAG = AnalogComplicationConfigActivity.class.getSimpleName();
-
     static final int COMPLICATION_CONFIG_REQUEST_CODE = 1001;
     static final int UPDATE_COLORS_CONFIG_REQUEST_CODE = 1002;
-
+    private static final String TAG = AnalogComplicationConfigActivity.class.getSimpleName();
     private WearableRecyclerView mWearableRecyclerView;
     private AnalogComplicationConfigRecyclerViewAdapter mAdapter;
 

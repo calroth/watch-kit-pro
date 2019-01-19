@@ -53,21 +53,15 @@ import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.Palette;
 
 final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
+    private static final boolean useNewBackgroundCachingMethod = true;
+    private static final float TICK_WIDTH_PERCENT = 0.05f; // 0.05%
     private int mPreviousSerial = -1;
     private int mPreviousNightVisionTint = -1;
-
     private Bitmap mTicksActiveBitmap = null;
     private Bitmap mTicksAmbientBitmap = null;
-
     private boolean mTicksAmbientBitmapInvalidated = true;
     private boolean mTicksActiveBitmapInvalidated = true;
-
     private Path mAmbientExclusionPath;
-
-    private static final boolean useNewBackgroundCachingMethod = true;
-
-    private static final float TICK_WIDTH_PERCENT = 0.05f; // 0.05%
-
     private Paint mAmbientColorShiftPaint = new Paint();
 
     @Override

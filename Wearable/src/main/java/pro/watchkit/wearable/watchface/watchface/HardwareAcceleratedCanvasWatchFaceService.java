@@ -60,6 +60,25 @@ public abstract class HardwareAcceleratedCanvasWatchFaceService extends CanvasWa
 
         // Our own private Choreographer which we can use to call hardware render.
         private Choreographer mChoreographer = Choreographer.getInstance();
+        // Track whether we've been invalidated; don't need to draw if we haven't.
+        private int mInvalidated = 0;
+
+//        private final Choreographer.FrameCallback mChoreographerFrameCallback =
+//                new Choreographer.FrameCallback() {
+//                    // We create our own Choreographer to intercept calls to "draw" in
+//                    // CanvasWatchFaceService.Engine. If we don't (i.e. by default)
+//                    // calls to CanvasWatchFaceService.Engine perform a software render.
+//                    // If we want to hardware render, we wedge ourselves in here...
+//                    @Override
+//                    public void doFrame(long frameTimeNanos) {
+//                        while (mInvalidated > 0) {
+//                            beforeDoFrame(mInvalidated);
+//                            drawHardwareAccelerated(getSurfaceHolder());
+//                            mInvalidated--;
+//                        }
+//                        afterDoFrame(mInvalidated);
+//                    }
+//                };
 
         /**
          * Implement Choreographer.FrameCallback.
@@ -80,23 +99,6 @@ public abstract class HardwareAcceleratedCanvasWatchFaceService extends CanvasWa
             afterDoFrame(mInvalidated);
         }
 
-//        private final Choreographer.FrameCallback mChoreographerFrameCallback =
-//                new Choreographer.FrameCallback() {
-//                    // We create our own Choreographer to intercept calls to "draw" in
-//                    // CanvasWatchFaceService.Engine. If we don't (i.e. by default)
-//                    // calls to CanvasWatchFaceService.Engine perform a software render.
-//                    // If we want to hardware render, we wedge ourselves in here...
-//                    @Override
-//                    public void doFrame(long frameTimeNanos) {
-//                        while (mInvalidated > 0) {
-//                            beforeDoFrame(mInvalidated);
-//                            drawHardwareAccelerated(getSurfaceHolder());
-//                            mInvalidated--;
-//                        }
-//                        afterDoFrame(mInvalidated);
-//                    }
-//                };
-
         protected void beforeDoFrame(int invalidated) {
         }
 
@@ -116,9 +118,6 @@ public abstract class HardwareAcceleratedCanvasWatchFaceService extends CanvasWa
                 drawHardwareAccelerated(holder);
             }
         }
-
-        // Track whether we've been invalidated; don't need to draw if we haven't.
-        private int mInvalidated = 0;
 
         @Override
         public void invalidate() {

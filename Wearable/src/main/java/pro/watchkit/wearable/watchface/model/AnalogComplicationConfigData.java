@@ -37,14 +37,6 @@ public class AnalogComplicationConfigData {
 
 
     /**
-     * Interface all ConfigItems must implement so the {@link RecyclerView}'s Adapter associated
-     * with the configuration activity knows what type of ViewHolder to inflate.
-     */
-    public interface ConfigItemType {
-        int getConfigType();
-    }
-
-    /**
      * Returns Watch Face Service class associated with configuration Activity.
      */
     public static Class getWatchFaceServiceClass() {
@@ -170,6 +162,14 @@ public class AnalogComplicationConfigData {
         settingsConfigData.add(nightVisionConfigItem);
 
         return settingsConfigData;
+    }
+
+    /**
+     * Interface all ConfigItems must implement so the {@link RecyclerView}'s Adapter associated
+     * with the configuration activity knows what type of ViewHolder to inflate.
+     */
+    public interface ConfigItemType {
+        int getConfigType();
     }
 
     /**

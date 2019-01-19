@@ -31,11 +31,9 @@ import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData;
  */
 public class ColorSelectionActivity extends Activity {
 
-    private static final String TAG = ColorSelectionActivity.class.getSimpleName();
-
     static final String EXTRA_SHARED_PREF =
             "pro.watchkit.wearable.watchface.config.extra.EXTRA_SHARED_PREF";
-
+    private static final String TAG = ColorSelectionActivity.class.getSimpleName();
     private WearableRecyclerView mConfigAppearanceWearableRecyclerView;
 
     private ColorSelectionRecyclerViewAdapter mColorSelectionRecyclerViewAdapter;

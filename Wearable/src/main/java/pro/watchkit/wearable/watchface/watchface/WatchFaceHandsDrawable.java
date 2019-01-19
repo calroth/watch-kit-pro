@@ -35,6 +35,18 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
     private static final float STRAIGHT_HAND_WIDTH_PERCENT = 2f; // 2% // 0.3f; // 0.3%
     private static final float HOUR_MINUTE_HAND_MIDPOINT = 0.333f;
     private static final float ROUND_RECT_RADIUS_PERCENT = 1f;
+    private Path mHub;
+    private WatchFacePreset mHourPreset = null;
+    private Path mHourHandActivePath = new Path();
+    private Path mHourHandAmbientPath = new Path();
+    private Path mHourHandPath = new Path();
+    private WatchFacePreset mMinutePreset = null;
+    private Path mMinuteHandActivePath = new Path();
+    private Path mMinuteHandAmbientPath = new Path();
+    private Path mMinuteHandPath = new Path();
+    private WatchFacePreset mSecondPreset = null;
+    private Path mSecondHandActivePath = new Path();
+    private Path mSecondHandPath = new Path();
 
     @Override
     public void draw(@NonNull Canvas canvas) {
@@ -101,8 +113,6 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
 //        Log.d("AnalogWatchFace", "End ticks 2");
     }
 
-    private Path mHub;
-
     private Path getHub() {
         if (mHub == null) {
             mHub = new Path();
@@ -110,11 +120,6 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
         }
         return mHub;
     }
-
-    private WatchFacePreset mHourPreset = null;
-    private Path mHourHandActivePath = new Path();
-    private Path mHourHandAmbientPath = new Path();
-    private Path mHourHandPath = new Path();
 
     private Path getHourHandShape(WatchFacePreset preset, float degreesRotation) {
         boolean cacheHit = false;
@@ -161,11 +166,6 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
         return mHourHandPath;
     }
 
-    private WatchFacePreset mMinutePreset = null;
-    private Path mMinuteHandActivePath = new Path();
-    private Path mMinuteHandAmbientPath = new Path();
-    private Path mMinuteHandPath = new Path();
-
     private Path getMinuteHandShape(WatchFacePreset preset, float degreesRotation) {
         boolean cacheHit = false;
 
@@ -210,10 +210,6 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
 
         return mMinuteHandPath;
     }
-
-    private WatchFacePreset mSecondPreset = null;
-    private Path mSecondHandActivePath = new Path();
-    private Path mSecondHandPath = new Path();
 
     private Path getSecondHandShape(WatchFacePreset preset, float degreesRotation) {
         boolean cacheHit = false;

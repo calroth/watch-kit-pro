@@ -113,12 +113,32 @@ final class BytePacker {
     }
 
     @NonNull
+    public String getStringFast() {
+        return byteArrayToString(mBytes);
+    }
+
+    @NonNull
     public void setStringFast(String s) {
         int length = s.length();
         mBytes = new byte[length / 2];
         for (int i = 0; i < length; i += 2) {
             mBytes[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
                     + Character.digit(s.charAt(i + 1), 16));
+        }
+    }
+
+    @NonNull
+    public String getString() {
+        String TAG = "AnalogWatchFace";
+//        Log.d(TAG, "Unencrypted: " + byteArrayToString(mBytes));
+        try {
+            mCipher.init(Cipher.ENCRYPT_MODE, mKey);
+            String result = byteArrayToString(mCipher.doFinal(mBytes));
+//            Log.d(TAG, "Encrypted: " + result);
+            return result;
+        } catch (IllegalBlockSizeException | BadPaddingException | InvalidKeyException ex) {
+            Log.d(TAG, ex.toString());
+            return "0000000000000000";
         }
     }
 
@@ -143,26 +163,6 @@ final class BytePacker {
         }
 
         rewind();
-    }
-
-    @NonNull
-    public String getStringFast() {
-        return byteArrayToString(mBytes);
-    }
-
-    @NonNull
-    public String getString() {
-        String TAG = "AnalogWatchFace";
-//        Log.d(TAG, "Unencrypted: " + byteArrayToString(mBytes));
-        try {
-            mCipher.init(Cipher.ENCRYPT_MODE, mKey);
-            String result = byteArrayToString(mCipher.doFinal(mBytes));
-//            Log.d(TAG, "Encrypted: " + result);
-            return result;
-        } catch (IllegalBlockSizeException | BadPaddingException | InvalidKeyException ex) {
-            Log.d(TAG, ex.toString());
-            return "0000000000000000";
-        }
     }
 
     @NonNull

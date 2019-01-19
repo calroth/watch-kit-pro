@@ -36,27 +36,13 @@ import pro.watchkit.wearable.watchface.model.Palette;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 
 abstract class WatchFaceDrawable extends Drawable {
-    class StateObject {
-        WatchFacePreset preset;
-        Collection<ComplicationHolder> complications;
-        int unreadNotifications;
-        int totalNotifications;
-        boolean ambient;
-    }
-
     StateObject mStateObject;
     Palette mPalette;
     GregorianCalendar mCalendar;
     LocationCalculator mLocationCalculator;
-
     int height = 0, width = 0;
     float pc = 0f; // percent, set to 0.01f * height, all units are based on percent
     float mCenterX, mCenterY;
-
-//    boolean ambient;
-
-//    private int mWatchHandShadowColor = Color.BLACK;
-//    private float mBevelOffset = 0.2f; // 0.2%
 
     void setState(StateObject mStateObject, Palette mPalette, GregorianCalendar mCalendar,
                   LocationCalculator mLocationCalculator) {
@@ -65,6 +51,11 @@ abstract class WatchFaceDrawable extends Drawable {
         this.mCalendar = mCalendar;
         this.mLocationCalculator = mLocationCalculator;
     }
+
+//    boolean ambient;
+
+//    private int mWatchHandShadowColor = Color.BLACK;
+//    private float mBevelOffset = 0.2f; // 0.2%
 
     void drawPath(Canvas canvas, Path p, Paint paint) {
         // 4 layers:
@@ -153,5 +144,13 @@ abstract class WatchFaceDrawable extends Drawable {
         // TODO: fill this in
         return PixelFormat.UNKNOWN;
 //        return 0;
+    }
+
+    class StateObject {
+        WatchFacePreset preset;
+        Collection<ComplicationHolder> complications;
+        int unreadNotifications;
+        int totalNotifications;
+        boolean ambient;
     }
 }
