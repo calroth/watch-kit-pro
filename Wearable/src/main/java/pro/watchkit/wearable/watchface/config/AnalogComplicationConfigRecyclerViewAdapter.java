@@ -426,7 +426,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 super(view);
 
                 backgroundComplication = new ComplicationHolder(null);
-                backgroundComplication.background = (ImageView) view.findViewById(R.id.watch_face_background);
+                backgroundComplication.background = view.findViewById(R.id.watch_face_background);
                 complications.add(backgroundComplication);
 //            mWatchFaceBackgroundPreviewImageView =
 //                    (ImageView) view.findViewById(R.id.watch_face_background);
@@ -440,8 +440,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                     ComplicationHolder f = new ComplicationHolder(null);
                     f.isForeground = true;
                     f.background =
-                            (ImageView) view.findViewById(R.id.left_complication_background);
-                    f.imageButton = (ImageButton) view.findViewById(R.id.left_complication);
+                            view.findViewById(R.id.left_complication_background);
+                    f.imageButton = view.findViewById(R.id.left_complication);
                     f.imageButton.setOnClickListener(this);
                     complications.add(f);
                 }
@@ -450,8 +450,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                     ComplicationHolder f = new ComplicationHolder(null);
                     f.isForeground = true;
                     f.background =
-                        (ImageView) view.findViewById(R.id.bottom_complication_background);
-                f.imageButton = (ImageButton) view.findViewById(R.id.bottom_complication);
+                            view.findViewById(R.id.bottom_complication_background);
+                f.imageButton = view.findViewById(R.id.bottom_complication);
                 f.imageButton.setOnClickListener(this);
                 complications.add(f);
             }
@@ -460,8 +460,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 ComplicationHolder f = new ComplicationHolder(null);
                 f.isForeground = true;
                 f.background =
-                        (ImageView) view.findViewById(R.id.right_complication_background);
-                f.imageButton = (ImageButton) view.findViewById(R.id.right_complication);
+                        view.findViewById(R.id.right_complication_background);
+                f.imageButton = view.findViewById(R.id.right_complication);
                 f.imageButton.setOnClickListener(this);
                 complications.add(f);
             }
@@ -743,7 +743,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
         public MoreOptionsViewHolder(View view) {
             super(view);
-            mMoreOptionsImageView = (ImageView) view.findViewById(R.id.more_options_image_view);
+            mMoreOptionsImageView = view.findViewById(R.id.more_options_image_view);
         }
 
         public void setIcon(int resourceId) {
@@ -767,7 +767,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         public ColorPickerViewHolder(View view) {
             super(view);
 
-            mAppearanceButton = (Button) view.findViewById(R.id.color_picker_button);
+            mAppearanceButton = view.findViewById(R.id.color_picker_button);
             view.setOnClickListener(this);
         }
 
@@ -868,7 +868,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         public UnreadNotificationViewHolder(View view) {
             super(view);
 
-            mUnreadNotificationSwitch = (Switch) view.findViewById(R.id.unread_notification_switch);
+            mUnreadNotificationSwitch = view.findViewById(R.id.unread_notification_switch);
             view.setOnClickListener(this);
         }
 
@@ -944,7 +944,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             super(view);
 
             mBackgroundComplicationButton =
-                    (Button) view.findViewById(R.id.background_complication_button);
+                    view.findViewById(R.id.background_complication_button);
             view.setOnClickListener(this);
         }
 
@@ -1011,7 +1011,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         public NightVisionViewHolder(View view) {
             super(view);
 
-            mNightVisionSwitch = (Switch) view.findViewById(R.id.night_vision_switch);
+            mNightVisionSwitch = view.findViewById(R.id.night_vision_switch);
             view.setOnClickListener(this);
         }
 

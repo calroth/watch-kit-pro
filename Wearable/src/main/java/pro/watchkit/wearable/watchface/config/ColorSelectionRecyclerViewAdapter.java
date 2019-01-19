@@ -86,7 +86,7 @@ public class ColorSelectionRecyclerViewAdapter extends
 
         public ColorViewHolder(final View view) {
             super(view);
-            mColorCircleImageView = (CircledImageView) view.findViewById(R.id.color);
+            mColorCircleImageView = view.findViewById(R.id.color);
             view.setOnClickListener(this);
         }
 
