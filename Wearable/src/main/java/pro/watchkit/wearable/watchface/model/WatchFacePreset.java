@@ -18,6 +18,8 @@
 
 package pro.watchkit.wearable.watchface.model;
 
+import android.util.Log;
+
 public final class WatchFacePreset {
     private BytePacker bytePacker = new BytePacker(16);
     private Palette backgroundPalette;
@@ -109,8 +111,14 @@ public final class WatchFacePreset {
     }
 
     public void setString(String s) {
-        bytePacker.setStringFast(s);
-        unpack();
+        if (s == null || s == "") return;
+        try {
+            bytePacker.setStringFast(s);
+            unpack();
+        } catch (java.lang.StringIndexOutOfBoundsException e) {
+            Log.d("AnalogWatchFace", "It failed: " + s);
+            Log.d("AnalogWatchFace", "It failed: " + e.toString());
+        }
     }
 
     public void pack() {
@@ -143,7 +151,7 @@ public final class WatchFacePreset {
         accentHighlightStyle.pack(bytePacker);
         baseAccentStyle.pack(bytePacker);
 
-        String s = bytePacker.getString();
+        //String s = bytePacker.getString();
     }
 
     public void unpack() {

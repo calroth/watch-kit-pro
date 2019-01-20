@@ -268,18 +268,21 @@ private final int COMPLICATION_AMBIENT_WHITE =
 
         // Pulls all user's preferences for watch face appearance.
         private void loadSavedPreferences() {
-            mStateObject.preset.setFillColor(mSharedPref.getInt(
-                    getApplicationContext().getString(R.string.saved_fill_color),
-                    Color.WHITE));
-            mStateObject.preset.setAccentColor(mSharedPref.getInt(
-                    getApplicationContext().getString(R.string.saved_accent_color),
-                    Color.BLUE));
-            mStateObject.preset.setHighlightColor(mSharedPref.getInt(
-                    getApplicationContext().getString(R.string.saved_marker_color),
-                    Color.RED));
-            mStateObject.preset.setBaseColor(mSharedPref.getInt(
-                    getApplicationContext().getString(R.string.saved_base_color),
-                    Color.BLACK));
+            mStateObject.preset.setString(mSharedPref.getString(
+                    getApplicationContext().getString(R.string.saved_watch_face_preset),
+                    null));
+//            mStateObject.preset.setFillColor(mSharedPref.getInt(
+//                    getApplicationContext().getString(R.string.saved_fill_color),
+//                    Color.WHITE));
+//            mStateObject.preset.setAccentColor(mSharedPref.getInt(
+//                    getApplicationContext().getString(R.string.saved_accent_color),
+//                    Color.BLUE));
+//            mStateObject.preset.setHighlightColor(mSharedPref.getInt(
+//                    getApplicationContext().getString(R.string.saved_marker_color),
+//                    Color.RED));
+//            mStateObject.preset.setBaseColor(mSharedPref.getInt(
+//                    getApplicationContext().getString(R.string.saved_base_color),
+//                    Color.BLACK));
 
 //            mPalette.setPalette(mStateObject.preset);
 

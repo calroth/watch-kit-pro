@@ -64,9 +64,11 @@ public class ColorSelectionActivity extends Activity {
 
         // Assigns SharedPreference String used to save color selected.
         String sharedPrefString = getIntent().getStringExtra(EXTRA_SHARED_PREF);
+        AnalogComplicationConfigData.ColorConfigItem.Type type =
+                AnalogComplicationConfigData.ColorConfigItem.Type.valueOf(sharedPrefString);
 
         mColorSelectionRecyclerViewAdapter = new ColorSelectionRecyclerViewAdapter(
-                sharedPrefString,
+                type,
                 AnalogComplicationConfigData.getColorOptionsDataSet());
 
         mConfigAppearanceWearableRecyclerView =

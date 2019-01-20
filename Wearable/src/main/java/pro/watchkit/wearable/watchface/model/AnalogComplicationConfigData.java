@@ -119,14 +119,16 @@ public class AnalogComplicationConfigData {
         settingsConfigData.add(new ColorConfigItem(
                 context.getString(R.string.config_fill_color_label),
                 R.drawable.icn_styles,
-                context.getString(R.string.saved_fill_color),
+                ColorConfigItem.Type.FILL,
+//                context.getString(R.string.saved_fill_color),
                 ColorSelectionActivity.class));
 
         // Data for accent color UX in settings Activity.
         settingsConfigData.add(new ColorConfigItem(
                 context.getString(R.string.config_accent_color_label),
                 R.drawable.icn_styles,
-                context.getString(R.string.saved_accent_color),
+                ColorConfigItem.Type.ACCENT,
+//                context.getString(R.string.saved_accent_color),
                 ColorSelectionActivity.class));
 
         // Data for highlight/marker (second hand) color UX in settings Activity.
@@ -134,7 +136,8 @@ public class AnalogComplicationConfigData {
                 new ColorConfigItem(
                         context.getString(R.string.config_marker_color_label),
                         R.drawable.icn_styles,
-                        context.getString(R.string.saved_marker_color),
+                        ColorConfigItem.Type.HIGHLIGHT,
+//                        context.getString(R.string.saved_marker_color),
                         ColorSelectionActivity.class);
         settingsConfigData.add(markerColorConfigItem);
 
@@ -142,17 +145,18 @@ public class AnalogComplicationConfigData {
         settingsConfigData.add(new ColorConfigItem(
                 context.getString(R.string.config_base_color_label),
                 R.drawable.icn_styles,
-                context.getString(R.string.saved_base_color),
+                ColorConfigItem.Type.BASE,
+//                context.getString(R.string.saved_base_color),
                 ColorSelectionActivity.class));
 
         // Data for Background color UX in settings Activity.
-        ConfigItemType backgroundColorConfigItem =
-                new ColorConfigItem(
-                        context.getString(R.string.config_background_color_label),
-                        R.drawable.icn_styles,
-                        context.getString(R.string.saved_background_color),
-                        ColorSelectionActivity.class);
-        settingsConfigData.add(backgroundColorConfigItem);
+//        ConfigItemType backgroundColorConfigItem =
+//                new ColorConfigItem(
+//                        context.getString(R.string.config_background_color_label),
+//                        R.drawable.icn_styles,
+//                        context.getString(R.string.saved_background_color),
+//                        ColorSelectionActivity.class);
+//        settingsConfigData.add(backgroundColorConfigItem);
 
         // Data for 'Unread Notifications' UX (toggle) in settings Activity.
         ConfigItemType unreadNotificationsConfigItem =
@@ -240,18 +244,22 @@ public class AnalogComplicationConfigData {
 
         private String name;
         private int iconResourceId;
-        private String sharedPrefString;
+        private Type type;
         private Class<ColorSelectionActivity> activityToChoosePreference;
 
         ColorConfigItem(
                 String name,
                 int iconResourceId,
-                String sharedPrefString,
+                Type type,
                 Class<ColorSelectionActivity> activity) {
             this.name = name;
             this.iconResourceId = iconResourceId;
-            this.sharedPrefString = sharedPrefString;
+            this.type = type;
             this.activityToChoosePreference = activity;
+        }
+
+        public Type getType() {
+            return type;
         }
 
         public String getName() {
@@ -262,9 +270,11 @@ public class AnalogComplicationConfigData {
             return iconResourceId;
         }
 
-        public String getSharedPrefString() {
-            return sharedPrefString;
-        }
+        public enum Type {FILL, ACCENT, HIGHLIGHT, BASE}
+
+//        public String getSharedPrefString() {
+//            return sharedPrefString;
+//        }
 
         public Class<ColorSelectionActivity> getActivityToChoosePreference() {
             return activityToChoosePreference;

@@ -108,7 +108,7 @@ final class BytePacker {
             mCipher = Cipher.getInstance("AES/ECB/NoPadding");
         } catch (NoSuchAlgorithmException | NoSuchPaddingException ex) {
             String TAG = "AnalogWatchFace";
-            Log.d(TAG, ex.toString());
+            Log.d(TAG, "setKey: " + ex.toString());
         }
     }
 
@@ -135,7 +135,7 @@ final class BytePacker {
             //            Log.d(TAG, "Encrypted: " + result);
             return byteArrayToString(mCipher.doFinal(mBytes));
         } catch (IllegalBlockSizeException | BadPaddingException | InvalidKeyException ex) {
-            Log.d(TAG, ex.toString());
+            Log.d(TAG, "getString: " + ex.toString());
             return "0000000000000000";
         }
     }
@@ -157,7 +157,7 @@ final class BytePacker {
             mBytes = mCipher.doFinal(encrypted);
 //            Log.d(TAG, "Decrypted: " + byteArrayToString(mBytes));
         } catch (IllegalBlockSizeException | BadPaddingException | InvalidKeyException ex) {
-            Log.d(TAG, ex.toString());
+            Log.d(TAG, "setString: " + ex.toString());
         }
 
         rewind();

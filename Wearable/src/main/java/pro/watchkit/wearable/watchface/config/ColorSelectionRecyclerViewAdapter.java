@@ -47,6 +47,8 @@ import java.util.ArrayList;
 
 import androidx.recyclerview.widget.RecyclerView;
 import pro.watchkit.wearable.watchface.R;
+import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData;
+import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 
 /**
  * Provides a binding from color selection data set to views that are displayed within
@@ -60,13 +62,16 @@ public class ColorSelectionRecyclerViewAdapter extends
     private static final String TAG = ColorSelectionRecyclerViewAdapter.class.getSimpleName();
 
     private ArrayList<Integer> mColorOptionsDataSet;
-    private String mSharedPrefString;
+    //    private String mSharedPrefString;
+    private AnalogComplicationConfigData.ColorConfigItem.Type type;
 
     public ColorSelectionRecyclerViewAdapter(
-            String sharedPrefString,
+            AnalogComplicationConfigData.ColorConfigItem.Type type,
+//            String sharedPrefString,
             ArrayList<Integer> colorSettingsDataSet) {
 
-        mSharedPrefString = sharedPrefString;
+//        mSharedPrefString = sharedPrefString;
+        this.type = type;
         mColorOptionsDataSet = colorSettingsDataSet;
     }
 
@@ -122,18 +127,60 @@ public class ColorSelectionRecyclerViewAdapter extends
 
             Activity activity = (Activity) view.getContext();
 
-            if (mSharedPrefString != null && !mSharedPrefString.isEmpty()) {
-                SharedPreferences sharedPref = activity.getSharedPreferences(
+            {
+                SharedPreferences preferences = activity.getSharedPreferences(
                         activity.getString(R.string.analog_complication_preference_file_key),
                         Context.MODE_PRIVATE);
 
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putInt(mSharedPrefString, color);
+                WatchFacePreset preset = new WatchFacePreset();
+
+                Log.d("AnalogWatchFace", "Read: " + preferences.getString(
+                        activity.getString(R.string.saved_watch_face_preset), ""));
+
+                Log.d("AnalogWatchFace", "Switch: " + type.toString() + " ~ " + type.name());
+
+                preset.setString(preferences.getString(
+                        activity.getString(R.string.saved_watch_face_preset), null));
+                switch (type) {
+                    case FILL:
+                        preset.setFillColor(color);
+                        break;
+                    case ACCENT:
+                        preset.setAccentColor(color);
+                        break;
+                    case HIGHLIGHT:
+                        preset.setHighlightColor(color);
+                        break;
+                    case BASE:
+                        preset.setBaseColor(color);
+                        break;
+                    default:
+                        // Should never happen...
+                        break;
+                }
+                Log.d("AnalogWatchFace", "Write: " + preset.getString());
+
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString(
+                        activity.getString(R.string.saved_watch_face_preset), preset.getString());
                 editor.commit();
 
-                // Let's Complication Config Activity know there was an update to colors.
+                // Lets Complication Config Activity know there was an update to colors.
                 activity.setResult(Activity.RESULT_OK);
             }
+
+//            if (mSharedPrefString != null && !mSharedPrefString.isEmpty()) {
+//                SharedPreferences sharedPref = activity.getSharedPreferences(
+//                        activity.getString(R.string.analog_complication_preference_file_key),
+//                        Context.MODE_PRIVATE);
+//
+//                SharedPreferences.Editor editor = sharedPref.edit();
+//                editor.putInt(mSharedPrefString, color);
+//                editor.commit();
+//
+//                // Let's Complication Config Activity know there was an update to colors.
+//                activity.setResult(Activity.RESULT_OK);
+//            }
             activity.finish();
         }
     }
