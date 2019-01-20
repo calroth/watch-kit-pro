@@ -171,7 +171,7 @@ public class AnalogComplicationConfigData {
                         R.drawable.ic_landscape_white);
         settingsConfigData.add(backgroundImageComplicationConfigItem);
 
-        // Data for 'Night VIsion' UX (toggle) in settings Activity.
+        // Data for 'Night Vision' UX (toggle) in settings Activity.
         ConfigItemType nightVisionConfigItem =
                 new NightVisionConfigItem(
                         context.getString(R.string.config_night_vision_label),
