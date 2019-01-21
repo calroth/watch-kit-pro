@@ -21,7 +21,7 @@ package pro.watchkit.wearable.watchface.model;
 import android.util.Log;
 
 public final class WatchFacePreset {
-    private BytePacker bytePacker = new BytePacker(16);
+    private BytePacker bytePacker = new BytePacker(24);
     private Palette backgroundPalette;
     private boolean minuteHandOverride;
     private boolean secondHandOverride;
@@ -151,6 +151,11 @@ public final class WatchFacePreset {
         accentHighlightStyle.pack(bytePacker);
         baseAccentStyle.pack(bytePacker);
 
+        bytePacker.putColor(mFillColor);
+        bytePacker.putColor(mHighlightColor);
+        bytePacker.putColor(mAccentColor);
+        bytePacker.putColor(mBaseColor);
+
         //String s = bytePacker.getString();
     }
 
@@ -183,6 +188,11 @@ public final class WatchFacePreset {
         accentFillStyle = GradientStyle.unpack(bytePacker);
         accentHighlightStyle = GradientStyle.unpack(bytePacker);
         baseAccentStyle = GradientStyle.unpack(bytePacker);
+
+        mFillColor = bytePacker.getColor();
+        mHighlightColor = bytePacker.getColor();
+        mAccentColor = bytePacker.getColor();
+        mBaseColor = bytePacker.getColor();
     }
 
     public void setPalette(

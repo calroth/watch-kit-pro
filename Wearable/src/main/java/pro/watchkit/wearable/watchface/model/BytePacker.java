@@ -19,6 +19,7 @@
 package pro.watchkit.wearable.watchface.model;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.util.Log;
 
 import java.security.InvalidKeyException;
@@ -251,6 +252,13 @@ final class BytePacker {
         put(1, value ? 1 : 0);
     }
 
+    void putColor(int value) {
+        put(8, Color.alpha(value));
+        put(8, Color.red(value));
+        put(8, Color.green(value));
+        put(8, Color.blue(value));
+    }
+
     void put(int length, Object[] values, Object value) {
         for (int i = 0; i < values.length; i++) {
             if (values[i] == value) {
@@ -329,6 +337,10 @@ final class BytePacker {
         Log.d(TAG, "get start=" + mBytePtr + " length=" + length +
                 " expected=" + expected + " actual=" + actual +
                 (expected == actual ? " ✔" : ""));
+    }
+
+    public int getColor() {
+        return Color.argb(get(8), get(8), get(8), get(8));
     }
 
     public boolean getBoolean() {
