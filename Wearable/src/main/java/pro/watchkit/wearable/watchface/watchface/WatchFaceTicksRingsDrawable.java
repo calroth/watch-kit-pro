@@ -85,7 +85,7 @@ final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
         int unreadNotifications = mStateObject.unreadNotifications;
         int totalNotifications = mStateObject.totalNotifications;
         Collection<ComplicationHolder> complications = mStateObject.complications;
-        Paint twelveTickPaint = mPalette.getPaintFromPreset(mStateObject.preset.getTwelveTickPalette());
+        Paint twelveTickPaint = mPalette.getPaintFromPreset(mStateObject.preset.getTwelveTickStyle());
 
         // Invalidate if complications, unread notifications or total notifications have changed.
         int currentSerial = Objects.hash(twelveTickPaint, complications, unreadNotifications, totalNotifications);

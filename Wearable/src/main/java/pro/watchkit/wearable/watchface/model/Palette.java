@@ -498,9 +498,9 @@ public final class Palette {
         Tuple t222 = generateMidPoint(t220, t223, 0.666667f, t202, t232, 0.666667f, t022, t322, 0.666667f).log();
     }
 
-    public Paint getPaintFromPreset(WatchFacePreset.Palette palette) {
+    public Paint getPaintFromPreset(WatchFacePreset.Style style) {
         regeneratePaints2();
-        switch (palette) {
+        switch (style) {
             case FILL:
                 return mFillPaint;
             case ACCENT:

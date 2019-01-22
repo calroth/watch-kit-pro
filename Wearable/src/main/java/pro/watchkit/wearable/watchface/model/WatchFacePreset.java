@@ -22,7 +22,7 @@ import android.util.Log;
 
 public final class WatchFacePreset {
     private BytePacker bytePacker = new BytePacker(24);
-    private Palette backgroundPalette;
+    private Style backgroundStyle;
     private boolean minuteHandOverride;
     private boolean secondHandOverride;
     private HandShape hourHandShape, minuteHandShape, secondHandShape;
@@ -30,16 +30,16 @@ public final class WatchFacePreset {
     private HandThickness hourHandThickness, minuteHandThickness, secondHandThickness;
     private HandStalk hourHandStalk;
     private HandStalk minuteHandStalk;
-    private Palette hourHandPalette, minuteHandPalette, secondHandPalette;
+    private Style hourHandStyle, minuteHandStyle, secondHandStyle;
     private boolean twelveTickOverride, sixtyTickOverride;
     private boolean twelveTickHidden, sixtyTickHidden;
     private TickShape fourTickShape, twelveTickShape, sixtyTickShape;
     private TickLength fourTickLength, twelveTickLength, sixtyTickLength;
     private TickThickness fourTickThickness, twelveTickThickness, sixtyTickThickness;
     private TickRadiusPosition fourTickRadiusPosition, twelveTickRadiusPosition, sixtyTickRadiusPosition;
-    private Palette fourTickPalette;
-    private Palette twelveTickPalette;
-    private Palette sixtyTickPalette;
+    private Style fourTickStyle;
+    private Style twelveTickStyle;
+    private Style sixtyTickStyle;
     private int mFillColor;
     private int mAccentColor;
     private int mHighlightColor;
@@ -58,30 +58,30 @@ public final class WatchFacePreset {
         setHighlightColor(-43230);
         setBaseColor(-16777216);
 
-        setBackgroundPalette(Palette.ACCENT_BASE);
+        setBackgroundStyle(Style.ACCENT_BASE);
 
         setHourHandShape(HandShape.DIAMOND);
         setHourHandLength(HandLength.LONG);
         setHourHandThickness(HandThickness.REGULAR);
         setHourHandStalk(HandStalk.SHORT);
-        setHourHandPalette(Palette.FILL_HIGHLIGHT);
+        setHourHandStyle(Style.FILL_HIGHLIGHT);
         setMinuteHandOverride(true);
         setMinuteHandShape(HandShape.DIAMOND);
         setMinuteHandLength(HandLength.LONG);
         setMinuteHandThickness(HandThickness.REGULAR);
         setMinuteHandStalk(HandStalk.SHORT);
-        setMinuteHandPalette(Palette.FILL_HIGHLIGHT);
+        setMinuteHandStyle(Style.FILL_HIGHLIGHT);
         setSecondHandOverride(false);
         setSecondHandShape(HandShape.STRAIGHT);
         setSecondHandLength(HandLength.SHORT);
         setSecondHandThickness(HandThickness.THIN);
-        setSecondHandPalette(Palette.FILL);
+        setSecondHandStyle(Style.FILL);
 
         setFourTickShape(TickShape.BAR);
         setFourTickLength(TickLength.MEDIUM);
         setFourTickThickness(TickThickness.THIN);
         setFourTickRadiusPosition(TickRadiusPosition.X_LONG);
-        setFourTickPalette(Palette.ACCENT_HIGHLIGHT);
+        setFourTickStyle(Style.ACCENT_HIGHLIGHT);
         setTwelveTickHidden(false);
         setTwelveTickOverride(false);
         setSixtyTickHidden(false);
@@ -124,13 +124,13 @@ public final class WatchFacePreset {
     public void pack() {
         bytePacker.rewind();
 
-        backgroundPalette.pack(bytePacker);
+        backgroundStyle.pack(bytePacker);
 
         hourHandShape.pack(bytePacker);
         hourHandLength.pack(bytePacker);
         hourHandThickness.pack(bytePacker);
         hourHandStalk.pack(bytePacker);
-        hourHandPalette.pack(bytePacker);
+        hourHandStyle.pack(bytePacker);
         // TODO: Fix minuteHandOverride and secondHandOverride
         bytePacker.put(minuteHandOverride);
         bytePacker.put(secondHandOverride);
@@ -139,12 +139,12 @@ public final class WatchFacePreset {
         minuteHandLength.pack(bytePacker);
         minuteHandThickness.pack(bytePacker);
         minuteHandStalk.pack(bytePacker);
-        minuteHandPalette.pack(bytePacker);
+        minuteHandStyle.pack(bytePacker);
 
         secondHandShape.pack(bytePacker);
         secondHandLength.pack(bytePacker);
         secondHandThickness.pack(bytePacker);
-        secondHandPalette.pack(bytePacker);
+        secondHandStyle.pack(bytePacker);
 
         fillHighlightStyle.pack(bytePacker);
         accentFillStyle.pack(bytePacker);
@@ -162,13 +162,13 @@ public final class WatchFacePreset {
     public void unpack() {
         bytePacker.rewind();
 
-        backgroundPalette = Palette.unpack(bytePacker);
+        backgroundStyle = Style.unpack(bytePacker);
 
         hourHandShape = HandShape.unpack(bytePacker);
         hourHandLength = HandLength.unpack(bytePacker);
         hourHandThickness = HandThickness.unpack(bytePacker);
         hourHandStalk = HandStalk.unpack(bytePacker);
-        hourHandPalette = Palette.unpack(bytePacker);
+        hourHandStyle = Style.unpack(bytePacker);
         // TODO: Fix minuteHandOverride and secondHandOverride
         minuteHandOverride = bytePacker.getBoolean();
         secondHandOverride = bytePacker.getBoolean();
@@ -177,12 +177,12 @@ public final class WatchFacePreset {
         minuteHandLength = HandLength.unpack(bytePacker);
         minuteHandThickness = HandThickness.unpack(bytePacker);
         minuteHandStalk = HandStalk.unpack(bytePacker);
-        minuteHandPalette = Palette.unpack(bytePacker);
+        minuteHandStyle = Style.unpack(bytePacker);
 
         secondHandShape = HandShape.unpack(bytePacker);
         secondHandLength = HandLength.unpack(bytePacker);
         secondHandThickness = HandThickness.unpack(bytePacker);
-        secondHandPalette = Palette.unpack(bytePacker);
+        secondHandStyle = Style.unpack(bytePacker);
 
         fillHighlightStyle = GradientStyle.unpack(bytePacker);
         accentFillStyle = GradientStyle.unpack(bytePacker);
@@ -219,12 +219,12 @@ public final class WatchFacePreset {
         this.sixtyTickOverride = sixtyTickOverride;
     }
 
-    public Palette getBackgroundPalette() {
-        return backgroundPalette;
+    public Style getBackgroundStyle() {
+        return backgroundStyle;
     }
 
-    public void setBackgroundPalette(Palette backgroundPalette) {
-        this.backgroundPalette = backgroundPalette;
+    public void setBackgroundStyle(Style backgroundStyle) {
+        this.backgroundStyle = backgroundStyle;
     }
 
     public HandShape getHourHandShape() {
@@ -302,29 +302,29 @@ public final class WatchFacePreset {
         this.secondHandThickness = secondHandThickness;
     }
 
-    public Palette getHourHandPalette() {
-        return hourHandPalette;
+    public Style getHourHandStyle() {
+        return hourHandStyle;
     }
 
-    public void setHourHandPalette(Palette hourHandPalette) {
-        this.hourHandPalette = hourHandPalette;
+    public void setHourHandStyle(Style hourHandStyle) {
+        this.hourHandStyle = hourHandStyle;
     }
 
-    public Palette getMinuteHandPalette() {
-        return minuteHandOverride ? minuteHandPalette : hourHandPalette;
+    public Style getMinuteHandStyle() {
+        return minuteHandOverride ? minuteHandStyle : hourHandStyle;
     }
 
-    public void setMinuteHandPalette(Palette minuteHandPalette) {
-        this.minuteHandPalette = minuteHandPalette;
+    public void setMinuteHandStyle(Style minuteHandStyle) {
+        this.minuteHandStyle = minuteHandStyle;
     }
 
-    public Palette getSecondHandPalette() {
+    public Style getSecondHandStyle() {
         // If not overridden, the default is just a plain and regular second hand.
-        return secondHandOverride ? secondHandPalette : Palette.HIGHLIGHT;
+        return secondHandOverride ? secondHandStyle : Style.HIGHLIGHT;
     }
 
-    public void setSecondHandPalette(Palette secondHandPalette) {
-        this.secondHandPalette = secondHandPalette;
+    public void setSecondHandStyle(Style secondHandStyle) {
+        this.secondHandStyle = secondHandStyle;
     }
 
     public boolean isTwelveTickHidden() {
@@ -407,28 +407,28 @@ public final class WatchFacePreset {
         return sixtyTickOverride ? sixtyTickRadiusPosition : sixtyTickRadiusPosition;
     }
 
-    public Palette getFourTickPalette() {
-        return fourTickPalette;
+    public Style getFourTickStyle() {
+        return fourTickStyle;
     }
 
-    public void setFourTickPalette(Palette fourTickPalette) {
-        this.fourTickPalette = fourTickPalette;
+    public void setFourTickStyle(Style fourTickStyle) {
+        this.fourTickStyle = fourTickStyle;
     }
 
-    public Palette getTwelveTickPalette() {
-        return twelveTickOverride ? twelveTickPalette : fourTickPalette;
+    public Style getTwelveTickStyle() {
+        return twelveTickOverride ? twelveTickStyle : fourTickStyle;
     }
 
-    public void setTwelveTickPalette(Palette twelveTickPalette) {
-        this.twelveTickPalette = twelveTickPalette;
+    public void setTwelveTickStyle(Style twelveTickStyle) {
+        this.twelveTickStyle = twelveTickStyle;
     }
 
-    public Palette getSixtyTickPalette() {
-        return sixtyTickOverride ? sixtyTickPalette : fourTickPalette;
+    public Style getSixtyTickStyle() {
+        return sixtyTickOverride ? sixtyTickStyle : fourTickStyle;
     }
 
-    public void setSixtyTickPalette(Palette sixtyTickPalette) {
-        this.sixtyTickPalette = sixtyTickPalette;
+    public void setSixtyTickStyle(Style sixtyTickStyle) {
+        this.sixtyTickStyle = sixtyTickStyle;
     }
 
     public GradientStyle getFillHighlightStyle() {
@@ -618,12 +618,13 @@ public final class WatchFacePreset {
             bytePacker.put(bits, values(), this);
         }
     }
-    public enum Palette {
+
+    public enum Style {
         FILL, ACCENT, HIGHLIGHT, BASE, FILL_HIGHLIGHT, ACCENT_FILL, ACCENT_HIGHLIGHT, ACCENT_BASE;
 
         private static final int bits = 3;
 
-        static Palette unpack(BytePacker bytePacker) {
+        static Style unpack(BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
