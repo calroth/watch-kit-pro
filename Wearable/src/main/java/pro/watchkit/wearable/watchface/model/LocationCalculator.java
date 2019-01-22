@@ -108,7 +108,7 @@ public final class LocationCalculator {
     }
 
     public int getDuskDawnColor(int original) {
-        return Palette.getIntermediateColor(AMBIENT_WHITE_R, original, getDuskDawnMultiplier());
+        return PaintBox.getIntermediateColor(AMBIENT_WHITE_R, original, getDuskDawnMultiplier());
 
 //        double d = getDuskDawnMultiplier();
 //        double e = 1d - d;

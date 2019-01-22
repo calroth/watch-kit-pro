@@ -50,7 +50,7 @@ import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
-import pro.watchkit.wearable.watchface.model.Palette;
+import pro.watchkit.wearable.watchface.model.PaintBox;
 
 final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
     private static final boolean useNewBackgroundCachingMethod = true;
@@ -85,7 +85,7 @@ final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
         int unreadNotifications = mStateObject.unreadNotifications;
         int totalNotifications = mStateObject.totalNotifications;
         Collection<ComplicationHolder> complications = mStateObject.complications;
-        Paint twelveTickPaint = mPalette.getPaintFromPreset(mStateObject.preset.getTwelveTickStyle());
+        Paint twelveTickPaint = mPaintBox.getPaintFromPreset(mStateObject.preset.getTwelveTickStyle());
 
         // Invalidate if complications, unread notifications or total notifications have changed.
         int currentSerial = Objects.hash(twelveTickPaint, complications, unreadNotifications, totalNotifications);
@@ -97,7 +97,7 @@ final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
 
         // Invalidate if our night vision tint has changed
         if (mStateObject.ambient) {
-            original = Palette.AMBIENT_WHITE;
+            original = PaintBox.AMBIENT_WHITE;
             currentNightVisionTint = mLocationCalculator.getDuskDawnColor(original);
             if (mPreviousNightVisionTint != currentNightVisionTint) {
                 Log.d("AnalogWatchFace", "currentNightVisionTint: was "
@@ -357,13 +357,13 @@ final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
                 int color = -1;
                 // Save and restore ambient color; for caching we always use white.
                 if (mStateObject.ambient) {
-                    color = mPalette.getAmbientPaint().getColor();
-                    mPalette.getAmbientPaint().setColor(Palette.AMBIENT_WHITE);
+                    color = mPaintBox.getAmbientPaint().getColor();
+                    mPaintBox.getAmbientPaint().setColor(PaintBox.AMBIENT_WHITE);
                 }
                 drawPath(tempCanvas, p, twelveTickPaint);
-//                drawPath(tempCanvas, p, mPalette.getTickPaint());
+//                drawPath(tempCanvas, p, mPaintBox.getTickPaint());
                 if (mStateObject.ambient) {
-                    mPalette.getAmbientPaint().setColor(color);
+                    mPaintBox.getAmbientPaint().setColor(color);
                 }
 
                 // Hardware Bitmap Power
@@ -378,7 +378,7 @@ final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
 //                }
             } else {
                 drawPath(canvas, p, twelveTickPaint);
-//                drawPath(canvas, p, mPalette.getTickPaint());
+//                drawPath(canvas, p, mPaintBox.getTickPaint());
             }
 
 //        Log.d("AnalogWatchFace", "End ticks");

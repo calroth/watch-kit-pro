@@ -35,7 +35,7 @@ import java.util.Objects;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
-public final class Palette {
+public final class PaintBox {
     public static final int AMBIENT_WHITE =
             Color.argb(0xff, 0xff, 0xff, 0xff);
 
@@ -68,7 +68,7 @@ public final class Palette {
     private WatchFacePreset preset;
     private int mPreviousSerial = -1;
 
-    public Palette(WatchFacePreset preset) {
+    public PaintBox(WatchFacePreset preset) {
         this.preset = preset;
         mFillPaint = newDefaultPaint();
         mAccentPaint = newDefaultPaint();

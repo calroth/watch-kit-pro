@@ -32,22 +32,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.LocationCalculator;
-import pro.watchkit.wearable.watchface.model.Palette;
+import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 
 abstract class WatchFaceDrawable extends Drawable {
     StateObject mStateObject;
-    Palette mPalette;
+    PaintBox mPaintBox;
     GregorianCalendar mCalendar;
     LocationCalculator mLocationCalculator;
     int height = 0, width = 0;
     float pc = 0f; // percent, set to 0.01f * height, all units are based on percent
     float mCenterX, mCenterY;
 
-    void setState(StateObject mStateObject, Palette mPalette, GregorianCalendar mCalendar,
+    void setState(StateObject mStateObject, PaintBox mPaintBox, GregorianCalendar mCalendar,
                   LocationCalculator mLocationCalculator) {
         this.mStateObject = mStateObject;
-        this.mPalette = mPalette;
+        this.mPaintBox = mPaintBox;
         this.mCalendar = mCalendar;
         this.mLocationCalculator = mLocationCalculator;
     }
@@ -67,10 +67,10 @@ abstract class WatchFaceDrawable extends Drawable {
             float mBevelOffset = 0.2f; // 0.2%
 
             // Shadow
-            canvas.drawPath(p, mPalette.getShadowPaint());
+            canvas.drawPath(p, mPaintBox.getShadowPaint());
             // Primary bevel, offset to the top left
             {
-                Paint bezelPaint1 = mPalette.getBezelPaint1();
+                Paint bezelPaint1 = mPaintBox.getBezelPaint1();
                 Path primaryP = new Path();
                 p.offset(-(mBevelOffset * pc), -(mBevelOffset * pc), primaryP);
                 bezelPaint1.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -78,7 +78,7 @@ abstract class WatchFaceDrawable extends Drawable {
             }
             // Secondary bevel, offset to the top right
             {
-                Paint bezelPaint2 = mPalette.getBezelPaint2();
+                Paint bezelPaint2 = mPaintBox.getBezelPaint2();
                 Path secondaryP = new Path();
                 p.offset((mBevelOffset * pc), (mBevelOffset * pc), secondaryP);
                 bezelPaint2.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -90,7 +90,7 @@ abstract class WatchFaceDrawable extends Drawable {
         } else {
             // Ambient.
             // The path itself.
-            canvas.drawPath(p, mPalette.getAmbientPaint());
+            canvas.drawPath(p, mPaintBox.getAmbientPaint());
         }
     }
 
@@ -121,7 +121,7 @@ abstract class WatchFaceDrawable extends Drawable {
     @Override
     public void draw(@NonNull Canvas canvas) {
         // Check width and height.
-        mPalette.onWidthAndHeightChanged(canvas.getWidth(), canvas.getHeight());
+        mPaintBox.onWidthAndHeightChanged(canvas.getWidth(), canvas.getHeight());
         if (canvas.getWidth() != width || canvas.getHeight() != height) {
             onWidthAndHeightChanged(canvas);
         }
