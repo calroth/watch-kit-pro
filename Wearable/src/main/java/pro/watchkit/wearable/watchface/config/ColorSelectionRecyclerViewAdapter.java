@@ -37,14 +37,23 @@ package pro.watchkit.wearable.watchface.config;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.wearable.view.CircledImageView;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.Paint;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData;
@@ -106,16 +115,68 @@ public class ColorSelectionRecyclerViewAdapter extends
     public class ColorViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
-        private CircledImageView mColorCircleImageView;
+//        private CircledImageView mColorCircleImageView;
+
+        private ImageView mFourColorImageView;
+        @ColorInt
+        private int mColor = Color.WHITE;
 
         public ColorViewHolder(final View view) {
             super(view);
-            mColorCircleImageView = view.findViewById(R.id.color);
+//            mColorCircleImageView = view.findViewById(R.id.color);
+            mFourColorImageView = view.findViewById(R.id.color);
+            mFourColorImageView.setImageDrawable(new Drawable() {
+                @Override
+                public void draw(@NonNull Canvas canvas) {
+                    // Draw four circles.
+                    float radius = (canvas.getHeight() / 2f);// - 20f;
+                    float gap = (canvas.getWidth() - (8f * radius)) / 3f;
+                    Paint p = new Paint();
+                    p.setColor(mColor);
+                    p.setStyle(Paint.Style.FILL);
+                    p.setAntiAlias(true);
+                    android.graphics.Rect r = canvas.getClipBounds();
+
+                    // Circle 1
+                    float cx = r.left + radius;
+                    float cy = (r.top + r.bottom) / 2f;
+                    canvas.drawCircle(cx, cy, radius, p);
+
+                    // Circle 2
+                    cx += radius + gap + radius;
+                    canvas.drawCircle(cx, cy, radius, p);
+
+
+                    // Circle 3
+                    cx += radius + gap + radius;
+                    canvas.drawCircle(cx, cy, radius, p);
+
+                    // Circle 4
+                    cx += radius + gap + radius;
+                    canvas.drawCircle(cx, cy, radius, p);
+                }
+
+                @Override
+                public void setAlpha(int alpha) {
+
+                }
+
+                @Override
+                public void setColorFilter(@Nullable ColorFilter colorFilter) {
+
+                }
+
+                @Override
+                public int getOpacity() {
+                    return PixelFormat.OPAQUE;
+                }
+            });
             view.setOnClickListener(this);
         }
 
         public void setColor(int color) {
-            mColorCircleImageView.setCircleColor(color);
+            mColor = color;
+//            mColorCircleImageView.setCircleColor(color);
         }
 
         @Override
