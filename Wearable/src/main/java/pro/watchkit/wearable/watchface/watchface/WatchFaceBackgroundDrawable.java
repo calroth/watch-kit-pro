@@ -23,7 +23,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import androidx.annotation.NonNull;
-import pro.watchkit.wearable.watchface.model.Palette;
+import pro.watchkit.wearable.watchface.model.PaintBox;
 
 final class WatchFaceBackgroundDrawable extends WatchFaceDrawable {
     @Override
@@ -31,17 +31,17 @@ final class WatchFaceBackgroundDrawable extends WatchFaceDrawable {
         super.draw(canvas);
 
         if (mStateObject.ambient) {
-            mPalette.getAmbientPaint().setColor(
-                    mLocationCalculator.getDuskDawnColor(Palette.AMBIENT_WHITE));
+            mPaintBox.getAmbientPaint().setColor(
+                    mLocationCalculator.getDuskDawnColor(PaintBox.AMBIENT_WHITE));
         }
 
         if (mStateObject.ambient /*&& (mLowBitAmbient || mBurnInProtection)*/) {
             canvas.drawColor(Color.BLACK);
         } else {
-            Paint p = mPalette.getPaintFromPreset(mStateObject.preset.getBackgroundPalette());
+            Paint p = mPaintBox.getPaintFromPreset(mStateObject.preset.getBackgroundStyle());
             canvas.drawPaint(p);
-//            mPalette.getBaseAccentPaint().setStyle(Paint.Style.FILL);
-//            canvas.drawPaint(mPalette.getBackgroundPaint());
+//            mPaintBox.getBaseAccentPaint().setStyle(Paint.Style.FILL);
+//            canvas.drawPaint(mPaintBox.getBackgroundPaint());
         }
     }
 }

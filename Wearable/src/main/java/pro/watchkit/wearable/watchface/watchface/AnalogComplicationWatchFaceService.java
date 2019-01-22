@@ -72,7 +72,7 @@ import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.LocationCalculator;
-import pro.watchkit.wearable.watchface.model.Palette;
+import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 
 public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanvasWatchFaceService {
@@ -134,7 +134,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
                     }
                 };
         private WatchFaceDrawable.StateObject mStateObject;
-        private Palette mPalette;
+        private PaintBox mPaintBox;
         private GregorianCalendar mCalendar = new GregorianCalendar();
         // Used to pull user's preferences for background color, highlight color, and visual
         // indicating there are unread notifications.
@@ -209,13 +209,13 @@ private final int COMPLICATION_AMBIENT_WHITE =
 
             mStateObject = mWatchFaceDrawables[0].new StateObject();
             mStateObject.preset = new WatchFacePreset();
-            mPalette = new Palette(mStateObject.preset);
+            mPaintBox = new PaintBox(mStateObject.preset);
 
             loadSavedPreferences();
             initializeComplications();
 
             for (WatchFaceDrawable d : mWatchFaceDrawables) {
-                d.setState(mStateObject, mPalette, mCalendar, mLocationCalculator);
+                d.setState(mStateObject, mPaintBox, mCalendar, mLocationCalculator);
             }
 
             FusedLocationProviderClient locationClient
@@ -284,7 +284,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
 //                    getApplicationContext().getString(R.string.saved_base_color),
 //                    Color.BLACK));
 
-//            mPalette.setPalette(mStateObject.preset);
+//            mPaintBox.setPalette(mStateObject.preset);
 
 //            painter.setPalette(-1, -10011977, -43230, -16777216);
 //            painter.setPalette(preset);
@@ -358,7 +358,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
             boolean burnInProtection = properties.getBoolean(PROPERTY_BURN_IN_PROTECTION, false);
 
 //            painter.setLowBitAmbientBurnInProtection(lowBitAmbient, burnInProtection);
-            mPalette.getAmbientPaint().setAntiAlias(!lowBitAmbient);
+            mPaintBox.getAmbientPaint().setAntiAlias(!lowBitAmbient);
 
             // Updates complications to properly render in ambient mode based on the
             // screen's capabilities.

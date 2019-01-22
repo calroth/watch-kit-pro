@@ -35,7 +35,7 @@ import java.util.Objects;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
-public final class Palette {
+public final class PaintBox {
     public static final int AMBIENT_WHITE =
             Color.argb(0xff, 0xff, 0xff, 0xff);
 
@@ -80,7 +80,7 @@ public final class Palette {
             0x7567E3, 0x62619A, 0x495855, 0x234F0C, 0x5500E1, 0x3F068F, 0x270D45, 0x000000,
     };
 
-    public Palette(WatchFacePreset preset) {
+    public PaintBox(WatchFacePreset preset) {
         this.preset = preset;
         mFillPaint = newDefaultPaint();
         mAccentPaint = newDefaultPaint();
@@ -510,9 +510,9 @@ public final class Palette {
         Tuple t222 = generateMidPoint(t220, t223, 0.666667f, t202, t232, 0.666667f, t022, t322, 0.666667f).log();
     }
 
-    public Paint getPaintFromPreset(WatchFacePreset.Palette palette) {
+    public Paint getPaintFromPreset(WatchFacePreset.Style style) {
         regeneratePaints2();
-        switch (palette) {
+        switch (style) {
             case FILL:
                 return mFillPaint;
             case ACCENT:
