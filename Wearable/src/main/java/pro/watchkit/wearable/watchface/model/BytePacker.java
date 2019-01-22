@@ -253,7 +253,6 @@ final class BytePacker {
     }
 
     void putColor(int value) {
-        put(8, Color.alpha(value));
         put(8, Color.red(value));
         put(8, Color.green(value));
         put(8, Color.blue(value));
@@ -340,7 +339,7 @@ final class BytePacker {
     }
 
     public int getColor() {
-        return Color.argb(get(8), get(8), get(8), get(8));
+        return Color.argb(0xff, get(8), get(8), get(8));
     }
 
     public boolean getBoolean() {
