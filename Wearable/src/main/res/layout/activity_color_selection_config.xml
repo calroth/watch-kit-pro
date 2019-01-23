@@ -32,17 +32,14 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<FrameLayout
+<androidx.wear.widget.WearableRecyclerView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/wearable_recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_grey"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    tools:context="pro.watchkit.wearable.watchface.config.ColorSelectionActivity">
-    <androidx.wear.widget.WearableRecyclerView
-        android:id="@+id/wearable_recycler_view"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent" />
-</FrameLayout>
+    android:scrollbars="vertical"
+    tools:context="pro.watchkit.wearable.watchface.config.ColorSelectionActivity" />
