@@ -68,14 +68,14 @@ public class ColorSelectionActivity extends Activity {
                 AnalogComplicationConfigData.ColorConfigItem.Type.valueOf(sharedPrefString);
 
         mColorSelectionRecyclerViewAdapter = new ColorSelectionRecyclerViewAdapter(
-                type,
-                AnalogComplicationConfigData.getColorOptionsDataSet());
+                type/*,
+                AnalogComplicationConfigData.getColorOptionsDataSet()*/);
 
         mConfigAppearanceWearableRecyclerView =
                 findViewById(R.id.wearable_recycler_view);
 
         // Aligns the first and last items on the list vertically centered on the screen.
-        mConfigAppearanceWearableRecyclerView.setEdgeItemsCenteringEnabled(true);
+//        mConfigAppearanceWearableRecyclerView.setEdgeItemsCenteringEnabled(true);
 
         mConfigAppearanceWearableRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 

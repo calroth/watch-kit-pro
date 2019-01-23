@@ -42,14 +42,14 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
-import java.util.ArrayList;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -57,6 +57,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData;
+import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 
 /**
@@ -70,18 +71,19 @@ public class ColorSelectionRecyclerViewAdapter extends
         RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = ColorSelectionRecyclerViewAdapter.class.getSimpleName();
 
-    private ArrayList<Integer> mColorOptionsDataSet;
+    //    private ArrayList<Integer> mColorOptionsDataSet;
     //    private String mSharedPrefString;
     private AnalogComplicationConfigData.ColorConfigItem.Type type;
 
     public ColorSelectionRecyclerViewAdapter(
-            AnalogComplicationConfigData.ColorConfigItem.Type type,
+            AnalogComplicationConfigData.ColorConfigItem.Type type//,
 //            String sharedPrefString,
-            ArrayList<Integer> colorSettingsDataSet) {
+//            ArrayList<Integer> colorSettingsDataSet
+    ) {
 
 //        mSharedPrefString = sharedPrefString;
         this.type = type;
-        mColorOptionsDataSet = colorSettingsDataSet;
+//        mColorOptionsDataSet = colorSettingsDataSet;
     }
 
     @Override
@@ -98,14 +100,15 @@ public class ColorSelectionRecyclerViewAdapter extends
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         Log.d(TAG, "Element " + position + " set.");
 
-        Integer color = mColorOptionsDataSet.get(position);
-        ColorViewHolder colorViewHolder = (ColorViewHolder) viewHolder;
-        colorViewHolder.setColor(color);
+//        Integer color = mColorOptionsDataSet.get(position);
+//        ColorViewHolder colorViewHolder = (ColorViewHolder) viewHolder;
+//        colorViewHolder.setColor(color);
     }
 
     @Override
     public int getItemCount() {
-        return mColorOptionsDataSet.size();
+//        return mColorOptionsDataSet.size();
+        return 4;
     }
 
     /**
@@ -121,6 +124,13 @@ public class ColorSelectionRecyclerViewAdapter extends
         @ColorInt
         private int mColor = Color.WHITE;
 
+        private float touchX, touchY;
+
+//        public void setColor(int color) {
+//            mColor = color;
+////            mColorCircleImageView.setCircleColor(color);
+//        }
+
         public ColorViewHolder(final View view) {
             super(view);
 //            mColorCircleImageView = view.findViewById(R.id.color);
@@ -128,32 +138,40 @@ public class ColorSelectionRecyclerViewAdapter extends
             mFourColorImageView.setImageDrawable(new Drawable() {
                 @Override
                 public void draw(@NonNull Canvas canvas) {
-                    // Draw four circles.
-                    float radius = (canvas.getHeight() / 2f);// - 20f;
-                    float gap = (canvas.getWidth() - (8f * radius)) / 3f;
+                    int position = getAdapterPosition() * 16;
+
+//                    Paint q = new Paint();
+//                    q.setColor(Color.RED);
+//                    q.setStyle(Paint.Style.FILL_AND_STROKE);
+//                    q.setAntiAlias(true);
+//
+//                    canvas.drawRect(getBounds(), q);
+
+                    Paint o = new Paint();
+                    o.setColor(Color.WHITE);
+                    o.setStyle(Paint.Style.STROKE);
+                    o.setAntiAlias(true);
+                    o.setStrokeWidth(4.0f);
+
+                    float x = getBounds().width() / 4;
+                    float y = getBounds().height() / 4;
+                    float radius = Math.min(x * 0.4f, y * 0.4f);
+
                     Paint p = new Paint();
-                    p.setColor(mColor);
                     p.setStyle(Paint.Style.FILL);
                     p.setAntiAlias(true);
-                    android.graphics.Rect r = canvas.getClipBounds();
 
-                    // Circle 1
-                    float cx = r.left + radius;
-                    float cy = (r.top + r.bottom) / 2f;
-                    canvas.drawCircle(cx, cy, radius, p);
-
-                    // Circle 2
-                    cx += radius + gap + radius;
-                    canvas.drawCircle(cx, cy, radius, p);
-
-
-                    // Circle 3
-                    cx += radius + gap + radius;
-                    canvas.drawCircle(cx, cy, radius, p);
-
-                    // Circle 4
-                    cx += radius + gap + radius;
-                    canvas.drawCircle(cx, cy, radius, p);
+                    // Draw 16 circles
+                    for (int i = 0; i < 4; i++) {
+                        for (int j = 0; j < 4; j++) {
+                            float cx = (i * x) + (0.5f * x);
+                            float cy = (j * y) + (0.5f * y);
+                            p.setColor(PaintBox.colors[position]);
+                            position++;
+                            canvas.drawCircle(cx, cy, radius, p);
+                            canvas.drawCircle(cx, cy, radius, o);
+                        }
+                    }
                 }
 
                 @Override
@@ -172,33 +190,53 @@ public class ColorSelectionRecyclerViewAdapter extends
                 }
             });
             view.setOnClickListener(this);
-        }
 
-        public void setColor(int color) {
-            mColor = color;
-//            mColorCircleImageView.setCircleColor(color);
+            mFourColorImageView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    // save the X,Y coordinates
+                    if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                        Rect bounds = mFourColorImageView.getDrawable().getBounds();
+
+                        int[] t = new int[2];
+                        mFourColorImageView.getLocationOnScreen(t);
+
+                        float x = mFourColorImageView.getDrawable().getBounds().width();
+                        float y = mFourColorImageView.getDrawable().getBounds().height();
+
+                        Log.d("Wot3", String.format("%f %f (%d %d %d %d) (%d %d)", event.getX(), event.getY(), bounds.left, bounds.right, bounds.top, bounds.bottom, t[0], t[1]));
+                        touchX = event.getX();
+                        touchY = event.getY();
+                    }
+
+                    // let the touch event pass on to whoever needs it
+                    return false;
+                }
+            });
         }
 
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            Integer color = mColorOptionsDataSet.get(position);
+//            Integer color = mColorOptionsDataSet.get(position);
 
-            Log.d(TAG, "Color: " + color + " onClick() position: " + position);
+            float x = mFourColorImageView.getDrawable().getBounds().width() / 4f;
+            float y = mFourColorImageView.getDrawable().getBounds().height() / 4f;
+
+            int i = (int) Math.floor(touchX / x);
+            int j = (int) Math.floor(touchY / y);
+
+            Log.d("Wot", String.format("%f %f / %f %f / %d %d", touchX, touchY, x, y, i, j));
+
+            int color = PaintBox.colors[(position * 16) + (i * 4) + j];
 
             Activity activity = (Activity) view.getContext();
-
             {
                 SharedPreferences preferences = activity.getSharedPreferences(
                         activity.getString(R.string.analog_complication_preference_file_key),
                         Context.MODE_PRIVATE);
 
                 WatchFacePreset preset = new WatchFacePreset();
-
-                Log.d("AnalogWatchFace", "Read: " + preferences.getString(
-                        activity.getString(R.string.saved_watch_face_preset), ""));
-
-                Log.d("AnalogWatchFace", "Switch: " + type.toString() + " ~ " + type.name());
 
                 preset.setString(preferences.getString(
                         activity.getString(R.string.saved_watch_face_preset), null));
