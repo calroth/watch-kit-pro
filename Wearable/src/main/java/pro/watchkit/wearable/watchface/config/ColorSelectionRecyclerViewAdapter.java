@@ -42,11 +42,10 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
-import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -108,7 +107,8 @@ public class ColorSelectionRecyclerViewAdapter extends
     @Override
     public int getItemCount() {
 //        return mColorOptionsDataSet.size();
-        return 4;
+//        return 4;
+        return PaintBox.colors.length;
     }
 
     /**
@@ -138,7 +138,7 @@ public class ColorSelectionRecyclerViewAdapter extends
             mFourColorImageView.setImageDrawable(new Drawable() {
                 @Override
                 public void draw(@NonNull Canvas canvas) {
-                    int position = getAdapterPosition() * 16;
+                    int position = getAdapterPosition();// * 16;
 
 //                    Paint q = new Paint();
 //                    q.setColor(Color.RED);
@@ -153,25 +153,30 @@ public class ColorSelectionRecyclerViewAdapter extends
                     o.setAntiAlias(true);
                     o.setStrokeWidth(4.0f);
 
-                    float x = getBounds().width() / 4;
-                    float y = getBounds().height() / 4;
-                    float radius = Math.min(x * 0.4f, y * 0.4f);
+                    RectF bounds = new RectF(getBounds());
+
+//                    float x = getBounds().width() / 4;
+//                    float y = getBounds().height() / 4;
+//                    float radius = Math.min(x * 0.4f, y * 0.4f);
 
                     Paint p = new Paint();
                     p.setStyle(Paint.Style.FILL);
                     p.setAntiAlias(true);
+                    p.setColor(PaintBox.colors[position]);
+                    canvas.drawOval(bounds, p);
+                    canvas.drawOval(bounds, o);
 
-                    // Draw 16 circles
-                    for (int i = 0; i < 4; i++) {
-                        for (int j = 0; j < 4; j++) {
-                            float cx = (i * x) + (0.5f * x);
-                            float cy = (j * y) + (0.5f * y);
-                            p.setColor(PaintBox.colors[position]);
-                            position++;
-                            canvas.drawCircle(cx, cy, radius, p);
-                            canvas.drawCircle(cx, cy, radius, o);
-                        }
-                    }
+//                    // Draw 16 circles
+//                    for (int i = 0; i < 4; i++) {
+//                        for (int j = 0; j < 4; j++) {
+//                            float cx = (i * x) + (0.5f * x);
+//                            float cy = (j * y) + (0.5f * y);
+//                            p.setColor(PaintBox.colors[position]);
+//                            position++;
+//                            canvas.drawCircle(cx, cy, radius, p);
+//                            canvas.drawCircle(cx, cy, radius, o);
+//                        }
+//                    }
                 }
 
                 @Override
@@ -191,44 +196,45 @@ public class ColorSelectionRecyclerViewAdapter extends
             });
             view.setOnClickListener(this);
 
-            mFourColorImageView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    // save the X,Y coordinates
-                    if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-                        Rect bounds = mFourColorImageView.getDrawable().getBounds();
-
-                        int[] t = new int[2];
-                        mFourColorImageView.getLocationOnScreen(t);
-
-                        float x = mFourColorImageView.getDrawable().getBounds().width();
-                        float y = mFourColorImageView.getDrawable().getBounds().height();
-
-                        Log.d("Wot3", String.format("%f %f (%d %d %d %d) (%d %d)", event.getX(), event.getY(), bounds.left, bounds.right, bounds.top, bounds.bottom, t[0], t[1]));
-                        touchX = event.getX();
-                        touchY = event.getY();
-                    }
-
-                    // let the touch event pass on to whoever needs it
-                    return false;
-                }
-            });
+//            mFourColorImageView.setOnTouchListener(new View.OnTouchListener() {
+//                @Override
+//                public boolean onTouch(View v, MotionEvent event) {
+//                    // save the X,Y coordinates
+//                    if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+//                        Rect bounds = mFourColorImageView.getDrawable().getBounds();
+//
+//                        int[] t = new int[2];
+//                        mFourColorImageView.getLocationOnScreen(t);
+//
+//                        float x = mFourColorImageView.getDrawable().getBounds().width();
+//                        float y = mFourColorImageView.getDrawable().getBounds().height();
+//
+//                        Log.d("Wot3", String.format("%f %f (%d %d %d %d) (%d %d)", event.getX(), event.getY(), bounds.left, bounds.right, bounds.top, bounds.bottom, t[0], t[1]));
+//                        touchX = event.getX();
+//                        touchY = event.getY();
+//                    }
+//
+//                    // let the touch event pass on to whoever needs it
+//                    return false;
+//                }
+//            });
         }
 
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
 //            Integer color = mColorOptionsDataSet.get(position);
+            int color = PaintBox.colors[position];
 
-            float x = mFourColorImageView.getDrawable().getBounds().width() / 4f;
-            float y = mFourColorImageView.getDrawable().getBounds().height() / 4f;
+//            float x = mFourColorImageView.getDrawable().getBounds().width() / 4f;
+//            float y = mFourColorImageView.getDrawable().getBounds().height() / 4f;
+//
+//            int i = (int) Math.floor(touchX / x);
+//            int j = (int) Math.floor(touchY / y);
+//
+//            Log.d("Wot", String.format("%f %f / %f %f / %d %d", touchX, touchY, x, y, i, j));
 
-            int i = (int) Math.floor(touchX / x);
-            int j = (int) Math.floor(touchY / y);
-
-            Log.d("Wot", String.format("%f %f / %f %f / %d %d", touchX, touchY, x, y, i, j));
-
-            int color = PaintBox.colors[(position * 16) + (i * 4) + j];
+//            int color = PaintBox.colors[(position * 16) + (i * 4) + j];
 
             Activity activity = (Activity) view.getContext();
             {

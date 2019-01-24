@@ -37,7 +37,7 @@ package pro.watchkit.wearable.watchface.config;
 import android.app.Activity;
 import android.os.Bundle;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.wear.widget.WearableRecyclerView;
 import pro.watchkit.wearable.watchface.R;
@@ -77,7 +77,8 @@ public class ColorSelectionActivity extends Activity {
         // Aligns the first and last items on the list vertically centered on the screen.
 //        mConfigAppearanceWearableRecyclerView.setEdgeItemsCenteringEnabled(true);
 
-        mConfigAppearanceWearableRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        mConfigAppearanceWearableRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mConfigAppearanceWearableRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
 
         // Improves performance because we know changes in content do not change the layout size of
         // the RecyclerView.
