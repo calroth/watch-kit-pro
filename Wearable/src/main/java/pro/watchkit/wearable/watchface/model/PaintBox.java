@@ -18,6 +18,7 @@
 
 package pro.watchkit.wearable.watchface.model;
 
+import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -70,14 +71,14 @@ public final class PaintBox {
 
     @ColorInt
     public static int[] colors = {
-            0xFFFFFDDD, 0xFFFFFDA1, 0xFFFFFD5F, 0xFFFFFE00, 0xFFFFC1E0, 0xFFFFC1A0, 0xFFFFC05C, 0xFFFFC000,
-            0xFFFF7EE1, 0xFFFF7D9D, 0xFFFF7D58, 0xFFFF7D00, 0xFFFF00E1, 0xFFFF0098, 0xFFFF0052, 0xFFFF0000,
-            0xFFE0FEDD, 0xFFE0FFA1, 0xFFDAFF5E, 0xFFD1FF00, 0xFFE6BEE1, 0xFFE2BCA0, 0xFFD9BB5D, 0xFFCCB900,
-            0xFFE277E2, 0xFFDB759C, 0xFFCF7457, 0xFFBD7300, 0xFFD600E2, 0xFFCD0096, 0xFFBC024F, 0xFFA61701,
-            0xFFABFFDD, 0xFFAAFFA1, 0xFFA3FF5E, 0xFF95FF00, 0xFFB5B9E1, 0xFFADB6A0, 0xFF9EB25D, 0xFF89AF00,
-            0xFFAF70E3, 0xFFA26C9B, 0xFF8D6856, 0xFF736300, 0xFF9D00E2, 0xFF8B0093, 0xFF720F4A, 0xFF531705,
-            0xFF61FDDD, 0xFF61FEA1, 0xFF53FE5E, 0xFF30FE00, 0xFF7BB3E2, 0xFF6FADA0, 0xFF59A85E, 0xFF30A200,
-            0xFF7567E3, 0xFF62619A, 0xFF495855, 0xFF234F0C, 0xFF5500E1, 0xFF3F068F, 0xFF270D45, 0xFF000000,
+            0xFF000000, 0xFF1E0F4F, 0xFF230FA3, 0xFF0100FF, 0xFF1E4F17, 0xFF405962, 0xFF4F62AF, 0xFF4F6BFF,
+            0xFF24A219, 0xFF4BA971, 0xFF59AFB9, 0xFF54B5FF, 0xFF01FF00, 0xFF38FF79, 0xFF3BFFBE, 0xFF01FFFF,
+            0xFF52180A, 0xFF6E1356, 0xFF8007A7, 0xFF8600FF, 0xFF716412, 0xFF886965, 0xFF976EB1, 0xFF9A73FF,
+            0xFF85B011, 0xFF97B472, 0xFFA0B7B9, 0xFF9FBBFF, 0xFF8DFF00, 0xFF97FF7A, 0xFF99FFBE, 0xFF90FFFF,
+            0xFFA41B0A, 0xFFB90F5B, 0xFFC500AA, 0xFFC600FF, 0xFFBA7407, 0xFFCA7668, 0xFFD378B3, 0xFFD27BFF,
+            0xFFC8BA02, 0xFFD3BC72, 0xFFD8BEBA, 0xFFD5C0FF, 0xFFCBFF00, 0xFFD2FF7A, 0xFFD3FFBF, 0xFFCDFFFF,
+            0xFFFF0000, 0xFFFF0060, 0xFFFF00AD, 0xFFFF00FF, 0xFFFF7F00, 0xFFFF7F6A, 0xFFFF80B5, 0xFFFF83FF,
+            0xFFFFC200, 0xFFFFC273, 0xFFFFC3BB, 0xFFFFC4FF, 0xFFFFFF00, 0xFFFFFF7B, 0xFFFFFFBF, 0xFFFFFFFF,
     };
 
     public PaintBox(WatchFacePreset preset) {
@@ -104,7 +105,7 @@ public final class PaintBox {
 //        mShadowPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, Color.WHITE);
 
 //        generatePalette();
-//        generateTuples();
+        generateTuples();
     }
 
     private static Paint newDefaultPaint() {
@@ -421,24 +422,14 @@ public final class PaintBox {
     private void generateTuples() {
         if (Build.VERSION.SDK_INT < 26) return;
 
-        ColorSpace CIE_LAB = ColorSpace.get(ColorSpace.Named.CIE_LAB);
-        long lab333 = Color.convert(Color.argb(255, 255, 255, 255), CIE_LAB);
-        long lab330 = Color.convert(Color.argb(255, 255, 255, 0), CIE_LAB);
-        long lab303 = Color.convert(Color.argb(255, 255, 0, 255), CIE_LAB);
-        long lab300 = Color.convert(Color.argb(255, 255, 0, 0), CIE_LAB);
-        long lab033 = Color.convert(Color.argb(255, 0, 255, 255), CIE_LAB);
-        long lab030 = Color.convert(Color.argb(255, 0, 255, 0), CIE_LAB);
-        long lab003 = Color.convert(Color.argb(255, 0, 0, 255), CIE_LAB);
-        long lab000 = Color.convert(Color.argb(255, 0, 0, 0), CIE_LAB);
-
-        Tuple t333 = new Tuple(3, 3, 3, Color.red(lab333), Color.green(lab333), Color.blue(lab333)).log();
-        Tuple t330 = new Tuple(3, 3, 0, Color.red(lab330), Color.green(lab330), Color.blue(lab330)).log();
-        Tuple t303 = new Tuple(3, 0, 3, Color.red(lab303), Color.green(lab303), Color.blue(lab303)).log();
-        Tuple t300 = new Tuple(3, 0, 0, Color.red(lab300), Color.green(lab300), Color.blue(lab300)).log();
-        Tuple t033 = new Tuple(0, 3, 3, Color.red(lab033), Color.green(lab033), Color.blue(lab033)).log();
-        Tuple t030 = new Tuple(0, 3, 0, Color.red(lab030), Color.green(lab030), Color.blue(lab030)).log();
-        Tuple t003 = new Tuple(0, 0, 3, Color.red(lab003), Color.green(lab003), Color.blue(lab003)).log();
-        Tuple t000 = new Tuple(0, 0, 0, Color.red(lab000), Color.green(lab000), Color.blue(lab000)).log();
+        Tuple t333 = new Tuple(3, 3, 3).log();
+        Tuple t330 = new Tuple(3, 3, 0).log();
+        Tuple t303 = new Tuple(3, 0, 3).log();
+        Tuple t300 = new Tuple(3, 0, 0).log();
+        Tuple t033 = new Tuple(0, 3, 3).log();
+        Tuple t030 = new Tuple(0, 3, 0).log();
+        Tuple t003 = new Tuple(0, 0, 3).log();
+        Tuple t000 = new Tuple(0, 0, 0).log();
 
         // Edges
         Tuple t331 = generateMidPoint(t330, t333, 0.333333f).log();
@@ -500,14 +491,22 @@ public final class PaintBox {
         Tuple t223 = generateMidPoint(t203, t233, 0.666667f, t023, t323, 0.666667f).log();
 
         // Inside
-        Tuple t111 = generateMidPoint(t110, t113, 0.333333f, t101, t131, 0.333333f, t011, t311, 0.333333f).log();
-        Tuple t112 = generateMidPoint(t110, t113, 0.666667f, t102, t132, 0.333333f, t012, t312, 0.333333f).log();
-        Tuple t121 = generateMidPoint(t120, t123, 0.333333f, t101, t131, 0.666667f, t021, t321, 0.333333f).log();
-        Tuple t122 = generateMidPoint(t120, t123, 0.666667f, t102, t132, 0.666667f, t022, t322, 0.333333f).log();
-        Tuple t211 = generateMidPoint(t210, t213, 0.333333f, t201, t231, 0.333333f, t011, t311, 0.666667f).log();
-        Tuple t212 = generateMidPoint(t210, t213, 0.666667f, t202, t232, 0.333333f, t012, t312, 0.666667f).log();
-        Tuple t221 = generateMidPoint(t220, t223, 0.333333f, t201, t231, 0.666667f, t021, t321, 0.666667f).log();
-        Tuple t222 = generateMidPoint(t220, t223, 0.666667f, t202, t232, 0.666667f, t022, t322, 0.666667f).log();
+        /*Tuple t111 =*/
+        generateMidPoint(t110, t113, 0.333333f, t101, t131, 0.333333f, t011, t311, 0.333333f).log();
+        /*Tuple t112 =*/
+        generateMidPoint(t110, t113, 0.666667f, t102, t132, 0.333333f, t012, t312, 0.333333f).log();
+        /*Tuple t121 =*/
+        generateMidPoint(t120, t123, 0.333333f, t101, t131, 0.666667f, t021, t321, 0.333333f).log();
+        /*Tuple t122 =*/
+        generateMidPoint(t120, t123, 0.666667f, t102, t132, 0.666667f, t022, t322, 0.333333f).log();
+        /*Tuple t211 =*/
+        generateMidPoint(t210, t213, 0.333333f, t201, t231, 0.333333f, t011, t311, 0.666667f).log();
+        /*Tuple t212 =*/
+        generateMidPoint(t210, t213, 0.666667f, t202, t232, 0.333333f, t012, t312, 0.666667f).log();
+        /*Tuple t221 =*/
+        generateMidPoint(t220, t223, 0.333333f, t201, t231, 0.666667f, t021, t321, 0.666667f).log();
+        /*Tuple t222 =*/
+        generateMidPoint(t220, t223, 0.666667f, t202, t232, 0.666667f, t022, t322, 0.666667f).log();
     }
 
     public Paint getPaintFromPreset(WatchFacePreset.Style style) {
@@ -678,9 +677,22 @@ public final class PaintBox {
         }
     }
 
+    @TargetApi(26)
     private class Tuple {
-        public int a, b, c;
-        public float x, y, z;
+        private int a, b, c;
+        private float x, y, z;
+
+        Tuple(int a, int b, int c) {
+            ColorSpace CIE_LAB = ColorSpace.get(ColorSpace.Named.CIE_LAB);
+            long color = Color.convert(Color.argb(255, a * 85, b * 85, c * 85), CIE_LAB);
+
+            this.a = a;
+            this.b = b;
+            this.c = c;
+            this.x = Color.red(color);
+            this.y = Color.green(color);
+            this.z = Color.blue(color);
+        }
 
         Tuple(int a, int b, int c, float x, float y, float z) {
             this.a = a;
@@ -695,21 +707,14 @@ public final class PaintBox {
         @Override
         public String toString() {
             String group;
-            if (Build.VERSION.SDK_INT >= 26) {
-                ColorSpace CIE_LAB = ColorSpace.get(ColorSpace.Named.CIE_LAB);
-                ColorSpace sRGB = ColorSpace.get(ColorSpace.Named.SRGB);
-                ColorSpace.Connector connector =
-                        ColorSpace.connect(CIE_LAB, sRGB, ColorSpace.RenderIntent.ABSOLUTE);
+            ColorSpace CIE_LAB = ColorSpace.get(ColorSpace.Named.CIE_LAB);
+            ColorSpace sRGB = ColorSpace.get(ColorSpace.Named.SRGB);
+            ColorSpace.RenderIntent intent = ColorSpace.RenderIntent.PERCEPTUAL;
+            ColorSpace.Connector connector = ColorSpace.connect(CIE_LAB, sRGB, intent);
 
-                long col = Color.convert(Color.pack(x, y, z, 1.0f, CIE_LAB), connector);
+            long col = Color.convert(Color.pack(x, y, z, 1.0f, CIE_LAB), connector);
 
-//                long col = Color.convert(x, y, z, 1.0f,
-//                        ColorSpace.get(ColorSpace.Named.CIE_LAB),
-//                        ColorSpace.get(ColorSpace.Named.SRGB));
-                group = String.format("0x%06X", (0xFFFFFF & Color.toArgb(col)));
-            } else {
-                group = "0x000000";
-            }
+            group = String.format("0x%06X", (0xFFFFFF & Color.toArgb(col)));
 
             String[] hexes = new String[]{"00", "55", "AA", "FF"};
             String original = "0x" + hexes[a] + hexes[b] + hexes[c];
