@@ -35,13 +35,22 @@
 package pro.watchkit.wearable.watchface.config;
 
 import android.app.Activity;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.Paint;
+import android.graphics.PixelFormat;
+import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.widget.ImageView;
 
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.wear.widget.WearableRecyclerView;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData;
+import pro.watchkit.wearable.watchface.model.PaintBox;
 
 /**
  * Allows user to select color for something on the watch face (background, highlight,etc.) and
@@ -53,9 +62,12 @@ public class ColorSelectionActivity extends Activity {
     static final String EXTRA_SHARED_PREF =
             "pro.watchkit.wearable.watchface.config.extra.EXTRA_SHARED_PREF";
     private static final String TAG = ColorSelectionActivity.class.getSimpleName();
-    private WearableRecyclerView mConfigAppearanceWearableRecyclerView;
 
-    private ColorSelectionRecyclerViewAdapter mColorSelectionRecyclerViewAdapter;
+    private int[][] rows;
+
+    private int calc(int a, int b, int c) {
+        return (a * 16) + (b * 4) + c;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,23 +79,160 @@ public class ColorSelectionActivity extends Activity {
         AnalogComplicationConfigData.ColorConfigItem.Type type =
                 AnalogComplicationConfigData.ColorConfigItem.Type.valueOf(sharedPrefString);
 
-        mColorSelectionRecyclerViewAdapter = new ColorSelectionRecyclerViewAdapter(
-                type/*,
-                AnalogComplicationConfigData.getColorOptionsDataSet()*/);
+        int[] row1 = new int[]{
+                -1,
+                calc(3, 2, 3),
+                calc(3, 1, 3),
+                calc(2, 2, 3),
+                calc(2, 3, 3),
+                calc(1, 3, 3),
+                calc(2, 3, 2),
+                calc(3, 3, 2),
+                calc(3, 3, 1),
+                calc(3, 2, 2),
+                calc(3, 3, 3),
+                -1
+        };
 
-        mConfigAppearanceWearableRecyclerView =
-                findViewById(R.id.wearable_recycler_view);
+        int[] row2 = new int[]{
+                -1,
+                calc(3, 1, 2),
+                calc(3, 0, 3),
+                calc(2, 1, 3),
+                calc(1, 2, 3),
+                calc(0, 3, 3),
+                calc(1, 3, 2),
+                calc(2, 3, 1),
+                calc(3, 3, 0),
+                calc(3, 2, 1),
+                calc(2, 2, 2),
+                -1
+        };
 
-        // Aligns the first and last items on the list vertically centered on the screen.
-//        mConfigAppearanceWearableRecyclerView.setEdgeItemsCenteringEnabled(true);
+        int[] row3 = new int[]{
+                calc(3, 0, 2),
+                calc(2, 1, 2),
+                calc(2, 0, 3),
+                calc(1, 1, 3),
+                calc(0, 2, 3),
+                calc(1, 2, 2),
+                calc(0, 3, 2),
+                calc(1, 3, 1),
+                calc(2, 3, 0),
+                calc(2, 2, 1),
+                calc(3, 2, 0),
+                calc(3, 1, 1),
+        };
 
-//        mConfigAppearanceWearableRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mConfigAppearanceWearableRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+        int[] row4 = new int[]{
+                calc(3, 0, 1),
+                calc(2, 0, 2),
+                calc(1, 0, 3),
+                calc(1, 1, 2),
+                calc(0, 1, 3),
+                calc(0, 2, 2),
+                calc(0, 3, 1),
+                calc(1, 2, 1),
+                calc(1, 3, 0),
+                calc(2, 2, 0),
+                calc(3, 1, 0),
+                calc(2, 1, 1),
+        };
 
-        // Improves performance because we know changes in content do not change the layout size of
-        // the RecyclerView.
-        mConfigAppearanceWearableRecyclerView.setHasFixedSize(true);
+        int[] row5 = new int[]{
+                -1,
+                calc(3, 0, 0),
+                calc(2, 0, 1),
+                calc(1, 0, 2),
+                calc(0, 0, 3),
+                calc(0, 1, 2),
+                calc(0, 2, 1),
+                calc(0, 3, 0),
+                calc(1, 2, 0),
+                calc(2, 1, 0),
+                calc(1, 1, 1),
+                -1
+        };
 
-        mConfigAppearanceWearableRecyclerView.setAdapter(mColorSelectionRecyclerViewAdapter);
+        int[] row6 = new int[]{
+                -1,
+                calc(2, 0, 0),
+                calc(1, 0, 1),
+                calc(0, 0, 1),
+                calc(0, 0, 2),
+                calc(0, 1, 1),
+                calc(0, 1, 0),
+                calc(0, 2, 0),
+                calc(1, 1, 0),
+                calc(1, 0, 0),
+                calc(0, 0, 0),
+                -1
+        };
+
+        rows = new int[][]{row1, row2, row3, row4, row5, row6};
+
+        ImageView mColorImageView = findViewById(R.id.color);
+        mColorImageView.setImageDrawable(new Drawable() {
+            @Override
+            public void draw(@NonNull Canvas canvas) {
+                RectF bounds = new RectF(getBounds());
+
+                Paint b = new Paint();
+                b.setColor(Color.RED);
+                b.setStyle(Paint.Style.STROKE);
+                b.setAntiAlias(true);
+                b.setStrokeWidth(1.0f);
+
+                Paint o = new Paint();
+                o.setColor(Color.WHITE);
+                o.setStyle(Paint.Style.STROKE);
+                o.setAntiAlias(true);
+                o.setStrokeWidth(4.0f);
+
+                Paint p = new Paint();
+                p.setStyle(Paint.Style.FILL);
+                p.setAntiAlias(true);
+
+                float spanRoot3 = bounds.width() / (rows.length + 1f);
+                float span = spanRoot3 / 0.86602540378f; // sqrt(3) / 2
+
+                float radius = spanRoot3 * 0.45f;
+                float cx = 0f;
+
+                for (int i = 0; i < rows.length; i++) {
+                    cx += spanRoot3;
+                    // 0 for even cols, vertical offset for odd
+                    float cy = (i % 2 == 0) ? span * 0.5f : span * 1.0f;
+                    cy += span; // Temporary
+                    for (int j = 0; j < rows[i].length; j++) {
+                        canvas.drawRect(cx - (spanRoot3 / 2f),
+                                cy - (span / 2f),
+                                cx + (spanRoot3 / 2f),
+                                cy + (span / 2f), b);
+                        if (rows[i][j] != -1) {
+                            p.setColor(PaintBox.colors[rows[i][j]]);
+                            canvas.drawCircle(cx, cy, radius, o);
+                            canvas.drawCircle(cx, cy, radius, p);
+                        }
+                        cy += span;
+                    }
+                }
+            }
+
+            @Override
+            public void setAlpha(int alpha) {
+
+            }
+
+            @Override
+            public void setColorFilter(@Nullable ColorFilter colorFilter) {
+
+            }
+
+            @Override
+            public int getOpacity() {
+                return PixelFormat.OPAQUE;
+            }
+        });
     }
 }

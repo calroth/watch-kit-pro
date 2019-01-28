@@ -31,11 +31,9 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<ImageView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/color"
-    android:layout_width="40dp"
-    android:layout_height="40dp"
-    android:layout_centerInParent="true"
-    android:padding="4dp"
-    android:src="@drawable/ic_expand_more_white_18dp" /><!--android:layout_gravity="center_vertical"-->
+    android:layout_width="fill_parent"
+    android:layout_height="500dp"
+    android:padding="0dp"
+    android:src="@drawable/ic_expand_more_white_18dp" />
