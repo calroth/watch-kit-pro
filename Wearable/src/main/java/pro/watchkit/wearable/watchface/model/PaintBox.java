@@ -105,7 +105,7 @@ public final class PaintBox {
 //        mShadowPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, Color.WHITE);
 
 //        generatePalette();
-        generateTuples();
+//        generateTuples();
     }
 
     private static Paint newDefaultPaint() {
