@@ -43,6 +43,9 @@ import android.graphics.PixelFormat;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -64,10 +67,13 @@ public class ColorSelectionActivity extends Activity {
     private static final String TAG = ColorSelectionActivity.class.getSimpleName();
 
     private int[][] rows;
+    private RectF[][] rects;
 
     private int calc(int a, int b, int c) {
         return (a * 16) + (b * 4) + c;
     }
+
+    private float mLastTouchX = -1f, mLastTouchY = -1f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,6 +176,14 @@ public class ColorSelectionActivity extends Activity {
         };
 
         rows = new int[][]{row1, row2, row3, row4, row5, row6};
+        rects = new RectF[][]{
+                new RectF[row1.length],
+                new RectF[row2.length],
+                new RectF[row3.length],
+                new RectF[row4.length],
+                new RectF[row5.length],
+                new RectF[row6.length]
+        };
 
         ImageView mColorImageView = findViewById(R.id.color);
         mColorImageView.setImageDrawable(new Drawable() {
@@ -205,11 +219,13 @@ public class ColorSelectionActivity extends Activity {
                     float cy = (i % 2 == 0) ? span * 0.5f : span * 1.0f;
                     cy += span; // Temporary
                     for (int j = 0; j < rows[i].length; j++) {
-                        canvas.drawRect(cx - (spanRoot3 / 2f),
+                        RectF r = new RectF(cx - (1.5f * spanRoot3 / 2f),
                                 cy - (span / 2f),
-                                cx + (spanRoot3 / 2f),
-                                cy + (span / 2f), b);
+                                cx + (1.5f * spanRoot3 / 2f),
+                                cy + (span / 2f));
+                        canvas.drawRect(r, b);
                         if (rows[i][j] != -1) {
+                            rects[i][j] = r;
                             p.setColor(PaintBox.colors[rows[i][j]]);
                             canvas.drawCircle(cx, cy, radius, o);
                             canvas.drawCircle(cx, cy, radius, p);
@@ -232,6 +248,82 @@ public class ColorSelectionActivity extends Activity {
             @Override
             public int getOpacity() {
                 return PixelFormat.OPAQUE;
+            }
+        });
+
+        mColorImageView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    mLastTouchX = event.getX();
+                    mLastTouchY = event.getY();
+                }
+                return false;
+            }
+        });
+
+        mColorImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Just do a linear search through all 64 colors.
+                // Not necessarily quick, but probably quick enough.
+                String s = "";
+                boolean foundPrimary = false, foundSecondary = false;
+                int iPrimary = -1, jPrimary = -1;
+                int iSecondary = -1, jSecondary = -1;
+
+                // Loop through each rect, checking for a hit against each rect.
+                // Each click could potentially hit one or two rects, so store
+                // hits in primary and secondary co-ordinates.
+                outerLoop:
+                for (int i = 0; i < rects.length; i++) {
+                    for (int j = 0; j < rects[i].length; j++) {
+                        if (rects[i][j] != null && rects[i][j].contains(mLastTouchX, mLastTouchY)) {
+                            if (!foundPrimary) {
+                                foundPrimary = true;
+                                iPrimary = i;
+                                jPrimary = j;
+                            } else {
+                                iSecondary = i;
+                                jSecondary = j;
+                                foundSecondary = true;
+                                break outerLoop;
+                            }
+                        }
+                    }
+                }
+                if (foundPrimary) {
+                    s = "Primary: " + PaintBox.colorNames[rows[iPrimary][jPrimary]];
+                    if (foundSecondary) {
+                        s += ", ";
+                    }
+                }
+                if (foundSecondary) {
+                    s += "Secondary: " + PaintBox.colorNames[rows[iSecondary][jSecondary]];
+                }
+                if (s.length() == 0) {
+                    s = "nothing? x = " + mLastTouchX + ", y = " + mLastTouchY;
+                }
+                if (foundPrimary && foundSecondary) {
+                    // Find whether the touch is closer to primary or secondary.
+                    float primaryX = rects[iPrimary][jPrimary].centerX();
+                    float primaryY = rects[iPrimary][jPrimary].centerY();
+                    float secondaryX = rects[iSecondary][jSecondary].centerX();
+                    float secondaryY = rects[iSecondary][jSecondary].centerY();
+
+                    float primaryDistance = Math.abs(mLastTouchX - primaryX) +
+                            Math.abs(mLastTouchY - primaryY);
+                    float secondaryDistance = Math.abs(mLastTouchX - secondaryX) +
+                            Math.abs(mLastTouchY - secondaryY);
+
+                    s += " - choosing ";
+                    if (primaryDistance < secondaryDistance) {
+                        s += "Primary: " + PaintBox.colorNames[rows[iPrimary][jPrimary]];
+                    } else {
+                        s += "Secondary: " + PaintBox.colorNames[rows[iSecondary][jSecondary]];
+                    }
+                }
+                Log.d(TAG, "Touched " + s);
             }
         });
     }
