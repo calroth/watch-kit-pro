@@ -92,7 +92,2988 @@ public final class PaintBox {
             "Red", "Vivid Raspberry", "Fashion Fuchsia", "Fuchsia", "Heat Wave", "Bittersweet", "Cyclamen", "Fuchsia Pink",
             "Amber", "Rajah", "Melon", "Brilliant Lavender", "Yellow", "Sunny", "Very Pale Yellow", "White",
     };
-    private String[] wikipediaNames = new String[1494];
+
+    private static String[] wikipediaNames = {
+            "Absolute Zero",
+            "Acajou",
+            "Acid Green",
+            "Aero",
+            "Aero Blue",
+            "African Violet",
+            "Air Force Blue (RAF)",
+            "Air Force Blue (USAF)",
+            "Air Superiority Blue",
+            "Alabama Crimson",
+            "Alabaster",
+            "Alice Blue",
+            "Alien Armpit",
+            "Alizarin Crimson",
+            "Alloy Orange",
+            "Almond",
+            "Amaranth",
+            "Amaranth Deep Purple",
+            "Amaranth Pink",
+            "Amaranth Purple",
+            "Amaranth Red",
+            "Amazon",
+            "Amazonite",
+            "Amber",
+            "Amber (SAE/ECE)",
+            "American Blue",
+            "American Brown",
+            "American Gold",
+            "American Green",
+            "American Orange",
+            "American Pink",
+            "American Purple",
+            "American Red",
+            "American Rose",
+            "American Silver",
+            "American Violet",
+            "American Yellow",
+            "Amethyst",
+            "Android Green",
+            "Anti-Flash White",
+            "Antique Brass",
+            "Antique Bronze",
+            "Antique Fuchsia",
+            "Antique Ruby",
+            "Antique White",
+            "Ao (English)",
+            "Apple",
+            "Apple Green",
+            "Apricot",
+            "Aqua",
+            "Aquamarine",
+            "Arctic Lime",
+            "Army Green",
+            "Arsenic",
+            "Artichoke",
+            "Arylide Yellow",
+            "Ash Gray",
+            "Asparagus",
+            "Ateneo Blue",
+            "Atomic Tangerine",
+            "Auburn",
+            "Aureolin",
+            "AuroMetalSaurus",
+            "Avocado",
+            "Awesome",
+            "Axolotl",
+            "Aztec Gold",
+            "Azure",
+            "Azure (Web Color)",
+            "Azure Mist",
+            "Azureish White",
+            "Baby Blue",
+            "Baby Blue Eyes",
+            "Baby Pink",
+            "Baby Powder",
+            "Baker-Miller Pink",
+            "Ball Blue",
+            "Banana Mania",
+            "Banana Yellow",
+            "Bangladesh Green",
+            "Barbie Pink",
+            "Barn Red",
+            "Battery Charged Blue",
+            "Battleship Grey",
+            "Bazaar",
+            "Beau Blue",
+            "Beaver",
+            "Begonia",
+            "Beige",
+            "B'dazzled Blue",
+            "Big Dip O’ruby",
+            "Big Foot Feet",
+            "Bisque",
+            "Bistre",
+            "Bistre Brown",
+            "Bitter Lemon",
+            "Bitter Lime",
+            "Bittersweet",
+            "Bittersweet Shimmer",
+            "Black",
+            "Black Bean",
+            "Black Chocolate",
+            "Black Coffee",
+            "Black Coral",
+            "Black Leather Jacket",
+            "Black Olive",
+            "Blackberry",
+            "Black Shadows",
+            "Blanched Almond",
+            "Blast-Off Bronze",
+            "Bleu De France",
+            "Blizzard Blue",
+            "Blond",
+            "Blood Orange",
+            "Blood Red",
+            "Blue",
+            "Blue (Crayola)",
+            "Blue (Munsell)",
+            "Blue (NCS)",
+            "Blue (Pantone)",
+            "Blue (Pigment)",
+            "Blue (RYB)",
+            "Blue Bell",
+            "Blue Bolt",
+            "Blue-Gray",
+            "Blue-Green",
+            "Blue Jeans",
+            "Blue Lagoon",
+            "Blue-Magenta Violet",
+            "Blue Sapphire",
+            "Blue-Violet",
+            "Blue Yonder",
+            "Blueberry",
+            "Bluebonnet",
+            "Blush",
+            "Bole",
+            "Bondi Blue",
+            "Bone",
+            "Booger Buster",
+            "Boston University Red",
+            "Bottle Green",
+            "Boysenberry",
+            "Brandeis Blue",
+            "Brass",
+            "Brick Red",
+            "Bright Cerulean",
+            "Bright Gray",
+            "Bright Green",
+            "Bright Lavender",
+            "Bright Lilac",
+            "Bright Maroon",
+            "Bright Navy Blue",
+            "Bright Pink",
+            "Bright Turquoise",
+            "Bright Ube",
+            "Bright Yellow (Crayola)",
+            "Brilliant Azure",
+            "Brilliant Lavender",
+            "Brilliant Rose",
+            "Brink Pink",
+            "British Racing Green",
+            "Bronze",
+            "Bronze",
+            "Bronze (Metallic)",
+            "Bronze Yellow",
+            "Brown",
+            "Brown (Crayola)",
+            "Brown (Traditional)",
+            "Brown (Web)",
+            "Brown-Nose",
+            "Brown Sugar",
+            "Brown Chocolate",
+            "Brown Coffee",
+            "Brown Yellow",
+            "Brunswick Green",
+            "Bubble Gum",
+            "Bubbles",
+            "Bud Green",
+            "Buff",
+            "Bulgarian Rose",
+            "Burgundy",
+            "Burlywood",
+            "Burnished Brown",
+            "Burnt Orange",
+            "Burnt Sienna",
+            "Burnt Umber",
+            "Button Blue",
+            "Byzantine",
+            "Byzantium",
+            "Cadet",
+            "Cadet Blue",
+            "Cadet Grey",
+            "Cadmium Blue",
+            "Cadmium Green",
+            "Cadmium Orange",
+            "Cadmium Purple",
+            "Cadmium Red",
+            "Cadmium Yellow",
+            "Cadmium Violet",
+            "Café Au Lait",
+            "Café Noir",
+            "Cal Poly Pomona Green",
+            "Calamansi",
+            "Cambridge Blue",
+            "Camel",
+            "Cameo Pink",
+            "Camouflage Green",
+            "Canary",
+            "Canary Yellow",
+            "Candy Apple Red",
+            "Candy Pink",
+            "Capri",
+            "Caput Mortuum",
+            "Caramel",
+            "Cardinal",
+            "Caribbean Green",
+            "Carmine",
+            "Carmine (M&P)",
+            "Carmine Pink",
+            "Carmine Red",
+            "Carnation Pink",
+            "Carnelian",
+            "Carolina Blue",
+            "Carrot Orange",
+            "Castleton Green",
+            "Catalina Blue",
+            "Catawba",
+            "Cedar Chest",
+            "Ceil",
+            "Celadon",
+            "Celadon Blue",
+            "Celadon Green",
+            "Celeste",
+            "Celestial Blue",
+            "Cerise",
+            "Cerise Pink",
+            "Cerulean",
+            "Cerulean Blue",
+            "Cerulean Frost",
+            "CG Blue",
+            "CG Red",
+            "Chamoisee",
+            "Champagne",
+            "Champagne Pink",
+            "Charcoal",
+            "Charleston Green",
+            "Charm",
+            "Charm Pink",
+            "Chartreuse (Traditional)",
+            "Chartreuse (Web)",
+            "Cheese",
+            "Cherry",
+            "Cherry Blossom Pink",
+            "Chestnut",
+            "China Pink",
+            "China Rose",
+            "Chinese Black",
+            "Chinese Blue",
+            "Chinese Bronze",
+            "Chinese Brown",
+            "Chinese Green",
+            "Chinese Gold",
+            "Chinese Orange",
+            "Chinese Pink",
+            "Chinese Purple",
+            "Chinese Red",
+            "Chinese Red",
+            "Chinese Silver",
+            "Chinese Violet",
+            "Chinese White",
+            "Chinese Yellow",
+            "Chlorophyll Green",
+            "Chocolate Kisses",
+            "Chocolate (Traditional)",
+            "Chocolate (Web)",
+            "Christmas Blue",
+            "Christmas Blue",
+            "Christmas Brown",
+            "Christmas Brown",
+            "Christmas Green",
+            "Christmas Green",
+            "Christmas Gold",
+            "Christmas Orange",
+            "Christmas Orange",
+            "Christmas Pink",
+            "Christmas Pink",
+            "Christmas Purple",
+            "Christmas Purple",
+            "Christmas Red",
+            "Christmas Red",
+            "Christmas Silver",
+            "Christmas Yellow",
+            "Christmas Yellow",
+            "Chrome Yellow",
+            "Cinereous",
+            "Cinnabar",
+            "Cinnamon[Citation Needed]",
+            "Cinnamon Satin",
+            "Citrine",
+            "Citrine Brown",
+            "Citron",
+            "Claret",
+            "Classic Rose",
+            "Cobalt Blue",
+            "Cocoa Brown",
+            "Coconut",
+            "Coffee",
+            "Cola",
+            "Columbia Blue",
+            "Conditioner",
+            "Congo Pink",
+            "Cool Black",
+            "Cool Grey",
+            "Cookies And Cream",
+            "Copper",
+            "Copper (Crayola)",
+            "Copper Penny",
+            "Copper Red",
+            "Copper Rose",
+            "Coquelicot",
+            "Coral",
+            "Coral Pink",
+            "Coral Red",
+            "Coral Reef",
+            "Cordovan",
+            "Corn",
+            "Cornell Red",
+            "Cornflower Blue",
+            "Cornsilk",
+            "Cosmic Cobalt",
+            "Cosmic Latte",
+            "Coyote Brown",
+            "Cotton Candy",
+            "Cream",
+            "Crimson",
+            "Crimson Glory",
+            "Crimson Red",
+            "Cultured",
+            "Cyan",
+            "Cyan Azure",
+            "Cyan-Blue Azure",
+            "Cyan Cobalt Blue",
+            "Cyan Cornflower Blue",
+            "Cyan (Process)",
+            "Cyber Grape",
+            "Cyber Yellow",
+            "Cyclamen",
+            "Daffodil",
+            "Dandelion",
+            "Dark Blue",
+            "Dark Blue-Gray",
+            "Dark Bronze",
+            "Dark Brown",
+            "Dark Brown-Tangelo",
+            "Dark Byzantium",
+            "Dark Candy Apple Red",
+            "Dark Cerulean",
+            "Dark Charcoal",
+            "Dark Chestnut",
+            "Dark Chocolate",
+            "Dark Chocolate (Hershey's)",
+            "Dark Cornflower Blue",
+            "Dark Coral",
+            "Dark Cyan",
+            "Dark Electric Blue",
+            "Dark Goldenrod",
+            "Dark Gray (X11)",
+            "Dark Green",
+            "Dark Green (X11)",
+            "Dark Gunmetal",
+            "Dark Imperial Blue",
+            "Dark Imperial Blue",
+            "Dark Jungle Green",
+            "Dark Khaki",
+            "Dark Lava",
+            "Dark Lavender",
+            "Dark Lemon Lime",
+            "Dark Liver",
+            "Dark Liver (Horses)",
+            "Dark Magenta",
+            "Dark Medium Gray",
+            "Dark Midnight Blue",
+            "Dark Moss Green",
+            "Dark Olive Green",
+            "Dark Orange",
+            "Dark Orchid",
+            "Dark Pastel Blue",
+            "Dark Pastel Green",
+            "Dark Pastel Purple",
+            "Dark Pastel Red",
+            "Dark Pink",
+            "Dark Powder Blue",
+            "Dark Puce",
+            "Dark Purple",
+            "Dark Raspberry",
+            "Dark Red",
+            "Dark Salmon",
+            "Dark Scarlet",
+            "Dark Sea Green",
+            "Dark Sienna",
+            "Dark Sky Blue",
+            "Dark Slate Blue",
+            "Dark Slate Gray",
+            "Dark Spring Green",
+            "Dark Tan",
+            "Dark Tangerine",
+            "Dark Taupe",
+            "Dark Terra Cotta",
+            "Dark Turquoise",
+            "Dark Vanilla",
+            "Dark Violet",
+            "Dark Yellow",
+            "Dartmouth Green",
+            "Davy's Grey",
+            "Debian Red",
+            "Deep Amethyst",
+            "Deep Aquamarine",
+            "Deep Carmine",
+            "Deep Carmine Pink",
+            "Deep Carrot Orange",
+            "Deep Cerise",
+            "Deep Champagne",
+            "Deep Chestnut",
+            "Deep Coffee",
+            "Deep Fuchsia",
+            "Deep Green",
+            "Deep Green-Cyan Turquoise",
+            "Deep Jungle Green",
+            "Deep Koamaru",
+            "Deep Lemon",
+            "Deep Lilac",
+            "Deep Magenta",
+            "Deep Maroon",
+            "Deep Mauve",
+            "Deep Moss Green",
+            "Deep Peach",
+            "Deep Pink",
+            "Deep Puce",
+            "Deep Red",
+            "Deep Ruby",
+            "Deep Saffron",
+            "Deep Sky Blue",
+            "Deep Space Sparkle",
+            "Deep Spring Bud",
+            "Deep Taupe",
+            "Deep Tuscan Red",
+            "Deep Violet",
+            "Deer",
+            "Denim",
+            "Denim Blue",
+            "Desaturated Cyan",
+            "Desert",
+            "Desert Sand",
+            "Desire",
+            "Diamond",
+            "Dim Gray",
+            "Dingy Dungeon",
+            "Dirt",
+            "Dirty Brown",
+            "Dirty White",
+            "Dodger Blue",
+            "Dodie Yellow",
+            "Dogwood Rose",
+            "Dollar Bill",
+            "Dolphin Gray",
+            "Donkey Brown",
+            "Drab",
+            "Duke Blue",
+            "Dust Storm",
+            "Dutch White",
+            "Earth Yellow",
+            "Ebony",
+            "Ecru",
+            "Eerie Black",
+            "Eggplant",
+            "Eggshell",
+            "Egyptian Blue",
+            "Electric Blue",
+            "Electric Crimson",
+            "Electric Cyan",
+            "Electric Green",
+            "Electric Indigo",
+            "Electric Lavender",
+            "Electric Lime",
+            "Electric Purple",
+            "Electric Ultramarine",
+            "Electric Violet",
+            "Electric Yellow",
+            "Emerald",
+            "Emerald Green",
+            "Eminence",
+            "English Green",
+            "English Lavender",
+            "English Red",
+            "English Vermillion",
+            "English Violet",
+            "Eton Blue",
+            "Eucalyptus",
+            "Fallow",
+            "Falu Red",
+            "Fandango",
+            "Fandango Pink",
+            "Fashion Fuchsia",
+            "Fawn",
+            "Feldgrau",
+            "Feldspar",
+            "Fern Green",
+            "Ferrari Red",
+            "Field Drab",
+            "Fiery Rose",
+            "Firebrick",
+            "Fire Engine Red",
+            "Fire Opal",
+            "Flame",
+            "Flamingo Pink",
+            "Flattery",
+            "Flavescent",
+            "Flax",
+            "Flesh",
+            "Flirt",
+            "Floral White",
+            "Fluorescent Orange",
+            "Fluorescent Pink",
+            "Fluorescent Yellow",
+            "Folly",
+            "Forest Green (Traditional)",
+            "Forest Green (Web)",
+            "French Beige",
+            "French Bistre",
+            "French Blue",
+            "French Fuchsia",
+            "French Lilac",
+            "French Lime",
+            "French Mauve",
+            "French Pink",
+            "French Plum",
+            "French Puce",
+            "French Raspberry",
+            "French Rose",
+            "French Sky Blue",
+            "French Violet",
+            "French Wine",
+            "Fresh Air",
+            "Frostbite",
+            "Fuchsia",
+            "Fuchsia (Crayola)",
+            "Fuchsia Pink",
+            "Fuchsia Purple",
+            "Fuchsia Rose",
+            "Fulvous",
+            "Fuzzy Wuzzy",
+            "Gainsboro",
+            "Gamboge",
+            "Gamboge Orange (Brown)",
+            "Granet",
+            "Gargoyle Gas",
+            "Generic Viridian",
+            "Ghost White",
+            "Giant's Club",
+            "Giants Orange",
+            "Ginger",
+            "Glaucous",
+            "Glitter",
+            "Glossy Grape",
+            "GO Green",
+            "Gold",
+            "Gold (Metallic)",
+            "Gold (Web) (Golden)",
+            "Gold (Crayola)",
+            "Gold Fusion",
+            "Gold Foil",
+            "Golden Brown",
+            "Golden Poppy",
+            "Golden Yellow",
+            "Goldenrod",
+            "Granite Gray",
+            "Granny Smith Apple",
+            "Grape",
+            "Gray (HTML/CSS Gray)",
+            "Gray (X11 Gray)",
+            "Gray-Asparagus",
+            "Gray-Blue",
+            "Green",
+            "Green (Color Wheel) (X11 Green)",
+            "Green (Crayola)",
+            "Green (HTML/CSS Color)",
+            "Green (Munsell)",
+            "Green (NCS)",
+            "Green (Pantone)",
+            "Green (Pigment)",
+            "Green (RYB)",
+            "Green-Blue",
+            "Green-Cyan",
+            "Green Lizard",
+            "Green Sheen",
+            "Green-Yellow",
+            "Grizzly",
+            "Grullo",
+            "Guppie Green",
+            "Gunmetal",
+            "Halayà Úbe",
+            "Halloween Orange",
+            "Han Blue",
+            "Han Purple",
+            "Hansa Yellow",
+            "Harlequin",
+            "Harlequin Green",
+            "Harvard Crimson",
+            "Harvest Gold",
+            "Heart Gold",
+            "Heat Wave",
+            "Heidelberg Red[2]",
+            "Heliotrope",
+            "Heliotrope Gray",
+            "Heliotrope Magenta",
+            "Hollywood Cerise",
+            "Honeydew",
+            "Honolulu Blue",
+            "Hooker's Green",
+            "Hot Magenta",
+            "Hot Pink",
+            "Hunter Green",
+            "Iceberg",
+            "Icterine",
+            "Iguana Green",
+            "Illuminating Emerald",
+            "Imperial",
+            "Imperial Blue",
+            "Imperial Purple",
+            "Imperial Red",
+            "Inchworm",
+            "Independence",
+            "India Green",
+            "Indian Red",
+            "Indian Yellow",
+            "Indigo",
+            "Indigo Dye",
+            "Indigo (Rainbow)",
+            "Indigo (Web)",
+            "Infra Red",
+            "Interdimensional Blue",
+            "International Klein Blue",
+            "International Orange (Aerospace)",
+            "International Orange (Engineering)",
+            "International Orange (Golden Gate Bridge)",
+            "Iris",
+            "Irresistible",
+            "Isabelline",
+            "Italian Sky Blue",
+            "Ivory",
+            "Jacarta",
+            "Jacko Bean",
+            "Jade",
+            "Japanese Carmine",
+            "Japanese Indigo",
+            "Japanese Laurel",
+            "Japanese Violet",
+            "Jasmine",
+            "Jasper",
+            "Jasper Orange",
+            "Jazzberry Jam",
+            "Jelly Bean",
+            "Jelly Bean Blue",
+            "Jet",
+            "Jet Stream",
+            "Jonquil",
+            "Jordy Blue",
+            "June Bud",
+            "Jungle Green",
+            "Kelly Green",
+            "Kenyan Copper",
+            "Keppel",
+            "Key Lime",
+            "Khaki (HTML/CSS) (Khaki)",
+            "Khaki (X11) (Light Khaki)",
+            "Kiwi",
+            "Kobe",
+            "Kobi",
+            "Kobicha",
+            "Kombu Green",
+            "KSU Purple",
+            "KU Crimson",
+            "La Salle Green",
+            "Languid Lavender",
+            "Lapis Lazuli",
+            "Laser Lemon",
+            "Laurel Green",
+            "Lava",
+            "Lavender (Floral)",
+            "Lavender (Web)",
+            "Lavender Blue",
+            "Lavender Blush",
+            "Lavender Gray",
+            "Lavender Indigo",
+            "Lavender Magenta",
+            "Lavender Mist",
+            "Lavender Pink",
+            "Lavender Purple",
+            "Lavender Rose",
+            "Lawn Green",
+            "Lemon",
+            "Lemon Chiffon",
+            "Lemon Curry",
+            "Lemon Glacier",
+            "Lemon Lime",
+            "Lemon Meringue",
+            "Lemon Yellow",
+            "Lemon Yellow (Crayola)",
+            "Lenurple",
+            "Liberty",
+            "Licorice",
+            "Light Apricot",
+            "Light Blue",
+            "Light Brilliant Red",
+            "Light Brown",
+            "Light Carmine Pink",
+            "Light Cobalt Blue",
+            "Light Coral",
+            "Light Cornflower Blue",
+            "Light Crimson",
+            "Light Cyan",
+            "Light Deep Pink",
+            "Light French Beige",
+            "Light Fuchsia Pink",
+            "Light Gold",
+            "Light Goldenrod Yellow",
+            "Light Gray",
+            "Light Grayish Magenta",
+            "Light Green",
+            "Light Hot Pink",
+            "Light Khaki",
+            "Light Medium Orchid",
+            "Light Moss Green",
+            "Light Orange",
+            "Light Orchid",
+            "Light Pastel Purple",
+            "Light Periwinkle",
+            "Light Pink",
+            "Light Red",
+            "Light Red Ochre",
+            "Light Salmon",
+            "Light Salmon Pink",
+            "Light Sea Green",
+            "Light Silver",
+            "Light Sky Blue",
+            "Light Slate Gray",
+            "Light Steel Blue",
+            "Light Taupe",
+            "Light Thulian Pink",
+            "Light Yellow",
+            "Lilac",
+            "Lilac Luster",
+            "Lime (Color Wheel)",
+            "Lime (Web) (X11 Green)",
+            "Lime Green",
+            "Limerick",
+            "Lincoln Green",
+            "Linen",
+            "Lion",
+            "Liseran Purple",
+            "Little Boy Blue",
+            "Little Girl Pink",
+            "Liver",
+            "Liver (Dogs)",
+            "Liver (Organ)",
+            "Liver Chestnut",
+            "Livid",
+            "Loeen Look",
+            "Lotion",
+            "Lumber",
+            "Lust",
+            "Maastricht Blue",
+            "Macaroni And Cheese",
+            "Madder Lake",
+            "Magenta",
+            "Magenta (Crayola)",
+            "Magenta (Dye)",
+            "Magenta (Pantone)",
+            "Magenta (Process)",
+            "Magenta Haze",
+            "Magenta-Pink",
+            "Magic Mint",
+            "Magic Potion",
+            "Magnolia",
+            "Mahogany",
+            "Maize",
+            "Maize (Crayola)",
+            "Majorelle Blue",
+            "Malachite",
+            "Manatee",
+            "Mandarin",
+            "Mango Green",
+            "Mango Tango",
+            "Mango Yellow",
+            "Mantis",
+            "Mardi Gras",
+            "Marigold",
+            "Maroon (Crayola)",
+            "Maroon (HTML/CSS)",
+            "Maroon (X11)",
+            "Mauve",
+            "Mauve Taupe",
+            "Mauvelous",
+            "Maximum Blue",
+            "Maximum Blue Green",
+            "Maximum Blue Purple",
+            "Maximum Green",
+            "Maximum Green Yellow",
+            "Maximum Purple",
+            "Maximum Red",
+            "Maximum Red Purple",
+            "Maximum Yellow",
+            "Maximum Yellow Red",
+            "May Green",
+            "Maya Blue",
+            "Meat Brown",
+            "Medium Aquamarine",
+            "Medium Blue",
+            "Medium Candy Apple Red",
+            "Medium Carmine",
+            "Medium Champagne",
+            "Medium Electric Blue",
+            "Medium Jungle Green",
+            "Medium Lavender Magenta",
+            "Medium Orchid",
+            "Medium Persian Blue",
+            "Medium Purple",
+            "Medium Red-Violet",
+            "Medium Ruby",
+            "Medium Sea Green",
+            "Medium Sky Blue",
+            "Medium Slate Blue",
+            "Medium Spring Bud",
+            "Medium Spring Green",
+            "Medium Taupe",
+            "Medium Turquoise",
+            "Medium Tuscan Red",
+            "Medium Vermilion",
+            "Medium Violet-Red",
+            "Mellow Apricot",
+            "Mellow Yellow",
+            "Melon",
+            "Menthol",
+            "Metallic Blue",
+            "Metallic Bronze",
+            "Metallic Brown",
+            "Metallic Gold",
+            "Metallic Green",
+            "Metallic Orange",
+            "Metallic Pink",
+            "Metallic Red",
+            "Metallic Seaweed",
+            "Metallic Silver",
+            "Metallic Sunburst",
+            "Metallic Violet",
+            "Metallic Yellow",
+            "Mexican Pink",
+            "Middle Blue",
+            "Middle Blue Green",
+            "Middle Blue Purple",
+            "Middle Grey",
+            "Middle Green",
+            "Middle Green Yellow",
+            "Middle Purple",
+            "Middle Red",
+            "Middle Red Purple",
+            "Middle Yellow",
+            "Middle Yellow Red",
+            "Midnight",
+            "Midnight Blue",
+            "Midnight Blue",
+            "Midnight Green (Eagle Green)",
+            "Mikado Yellow",
+            "Milk",
+            "Milk Chocolate",
+            "Mimi Pink",
+            "Mindaro",
+            "Ming",
+            "Minion Yellow",
+            "Mint",
+            "Mint Cream",
+            "Mint Green",
+            "Misty Moss",
+            "Misty Rose",
+            "Moccasin",
+            "Mode Beige",
+            "Moonstone",
+            "Moonstone Blue",
+            "Mordant Red 19",
+            "Morning Blue",
+            "Moss Green",
+            "Mountain Meadow",
+            "Mountbatten Pink",
+            "MSU Green",
+            "Mud",
+            "Mughal Green",
+            "Mulberry",
+            "Mulberry (Crayola)",
+            "Mummy's Tomb",
+            "Mustard",
+            "Mustard Brown",
+            "Mustard Green",
+            "Mustard Yellow",
+            "Myrtle Green",
+            "Mystic",
+            "Mystic Maroon",
+            "Mystic Red",
+            "Nadeshiko Pink",
+            "Napier Green",
+            "Naples Yellow",
+            "Navajo White",
+            "Navy",
+            "Navy Blue",
+            "Navy Blue (Crayola)",
+            "Navy Purple",
+            "Neon Blue",
+            "Neon Brown",
+            "Neon Carrot",
+            "Neon Cyan",
+            "Neon Fuchsia",
+            "Neon Gold",
+            "Neon Gray",
+            "Neon Green",
+            "Neon Orange",
+            "Neon Pink",
+            "Neon Purple",
+            "Neon Red",
+            "Neon Scarlet",
+            "Neon Silver",
+            "Neon Tangerine",
+            "Neon Yellow",
+            "New Car",
+            "New York Pink",
+            "Nickel",
+            "Non-Photo Blue",
+            "North Texas Green",
+            "Nyanza",
+            "Ocean Blue",
+            "Ocean Boat Blue",
+            "Ocean Green",
+            "Ochre",
+            "Office Green",
+            "Ogre Odor",
+            "Old Burgundy",
+            "Old Gold",
+            "Old Heliotrope",
+            "Old Lace",
+            "Old Lavender",
+            "Old Mauve",
+            "Old Moss Green",
+            "Old Rose",
+            "Old Silver",
+            "Olive",
+            "Olive Drab 3",
+            "Olive Drab 7",
+            "Olivine",
+            "Onyx",
+            "Opal",
+            "Opera Mauve",
+            "Orange (Color Wheel)",
+            "Orange (Crayola)",
+            "Orange (Pantone)",
+            "Orange (RYB)",
+            "Orange (Web)",
+            "Orange Peel",
+            "Orange-Red",
+            "Orange Soda",
+            "Orange-Yellow",
+            "Orchid",
+            "Orchid Pink",
+            "Orioles Orange",
+            "Otter Brown",
+            "Outer Space",
+            "Outrageous Orange",
+            "Oxford Blue",
+            "Oxley",
+            "OU Crimson Red",
+            "Pacific Blue",
+            "Pakistan Green",
+            "Palatinate Blue",
+            "Palatinate Purple",
+            "Pale Aqua",
+            "Pale Blue",
+            "Pale Brown",
+            "Pale Carmine",
+            "Pale Cerulean",
+            "Pale Chestnut",
+            "Pale Copper",
+            "Pale Cornflower Blue",
+            "Pale Cyan",
+            "Pale Gold",
+            "Pale Goldenrod",
+            "Pale Green",
+            "Pale Lavender",
+            "Pale Magenta",
+            "Pale Magenta-Pink",
+            "Pale Pink",
+            "Pale Plum",
+            "Pale Red-Violet",
+            "Pale Robin Egg Blue",
+            "Pale Silver",
+            "Pale Spring Bud",
+            "Pale Taupe",
+            "Pale Turquoise",
+            "Pale Violet",
+            "Pale Violet-Red",
+            "Palm Leaf",
+            "Pansy Purple",
+            "Paolo Veronese Green",
+            "Papaya Whip",
+            "Paradise Pink",
+            "Paris Green",
+            "Parrot Pink",
+            "Pastel Blue",
+            "Pastel Brown",
+            "Pastel Gray",
+            "Pastel Green",
+            "Pastel Magenta",
+            "Pastel Orange",
+            "Pastel Pink",
+            "Pastel Purple",
+            "Pastel Red",
+            "Pastel Violet",
+            "Pastel Yellow",
+            "Patriarch",
+            "Payne's Grey",
+            "Peach",
+            "Peach",
+            "Peach-Orange",
+            "Peach Puff",
+            "Peach-Yellow",
+            "Pear",
+            "Pearl",
+            "Pearl Aqua",
+            "Pearly Purple",
+            "Peridot",
+            "Periwinkle",
+            "Periwinkle (Crayola)",
+            "Permanent Geranium Lake",
+            "Persian Blue",
+            "Persian Green",
+            "Persian Indigo",
+            "Persian Orange",
+            "Persian Pink",
+            "Persian Plum",
+            "Persian Red",
+            "Persian Rose",
+            "Persimmon",
+            "Peru",
+            "Pewter Blue",
+            "Philippine Blue",
+            "Philippine Brown",
+            "Philippine Gold",
+            "Philippine Golden Yellow",
+            "Philippine Gray",
+            "Philippine Green",
+            "Philippine Orange",
+            "Philippine Pink",
+            "Philippine Red",
+            "Philippine Silver",
+            "Philippine Violet",
+            "Philippine Yellow",
+            "Phlox",
+            "Phthalo Blue",
+            "Phthalo Green",
+            "Picton Blue",
+            "Pictorial Carmine",
+            "Piggy Pink",
+            "Pine Green",
+            "Pine Tree",
+            "Pineapple",
+            "Pink",
+            "Pink (Pantone)",
+            "Pink Flamingo",
+            "Pink Lace",
+            "Pink Lavender",
+            "Pink-Orange",
+            "Pink Pearl",
+            "Pink Raspberry",
+            "Pink Sherbet",
+            "Pistachio",
+            "Pixie Powder",
+            "Platinum",
+            "Plum",
+            "Plum (Web)",
+            "Plump Purple",
+            "Police Blue",
+            "Polished Pine",
+            "Pomp And Power",
+            "Popstar",
+            "Portland Orange",
+            "Powder Blue",
+            "Princess Perfume",
+            "Princeton Orange",
+            "Prune",
+            "Prussian Blue",
+            "Psychedelic Purple",
+            "Puce",
+            "Puce Red",
+            "Pullman Brown (UPS Brown)",
+            "Pullman Green",
+            "Pumpkin",
+            "Purple (HTML)",
+            "Purple (Munsell)",
+            "Purple (X11)",
+            "Purple Heart",
+            "Purple Mountain Majesty",
+            "Purple Navy",
+            "Purple Pizzazz",
+            "Purple Plum",
+            "Purple Taupe",
+            "Purpureus",
+            "Quartz",
+            "Queen Blue",
+            "Queen Pink",
+            "Quick Silver",
+            "Quinacridone Magenta",
+            "Quincy",
+            "Rackley",
+            "Radical Red",
+            "Raisin Black",
+            "Rajah",
+            "Raspberry",
+            "Raspberry Glace",
+            "Raspberry Pink",
+            "Raspberry Rose",
+            "Raw Sienna",
+            "Raw Umber",
+            "Razzle Dazzle Rose",
+            "Razzmatazz",
+            "Razzmic Berry",
+            "Rebecca Purple",
+            "Red",
+            "Red (Crayola)",
+            "Red (Munsell)",
+            "Red (NCS)",
+            "Red (Pantone)",
+            "Red (Pigment)",
+            "Red (RYB)",
+            "Red-Brown",
+            "Red Devil",
+            "Red-Orange",
+            "Red-Purple",
+            "Red Salsa",
+            "Red-Violet",
+            "Redwood",
+            "Regalia",
+            "Registration Black",
+            "Resolution Blue",
+            "Rhythm",
+            "Rich Black",
+            "Rich Black (FOGRA29)",
+            "Rich Black (FOGRA39)",
+            "Rich Brilliant Lavender",
+            "Rich Carmine",
+            "Rich Electric Blue",
+            "Rich Lavender",
+            "Rich Lilac",
+            "Rich Maroon",
+            "Rifle Green",
+            "Roast Coffee",
+            "Robin Egg Blue",
+            "Rocket Metallic",
+            "Roman Silver",
+            "Root Beer",
+            "Rose",
+            "Rose Bonbon",
+            "Rose Dust",
+            "Rose Ebony",
+            "Rose Garnet",
+            "Rose Gold",
+            "Rose Madder",
+            "Rose Pink",
+            "Rose Quartz",
+            "Rose Quartz Pink",
+            "Rose Red",
+            "Rose Taupe",
+            "Rose Vale",
+            "Rosewood",
+            "Rosso Corsa",
+            "Rosy Brown",
+            "Royal Azure",
+            "Royal Blue",
+            "Royal Blue",
+            "Royal Brown",
+            "Royal Fuchsia",
+            "Royal Green",
+            "Royal Orange",
+            "Royal Pink",
+            "Royal Red",
+            "Royal Red",
+            "Royal Purple",
+            "Royal Yellow",
+            "Ruber",
+            "Rubine Red",
+            "Ruby",
+            "Ruby Red",
+            "Ruddy",
+            "Ruddy Brown",
+            "Ruddy Pink",
+            "Rufous",
+            "Russet",
+            "Russian Green",
+            "Russian Violet",
+            "Rust",
+            "Rusty Red",
+            "Sacramento State Green",
+            "Saddle Brown",
+            "Safety Orange",
+            "Safety Orange (Blaze Orange)",
+            "Safety Yellow",
+            "Saffron",
+            "Sage",
+            "St. Patrick's Blue",
+            "Salem (Color)",
+            "Salmon",
+            "Salmon Pink",
+            "Sand",
+            "Sand Dune",
+            "Sandstorm",
+            "Sandy Brown",
+            "Sandy Tan",
+            "Sandy Taupe",
+            "Sangria",
+            "Sap Green",
+            "Sapphire",
+            "Sapphire Blue",
+            "Sasquatch Socks",
+            "Satin Sheen Gold",
+            "Scarlet",
+            "Scarlet",
+            "Schauss Pink",
+            "School Bus Yellow",
+            "Screamin' Green",
+            "Sea Blue",
+            "Sea Foam Green",
+            "Sea Green",
+            "Sea Serpent",
+            "Seal Brown",
+            "Seashell",
+            "Selective Yellow",
+            "Sepia",
+            "Shadow",
+            "Shadow Blue",
+            "Shampoo",
+            "Shamrock Green",
+            "Sheen Green",
+            "Shimmering Blush",
+            "Shiny Shamrock",
+            "Shocking Pink",
+            "Shocking Pink (Crayola)",
+            "Sienna",
+            "Silver",
+            "Silver (Crayola)",
+            "Silver (Metallic)",
+            "Silver Chalice",
+            "Silver Foil",
+            "Silver Lake Blue",
+            "Silver Pink",
+            "Silver Sand",
+            "Sinopia",
+            "Sizzling Red",
+            "Sizzling Sunrise",
+            "Skobeloff",
+            "Sky Blue",
+            "Sky Blue (Crayola)",
+            "Sky Magenta",
+            "Slate Blue",
+            "Slate Gray",
+            "Slimy Green",
+            "Smalt (Dark Powder Blue)",
+            "Smashed Pumpkin",
+            "Smitten",
+            "Smoke",
+            "Smokey Topaz",
+            "Smoky Black",
+            "Smoky Topaz",
+            "Snow",
+            "Soap",
+            "Soldier Green",
+            "Solid Pink",
+            "Sonic Silver",
+            "Spartan Crimson",
+            "Space Cadet",
+            "Spanish Bistre",
+            "Spanish Blue",
+            "Spanish Carmine",
+            "Spanish Crimson",
+            "Spanish Gray",
+            "Spanish Green",
+            "Spanish Orange",
+            "Spanish Pink",
+            "Spanish Purple",
+            "Spanish Red",
+            "Spanish Sky Blue",
+            "Spanish Violet",
+            "Spanish Viridian",
+            "Spanish Yellow",
+            "Spicy Mix",
+            "Spiro Disco Ball",
+            "Spring Bud",
+            "Spring Frost",
+            "Spring Green",
+            "Spring Green (Crayola)",
+            "Star Command Blue",
+            "Steel Blue",
+            "Steel Pink",
+            "Steel Teal",
+            "Stil De Grain Yellow",
+            "Stizza",
+            "Stormcloud",
+            "Straw",
+            "Strawberry",
+            "Sugar Plum",
+            "Sunburnt Cyclops",
+            "Sunglow",
+            "Sunny",
+            "Sunray",
+            "Sunset",
+            "Sunset Orange",
+            "Super Pink",
+            "Sweet Brown",
+            "Tan",
+            "Tangelo",
+            "Tangerine",
+            "Tangerine Yellow",
+            "Tango Pink",
+            "Tart Orange",
+            "Taupe",
+            "Taupe Gray",
+            "Tea Green",
+            "Tea Rose",
+            "Tea Rose",
+            "Teal",
+            "Teal Blue",
+            "Teal Deer",
+            "Teal Green",
+            "Telemagenta",
+            "Temptress",
+            "Tenné (Tawny)",
+            "Terra Cotta",
+            "Thistle",
+            "Thulian Pink",
+            "Tickle Me Pink",
+            "Tiffany Blue",
+            "Tiger's Eye",
+            "Timberwolf",
+            "Titanium",
+            "Titanium Yellow",
+            "Tomato",
+            "Toolbox",
+            "Topaz",
+            "Tractor Red",
+            "Trolley Grey",
+            "Tropical Rain Forest",
+            "Tropical Violet",
+            "True Blue",
+            "Tufts Blue",
+            "Tulip",
+            "Tumbleweed",
+            "Turkish Rose",
+            "Turquoise",
+            "Turquoise Blue",
+            "Turquoise Green",
+            "Turquoise Surf",
+            "Turtle Green",
+            "Tuscan",
+            "Tuscan Brown",
+            "Tuscan Red",
+            "Tuscan Tan",
+            "Tuscany",
+            "Twilight Lavender",
+            "Tyrian Purple",
+            "UA Blue",
+            "UA Red",
+            "Ube",
+            "UCLA Blue",
+            "UCLA Gold",
+            "UE Red",
+            "UFO Green",
+            "Ultramarine",
+            "Ultramarine Blue",
+            "Ultra Pink",
+            "Ultra Red",
+            "Umber",
+            "Unbleached Silk",
+            "United Nations Blue",
+            "University Of California Gold",
+            "University Of Tennessee Orange",
+            "Unmellow Yellow",
+            "UP Forest Green",
+            "UP Maroon",
+            "Upsdell Red",
+            "Urobilin",
+            "USAFA Blue",
+            "USC Cardinal",
+            "USC Gold",
+            "Utah Crimson",
+            "Vampire Black",
+            "Van Dyke Brown",
+            "Vanilla",
+            "Vanilla Ice",
+            "Vegas Gold",
+            "Venetian Red",
+            "Verdigris",
+            "Vermilion",
+            "Vermilion",
+            "Veronica",
+            "Verse Green",
+            "Very Light Azure",
+            "Very Light Blue",
+            "Very Light Malachite Green",
+            "Very Light Tangelo",
+            "Very Pale Orange",
+            "Very Pale Yellow",
+            "Violet",
+            "Violet-Blue",
+            "Violet-Red",
+            "Violin Brown",
+            "Viridian",
+            "Viridian Green",
+            "Vista Blue",
+            "Vivid Amber",
+            "Vivid Auburn",
+            "Vivid Burgundy",
+            "Vivid Cerise",
+            "Vivid Cerulean",
+            "Vivid Crimson",
+            "Vivid Gamboge",
+            "Vivid Lime Green",
+            "Vivid Malachite",
+            "Vivid Mulberry",
+            "Vivid Orange",
+            "Vivid Orange Peel",
+            "Vivid Orchid",
+            "Vivid Raspberry",
+            "Vivid Red",
+            "Vivid Red-Tangelo",
+            "Vivid Sky Blue",
+            "Vivid Tangelo",
+            "Vivid Tangerine",
+            "Vivid Vermilion",
+            "Vivid Violet",
+            "Vivid Yellow",
+            "Volt",
+            "Wageningen Green",
+            "Warm Black",
+            "Watermelon",
+            "Watermelon Red",
+            "Waterspout",
+            "Weldon Blue",
+            "Wenge",
+            "Wheat",
+            "White",
+            "White Chocolate",
+            "White Coffee",
+            "White Smoke",
+            "Wild Blue Yonder",
+            "Wild Orchid",
+            "Wild Strawberry",
+            "Wild Watermelon",
+            "Willpower Orange",
+            "Windsor Tan",
+            "Wine",
+            "Wine Red",
+            "Wine Dregs",
+            "Winter Sky",
+            "Winter Wizard",
+            "Wintergreen Dream",
+            "Wisteria",
+            "Wood Brown",
+            "Xanadu",
+            "Yale Blue",
+            "Yankees Blue",
+            "Yellow",
+            "Yellow (Crayola)",
+            "Yellow (Munsell)",
+            "Yellow (NCS)",
+            "Yellow (Pantone)",
+            "Yellow (Process)",
+            "Yellow (RYB)",
+            "Yellow-Green",
+            "Yellow Orange",
+            "Yellow Rose",
+            "Yellow Sunshine",
+            "Zaffre",
+            "Zinnwaldite Brown",
+            "Zomp"
+    };
+
+    private static int[] wikipediaRawColors = {
+            0x00, 0x48, 0xBA,
+            0x4C, 0x2F, 0x27,
+            0xB0, 0xBF, 0x1A,
+            0x7C, 0xB9, 0xE8,
+            0xC9, 0xFF, 0xE5,
+            0xB2, 0x84, 0xBE,
+            0x5D, 0x8A, 0xA8,
+            0x00, 0x30, 0x8F,
+            0x72, 0xA0, 0xC1,
+            0xAF, 0x00, 0x2A,
+            0xF2, 0xF0, 0xE6,
+            0xF0, 0xF8, 0xFF,
+            0x84, 0xDE, 0x02,
+            0xE3, 0x26, 0x36,
+            0xC4, 0x62, 0x10,
+            0xEF, 0xDE, 0xCD,
+            0xE5, 0x2B, 0x50,
+            0x9F, 0x2B, 0x68,
+            0xF1, 0x9C, 0xBB,
+            0xAB, 0x27, 0x4F,
+            0xD3, 0x21, 0x2D,
+            0x3B, 0x7A, 0x57,
+            0x00, 0xC4, 0xB0,
+            0xFF, 0xBF, 0x00,
+            0xFF, 0x7E, 0x00,
+            0x3B, 0x3B, 0x6D,
+            0x80, 0x40, 0x40,
+            0xD3, 0xAF, 0x37,
+            0x34, 0xB3, 0x34,
+            0xFF, 0x8B, 0x00,
+            0xFF, 0x98, 0x99,
+            0x43, 0x1C, 0x53,
+            0xB3, 0x21, 0x34,
+            0xFF, 0x03, 0x3E,
+            0xCF, 0xCF, 0xCF,
+            0x55, 0x1B, 0x8C,
+            0xF2, 0xB4, 0x00,
+            0x99, 0x66, 0xCC,
+            0xA4, 0xC6, 0x39,
+            0xF2, 0xF3, 0xF4,
+            0xCD, 0x95, 0x75,
+            0x66, 0x5D, 0x1E,
+            0x91, 0x5C, 0x83,
+            0x84, 0x1B, 0x2D,
+            0xFA, 0xEB, 0xD7,
+            0x00, 0x80, 0x00,
+            0x66, 0xB4, 0x47,
+            0x8D, 0xB6, 0x00,
+            0xFB, 0xCE, 0xB1,
+            0x00, 0xFF, 0xFF,
+            0x7F, 0xFF, 0xD4,
+            0xD0, 0xFF, 0x14,
+            0x4B, 0x53, 0x20,
+            0x3B, 0x44, 0x4B,
+            0x8F, 0x97, 0x79,
+            0xE9, 0xD6, 0x6B,
+            0xB2, 0xBE, 0xB5,
+            0x87, 0xA9, 0x6B,
+            0x00, 0x3A, 0x6C,
+            0xFF, 0x99, 0x66,
+            0xA5, 0x2A, 0x2A,
+            0xFD, 0xEE, 0x00,
+            0x6E, 0x7F, 0x80,
+            0x56, 0x82, 0x03,
+            0xFF, 0x20, 0x52,
+            0x63, 0x77, 0x5B,
+            0xC3, 0x99, 0x53,
+            0x00, 0x7F, 0xFF,
+            0xF0, 0xFF, 0xFF,
+            0xF0, 0xFF, 0xFF,
+            0xDB, 0xE9, 0xF4,
+            0x89, 0xCF, 0xF0,
+            0xA1, 0xCA, 0xF1,
+            0xF4, 0xC2, 0xC2,
+            0xFE, 0xFE, 0xFA,
+            0xFF, 0x91, 0xAF,
+            0x21, 0xAB, 0xCD,
+            0xFA, 0xE7, 0xB5,
+            0xFF, 0xE1, 0x35,
+            0x00, 0x6A, 0x4E,
+            0xE0, 0x21, 0x8A,
+            0x7C, 0x0A, 0x02,
+            0x1D, 0xAC, 0xD6,
+            0x84, 0x84, 0x82,
+            0x98, 0x77, 0x7B,
+            0xBC, 0xD4, 0xE6,
+            0x9F, 0x81, 0x70,
+            0xFA, 0x6E, 0x79,
+            0xF5, 0xF5, 0xDC,
+            0x2E, 0x58, 0x94,
+            0x9C, 0x25, 0x42,
+            0xE8, 0x8E, 0x5A,
+            0xFF, 0xE4, 0xC4,
+            0x3D, 0x2B, 0x1F,
+            0x96, 0x71, 0x17,
+            0xCA, 0xE0, 0x0D,
+            0xBF, 0xFF, 0x00,
+            0xFE, 0x6F, 0x5E,
+            0xBF, 0x4F, 0x51,
+            0x00, 0x00, 0x00,
+            0x3D, 0x0C, 0x02,
+            0x1B, 0x18, 0x11,
+            0x3B, 0x2F, 0x2F,
+            0x54, 0x62, 0x6F,
+            0x25, 0x35, 0x29,
+            0x3B, 0x3C, 0x36,
+            0x8F, 0x59, 0x73,
+            0xBF, 0xAF, 0xB2,
+            0xFF, 0xEB, 0xCD,
+            0xA5, 0x71, 0x64,
+            0x31, 0x8C, 0xE7,
+            0xAC, 0xE5, 0xEE,
+            0xFA, 0xF0, 0xBE,
+            0xD1, 0x00, 0x1C,
+            0x66, 0x00, 0x00,
+            0x00, 0x00, 0xFF,
+            0x1F, 0x75, 0xFE,
+            0x00, 0x93, 0xAF,
+            0x00, 0x87, 0xBD,
+            0x00, 0x18, 0xA8,
+            0x33, 0x33, 0x99,
+            0x02, 0x47, 0xFE,
+            0xA2, 0xA2, 0xD0,
+            0x00, 0xB9, 0xFB,
+            0x66, 0x99, 0xCC,
+            0x0D, 0x98, 0xBA,
+            0x5D, 0xAD, 0xEC,
+            0xAC, 0xE5, 0xEE,
+            0x55, 0x35, 0x92,
+            0x12, 0x61, 0x80,
+            0x8A, 0x2B, 0xE2,
+            0x50, 0x72, 0xA7,
+            0x4F, 0x86, 0xF7,
+            0x1C, 0x1C, 0xF0,
+            0xDE, 0x5D, 0x83,
+            0x79, 0x44, 0x3B,
+            0x00, 0x95, 0xB6,
+            0xE3, 0xDA, 0xC9,
+            0xDD, 0xE2, 0x6A,
+            0xCC, 0x00, 0x00,
+            0x00, 0x6A, 0x4E,
+            0x87, 0x32, 0x60,
+            0x00, 0x70, 0xFF,
+            0xB5, 0xA6, 0x42,
+            0xCB, 0x41, 0x54,
+            0x1D, 0xAC, 0xD6,
+            0xEB, 0xEC, 0xF0,
+            0x66, 0xFF, 0x00,
+            0xBF, 0x94, 0xE4,
+            0xD8, 0x91, 0xEF,
+            0xC3, 0x21, 0x48,
+            0x19, 0x74, 0xD2,
+            0xFF, 0x00, 0x7F,
+            0x08, 0xE8, 0xDE,
+            0xD1, 0x9F, 0xE8,
+            0xFF, 0xAA, 0x1D,
+            0x33, 0x99, 0xFF,
+            0xF4, 0xBB, 0xFF,
+            0xFF, 0x55, 0xA3,
+            0xFB, 0x60, 0x7F,
+            0x00, 0x42, 0x25,
+            0x88, 0x54, 0x0B,
+            0xCD, 0x7F, 0x32,
+            0xB0, 0x8D, 0x57,
+            0x73, 0x70, 0x00,
+            0x99, 0x33, 0x00,
+            0xAF, 0x59, 0x3E,
+            0x96, 0x4B, 0x00,
+            0xA5, 0x2A, 0x2A,
+            0x6B, 0x44, 0x23,
+            0xAF, 0x6E, 0x4D,
+            0x5F, 0x19, 0x33,
+            0x4A, 0x2C, 0x2A,
+            0xCC, 0x99, 0x66,
+            0x1B, 0x4D, 0x3E,
+            0xFF, 0xC1, 0xCC,
+            0xE7, 0xFE, 0xFF,
+            0x7B, 0xB6, 0x61,
+            0xF0, 0xDC, 0x82,
+            0x48, 0x06, 0x07,
+            0x80, 0x00, 0x20,
+            0xDE, 0xB8, 0x87,
+            0xA1, 0x7A, 0x74,
+            0xCC, 0x55, 0x00,
+            0xE9, 0x74, 0x51,
+            0x8A, 0x33, 0x24,
+            0x24, 0xA0, 0xED,
+            0xBD, 0x33, 0xA4,
+            0x70, 0x29, 0x63,
+            0x53, 0x68, 0x72,
+            0x5F, 0x9E, 0xA0,
+            0x91, 0xA3, 0xB0,
+            0x0A, 0x11, 0x95,
+            0x00, 0x6B, 0x3C,
+            0xED, 0x87, 0x2D,
+            0xB6, 0x0C, 0x26,
+            0xE3, 0x00, 0x22,
+            0xFF, 0xF6, 0x00,
+            0x7F, 0x3E, 0x98,
+            0xA6, 0x7B, 0x5B,
+            0x4B, 0x36, 0x21,
+            0x1E, 0x4D, 0x2B,
+            0xFC, 0xFF, 0xA4,
+            0xA3, 0xC1, 0xAD,
+            0xC1, 0x9A, 0x6B,
+            0xEF, 0xBB, 0xCC,
+            0x78, 0x86, 0x6B,
+            0xFF, 0xFF, 0x99,
+            0xFF, 0xEF, 0x00,
+            0xFF, 0x08, 0x00,
+            0xE4, 0x71, 0x7A,
+            0x00, 0xBF, 0xFF,
+            0x59, 0x27, 0x20,
+            0xFF, 0xD5, 0x9A,
+            0xC4, 0x1E, 0x3A,
+            0x00, 0xCC, 0x99,
+            0x96, 0x00, 0x18,
+            0xD7, 0x00, 0x40,
+            0xEB, 0x4C, 0x42,
+            0xFF, 0x00, 0x38,
+            0xFF, 0xA6, 0xC9,
+            0xB3, 0x1B, 0x1B,
+            0x56, 0xA0, 0xD3,
+            0xED, 0x91, 0x21,
+            0x00, 0x56, 0x3F,
+            0x06, 0x2A, 0x78,
+            0x70, 0x36, 0x42,
+            0xC9, 0x5A, 0x49,
+            0x92, 0xA1, 0xCF,
+            0xAC, 0xE1, 0xAF,
+            0x00, 0x7B, 0xA7,
+            0x2F, 0x84, 0x7C,
+            0xB2, 0xFF, 0xFF,
+            0x49, 0x97, 0xD0,
+            0xDE, 0x31, 0x63,
+            0xEC, 0x3B, 0x83,
+            0x00, 0x7B, 0xA7,
+            0x2A, 0x52, 0xBE,
+            0x6D, 0x9B, 0xC3,
+            0x00, 0x7A, 0xA5,
+            0xE0, 0x3C, 0x31,
+            0xA0, 0x78, 0x5A,
+            0xF7, 0xE7, 0xCE,
+            0xF1, 0xDD, 0xCF,
+            0x36, 0x45, 0x4F,
+            0x23, 0x2B, 0x2B,
+            0xD0, 0x74, 0x8B,
+            0xE6, 0x8F, 0xAC,
+            0xDF, 0xFF, 0x00,
+            0x7F, 0xFF, 0x00,
+            0xFF, 0xA6, 0x00,
+            0xDE, 0x31, 0x63,
+            0xFF, 0xB7, 0xC5,
+            0x95, 0x45, 0x35,
+            0xDE, 0x6F, 0xA1,
+            0xA8, 0x51, 0x6E,
+            0x14, 0x14, 0x14,
+            0x36, 0x51, 0x94,
+            0xCD, 0x80, 0x32,
+            0xAB, 0x38, 0x1F,
+            0xD0, 0xDB, 0x61,
+            0xCC, 0x99, 0x00,
+            0xF3, 0x70, 0x42,
+            0xDE, 0x70, 0xA1,
+            0x72, 0x0B, 0x98,
+            0xCD, 0x07, 0x1E,
+            0xAA, 0x38, 0x1E,
+            0xCC, 0xCC, 0xCC,
+            0x85, 0x60, 0x88,
+            0xE2, 0xE5, 0xDE,
+            0xFF, 0xB2, 0x00,
+            0x4A, 0xFF, 0x00,
+            0x3C, 0x14, 0x21,
+            0x7B, 0x3F, 0x00,
+            0xD2, 0x69, 0x1E,
+            0x2A, 0x8F, 0xBD,
+            0x36, 0x51, 0x94,
+            0x5D, 0x2B, 0x2C,
+            0x4C, 0x1F, 0x02,
+            0x3C, 0x8D, 0x0D,
+            0x00, 0x75, 0x02,
+            0xCA, 0xA9, 0x06,
+            0xFF, 0x66, 0x00,
+            0xD5, 0x6C, 0x2B,
+            0xFF, 0xCC, 0xCB,
+            0xE3, 0x42, 0x85,
+            0x66, 0x33, 0x98,
+            0x4D, 0x08, 0x4B,
+            0xAA, 0x01, 0x14,
+            0xB0, 0x1B, 0x2E,
+            0xE1, 0xDF, 0xE0,
+            0xFF, 0xCC, 0x00,
+            0xFE, 0xF2, 0x00,
+            0xFF, 0xA7, 0x00,
+            0x98, 0x81, 0x7B,
+            0xE3, 0x42, 0x34,
+            0xD2, 0x69, 0x1E,
+            0xCD, 0x60, 0x7E,
+            0xE4, 0xD0, 0x0A,
+            0x93, 0x37, 0x09,
+            0x9F, 0xA9, 0x1F,
+            0x7F, 0x17, 0x34,
+            0xFB, 0xCC, 0xE7,
+            0x00, 0x47, 0xAB,
+            0xD2, 0x69, 0x1E,
+            0x96, 0x5A, 0x3E,
+            0x6F, 0x4E, 0x37,
+            0x3C, 0x30, 0x24,
+            0xC4, 0xD8, 0xE2,
+            0xFF, 0xFF, 0xCC,
+            0xF8, 0x83, 0x79,
+            0x00, 0x2E, 0x63,
+            0x8C, 0x92, 0xAC,
+            0xEE, 0xE0, 0xB1,
+            0xB8, 0x73, 0x33,
+            0xDA, 0x8A, 0x67,
+            0xAD, 0x6F, 0x69,
+            0xCB, 0x6D, 0x51,
+            0x99, 0x66, 0x66,
+            0xFF, 0x38, 0x00,
+            0xFF, 0x7F, 0x50,
+            0xF8, 0x83, 0x79,
+            0xFF, 0x40, 0x40,
+            0xFD, 0x7C, 0x6E,
+            0x89, 0x3F, 0x45,
+            0xFB, 0xEC, 0x5D,
+            0xB3, 0x1B, 0x1B,
+            0x64, 0x95, 0xED,
+            0xFF, 0xF8, 0xDC,
+            0x2E, 0x2D, 0x88,
+            0xFF, 0xF8, 0xE7,
+            0x81, 0x61, 0x3C,
+            0xFF, 0xBC, 0xD9,
+            0xFF, 0xFD, 0xD0,
+            0xDC, 0x14, 0x3C,
+            0xBE, 0x00, 0x32,
+            0x99, 0x00, 0x00,
+            0xF5, 0xF5, 0xF5,
+            0x00, 0xFF, 0xFF,
+            0x4E, 0x82, 0xB4,
+            0x46, 0x82, 0xBF,
+            0x28, 0x58, 0x9C,
+            0x18, 0x8B, 0xC2,
+            0x00, 0xB7, 0xEB,
+            0x58, 0x42, 0x7C,
+            0xFF, 0xD3, 0x00,
+            0xF5, 0x6F, 0xA1,
+            0xFF, 0xFF, 0x31,
+            0xF0, 0xE1, 0x30,
+            0x00, 0x00, 0x8B,
+            0x66, 0x66, 0x99,
+            0x80, 0x4A, 0x00,
+            0x65, 0x43, 0x21,
+            0x88, 0x65, 0x4E,
+            0x5D, 0x39, 0x54,
+            0xA4, 0x00, 0x00,
+            0x08, 0x45, 0x7E,
+            0x33, 0x33, 0x33,
+            0x98, 0x69, 0x60,
+            0x49, 0x02, 0x06,
+            0x3C, 0x13, 0x21,
+            0x26, 0x42, 0x8B,
+            0xCD, 0x5B, 0x45,
+            0x00, 0x8B, 0x8B,
+            0x53, 0x68, 0x78,
+            0xB8, 0x86, 0x0B,
+            0xA9, 0xA9, 0xA9,
+            0x01, 0x32, 0x20,
+            0x00, 0x64, 0x00,
+            0x1F, 0x26, 0x2A,
+            0x00, 0x41, 0x6A,
+            0x00, 0x14, 0x7E,
+            0x1A, 0x24, 0x21,
+            0xBD, 0xB7, 0x6B,
+            0x48, 0x3C, 0x32,
+            0x73, 0x4F, 0x96,
+            0x8B, 0xBE, 0x1B,
+            0x53, 0x4B, 0x4F,
+            0x54, 0x3D, 0x37,
+            0x8B, 0x00, 0x8B,
+            0xA9, 0xA9, 0xA9,
+            0x00, 0x33, 0x66,
+            0x4A, 0x5D, 0x23,
+            0x55, 0x6B, 0x2F,
+            0xFF, 0x8C, 0x00,
+            0x99, 0x32, 0xCC,
+            0x77, 0x9E, 0xCB,
+            0x03, 0xC0, 0x3C,
+            0x96, 0x6F, 0xD6,
+            0xC2, 0x3B, 0x22,
+            0xE7, 0x54, 0x80,
+            0x00, 0x33, 0x99,
+            0x4F, 0x3A, 0x3C,
+            0x30, 0x19, 0x34,
+            0x87, 0x26, 0x57,
+            0x8B, 0x00, 0x00,
+            0xE9, 0x96, 0x7A,
+            0x56, 0x03, 0x19,
+            0x8F, 0xBC, 0x8F,
+            0x3C, 0x14, 0x14,
+            0x8C, 0xBE, 0xD6,
+            0x48, 0x3D, 0x8B,
+            0x2F, 0x4F, 0x4F,
+            0x17, 0x72, 0x45,
+            0x91, 0x81, 0x51,
+            0xFF, 0xA8, 0x12,
+            0x48, 0x3C, 0x32,
+            0xCC, 0x4E, 0x5C,
+            0x00, 0xCE, 0xD1,
+            0xD1, 0xBE, 0xA8,
+            0x94, 0x00, 0xD3,
+            0x9B, 0x87, 0x0C,
+            0x00, 0x70, 0x3C,
+            0x55, 0x55, 0x55,
+            0xD7, 0x0A, 0x53,
+            0x9C, 0x8A, 0xA4,
+            0x40, 0x82, 0x6D,
+            0xA9, 0x20, 0x3E,
+            0xEF, 0x30, 0x38,
+            0xE9, 0x69, 0x2C,
+            0xDA, 0x32, 0x87,
+            0xFA, 0xD6, 0xA5,
+            0xB9, 0x4E, 0x48,
+            0x70, 0x42, 0x41,
+            0xC1, 0x54, 0xC1,
+            0x05, 0x66, 0x08,
+            0x0E, 0x7C, 0x61,
+            0x00, 0x4B, 0x49,
+            0x33, 0x33, 0x66,
+            0xF5, 0xC7, 0x1A,
+            0x99, 0x55, 0xBB,
+            0xCC, 0x00, 0xCC,
+            0x82, 0x00, 0x00,
+            0xD4, 0x73, 0xD4,
+            0x35, 0x5E, 0x3B,
+            0xFF, 0xCB, 0xA4,
+            0xFF, 0x14, 0x93,
+            0xA9, 0x5C, 0x68,
+            0x85, 0x01, 0x01,
+            0x84, 0x3F, 0x5B,
+            0xFF, 0x99, 0x33,
+            0x00, 0xBF, 0xFF,
+            0x4A, 0x64, 0x6C,
+            0x55, 0x6B, 0x2F,
+            0x7E, 0x5E, 0x60,
+            0x66, 0x42, 0x4D,
+            0x33, 0x00, 0x66,
+            0xBA, 0x87, 0x59,
+            0x15, 0x60, 0xBD,
+            0x22, 0x43, 0xB6,
+            0x66, 0x99, 0x99,
+            0xC1, 0x9A, 0x6B,
+            0xED, 0xC9, 0xAF,
+            0xEA, 0x3C, 0x53,
+            0xB9, 0xF2, 0xFF,
+            0x69, 0x69, 0x69,
+            0xC5, 0x31, 0x51,
+            0x9B, 0x76, 0x53,
+            0xB5, 0x65, 0x1E,
+            0xE8, 0xE4, 0xC9,
+            0x1E, 0x90, 0xFF,
+            0xFE, 0xF6, 0x5B,
+            0xD7, 0x18, 0x68,
+            0x85, 0xBB, 0x65,
+            0x82, 0x8E, 0x84,
+            0x66, 0x4C, 0x28,
+            0x96, 0x71, 0x17,
+            0x00, 0x00, 0x9C,
+            0xE5, 0xCC, 0xC9,
+            0xEF, 0xDF, 0xBB,
+            0xE1, 0xA9, 0x5F,
+            0x55, 0x5D, 0x50,
+            0xC2, 0xB2, 0x80,
+            0x1B, 0x1B, 0x1B,
+            0x61, 0x40, 0x51,
+            0xF0, 0xEA, 0xD6,
+            0x10, 0x34, 0xA6,
+            0x7D, 0xF9, 0xFF,
+            0xFF, 0x00, 0x3F,
+            0x00, 0xFF, 0xFF,
+            0x00, 0xFF, 0x00,
+            0x6F, 0x00, 0xFF,
+            0xF4, 0xBB, 0xFF,
+            0xCC, 0xFF, 0x00,
+            0xBF, 0x00, 0xFF,
+            0x3F, 0x00, 0xFF,
+            0x8F, 0x00, 0xFF,
+            0xFF, 0xFF, 0x33,
+            0x50, 0xC8, 0x78,
+            0x04, 0x63, 0x07,
+            0x6C, 0x30, 0x82,
+            0x1B, 0x4D, 0x3E,
+            0xB4, 0x83, 0x95,
+            0xAB, 0x4B, 0x52,
+            0xCC, 0x47, 0x4B,
+            0x56, 0x3C, 0x5C,
+            0x96, 0xC8, 0xA2,
+            0x44, 0xD7, 0xA8,
+            0xC1, 0x9A, 0x6B,
+            0x80, 0x18, 0x18,
+            0xB5, 0x33, 0x89,
+            0xDE, 0x52, 0x85,
+            0xF4, 0x00, 0xA1,
+            0xE5, 0xAA, 0x70,
+            0x4D, 0x5D, 0x53,
+            0xFD, 0xD5, 0xB1,
+            0x4F, 0x79, 0x42,
+            0xFF, 0x28, 0x00,
+            0x6C, 0x54, 0x1E,
+            0xFF, 0x54, 0x70,
+            0xB2, 0x22, 0x22,
+            0xCE, 0x20, 0x29,
+            0xE9, 0x5C, 0x4B,
+            0xE2, 0x58, 0x22,
+            0xFC, 0x8E, 0xAC,
+            0x6B, 0x44, 0x23,
+            0xF7, 0xE9, 0x8E,
+            0xEE, 0xDC, 0x82,
+            0xFF, 0xE9, 0xD1,
+            0xA2, 0x00, 0x6D,
+            0xFF, 0xFA, 0xF0,
+            0xFF, 0xBF, 0x00,
+            0xFF, 0x14, 0x93,
+            0xCC, 0xFF, 0x00,
+            0xFF, 0x00, 0x4F,
+            0x01, 0x44, 0x21,
+            0x22, 0x8B, 0x22,
+            0xA6, 0x7B, 0x5B,
+            0x85, 0x6D, 0x4D,
+            0x00, 0x72, 0xBB,
+            0xFD, 0x3F, 0x92,
+            0x86, 0x60, 0x8E,
+            0x9E, 0xFD, 0x38,
+            0xD4, 0x73, 0xD4,
+            0xFD, 0x6C, 0x9E,
+            0x81, 0x14, 0x53,
+            0x4E, 0x16, 0x09,
+            0xC7, 0x2C, 0x48,
+            0xF6, 0x4A, 0x8A,
+            0x77, 0xB5, 0xFE,
+            0x88, 0x06, 0xCE,
+            0xAC, 0x1E, 0x44,
+            0xA6, 0xE7, 0xFF,
+            0xE9, 0x36, 0xA7,
+            0xFF, 0x00, 0xFF,
+            0xC1, 0x54, 0xC1,
+            0xFF, 0x77, 0xFF,
+            0xCC, 0x39, 0x7B,
+            0xC7, 0x43, 0x75,
+            0xE4, 0x84, 0x00,
+            0xCC, 0x66, 0x66,
+            0xDC, 0xDC, 0xDC,
+            0xE4, 0x9B, 0x0F,
+            0x99, 0x66, 0x00,
+            0x73, 0x36, 0x35,
+            0xFF, 0xDF, 0x46,
+            0x00, 0x7F, 0x66,
+            0xF8, 0xF8, 0xFF,
+            0xB0, 0x5C, 0x52,
+            0xFE, 0x5A, 0x1D,
+            0xB0, 0x65, 0x00,
+            0x60, 0x82, 0xB6,
+            0xE6, 0xE8, 0xFA,
+            0xAB, 0x92, 0xB3,
+            0x00, 0xAB, 0x66,
+            0xA5, 0x7C, 0x00,
+            0xD4, 0xAF, 0x37,
+            0xFF, 0xD7, 0x00,
+            0xE6, 0xBE, 0x8A,
+            0x85, 0x75, 0x4E,
+            0xBD, 0x9B, 0x16,
+            0x99, 0x65, 0x15,
+            0xFC, 0xC2, 0x00,
+            0xFF, 0xDF, 0x00,
+            0xDA, 0xA5, 0x20,
+            0x67, 0x67, 0x67,
+            0xA8, 0xE4, 0xA0,
+            0x6F, 0x2D, 0xA8,
+            0x80, 0x80, 0x80,
+            0xBE, 0xBE, 0xBE,
+            0x46, 0x59, 0x45,
+            0x8C, 0x92, 0xAC,
+            0x00, 0x80, 0x01,
+            0x00, 0xFF, 0x00,
+            0x1C, 0xAC, 0x78,
+            0x00, 0x80, 0x00,
+            0x00, 0xA8, 0x77,
+            0x00, 0x9F, 0x6B,
+            0x00, 0xAD, 0x43,
+            0x00, 0xA5, 0x50,
+            0x66, 0xB0, 0x32,
+            0x11, 0x64, 0xB4,
+            0x00, 0x99, 0x66,
+            0xA7, 0xF4, 0x32,
+            0x6E, 0xAE, 0xA1,
+            0xAD, 0xFF, 0x2F,
+            0x88, 0x58, 0x18,
+            0xA9, 0x9A, 0x86,
+            0x00, 0xFF, 0x7F,
+            0x2A, 0x34, 0x39,
+            0x66, 0x38, 0x54,
+            0xEB, 0x61, 0x23,
+            0x44, 0x6C, 0xCF,
+            0x52, 0x18, 0xFA,
+            0xE9, 0xD6, 0x6B,
+            0x3F, 0xFF, 0x00,
+            0x46, 0xCB, 0x18,
+            0xC9, 0x00, 0x16,
+            0xDA, 0x91, 0x00,
+            0x80, 0x80, 0x00,
+            0xFF, 0x7A, 0x00,
+            0x96, 0x00, 0x18,
+            0xDF, 0x73, 0xFF,
+            0xAA, 0x98, 0xA9,
+            0xAA, 0x00, 0xBB,
+            0xF4, 0x00, 0xA1,
+            0xF0, 0xFF, 0xF0,
+            0x00, 0x6D, 0xB0,
+            0x49, 0x79, 0x6B,
+            0xFF, 0x1D, 0xCE,
+            0xFF, 0x69, 0xB4,
+            0x35, 0x5E, 0x3B,
+            0x71, 0xA6, 0xD2,
+            0xFC, 0xF7, 0x5E,
+            0x71, 0xBC, 0x78,
+            0x31, 0x91, 0x77,
+            0x60, 0x2F, 0x6B,
+            0x00, 0x23, 0x95,
+            0x66, 0x02, 0x3C,
+            0xED, 0x29, 0x39,
+            0xB2, 0xEC, 0x5D,
+            0x4C, 0x51, 0x6D,
+            0x13, 0x88, 0x08,
+            0xCD, 0x5C, 0x5C,
+            0xE3, 0xA8, 0x57,
+            0x4B, 0x00, 0x82,
+            0x09, 0x1F, 0x92,
+            0x23, 0x30, 0x67,
+            0x4B, 0x00, 0x82,
+            0xFF, 0x49, 0x6C,
+            0x36, 0x0C, 0xCC,
+            0x00, 0x2F, 0xA7,
+            0xFF, 0x4F, 0x00,
+            0xBA, 0x16, 0x0C,
+            0xC0, 0x36, 0x2C,
+            0x5A, 0x4F, 0xCF,
+            0xB3, 0x44, 0x6C,
+            0xF4, 0xF0, 0xEC,
+            0xB2, 0xFF, 0xFF,
+            0xFF, 0xFF, 0xF0,
+            0x3D, 0x32, 0x5D,
+            0x41, 0x36, 0x28,
+            0x00, 0xA8, 0x6B,
+            0x9D, 0x29, 0x33,
+            0x26, 0x43, 0x48,
+            0x2F, 0x75, 0x32,
+            0x5B, 0x32, 0x56,
+            0xF8, 0xDE, 0x7E,
+            0xD7, 0x3B, 0x3E,
+            0xDE, 0x8F, 0x4E,
+            0xA5, 0x0B, 0x5E,
+            0xDA, 0x61, 0x4E,
+            0x44, 0x79, 0x8E,
+            0x34, 0x34, 0x34,
+            0xBB, 0xD0, 0xC9,
+            0xF4, 0xCA, 0x16,
+            0x8A, 0xB9, 0xF1,
+            0xBD, 0xDA, 0x57,
+            0x29, 0xAB, 0x87,
+            0x4C, 0xBB, 0x17,
+            0x7C, 0x1C, 0x05,
+            0x3A, 0xB0, 0x9E,
+            0xE8, 0xF4, 0x8C,
+            0xC3, 0xB0, 0x91,
+            0xF0, 0xE6, 0x8C,
+            0x8E, 0xE5, 0x3F,
+            0x88, 0x2D, 0x17,
+            0xE7, 0x9F, 0xC4,
+            0x6B, 0x44, 0x23,
+            0x35, 0x42, 0x30,
+            0x51, 0x28, 0x88,
+            0xE8, 0x00, 0x0D,
+            0x08, 0x78, 0x30,
+            0xD6, 0xCA, 0xDD,
+            0x26, 0x61, 0x9C,
+            0xFF, 0xFF, 0x66,
+            0xA9, 0xBA, 0x9D,
+            0xCF, 0x10, 0x20,
+            0xB5, 0x7E, 0xDC,
+            0xE6, 0xE6, 0xFA,
+            0xCC, 0xCC, 0xFF,
+            0xFF, 0xF0, 0xF5,
+            0xC4, 0xC3, 0xD0,
+            0x94, 0x57, 0xEB,
+            0xEE, 0x82, 0xEE,
+            0xE6, 0xE6, 0xFA,
+            0xFB, 0xAE, 0xD2,
+            0x96, 0x7B, 0xB6,
+            0xFB, 0xA0, 0xE3,
+            0x7C, 0xFC, 0x00,
+            0xFF, 0xF7, 0x00,
+            0xFF, 0xFA, 0xCD,
+            0xCC, 0xA0, 0x1D,
+            0xFD, 0xFF, 0x00,
+            0xE3, 0xFF, 0x00,
+            0xF6, 0xEA, 0xBE,
+            0xFF, 0xF4, 0x4F,
+            0xFF, 0xFF, 0x9F,
+            0xBA, 0x93, 0xD8,
+            0x54, 0x5A, 0xA7,
+            0x1A, 0x11, 0x10,
+            0xFD, 0xD5, 0xB1,
+            0xAD, 0xD8, 0xE6,
+            0xFE, 0x2E, 0x2E,
+            0xB5, 0x65, 0x1D,
+            0xE6, 0x67, 0x71,
+            0x88, 0xAC, 0xE0,
+            0xF0, 0x80, 0x80,
+            0x93, 0xCC, 0xEA,
+            0xF5, 0x69, 0x91,
+            0xE0, 0xFF, 0xFF,
+            0xFF, 0x5C, 0xCD,
+            0xC8, 0xAD, 0x7F,
+            0xF9, 0x84, 0xEF,
+            0xB2, 0x97, 0x00,
+            0xFA, 0xFA, 0xD2,
+            0xD3, 0xD3, 0xD3,
+            0xCC, 0x99, 0xCC,
+            0x90, 0xEE, 0x90,
+            0xFF, 0xB3, 0xDE,
+            0xF0, 0xE6, 0x8C,
+            0xD3, 0x9B, 0xCB,
+            0xAD, 0xDF, 0xAD,
+            0xFE, 0xD8, 0xB1,
+            0xE6, 0xA8, 0xD7,
+            0xB1, 0x9C, 0xD9,
+            0xC5, 0xCB, 0xE1,
+            0xFF, 0xB6, 0xC1,
+            0xFF, 0xCC, 0xCB,
+            0xE9, 0x74, 0x51,
+            0xFF, 0xA0, 0x7A,
+            0xFF, 0x99, 0x99,
+            0x20, 0xB2, 0xAA,
+            0xD8, 0xD8, 0xD8,
+            0x87, 0xCE, 0xFA,
+            0x77, 0x88, 0x99,
+            0xB0, 0xC4, 0xDE,
+            0xB3, 0x8B, 0x6D,
+            0xE6, 0x8F, 0xAC,
+            0xFF, 0xFF, 0xE0,
+            0xC8, 0xA2, 0xC8,
+            0xAE, 0x98, 0xAA,
+            0xBF, 0xFF, 0x00,
+            0x00, 0xFF, 0x00,
+            0x32, 0xCD, 0x32,
+            0x9D, 0xC2, 0x09,
+            0x19, 0x59, 0x05,
+            0xFA, 0xF0, 0xE6,
+            0xC1, 0x9A, 0x6B,
+            0xDE, 0x6F, 0xA1,
+            0x6C, 0xA0, 0xDC,
+            0xF8, 0xB9, 0xD4,
+            0x67, 0x4C, 0x47,
+            0xB8, 0x6D, 0x29,
+            0x6C, 0x2E, 0x1F,
+            0x98, 0x74, 0x56,
+            0x66, 0x99, 0xCC,
+            0x15, 0xF2, 0xFD,
+            0xFE, 0xFD, 0xFA,
+            0xFF, 0xE4, 0xCD,
+            0xE6, 0x20, 0x20,
+            0x00, 0x1C, 0x3D,
+            0xFF, 0xBD, 0x88,
+            0xCC, 0x33, 0x36,
+            0xFF, 0x00, 0xFF,
+            0xFF, 0x55, 0xA3,
+            0xCA, 0x1F, 0x7B,
+            0xD0, 0x41, 0x7E,
+            0xFF, 0x00, 0x90,
+            0x9F, 0x45, 0x76,
+            0xCC, 0x33, 0x8B,
+            0xAA, 0xF0, 0xD1,
+            0xFF, 0x44, 0x66,
+            0xF8, 0xF4, 0xFF,
+            0xC0, 0x40, 0x00,
+            0xFB, 0xEC, 0x5D,
+            0xF2, 0xC6, 0x49,
+            0x60, 0x50, 0xDC,
+            0x0B, 0xDA, 0x51,
+            0x97, 0x9A, 0xAA,
+            0xF3, 0x7A, 0x48,
+            0x96, 0xFF, 0x00,
+            0xFF, 0x82, 0x43,
+            0x96, 0xFF, 0x00,
+            0x74, 0xC3, 0x65,
+            0x88, 0x00, 0x85,
+            0xEA, 0xA2, 0x21,
+            0xC3, 0x21, 0x48,
+            0x80, 0x00, 0x00,
+            0xB0, 0x30, 0x60,
+            0xE0, 0xB0, 0xFF,
+            0x91, 0x5F, 0x6D,
+            0xEF, 0x98, 0xAA,
+            0x47, 0xAB, 0xCC,
+            0x30, 0xBF, 0xBF,
+            0xAC, 0xAC, 0xE6,
+            0x5E, 0x8C, 0x31,
+            0xD9, 0xE6, 0x50,
+            0x73, 0x33, 0x80,
+            0xD9, 0x21, 0x21,
+            0xA6, 0x3A, 0x79,
+            0xFA, 0xFA, 0x37,
+            0xF2, 0xBA, 0x49,
+            0x4C, 0x91, 0x41,
+            0x73, 0xC2, 0xFB,
+            0xE5, 0xB7, 0x3B,
+            0x66, 0xDD, 0xAA,
+            0x00, 0x00, 0xCD,
+            0xE2, 0x06, 0x2C,
+            0xAF, 0x40, 0x35,
+            0xF3, 0xE5, 0xAB,
+            0x03, 0x50, 0x96,
+            0x1C, 0x35, 0x2D,
+            0xDD, 0xA0, 0xDD,
+            0xBA, 0x55, 0xD3,
+            0x00, 0x67, 0xA5,
+            0x93, 0x70, 0xDB,
+            0xBB, 0x33, 0x85,
+            0xAA, 0x40, 0x69,
+            0x3C, 0xB3, 0x71,
+            0x80, 0xDA, 0xEB,
+            0x7B, 0x68, 0xEE,
+            0xC9, 0xDC, 0x87,
+            0x00, 0xFA, 0x9A,
+            0x67, 0x4C, 0x47,
+            0x48, 0xD1, 0xCC,
+            0x79, 0x44, 0x3B,
+            0xD9, 0x60, 0x3B,
+            0xC7, 0x15, 0x85,
+            0xF8, 0xB8, 0x78,
+            0xF8, 0xDE, 0x7E,
+            0xFD, 0xBC, 0xB4,
+            0xC1, 0xF9, 0xA2,
+            0x32, 0x52, 0x7B,
+            0xA9, 0x71, 0x42,
+            0xAC, 0x43, 0x13,
+            0xA9, 0x71, 0x42,
+            0x29, 0x6E, 0x01,
+            0xDA, 0x68, 0x0F,
+            0xED, 0xA6, 0xC4,
+            0xA6, 0x2C, 0x2B,
+            0x0A, 0x7E, 0x8C,
+            0xA8, 0xA9, 0xAD,
+            0x9C, 0x7C, 0x38,
+            0x5B, 0x0A, 0x91,
+            0xFD, 0xCC, 0x0D,
+            0xE4, 0x00, 0x7C,
+            0x7E, 0xD4, 0xE6,
+            0x8D, 0xD9, 0xCC,
+            0x8B, 0x72, 0xBE,
+            0x8B, 0x86, 0x80,
+            0x4D, 0x8C, 0x57,
+            0xAC, 0xBF, 0x60,
+            0xD9, 0x82, 0xB5,
+            0xE5, 0x8E, 0x73,
+            0xA5, 0x53, 0x53,
+            0xFF, 0xEB, 0x00,
+            0xEC, 0xB1, 0x76,
+            0x70, 0x26, 0x70,
+            0x19, 0x19, 0x70,
+            0x00, 0x46, 0x8C,
+            0x00, 0x49, 0x53,
+            0xFF, 0xC4, 0x0C,
+            0xFD, 0xFF, 0xF5,
+            0x84, 0x56, 0x3C,
+            0xFF, 0xDA, 0xE9,
+            0xE3, 0xF9, 0x88,
+            0x36, 0x74, 0x7D,
+            0xF5, 0xE0, 0x50,
+            0x3E, 0xB4, 0x89,
+            0xF5, 0xFF, 0xFA,
+            0x98, 0xFF, 0x98,
+            0xBB, 0xB4, 0x77,
+            0xFF, 0xE4, 0xE1,
+            0xFA, 0xEB, 0xD7,
+            0x96, 0x71, 0x17,
+            0x3A, 0xA8, 0xC1,
+            0x73, 0xA9, 0xC2,
+            0xAE, 0x0C, 0x00,
+            0x8D, 0xA3, 0x99,
+            0x8A, 0x9A, 0x5B,
+            0x30, 0xBA, 0x8F,
+            0x99, 0x7A, 0x8D,
+            0x18, 0x45, 0x3B,
+            0x70, 0x54, 0x3E,
+            0x30, 0x60, 0x30,
+            0xC5, 0x4B, 0x8C,
+            0xC8, 0x50, 0x9B,
+            0x82, 0x8E, 0x84,
+            0xFF, 0xDB, 0x58,
+            0xCD, 0x7A, 0x00,
+            0x6E, 0x6E, 0x30,
+            0xE1, 0xAD, 0x01,
+            0x31, 0x78, 0x73,
+            0xD6, 0x52, 0x82,
+            0xAD, 0x43, 0x79,
+            0xFF, 0x55, 0x00,
+            0xF6, 0xAD, 0xC6,
+            0x2A, 0x80, 0x00,
+            0xFA, 0xDA, 0x5E,
+            0xFF, 0xDE, 0xAD,
+            0x00, 0x00, 0x80,
+            0x00, 0x00, 0x80,
+            0x19, 0x74, 0xD2,
+            0x94, 0x57, 0xEB,
+            0x1B, 0x03, 0xA3,
+            0xC3, 0x73, 0x2A,
+            0xFF, 0xA3, 0x43,
+            0x00, 0xFE, 0xFC,
+            0xFE, 0x41, 0x64,
+            0xCF, 0xAA, 0x01,
+            0x80, 0x80, 0x80,
+            0x39, 0xFF, 0x14,
+            0x39, 0xFF, 0x14,
+            0xFE, 0x34, 0x7E,
+            0x94, 0x57, 0xEB,
+            0xFF, 0x18, 0x18,
+            0xFF, 0x26, 0x03,
+            0xCC, 0xCC, 0xCC,
+            0xF6, 0x89, 0x0A,
+            0xFF, 0xF7, 0x00,
+            0x21, 0x4F, 0xC6,
+            0xD7, 0x83, 0x7F,
+            0x72, 0x74, 0x72,
+            0xA4, 0xDD, 0xED,
+            0x05, 0x90, 0x33,
+            0xE9, 0xFF, 0xDB,
+            0x4F, 0x42, 0xB5,
+            0x00, 0x77, 0xBE,
+            0x48, 0xBF, 0x91,
+            0xCC, 0x77, 0x22,
+            0x00, 0x80, 0x00,
+            0xFD, 0x52, 0x40,
+            0x43, 0x30, 0x2E,
+            0xCF, 0xB5, 0x3B,
+            0x56, 0x3C, 0x5C,
+            0xFD, 0xF5, 0xE6,
+            0x79, 0x68, 0x78,
+            0x67, 0x31, 0x47,
+            0x86, 0x7E, 0x36,
+            0xC0, 0x80, 0x81,
+            0x84, 0x84, 0x82,
+            0x80, 0x80, 0x00,
+            0x6B, 0x8E, 0x23,
+            0x3C, 0x34, 0x1F,
+            0x9A, 0xB9, 0x73,
+            0x35, 0x38, 0x39,
+            0xA8, 0xC3, 0xBC,
+            0xB7, 0x84, 0xA7,
+            0xFF, 0x7F, 0x00,
+            0xFF, 0x75, 0x38,
+            0xFF, 0x58, 0x00,
+            0xFB, 0x99, 0x02,
+            0xFF, 0xA5, 0x00,
+            0xFF, 0x9F, 0x00,
+            0xFF, 0x45, 0x00,
+            0xFA, 0x5B, 0x3D,
+            0xF8, 0xD5, 0x68,
+            0xDA, 0x70, 0xD6,
+            0xF2, 0xBD, 0xCD,
+            0xFB, 0x4F, 0x14,
+            0x65, 0x43, 0x21,
+            0x41, 0x4A, 0x4C,
+            0xFF, 0x6E, 0x4A,
+            0x00, 0x21, 0x47,
+            0x6D, 0x9A, 0x79,
+            0x99, 0x00, 0x00,
+            0x1C, 0xA9, 0xC9,
+            0x00, 0x66, 0x00,
+            0x27, 0x3B, 0xE2,
+            0x68, 0x28, 0x60,
+            0xBC, 0xD4, 0xE6,
+            0xAF, 0xEE, 0xEE,
+            0x98, 0x76, 0x54,
+            0xAF, 0x40, 0x35,
+            0x9B, 0xC4, 0xE2,
+            0xDD, 0xAD, 0xAF,
+            0xDA, 0x8A, 0x67,
+            0xAB, 0xCD, 0xEF,
+            0x87, 0xD3, 0xF8,
+            0xE6, 0xBE, 0x8A,
+            0xEE, 0xE8, 0xAA,
+            0x98, 0xFB, 0x98,
+            0xDC, 0xD0, 0xFF,
+            0xF9, 0x84, 0xE5,
+            0xFF, 0x99, 0xCC,
+            0xFA, 0xDA, 0xDD,
+            0xDD, 0xA0, 0xDD,
+            0xDB, 0x70, 0x93,
+            0x96, 0xDE, 0xD1,
+            0xC9, 0xC0, 0xBB,
+            0xEC, 0xEB, 0xBD,
+            0xBC, 0x98, 0x7E,
+            0xAF, 0xEE, 0xEE,
+            0xCC, 0x99, 0xFF,
+            0xDB, 0x70, 0x93,
+            0x6F, 0x99, 0x40,
+            0x78, 0x18, 0x4A,
+            0x00, 0x9B, 0x7D,
+            0xFF, 0xEF, 0xD5,
+            0xE6, 0x3E, 0x62,
+            0x50, 0xC8, 0x78,
+            0xD9, 0x98, 0xA0,
+            0xAE, 0xC6, 0xCF,
+            0x83, 0x69, 0x53,
+            0xCF, 0xCF, 0xC4,
+            0x77, 0xDD, 0x77,
+            0xF4, 0x9A, 0xC2,
+            0xFF, 0xB3, 0x47,
+            0xDE, 0xA5, 0xA4,
+            0xB3, 0x9E, 0xB5,
+            0xFF, 0x69, 0x61,
+            0xCB, 0x99, 0xC9,
+            0xFD, 0xFD, 0x96,
+            0x80, 0x00, 0x80,
+            0x53, 0x68, 0x78,
+            0xFF, 0xE5, 0xB4,
+            0xFF, 0xCB, 0xA4,
+            0xFF, 0xCC, 0x99,
+            0xFF, 0xDA, 0xB9,
+            0xFA, 0xDF, 0xAD,
+            0xD1, 0xE2, 0x31,
+            0xEA, 0xE0, 0xC8,
+            0x88, 0xD8, 0xC0,
+            0xB7, 0x68, 0xA2,
+            0xE6, 0xE2, 0x00,
+            0xCC, 0xCC, 0xFF,
+            0xC3, 0xCD, 0xE6,
+            0xE1, 0x2C, 0x2C,
+            0x1C, 0x39, 0xBB,
+            0x00, 0xA6, 0x93,
+            0x32, 0x12, 0x7A,
+            0xD9, 0x90, 0x58,
+            0xF7, 0x7F, 0xBE,
+            0x70, 0x1C, 0x1C,
+            0xCC, 0x33, 0x33,
+            0xFE, 0x28, 0xA2,
+            0xEC, 0x58, 0x00,
+            0xCD, 0x85, 0x3F,
+            0x8B, 0xA8, 0xB7,
+            0x00, 0x38, 0xA7,
+            0x5D, 0x19, 0x16,
+            0xB1, 0x73, 0x04,
+            0xFF, 0xDF, 0x00,
+            0x8C, 0x8C, 0x8C,
+            0x00, 0x85, 0x43,
+            0xFF, 0x73, 0x00,
+            0xFA, 0x1A, 0x8E,
+            0xCE, 0x11, 0x27,
+            0xA5, 0x7C, 0x00,
+            0xCE, 0x11, 0x27,
+            0xFE, 0xCB, 0x00,
+            0xDF, 0x00, 0xFF,
+            0x00, 0x0F, 0x89,
+            0x12, 0x35, 0x24,
+            0x45, 0xB1, 0xE8,
+            0xC3, 0x0B, 0x4E,
+            0xFD, 0xDD, 0xE6,
+            0x01, 0x79, 0x6F,
+            0x2A, 0x2F, 0x23,
+            0x56, 0x3C, 0x0D,
+            0xFF, 0xC0, 0xCB,
+            0xD7, 0x48, 0x94,
+            0xFC, 0x74, 0xFD,
+            0xFF, 0xDD, 0xF4,
+            0xD8, 0xB2, 0xD1,
+            0xFF, 0x99, 0x66,
+            0xE7, 0xAC, 0xCF,
+            0x98, 0x00, 0x36,
+            0xF7, 0x8F, 0xA7,
+            0x93, 0xC5, 0x72,
+            0x39, 0x12, 0x85,
+            0xE5, 0xE4, 0xE2,
+            0x8E, 0x45, 0x85,
+            0xDD, 0xA0, 0xDD,
+            0x59, 0x46, 0xB2,
+            0x37, 0x4F, 0x6B,
+            0x5D, 0xA4, 0x93,
+            0x86, 0x60, 0x8E,
+            0xBE, 0x4F, 0x62,
+            0xFF, 0x5A, 0x36,
+            0xB0, 0xE0, 0xE6,
+            0xFF, 0x85, 0xCF,
+            0xF5, 0x80, 0x25,
+            0x70, 0x1C, 0x1C,
+            0x00, 0x31, 0x53,
+            0xDF, 0x00, 0xFF,
+            0xCC, 0x88, 0x99,
+            0x72, 0x2F, 0x37,
+            0x64, 0x41, 0x17,
+            0x3B, 0x33, 0x1C,
+            0xFF, 0x75, 0x18,
+            0x80, 0x00, 0x80,
+            0x9F, 0x00, 0xC5,
+            0xA0, 0x20, 0xF0,
+            0x69, 0x35, 0x9C,
+            0x96, 0x78, 0xB6,
+            0x4E, 0x51, 0x80,
+            0xFE, 0x4E, 0xDA,
+            0x9C, 0x51, 0xB6,
+            0x50, 0x40, 0x4D,
+            0x9A, 0x4E, 0xAE,
+            0x51, 0x48, 0x4F,
+            0x43, 0x6B, 0x95,
+            0xE8, 0xCC, 0xD7,
+            0xA6, 0xA6, 0xA6,
+            0x8E, 0x3A, 0x59,
+            0x6A, 0x54, 0x45,
+            0x5D, 0x8A, 0xA8,
+            0xFF, 0x35, 0x5E,
+            0x24, 0x21, 0x24,
+            0xFB, 0xAB, 0x60,
+            0xE3, 0x0B, 0x5D,
+            0x91, 0x5F, 0x6D,
+            0xE2, 0x50, 0x98,
+            0xB3, 0x44, 0x6C,
+            0xD6, 0x8A, 0x59,
+            0x82, 0x66, 0x44,
+            0xFF, 0x33, 0xCC,
+            0xE3, 0x25, 0x6B,
+            0x8D, 0x4E, 0x85,
+            0x66, 0x33, 0x99,
+            0xFF, 0x00, 0x00,
+            0xEE, 0x20, 0x4D,
+            0xF2, 0x00, 0x3C,
+            0xC4, 0x02, 0x33,
+            0xED, 0x29, 0x39,
+            0xED, 0x1C, 0x24,
+            0xFE, 0x27, 0x12,
+            0xA5, 0x2A, 0x2A,
+            0x86, 0x01, 0x11,
+            0xFF, 0x53, 0x49,
+            0xE4, 0x00, 0x78,
+            0xFD, 0x3A, 0x4A,
+            0xC7, 0x15, 0x85,
+            0xA4, 0x5A, 0x52,
+            0x52, 0x2D, 0x80,
+            0x00, 0x00, 0x00,
+            0x00, 0x23, 0x87,
+            0x77, 0x76, 0x96,
+            0x00, 0x40, 0x40,
+            0x01, 0x0B, 0x13,
+            0x01, 0x02, 0x03,
+            0xF1, 0xA7, 0xFE,
+            0xD7, 0x00, 0x40,
+            0x08, 0x92, 0xD0,
+            0xA7, 0x6B, 0xCF,
+            0xB6, 0x66, 0xD2,
+            0xB0, 0x30, 0x60,
+            0x44, 0x4C, 0x38,
+            0x70, 0x42, 0x41,
+            0x00, 0xCC, 0xCC,
+            0x8A, 0x7F, 0x80,
+            0x83, 0x89, 0x96,
+            0x29, 0x0E, 0x05,
+            0xFF, 0x00, 0x7F,
+            0xF9, 0x42, 0x9E,
+            0x9E, 0x5E, 0x6F,
+            0x67, 0x48, 0x46,
+            0x96, 0x01, 0x45,
+            0xB7, 0x6E, 0x79,
+            0xE3, 0x26, 0x36,
+            0xFF, 0x66, 0xCC,
+            0xAA, 0x98, 0xA9,
+            0xBD, 0x55, 0x9C,
+            0xC2, 0x1E, 0x56,
+            0x90, 0x5D, 0x5D,
+            0xAB, 0x4E, 0x52,
+            0x65, 0x00, 0x0B,
+            0xD4, 0x00, 0x00,
+            0xBC, 0x8F, 0x8F,
+            0x00, 0x38, 0xA8,
+            0x00, 0x23, 0x66,
+            0x41, 0x69, 0xE1,
+            0x52, 0x3B, 0x35,
+            0xCA, 0x2C, 0x92,
+            0x13, 0x62, 0x07,
+            0xF9, 0x92, 0x45,
+            0x9B, 0x1C, 0x31,
+            0x9B, 0x1C, 0x31,
+            0xD0, 0x00, 0x60,
+            0x78, 0x51, 0xA9,
+            0xFA, 0xDA, 0x5E,
+            0xCE, 0x46, 0x76,
+            0xD1, 0x00, 0x56,
+            0xE0, 0x11, 0x5F,
+            0x9B, 0x11, 0x1E,
+            0xFF, 0x00, 0x28,
+            0xBB, 0x65, 0x28,
+            0xE1, 0x8E, 0x96,
+            0xA8, 0x1C, 0x07,
+            0x80, 0x46, 0x1B,
+            0x67, 0x92, 0x67,
+            0x32, 0x17, 0x4D,
+            0xB7, 0x41, 0x0E,
+            0xDA, 0x2C, 0x43,
+            0x00, 0x56, 0x3F,
+            0x8B, 0x45, 0x13,
+            0xFF, 0x78, 0x00,
+            0xFF, 0x67, 0x00,
+            0xEE, 0xD2, 0x02,
+            0xF4, 0xC4, 0x30,
+            0xBC, 0xB8, 0x8A,
+            0x23, 0x29, 0x7A,
+            0x17, 0x7B, 0x4D,
+            0xFA, 0x80, 0x72,
+            0xFF, 0x91, 0xA4,
+            0xC2, 0xB2, 0x80,
+            0x96, 0x71, 0x17,
+            0xEC, 0xD5, 0x40,
+            0xF4, 0xA4, 0x60,
+            0xFD, 0xD9, 0xB5,
+            0x96, 0x71, 0x17,
+            0x92, 0x00, 0x0A,
+            0x50, 0x7D, 0x2A,
+            0x0F, 0x52, 0xBA,
+            0x00, 0x67, 0xA5,
+            0xFF, 0x46, 0x81,
+            0xCB, 0xA1, 0x35,
+            0xFF, 0x24, 0x00,
+            0xFD, 0x0E, 0x35,
+            0xFF, 0x91, 0xAF,
+            0xFF, 0xD8, 0x00,
+            0x66, 0xFF, 0x66,
+            0x00, 0x69, 0x94,
+            0x9F, 0xE2, 0xBF,
+            0x2E, 0x8B, 0x57,
+            0x4B, 0xC7, 0xCF,
+            0x59, 0x26, 0x0B,
+            0xFF, 0xF5, 0xEE,
+            0xFF, 0xBA, 0x00,
+            0x70, 0x42, 0x14,
+            0x8A, 0x79, 0x5D,
+            0x77, 0x8B, 0xA5,
+            0xFF, 0xCF, 0xF1,
+            0x00, 0x9E, 0x60,
+            0x8F, 0xD4, 0x00,
+            0xD9, 0x86, 0x95,
+            0x5F, 0xA7, 0x78,
+            0xFC, 0x0F, 0xC0,
+            0xFF, 0x6F, 0xFF,
+            0x88, 0x2D, 0x17,
+            0xC0, 0xC0, 0xC0,
+            0xC9, 0xC0, 0xBB,
+            0xAA, 0xA9, 0xAD,
+            0xAC, 0xAC, 0xAC,
+            0xAF, 0xB1, 0xAE,
+            0x5D, 0x89, 0xBA,
+            0xC4, 0xAE, 0xAD,
+            0xBF, 0xC1, 0xC2,
+            0xCB, 0x41, 0x0B,
+            0xFF, 0x38, 0x55,
+            0xFF, 0xDB, 0x00,
+            0x00, 0x74, 0x74,
+            0x87, 0xCE, 0xEB,
+            0x76, 0xD7, 0xEA,
+            0xCF, 0x71, 0xAF,
+            0x6A, 0x5A, 0xCD,
+            0x70, 0x80, 0x90,
+            0x29, 0x96, 0x17,
+            0x00, 0x33, 0x99,
+            0xFF, 0x6D, 0x3A,
+            0xC8, 0x41, 0x86,
+            0x73, 0x82, 0x76,
+            0x83, 0x2A, 0x0D,
+            0x10, 0x0C, 0x08,
+            0x93, 0x3D, 0x41,
+            0xFF, 0xFA, 0xFA,
+            0xCE, 0xC8, 0xEF,
+            0x54, 0x5A, 0x2C,
+            0x89, 0x38, 0x43,
+            0x75, 0x75, 0x75,
+            0x9E, 0x13, 0x16,
+            0x1D, 0x29, 0x51,
+            0x80, 0x75, 0x32,
+            0x00, 0x70, 0xB8,
+            0xD1, 0x00, 0x47,
+            0xE5, 0x1A, 0x4C,
+            0x98, 0x98, 0x98,
+            0x00, 0x91, 0x50,
+            0xE8, 0x61, 0x00,
+            0xF7, 0xBF, 0xBE,
+            0x66, 0x03, 0x3C,
+            0xE6, 0x00, 0x26,
+            0x00, 0xFF, 0xFF,
+            0x4C, 0x28, 0x82,
+            0x00, 0x7F, 0x5C,
+            0xF6, 0xB5, 0x11,
+            0x8B, 0x5F, 0x4D,
+            0x0F, 0xC0, 0xFC,
+            0xA7, 0xFC, 0x00,
+            0x87, 0xFF, 0x2A,
+            0x00, 0xFF, 0x7F,
+            0xEC, 0xEB, 0xBD,
+            0x00, 0x7B, 0xB8,
+            0x46, 0x82, 0xB4,
+            0xCC, 0x33, 0xCC,
+            0x5F, 0x8A, 0x8B,
+            0xFA, 0xDA, 0x5E,
+            0x99, 0x00, 0x00,
+            0x4F, 0x66, 0x6A,
+            0xE4, 0xD9, 0x6F,
+            0xFC, 0x5A, 0x8D,
+            0x91, 0x4E, 0x75,
+            0xFF, 0x40, 0x4C,
+            0xFF, 0xCC, 0x33,
+            0xF2, 0xF2, 0x7A,
+            0xE3, 0xAB, 0x57,
+            0xFA, 0xD6, 0xA5,
+            0xFD, 0x5E, 0x53,
+            0xCF, 0x6B, 0xA9,
+            0xA8, 0x37, 0x31,
+            0xD2, 0xB4, 0x8C,
+            0xF9, 0x4D, 0x00,
+            0xF2, 0x85, 0x00,
+            0xFF, 0xCC, 0x00,
+            0xE4, 0x71, 0x7A,
+            0xFB, 0x4D, 0x46,
+            0x48, 0x3C, 0x32,
+            0x8B, 0x85, 0x89,
+            0xD0, 0xF0, 0xC0,
+            0xF8, 0x83, 0x79,
+            0xF4, 0xC2, 0xC2,
+            0x00, 0x80, 0x80,
+            0x36, 0x75, 0x88,
+            0x99, 0xE6, 0xB3,
+            0x00, 0x82, 0x7F,
+            0xCF, 0x34, 0x76,
+            0x3C, 0x21, 0x26,
+            0xCD, 0x57, 0x00,
+            0xE2, 0x72, 0x5B,
+            0xD8, 0xBF, 0xD8,
+            0xDE, 0x6F, 0xA1,
+            0xFC, 0x89, 0xAC,
+            0x0A, 0xBA, 0xB5,
+            0xE0, 0x8D, 0x3C,
+            0xDB, 0xD7, 0xD2,
+            0x87, 0x86, 0x81,
+            0xEE, 0xE6, 0x00,
+            0xFF, 0x63, 0x47,
+            0x74, 0x6C, 0xC0,
+            0xFF, 0xC8, 0x7C,
+            0xFD, 0x0E, 0x35,
+            0x80, 0x80, 0x80,
+            0x00, 0x75, 0x5E,
+            0xCD, 0xA4, 0xDE,
+            0x00, 0x73, 0xCF,
+            0x3E, 0x8E, 0xDE,
+            0xFF, 0x87, 0x8D,
+            0xDE, 0xAA, 0x88,
+            0xB5, 0x72, 0x81,
+            0x40, 0xE0, 0xD0,
+            0x00, 0xFF, 0xEF,
+            0xA0, 0xD6, 0xB4,
+            0x00, 0xC5, 0xCD,
+            0x8A, 0x9A, 0x5B,
+            0xFA, 0xD6, 0xA5,
+            0x6F, 0x4E, 0x37,
+            0x7C, 0x48, 0x48,
+            0xA6, 0x7B, 0x5B,
+            0xC0, 0x99, 0x99,
+            0x8A, 0x49, 0x6B,
+            0x66, 0x02, 0x3C,
+            0x00, 0x33, 0xAA,
+            0xD9, 0x00, 0x4C,
+            0x88, 0x78, 0xC3,
+            0x53, 0x68, 0x95,
+            0xFF, 0xB3, 0x00,
+            0xBA, 0x00, 0x01,
+            0x3C, 0xD0, 0x70,
+            0x3F, 0x00, 0xFF,
+            0x41, 0x66, 0xF5,
+            0xFF, 0x6F, 0xFF,
+            0xFC, 0x6C, 0x85,
+            0x63, 0x51, 0x47,
+            0xFF, 0xDD, 0xCA,
+            0x5B, 0x92, 0xE5,
+            0xB7, 0x87, 0x27,
+            0xF7, 0x7F, 0x00,
+            0xFF, 0xFF, 0x66,
+            0x01, 0x44, 0x21,
+            0x7B, 0x11, 0x13,
+            0xAE, 0x20, 0x29,
+            0xE1, 0xAD, 0x21,
+            0x00, 0x4F, 0x98,
+            0x99, 0x00, 0x00,
+            0xFF, 0xCC, 0x00,
+            0xD3, 0x00, 0x3F,
+            0x08, 0x08, 0x08,
+            0x66, 0x42, 0x28,
+            0xF3, 0xE5, 0xAB,
+            0xF3, 0x8F, 0xA9,
+            0xC5, 0xB3, 0x58,
+            0xC8, 0x08, 0x15,
+            0x43, 0xB3, 0xAE,
+            0xE3, 0x42, 0x34,
+            0xD9, 0x38, 0x1E,
+            0xA0, 0x20, 0xF0,
+            0x18, 0x88, 0x0d,
+            0x74, 0xBB, 0xFB,
+            0x66, 0x66, 0xFF,
+            0x64, 0xE9, 0x86,
+            0xFF, 0xB0, 0x77,
+            0xFF, 0xDF, 0xBF,
+            0xFF, 0xFF, 0xBF,
+            0x8F, 0x00, 0xFF,
+            0x32, 0x4A, 0xB2,
+            0xF7, 0x53, 0x94,
+            0x67, 0x44, 0x03,
+            0x40, 0x82, 0x6D,
+            0x00, 0x96, 0x98,
+            0x7C, 0x9E, 0xD9,
+            0xCC, 0x99, 0x00,
+            0x92, 0x27, 0x24,
+            0x9F, 0x1D, 0x35,
+            0xDA, 0x1D, 0x81,
+            0x00, 0xAA, 0xEE,
+            0xCC, 0x00, 0x33,
+            0xFF, 0x99, 0x00,
+            0xA6, 0xD6, 0x08,
+            0x00, 0xCC, 0x33,
+            0xB8, 0x0C, 0xE3,
+            0xFF, 0x5F, 0x00,
+            0xFF, 0xA0, 0x00,
+            0xCC, 0x00, 0xFF,
+            0xFF, 0x00, 0x6C,
+            0xF7, 0x0D, 0x1A,
+            0xDF, 0x61, 0x24,
+            0x00, 0xCC, 0xFF,
+            0xF0, 0x74, 0x27,
+            0xFF, 0xA0, 0x89,
+            0xE5, 0x60, 0x24,
+            0x9F, 0x00, 0xFF,
+            0xFF, 0xE3, 0x02,
+            0xCE, 0xFF, 0x00,
+            0x34, 0xB2, 0x33,
+            0x00, 0x42, 0x42,
+            0xF0, 0x5C, 0x85,
+            0xBF, 0x41, 0x47,
+            0xA4, 0xF4, 0xF9,
+            0x7C, 0x98, 0xAB,
+            0x64, 0x54, 0x52,
+            0xF5, 0xDE, 0xB3,
+            0xFF, 0xFF, 0xFF,
+            0xED, 0xE6, 0xD6,
+            0xE6, 0xE0, 0xD4,
+            0xF5, 0xF5, 0xF5,
+            0xA2, 0xAD, 0xD0,
+            0xD4, 0x70, 0xA2,
+            0xFF, 0x43, 0xA4,
+            0xFC, 0x6C, 0x85,
+            0xFD, 0x58, 0x00,
+            0xA7, 0x55, 0x02,
+            0x72, 0x2F, 0x37,
+            0xB1, 0x12, 0x26,
+            0x67, 0x31, 0x47,
+            0xFF, 0x00, 0x7C,
+            0xA0, 0xE6, 0xFF,
+            0x56, 0x88, 0x7D,
+            0xC9, 0xA0, 0xDC,
+            0xC1, 0x9A, 0x6B,
+            0x73, 0x86, 0x78,
+            0x0F, 0x4D, 0x92,
+            0x1C, 0x28, 0x41,
+            0xFF, 0xFF, 0x00,
+            0xFC, 0xE8, 0x83,
+            0xEF, 0xCC, 0x00,
+            0xFF, 0xD3, 0x00,
+            0xFE, 0xDF, 0x00,
+            0xFF, 0xEF, 0x00,
+            0xFE, 0xFE, 0x33,
+            0x9A, 0xCD, 0x32,
+            0xFF, 0xAE, 0x42,
+            0xFF, 0xF0, 0x00,
+            0xFF, 0xF7, 0x00,
+            0x00, 0x14, 0xA8,
+            0x2C, 0x16, 0x08,
+            0x39, 0xA7, 0x8E
+    };
 
     private static Paint newDefaultPaint() {
         Paint result = new Paint();
@@ -663,7 +3644,7 @@ public final class PaintBox {
         }
     }
 
-    private long[] wikipediaColors = new long[1494];
+    private long[] wikipediaColors = new long[wikipediaNames.length];
 
     public PaintBox(WatchFacePreset preset) {
         this.preset = preset;
@@ -689,4487 +3670,22 @@ public final class PaintBox {
 //        mShadowPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, Color.WHITE);
 
 //        generatePalette();
-//        generateHugeListOfColors();
-//        generateTuples();
+        generateHugeListOfColors();
+        generateTuples();
     }
 
     @TargetApi(26)
     private void generateHugeListOfColors() {
-        int i = 0;
         ColorSpace CIE_LAB = ColorSpace.get(ColorSpace.Named.CIE_LAB);
 
         Log.d("AnalogWatchFace", "Generating lots of colors...");
 
-        wikipediaNames[i] = "Absolute Zero";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x48, 0xBA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Acajou";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4C, 0x2F, 0x27), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Acid Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB0, 0xBF, 0x1A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Aero";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x7C, 0xB9, 0xE8), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Aero Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC9, 0xFF, 0xE5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "African Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB2, 0x84, 0xBE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Air Force Blue (RAF)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x5D, 0x8A, 0xA8), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Air Force Blue (USAF)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x30, 0x8F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Air Superiority Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x72, 0xA0, 0xC1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Alabama Crimson";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAF, 0x00, 0x2A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Alabaster";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF2, 0xF0, 0xE6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Alice Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF0, 0xF8, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Alien Armpit";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x84, 0xDE, 0x02), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Alizarin Crimson";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE3, 0x26, 0x36), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Alloy Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC4, 0x62, 0x10), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Almond";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEF, 0xDE, 0xCD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Amaranth";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE5, 0x2B, 0x50), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Amaranth Deep Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9F, 0x2B, 0x68), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Amaranth Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF1, 0x9C, 0xBB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Amaranth Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAB, 0x27, 0x4F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Amaranth Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD3, 0x21, 0x2D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Amazon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3B, 0x7A, 0x57), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Amazonite";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xC4, 0xB0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Amber";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xBF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Amber (SAE/ECE)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x7E, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "American Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3B, 0x3B, 0x6D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "American Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x80, 0x40, 0x40), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "American Gold";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD3, 0xAF, 0x37), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "American Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x34, 0xB3, 0x34), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "American Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x8B, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "American Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x98, 0x99), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "American Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x43, 0x1C, 0x53), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "American Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB3, 0x21, 0x34), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "American Rose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x03, 0x3E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "American Silver";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCF, 0xCF, 0xCF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "American Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x55, 0x1B, 0x8C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "American Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF2, 0xB4, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Amethyst";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x99, 0x66, 0xCC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Android Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA4, 0xC6, 0x39), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Anti-Flash White";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF2, 0xF3, 0xF4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Antique Brass";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCD, 0x95, 0x75), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Antique Bronze";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x66, 0x5D, 0x1E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Antique Fuchsia";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x91, 0x5C, 0x83), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Antique Ruby";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x84, 0x1B, 0x2D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Antique White";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFA, 0xEB, 0xD7), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ao (English)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x80, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Apple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x66, 0xB4, 0x47), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Apple Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8D, 0xB6, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Apricot";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFB, 0xCE, 0xB1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Aqua";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xFF, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Aquamarine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x7F, 0xFF, 0xD4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Arctic Lime";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD0, 0xFF, 0x14), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Army Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4B, 0x53, 0x20), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Arsenic";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3B, 0x44, 0x4B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Artichoke";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8F, 0x97, 0x79), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Arylide Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE9, 0xD6, 0x6B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ash Gray";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB2, 0xBE, 0xB5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Asparagus";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x87, 0xA9, 0x6B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ateneo Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x3A, 0x6C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Atomic Tangerine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x99, 0x66), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Auburn";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA5, 0x2A, 0x2A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Aureolin";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFD, 0xEE, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "AuroMetalSaurus";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x6E, 0x7F, 0x80), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Avocado";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x56, 0x82, 0x03), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Awesome";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x20, 0x52), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Axolotl";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x63, 0x77, 0x5B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Aztec Gold";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC3, 0x99, 0x53), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Azure";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x7F, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Azure (Web Color)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF0, 0xFF, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Azure Mist";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF0, 0xFF, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Azureish White";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDB, 0xE9, 0xF4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Baby Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x89, 0xCF, 0xF0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Baby Blue Eyes";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA1, 0xCA, 0xF1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Baby Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF4, 0xC2, 0xC2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Baby Powder";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFE, 0xFE, 0xFA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Baker-Miller Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x91, 0xAF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ball Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x21, 0xAB, 0xCD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Banana Mania";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFA, 0xE7, 0xB5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Banana Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xE1, 0x35), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bangladesh Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x6A, 0x4E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Barbie Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE0, 0x21, 0x8A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Barn Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x7C, 0x0A, 0x02), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Battery Charged Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x1D, 0xAC, 0xD6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Battleship Grey";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x84, 0x84, 0x82), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bazaar";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x98, 0x77, 0x7B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Beau Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBC, 0xD4, 0xE6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Beaver";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9F, 0x81, 0x70), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Begonia";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFA, 0x6E, 0x79), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Beige";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF5, 0xF5, 0xDC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "B'dazzled Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x2E, 0x58, 0x94), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Big Dip O’ruby";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9C, 0x25, 0x42), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Big Foot Feet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE8, 0x8E, 0x5A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bisque";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xE4, 0xC4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bistre";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3D, 0x2B, 0x1F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bistre Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x96, 0x71, 0x17), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bitter Lemon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCA, 0xE0, 0x0D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bitter Lime";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBF, 0xFF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bittersweet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFE, 0x6F, 0x5E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bittersweet Shimmer";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBF, 0x4F, 0x51), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Black";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x00, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Black Bean";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3D, 0x0C, 0x02), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Black Chocolate";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x1B, 0x18, 0x11), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Black Coffee";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3B, 0x2F, 0x2F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Black Coral";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x54, 0x62, 0x6F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Black Leather Jacket";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x25, 0x35, 0x29), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Black Olive";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3B, 0x3C, 0x36), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blackberry";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8F, 0x59, 0x73), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Black Shadows";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBF, 0xAF, 0xB2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blanched Almond";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xEB, 0xCD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blast-Off Bronze";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA5, 0x71, 0x64), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bleu De France";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x31, 0x8C, 0xE7), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blizzard Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAC, 0xE5, 0xEE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blond";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFA, 0xF0, 0xBE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blood Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD1, 0x00, 0x1C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blood Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x66, 0x00, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x00, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blue (Crayola)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x1F, 0x75, 0xFE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blue (Munsell)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x93, 0xAF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blue (NCS)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x87, 0xBD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blue (Pantone)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x18, 0xA8), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blue (Pigment)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x33, 0x33, 0x99), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blue (RYB)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x02, 0x47, 0xFE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blue Bell";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA2, 0xA2, 0xD0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blue Bolt";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xB9, 0xFB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blue-Gray";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x66, 0x99, 0xCC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blue-Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x0D, 0x98, 0xBA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blue Jeans";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x5D, 0xAD, 0xEC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blue Lagoon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAC, 0xE5, 0xEE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blue-Magenta Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x55, 0x35, 0x92), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blue Sapphire";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x12, 0x61, 0x80), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blue-Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8A, 0x2B, 0xE2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blue Yonder";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x50, 0x72, 0xA7), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blueberry";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4F, 0x86, 0xF7), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bluebonnet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x1C, 0x1C, 0xF0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Blush";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDE, 0x5D, 0x83), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bole";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x79, 0x44, 0x3B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bondi Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x95, 0xB6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bone";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE3, 0xDA, 0xC9), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Booger Buster";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDD, 0xE2, 0x6A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Boston University Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0x00, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bottle Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x6A, 0x4E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Boysenberry";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x87, 0x32, 0x60), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Brandeis Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x70, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Brass";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB5, 0xA6, 0x42), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Brick Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCB, 0x41, 0x54), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bright Cerulean";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x1D, 0xAC, 0xD6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bright Gray";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEB, 0xEC, 0xF0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bright Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x66, 0xFF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bright Lavender";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBF, 0x94, 0xE4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bright Lilac";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD8, 0x91, 0xEF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bright Maroon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC3, 0x21, 0x48), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bright Navy Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x19, 0x74, 0xD2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bright Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x00, 0x7F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bright Turquoise";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x08, 0xE8, 0xDE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bright Ube";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD1, 0x9F, 0xE8), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bright Yellow (Crayola)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xAA, 0x1D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Brilliant Azure";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x33, 0x99, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Brilliant Lavender";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF4, 0xBB, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Brilliant Rose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x55, 0xA3), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Brink Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFB, 0x60, 0x7F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "British Racing Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x42, 0x25), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bronze";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x88, 0x54, 0x0B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bronze";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCD, 0x7F, 0x32), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bronze (Metallic)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB0, 0x8D, 0x57), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bronze Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x73, 0x70, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x99, 0x33, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Brown (Crayola)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAF, 0x59, 0x3E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Brown (Traditional)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x96, 0x4B, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Brown (Web)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA5, 0x2A, 0x2A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Brown-Nose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x6B, 0x44, 0x23), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Brown Sugar";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAF, 0x6E, 0x4D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Brown Chocolate";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x5F, 0x19, 0x33), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Brown Coffee";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4A, 0x2C, 0x2A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Brown Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0x99, 0x66), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Brunswick Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x1B, 0x4D, 0x3E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bubble Gum";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xC1, 0xCC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bubbles";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE7, 0xFE, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bud Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x7B, 0xB6, 0x61), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Buff";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF0, 0xDC, 0x82), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Bulgarian Rose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x48, 0x06, 0x07), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Burgundy";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x80, 0x00, 0x20), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Burlywood";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDE, 0xB8, 0x87), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Burnished Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA1, 0x7A, 0x74), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Burnt Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0x55, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Burnt Sienna";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE9, 0x74, 0x51), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Burnt Umber";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8A, 0x33, 0x24), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Button Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x24, 0xA0, 0xED), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Byzantine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBD, 0x33, 0xA4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Byzantium";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x70, 0x29, 0x63), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cadet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x53, 0x68, 0x72), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cadet Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x5F, 0x9E, 0xA0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cadet Grey";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x91, 0xA3, 0xB0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cadmium Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x0A, 0x11, 0x95), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cadmium Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x6B, 0x3C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cadmium Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xED, 0x87, 0x2D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cadmium Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB6, 0x0C, 0x26), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cadmium Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE3, 0x00, 0x22), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cadmium Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xF6, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cadmium Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x7F, 0x3E, 0x98), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Café Au Lait";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA6, 0x7B, 0x5B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Café Noir";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4B, 0x36, 0x21), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cal Poly Pomona Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x1E, 0x4D, 0x2B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Calamansi";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFC, 0xFF, 0xA4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cambridge Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA3, 0xC1, 0xAD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Camel";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC1, 0x9A, 0x6B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cameo Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEF, 0xBB, 0xCC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Camouflage Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x78, 0x86, 0x6B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Canary";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xFF, 0x99), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Canary Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xEF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Candy Apple Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x08, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Candy Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE4, 0x71, 0x7A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Capri";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xBF, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Caput Mortuum";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x59, 0x27, 0x20), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Caramel";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xD5, 0x9A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cardinal";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC4, 0x1E, 0x3A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Caribbean Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xCC, 0x99), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Carmine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x96, 0x00, 0x18), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Carmine (M&P)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD7, 0x00, 0x40), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Carmine Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEB, 0x4C, 0x42), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Carmine Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x00, 0x38), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Carnation Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xA6, 0xC9), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Carnelian";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB3, 0x1B, 0x1B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Carolina Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x56, 0xA0, 0xD3), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Carrot Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xED, 0x91, 0x21), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Castleton Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x56, 0x3F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Catalina Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x06, 0x2A, 0x78), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Catawba";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x70, 0x36, 0x42), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cedar Chest";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC9, 0x5A, 0x49), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ceil";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x92, 0xA1, 0xCF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Celadon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAC, 0xE1, 0xAF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Celadon Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x7B, 0xA7), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Celadon Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x2F, 0x84, 0x7C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Celeste";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB2, 0xFF, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Celestial Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x49, 0x97, 0xD0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cerise";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDE, 0x31, 0x63), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cerise Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEC, 0x3B, 0x83), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cerulean";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x7B, 0xA7), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cerulean Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x2A, 0x52, 0xBE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cerulean Frost";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x6D, 0x9B, 0xC3), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "CG Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x7A, 0xA5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "CG Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE0, 0x3C, 0x31), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chamoisee";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA0, 0x78, 0x5A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Champagne";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF7, 0xE7, 0xCE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Champagne Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF1, 0xDD, 0xCF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Charcoal";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x36, 0x45, 0x4F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Charleston Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x23, 0x2B, 0x2B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Charm";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD0, 0x74, 0x8B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Charm Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE6, 0x8F, 0xAC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chartreuse (Traditional)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDF, 0xFF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chartreuse (Web)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x7F, 0xFF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cheese";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xA6, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cherry";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDE, 0x31, 0x63), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cherry Blossom Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xB7, 0xC5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chestnut";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x95, 0x45, 0x35), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "China Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDE, 0x6F, 0xA1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "China Rose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA8, 0x51, 0x6E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chinese Black";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x14, 0x14, 0x14), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chinese Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x36, 0x51, 0x94), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chinese Bronze";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCD, 0x80, 0x32), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chinese Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAB, 0x38, 0x1F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chinese Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD0, 0xDB, 0x61), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chinese Gold";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0x99, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chinese Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF3, 0x70, 0x42), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chinese Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDE, 0x70, 0xA1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chinese Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x72, 0x0B, 0x98), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chinese Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCD, 0x07, 0x1E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chinese Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAA, 0x38, 0x1E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chinese Silver";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0xCC, 0xCC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chinese Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x85, 0x60, 0x88), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chinese White";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE2, 0xE5, 0xDE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chinese Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xB2, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chlorophyll Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4A, 0xFF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chocolate Kisses";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3C, 0x14, 0x21), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chocolate (Traditional)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x7B, 0x3F, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chocolate (Web)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD2, 0x69, 0x1E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Christmas Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x2A, 0x8F, 0xBD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Christmas Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x36, 0x51, 0x94), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Christmas Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x5D, 0x2B, 0x2C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Christmas Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4C, 0x1F, 0x02), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Christmas Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3C, 0x8D, 0x0D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Christmas Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x75, 0x02), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Christmas Gold";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCA, 0xA9, 0x06), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Christmas Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x66, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Christmas Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD5, 0x6C, 0x2B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Christmas Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xCC, 0xCB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Christmas Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE3, 0x42, 0x85), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Christmas Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x66, 0x33, 0x98), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Christmas Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4D, 0x08, 0x4B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Christmas Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAA, 0x01, 0x14), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Christmas Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB0, 0x1B, 0x2E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Christmas Silver";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE1, 0xDF, 0xE0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Christmas Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xCC, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Christmas Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFE, 0xF2, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Chrome Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xA7, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cinereous";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x98, 0x81, 0x7B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cinnabar";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE3, 0x42, 0x34), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cinnamon[Citation Needed]";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD2, 0x69, 0x1E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cinnamon Satin";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCD, 0x60, 0x7E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Citrine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE4, 0xD0, 0x0A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Citrine Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x93, 0x37, 0x09), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Citron";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9F, 0xA9, 0x1F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Claret";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x7F, 0x17, 0x34), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Classic Rose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFB, 0xCC, 0xE7), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cobalt Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x47, 0xAB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cocoa Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD2, 0x69, 0x1E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Coconut";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x96, 0x5A, 0x3E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Coffee";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x6F, 0x4E, 0x37), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cola";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3C, 0x30, 0x24), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Columbia Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC4, 0xD8, 0xE2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Conditioner";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xFF, 0xCC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Congo Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF8, 0x83, 0x79), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cool Black";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x2E, 0x63), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cool Grey";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8C, 0x92, 0xAC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cookies And Cream";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEE, 0xE0, 0xB1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Copper";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB8, 0x73, 0x33), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Copper (Crayola)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDA, 0x8A, 0x67), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Copper Penny";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAD, 0x6F, 0x69), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Copper Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCB, 0x6D, 0x51), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Copper Rose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x99, 0x66, 0x66), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Coquelicot";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x38, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Coral";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x7F, 0x50), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Coral Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF8, 0x83, 0x79), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Coral Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x40, 0x40), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Coral Reef";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFD, 0x7C, 0x6E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cordovan";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x89, 0x3F, 0x45), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Corn";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFB, 0xEC, 0x5D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cornell Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB3, 0x1B, 0x1B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cornflower Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x64, 0x95, 0xED), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cornsilk";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xF8, 0xDC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cosmic Cobalt";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x2E, 0x2D, 0x88), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cosmic Latte";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xF8, 0xE7), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Coyote Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x81, 0x61, 0x3C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cotton Candy";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xBC, 0xD9), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cream";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xFD, 0xD0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Crimson";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDC, 0x14, 0x3C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Crimson Glory";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBE, 0x00, 0x32), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Crimson Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x99, 0x00, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cultured";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF5, 0xF5, 0xF5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cyan";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xFF, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cyan Azure";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4E, 0x82, 0xB4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cyan-Blue Azure";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x46, 0x82, 0xBF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cyan Cobalt Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x28, 0x58, 0x9C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cyan Cornflower Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x18, 0x8B, 0xC2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cyan (Process)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xB7, 0xEB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cyber Grape";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x58, 0x42, 0x7C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cyber Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xD3, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Cyclamen";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF5, 0x6F, 0xA1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Daffodil";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xFF, 0x31), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dandelion";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF0, 0xE1, 0x30), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x00, 0x8B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Blue-Gray";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x66, 0x66, 0x99), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Bronze";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x80, 0x4A, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x65, 0x43, 0x21), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Brown-Tangelo";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x88, 0x65, 0x4E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Byzantium";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x5D, 0x39, 0x54), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Candy Apple Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA4, 0x00, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Cerulean";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x08, 0x45, 0x7E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Charcoal";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x33, 0x33, 0x33), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Chestnut";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x98, 0x69, 0x60), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Chocolate";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x49, 0x02, 0x06), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Chocolate (Hershey's)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3C, 0x13, 0x21), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Cornflower Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x26, 0x42, 0x8B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Coral";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCD, 0x5B, 0x45), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Cyan";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x8B, 0x8B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Electric Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x53, 0x68, 0x78), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Goldenrod";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB8, 0x86, 0x0B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Gray (X11)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA9, 0xA9, 0xA9), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x01, 0x32, 0x20), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Green (X11)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x64, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Gunmetal";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x1F, 0x26, 0x2A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Imperial Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x41, 0x6A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Imperial Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x14, 0x7E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Jungle Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x1A, 0x24, 0x21), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Khaki";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBD, 0xB7, 0x6B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Lava";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x48, 0x3C, 0x32), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Lavender";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x73, 0x4F, 0x96), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Lemon Lime";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8B, 0xBE, 0x1B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Liver";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x53, 0x4B, 0x4F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Liver (Horses)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x54, 0x3D, 0x37), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Magenta";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8B, 0x00, 0x8B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Medium Gray";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA9, 0xA9, 0xA9), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Midnight Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x33, 0x66), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Moss Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4A, 0x5D, 0x23), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Olive Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x55, 0x6B, 0x2F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x8C, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Orchid";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x99, 0x32, 0xCC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Pastel Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x77, 0x9E, 0xCB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Pastel Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x03, 0xC0, 0x3C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Pastel Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x96, 0x6F, 0xD6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Pastel Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC2, 0x3B, 0x22), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE7, 0x54, 0x80), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Powder Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x33, 0x99), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Puce";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4F, 0x3A, 0x3C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x30, 0x19, 0x34), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Raspberry";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x87, 0x26, 0x57), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8B, 0x00, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Salmon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE9, 0x96, 0x7A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Scarlet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x56, 0x03, 0x19), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Sea Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8F, 0xBC, 0x8F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Sienna";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3C, 0x14, 0x14), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Sky Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8C, 0xBE, 0xD6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Slate Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x48, 0x3D, 0x8B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Slate Gray";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x2F, 0x4F, 0x4F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Spring Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x17, 0x72, 0x45), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Tan";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x91, 0x81, 0x51), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Tangerine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xA8, 0x12), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Taupe";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x48, 0x3C, 0x32), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Terra Cotta";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0x4E, 0x5C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Turquoise";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xCE, 0xD1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Vanilla";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD1, 0xBE, 0xA8), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x94, 0x00, 0xD3), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dark Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9B, 0x87, 0x0C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dartmouth Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x70, 0x3C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Davy's Grey";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x55, 0x55, 0x55), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Debian Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD7, 0x0A, 0x53), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Amethyst";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9C, 0x8A, 0xA4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Aquamarine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x40, 0x82, 0x6D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Carmine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA9, 0x20, 0x3E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Carmine Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEF, 0x30, 0x38), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Carrot Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE9, 0x69, 0x2C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Cerise";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDA, 0x32, 0x87), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Champagne";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFA, 0xD6, 0xA5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Chestnut";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB9, 0x4E, 0x48), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Coffee";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x70, 0x42, 0x41), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Fuchsia";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC1, 0x54, 0xC1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x05, 0x66, 0x08), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Green-Cyan Turquoise";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x0E, 0x7C, 0x61), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Jungle Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x4B, 0x49), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Koamaru";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x33, 0x33, 0x66), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Lemon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF5, 0xC7, 0x1A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Lilac";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x99, 0x55, 0xBB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Magenta";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0x00, 0xCC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Maroon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x82, 0x00, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Mauve";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD4, 0x73, 0xD4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Moss Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x35, 0x5E, 0x3B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Peach";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xCB, 0xA4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x14, 0x93), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Puce";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA9, 0x5C, 0x68), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x85, 0x01, 0x01), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Ruby";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x84, 0x3F, 0x5B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Saffron";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x99, 0x33), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Sky Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xBF, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Space Sparkle";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4A, 0x64, 0x6C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Spring Bud";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x55, 0x6B, 0x2F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Taupe";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x7E, 0x5E, 0x60), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Tuscan Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x66, 0x42, 0x4D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deep Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x33, 0x00, 0x66), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Deer";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBA, 0x87, 0x59), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Denim";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x15, 0x60, 0xBD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Denim Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x22, 0x43, 0xB6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Desaturated Cyan";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x66, 0x99, 0x99), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Desert";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC1, 0x9A, 0x6B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Desert Sand";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xED, 0xC9, 0xAF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Desire";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEA, 0x3C, 0x53), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Diamond";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB9, 0xF2, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dim Gray";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x69, 0x69, 0x69), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dingy Dungeon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC5, 0x31, 0x51), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dirt";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9B, 0x76, 0x53), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dirty Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB5, 0x65, 0x1E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dirty White";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE8, 0xE4, 0xC9), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dodger Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x1E, 0x90, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dodie Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFE, 0xF6, 0x5B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dogwood Rose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD7, 0x18, 0x68), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dollar Bill";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x85, 0xBB, 0x65), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dolphin Gray";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x82, 0x8E, 0x84), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Donkey Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x66, 0x4C, 0x28), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Drab";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x96, 0x71, 0x17), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Duke Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x00, 0x9C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dust Storm";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE5, 0xCC, 0xC9), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Dutch White";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEF, 0xDF, 0xBB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Earth Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE1, 0xA9, 0x5F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ebony";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x55, 0x5D, 0x50), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ecru";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC2, 0xB2, 0x80), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Eerie Black";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x1B, 0x1B, 0x1B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Eggplant";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x61, 0x40, 0x51), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Eggshell";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF0, 0xEA, 0xD6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Egyptian Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x10, 0x34, 0xA6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Electric Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x7D, 0xF9, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Electric Crimson";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x00, 0x3F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Electric Cyan";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xFF, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Electric Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xFF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Electric Indigo";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x6F, 0x00, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Electric Lavender";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF4, 0xBB, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Electric Lime";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0xFF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Electric Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBF, 0x00, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Electric Ultramarine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3F, 0x00, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Electric Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8F, 0x00, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Electric Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xFF, 0x33), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Emerald";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x50, 0xC8, 0x78), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Emerald Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x04, 0x63, 0x07), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Eminence";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x6C, 0x30, 0x82), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "English Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x1B, 0x4D, 0x3E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "English Lavender";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB4, 0x83, 0x95), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "English Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAB, 0x4B, 0x52), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "English Vermillion";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0x47, 0x4B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "English Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x56, 0x3C, 0x5C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Eton Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x96, 0xC8, 0xA2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Eucalyptus";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x44, 0xD7, 0xA8), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Fallow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC1, 0x9A, 0x6B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Falu Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x80, 0x18, 0x18), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Fandango";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB5, 0x33, 0x89), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Fandango Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDE, 0x52, 0x85), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Fashion Fuchsia";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF4, 0x00, 0xA1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Fawn";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE5, 0xAA, 0x70), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Feldgrau";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4D, 0x5D, 0x53), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Feldspar";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFD, 0xD5, 0xB1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Fern Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4F, 0x79, 0x42), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ferrari Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x28, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Field Drab";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x6C, 0x54, 0x1E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Fiery Rose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x54, 0x70), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Firebrick";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB2, 0x22, 0x22), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Fire Engine Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCE, 0x20, 0x29), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Fire Opal";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE9, 0x5C, 0x4B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Flame";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE2, 0x58, 0x22), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Flamingo Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFC, 0x8E, 0xAC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Flattery";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x6B, 0x44, 0x23), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Flavescent";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF7, 0xE9, 0x8E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Flax";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEE, 0xDC, 0x82), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Flesh";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xE9, 0xD1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Flirt";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA2, 0x00, 0x6D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Floral White";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xFA, 0xF0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Fluorescent Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xBF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Fluorescent Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x14, 0x93), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Fluorescent Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0xFF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Folly";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x00, 0x4F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Forest Green (Traditional)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x01, 0x44, 0x21), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Forest Green (Web)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x22, 0x8B, 0x22), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "French Beige";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA6, 0x7B, 0x5B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "French Bistre";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x85, 0x6D, 0x4D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "French Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x72, 0xBB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "French Fuchsia";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFD, 0x3F, 0x92), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "French Lilac";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x86, 0x60, 0x8E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "French Lime";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9E, 0xFD, 0x38), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "French Mauve";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD4, 0x73, 0xD4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "French Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFD, 0x6C, 0x9E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "French Plum";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x81, 0x14, 0x53), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "French Puce";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4E, 0x16, 0x09), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "French Raspberry";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC7, 0x2C, 0x48), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "French Rose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF6, 0x4A, 0x8A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "French Sky Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x77, 0xB5, 0xFE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "French Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x88, 0x06, 0xCE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "French Wine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAC, 0x1E, 0x44), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Fresh Air";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA6, 0xE7, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Frostbite";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE9, 0x36, 0xA7), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Fuchsia";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x00, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Fuchsia (Crayola)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC1, 0x54, 0xC1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Fuchsia Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x77, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Fuchsia Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0x39, 0x7B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Fuchsia Rose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC7, 0x43, 0x75), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Fulvous";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE4, 0x84, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Fuzzy Wuzzy";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0x66, 0x66), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Gainsboro";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDC, 0xDC, 0xDC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Gamboge";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE4, 0x9B, 0x0F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Gamboge Orange (Brown)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x99, 0x66, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Granet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x73, 0x36, 0x35), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Gargoyle Gas";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xDF, 0x46), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Generic Viridian";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x7F, 0x66), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ghost White";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF8, 0xF8, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Giant's Club";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB0, 0x5C, 0x52), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Giants Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFE, 0x5A, 0x1D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ginger";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB0, 0x65, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Glaucous";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x60, 0x82, 0xB6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Glitter";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE6, 0xE8, 0xFA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Glossy Grape";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAB, 0x92, 0xB3), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "GO Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xAB, 0x66), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Gold";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA5, 0x7C, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Gold (Metallic)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD4, 0xAF, 0x37), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Gold (Web) (Golden)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xD7, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Gold (Crayola)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE6, 0xBE, 0x8A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Gold Fusion";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x85, 0x75, 0x4E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Gold Foil";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBD, 0x9B, 0x16), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Golden Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x99, 0x65, 0x15), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Golden Poppy";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFC, 0xC2, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Golden Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xDF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Goldenrod";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDA, 0xA5, 0x20), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Granite Gray";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x67, 0x67, 0x67), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Granny Smith Apple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA8, 0xE4, 0xA0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Grape";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x6F, 0x2D, 0xA8), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Gray (HTML/CSS Gray)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x80, 0x80, 0x80), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Gray (X11 Gray)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBE, 0xBE, 0xBE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Gray-Asparagus";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x46, 0x59, 0x45), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Gray-Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8C, 0x92, 0xAC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x80, 0x01), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Green (Color Wheel) (X11 Green)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xFF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Green (Crayola)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x1C, 0xAC, 0x78), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Green (HTML/CSS Color)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x80, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Green (Munsell)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xA8, 0x77), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Green (NCS)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x9F, 0x6B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Green (Pantone)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xAD, 0x43), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Green (Pigment)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xA5, 0x50), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Green (RYB)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x66, 0xB0, 0x32), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Green-Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x11, 0x64, 0xB4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Green-Cyan";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x99, 0x66), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Green Lizard";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA7, 0xF4, 0x32), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Green Sheen";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x6E, 0xAE, 0xA1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Green-Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAD, 0xFF, 0x2F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Grizzly";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x88, 0x58, 0x18), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Grullo";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA9, 0x9A, 0x86), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Guppie Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xFF, 0x7F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Gunmetal";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x2A, 0x34, 0x39), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Halayà Úbe";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x66, 0x38, 0x54), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Halloween Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEB, 0x61, 0x23), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Han Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x44, 0x6C, 0xCF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Han Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x52, 0x18, 0xFA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Hansa Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE9, 0xD6, 0x6B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Harlequin";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3F, 0xFF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Harlequin Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x46, 0xCB, 0x18), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Harvard Crimson";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC9, 0x00, 0x16), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Harvest Gold";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDA, 0x91, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Heart Gold";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x80, 0x80, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Heat Wave";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x7A, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Heidelberg Red[2]";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x96, 0x00, 0x18), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Heliotrope";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDF, 0x73, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Heliotrope Gray";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAA, 0x98, 0xA9), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Heliotrope Magenta";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAA, 0x00, 0xBB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Hollywood Cerise";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF4, 0x00, 0xA1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Honeydew";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF0, 0xFF, 0xF0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Honolulu Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x6D, 0xB0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Hooker's Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x49, 0x79, 0x6B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Hot Magenta";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x1D, 0xCE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Hot Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x69, 0xB4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Hunter Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x35, 0x5E, 0x3B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Iceberg";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x71, 0xA6, 0xD2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Icterine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFC, 0xF7, 0x5E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Iguana Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x71, 0xBC, 0x78), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Illuminating Emerald";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x31, 0x91, 0x77), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Imperial";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x60, 0x2F, 0x6B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Imperial Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x23, 0x95), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Imperial Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x66, 0x02, 0x3C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Imperial Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xED, 0x29, 0x39), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Inchworm";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB2, 0xEC, 0x5D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Independence";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4C, 0x51, 0x6D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "India Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x13, 0x88, 0x08), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Indian Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCD, 0x5C, 0x5C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Indian Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE3, 0xA8, 0x57), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Indigo";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4B, 0x00, 0x82), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Indigo Dye";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x09, 0x1F, 0x92), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Indigo (Rainbow)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x23, 0x30, 0x67), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Indigo (Web)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4B, 0x00, 0x82), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Infra Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x49, 0x6C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Interdimensional Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x36, 0x0C, 0xCC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "International Klein Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x2F, 0xA7), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "International Orange (Aerospace)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x4F, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "International Orange (Engineering)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBA, 0x16, 0x0C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "International Orange (Golden Gate Bridge)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC0, 0x36, 0x2C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Iris";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x5A, 0x4F, 0xCF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Irresistible";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB3, 0x44, 0x6C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Isabelline";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF4, 0xF0, 0xEC), CIE_LAB);
-        i++;
-//        wikipediaNames[i] = "Islamic Green"; wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x90, 0x00), CIE_LAB); i++;
-        wikipediaNames[i] = "Italian Sky Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB2, 0xFF, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ivory";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xFF, 0xF0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Jacarta";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3D, 0x32, 0x5D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Jacko Bean";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x41, 0x36, 0x28), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Jade";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xA8, 0x6B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Japanese Carmine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9D, 0x29, 0x33), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Japanese Indigo";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x26, 0x43, 0x48), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Japanese Laurel";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x2F, 0x75, 0x32), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Japanese Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x5B, 0x32, 0x56), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Jasmine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF8, 0xDE, 0x7E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Jasper";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD7, 0x3B, 0x3E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Jasper Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDE, 0x8F, 0x4E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Jazzberry Jam";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA5, 0x0B, 0x5E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Jelly Bean";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDA, 0x61, 0x4E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Jelly Bean Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x44, 0x79, 0x8E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Jet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x34, 0x34, 0x34), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Jet Stream";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBB, 0xD0, 0xC9), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Jonquil";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF4, 0xCA, 0x16), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Jordy Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8A, 0xB9, 0xF1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "June Bud";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBD, 0xDA, 0x57), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Jungle Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x29, 0xAB, 0x87), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Kelly Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4C, 0xBB, 0x17), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Kenyan Copper";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x7C, 0x1C, 0x05), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Keppel";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3A, 0xB0, 0x9E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Key Lime";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE8, 0xF4, 0x8C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Khaki (HTML/CSS) (Khaki)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC3, 0xB0, 0x91), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Khaki (X11) (Light Khaki)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF0, 0xE6, 0x8C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Kiwi";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8E, 0xE5, 0x3F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Kobe";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x88, 0x2D, 0x17), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Kobi";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE7, 0x9F, 0xC4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Kobicha";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x6B, 0x44, 0x23), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Kombu Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x35, 0x42, 0x30), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "KSU Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x51, 0x28, 0x88), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "KU Crimson";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE8, 0x00, 0x0D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "La Salle Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x08, 0x78, 0x30), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Languid Lavender";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD6, 0xCA, 0xDD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lapis Lazuli";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x26, 0x61, 0x9C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Laser Lemon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xFF, 0x66), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Laurel Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA9, 0xBA, 0x9D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lava";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCF, 0x10, 0x20), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lavender (Floral)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB5, 0x7E, 0xDC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lavender (Web)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE6, 0xE6, 0xFA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lavender Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0xCC, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lavender Blush";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xF0, 0xF5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lavender Gray";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC4, 0xC3, 0xD0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lavender Indigo";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x94, 0x57, 0xEB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lavender Magenta";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEE, 0x82, 0xEE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lavender Mist";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE6, 0xE6, 0xFA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lavender Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFB, 0xAE, 0xD2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lavender Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x96, 0x7B, 0xB6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lavender Rose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFB, 0xA0, 0xE3), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lawn Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x7C, 0xFC, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lemon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xF7, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lemon Chiffon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xFA, 0xCD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lemon Curry";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0xA0, 0x1D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lemon Glacier";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFD, 0xFF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lemon Lime";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE3, 0xFF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lemon Meringue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF6, 0xEA, 0xBE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lemon Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xF4, 0x4F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lemon Yellow (Crayola)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xFF, 0x9F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lenurple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBA, 0x93, 0xD8), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Liberty";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x54, 0x5A, 0xA7), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Licorice";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x1A, 0x11, 0x10), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Apricot";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFD, 0xD5, 0xB1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAD, 0xD8, 0xE6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Brilliant Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFE, 0x2E, 0x2E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB5, 0x65, 0x1D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Carmine Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE6, 0x67, 0x71), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Cobalt Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x88, 0xAC, 0xE0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Coral";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF0, 0x80, 0x80), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Cornflower Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x93, 0xCC, 0xEA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Crimson";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF5, 0x69, 0x91), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Cyan";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE0, 0xFF, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Deep Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x5C, 0xCD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light French Beige";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC8, 0xAD, 0x7F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Fuchsia Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF9, 0x84, 0xEF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Gold";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB2, 0x97, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Goldenrod Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFA, 0xFA, 0xD2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Gray";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD3, 0xD3, 0xD3), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Grayish Magenta";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0x99, 0xCC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x90, 0xEE, 0x90), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Hot Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xB3, 0xDE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Khaki";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF0, 0xE6, 0x8C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Medium Orchid";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD3, 0x9B, 0xCB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Moss Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAD, 0xDF, 0xAD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFE, 0xD8, 0xB1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Orchid";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE6, 0xA8, 0xD7), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Pastel Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB1, 0x9C, 0xD9), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Periwinkle";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC5, 0xCB, 0xE1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xB6, 0xC1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xCC, 0xCB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Red Ochre";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE9, 0x74, 0x51), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Salmon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xA0, 0x7A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Salmon Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x99, 0x99), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Sea Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x20, 0xB2, 0xAA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Silver";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD8, 0xD8, 0xD8), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Sky Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x87, 0xCE, 0xFA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Slate Gray";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x77, 0x88, 0x99), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Steel Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB0, 0xC4, 0xDE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Taupe";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB3, 0x8B, 0x6D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Thulian Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE6, 0x8F, 0xAC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Light Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xFF, 0xE0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lilac";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC8, 0xA2, 0xC8), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lilac Luster";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAE, 0x98, 0xAA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lime (Color Wheel)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBF, 0xFF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lime (Web) (X11 Green)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xFF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lime Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x32, 0xCD, 0x32), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Limerick";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9D, 0xC2, 0x09), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lincoln Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x19, 0x59, 0x05), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Linen";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFA, 0xF0, 0xE6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lion";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC1, 0x9A, 0x6B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Liseran Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDE, 0x6F, 0xA1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Little Boy Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x6C, 0xA0, 0xDC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Little Girl Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF8, 0xB9, 0xD4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Liver";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x67, 0x4C, 0x47), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Liver (Dogs)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB8, 0x6D, 0x29), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Liver (Organ)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x6C, 0x2E, 0x1F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Liver Chestnut";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x98, 0x74, 0x56), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Livid";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x66, 0x99, 0xCC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Loeen Look";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x15, 0xF2, 0xFD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lotion";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFE, 0xFD, 0xFA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lumber";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xE4, 0xCD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Lust";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE6, 0x20, 0x20), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Maastricht Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x1C, 0x3D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Macaroni And Cheese";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xBD, 0x88), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Madder Lake";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0x33, 0x36), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Magenta";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x00, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Magenta (Crayola)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x55, 0xA3), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Magenta (Dye)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCA, 0x1F, 0x7B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Magenta (Pantone)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD0, 0x41, 0x7E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Magenta (Process)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x00, 0x90), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Magenta Haze";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9F, 0x45, 0x76), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Magenta-Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0x33, 0x8B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Magic Mint";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAA, 0xF0, 0xD1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Magic Potion";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x44, 0x66), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Magnolia";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF8, 0xF4, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mahogany";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC0, 0x40, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Maize";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFB, 0xEC, 0x5D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Maize (Crayola)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF2, 0xC6, 0x49), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Majorelle Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x60, 0x50, 0xDC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Malachite";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x0B, 0xDA, 0x51), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Manatee";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x97, 0x9A, 0xAA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mandarin";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF3, 0x7A, 0x48), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mango Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x96, 0xFF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mango Tango";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x82, 0x43), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mango Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x96, 0xFF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mantis";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x74, 0xC3, 0x65), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mardi Gras";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x88, 0x00, 0x85), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Marigold";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEA, 0xA2, 0x21), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Maroon (Crayola)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC3, 0x21, 0x48), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Maroon (HTML/CSS)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x80, 0x00, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Maroon (X11)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB0, 0x30, 0x60), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mauve";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE0, 0xB0, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mauve Taupe";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x91, 0x5F, 0x6D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mauvelous";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEF, 0x98, 0xAA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Maximum Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x47, 0xAB, 0xCC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Maximum Blue Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x30, 0xBF, 0xBF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Maximum Blue Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAC, 0xAC, 0xE6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Maximum Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x5E, 0x8C, 0x31), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Maximum Green Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD9, 0xE6, 0x50), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Maximum Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x73, 0x33, 0x80), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Maximum Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD9, 0x21, 0x21), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Maximum Red Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA6, 0x3A, 0x79), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Maximum Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFA, 0xFA, 0x37), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Maximum Yellow Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF2, 0xBA, 0x49), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "May Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4C, 0x91, 0x41), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Maya Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x73, 0xC2, 0xFB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Meat Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE5, 0xB7, 0x3B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Aquamarine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x66, 0xDD, 0xAA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x00, 0xCD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Candy Apple Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE2, 0x06, 0x2C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Carmine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAF, 0x40, 0x35), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Champagne";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF3, 0xE5, 0xAB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Electric Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x03, 0x50, 0x96), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Jungle Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x1C, 0x35, 0x2D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Lavender Magenta";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDD, 0xA0, 0xDD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Orchid";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBA, 0x55, 0xD3), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Persian Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x67, 0xA5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x93, 0x70, 0xDB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Red-Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBB, 0x33, 0x85), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Ruby";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAA, 0x40, 0x69), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Sea Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3C, 0xB3, 0x71), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Sky Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x80, 0xDA, 0xEB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Slate Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x7B, 0x68, 0xEE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Spring Bud";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC9, 0xDC, 0x87), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Spring Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xFA, 0x9A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Taupe";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x67, 0x4C, 0x47), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Turquoise";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x48, 0xD1, 0xCC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Tuscan Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x79, 0x44, 0x3B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Vermilion";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD9, 0x60, 0x3B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Medium Violet-Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC7, 0x15, 0x85), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mellow Apricot";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF8, 0xB8, 0x78), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mellow Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF8, 0xDE, 0x7E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Melon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFD, 0xBC, 0xB4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Menthol";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC1, 0xF9, 0xA2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Metallic Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x32, 0x52, 0x7B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Metallic Bronze";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA9, 0x71, 0x42), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Metallic Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAC, 0x43, 0x13), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Metallic Gold";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA9, 0x71, 0x42), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Metallic Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x29, 0x6E, 0x01), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Metallic Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDA, 0x68, 0x0F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Metallic Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xED, 0xA6, 0xC4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Metallic Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA6, 0x2C, 0x2B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Metallic Seaweed";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x0A, 0x7E, 0x8C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Metallic Silver";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA8, 0xA9, 0xAD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Metallic Sunburst";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9C, 0x7C, 0x38), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Metallic Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x5B, 0x0A, 0x91), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Metallic Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFD, 0xCC, 0x0D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mexican Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE4, 0x00, 0x7C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Middle Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x7E, 0xD4, 0xE6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Middle Blue Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8D, 0xD9, 0xCC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Middle Blue Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8B, 0x72, 0xBE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Middle Grey";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8B, 0x86, 0x80), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Middle Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4D, 0x8C, 0x57), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Middle Green Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAC, 0xBF, 0x60), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Middle Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD9, 0x82, 0xB5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Middle Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE5, 0x8E, 0x73), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Middle Red Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA5, 0x53, 0x53), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Middle Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xEB, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Middle Yellow Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEC, 0xB1, 0x76), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Midnight";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x70, 0x26, 0x70), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Midnight Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x19, 0x19, 0x70), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Midnight Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x46, 0x8C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Midnight Green (Eagle Green)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x49, 0x53), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mikado Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xC4, 0x0C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Milk";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFD, 0xFF, 0xF5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Milk Chocolate";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x84, 0x56, 0x3C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mimi Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xDA, 0xE9), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mindaro";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE3, 0xF9, 0x88), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ming";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x36, 0x74, 0x7D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Minion Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF5, 0xE0, 0x50), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mint";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3E, 0xB4, 0x89), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mint Cream";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF5, 0xFF, 0xFA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mint Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x98, 0xFF, 0x98), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Misty Moss";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBB, 0xB4, 0x77), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Misty Rose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xE4, 0xE1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Moccasin";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFA, 0xEB, 0xD7), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mode Beige";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x96, 0x71, 0x17), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Moonstone";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3A, 0xA8, 0xC1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Moonstone Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x73, 0xA9, 0xC2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mordant Red 19";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAE, 0x0C, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Morning Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8D, 0xA3, 0x99), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Moss Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8A, 0x9A, 0x5B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mountain Meadow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x30, 0xBA, 0x8F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mountbatten Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x99, 0x7A, 0x8D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "MSU Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x18, 0x45, 0x3B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mud";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x70, 0x54, 0x3E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mughal Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x30, 0x60, 0x30), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mulberry";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC5, 0x4B, 0x8C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mulberry (Crayola)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC8, 0x50, 0x9B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mummy's Tomb";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x82, 0x8E, 0x84), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mustard";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xDB, 0x58), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mustard Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCD, 0x7A, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mustard Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x6E, 0x6E, 0x30), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mustard Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE1, 0xAD, 0x01), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Myrtle Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x31, 0x78, 0x73), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mystic";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD6, 0x52, 0x82), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mystic Maroon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAD, 0x43, 0x79), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Mystic Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x55, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Nadeshiko Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF6, 0xAD, 0xC6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Napier Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x2A, 0x80, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Naples Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFA, 0xDA, 0x5E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Navajo White";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xDE, 0xAD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Navy";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x00, 0x80), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Navy Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x00, 0x80), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Navy Blue (Crayola)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x19, 0x74, 0xD2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Navy Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x94, 0x57, 0xEB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Neon Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x1B, 0x03, 0xA3), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Neon Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC3, 0x73, 0x2A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Neon Carrot";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xA3, 0x43), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Neon Cyan";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xFE, 0xFC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Neon Fuchsia";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFE, 0x41, 0x64), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Neon Gold";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCF, 0xAA, 0x01), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Neon Gray";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x80, 0x80, 0x80), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Neon Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x39, 0xFF, 0x14), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Neon Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x39, 0xFF, 0x14), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Neon Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFE, 0x34, 0x7E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Neon Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x94, 0x57, 0xEB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Neon Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x18, 0x18), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Neon Scarlet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x26, 0x03), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Neon Silver";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0xCC, 0xCC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Neon Tangerine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF6, 0x89, 0x0A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Neon Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xF7, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "New Car";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x21, 0x4F, 0xC6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "New York Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD7, 0x83, 0x7F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Nickel";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x72, 0x74, 0x72), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Non-Photo Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA4, 0xDD, 0xED), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "North Texas Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x05, 0x90, 0x33), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Nyanza";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE9, 0xFF, 0xDB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ocean Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4F, 0x42, 0xB5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ocean Boat Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x77, 0xBE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ocean Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x48, 0xBF, 0x91), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ochre";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0x77, 0x22), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Office Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x80, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ogre Odor";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFD, 0x52, 0x40), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Old Burgundy";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x43, 0x30, 0x2E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Old Gold";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCF, 0xB5, 0x3B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Old Heliotrope";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x56, 0x3C, 0x5C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Old Lace";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFD, 0xF5, 0xE6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Old Lavender";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x79, 0x68, 0x78), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Old Mauve";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x67, 0x31, 0x47), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Old Moss Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x86, 0x7E, 0x36), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Old Rose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC0, 0x80, 0x81), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Old Silver";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x84, 0x84, 0x82), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Olive";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x80, 0x80, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Olive Drab 3";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x6B, 0x8E, 0x23), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Olive Drab 7";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3C, 0x34, 0x1F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Olivine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9A, 0xB9, 0x73), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Onyx";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x35, 0x38, 0x39), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Opal";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA8, 0xC3, 0xBC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Opera Mauve";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB7, 0x84, 0xA7), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Orange (Color Wheel)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x7F, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Orange (Crayola)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x75, 0x38), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Orange (Pantone)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x58, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Orange (RYB)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFB, 0x99, 0x02), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Orange (Web)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xA5, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Orange Peel";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x9F, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Orange-Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x45, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Orange Soda";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFA, 0x5B, 0x3D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Orange-Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF8, 0xD5, 0x68), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Orchid";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDA, 0x70, 0xD6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Orchid Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF2, 0xBD, 0xCD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Orioles Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFB, 0x4F, 0x14), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Otter Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x65, 0x43, 0x21), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Outer Space";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x41, 0x4A, 0x4C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Outrageous Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x6E, 0x4A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Oxford Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x21, 0x47), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Oxley";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x6D, 0x9A, 0x79), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "OU Crimson Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x99, 0x00, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pacific Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x1C, 0xA9, 0xC9), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pakistan Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x66, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Palatinate Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x27, 0x3B, 0xE2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Palatinate Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x68, 0x28, 0x60), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Aqua";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBC, 0xD4, 0xE6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAF, 0xEE, 0xEE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x98, 0x76, 0x54), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Carmine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAF, 0x40, 0x35), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Cerulean";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9B, 0xC4, 0xE2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Chestnut";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDD, 0xAD, 0xAF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Copper";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDA, 0x8A, 0x67), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Cornflower Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAB, 0xCD, 0xEF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Cyan";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x87, 0xD3, 0xF8), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Gold";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE6, 0xBE, 0x8A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Goldenrod";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEE, 0xE8, 0xAA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x98, 0xFB, 0x98), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Lavender";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDC, 0xD0, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Magenta";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF9, 0x84, 0xE5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Magenta-Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x99, 0xCC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFA, 0xDA, 0xDD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Plum";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDD, 0xA0, 0xDD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Red-Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDB, 0x70, 0x93), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Robin Egg Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x96, 0xDE, 0xD1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Silver";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC9, 0xC0, 0xBB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Spring Bud";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEC, 0xEB, 0xBD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Taupe";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBC, 0x98, 0x7E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Turquoise";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAF, 0xEE, 0xEE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0x99, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pale Violet-Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDB, 0x70, 0x93), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Palm Leaf";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x6F, 0x99, 0x40), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pansy Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x78, 0x18, 0x4A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Paolo Veronese Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x9B, 0x7D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Papaya Whip";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xEF, 0xD5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Paradise Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE6, 0x3E, 0x62), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Paris Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x50, 0xC8, 0x78), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Parrot Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD9, 0x98, 0xA0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pastel Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAE, 0xC6, 0xCF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pastel Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x83, 0x69, 0x53), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pastel Gray";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCF, 0xCF, 0xC4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pastel Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x77, 0xDD, 0x77), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pastel Magenta";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF4, 0x9A, 0xC2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pastel Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xB3, 0x47), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pastel Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDE, 0xA5, 0xA4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pastel Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB3, 0x9E, 0xB5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pastel Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x69, 0x61), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pastel Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCB, 0x99, 0xC9), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pastel Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFD, 0xFD, 0x96), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Patriarch";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x80, 0x00, 0x80), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Payne's Grey";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x53, 0x68, 0x78), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Peach";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xE5, 0xB4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Peach";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xCB, 0xA4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Peach-Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xCC, 0x99), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Peach Puff";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xDA, 0xB9), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Peach-Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFA, 0xDF, 0xAD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pear";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD1, 0xE2, 0x31), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pearl";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEA, 0xE0, 0xC8), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pearl Aqua";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x88, 0xD8, 0xC0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pearly Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB7, 0x68, 0xA2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Peridot";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE6, 0xE2, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Periwinkle";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0xCC, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Periwinkle (Crayola)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC3, 0xCD, 0xE6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Permanent Geranium Lake";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE1, 0x2C, 0x2C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Persian Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x1C, 0x39, 0xBB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Persian Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xA6, 0x93), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Persian Indigo";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x32, 0x12, 0x7A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Persian Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD9, 0x90, 0x58), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Persian Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF7, 0x7F, 0xBE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Persian Plum";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x70, 0x1C, 0x1C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Persian Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0x33, 0x33), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Persian Rose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFE, 0x28, 0xA2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Persimmon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEC, 0x58, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Peru";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCD, 0x85, 0x3F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pewter Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8B, 0xA8, 0xB7), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Philippine Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x38, 0xA7), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Philippine Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x5D, 0x19, 0x16), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Philippine Gold";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB1, 0x73, 0x04), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Philippine Golden Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xDF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Philippine Gray";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8C, 0x8C, 0x8C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Philippine Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x85, 0x43), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Philippine Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x73, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Philippine Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFA, 0x1A, 0x8E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Philippine Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCE, 0x11, 0x27), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Philippine Silver";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA5, 0x7C, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Philippine Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCE, 0x11, 0x27), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Philippine Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFE, 0xCB, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Phlox";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDF, 0x00, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Phthalo Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x0F, 0x89), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Phthalo Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x12, 0x35, 0x24), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Picton Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x45, 0xB1, 0xE8), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pictorial Carmine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC3, 0x0B, 0x4E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Piggy Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFD, 0xDD, 0xE6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pine Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x01, 0x79, 0x6F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pine Tree";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x2A, 0x2F, 0x23), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pineapple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x56, 0x3C, 0x0D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xC0, 0xCB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pink (Pantone)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD7, 0x48, 0x94), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pink Flamingo";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFC, 0x74, 0xFD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pink Lace";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xDD, 0xF4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pink Lavender";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD8, 0xB2, 0xD1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pink-Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x99, 0x66), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pink Pearl";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE7, 0xAC, 0xCF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pink Raspberry";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x98, 0x00, 0x36), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pink Sherbet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF7, 0x8F, 0xA7), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pistachio";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x93, 0xC5, 0x72), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pixie Powder";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x39, 0x12, 0x85), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Platinum";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE5, 0xE4, 0xE2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Plum";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8E, 0x45, 0x85), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Plum (Web)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDD, 0xA0, 0xDD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Plump Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x59, 0x46, 0xB2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Police Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x37, 0x4F, 0x6B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Polished Pine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x5D, 0xA4, 0x93), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pomp And Power";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x86, 0x60, 0x8E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Popstar";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBE, 0x4F, 0x62), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Portland Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x5A, 0x36), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Powder Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB0, 0xE0, 0xE6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Princess Perfume";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x85, 0xCF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Princeton Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF5, 0x80, 0x25), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Prune";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x70, 0x1C, 0x1C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Prussian Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x31, 0x53), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Psychedelic Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDF, 0x00, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Puce";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0x88, 0x99), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Puce Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x72, 0x2F, 0x37), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pullman Brown (UPS Brown)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x64, 0x41, 0x17), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pullman Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3B, 0x33, 0x1C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Pumpkin";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x75, 0x18), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Purple (HTML)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x80, 0x00, 0x80), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Purple (Munsell)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9F, 0x00, 0xC5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Purple (X11)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA0, 0x20, 0xF0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Purple Heart";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x69, 0x35, 0x9C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Purple Mountain Majesty";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x96, 0x78, 0xB6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Purple Navy";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4E, 0x51, 0x80), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Purple Pizzazz";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFE, 0x4E, 0xDA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Purple Plum";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9C, 0x51, 0xB6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Purple Taupe";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x50, 0x40, 0x4D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Purpureus";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9A, 0x4E, 0xAE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Quartz";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x51, 0x48, 0x4F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Queen Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x43, 0x6B, 0x95), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Queen Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE8, 0xCC, 0xD7), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Quick Silver";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA6, 0xA6, 0xA6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Quinacridone Magenta";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8E, 0x3A, 0x59), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Quincy";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x6A, 0x54, 0x45), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rackley";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x5D, 0x8A, 0xA8), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Radical Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x35, 0x5E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Raisin Black";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x24, 0x21, 0x24), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rajah";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFB, 0xAB, 0x60), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Raspberry";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE3, 0x0B, 0x5D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Raspberry Glace";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x91, 0x5F, 0x6D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Raspberry Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE2, 0x50, 0x98), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Raspberry Rose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB3, 0x44, 0x6C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Raw Sienna";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD6, 0x8A, 0x59), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Raw Umber";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x82, 0x66, 0x44), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Razzle Dazzle Rose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x33, 0xCC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Razzmatazz";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE3, 0x25, 0x6B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Razzmic Berry";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8D, 0x4E, 0x85), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rebecca Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x66, 0x33, 0x99), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x00, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Red (Crayola)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEE, 0x20, 0x4D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Red (Munsell)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF2, 0x00, 0x3C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Red (NCS)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC4, 0x02, 0x33), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Red (Pantone)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xED, 0x29, 0x39), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Red (Pigment)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xED, 0x1C, 0x24), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Red (RYB)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFE, 0x27, 0x12), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Red-Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA5, 0x2A, 0x2A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Red Devil";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x86, 0x01, 0x11), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Red-Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x53, 0x49), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Red-Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE4, 0x00, 0x78), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Red Salsa";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFD, 0x3A, 0x4A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Red-Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC7, 0x15, 0x85), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Redwood";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA4, 0x5A, 0x52), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Regalia";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x52, 0x2D, 0x80), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Registration Black";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x00, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Resolution Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x23, 0x87), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rhythm";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x77, 0x76, 0x96), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rich Black";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x40, 0x40), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rich Black (FOGRA29)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x01, 0x0B, 0x13), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rich Black (FOGRA39)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x01, 0x02, 0x03), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rich Brilliant Lavender";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF1, 0xA7, 0xFE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rich Carmine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD7, 0x00, 0x40), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rich Electric Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x08, 0x92, 0xD0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rich Lavender";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA7, 0x6B, 0xCF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rich Lilac";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB6, 0x66, 0xD2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rich Maroon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB0, 0x30, 0x60), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rifle Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x44, 0x4C, 0x38), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Roast Coffee";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x70, 0x42, 0x41), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Robin Egg Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xCC, 0xCC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rocket Metallic";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8A, 0x7F, 0x80), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Roman Silver";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x83, 0x89, 0x96), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Root Beer";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x29, 0x0E, 0x05), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x00, 0x7F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rose Bonbon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF9, 0x42, 0x9E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rose Dust";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9E, 0x5E, 0x6F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rose Ebony";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x67, 0x48, 0x46), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rose Garnet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x96, 0x01, 0x45), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rose Gold";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB7, 0x6E, 0x79), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rose Madder";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE3, 0x26, 0x36), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rose Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x66, 0xCC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rose Quartz";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAA, 0x98, 0xA9), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rose Quartz Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBD, 0x55, 0x9C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rose Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC2, 0x1E, 0x56), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rose Taupe";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x90, 0x5D, 0x5D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rose Vale";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAB, 0x4E, 0x52), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rosewood";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x65, 0x00, 0x0B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rosso Corsa";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD4, 0x00, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rosy Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBC, 0x8F, 0x8F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Royal Azure";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x38, 0xA8), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Royal Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x23, 0x66), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Royal Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x41, 0x69, 0xE1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Royal Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x52, 0x3B, 0x35), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Royal Fuchsia";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCA, 0x2C, 0x92), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Royal Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x13, 0x62, 0x07), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Royal Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF9, 0x92, 0x45), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Royal Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9B, 0x1C, 0x31), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Royal Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9B, 0x1C, 0x31), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Royal Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD0, 0x00, 0x60), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Royal Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x78, 0x51, 0xA9), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Royal Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFA, 0xDA, 0x5E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ruber";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCE, 0x46, 0x76), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rubine Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD1, 0x00, 0x56), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ruby";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE0, 0x11, 0x5F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ruby Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9B, 0x11, 0x1E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ruddy";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x00, 0x28), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ruddy Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBB, 0x65, 0x28), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ruddy Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE1, 0x8E, 0x96), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rufous";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA8, 0x1C, 0x07), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Russet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x80, 0x46, 0x1B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Russian Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x67, 0x92, 0x67), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Russian Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x32, 0x17, 0x4D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rust";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB7, 0x41, 0x0E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Rusty Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDA, 0x2C, 0x43), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sacramento State Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x56, 0x3F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Saddle Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8B, 0x45, 0x13), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Safety Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x78, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Safety Orange (Blaze Orange)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x67, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Safety Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEE, 0xD2, 0x02), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Saffron";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF4, 0xC4, 0x30), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sage";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBC, 0xB8, 0x8A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "St. Patrick's Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x23, 0x29, 0x7A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Salem (Color)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x17, 0x7B, 0x4D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Salmon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFA, 0x80, 0x72), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Salmon Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x91, 0xA4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sand";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC2, 0xB2, 0x80), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sand Dune";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x96, 0x71, 0x17), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sandstorm";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEC, 0xD5, 0x40), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sandy Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF4, 0xA4, 0x60), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sandy Tan";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFD, 0xD9, 0xB5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sandy Taupe";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x96, 0x71, 0x17), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sangria";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x92, 0x00, 0x0A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sap Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x50, 0x7D, 0x2A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sapphire";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x0F, 0x52, 0xBA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sapphire Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x67, 0xA5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sasquatch Socks";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x46, 0x81), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Satin Sheen Gold";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCB, 0xA1, 0x35), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Scarlet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x24, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Scarlet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFD, 0x0E, 0x35), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Schauss Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x91, 0xAF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "School Bus Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xD8, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Screamin' Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x66, 0xFF, 0x66), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sea Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x69, 0x94), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sea Foam Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9F, 0xE2, 0xBF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sea Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x2E, 0x8B, 0x57), CIE_LAB);
-        i++;
-        //wikipediaNames[i] = "Sea Green (Crayola)"; wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xFF, 0xCD), CIE_LAB); i++;
-        wikipediaNames[i] = "Sea Serpent";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4B, 0xC7, 0xCF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Seal Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x59, 0x26, 0x0B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Seashell";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xF5, 0xEE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Selective Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xBA, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sepia";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x70, 0x42, 0x14), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Shadow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8A, 0x79, 0x5D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Shadow Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x77, 0x8B, 0xA5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Shampoo";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xCF, 0xF1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Shamrock Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x9E, 0x60), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sheen Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8F, 0xD4, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Shimmering Blush";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD9, 0x86, 0x95), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Shiny Shamrock";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x5F, 0xA7, 0x78), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Shocking Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFC, 0x0F, 0xC0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Shocking Pink (Crayola)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x6F, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sienna";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x88, 0x2D, 0x17), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Silver";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC0, 0xC0, 0xC0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Silver (Crayola)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC9, 0xC0, 0xBB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Silver (Metallic)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAA, 0xA9, 0xAD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Silver Chalice";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAC, 0xAC, 0xAC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Silver Foil";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAF, 0xB1, 0xAE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Silver Lake Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x5D, 0x89, 0xBA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Silver Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC4, 0xAE, 0xAD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Silver Sand";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBF, 0xC1, 0xC2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sinopia";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCB, 0x41, 0x0B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sizzling Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x38, 0x55), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sizzling Sunrise";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xDB, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Skobeloff";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x74, 0x74), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sky Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x87, 0xCE, 0xEB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sky Blue (Crayola)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x76, 0xD7, 0xEA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sky Magenta";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCF, 0x71, 0xAF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Slate Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x6A, 0x5A, 0xCD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Slate Gray";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x70, 0x80, 0x90), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Slimy Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x29, 0x96, 0x17), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Smalt (Dark Powder Blue)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x33, 0x99), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Smashed Pumpkin";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x6D, 0x3A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Smitten";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC8, 0x41, 0x86), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Smoke";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x73, 0x82, 0x76), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Smokey Topaz";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x83, 0x2A, 0x0D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Smoky Black";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x10, 0x0C, 0x08), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Smoky Topaz";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x93, 0x3D, 0x41), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Snow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xFA, 0xFA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Soap";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCE, 0xC8, 0xEF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Soldier Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x54, 0x5A, 0x2C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Solid Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x89, 0x38, 0x43), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sonic Silver";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x75, 0x75, 0x75), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Spartan Crimson";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9E, 0x13, 0x16), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Space Cadet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x1D, 0x29, 0x51), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Spanish Bistre";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x80, 0x75, 0x32), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Spanish Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x70, 0xB8), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Spanish Carmine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD1, 0x00, 0x47), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Spanish Crimson";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE5, 0x1A, 0x4C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Spanish Gray";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x98, 0x98, 0x98), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Spanish Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x91, 0x50), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Spanish Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE8, 0x61, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Spanish Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF7, 0xBF, 0xBE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Spanish Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x66, 0x03, 0x3C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Spanish Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE6, 0x00, 0x26), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Spanish Sky Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xFF, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Spanish Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4C, 0x28, 0x82), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Spanish Viridian";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x7F, 0x5C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Spanish Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF6, 0xB5, 0x11), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Spicy Mix";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8B, 0x5F, 0x4D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Spiro Disco Ball";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x0F, 0xC0, 0xFC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Spring Bud";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA7, 0xFC, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Spring Frost";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x87, 0xFF, 0x2A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Spring Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xFF, 0x7F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Spring Green (Crayola)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEC, 0xEB, 0xBD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Star Command Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x7B, 0xB8), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Steel Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x46, 0x82, 0xB4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Steel Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0x33, 0xCC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Steel Teal";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x5F, 0x8A, 0x8B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Stil De Grain Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFA, 0xDA, 0x5E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Stizza";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x99, 0x00, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Stormcloud";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x4F, 0x66, 0x6A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Straw";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE4, 0xD9, 0x6F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Strawberry";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFC, 0x5A, 0x8D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sugar Plum";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x91, 0x4E, 0x75), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sunburnt Cyclops";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x40, 0x4C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sunglow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xCC, 0x33), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sunny";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF2, 0xF2, 0x7A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sunray";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE3, 0xAB, 0x57), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sunset";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFA, 0xD6, 0xA5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sunset Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFD, 0x5E, 0x53), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Super Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCF, 0x6B, 0xA9), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Sweet Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA8, 0x37, 0x31), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tan";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD2, 0xB4, 0x8C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tangelo";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF9, 0x4D, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tangerine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF2, 0x85, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tangerine Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xCC, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tango Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE4, 0x71, 0x7A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tart Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFB, 0x4D, 0x46), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Taupe";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x48, 0x3C, 0x32), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Taupe Gray";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8B, 0x85, 0x89), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tea Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD0, 0xF0, 0xC0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tea Rose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF8, 0x83, 0x79), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tea Rose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF4, 0xC2, 0xC2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Teal";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x80, 0x80), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Teal Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x36, 0x75, 0x88), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Teal Deer";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x99, 0xE6, 0xB3), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Teal Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x82, 0x7F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Telemagenta";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCF, 0x34, 0x76), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Temptress";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3C, 0x21, 0x26), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tenné (Tawny)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCD, 0x57, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Terra Cotta";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE2, 0x72, 0x5B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Thistle";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD8, 0xBF, 0xD8), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Thulian Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDE, 0x6F, 0xA1), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tickle Me Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFC, 0x89, 0xAC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tiffany Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x0A, 0xBA, 0xB5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tiger's Eye";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE0, 0x8D, 0x3C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Timberwolf";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDB, 0xD7, 0xD2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Titanium";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x87, 0x86, 0x81), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Titanium Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEE, 0xE6, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tomato";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x63, 0x47), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Toolbox";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x74, 0x6C, 0xC0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Topaz";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xC8, 0x7C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tractor Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFD, 0x0E, 0x35), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Trolley Grey";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x80, 0x80, 0x80), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tropical Rain Forest";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x75, 0x5E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tropical Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCD, 0xA4, 0xDE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "True Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x73, 0xCF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tufts Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3E, 0x8E, 0xDE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tulip";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x87, 0x8D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tumbleweed";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDE, 0xAA, 0x88), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Turkish Rose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB5, 0x72, 0x81), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Turquoise";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x40, 0xE0, 0xD0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Turquoise Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xFF, 0xEF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Turquoise Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA0, 0xD6, 0xB4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Turquoise Surf";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xC5, 0xCD), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Turtle Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8A, 0x9A, 0x5B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tuscan";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFA, 0xD6, 0xA5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tuscan Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x6F, 0x4E, 0x37), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tuscan Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x7C, 0x48, 0x48), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tuscan Tan";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA6, 0x7B, 0x5B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tuscany";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC0, 0x99, 0x99), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Twilight Lavender";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8A, 0x49, 0x6B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Tyrian Purple";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x66, 0x02, 0x3C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "UA Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x33, 0xAA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "UA Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD9, 0x00, 0x4C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ube";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x88, 0x78, 0xC3), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "UCLA Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x53, 0x68, 0x95), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "UCLA Gold";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xB3, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "UE Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBA, 0x00, 0x01), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "UFO Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3C, 0xD0, 0x70), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ultramarine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x3F, 0x00, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ultramarine Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x41, 0x66, 0xF5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ultra Pink";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x6F, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Ultra Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFC, 0x6C, 0x85), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Umber";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x63, 0x51, 0x47), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Unbleached Silk";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xDD, 0xCA), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "United Nations Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x5B, 0x92, 0xE5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "University Of California Gold";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB7, 0x87, 0x27), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "University Of Tennessee Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF7, 0x7F, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Unmellow Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xFF, 0x66), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "UP Forest Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x01, 0x44, 0x21), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "UP Maroon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x7B, 0x11, 0x13), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Upsdell Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xAE, 0x20, 0x29), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Urobilin";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE1, 0xAD, 0x21), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "USAFA Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x4F, 0x98), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "USC Cardinal";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x99, 0x00, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "USC Gold";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xCC, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Utah Crimson";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD3, 0x00, 0x3F), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vampire Black";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x08, 0x08, 0x08), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Van Dyke Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x66, 0x42, 0x28), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vanilla";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF3, 0xE5, 0xAB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vanilla Ice";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF3, 0x8F, 0xA9), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vegas Gold";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC5, 0xB3, 0x58), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Venetian Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC8, 0x08, 0x15), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Verdigris";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x43, 0xB3, 0xAE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vermilion";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE3, 0x42, 0x34), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vermilion";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD9, 0x38, 0x1E), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Veronica";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA0, 0x20, 0xF0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Verse Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x18, 0x88, 0x0d), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Very Light Azure";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x74, 0xBB, 0xFB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Very Light Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x66, 0x66, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Very Light Malachite Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x64, 0xE9, 0x86), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Very Light Tangelo";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xB0, 0x77), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Very Pale Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xDF, 0xBF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Very Pale Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xFF, 0xBF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x8F, 0x00, 0xFF), CIE_LAB);
-        i++;
-//        wikipediaNames[i] = "Violet (Color Wheel)"; wikipediaColors[i] = Color.convert(Color.argb(255, 0x7F, 0x00, 0xFF), CIE_LAB); i++;
-//        wikipediaNames[i] = "Violet (Crayola)"; wikipediaColors[i] = Color.convert(Color.argb(255, 0x96, 0x3D, 0x7F), CIE_LAB); i++;
-        //wikipediaNames[i] = "Violet (RYB)"; wikipediaColors[i] = Color.convert(Color.argb(255, 0x86, 0x01, 0xAF), CIE_LAB); i++;
-//        wikipediaNames[i] = "Violet (Web)"; wikipediaColors[i] = Color.convert(Color.argb(255, 0xEE, 0x82, 0xEE), CIE_LAB); i++;
-        wikipediaNames[i] = "Violet-Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x32, 0x4A, 0xB2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Violet-Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF7, 0x53, 0x94), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Violin Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x67, 0x44, 0x03), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Viridian";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x40, 0x82, 0x6D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Viridian Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x96, 0x98), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vista Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x7C, 0x9E, 0xD9), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Amber";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0x99, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Auburn";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x92, 0x27, 0x24), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Burgundy";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9F, 0x1D, 0x35), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Cerise";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDA, 0x1D, 0x81), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Cerulean";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xAA, 0xEE), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Crimson";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0x00, 0x33), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Gamboge";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x99, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Lime Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA6, 0xD6, 0x08), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Malachite";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xCC, 0x33), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Mulberry";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB8, 0x0C, 0xE3), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x5F, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Orange Peel";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xA0, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Orchid";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCC, 0x00, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Raspberry";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x00, 0x6C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF7, 0x0D, 0x1A), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Red-Tangelo";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xDF, 0x61, 0x24), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Sky Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0xCC, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Tangelo";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF0, 0x74, 0x27), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Tangerine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xA0, 0x89), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Vermilion";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE5, 0x60, 0x24), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Violet";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9F, 0x00, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Vivid Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xE3, 0x02), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Volt";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xCE, 0xFF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Wageningen Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x34, 0xB2, 0x33), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Warm Black";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x42, 0x42), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Watermelon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF0, 0x5C, 0x85), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Watermelon Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xBF, 0x41, 0x47), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Waterspout";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA4, 0xF4, 0xF9), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Weldon Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x7C, 0x98, 0xAB), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Wenge";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x64, 0x54, 0x52), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Wheat";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF5, 0xDE, 0xB3), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "White";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xFF, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "White Chocolate";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xED, 0xE6, 0xD6), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "White Coffee";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xE6, 0xE0, 0xD4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "White Smoke";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xF5, 0xF5, 0xF5), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Wild Blue Yonder";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA2, 0xAD, 0xD0), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Wild Orchid";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xD4, 0x70, 0xA2), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Wild Strawberry";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x43, 0xA4), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Wild Watermelon";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFC, 0x6C, 0x85), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Willpower Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFD, 0x58, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Windsor Tan";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA7, 0x55, 0x02), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Wine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x72, 0x2F, 0x37), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Wine Red";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xB1, 0x12, 0x26), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Wine Dregs";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x67, 0x31, 0x47), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Winter Sky";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0x00, 0x7C), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Winter Wizard";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xA0, 0xE6, 0xFF), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Wintergreen Dream";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x56, 0x88, 0x7D), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Wisteria";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC9, 0xA0, 0xDC), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Wood Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xC1, 0x9A, 0x6B), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Xanadu";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x73, 0x86, 0x78), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Yale Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x0F, 0x4D, 0x92), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Yankees Blue";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x1C, 0x28, 0x41), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Yellow";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xFF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Yellow (Crayola)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFC, 0xE8, 0x83), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Yellow (Munsell)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xEF, 0xCC, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Yellow (NCS)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xD3, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Yellow (Pantone)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFE, 0xDF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Yellow (Process)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xEF, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Yellow (RYB)";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFE, 0xFE, 0x33), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Yellow-Green";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x9A, 0xCD, 0x32), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Yellow Orange";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xAE, 0x42), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Yellow Rose";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xF0, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Yellow Sunshine";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0xFF, 0xF7, 0x00), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Zaffre";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x00, 0x14, 0xA8), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Zinnwaldite Brown";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x2C, 0x16, 0x08), CIE_LAB);
-        i++;
-        wikipediaNames[i] = "Zomp";
-        wikipediaColors[i] = Color.convert(Color.argb(255, 0x39, 0xA7, 0x8E), CIE_LAB);
-        i++;
+        for (int i = 0; i < wikipediaNames.length; i++) {
+            wikipediaColors[i] = Color.convert(Color.argb(255,
+                    wikipediaRawColors[i * 3 + 0],
+                    wikipediaRawColors[i * 3 + 1],
+                    wikipediaRawColors[i * 3 + 2]), CIE_LAB);
+        }
 
         Log.d("AnalogWatchFace", "Generated!");
     }
