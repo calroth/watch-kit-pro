@@ -35,6 +35,8 @@
 package pro.watchkit.wearable.watchface.config;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -48,12 +50,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData;
 import pro.watchkit.wearable.watchface.model.PaintBox;
+import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 
 /**
  * Allows user to select color for something on the watch face (background, highlight,etc.) and
@@ -66,8 +70,8 @@ public class ColorSelectionActivity extends Activity {
             "pro.watchkit.wearable.watchface.config.extra.EXTRA_SHARED_PREF";
     private static final String TAG = ColorSelectionActivity.class.getSimpleName();
 
-    private int[][] rows;
-    private RectF[][] rects;
+    private int[][] mRows;
+    private RectF[][] mRectFs;
 
     private int calc(int a, int b, int c) {
         return (a * 16) + (b * 4) + c;
@@ -175,8 +179,8 @@ public class ColorSelectionActivity extends Activity {
                 -1
         };
 
-        rows = new int[][]{row1, row2, row3, row4, row5, row6};
-        rects = new RectF[][]{
+        mRows = new int[][]{row1, row2, row3, row4, row5, row6};
+        mRectFs = new RectF[][]{
                 new RectF[row1.length],
                 new RectF[row2.length],
                 new RectF[row3.length],
@@ -207,26 +211,26 @@ public class ColorSelectionActivity extends Activity {
                 p.setStyle(Paint.Style.FILL);
                 p.setAntiAlias(true);
 
-                float spanRoot3 = bounds.width() / (rows.length + 1f);
+                float spanRoot3 = bounds.width() / (mRows.length + 1f);
                 float span = spanRoot3 / 0.86602540378f; // sqrt(3) / 2
 
                 float radius = spanRoot3 * 0.45f;
                 float cx = 0f;
 
-                for (int i = 0; i < rows.length; i++) {
+                for (int i = 0; i < mRows.length; i++) {
                     cx += spanRoot3;
                     // 0 for even cols, vertical offset for odd
                     float cy = (i % 2 == 0) ? span * 0.5f : span * 1.0f;
                     cy += span; // Temporary
-                    for (int j = 0; j < rows[i].length; j++) {
+                    for (int j = 0; j < mRows[i].length; j++) {
                         RectF r = new RectF(cx - (1.5f * spanRoot3 / 2f),
                                 cy - (span / 2f),
                                 cx + (1.5f * spanRoot3 / 2f),
                                 cy + (span / 2f));
                         canvas.drawRect(r, b);
-                        if (rows[i][j] != -1) {
-                            rects[i][j] = r;
-                            p.setColor(PaintBox.colors[rows[i][j]]);
+                        if (mRows[i][j] != -1) {
+                            mRectFs[i][j] = r;
+                            p.setColor(PaintBox.colors[mRows[i][j]]);
                             canvas.drawCircle(cx, cy, radius, o);
                             canvas.drawCircle(cx, cy, radius, p);
                         }
@@ -273,12 +277,12 @@ public class ColorSelectionActivity extends Activity {
                 int iSecondary = -1, jSecondary = -1;
 
                 // Loop through each rect, checking for a hit against each rect.
-                // Each click could potentially hit one or two rects, so store
+                // Each click could potentially hit one or two mRectFs, so store
                 // hits in primary and secondary co-ordinates.
                 outerLoop:
-                for (int i = 0; i < rects.length; i++) {
-                    for (int j = 0; j < rects[i].length; j++) {
-                        if (rects[i][j] != null && rects[i][j].contains(mLastTouchX, mLastTouchY)) {
+                for (int i = 0; i < mRectFs.length; i++) {
+                    for (int j = 0; j < mRectFs[i].length; j++) {
+                        if (mRectFs[i][j] != null && mRectFs[i][j].contains(mLastTouchX, mLastTouchY)) {
                             if (!foundPrimary) {
                                 foundPrimary = true;
                                 iPrimary = i;
@@ -293,23 +297,23 @@ public class ColorSelectionActivity extends Activity {
                     }
                 }
                 if (foundPrimary) {
-                    s = "Primary: " + PaintBox.colorNames[rows[iPrimary][jPrimary]];
+                    s = "Primary: " + PaintBox.colorNames[mRows[iPrimary][jPrimary]];
                     if (foundSecondary) {
                         s += ", ";
                     }
                 }
                 if (foundSecondary) {
-                    s += "Secondary: " + PaintBox.colorNames[rows[iSecondary][jSecondary]];
+                    s += "Secondary: " + PaintBox.colorNames[mRows[iSecondary][jSecondary]];
                 }
                 if (s.length() == 0) {
                     s = "nothing? x = " + mLastTouchX + ", y = " + mLastTouchY;
                 }
                 if (foundPrimary && foundSecondary) {
                     // Find whether the touch is closer to primary or secondary.
-                    float primaryX = rects[iPrimary][jPrimary].centerX();
-                    float primaryY = rects[iPrimary][jPrimary].centerY();
-                    float secondaryX = rects[iSecondary][jSecondary].centerX();
-                    float secondaryY = rects[iSecondary][jSecondary].centerY();
+                    float primaryX = mRectFs[iPrimary][jPrimary].centerX();
+                    float primaryY = mRectFs[iPrimary][jPrimary].centerY();
+                    float secondaryX = mRectFs[iSecondary][jSecondary].centerX();
+                    float secondaryY = mRectFs[iSecondary][jSecondary].centerY();
 
                     float primaryDistance = Math.abs(mLastTouchX - primaryX) +
                             Math.abs(mLastTouchY - primaryY);
@@ -318,13 +322,66 @@ public class ColorSelectionActivity extends Activity {
 
                     s += " - choosing ";
                     if (primaryDistance < secondaryDistance) {
-                        s += "Primary: " + PaintBox.colorNames[rows[iPrimary][jPrimary]];
+                        s += "Primary: " + PaintBox.colorNames[mRows[iPrimary][jPrimary]];
+                        setColor(PaintBox.colors[mRows[iPrimary][jPrimary]]);
                     } else {
-                        s += "Secondary: " + PaintBox.colorNames[rows[iSecondary][jSecondary]];
+                        s += "Secondary: " + PaintBox.colorNames[mRows[iSecondary][jSecondary]];
+                        setColor(PaintBox.colors[mRows[iSecondary][jSecondary]]);
                     }
+                } else if (foundPrimary) {
+                    setColor(PaintBox.colors[mRows[iPrimary][jPrimary]]);
                 }
                 Log.d(TAG, "Touched " + s);
             }
         });
+    }
+
+    /**
+     * Save the given color to preferences. We extract the WatchFacePreset held in preferences,
+     * then change the color type pre-stored in EXTRA_SHARED_PREF, then save the WatchFacePreset
+     * back to preferences.
+     *
+     * @param color New color to set
+     */
+    private void setColor(@ColorInt int color) {
+        SharedPreferences preferences = getSharedPreferences(
+                getString(R.string.analog_complication_preference_file_key),
+                Context.MODE_PRIVATE);
+
+        WatchFacePreset preset = new WatchFacePreset();
+        preset.setString(preferences.getString(
+                getString(R.string.saved_watch_face_preset), null));
+
+        String sharedPrefString = getIntent().getStringExtra(EXTRA_SHARED_PREF);
+        AnalogComplicationConfigData.ColorConfigItem.Type type =
+                AnalogComplicationConfigData.ColorConfigItem.Type.valueOf(sharedPrefString);
+
+        switch (type) {
+            case FILL:
+                preset.setFillColor(color);
+                break;
+            case ACCENT:
+                preset.setAccentColor(color);
+                break;
+            case HIGHLIGHT:
+                preset.setHighlightColor(color);
+                break;
+            case BASE:
+                preset.setBaseColor(color);
+                break;
+            default:
+                // Should never happen...
+                break;
+        }
+        Log.d("AnalogWatchFace", "Write: " + preset.getString());
+
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(getString(R.string.saved_watch_face_preset), preset.getString());
+        editor.commit();
+
+        // Lets Complication Config Activity know there was an update to colors.
+        setResult(Activity.RESULT_OK);
+
+        finish();
     }
 }
