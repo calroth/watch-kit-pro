@@ -102,8 +102,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".config.ColorSelectionActivity"
-            android:hardwareAccelerated="true" />
+        <activity android:name=".config.ColorSelectionActivity"/>
     </application>
 </manifest>
