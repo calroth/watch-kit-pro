@@ -20,8 +20,10 @@ package pro.watchkit.wearable.watchface.model;
 
 import android.util.Log;
 
+import androidx.annotation.ColorInt;
+
 public final class WatchFacePreset {
-    private BytePacker bytePacker = new BytePacker(24);
+    private BytePacker bytePacker = new BytePacker(16);
     private Style backgroundStyle;
     private boolean minuteHandOverride;
     private boolean secondHandOverride;
@@ -40,10 +42,10 @@ public final class WatchFacePreset {
     private Style fourTickStyle;
     private Style twelveTickStyle;
     private Style sixtyTickStyle;
-    private int mFillColor;
-    private int mAccentColor;
-    private int mHighlightColor;
-    private int mBaseColor;
+    private int mFillSixBitColor;
+    private int mAccentSixBitColor;
+    private int mHighlightSixBitColor;
+    private int mBaseSixBitColor;
     private GradientStyle fillHighlightStyle;
     private GradientStyle accentFillStyle;
     private GradientStyle accentHighlightStyle;
@@ -53,10 +55,10 @@ public final class WatchFacePreset {
 //        bytePacker.setString("2a4c845ec530d34bffa86609f82f6407");
 //        unpack();
 
-        setFillColor(-1);
-        setAccentColor(-10011977);
-        setHighlightColor(-43230);
-        setBaseColor(-16777216);
+        setFillSixBitColor(16);
+        setAccentSixBitColor(24);
+        setHighlightSixBitColor(32);
+        setBaseSixBitColor(40);
 
         setBackgroundStyle(Style.ACCENT_BASE);
 
@@ -187,10 +189,10 @@ public final class WatchFacePreset {
         accentHighlightStyle.pack(bytePacker);
         baseAccentStyle.pack(bytePacker);
 
-        bytePacker.putColor(mFillColor);
-        bytePacker.putColor(mHighlightColor);
-        bytePacker.putColor(mAccentColor);
-        bytePacker.putColor(mBaseColor);
+        bytePacker.putSixBitColor(mFillSixBitColor);
+        bytePacker.putSixBitColor(mHighlightSixBitColor);
+        bytePacker.putSixBitColor(mAccentSixBitColor);
+        bytePacker.putSixBitColor(mBaseSixBitColor);
 
         //String s = bytePacker.getString();
     }
@@ -247,18 +249,18 @@ public final class WatchFacePreset {
         accentHighlightStyle = GradientStyle.unpack(bytePacker);
         baseAccentStyle = GradientStyle.unpack(bytePacker);
 
-        mFillColor = bytePacker.getColor();
-        mHighlightColor = bytePacker.getColor();
-        mAccentColor = bytePacker.getColor();
-        mBaseColor = bytePacker.getColor();
+        mFillSixBitColor = bytePacker.getSixBitColor();
+        mHighlightSixBitColor = bytePacker.getSixBitColor();
+        mAccentSixBitColor = bytePacker.getSixBitColor();
+        mBaseSixBitColor = bytePacker.getSixBitColor();
     }
 
 //    public void setPalette(
 //            int fillColor, int accentColor, int highlightColor, int baseColor) {
-//        setFillColor(fillColor);
-//        setAccentColor(accentColor);
-//        setHighlightColor(highlightColor);
-//        setBaseColor(baseColor);
+//        setFillSixBitColor(fillColor);
+//        setAccentSixBitColor(accentColor);
+//        setHighlightSixBitColor(highlightColor);
+//        setBaseSixBitColor(baseColor);
 //    }
 
     public void setMinuteHandOverride(boolean minuteHandOverride) {
@@ -569,36 +571,40 @@ public final class WatchFacePreset {
         this.minuteHandStalk = minuteHandStalk;
     }
 
-    public int getFillColor() {
-        return mFillColor;
+    public @ColorInt
+    int getFillColor() {
+        return PaintBox.colors[mFillSixBitColor];
     }
 
-    public void setFillColor(int mFillColor) {
-        this.mFillColor = mFillColor;
+    public void setFillSixBitColor(int mFillSixBitColor) {
+        this.mFillSixBitColor = mFillSixBitColor;
     }
 
-    public int getAccentColor() {
-        return mAccentColor;
+    public @ColorInt
+    int getAccentColor() {
+        return PaintBox.colors[mAccentSixBitColor];
     }
 
-    public void setAccentColor(int mAccentColor) {
-        this.mAccentColor = mAccentColor;
+    public void setAccentSixBitColor(int mAccentSixBitColor) {
+        this.mAccentSixBitColor = mAccentSixBitColor;
     }
 
-    public int getHighlightColor() {
-        return mHighlightColor;
+    public @ColorInt
+    int getHighlightColor() {
+        return PaintBox.colors[mHighlightSixBitColor];
     }
 
-    public void setHighlightColor(int mHighlightColor) {
-        this.mHighlightColor = mHighlightColor;
+    public void setHighlightSixBitColor(int mHighlightSixBitColor) {
+        this.mHighlightSixBitColor = mHighlightSixBitColor;
     }
 
-    public int getBaseColor() {
-        return mBaseColor;
+    public @ColorInt
+    int getBaseColor() {
+        return PaintBox.colors[mBaseSixBitColor];
     }
 
-    public void setBaseColor(int mBaseColor) {
-        this.mBaseColor = mBaseColor;
+    public void setBaseSixBitColor(int mBaseSixBitColor) {
+        this.mBaseSixBitColor = mBaseSixBitColor;
     }
 
     public enum HandShape {

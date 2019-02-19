@@ -19,7 +19,6 @@
 package pro.watchkit.wearable.watchface.model;
 
 import android.annotation.SuppressLint;
-import android.graphics.Color;
 import android.util.Log;
 
 import java.security.InvalidKeyException;
@@ -252,10 +251,14 @@ final class BytePacker {
         put(1, value ? 1 : 0);
     }
 
-    void putColor(int value) {
-        put(8, Color.red(value));
-        put(8, Color.green(value));
-        put(8, Color.blue(value));
+    /**
+     * Push the given 6-bit color (between 0 and 63) onto the stack.
+     *
+     * @param value 6-bit color to push onto the stack
+     */
+    void putSixBitColor(int value) {
+        // Stow our color. It's 6-bit (between 0 and 63).
+        put(6, value);
     }
 
     void put(int length, Object[] values, Object value) {
@@ -338,8 +341,14 @@ final class BytePacker {
                 (expected == actual ? " ✔" : ""));
     }
 
-    public int getColor() {
-        return Color.argb(0xff, get(8), get(8), get(8));
+    /**
+     * Get the next 6-bit (between 0 and 63) color off the stack.
+     *
+     * @return Next 6-bit color
+     */
+    public int getSixBitColor() {
+        // Return our 6-bit color (between 0 and 63).
+        return get(6);
     }
 
     public boolean getBoolean() {

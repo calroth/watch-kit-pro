@@ -50,7 +50,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -323,13 +322,13 @@ public class ColorSelectionActivity extends Activity {
                     s += " - choosing ";
                     if (primaryDistance < secondaryDistance) {
                         s += "Primary: " + PaintBox.colorNames[mRows[iPrimary][jPrimary]];
-                        setColor(PaintBox.colors[mRows[iPrimary][jPrimary]]);
+                        setSixBitColor(mRows[iPrimary][jPrimary]);
                     } else {
                         s += "Secondary: " + PaintBox.colorNames[mRows[iSecondary][jSecondary]];
-                        setColor(PaintBox.colors[mRows[iSecondary][jSecondary]]);
+                        setSixBitColor(mRows[iSecondary][jSecondary]);
                     }
                 } else if (foundPrimary) {
-                    setColor(PaintBox.colors[mRows[iPrimary][jPrimary]]);
+                    setSixBitColor(mRows[iPrimary][jPrimary]);
                 }
                 Log.d(TAG, "Touched " + s);
             }
@@ -341,9 +340,9 @@ public class ColorSelectionActivity extends Activity {
      * then change the color type pre-stored in EXTRA_SHARED_PREF, then save the WatchFacePreset
      * back to preferences.
      *
-     * @param color New color to set
+     * @param sixBitColor New 6-bit color to set (between 0 and 63)
      */
-    private void setColor(@ColorInt int color) {
+    private void setSixBitColor(int sixBitColor) {
         SharedPreferences preferences = getSharedPreferences(
                 getString(R.string.analog_complication_preference_file_key),
                 Context.MODE_PRIVATE);
@@ -358,16 +357,16 @@ public class ColorSelectionActivity extends Activity {
 
         switch (type) {
             case FILL:
-                preset.setFillColor(color);
+                preset.setFillSixBitColor(sixBitColor);
                 break;
             case ACCENT:
-                preset.setAccentColor(color);
+                preset.setAccentSixBitColor(sixBitColor);
                 break;
             case HIGHLIGHT:
-                preset.setHighlightColor(color);
+                preset.setHighlightSixBitColor(sixBitColor);
                 break;
             case BASE:
-                preset.setBaseColor(color);
+                preset.setBaseSixBitColor(sixBitColor);
                 break;
             default:
                 // Should never happen...
