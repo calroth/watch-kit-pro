@@ -194,6 +194,7 @@ public class ColorSelectionActivity extends Activity {
             @Override
             public void draw(@NonNull Canvas canvas) {
                 RectF bounds = new RectF(getBounds());
+                float pc = 0.01f * bounds.width();
 
                 Paint b = new Paint();
                 b.setColor(Color.RED);
@@ -202,10 +203,8 @@ public class ColorSelectionActivity extends Activity {
                 b.setStrokeWidth(1.0f);
 
                 Paint o = new Paint();
-                o.setColor(Color.WHITE);
-                o.setStyle(Paint.Style.STROKE);
+                o.setStyle(Paint.Style.FILL);
                 o.setAntiAlias(true);
-                o.setStrokeWidth(4.0f);
 
                 Paint p = new Paint();
                 p.setStyle(Paint.Style.FILL);
@@ -227,11 +226,21 @@ public class ColorSelectionActivity extends Activity {
                                 cy - (span / 2f),
                                 cx + (1.5f * spanRoot3 / 2f),
                                 cy + (span / 2f));
-                        canvas.drawRect(r, b);
+//                        canvas.drawRect(r, b);
                         if (mRows[i][j] != -1) {
                             mRectFs[i][j] = r;
+
+                            // Draw our bevels as follows:
+                            // Draw a white circle offset -0.2%, -0.2%
+                            o.setColor(Color.WHITE);
+                            canvas.drawCircle(cx - 0.2f * pc, cy - 0.2f * pc, radius, o);
+
+                            // Draw a black circle offset +0.2%, +0.2%
+                            o.setColor(Color.BLACK);
+                            canvas.drawCircle(cx + 0.2f * pc, cy + 0.2f * pc, radius, o);
+
+                            // Now draw our swatch.
                             p.setColor(PaintBox.colors[mRows[i][j]]);
-                            canvas.drawCircle(cx, cy, radius, o);
                             canvas.drawCircle(cx, cy, radius, p);
                         }
                         cy += span;
