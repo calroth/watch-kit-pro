@@ -51,6 +51,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -193,6 +194,41 @@ public class ColorSelectionActivity extends Activity {
         mColorImageView.setImageDrawable(new Drawable() {
             @Override
             public void draw(@NonNull Canvas canvas) {
+                @ColorInt int currentColor;
+                {
+                    // Get our currently selected color.
+                    SharedPreferences preferences = getSharedPreferences(
+                            getString(R.string.analog_complication_preference_file_key),
+                            Context.MODE_PRIVATE);
+
+                    WatchFacePreset preset = new WatchFacePreset();
+                    preset.setString(preferences.getString(
+                            getString(R.string.saved_watch_face_preset), null));
+
+                    String sharedPrefString = getIntent().getStringExtra(EXTRA_SHARED_PREF);
+                    AnalogComplicationConfigData.ColorConfigItem.Type type =
+                            AnalogComplicationConfigData.ColorConfigItem.Type.valueOf(sharedPrefString);
+
+                    switch (type) {
+                        case FILL:
+                            currentColor = preset.getFillColor();
+                            break;
+                        case ACCENT:
+                            currentColor = preset.getAccentColor();
+                            break;
+                        case HIGHLIGHT:
+                            currentColor = preset.getHighlightColor();
+                            break;
+                        case BASE:
+                            currentColor = preset.getBaseColor();
+                            break;
+                        default:
+                            // Should never happen...
+                            currentColor = -1;
+                            break;
+                    }
+                }
+
                 RectF bounds = new RectF(getBounds());
                 float pc = 0.01f * bounds.width();
 
@@ -230,18 +266,24 @@ public class ColorSelectionActivity extends Activity {
                         if (mRows[i][j] != -1) {
                             mRectFs[i][j] = r;
 
+                            // For our current selection, make our circle slightly larger.
+                            float radius2 = radius;
+                            if (PaintBox.colors[mRows[i][j]] == currentColor) {
+                                radius2 *= 1.333333f;
+                            }
+
                             // Draw our bevels as follows:
                             // Draw a white circle offset -0.2%, -0.2%
                             o.setColor(Color.WHITE);
-                            canvas.drawCircle(cx - 0.2f * pc, cy - 0.2f * pc, radius, o);
+                            canvas.drawCircle(cx - 0.2f * pc, cy - 0.2f * pc, radius2, o);
 
                             // Draw a black circle offset +0.2%, +0.2%
                             o.setColor(Color.BLACK);
-                            canvas.drawCircle(cx + 0.2f * pc, cy + 0.2f * pc, radius, o);
+                            canvas.drawCircle(cx + 0.2f * pc, cy + 0.2f * pc, radius2, o);
 
                             // Now draw our swatch.
                             p.setColor(PaintBox.colors[mRows[i][j]]);
-                            canvas.drawCircle(cx, cy, radius, p);
+                            canvas.drawCircle(cx, cy, radius2, p);
                         }
                         cy += span;
                     }
