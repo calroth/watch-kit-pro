@@ -49,6 +49,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -355,21 +356,29 @@ public class ColorSelectionActivity extends Activity {
         AnalogComplicationConfigData.ColorConfigItem.Type type =
                 AnalogComplicationConfigData.ColorConfigItem.Type.valueOf(sharedPrefString);
 
+        Context context = getApplicationContext();
+        String toastText;
+
         switch (type) {
             case FILL:
                 preset.setFillSixBitColor(sixBitColor);
+                toastText = context.getString(R.string.config_fill_color_label);
                 break;
             case ACCENT:
                 preset.setAccentSixBitColor(sixBitColor);
+                toastText = context.getString(R.string.config_accent_color_label);
                 break;
             case HIGHLIGHT:
                 preset.setHighlightSixBitColor(sixBitColor);
+                toastText = context.getString(R.string.config_marker_color_label);
                 break;
             case BASE:
                 preset.setBaseSixBitColor(sixBitColor);
+                toastText = context.getString(R.string.config_base_color_label);
                 break;
             default:
                 // Should never happen...
+                toastText = "???\nColor";
                 break;
         }
         Log.d("AnalogWatchFace", "Write: " + preset.getString());
@@ -382,5 +391,10 @@ public class ColorSelectionActivity extends Activity {
         setResult(Activity.RESULT_OK);
 
         finish();
+
+        // Show a toast popup with the color we just selected.
+        toastText = toastText.replace('\n', ' ') +
+                ":\n" + PaintBox.colorNames[sixBitColor];
+        Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
     }
 }
