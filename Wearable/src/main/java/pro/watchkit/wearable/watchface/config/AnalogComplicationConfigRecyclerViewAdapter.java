@@ -82,6 +82,7 @@ import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.NightV
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.PreviewAndComplicationsConfigItem;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.UnreadNotificationConfigItem;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
+import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
@@ -816,22 +817,24 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                                 context.getString(R.string.analog_complication_preference_file_key),
                                 Context.MODE_PRIVATE);
                 WatchFacePreset preset = new WatchFacePreset();
-
                 preset.setString(preferences.getString(
                         context.getString(R.string.saved_watch_face_preset), null));
+
+                PaintBox paintBox = new PaintBox(context, preset);
+
                 @ColorInt int color;
                 switch (type) {
                     case FILL:
-                        color = preset.getFillColor();
+                        color = paintBox.getFillColor();
                         break;
                     case ACCENT:
-                        color = preset.getAccentColor();
+                        color = paintBox.getAccentColor();
                         break;
                     case HIGHLIGHT:
-                        color = preset.getHighlightColor();
+                        color = paintBox.getHighlightColor();
                         break;
                     case BASE:
-                        color = preset.getBaseColor();
+                        color = paintBox.getBaseColor();
                         break;
                     default:
                         // Should never happen...

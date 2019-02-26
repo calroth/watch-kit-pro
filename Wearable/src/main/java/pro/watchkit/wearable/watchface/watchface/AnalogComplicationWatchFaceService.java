@@ -134,7 +134,6 @@ private final int COMPLICATION_AMBIENT_WHITE =
                     }
                 };
         private WatchFaceDrawable.StateObject mStateObject;
-        private PaintBox mPaintBox;
         private GregorianCalendar mCalendar = new GregorianCalendar();
         // Used to pull user's preferences for background color, highlight color, and visual
         // indicating there are unread notifications.
@@ -209,13 +208,13 @@ private final int COMPLICATION_AMBIENT_WHITE =
 
             mStateObject = mWatchFaceDrawables[0].new StateObject();
             mStateObject.preset = new WatchFacePreset();
-            mPaintBox = new PaintBox(mStateObject.preset);
+            mStateObject.paintBox = new PaintBox(context, mStateObject.preset);
 
             loadSavedPreferences();
             initializeComplications();
 
             for (WatchFaceDrawable d : mWatchFaceDrawables) {
-                d.setState(mStateObject, mPaintBox, mCalendar, mLocationCalculator);
+                d.setState(mStateObject, mCalendar, mLocationCalculator);
             }
 
             FusedLocationProviderClient locationClient
@@ -271,16 +270,16 @@ private final int COMPLICATION_AMBIENT_WHITE =
             mStateObject.preset.setString(mSharedPref.getString(
                     getApplicationContext().getString(R.string.saved_watch_face_preset),
                     null));
-//            mStateObject.preset.setFillColor(mSharedPref.getInt(
+//            mStateObject.preset.setFillSixBitColor(mSharedPref.getInt(
 //                    getApplicationContext().getString(R.string.saved_fill_color),
 //                    Color.WHITE));
-//            mStateObject.preset.setAccentColor(mSharedPref.getInt(
+//            mStateObject.preset.setAccentSixBitColor(mSharedPref.getInt(
 //                    getApplicationContext().getString(R.string.saved_accent_color),
 //                    Color.BLUE));
-//            mStateObject.preset.setHighlightColor(mSharedPref.getInt(
+//            mStateObject.preset.setHighlightSixBitColor(mSharedPref.getInt(
 //                    getApplicationContext().getString(R.string.saved_marker_color),
 //                    Color.RED));
-//            mStateObject.preset.setBaseColor(mSharedPref.getInt(
+//            mStateObject.preset.setBaseSixBitColor(mSharedPref.getInt(
 //                    getApplicationContext().getString(R.string.saved_base_color),
 //                    Color.BLACK));
 
@@ -324,7 +323,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
 
             // Adds new complications to a SparseArray to simplify setting styles and ambient
             // properties for all complications, i.e., iterate over them all.
-            setComplicationsActiveAndAmbientColors(mStateObject.preset.getHighlightColor());
+            setComplicationsActiveAndAmbientColors(mStateObject.paintBox.getHighlightColor());
 
             int[] complicationIds = new int[mStateObject.complications.size()];
             int i = 0;
@@ -358,7 +357,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
             boolean burnInProtection = properties.getBoolean(PROPERTY_BURN_IN_PROTECTION, false);
 
 //            painter.setLowBitAmbientBurnInProtection(lowBitAmbient, burnInProtection);
-            mPaintBox.getAmbientPaint().setAntiAlias(!lowBitAmbient);
+            mStateObject.paintBox.getAmbientPaint().setAntiAlias(!lowBitAmbient);
 
             // Updates complications to properly render in ambient mode based on the
             // screen's capabilities.
@@ -597,7 +596,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
                 // the active/ambient colors, we only need to update the complications' colors when
                 // the user actually makes a change to the highlight color, not when the watch goes
                 // in and out of ambient mode.
-                setComplicationsActiveAndAmbientColors(mStateObject.preset.getHighlightColor());
+                setComplicationsActiveAndAmbientColors(mStateObject.paintBox.getHighlightColor());
 
                 registerReceiver();
                 // Update time zone in case it changed while we weren't visible.

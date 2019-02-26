@@ -85,4 +85,138 @@
         <item>@string/color_red</item>
         <item>@string/color_white</item>
     </string-array>
+
+    <integer-array name="six_bit_colors">
+        <item>0xFF000000</item>
+        <item>0xFF1E0F4F</item>
+        <item>0xFF230FA3</item>
+        <item>0xFF0100FF</item>
+        <item>0xFF1E4F17</item>
+        <item>0xFF405962</item>
+        <item>0xFF4F62AF</item>
+        <item>0xFF4F6BFF</item>
+        <item>0xFF24A219</item>
+        <item>0xFF4BA971</item>
+        <item>0xFF59AFB9</item>
+        <item>0xFF54B5FF</item>
+        <item>0xFF01FF00</item>
+        <item>0xFF38FF79</item>
+        <item>0xFF3BFFBE</item>
+        <item>0xFF01FFFF</item>
+        <item>0xFF52180A</item>
+        <item>0xFF6E1356</item>
+        <item>0xFF8007A7</item>
+        <item>0xFF8600FF</item>
+        <item>0xFF716412</item>
+        <item>0xFF886965</item>
+        <item>0xFF976EB1</item>
+        <item>0xFF9A73FF</item>
+        <item>0xFF85B011</item>
+        <item>0xFF97B472</item>
+        <item>0xFFA0B7B9</item>
+        <item>0xFF9FBBFF</item>
+        <item>0xFF8DFF00</item>
+        <item>0xFF97FF7A</item>
+        <item>0xFF99FFBE</item>
+        <item>0xFF90FFFF</item>
+        <item>0xFFA41B0A</item>
+        <item>0xFFB90F5B</item>
+        <item>0xFFC500AA</item>
+        <item>0xFFC600FF</item>
+        <item>0xFFBA7407</item>
+        <item>0xFFCA7668</item>
+        <item>0xFFD378B3</item>
+        <item>0xFFD27BFF</item>
+        <item>0xFFC8BA02</item>
+        <item>0xFFD3BC72</item>
+        <item>0xFFD8BEBA</item>
+        <item>0xFFD5C0FF</item>
+        <item>0xFFCBFF00</item>
+        <item>0xFFD2FF7A</item>
+        <item>0xFFD3FFBF</item>
+        <item>0xFFCDFFFF</item>
+        <item>0xFFFF0000</item>
+        <item>0xFFFF0060</item>
+        <item>0xFFFF00AD</item>
+        <item>0xFFFF00FF</item>
+        <item>0xFFFF7F00</item>
+        <item>0xFFFF7F6A</item>
+        <item>0xFFFF80B5</item>
+        <item>0xFFFF83FF</item>
+        <item>0xFFFFC200</item>
+        <item>0xFFFFC273</item>
+        <item>0xFFFFC3BB</item>
+        <item>0xFFFFC4FF</item>
+        <item>0xFFFFFF00</item>
+        <item>0xFFFFFF7B</item>
+        <item>0xFFFFFFBF</item>
+        <item>0xFFFFFFFF</item>
+    </integer-array>
+
+    <string-array name="six_bit_color_names">
+        <item>Black</item>
+        <item>Russian Violet</item>
+        <item>Zaffre</item>
+        <item>Blue</item>
+        <item>Mughal Green</item>
+        <item>Deep Space Sparkle</item>
+        <item>Liberty</item>
+        <item>Very Light Blue</item>
+        <item>Wageningen Green</item>
+        <item>Shiny Shamrock</item>
+        <item>Moonstone</item>
+        <item>Blue Jeans</item>
+        <item>Electric Green</item>
+        <item>Guppie Green</item>
+        <item>Medium Spring Green</item>
+        <item>Aqua</item>
+        <item>French Puce</item>
+        <item>Byzantium</item>
+        <item>Chinese Purple</item>
+        <item>Electric Violet</item>
+        <item>Antique Bronze</item>
+        <item>Deep Taupe</item>
+        <item>Purple Mountain Majesty</item>
+        <item>Medium Slate Blue</item>
+        <item>Apple Green</item>
+        <item>Olivine</item>
+        <item>Pastel Blue</item>
+        <item>Jordy Blue</item>
+        <item>Mango Green</item>
+        <item>Mint Green</item>
+        <item>Aquamarine</item>
+        <item>Electric Blue</item>
+        <item>Rufous</item>
+        <item>Rose Red</item>
+        <item>Byzantine</item>
+        <item>Vivid Orchid</item>
+        <item>Philippine Gold</item>
+        <item>New York Pink</item>
+        <item>Sky Magenta</item>
+        <item>Heliotrope</item>
+        <item>Citrine</item>
+        <item>Dark Khaki</item>
+        <item>Dust Storm</item>
+        <item>Light Pastel Purple</item>
+        <item>Electric Lime</item>
+        <item>Inchworm</item>
+        <item>Granny Smith Apple</item>
+        <item>Light Cyan</item>
+        <item>Red</item>
+        <item>Vivid Raspberry</item>
+        <item>Fashion Fuchsia</item>
+        <item>Fuchsia</item>
+        <item>Heat Wave</item>
+        <item>Bittersweet</item>
+        <item>Cyclamen</item>
+        <item>Fuchsia Pink</item>
+        <item>Amber</item>
+        <item>Rajah</item>
+        <item>Melon</item>
+        <item>Brilliant Lavender</item>
+        <item>Yellow</item>
+        <item>Sunny</item>
+        <item>Very Pale Yellow</item>
+        <item>White</item>
+    </string-array>
 </resources>

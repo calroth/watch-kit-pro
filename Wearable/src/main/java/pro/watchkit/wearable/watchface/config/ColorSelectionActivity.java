@@ -90,6 +90,18 @@ public class ColorSelectionActivity extends Activity {
         AnalogComplicationConfigData.ColorConfigItem.Type type =
                 AnalogComplicationConfigData.ColorConfigItem.Type.valueOf(sharedPrefString);
 
+        // Reload our current WatchFacePreset.
+        // So we can get our currently selected color.
+        SharedPreferences preferences = getSharedPreferences(
+                getString(R.string.analog_complication_preference_file_key),
+                Context.MODE_PRIVATE);
+
+        final WatchFacePreset preset = new WatchFacePreset();
+        preset.setString(preferences.getString(
+                getString(R.string.saved_watch_face_preset), null));
+
+        final PaintBox paintBox = new PaintBox(this, preset);
+
         int[] row1 = new int[]{
                 -1,
                 calc(3, 2, 3),
@@ -196,31 +208,22 @@ public class ColorSelectionActivity extends Activity {
             public void draw(@NonNull Canvas canvas) {
                 @ColorInt int currentColor;
                 {
-                    // Get our currently selected color.
-                    SharedPreferences preferences = getSharedPreferences(
-                            getString(R.string.analog_complication_preference_file_key),
-                            Context.MODE_PRIVATE);
-
-                    WatchFacePreset preset = new WatchFacePreset();
-                    preset.setString(preferences.getString(
-                            getString(R.string.saved_watch_face_preset), null));
-
                     String sharedPrefString = getIntent().getStringExtra(EXTRA_SHARED_PREF);
                     AnalogComplicationConfigData.ColorConfigItem.Type type =
                             AnalogComplicationConfigData.ColorConfigItem.Type.valueOf(sharedPrefString);
 
                     switch (type) {
                         case FILL:
-                            currentColor = preset.getFillColor();
+                            currentColor = paintBox.getFillColor();
                             break;
                         case ACCENT:
-                            currentColor = preset.getAccentColor();
+                            currentColor = paintBox.getAccentColor();
                             break;
                         case HIGHLIGHT:
-                            currentColor = preset.getHighlightColor();
+                            currentColor = paintBox.getHighlightColor();
                             break;
                         case BASE:
-                            currentColor = preset.getBaseColor();
+                            currentColor = paintBox.getBaseColor();
                             break;
                         default:
                             // Should never happen...
@@ -268,7 +271,7 @@ public class ColorSelectionActivity extends Activity {
 
                             // For our current selection, make our circle slightly larger.
                             float radius2 = radius;
-                            if (PaintBox.getColor(mRows[i][j]) == currentColor) {
+                            if (paintBox.getColor(mRows[i][j]) == currentColor) {
                                 radius2 *= 1.333333f;
                             }
 
@@ -282,7 +285,7 @@ public class ColorSelectionActivity extends Activity {
                             canvas.drawCircle(cx + 0.2f * pc, cy + 0.2f * pc, radius2, o);
 
                             // Now draw our swatch.
-                            p.setColor(PaintBox.getColor(mRows[i][j]));
+                            p.setColor(paintBox.getColor(mRows[i][j]));
                             canvas.drawCircle(cx, cy, radius2, p);
                         }
                         cy += span;
@@ -320,6 +323,8 @@ public class ColorSelectionActivity extends Activity {
         mColorImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Context context = getApplicationContext();
+
                 // Just do a linear search through all 64 colors.
                 // Not necessarily quick, but probably quick enough.
                 String s = "";
@@ -348,13 +353,13 @@ public class ColorSelectionActivity extends Activity {
                     }
                 }
                 if (foundPrimary) {
-                    s = "Primary: " + PaintBox.getColorName(mRows[iPrimary][jPrimary]);
+                    s = "Primary: " + paintBox.getColorName(mRows[iPrimary][jPrimary]);
                     if (foundSecondary) {
                         s += ", ";
                     }
                 }
                 if (foundSecondary) {
-                    s += "Secondary: " + PaintBox.getColorName(mRows[iSecondary][jSecondary]);
+                    s += "Secondary: " + paintBox.getColorName(mRows[iSecondary][jSecondary]);
                 }
                 if (s.length() == 0) {
                     s = "nothing? x = " + mLastTouchX + ", y = " + mLastTouchY;
@@ -373,14 +378,14 @@ public class ColorSelectionActivity extends Activity {
 
                     s += " - choosing ";
                     if (primaryDistance < secondaryDistance) {
-                        s += "Primary: " + PaintBox.getColorName(mRows[iPrimary][jPrimary]);
-                        setSixBitColor(mRows[iPrimary][jPrimary]);
+                        s += "Primary: " + paintBox.getColorName(mRows[iPrimary][jPrimary]);
+                        setSixBitColor(mRows[iPrimary][jPrimary], preset, paintBox);
                     } else {
-                        s += "Secondary: " + PaintBox.getColorName(mRows[iSecondary][jSecondary]);
-                        setSixBitColor(mRows[iSecondary][jSecondary]);
+                        s += "Secondary: " + paintBox.getColorName(mRows[iSecondary][jSecondary]);
+                        setSixBitColor(mRows[iSecondary][jSecondary], preset, paintBox);
                     }
                 } else if (foundPrimary) {
-                    setSixBitColor(mRows[iPrimary][jPrimary]);
+                    setSixBitColor(mRows[iPrimary][jPrimary], preset, paintBox);
                 }
                 Log.d(TAG, "Touched " + s);
             }
@@ -393,39 +398,35 @@ public class ColorSelectionActivity extends Activity {
      * back to preferences.
      *
      * @param sixBitColor New 6-bit color to set (between 0 and 63)
+     * @param preset WatchFacePreset to modify and write
+     * @param paintBox PaintBox to get the color names from, for display purposes
      */
-    private void setSixBitColor(int sixBitColor) {
+    private void setSixBitColor(int sixBitColor, WatchFacePreset preset, PaintBox paintBox) {
         SharedPreferences preferences = getSharedPreferences(
                 getString(R.string.analog_complication_preference_file_key),
                 Context.MODE_PRIVATE);
 
-        WatchFacePreset preset = new WatchFacePreset();
-        preset.setString(preferences.getString(
-                getString(R.string.saved_watch_face_preset), null));
-
         String sharedPrefString = getIntent().getStringExtra(EXTRA_SHARED_PREF);
         AnalogComplicationConfigData.ColorConfigItem.Type type =
                 AnalogComplicationConfigData.ColorConfigItem.Type.valueOf(sharedPrefString);
-
-        Context context = getApplicationContext();
         String toastText;
 
         switch (type) {
             case FILL:
                 preset.setFillSixBitColor(sixBitColor);
-                toastText = context.getString(R.string.config_fill_color_label);
+                toastText = getString(R.string.config_fill_color_label);
                 break;
             case ACCENT:
                 preset.setAccentSixBitColor(sixBitColor);
-                toastText = context.getString(R.string.config_accent_color_label);
+                toastText = getString(R.string.config_accent_color_label);
                 break;
             case HIGHLIGHT:
                 preset.setHighlightSixBitColor(sixBitColor);
-                toastText = context.getString(R.string.config_marker_color_label);
+                toastText = getString(R.string.config_marker_color_label);
                 break;
             case BASE:
                 preset.setBaseSixBitColor(sixBitColor);
-                toastText = context.getString(R.string.config_base_color_label);
+                toastText = getString(R.string.config_base_color_label);
                 break;
             default:
                 // Should never happen...
@@ -441,11 +442,11 @@ public class ColorSelectionActivity extends Activity {
         // Lets Complication Config Activity know there was an update to colors.
         setResult(Activity.RESULT_OK);
 
-        finish();
-
         // Show a toast popup with the color we just selected.
         toastText = toastText.replace('\n', ' ') +
-                ":\n" + PaintBox.getColorName(sixBitColor);
-        Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
+                ":\n" + paintBox.getColorName(sixBitColor);
+        Toast.makeText(this, toastText, Toast.LENGTH_LONG).show();
+
+        finish();
     }
 }

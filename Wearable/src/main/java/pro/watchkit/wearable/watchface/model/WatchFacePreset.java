@@ -20,8 +20,6 @@ package pro.watchkit.wearable.watchface.model;
 
 import android.util.Log;
 
-import androidx.annotation.ColorInt;
-
 public final class WatchFacePreset {
     private BytePacker bytePacker = new BytePacker(16);
     private Style backgroundStyle;
@@ -571,36 +569,32 @@ public final class WatchFacePreset {
         this.minuteHandStalk = minuteHandStalk;
     }
 
-    public @ColorInt
-    int getFillColor() {
-        return PaintBox.getColor(mFillSixBitColor);
+    public int getFillSixBitColor() {
+        return mFillSixBitColor;
     }
 
     public void setFillSixBitColor(int mFillSixBitColor) {
         this.mFillSixBitColor = mFillSixBitColor;
     }
 
-    public @ColorInt
-    int getAccentColor() {
-        return PaintBox.getColor(mAccentSixBitColor);
+    public int getAccentSixBitColor() {
+        return mAccentSixBitColor;
     }
 
     public void setAccentSixBitColor(int mAccentSixBitColor) {
         this.mAccentSixBitColor = mAccentSixBitColor;
     }
 
-    public @ColorInt
-    int getHighlightColor() {
-        return PaintBox.getColor(mHighlightSixBitColor);
+    public int getHighlightSixBitColor() {
+        return mHighlightSixBitColor;
     }
 
     public void setHighlightSixBitColor(int mHighlightSixBitColor) {
         this.mHighlightSixBitColor = mHighlightSixBitColor;
     }
 
-    public @ColorInt
-    int getBaseColor() {
-        return PaintBox.getColor(mBaseSixBitColor);
+    public int getBaseSixBitColor() {
+        return mBaseSixBitColor;
     }
 
     public void setBaseSixBitColor(int mBaseSixBitColor) {

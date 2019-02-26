@@ -31,14 +31,14 @@ final class WatchFaceBackgroundDrawable extends WatchFaceDrawable {
         super.draw(canvas);
 
         if (mStateObject.ambient) {
-            mPaintBox.getAmbientPaint().setColor(
+            mStateObject.paintBox.getAmbientPaint().setColor(
                     mLocationCalculator.getDuskDawnColor(PaintBox.AMBIENT_WHITE));
         }
 
         if (mStateObject.ambient /*&& (mLowBitAmbient || mBurnInProtection)*/) {
             canvas.drawColor(Color.BLACK);
         } else {
-            Paint p = mPaintBox.getPaintFromPreset(mStateObject.preset.getBackgroundStyle());
+            Paint p = mStateObject.paintBox.getPaintFromPreset(mStateObject.preset.getBackgroundStyle());
             canvas.drawPaint(p);
 //            mPaintBox.getBaseAccentPaint().setStyle(Paint.Style.FILL);
 //            canvas.drawPaint(mPaintBox.getBackgroundPaint());

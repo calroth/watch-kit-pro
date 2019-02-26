@@ -19,6 +19,7 @@
 package pro.watchkit.wearable.watchface.model;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -36,6 +37,7 @@ import java.util.Objects;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import pro.watchkit.wearable.watchface.R;
 
 public final class PaintBox {
     public static final int AMBIENT_WHITE =
@@ -70,48 +72,35 @@ public final class PaintBox {
     private WatchFacePreset preset;
     private int mPreviousSerial = -1;
 
-    @ColorInt
-    private static int[] mColors = {
-            0xFF000000, 0xFF1E0F4F, 0xFF230FA3, 0xFF0100FF, 0xFF1E4F17, 0xFF405962, 0xFF4F62AF, 0xFF4F6BFF,
-            0xFF24A219, 0xFF4BA971, 0xFF59AFB9, 0xFF54B5FF, 0xFF01FF00, 0xFF38FF79, 0xFF3BFFBE, 0xFF01FFFF,
-            0xFF52180A, 0xFF6E1356, 0xFF8007A7, 0xFF8600FF, 0xFF716412, 0xFF886965, 0xFF976EB1, 0xFF9A73FF,
-            0xFF85B011, 0xFF97B472, 0xFFA0B7B9, 0xFF9FBBFF, 0xFF8DFF00, 0xFF97FF7A, 0xFF99FFBE, 0xFF90FFFF,
-            0xFFA41B0A, 0xFFB90F5B, 0xFFC500AA, 0xFFC600FF, 0xFFBA7407, 0xFFCA7668, 0xFFD378B3, 0xFFD27BFF,
-            0xFFC8BA02, 0xFFD3BC72, 0xFFD8BEBA, 0xFFD5C0FF, 0xFFCBFF00, 0xFFD2FF7A, 0xFFD3FFBF, 0xFFCDFFFF,
-            0xFFFF0000, 0xFFFF0060, 0xFFFF00AD, 0xFFFF00FF, 0xFFFF7F00, 0xFFFF7F6A, 0xFFFF80B5, 0xFFFF83FF,
-            0xFFFFC200, 0xFFFFC273, 0xFFFFC3BB, 0xFFFFC4FF, 0xFFFFFF00, 0xFFFFFF7B, 0xFFFFFFBF, 0xFFFFFFFF,
-    };
-    private static String[] mColorNames = {
-            "Black", "Russian Violet", "Zaffre", "Blue", "Mughal Green", "Deep Space Sparkle", "Liberty", "Very Light Blue",
-            "Wageningen Green", "Shiny Shamrock", "Moonstone", "Blue Jeans", "Electric Green", "Guppie Green", "Medium Spring Green", "Aqua",
-            "French Puce", "Byzantium", "Chinese Purple", "Electric Violet", "Antique Bronze", "Deep Taupe", "Purple Mountain Majesty", "Medium Slate Blue",
-            "Apple Green", "Olivine", "Pastel Blue", "Jordy Blue", "Mango Green", "Mint Green", "Aquamarine", "Electric Blue",
-            "Rufous", "Rose Red", "Byzantine", "Vivid Orchid", "Philippine Gold", "New York Pink", "Sky Magenta", "Heliotrope",
-            "Citrine", "Dark Khaki", "Dust Storm", "Light Pastel Purple", "Electric Lime", "Inchworm", "Granny Smith Apple", "Light Cyan",
-            "Red", "Vivid Raspberry", "Fashion Fuchsia", "Fuchsia", "Heat Wave", "Bittersweet", "Cyclamen", "Fuchsia Pink",
-            "Amber", "Rajah", "Melon", "Brilliant Lavender", "Yellow", "Sunny", "Very Pale Yellow", "White",
-    };
+    private Context mContext;
 
-    /**
-     * Get the given color from our 6-bit (64-color) palette. Returns a ColorInt.
-     *
-     * @param sixBitColor Index of the color from the palette, between 0 and 63
-     * @return Color from our palette as a ColorInt
-     */
-    @ColorInt
-    public static int getColor(int sixBitColor) {
-        return mColors[sixBitColor];
-    }
+    public PaintBox(Context context, WatchFacePreset preset) {
+        this.preset = preset;
+        mContext = context;
+        mFillPaint = newDefaultPaint();
+        mAccentPaint = newDefaultPaint();
+        mHighlightPaint = newDefaultPaint();
+        mBasePaint = newDefaultPaint();
 
-    /**
-     * Get the name of the given color from our 6-bit (64-color) palette. Returns a ColorInt.
-     *
-     * @param sixBitColor Index of the color from the palette, between 0 and 63
-     * @return Name of the color from our palette as a ColorInt
-     */
-    public static String getColorName(int sixBitColor) {
-        // TODO: localise (using resources)
-        return mColorNames[sixBitColor];
+//        mFillHighlightPaint = newDefaultPaint();
+//        mAccentFillPaint = newDefaultPaint();
+//        mBezelPaint2 = newDefaultPaint();
+//        mAccentHighlightPaint = newDefaultPaint();
+//        mBaseAccentPaint = newDefaultPaint();
+
+        mAmbientPaint = newDefaultPaint();
+        mAmbientPaint.setStyle(Paint.Style.STROKE);
+        mAmbientPaint.setColor(AMBIENT_WHITE);
+//        mAmbientPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mBaseColor);
+
+        mShadowPaint = newDefaultPaint();
+        mShadowPaint.setStyle(Paint.Style.FILL);
+//        mShadowPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mWatchHandShadowColor);
+//        mShadowPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, Color.WHITE);
+
+//        generatePalette();
+        generateHugeListOfColors();
+        generateTuples();
     }
 
     private static String[] wikipediaNames = {
@@ -3333,13 +3322,34 @@ public final class PaintBox {
 //        regeneratePaints();
     }
 
+    /**
+     * Get the given color from our 6-bit (64-color) palette. Returns a ColorInt.
+     *
+     * @param sixBitColor Index of the color from the palette, between 0 and 63
+     * @return Color from our palette as a ColorInt
+     */
+    @ColorInt
+    public int getColor(int sixBitColor) {
+        return mContext.getResources().getIntArray(R.array.six_bit_colors)[sixBitColor];
+    }
+
+    /**
+     * Get the name of the given color from our 6-bit (64-color) palette. Returns a ColorInt.
+     *
+     * @param sixBitColor Index of the color from the palette, between 0 and 63
+     * @return Name of the color from our palette as a ColorInt
+     */
+    public String getColorName(int sixBitColor) {
+        return mContext.getResources().getStringArray(R.array.six_bit_color_names)[sixBitColor];
+    }
+
     private void regeneratePaints2() {
         // Invalidate if our preset has changed.
         int currentSerial = Objects.hash(
-                preset.getFillColor(),
-                preset.getAccentColor(),
-                preset.getHighlightColor(),
-                preset.getBaseColor(),
+                getFillColor(),
+                getAccentColor(),
+                getHighlightColor(),
+                getBaseColor(),
                 preset.getFillHighlightStyle(),
                 preset.getAccentFillStyle(),
                 preset.getAccentHighlightStyle(),
@@ -3352,21 +3362,21 @@ public final class PaintBox {
 
         mPreviousSerial = currentSerial;
 
-        mFillPaint.setColor(preset.getFillColor());
-        mAccentPaint.setColor(preset.getAccentColor());
-        mHighlightPaint.setColor(preset.getHighlightColor());
-        mBasePaint.setColor(preset.getBaseColor());
+        mFillPaint.setColor(getFillColor());
+        mAccentPaint.setColor(getAccentColor());
+        mHighlightPaint.setColor(getHighlightColor());
+        mBasePaint.setColor(getBaseColor());
 
-        mFillHighlightPaint.setColors(preset.getFillColor(), preset.getHighlightColor(), preset.getFillHighlightStyle());
-        mAccentFillPaint.setColors(preset.getAccentColor(), preset.getFillColor(), preset.getAccentFillStyle());
+        mFillHighlightPaint.setColors(getFillColor(), getHighlightColor(), preset.getFillHighlightStyle());
+        mAccentFillPaint.setColors(getAccentColor(), getFillColor(), preset.getAccentFillStyle());
         mBezelPaint1 = mAccentFillPaint;
-        mBezelPaint2.setColors(preset.getFillColor(), preset.getAccentColor(), preset.getAccentFillStyle());
-        mAccentHighlightPaint.setColors(preset.getAccentColor(), preset.getHighlightColor(), preset.getAccentHighlightStyle());
-        mBaseAccentPaint.setColors(preset.getBaseColor(), preset.getAccentColor(), preset.getBaseAccentStyle());
+        mBezelPaint2.setColors(getFillColor(), getAccentColor(), preset.getAccentFillStyle());
+        mAccentHighlightPaint.setColors(getAccentColor(), getHighlightColor(), preset.getAccentHighlightStyle());
+        mBaseAccentPaint.setColors(getBaseColor(), getAccentColor(), preset.getBaseAccentStyle());
 
 //        mTickPaint = mAccentHighlightPaint;
 //        mBackgroundPaint = mBaseAccentPaint;
-        mShadowPaint.setColor(preset.getBaseColor());
+        mShadowPaint.setColor(getBaseColor());
 
         // Regenerate stroke widths based on value of "percent"
         mFillHighlightPaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
@@ -3375,6 +3385,16 @@ public final class PaintBox {
         mAccentHighlightPaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
         mBaseAccentPaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
         mAmbientPaint.setStrokeWidth(AMBIENT_PAINT_STROKE_WIDTH_PERCENT * pc);
+    }
+
+    public @ColorInt
+    int getFillColor() {
+        return getColor(preset.getFillSixBitColor());
+    }
+
+    public @ColorInt
+    int getAccentColor() {
+        return getColor(preset.getAccentSixBitColor());
     }
 
     private Tuple generateMidPoint(Tuple a1, Tuple b1, float d) {
@@ -3667,32 +3687,14 @@ public final class PaintBox {
 
     private long[] wikipediaColors = new long[wikipediaNames.length];
 
-    public PaintBox(WatchFacePreset preset) {
-        this.preset = preset;
-        mFillPaint = newDefaultPaint();
-        mAccentPaint = newDefaultPaint();
-        mHighlightPaint = newDefaultPaint();
-        mBasePaint = newDefaultPaint();
+    public @ColorInt
+    int getHighlightColor() {
+        return getColor(preset.getHighlightSixBitColor());
+    }
 
-//        mFillHighlightPaint = newDefaultPaint();
-//        mAccentFillPaint = newDefaultPaint();
-//        mBezelPaint2 = newDefaultPaint();
-//        mAccentHighlightPaint = newDefaultPaint();
-//        mBaseAccentPaint = newDefaultPaint();
-
-        mAmbientPaint = newDefaultPaint();
-        mAmbientPaint.setStyle(Paint.Style.STROKE);
-        mAmbientPaint.setColor(AMBIENT_WHITE);
-//        mAmbientPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mBaseColor);
-
-        mShadowPaint = newDefaultPaint();
-        mShadowPaint.setStyle(Paint.Style.FILL);
-//        mShadowPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mWatchHandShadowColor);
-//        mShadowPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, Color.WHITE);
-
-//        generatePalette();
-        generateHugeListOfColors();
-        generateTuples();
+    public @ColorInt
+    int getBaseColor() {
+        return getColor(preset.getBaseSixBitColor());
     }
 
     @TargetApi(26)
