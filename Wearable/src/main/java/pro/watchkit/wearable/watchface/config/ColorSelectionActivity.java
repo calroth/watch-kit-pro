@@ -268,7 +268,7 @@ public class ColorSelectionActivity extends Activity {
 
                             // For our current selection, make our circle slightly larger.
                             float radius2 = radius;
-                            if (PaintBox.colors[mRows[i][j]] == currentColor) {
+                            if (PaintBox.getColor(mRows[i][j]) == currentColor) {
                                 radius2 *= 1.333333f;
                             }
 
@@ -282,7 +282,7 @@ public class ColorSelectionActivity extends Activity {
                             canvas.drawCircle(cx + 0.2f * pc, cy + 0.2f * pc, radius2, o);
 
                             // Now draw our swatch.
-                            p.setColor(PaintBox.colors[mRows[i][j]]);
+                            p.setColor(PaintBox.getColor(mRows[i][j]));
                             canvas.drawCircle(cx, cy, radius2, p);
                         }
                         cy += span;
@@ -348,13 +348,13 @@ public class ColorSelectionActivity extends Activity {
                     }
                 }
                 if (foundPrimary) {
-                    s = "Primary: " + PaintBox.colorNames[mRows[iPrimary][jPrimary]];
+                    s = "Primary: " + PaintBox.getColorName(mRows[iPrimary][jPrimary]);
                     if (foundSecondary) {
                         s += ", ";
                     }
                 }
                 if (foundSecondary) {
-                    s += "Secondary: " + PaintBox.colorNames[mRows[iSecondary][jSecondary]];
+                    s += "Secondary: " + PaintBox.getColorName(mRows[iSecondary][jSecondary]);
                 }
                 if (s.length() == 0) {
                     s = "nothing? x = " + mLastTouchX + ", y = " + mLastTouchY;
@@ -373,10 +373,10 @@ public class ColorSelectionActivity extends Activity {
 
                     s += " - choosing ";
                     if (primaryDistance < secondaryDistance) {
-                        s += "Primary: " + PaintBox.colorNames[mRows[iPrimary][jPrimary]];
+                        s += "Primary: " + PaintBox.getColorName(mRows[iPrimary][jPrimary]);
                         setSixBitColor(mRows[iPrimary][jPrimary]);
                     } else {
-                        s += "Secondary: " + PaintBox.colorNames[mRows[iSecondary][jSecondary]];
+                        s += "Secondary: " + PaintBox.getColorName(mRows[iSecondary][jSecondary]);
                         setSixBitColor(mRows[iSecondary][jSecondary]);
                     }
                 } else if (foundPrimary) {
@@ -445,7 +445,7 @@ public class ColorSelectionActivity extends Activity {
 
         // Show a toast popup with the color we just selected.
         toastText = toastText.replace('\n', ' ') +
-                ":\n" + PaintBox.colorNames[sixBitColor];
+                ":\n" + PaintBox.getColorName(sixBitColor);
         Toast.makeText(context, toastText, Toast.LENGTH_LONG).show();
     }
 }

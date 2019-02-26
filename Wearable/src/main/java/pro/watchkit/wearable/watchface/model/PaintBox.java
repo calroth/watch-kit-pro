@@ -71,7 +71,7 @@ public final class PaintBox {
     private int mPreviousSerial = -1;
 
     @ColorInt
-    public static int[] colors = {
+    private static int[] mColors = {
             0xFF000000, 0xFF1E0F4F, 0xFF230FA3, 0xFF0100FF, 0xFF1E4F17, 0xFF405962, 0xFF4F62AF, 0xFF4F6BFF,
             0xFF24A219, 0xFF4BA971, 0xFF59AFB9, 0xFF54B5FF, 0xFF01FF00, 0xFF38FF79, 0xFF3BFFBE, 0xFF01FFFF,
             0xFF52180A, 0xFF6E1356, 0xFF8007A7, 0xFF8600FF, 0xFF716412, 0xFF886965, 0xFF976EB1, 0xFF9A73FF,
@@ -81,8 +81,7 @@ public final class PaintBox {
             0xFFFF0000, 0xFFFF0060, 0xFFFF00AD, 0xFFFF00FF, 0xFFFF7F00, 0xFFFF7F6A, 0xFFFF80B5, 0xFFFF83FF,
             0xFFFFC200, 0xFFFFC273, 0xFFFFC3BB, 0xFFFFC4FF, 0xFFFFFF00, 0xFFFFFF7B, 0xFFFFFFBF, 0xFFFFFFFF,
     };
-
-    public static String[] colorNames = {
+    private static String[] mColorNames = {
             "Black", "Russian Violet", "Zaffre", "Blue", "Mughal Green", "Deep Space Sparkle", "Liberty", "Very Light Blue",
             "Wageningen Green", "Shiny Shamrock", "Moonstone", "Blue Jeans", "Electric Green", "Guppie Green", "Medium Spring Green", "Aqua",
             "French Puce", "Byzantium", "Chinese Purple", "Electric Violet", "Antique Bronze", "Deep Taupe", "Purple Mountain Majesty", "Medium Slate Blue",
@@ -92,6 +91,28 @@ public final class PaintBox {
             "Red", "Vivid Raspberry", "Fashion Fuchsia", "Fuchsia", "Heat Wave", "Bittersweet", "Cyclamen", "Fuchsia Pink",
             "Amber", "Rajah", "Melon", "Brilliant Lavender", "Yellow", "Sunny", "Very Pale Yellow", "White",
     };
+
+    /**
+     * Get the given color from our 6-bit (64-color) palette. Returns a ColorInt.
+     *
+     * @param sixBitColor Index of the color from the palette, between 0 and 63
+     * @return Color from our palette as a ColorInt
+     */
+    @ColorInt
+    public static int getColor(int sixBitColor) {
+        return mColors[sixBitColor];
+    }
+
+    /**
+     * Get the name of the given color from our 6-bit (64-color) palette. Returns a ColorInt.
+     *
+     * @param sixBitColor Index of the color from the palette, between 0 and 63
+     * @return Name of the color from our palette as a ColorInt
+     */
+    public static String getColorName(int sixBitColor) {
+        // TODO: localise (using resources)
+        return mColorNames[sixBitColor];
+    }
 
     private static String[] wikipediaNames = {
             "Absolute Zero",

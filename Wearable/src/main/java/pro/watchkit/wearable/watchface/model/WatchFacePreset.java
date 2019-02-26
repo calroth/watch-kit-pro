@@ -573,7 +573,7 @@ public final class WatchFacePreset {
 
     public @ColorInt
     int getFillColor() {
-        return PaintBox.colors[mFillSixBitColor];
+        return PaintBox.getColor(mFillSixBitColor);
     }
 
     public void setFillSixBitColor(int mFillSixBitColor) {
@@ -582,7 +582,7 @@ public final class WatchFacePreset {
 
     public @ColorInt
     int getAccentColor() {
-        return PaintBox.colors[mAccentSixBitColor];
+        return PaintBox.getColor(mAccentSixBitColor);
     }
 
     public void setAccentSixBitColor(int mAccentSixBitColor) {
@@ -591,7 +591,7 @@ public final class WatchFacePreset {
 
     public @ColorInt
     int getHighlightColor() {
-        return PaintBox.colors[mHighlightSixBitColor];
+        return PaintBox.getColor(mHighlightSixBitColor);
     }
 
     public void setHighlightSixBitColor(int mHighlightSixBitColor) {
@@ -600,7 +600,7 @@ public final class WatchFacePreset {
 
     public @ColorInt
     int getBaseColor() {
-        return PaintBox.colors[mBaseSixBitColor];
+        return PaintBox.getColor(mBaseSixBitColor);
     }
 
     public void setBaseSixBitColor(int mBaseSixBitColor) {
