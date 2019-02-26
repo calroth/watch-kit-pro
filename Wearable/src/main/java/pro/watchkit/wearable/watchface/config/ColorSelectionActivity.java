@@ -56,7 +56,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import pro.watchkit.wearable.watchface.R;
-import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 
@@ -87,8 +86,8 @@ public class ColorSelectionActivity extends Activity {
 
         // Assigns SharedPreference String used to save color selected.
         String sharedPrefString = getIntent().getStringExtra(EXTRA_SHARED_PREF);
-        AnalogComplicationConfigData.ColorConfigItem.Type type =
-                AnalogComplicationConfigData.ColorConfigItem.Type.valueOf(sharedPrefString);
+//        WatchFacePreset.ColorType type =
+//                WatchFacePreset.ColorType.valueOf(sharedPrefString);
 
         // Reload our current WatchFacePreset.
         // So we can get our currently selected color.
@@ -209,27 +208,10 @@ public class ColorSelectionActivity extends Activity {
                 @ColorInt int currentColor;
                 {
                     String sharedPrefString = getIntent().getStringExtra(EXTRA_SHARED_PREF);
-                    AnalogComplicationConfigData.ColorConfigItem.Type type =
-                            AnalogComplicationConfigData.ColorConfigItem.Type.valueOf(sharedPrefString);
+                    WatchFacePreset.ColorType colorType =
+                            WatchFacePreset.ColorType.valueOf(sharedPrefString);
 
-                    switch (type) {
-                        case FILL:
-                            currentColor = paintBox.getFillColor();
-                            break;
-                        case ACCENT:
-                            currentColor = paintBox.getAccentColor();
-                            break;
-                        case HIGHLIGHT:
-                            currentColor = paintBox.getHighlightColor();
-                            break;
-                        case BASE:
-                            currentColor = paintBox.getBaseColor();
-                            break;
-                        default:
-                            // Should never happen...
-                            currentColor = -1;
-                            break;
-                    }
+                    currentColor = paintBox.getColor(colorType);
                 }
 
                 RectF bounds = new RectF(getBounds());
@@ -407,25 +389,22 @@ public class ColorSelectionActivity extends Activity {
                 Context.MODE_PRIVATE);
 
         String sharedPrefString = getIntent().getStringExtra(EXTRA_SHARED_PREF);
-        AnalogComplicationConfigData.ColorConfigItem.Type type =
-                AnalogComplicationConfigData.ColorConfigItem.Type.valueOf(sharedPrefString);
+        WatchFacePreset.ColorType colorType = WatchFacePreset.ColorType.valueOf(sharedPrefString);
         String toastText;
 
-        switch (type) {
+        preset.setSixBitColor(colorType, sixBitColor);
+
+        switch (colorType) {
             case FILL:
-                preset.setFillSixBitColor(sixBitColor);
                 toastText = getString(R.string.config_fill_color_label);
                 break;
             case ACCENT:
-                preset.setAccentSixBitColor(sixBitColor);
                 toastText = getString(R.string.config_accent_color_label);
                 break;
             case HIGHLIGHT:
-                preset.setHighlightSixBitColor(sixBitColor);
                 toastText = getString(R.string.config_marker_color_label);
                 break;
             case BASE:
-                preset.setBaseSixBitColor(sixBitColor);
                 toastText = getString(R.string.config_base_color_label);
                 break;
             default:

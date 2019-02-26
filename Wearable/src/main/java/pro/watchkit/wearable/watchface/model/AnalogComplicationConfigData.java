@@ -119,7 +119,7 @@ public class AnalogComplicationConfigData {
         settingsConfigData.add(new ColorConfigItem(
                 context.getString(R.string.config_fill_color_label),
                 R.drawable.icn_styles,
-                ColorConfigItem.Type.FILL,
+                WatchFacePreset.ColorType.FILL,
 //                context.getString(R.string.saved_fill_color),
                 ColorSelectionActivity.class));
 
@@ -127,7 +127,7 @@ public class AnalogComplicationConfigData {
         settingsConfigData.add(new ColorConfigItem(
                 context.getString(R.string.config_accent_color_label),
                 R.drawable.icn_styles,
-                ColorConfigItem.Type.ACCENT,
+                WatchFacePreset.ColorType.ACCENT,
 //                context.getString(R.string.saved_accent_color),
                 ColorSelectionActivity.class));
 
@@ -136,7 +136,7 @@ public class AnalogComplicationConfigData {
                 new ColorConfigItem(
                         context.getString(R.string.config_marker_color_label),
                         R.drawable.icn_styles,
-                        ColorConfigItem.Type.HIGHLIGHT,
+                        WatchFacePreset.ColorType.HIGHLIGHT,
 //                        context.getString(R.string.saved_marker_color),
                         ColorSelectionActivity.class);
         settingsConfigData.add(markerColorConfigItem);
@@ -145,7 +145,7 @@ public class AnalogComplicationConfigData {
         settingsConfigData.add(new ColorConfigItem(
                 context.getString(R.string.config_base_color_label),
                 R.drawable.icn_styles,
-                ColorConfigItem.Type.BASE,
+                WatchFacePreset.ColorType.BASE,
 //                context.getString(R.string.saved_base_color),
                 ColorSelectionActivity.class));
 
@@ -244,22 +244,22 @@ public class AnalogComplicationConfigData {
 
         private String name;
         private int iconResourceId;
-        private Type type;
+        private WatchFacePreset.ColorType mColorType;
         private Class<ColorSelectionActivity> activityToChoosePreference;
 
         ColorConfigItem(
                 String name,
                 int iconResourceId,
-                Type type,
+                WatchFacePreset.ColorType colorType,
                 Class<ColorSelectionActivity> activity) {
             this.name = name;
             this.iconResourceId = iconResourceId;
-            this.type = type;
+            this.mColorType = colorType;
             this.activityToChoosePreference = activity;
         }
 
-        public Type getType() {
-            return type;
+        public WatchFacePreset.ColorType getType() {
+            return mColorType;
         }
 
         public String getName() {
@@ -269,8 +269,6 @@ public class AnalogComplicationConfigData {
         public int getIconResourceId() {
             return iconResourceId;
         }
-
-        public enum Type {FILL, ACCENT, HIGHLIGHT, BASE}
 
 //        public String getSharedPrefString() {
 //            return sharedPrefString;

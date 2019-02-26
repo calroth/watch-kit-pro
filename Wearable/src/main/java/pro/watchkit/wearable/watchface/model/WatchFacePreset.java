@@ -53,10 +53,10 @@ public final class WatchFacePreset {
 //        bytePacker.setString("2a4c845ec530d34bffa86609f82f6407");
 //        unpack();
 
-        setFillSixBitColor(16);
-        setAccentSixBitColor(24);
-        setHighlightSixBitColor(32);
-        setBaseSixBitColor(40);
+        setSixBitColor(ColorType.FILL, 16);
+        setSixBitColor(ColorType.ACCENT, 24);
+        setSixBitColor(ColorType.HIGHLIGHT, 32);
+        setSixBitColor(ColorType.BASE, 40);
 
         setBackgroundStyle(Style.ACCENT_BASE);
 
@@ -569,37 +569,39 @@ public final class WatchFacePreset {
         this.minuteHandStalk = minuteHandStalk;
     }
 
-    public int getFillSixBitColor() {
-        return mFillSixBitColor;
+    public int getSixBitColor(ColorType colorType) {
+        switch (colorType) {
+            case FILL:
+                return mFillSixBitColor;
+            case ACCENT:
+                return mAccentSixBitColor;
+            case HIGHLIGHT:
+                return mHighlightSixBitColor;
+            case BASE:
+            default:
+                return mBaseSixBitColor;
+        }
     }
 
-    public void setFillSixBitColor(int mFillSixBitColor) {
-        this.mFillSixBitColor = mFillSixBitColor;
+    public void setSixBitColor(ColorType colorType, int sixBitColor) {
+        switch (colorType) {
+            case FILL:
+                this.mFillSixBitColor = sixBitColor;
+                break;
+            case ACCENT:
+                this.mHighlightSixBitColor = sixBitColor;
+                break;
+            case HIGHLIGHT:
+                this.mHighlightSixBitColor = sixBitColor;
+                break;
+            case BASE:
+            default:
+                this.mBaseSixBitColor = sixBitColor;
+                break;
+        }
     }
 
-    public int getAccentSixBitColor() {
-        return mAccentSixBitColor;
-    }
-
-    public void setAccentSixBitColor(int mAccentSixBitColor) {
-        this.mAccentSixBitColor = mAccentSixBitColor;
-    }
-
-    public int getHighlightSixBitColor() {
-        return mHighlightSixBitColor;
-    }
-
-    public void setHighlightSixBitColor(int mHighlightSixBitColor) {
-        this.mHighlightSixBitColor = mHighlightSixBitColor;
-    }
-
-    public int getBaseSixBitColor() {
-        return mBaseSixBitColor;
-    }
-
-    public void setBaseSixBitColor(int mBaseSixBitColor) {
-        this.mBaseSixBitColor = mBaseSixBitColor;
-    }
+    public enum ColorType {FILL, ACCENT, HIGHLIGHT, BASE}
 
     public enum HandShape {
         STRAIGHT, ROUNDED, DIAMOND, UNKNOWN1;

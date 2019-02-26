@@ -303,14 +303,14 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
                 int iconResourceId = colorConfigItem.getIconResourceId();
                 String name = colorConfigItem.getName();
-                ColorConfigItem.Type type = colorConfigItem.getType();
+                WatchFacePreset.ColorType colorType = colorConfigItem.getType();
 //                String sharedPrefString = colorConfigItem.getSharedPrefString();
                 Class<ColorSelectionActivity> activity =
                         colorConfigItem.getActivityToChoosePreference();
 
                 colorPickerViewHolder.setIcon(iconResourceId);
                 colorPickerViewHolder.setName(name);
-                colorPickerViewHolder.setType(type);
+                colorPickerViewHolder.setType(colorType);
 //                colorPickerViewHolder.setSharedPrefString(sharedPrefString);
                 colorPickerViewHolder.setLaunchActivityToSelectColor(activity);
                 break;
@@ -783,7 +783,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 //        private String mSharedPrefResourceString;
 
         private Class<ColorSelectionActivity> mLaunchActivityToSelectColor;
-        private ColorConfigItem.Type type;
+        private WatchFacePreset.ColorType mColorType;
 
         public ColorPickerViewHolder(View view) {
             super(view);
@@ -809,7 +809,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             @Override
             public void draw(@NonNull Canvas canvas) {
 //                if (mSharedPrefResourceString == null) return;
-                if (type == null) return;
+                if (mColorType == null) return;
 
                 Context context = mAppearanceButton.getContext();
                 SharedPreferences preferences =
@@ -822,27 +822,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
                 PaintBox paintBox = new PaintBox(context, preset);
 
-                @ColorInt int color;
-                switch (type) {
-                    case FILL:
-                        color = paintBox.getFillColor();
-                        break;
-                    case ACCENT:
-                        color = paintBox.getAccentColor();
-                        break;
-                    case HIGHLIGHT:
-                        color = paintBox.getHighlightColor();
-                        break;
-                    case BASE:
-                        color = paintBox.getBaseColor();
-                        break;
-                    default:
-                        // Should never happen...
-                        color = Color.BLACK;
-                        break;
-                }
-
-//                @ColorInt int color = preferences.getInt(mSharedPrefResourceString, Color.BLACK);
+                @ColorInt int color = paintBox.getColor(mColorType);
 
                 // Draw a circle that's 20px from right, top and left borders.
                 float radius = (canvas.getHeight() / 2f) - 20f;
@@ -871,8 +851,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             }
         };
 
-        public void setType(ColorConfigItem.Type type) {
-            this.type = type;
+        public void setType(WatchFacePreset.ColorType colorType) {
+            this.mColorType = colorType;
         }
 
 //        public void setSharedPrefString(String sharedPrefString) {
@@ -893,7 +873,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
                 // Pass shared preference name to save color value to.
 //                launchIntent.putExtra(EXTRA_SHARED_PREF, mSharedPrefResourceString);
-                launchIntent.putExtra(EXTRA_SHARED_PREF, type.name());
+                launchIntent.putExtra(EXTRA_SHARED_PREF, mColorType.name());
 
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(

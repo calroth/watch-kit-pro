@@ -3240,10 +3240,10 @@ public final class PaintBox {
     }
 
 //    public void setPalette(WatchFacePreset preset) {
-//        this.mFillColor = preset.getFillColor();
-//        this.mAccentColor = preset.getAccentColor();
-//        this.mHighlightColor = preset.getHighlightColor();
-//        this.mBaseColor = preset.getBaseColor();
+//        this.mFillColor = preset.getColor(WatchFacePreset.ColorType.FILL);
+//        this.mAccentColor = preset.getColor(WatchFacePreset.ColorType.ACCENT);
+//        this.mHighlightColor = preset.getColor(WatchFacePreset.ColorType.HIGHLIGHT);
+//        this.mBaseColor = preset.getColor(WatchFacePreset.ColorType.BASE);
 //
 //        regeneratePaints();
 //    }
@@ -3334,6 +3334,17 @@ public final class PaintBox {
     }
 
     /**
+     * Get the given color from our 6-bit (64-color) palette. Returns a ColorInt.
+     *
+     * @param colorType ColorType to get from our current WatchFacePreset.
+     * @return Color from our palette as a ColorInt
+     */
+    @ColorInt
+    public int getColor(WatchFacePreset.ColorType colorType) {
+        return getColor(preset.getSixBitColor(colorType));
+    }
+
+    /**
      * Get the name of the given color from our 6-bit (64-color) palette. Returns a ColorInt.
      *
      * @param sixBitColor Index of the color from the palette, between 0 and 63
@@ -3346,10 +3357,10 @@ public final class PaintBox {
     private void regeneratePaints2() {
         // Invalidate if our preset has changed.
         int currentSerial = Objects.hash(
-                getFillColor(),
-                getAccentColor(),
-                getHighlightColor(),
-                getBaseColor(),
+                getColor(WatchFacePreset.ColorType.FILL),
+                getColor(WatchFacePreset.ColorType.ACCENT),
+                getColor(WatchFacePreset.ColorType.HIGHLIGHT),
+                getColor(WatchFacePreset.ColorType.BASE),
                 preset.getFillHighlightStyle(),
                 preset.getAccentFillStyle(),
                 preset.getAccentHighlightStyle(),
@@ -3362,21 +3373,21 @@ public final class PaintBox {
 
         mPreviousSerial = currentSerial;
 
-        mFillPaint.setColor(getFillColor());
-        mAccentPaint.setColor(getAccentColor());
-        mHighlightPaint.setColor(getHighlightColor());
-        mBasePaint.setColor(getBaseColor());
+        mFillPaint.setColor(getColor(WatchFacePreset.ColorType.FILL));
+        mAccentPaint.setColor(getColor(WatchFacePreset.ColorType.ACCENT));
+        mHighlightPaint.setColor(getColor(WatchFacePreset.ColorType.HIGHLIGHT));
+        mBasePaint.setColor(getColor(WatchFacePreset.ColorType.BASE));
 
-        mFillHighlightPaint.setColors(getFillColor(), getHighlightColor(), preset.getFillHighlightStyle());
-        mAccentFillPaint.setColors(getAccentColor(), getFillColor(), preset.getAccentFillStyle());
+        mFillHighlightPaint.setColors(WatchFacePreset.ColorType.FILL, WatchFacePreset.ColorType.HIGHLIGHT, preset.getFillHighlightStyle());
+        mAccentFillPaint.setColors(WatchFacePreset.ColorType.ACCENT, WatchFacePreset.ColorType.FILL, preset.getAccentFillStyle());
         mBezelPaint1 = mAccentFillPaint;
-        mBezelPaint2.setColors(getFillColor(), getAccentColor(), preset.getAccentFillStyle());
-        mAccentHighlightPaint.setColors(getAccentColor(), getHighlightColor(), preset.getAccentHighlightStyle());
-        mBaseAccentPaint.setColors(getBaseColor(), getAccentColor(), preset.getBaseAccentStyle());
+        mBezelPaint2.setColors(WatchFacePreset.ColorType.FILL, WatchFacePreset.ColorType.ACCENT, preset.getAccentFillStyle());
+        mAccentHighlightPaint.setColors(WatchFacePreset.ColorType.ACCENT, WatchFacePreset.ColorType.HIGHLIGHT, preset.getAccentHighlightStyle());
+        mBaseAccentPaint.setColors(WatchFacePreset.ColorType.BASE, WatchFacePreset.ColorType.ACCENT, preset.getBaseAccentStyle());
 
 //        mTickPaint = mAccentHighlightPaint;
 //        mBackgroundPaint = mBaseAccentPaint;
-        mShadowPaint.setColor(getBaseColor());
+        mShadowPaint.setColor(getColor(WatchFacePreset.ColorType.BASE));
 
         // Regenerate stroke widths based on value of "percent"
         mFillHighlightPaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
@@ -3385,16 +3396,6 @@ public final class PaintBox {
         mAccentHighlightPaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
         mBaseAccentPaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
         mAmbientPaint.setStrokeWidth(AMBIENT_PAINT_STROKE_WIDTH_PERCENT * pc);
-    }
-
-    public @ColorInt
-    int getFillColor() {
-        return getColor(preset.getFillSixBitColor());
-    }
-
-    public @ColorInt
-    int getAccentColor() {
-        return getColor(preset.getAccentSixBitColor());
     }
 
     private Tuple generateMidPoint(Tuple a1, Tuple b1, float d) {
@@ -3560,8 +3561,12 @@ public final class PaintBox {
             return super.hashCode() + mCustomHashCode;
         }
 
-        public void setColors(@ColorInt int colorA, @ColorInt int colorB,
+        public void setColors(WatchFacePreset.ColorType colorTypeA,
+                              WatchFacePreset.ColorType colorTypeB,
                               WatchFacePreset.GradientStyle gradientStyle) {
+            @ColorInt int colorA = PaintBox.this.getColor(colorTypeA);
+            @ColorInt int colorB = PaintBox.this.getColor(colorTypeB);
+
             switch (gradientStyle) {
                 case SWEEP:
                     addSweepGradient(colorA, colorB);
@@ -3687,16 +3692,6 @@ public final class PaintBox {
 
     private long[] wikipediaColors = new long[wikipediaNames.length];
 
-    public @ColorInt
-    int getHighlightColor() {
-        return getColor(preset.getHighlightSixBitColor());
-    }
-
-    public @ColorInt
-    int getBaseColor() {
-        return getColor(preset.getBaseSixBitColor());
-    }
-
     @TargetApi(26)
     private void generateHugeListOfColors() {
         ColorSpace CIE_LAB = ColorSpace.get(ColorSpace.Named.CIE_LAB);
@@ -3778,22 +3773,4 @@ public final class PaintBox {
             return this;
         }
     }
-
-//    public int getFillColor() {
-//        return mFillColor;
-//    }
-//
-//    public int getAccentColor() {
-//        return mAccentColor;
-//    }
-
-//    @Deprecated
-//    public int getHighlightColor() {
-//        regeneratePaints2();
-//        return preset.getHighlightColor();
-//    }
-
-//    public int getBaseColor() {
-//        return mBaseColor;
-//    }
 }

@@ -323,7 +323,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
 
             // Adds new complications to a SparseArray to simplify setting styles and ambient
             // properties for all complications, i.e., iterate over them all.
-            setComplicationsActiveAndAmbientColors(mStateObject.paintBox.getHighlightColor());
+            setComplicationsActiveAndAmbientColors(mStateObject.paintBox.getColor(WatchFacePreset.ColorType.HIGHLIGHT));
 
             int[] complicationIds = new int[mStateObject.complications.size()];
             int i = 0;
@@ -596,7 +596,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
                 // the active/ambient colors, we only need to update the complications' colors when
                 // the user actually makes a change to the highlight color, not when the watch goes
                 // in and out of ambient mode.
-                setComplicationsActiveAndAmbientColors(mStateObject.paintBox.getHighlightColor());
+                setComplicationsActiveAndAmbientColors(mStateObject.paintBox.getColor(WatchFacePreset.ColorType.HIGHLIGHT));
 
                 registerReceiver();
                 // Update time zone in case it changed while we weren't visible.
