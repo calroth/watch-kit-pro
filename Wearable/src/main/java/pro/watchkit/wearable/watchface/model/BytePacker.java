@@ -45,31 +45,37 @@ final class BytePacker {
     private byte[] mBytes;
     private int mBytePtr;
 
+    private static final int LENGTH = 16;
+
     private SecretKeySpec mKey;
     private Cipher mCipher;
 
-//    BytePacker(@NonNull String s, @NonNull byte[] key) {
-//        setKey(key);
-//        setString(s);
-//        rewind();
-//    }
-//
-//    BytePacker(String s) {
-//        setKey(getDefaultKey());
-//        setString(s);
-//        rewind();
-//    }
-//
-//    BytePacker(int lengthInBytes, @NonNull byte[] key) {
-//        setKey(key);
-//        mBytes = new byte[lengthInBytes];
-//        rewind();
-//    }
-
-    BytePacker(int lengthInBytes) {
+    BytePacker() {
         setKey(getDefaultKey());
-        mBytes = new byte[lengthInBytes];
+        mBytes = new byte[LENGTH];
         rewind();
+    }
+
+    /**
+     * We're done writing. Write zeroes to the rest of the array, followed by
+     * the version string.
+     */
+    void finish() {
+        if (mBytePtr >= mBytes.length * 8 - 1) {
+            // Already finalized?
+            return;
+        }
+        int versionLength = 3;
+        int remainingBits = (mBytes.length * 8) - mBytePtr - versionLength - 1; // Off by 1...
+        // Write out "remainingBits" zeroes.
+        while (remainingBits > 0) {
+            int length = remainingBits > 8 ? 8 : remainingBits;
+            put(length, 0);
+            remainingBits -= length;
+        }
+        // Write our version.
+        int version = 0;
+        put(versionLength, version);
     }
 
     @NonNull
@@ -119,6 +125,9 @@ final class BytePacker {
 
     void setStringFast(String s) {
         int length = s.length();
+        if (length != LENGTH * 2) {
+            throw new Error("Invalid length, expected " + (LENGTH * 2) + " hex digits");
+        }
         mBytes = new byte[length / 2];
         for (int i = 0; i < length; i += 2) {
             mBytes[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
@@ -346,7 +355,7 @@ final class BytePacker {
      *
      * @return Next 6-bit color
      */
-    public int getSixBitColor() {
+    int getSixBitColor() {
         // Return our 6-bit color (between 0 and 63).
         return get(6);
     }
