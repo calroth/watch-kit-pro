@@ -589,7 +589,7 @@ public final class WatchFacePreset {
                 this.mFillSixBitColor = sixBitColor;
                 break;
             case ACCENT:
-                this.mHighlightSixBitColor = sixBitColor;
+                this.mAccentSixBitColor = sixBitColor;
                 break;
             case HIGHLIGHT:
                 this.mHighlightSixBitColor = sixBitColor;
