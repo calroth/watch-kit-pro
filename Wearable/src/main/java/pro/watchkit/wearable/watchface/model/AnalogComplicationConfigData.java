@@ -132,14 +132,12 @@ public class AnalogComplicationConfigData {
                 ColorSelectionActivity.class));
 
         // Data for highlight/marker (second hand) color UX in settings Activity.
-        ConfigItemType markerColorConfigItem =
-                new ColorConfigItem(
-                        context.getString(R.string.config_marker_color_label),
-                        R.drawable.icn_styles,
-                        WatchFacePreset.ColorType.HIGHLIGHT,
+        settingsConfigData.add(new ColorConfigItem(
+                context.getString(R.string.config_marker_color_label),
+                R.drawable.icn_styles,
+                WatchFacePreset.ColorType.HIGHLIGHT,
 //                        context.getString(R.string.saved_marker_color),
-                        ColorSelectionActivity.class);
-        settingsConfigData.add(markerColorConfigItem);
+                ColorSelectionActivity.class));
 
         // Data for base color UX in settings Activity.
         settingsConfigData.add(new ColorConfigItem(
