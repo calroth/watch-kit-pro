@@ -99,8 +99,8 @@ public final class PaintBox {
 //        mShadowPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, Color.WHITE);
 
 //        generatePalette();
-        generateHugeListOfColors();
-        generateTuples();
+//        generateHugeListOfColors();
+//        generateTuples();
     }
 
     private static String[] wikipediaNames = {
