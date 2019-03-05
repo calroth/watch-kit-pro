@@ -85,7 +85,7 @@ public class ColorSelectionActivity extends Activity {
         setContentView(R.layout.activity_color_selection_config);
 
         // Assigns SharedPreference String used to save color selected.
-        String sharedPrefString = getIntent().getStringExtra(EXTRA_SHARED_PREF);
+//        String sharedPrefString = getIntent().getStringExtra(EXTRA_SHARED_PREF);
 //        WatchFacePreset.ColorType type =
 //                WatchFacePreset.ColorType.valueOf(sharedPrefString);
 
@@ -305,8 +305,6 @@ public class ColorSelectionActivity extends Activity {
         mColorImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Context context = getApplicationContext();
-
                 // Just do a linear search through all 64 colors.
                 // Not necessarily quick, but probably quick enough.
                 String s = "";
