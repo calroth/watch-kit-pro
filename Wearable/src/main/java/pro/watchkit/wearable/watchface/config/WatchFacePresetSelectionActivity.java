@@ -41,7 +41,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.wear.widget.WearableRecyclerView;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
@@ -57,18 +59,46 @@ public class WatchFacePresetSelectionActivity extends Activity {
             "pro.watchkit.wearable.watchface.config.extra.EXTRA_SHARED_PREF";
     private static final String TAG = WatchFacePresetSelectionActivity.class.getSimpleName();
 
+    private WearableRecyclerView mWearableRecyclerView;
+
+    private WatchFacePresetSelectionRecyclerViewAdapter mWatchFacePresetSelectionRecyclerViewAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watch_face_preset_selection_config);
 
+        String[] strings = getIntent().getStringArrayExtra(EXTRA_SHARED_PREF);
+
+        WatchFacePreset[] watchFacePresets = new WatchFacePreset[strings.length];
+        PaintBox[] paintBoxes = new PaintBox[strings.length];
+
         // Get our presets out of the intent's extra data.
-        for (String s : getIntent().getStringArrayExtra(EXTRA_SHARED_PREF)) {
+        for (int i = 0; i < strings.length; i++) {
             // Create a new item here.
-            final WatchFacePreset preset = new WatchFacePreset();
-            preset.setString(s);
-            final PaintBox paintBox = new PaintBox(this, preset);
+            watchFacePresets[i] = new WatchFacePreset();
+            watchFacePresets[i].setString(strings[i]);
+            paintBoxes[i] = new PaintBox(this, watchFacePresets[i]);
         }
+
+        mWatchFacePresetSelectionRecyclerViewAdapter =
+                new WatchFacePresetSelectionRecyclerViewAdapter(
+                        watchFacePresets,
+                        paintBoxes);
+
+        mWearableRecyclerView =
+                findViewById(R.id.wearable_recycler_view);
+
+        // Aligns the first and last items on the list vertically centered on the screen.
+        mWearableRecyclerView.setEdgeItemsCenteringEnabled(true);
+
+        mWearableRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Improves performance because we know changes in content do not change the layout size of
+        // the RecyclerView.
+        mWearableRecyclerView.setHasFixedSize(true);
+
+        mWearableRecyclerView.setAdapter(mWatchFacePresetSelectionRecyclerViewAdapter);
     }
 
     /**
