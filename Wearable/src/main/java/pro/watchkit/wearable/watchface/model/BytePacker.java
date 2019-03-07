@@ -45,31 +45,37 @@ final class BytePacker {
     private byte[] mBytes;
     private int mBytePtr;
 
+    private static final int LENGTH = 16;
+
     private SecretKeySpec mKey;
     private Cipher mCipher;
 
-//    BytePacker(@NonNull String s, @NonNull byte[] key) {
-//        setKey(key);
-//        setString(s);
-//        rewind();
-//    }
-//
-//    BytePacker(String s) {
-//        setKey(getDefaultKey());
-//        setString(s);
-//        rewind();
-//    }
-//
-//    BytePacker(int lengthInBytes, @NonNull byte[] key) {
-//        setKey(key);
-//        mBytes = new byte[lengthInBytes];
-//        rewind();
-//    }
-
-    BytePacker(int lengthInBytes) {
+    BytePacker() {
         setKey(getDefaultKey());
-        mBytes = new byte[lengthInBytes];
+        mBytes = new byte[LENGTH];
         rewind();
+    }
+
+    /**
+     * We're done writing. Write zeroes to the rest of the array, followed by
+     * the version string.
+     */
+    void finish() {
+        if (mBytePtr >= mBytes.length * 8 - 1) {
+            // Already finalized?
+            return;
+        }
+        int versionLength = 3;
+        int remainingBits = (mBytes.length * 8) - mBytePtr - versionLength - 1; // Off by 1...
+        // Write out "remainingBits" zeroes.
+        while (remainingBits > 0) {
+            int length = remainingBits > 8 ? 8 : remainingBits;
+            put(length, 0);
+            remainingBits -= length;
+        }
+        // Write our version.
+        int version = 0;
+        put(versionLength, version);
     }
 
     @NonNull
@@ -108,7 +114,7 @@ final class BytePacker {
             mCipher = Cipher.getInstance("AES/ECB/NoPadding");
         } catch (NoSuchAlgorithmException | NoSuchPaddingException ex) {
             String TAG = "AnalogWatchFace";
-            Log.d(TAG, ex.toString());
+            Log.d(TAG, "setKey: " + ex.toString());
         }
     }
 
@@ -118,11 +124,15 @@ final class BytePacker {
     }
 
     void setStringFast(String s) {
-        int length = s.length();
-        mBytes = new byte[length / 2];
-        for (int i = 0; i < length; i += 2) {
-            mBytes[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
-                    + Character.digit(s.charAt(i + 1), 16));
+        if (s.length() < mBytes.length * 2) {
+            throw new Error("Invalid length, expected " + (mBytes.length * 2) +
+                    " or more hex digits");
+        }
+        for (int i = 0; i < mBytes.length; i++) {
+            // Go through "s", 2 hex digits at a time.
+            // Pack those 2 hex digits into a single byte in "mBytes".
+            mBytes[i] = (byte) ((Character.digit(s.charAt(i * 2), 16) << 4)
+                    + Character.digit(s.charAt(i * 2 + 1), 16));
         }
     }
 
@@ -135,7 +145,7 @@ final class BytePacker {
             //            Log.d(TAG, "Encrypted: " + result);
             return byteArrayToString(mCipher.doFinal(mBytes));
         } catch (IllegalBlockSizeException | BadPaddingException | InvalidKeyException ex) {
-            Log.d(TAG, ex.toString());
+            Log.d(TAG, "getString: " + ex.toString());
             return "0000000000000000";
         }
     }
@@ -157,7 +167,7 @@ final class BytePacker {
             mBytes = mCipher.doFinal(encrypted);
 //            Log.d(TAG, "Decrypted: " + byteArrayToString(mBytes));
         } catch (IllegalBlockSizeException | BadPaddingException | InvalidKeyException ex) {
-            Log.d(TAG, ex.toString());
+            Log.d(TAG, "setString: " + ex.toString());
         }
 
         rewind();
@@ -251,6 +261,16 @@ final class BytePacker {
         put(1, value ? 1 : 0);
     }
 
+    /**
+     * Push the given 6-bit color (between 0 and 63) onto the stack.
+     *
+     * @param value 6-bit color to push onto the stack
+     */
+    void putSixBitColor(int value) {
+        // Stow our color. It's 6-bit (between 0 and 63).
+        put(6, value);
+    }
+
     void put(int length, Object[] values, Object value) {
         for (int i = 0; i < values.length; i++) {
             if (values[i] == value) {
@@ -329,6 +349,16 @@ final class BytePacker {
         Log.d(TAG, "get start=" + mBytePtr + " length=" + length +
                 " expected=" + expected + " actual=" + actual +
                 (expected == actual ? " ✔" : ""));
+    }
+
+    /**
+     * Get the next 6-bit (between 0 and 63) color off the stack.
+     *
+     * @return Next 6-bit color
+     */
+    int getSixBitColor() {
+        // Return our 6-bit color (between 0 and 63).
+        return get(6);
     }
 
     public boolean getBoolean() {

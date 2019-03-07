@@ -72,7 +72,7 @@ import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.LocationCalculator;
-import pro.watchkit.wearable.watchface.model.Palette;
+import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 
 public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanvasWatchFaceService {
@@ -134,7 +134,6 @@ private final int COMPLICATION_AMBIENT_WHITE =
                     }
                 };
         private WatchFaceDrawable.StateObject mStateObject;
-        private Palette mPalette;
         private GregorianCalendar mCalendar = new GregorianCalendar();
         // Used to pull user's preferences for background color, highlight color, and visual
         // indicating there are unread notifications.
@@ -209,13 +208,13 @@ private final int COMPLICATION_AMBIENT_WHITE =
 
             mStateObject = mWatchFaceDrawables[0].new StateObject();
             mStateObject.preset = new WatchFacePreset();
-            mPalette = new Palette(mStateObject.preset);
+            mStateObject.paintBox = new PaintBox(context, mStateObject.preset);
 
             loadSavedPreferences();
             initializeComplications();
 
             for (WatchFaceDrawable d : mWatchFaceDrawables) {
-                d.setState(mStateObject, mPalette, mCalendar, mLocationCalculator);
+                d.setState(mStateObject, mCalendar, mLocationCalculator);
             }
 
             FusedLocationProviderClient locationClient
@@ -268,20 +267,23 @@ private final int COMPLICATION_AMBIENT_WHITE =
 
         // Pulls all user's preferences for watch face appearance.
         private void loadSavedPreferences() {
-            mStateObject.preset.setFillColor(mSharedPref.getInt(
-                    getApplicationContext().getString(R.string.saved_fill_color),
-                    Color.WHITE));
-            mStateObject.preset.setAccentColor(mSharedPref.getInt(
-                    getApplicationContext().getString(R.string.saved_accent_color),
-                    Color.BLUE));
-            mStateObject.preset.setHighlightColor(mSharedPref.getInt(
-                    getApplicationContext().getString(R.string.saved_marker_color),
-                    Color.RED));
-            mStateObject.preset.setBaseColor(mSharedPref.getInt(
-                    getApplicationContext().getString(R.string.saved_base_color),
-                    Color.BLACK));
+            mStateObject.preset.setString(mSharedPref.getString(
+                    getApplicationContext().getString(R.string.saved_watch_face_preset),
+                    null));
+//            mStateObject.preset.setFillSixBitColor(mSharedPref.getInt(
+//                    getApplicationContext().getString(R.string.saved_fill_color),
+//                    Color.WHITE));
+//            mStateObject.preset.setAccentSixBitColor(mSharedPref.getInt(
+//                    getApplicationContext().getString(R.string.saved_accent_color),
+//                    Color.BLUE));
+//            mStateObject.preset.setHighlightSixBitColor(mSharedPref.getInt(
+//                    getApplicationContext().getString(R.string.saved_marker_color),
+//                    Color.RED));
+//            mStateObject.preset.setBaseSixBitColor(mSharedPref.getInt(
+//                    getApplicationContext().getString(R.string.saved_base_color),
+//                    Color.BLACK));
 
-//            mPalette.setPalette(mStateObject.preset);
+//            mPaintBox.setPalette(mStateObject.preset);
 
 //            painter.setPalette(-1, -10011977, -43230, -16777216);
 //            painter.setPalette(preset);
@@ -321,7 +323,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
 
             // Adds new complications to a SparseArray to simplify setting styles and ambient
             // properties for all complications, i.e., iterate over them all.
-            setComplicationsActiveAndAmbientColors(mStateObject.preset.getHighlightColor());
+            setComplicationsActiveAndAmbientColors(mStateObject.paintBox.getColor(WatchFacePreset.ColorType.HIGHLIGHT));
 
             int[] complicationIds = new int[mStateObject.complications.size()];
             int i = 0;
@@ -355,7 +357,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
             boolean burnInProtection = properties.getBoolean(PROPERTY_BURN_IN_PROTECTION, false);
 
 //            painter.setLowBitAmbientBurnInProtection(lowBitAmbient, burnInProtection);
-            mPalette.getAmbientPaint().setAntiAlias(!lowBitAmbient);
+            mStateObject.paintBox.getAmbientPaint().setAntiAlias(!lowBitAmbient);
 
             // Updates complications to properly render in ambient mode based on the
             // screen's capabilities.
@@ -594,7 +596,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
                 // the active/ambient colors, we only need to update the complications' colors when
                 // the user actually makes a change to the highlight color, not when the watch goes
                 // in and out of ambient mode.
-                setComplicationsActiveAndAmbientColors(mStateObject.preset.getHighlightColor());
+                setComplicationsActiveAndAmbientColors(mStateObject.paintBox.getColor(WatchFacePreset.ColorType.HIGHLIGHT));
 
                 registerReceiver();
                 // Update time zone in case it changed while we weren't visible.

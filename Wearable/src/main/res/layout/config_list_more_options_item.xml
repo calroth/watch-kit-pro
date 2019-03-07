@@ -32,11 +32,10 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<ImageView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/more_options_image_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
     android:padding="10dp"
-    android:src="@drawable/ic_expand_more_white_18dp"/>
+    android:src="@drawable/ic_expand_more_white_18dp" />

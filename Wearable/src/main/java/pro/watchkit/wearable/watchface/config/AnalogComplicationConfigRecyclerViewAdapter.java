@@ -82,6 +82,8 @@ import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.NightV
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.PreviewAndComplicationsConfigItem;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.UnreadNotificationConfigItem;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
+import pro.watchkit.wearable.watchface.model.PaintBox;
+import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.EXTRA_SHARED_PREF;
@@ -301,13 +303,15 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
                 int iconResourceId = colorConfigItem.getIconResourceId();
                 String name = colorConfigItem.getName();
-                String sharedPrefString = colorConfigItem.getSharedPrefString();
+                WatchFacePreset.ColorType colorType = colorConfigItem.getType();
+//                String sharedPrefString = colorConfigItem.getSharedPrefString();
                 Class<ColorSelectionActivity> activity =
                         colorConfigItem.getActivityToChoosePreference();
 
                 colorPickerViewHolder.setIcon(iconResourceId);
                 colorPickerViewHolder.setName(name);
-                colorPickerViewHolder.setSharedPrefString(sharedPrefString);
+                colorPickerViewHolder.setType(colorType);
+//                colorPickerViewHolder.setSharedPrefString(sharedPrefString);
                 colorPickerViewHolder.setLaunchActivityToSelectColor(activity);
                 break;
 
@@ -554,8 +558,9 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             }
 
             // Updates highlight color (just second arm).
-            String highlightSharedPrefString = mContext.getString(R.string.saved_marker_color);
-            int currentHighlightColor = mSharedPref.getInt(highlightSharedPrefString, Color.RED);
+//            String highlightSharedPrefString = mContext.getString(R.string.saved_marker_color);
+            int currentHighlightColor = Color.RED;
+//            int currentHighlightColor = mSharedPref.getInt(highlightSharedPrefString, Color.RED);
 
             PorterDuffColorFilter highlightColorFilter =
                     new PorterDuffColorFilter(currentHighlightColor, PorterDuff.Mode.SRC_ATOP);
@@ -700,8 +705,9 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         public void initializesColorsAndComplications() {
 
             // Initializes highlight color (just second arm and part of complications).
-            String highlightSharedPrefString = mContext.getString(R.string.saved_marker_color);
-            int currentHighlightColor = mSharedPref.getInt(highlightSharedPrefString, Color.RED);
+//            String highlightSharedPrefString = mContext.getString(R.string.saved_marker_color);
+            int currentHighlightColor = Color.RED;
+//            int currentHighlightColor = mSharedPref.getInt(highlightSharedPrefString, Color.RED);
 
             PorterDuffColorFilter highlightColorFilter =
                     new PorterDuffColorFilter(currentHighlightColor, PorterDuff.Mode.SRC_ATOP);
@@ -774,20 +780,28 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
         private Button mAppearanceButton;
 
-        private String mSharedPrefResourceString;
+//        private String mSharedPrefResourceString;
 
         private Class<ColorSelectionActivity> mLaunchActivityToSelectColor;
+        private WatchFacePreset.ColorType mColorType;
         private Drawable mColorSwatchDrawable = new Drawable() {
             @Override
             public void draw(@NonNull Canvas canvas) {
-                if (mSharedPrefResourceString == null) return;
+//                if (mSharedPrefResourceString == null) return;
+                if (mColorType == null) return;
 
                 Context context = mAppearanceButton.getContext();
                 SharedPreferences preferences =
                         context.getSharedPreferences(
                                 context.getString(R.string.analog_complication_preference_file_key),
                                 Context.MODE_PRIVATE);
-                @ColorInt int color = preferences.getInt(mSharedPrefResourceString, Color.BLACK);
+                WatchFacePreset preset = new WatchFacePreset();
+                preset.setString(preferences.getString(
+                        context.getString(R.string.saved_watch_face_preset), null));
+
+                PaintBox paintBox = new PaintBox(context, preset);
+
+                @ColorInt int color = paintBox.getColor(mColorType);
 
                 // Draw a circle that's 20px from right, top and left borders.
                 float radius = (canvas.getHeight() / 2f) - 20f;
@@ -837,9 +851,13 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             itemView.invalidate();
         }
 
-        public void setSharedPrefString(String sharedPrefString) {
-            mSharedPrefResourceString = sharedPrefString;
+        public void setType(WatchFacePreset.ColorType colorType) {
+            this.mColorType = colorType;
         }
+
+//        public void setSharedPrefString(String sharedPrefString) {
+//            mSharedPrefResourceString = sharedPrefString;
+//        }
 
         public void setLaunchActivityToSelectColor(Class<ColorSelectionActivity> activity) {
             mLaunchActivityToSelectColor = activity;
@@ -854,7 +872,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 Intent launchIntent = new Intent(view.getContext(), mLaunchActivityToSelectColor);
 
                 // Pass shared preference name to save color value to.
-                launchIntent.putExtra(EXTRA_SHARED_PREF, mSharedPrefResourceString);
+//                launchIntent.putExtra(EXTRA_SHARED_PREF, mSharedPrefResourceString);
+                launchIntent.putExtra(EXTRA_SHARED_PREF, mColorType.name());
 
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(

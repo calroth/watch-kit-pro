@@ -37,7 +37,7 @@ import androidx.annotation.NonNull;
 
 public final class ComplicationHolder implements Drawable.Callback {
 
-    final static boolean highlightItWasMe = false;
+    private final static boolean highlightItWasMe = false;
     private static final boolean cacheImages = false;
     private static int BASE_ID = 99;
     private final Handler mHandler = new Handler();
@@ -119,8 +119,7 @@ public final class ComplicationHolder implements Drawable.Callback {
 
         if (dimensionsChanged) {
             if (cacheImages) {
-                Rect drawableBounds = new Rect(0, 0, mBounds.width(), mBounds.height());
-                drawable.setBounds(drawableBounds);
+                drawable.setBounds(0, 0, mBounds.width(), mBounds.height());
                 mAmbientBitmap = Bitmap.createBitmap(mBounds.width(), mBounds.height(),
                         Bitmap.Config.ARGB_8888);
                 mActiveBitmap = Bitmap.createBitmap(mBounds.width(), mBounds.height(),
@@ -245,8 +244,7 @@ public final class ComplicationHolder implements Drawable.Callback {
 
     public void draw(Canvas canvas, long currentTimeMillis) {
         if (cacheImages) {
-            Bitmap bitmap = mIsInAmbientMode ? getAmbientBitmap(currentTimeMillis) : getActiveBitmap(currentTimeMillis);
-            canvas.drawBitmap(bitmap, mBounds.left, mBounds.top, null);
+            canvas.drawBitmap(mIsInAmbientMode ? getAmbientBitmap(currentTimeMillis) : getActiveBitmap(currentTimeMillis), mBounds.left, mBounds.top, null);
         } else {
 //            Drawable.Callback obj = drawable.getCallback();
 //            Log.d("AnalogWatchFace", "Complication draw (id=" + getId()

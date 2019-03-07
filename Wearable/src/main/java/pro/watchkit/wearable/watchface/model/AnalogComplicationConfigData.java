@@ -119,40 +119,42 @@ public class AnalogComplicationConfigData {
         settingsConfigData.add(new ColorConfigItem(
                 context.getString(R.string.config_fill_color_label),
                 R.drawable.icn_styles,
-                context.getString(R.string.saved_fill_color),
+                WatchFacePreset.ColorType.FILL,
+//                context.getString(R.string.saved_fill_color),
                 ColorSelectionActivity.class));
 
         // Data for accent color UX in settings Activity.
         settingsConfigData.add(new ColorConfigItem(
                 context.getString(R.string.config_accent_color_label),
                 R.drawable.icn_styles,
-                context.getString(R.string.saved_accent_color),
+                WatchFacePreset.ColorType.ACCENT,
+//                context.getString(R.string.saved_accent_color),
                 ColorSelectionActivity.class));
 
         // Data for highlight/marker (second hand) color UX in settings Activity.
-        ConfigItemType markerColorConfigItem =
-                new ColorConfigItem(
-                        context.getString(R.string.config_marker_color_label),
-                        R.drawable.icn_styles,
-                        context.getString(R.string.saved_marker_color),
-                        ColorSelectionActivity.class);
-        settingsConfigData.add(markerColorConfigItem);
+        settingsConfigData.add(new ColorConfigItem(
+                context.getString(R.string.config_marker_color_label),
+                R.drawable.icn_styles,
+                WatchFacePreset.ColorType.HIGHLIGHT,
+//                        context.getString(R.string.saved_marker_color),
+                ColorSelectionActivity.class));
 
         // Data for base color UX in settings Activity.
         settingsConfigData.add(new ColorConfigItem(
                 context.getString(R.string.config_base_color_label),
                 R.drawable.icn_styles,
-                context.getString(R.string.saved_base_color),
+                WatchFacePreset.ColorType.BASE,
+//                context.getString(R.string.saved_base_color),
                 ColorSelectionActivity.class));
 
         // Data for Background color UX in settings Activity.
-        ConfigItemType backgroundColorConfigItem =
-                new ColorConfigItem(
-                        context.getString(R.string.config_background_color_label),
-                        R.drawable.icn_styles,
-                        context.getString(R.string.saved_background_color),
-                        ColorSelectionActivity.class);
-        settingsConfigData.add(backgroundColorConfigItem);
+//        ConfigItemType backgroundColorConfigItem =
+//                new ColorConfigItem(
+//                        context.getString(R.string.config_background_color_label),
+//                        R.drawable.icn_styles,
+//                        context.getString(R.string.saved_background_color),
+//                        ColorSelectionActivity.class);
+//        settingsConfigData.add(backgroundColorConfigItem);
 
         // Data for 'Unread Notifications' UX (toggle) in settings Activity.
         ConfigItemType unreadNotificationsConfigItem =
@@ -240,18 +242,22 @@ public class AnalogComplicationConfigData {
 
         private String name;
         private int iconResourceId;
-        private String sharedPrefString;
+        private WatchFacePreset.ColorType mColorType;
         private Class<ColorSelectionActivity> activityToChoosePreference;
 
         ColorConfigItem(
                 String name,
                 int iconResourceId,
-                String sharedPrefString,
+                WatchFacePreset.ColorType colorType,
                 Class<ColorSelectionActivity> activity) {
             this.name = name;
             this.iconResourceId = iconResourceId;
-            this.sharedPrefString = sharedPrefString;
+            this.mColorType = colorType;
             this.activityToChoosePreference = activity;
+        }
+
+        public WatchFacePreset.ColorType getType() {
+            return mColorType;
         }
 
         public String getName() {
@@ -262,9 +268,9 @@ public class AnalogComplicationConfigData {
             return iconResourceId;
         }
 
-        public String getSharedPrefString() {
-            return sharedPrefString;
-        }
+//        public String getSharedPrefString() {
+//            return sharedPrefString;
+//        }
 
         public Class<ColorSelectionActivity> getActivityToChoosePreference() {
             return activityToChoosePreference;

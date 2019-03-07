@@ -56,7 +56,6 @@ public class AnalogComplicationConfigActivity extends Activity {
     static final int COMPLICATION_CONFIG_REQUEST_CODE = 1001;
     static final int UPDATE_COLORS_CONFIG_REQUEST_CODE = 1002;
     private static final String TAG = AnalogComplicationConfigActivity.class.getSimpleName();
-    private WearableRecyclerView mWearableRecyclerView;
     private AnalogComplicationConfigRecyclerViewAdapter mAdapter;
 
     @Override
@@ -70,7 +69,7 @@ public class AnalogComplicationConfigActivity extends Activity {
                 AnalogComplicationConfigData.getWatchFaceServiceClass(),
                 AnalogComplicationConfigData.getDataToPopulateAdapter(this));
 
-        mWearableRecyclerView =
+        WearableRecyclerView mWearableRecyclerView =
                 findViewById(R.id.wearable_recycler_view);
 
         // Aligns the first and last items on the list vertically centered on the screen.
