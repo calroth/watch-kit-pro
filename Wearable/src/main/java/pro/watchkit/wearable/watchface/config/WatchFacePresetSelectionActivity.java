@@ -60,7 +60,7 @@ public class WatchFacePresetSelectionActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_color_selection_config);
+        setContentView(R.layout.activity_watch_face_preset_selection_config);
 
         // Get our presets out of the intent's extra data.
         for (String s : getIntent().getStringArrayExtra(EXTRA_SHARED_PREF)) {
