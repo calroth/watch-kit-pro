@@ -20,6 +20,7 @@ package pro.watchkit.wearable.watchface.config;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.wearable.view.CircledImageView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
+import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 /**
  * Provides a binding from WatchFacePreset selection data set to views that are displayed within
@@ -65,7 +67,7 @@ public class WatchFacePresetSelectionRecyclerViewAdapter extends
         Log.d(TAG, "Element " + position + " set.");
 
         WatchFacePresetViewHolder watchFacePresetViewHolder = (WatchFacePresetViewHolder) viewHolder;
-        watchFacePresetViewHolder.setColor(mWatchFacePresets[position], mPaintBoxes[position]);
+        watchFacePresetViewHolder.setPreset(mWatchFacePresets[position], mPaintBoxes[position]);
     }
 
     @Override
@@ -80,16 +82,16 @@ public class WatchFacePresetSelectionRecyclerViewAdapter extends
     public class WatchFacePresetViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
-//        private CircledImageView mColorCircleImageView;
+        private CircledImageView mColorCircleImageView;
 
         public WatchFacePresetViewHolder(final View view) {
             super(view);
-//            mColorCircleImageView = view.findViewById(R.id.color);
+            mColorCircleImageView = view.findViewById(R.id.color);
             view.setOnClickListener(this);
         }
 
-        public void setColor(WatchFacePreset watchFacePreset, PaintBox paintBox) {
-//            mColorCircleImageView.setCircleColor(color);
+        public void setPreset(WatchFacePreset watchFacePreset, PaintBox paintBox) {
+            mColorCircleImageView.setImageDrawable(new WatchFaceGlobalDrawable(watchFacePreset, paintBox));
         }
 
         @Override
