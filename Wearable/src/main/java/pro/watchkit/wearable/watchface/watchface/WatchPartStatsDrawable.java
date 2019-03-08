@@ -24,7 +24,7 @@ import android.graphics.Paint;
 import androidx.annotation.NonNull;
 
 @Deprecated
-final class WatchFaceStatsDrawable extends WatchFaceDrawable {
+final class WatchPartStatsDrawable extends WatchPartDrawable {
     static final String INVALID_COMPLICATION = "Complication";
     static final String INVALID_TIME_TICK = "Time Tick";
     static final String INVALID_TIMER_HANDLER = "Timer Handler";

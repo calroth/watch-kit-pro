@@ -25,7 +25,7 @@ import android.graphics.Paint;
 import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 
-final class WatchFaceBackgroundDrawable extends WatchFaceDrawable {
+final class WatchPartBackgroundDrawable extends WatchPartDrawable {
     @Override
     public void draw(@NonNull Canvas canvas) {
         super.draw(canvas);

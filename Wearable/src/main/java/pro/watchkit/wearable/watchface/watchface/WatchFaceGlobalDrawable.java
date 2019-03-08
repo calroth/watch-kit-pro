@@ -36,26 +36,26 @@ import pro.watchkit.wearable.watchface.model.WatchFacePreset;
  * draws a watch face!
  */
 public class WatchFaceGlobalDrawable extends Drawable {
-    private WatchFaceDrawable[] mWatchFaceDrawables = new WatchFaceDrawable[]{
-            new WatchFaceBackgroundDrawable(),
-            new WatchFaceTicksRingsDrawable(),
-//            new WatchFaceComplicationsDrawable(),
-            new WatchFaceHandsDrawable()/*,
-            new WatchFaceStatsDrawable()*/
+    private WatchPartDrawable[] mWatchPartDrawables = new WatchPartDrawable[]{
+            new WatchPartBackgroundDrawable(),
+            new WatchPartTicksRingsDrawable(),
+//            new WatchPartComplicationsDrawable(),
+            new WatchPartHandsDrawable()/*,
+            new WatchPartStatsDrawable()*/
     };
 
-    private WatchFaceDrawable.StateObject mStateObject;
+    private WatchPartDrawable.StateObject mStateObject;
     private GregorianCalendar mCalendar = new GregorianCalendar();
 
     public WatchFaceGlobalDrawable(WatchFacePreset watchFacePreset, PaintBox paintBox) {
-        mStateObject = mWatchFaceDrawables[0].new StateObject();
+        mStateObject = mWatchPartDrawables[0].new StateObject();
         mStateObject.preset = watchFacePreset;
         mStateObject.paintBox = paintBox;
         mStateObject.unreadNotifications = 0;
         mStateObject.totalNotifications = 0;
         mStateObject.ambient = false;
 
-        for (WatchFaceDrawable d : mWatchFaceDrawables) {
+        for (WatchPartDrawable d : mWatchPartDrawables) {
             d.setState(mStateObject, mCalendar, null);
         }
     }
@@ -65,7 +65,7 @@ public class WatchFaceGlobalDrawable extends Drawable {
         // Set the current date and time.
         mCalendar.setTimeZone(TimeZone.getDefault());
         mCalendar.setTimeInMillis(System.currentTimeMillis());
-        for (WatchFaceDrawable d : mWatchFaceDrawables) {
+        for (WatchPartDrawable d : mWatchPartDrawables) {
             // For each of our drawables: draw it!
             d.draw(canvas);
         }

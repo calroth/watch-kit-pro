@@ -29,7 +29,7 @@ import java.util.Calendar;
 import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 
-final class WatchFaceHandsDrawable extends WatchFaceDrawable {
+final class WatchPartHandsDrawable extends WatchPartDrawable {
     private static final float HUB_RADIUS_PERCENT = 3f; // 3% // 1.5f; // 1.5%
     private static final float DIAMOND_HAND_ASPECT_RATIO = 8f;
     private static final float STRAIGHT_HAND_WIDTH_PERCENT = 2f; // 2% // 0.3f; // 0.3%

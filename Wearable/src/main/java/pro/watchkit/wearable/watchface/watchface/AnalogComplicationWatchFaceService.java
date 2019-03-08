@@ -129,11 +129,11 @@ private final int COMPLICATION_AMBIENT_WHITE =
                     @Override
                     public void onReceive(Context context, Intent intent) {
                         mCalendar.setTimeZone(TimeZone.getDefault());
-                        WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_TIMEZONE;
+                        WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_TIMEZONE;
                         invalidate();
                     }
                 };
-        private WatchFaceDrawable.StateObject mStateObject;
+        private WatchPartDrawable.StateObject mStateObject;
         private GregorianCalendar mCalendar = new GregorianCalendar();
         // Used to pull user's preferences for background color, highlight color, and visual
         // indicating there are unread notifications.
@@ -148,12 +148,12 @@ private final int COMPLICATION_AMBIENT_WHITE =
          * the complication data on the watch face.
          */
         //private SparseArray<ComplicationDrawable> mComplicationDrawableSparseArray;
-        private WatchFaceDrawable[] mWatchFaceDrawables = new WatchFaceDrawable[]{
-                new WatchFaceBackgroundDrawable(),
-                new WatchFaceTicksRingsDrawable(),
-                new WatchFaceComplicationsDrawable(),
-                new WatchFaceHandsDrawable(),
-                new WatchFaceStatsDrawable()
+        private WatchPartDrawable[] mWatchPartDrawables = new WatchPartDrawable[]{
+                new WatchPartBackgroundDrawable(),
+                new WatchPartTicksRingsDrawable(),
+                new WatchPartComplicationsDrawable(),
+                new WatchPartHandsDrawable(),
+                new WatchPartStatsDrawable()
         };
         private boolean mRegisteredTimeZoneReceiver = false;
         private boolean mMuteMode;
@@ -163,21 +163,21 @@ private final int COMPLICATION_AMBIENT_WHITE =
 
         @Override
         protected void beforeDoFrame(int invalidated) {
-            if (WatchFaceStatsDrawable.invalid < invalidated) {
+            if (WatchPartStatsDrawable.invalid < invalidated) {
                 // Set painter invalid display to the maximum we've seen for a while
-                WatchFaceStatsDrawable.invalid = invalidated;
+                WatchPartStatsDrawable.invalid = invalidated;
             }
         }
 
         @Override
         protected void afterDoFrame(int invalidated) {
             if (invalidated == 0) {
-                WatchFaceStatsDrawable.invalid = 0;
+                WatchPartStatsDrawable.invalid = 0;
             }
         }
 
         private void updateTimeViaHandler() {
-            WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_TIMER_HANDLER;
+            WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_TIMER_HANDLER;
             invalidate();
             if (shouldTimerBeRunning()) {
                 long timeMs = System.currentTimeMillis();
@@ -206,14 +206,14 @@ private final int COMPLICATION_AMBIENT_WHITE =
                             .setViewProtectionMode(WatchFaceStyle.PROTECT_STATUS_BAR)
                             .build());
 
-            mStateObject = mWatchFaceDrawables[0].new StateObject();
+            mStateObject = mWatchPartDrawables[0].new StateObject();
             mStateObject.preset = new WatchFacePreset();
             mStateObject.paintBox = new PaintBox(context, mStateObject.preset);
 
             loadSavedPreferences();
             initializeComplications();
 
-            for (WatchFaceDrawable d : mWatchFaceDrawables) {
+            for (WatchPartDrawable d : mWatchPartDrawables) {
                 d.setState(mStateObject, mCalendar, mLocationCalculator);
             }
 
@@ -244,7 +244,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
                                                     + " / " + location.getAltitude()));
                                     // Note: can be null in rare situations; handle accordingly.
                                     mLocationCalculator.setLocation(location);
-                                    WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_LOCATION;
+                                    WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_LOCATION;
                                     postInvalidate();
                                 }
                             }
@@ -392,7 +392,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
                     complication.setComplicationData(complicationData);
                 }
             }
-            WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_COMPLICATION;
+            WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_COMPLICATION;
             invalidate();
         }
 
@@ -428,7 +428,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
         @Override
         public void onTimeTick() {
             super.onTimeTick();
-            WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_TIME_TICK;
+            WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_TIME_TICK;
             invalidate();
         }
 
@@ -450,7 +450,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
             // Check and trigger whether or not timer should be running (only in active mode).
             updateTimer();
 
-            WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_AMBIENT;
+            WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_AMBIENT;
             invalidate();
         }
 
@@ -465,7 +465,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
                 //mHourPaint.setAlpha(inMuteMode ? 100 : 255);
                 //mMinutePaint.setAlpha(inMuteMode ? 100 : 255);
                 //mSecondAndHighlightPaint.setAlpha(inMuteMode ? 80 : 255);
-                WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_INTERRUPTION;
+                WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_INTERRUPTION;
                 invalidate();
             }
         }
@@ -517,7 +517,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
                 }
             }
 
-            WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_SURFACE;
+            WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_SURFACE;
             invalidate();
         }
 
@@ -567,18 +567,18 @@ private final int COMPLICATION_AMBIENT_WHITE =
 
                 int s = 0;
                 long now0 = SystemClock.elapsedRealtimeNanos();
-                for (WatchFaceDrawable d : mWatchFaceDrawables) {
+                for (WatchPartDrawable d : mWatchPartDrawables) {
                     // For each of our drawables: draw it!
                     d.draw(canvas);
                     long now1 = SystemClock.elapsedRealtimeNanos();
-                    WatchFaceStatsDrawable.now[s] = now1 - now0;
+                    WatchPartStatsDrawable.now[s] = now1 - now0;
                     now0 = now1;
                     s++;
                 }
             }
 
             if (prevAmbient != mStateObject.ambient) {
-                WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_WTF;
+                WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_WTF;
                 invalidate();
             }
         }
@@ -601,7 +601,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
                 registerReceiver();
                 // Update time zone in case it changed while we weren't visible.
                 mCalendar.setTimeZone(TimeZone.getDefault());
-                WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_TIMEZONE;
+                WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_TIMEZONE;
                 invalidate();
             } else {
                 unregisterReceiver();
@@ -616,7 +616,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
             Log.d(TAG, "onNotificationCountChanged(): " + count);
 
             if (mUnreadNotificationsPreference) {
-                WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_NOTIFICATION;
+                WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_NOTIFICATION;
                 invalidate();
             }
         }
@@ -626,7 +626,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
             Log.d(TAG, "onUnreadCountChanged(): " + count);
 
             if (mUnreadNotificationsPreference) {
-                WatchFaceStatsDrawable.mInvalidTrigger = WatchFaceStatsDrawable.INVALID_NOTIFICATION;
+                WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_NOTIFICATION;
                 invalidate();
             }
         }

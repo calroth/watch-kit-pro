@@ -35,7 +35,7 @@ import pro.watchkit.wearable.watchface.model.LocationCalculator;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 
-abstract class WatchFaceDrawable extends Drawable {
+abstract class WatchPartDrawable extends Drawable {
     StateObject mStateObject;
     GregorianCalendar mCalendar;
     LocationCalculator mLocationCalculator;

@@ -52,7 +52,7 @@ import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 
-final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
+final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
     private static final boolean useNewBackgroundCachingMethod = true;
     private static final float TICK_WIDTH_PERCENT = 0.05f; // 0.05%
     private int mPreviousSerial = -1;
