@@ -37,7 +37,7 @@ public class WatchFaceGlobalDrawable extends Drawable {
     private WatchPartDrawable[] mWatchPartDrawables;
     private WatchFaceState mWatchFaceState = new WatchFaceState();
 
-    public WatchFaceGlobalDrawable(WatchPartDrawable[] watchPartDrawables) {
+    WatchFaceGlobalDrawable(WatchPartDrawable[] watchPartDrawables) {
         mWatchPartDrawables = watchPartDrawables;
         for (WatchPartDrawable d : mWatchPartDrawables) {
             d.setState(mWatchFaceState);
