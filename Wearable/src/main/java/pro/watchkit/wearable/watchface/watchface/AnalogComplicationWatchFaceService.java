@@ -63,14 +63,12 @@ import com.google.android.gms.tasks.Task;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
-import pro.watchkit.wearable.watchface.model.LocationCalculator;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 
@@ -127,17 +125,15 @@ private final int COMPLICATION_AMBIENT_WHITE =
                 new BroadcastReceiver() {
                     @Override
                     public void onReceive(Context context, Intent intent) {
-                        mCalendar.setTimeZone(TimeZone.getDefault());
+                        mWatchFaceGlobalDrawable.getWatchFaceState().mCalendar.setTimeZone(TimeZone.getDefault());
                         WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_TIMEZONE;
                         invalidate();
                     }
                 };
         private WatchFaceGlobalDrawable mWatchFaceGlobalDrawable;
-        private GregorianCalendar mCalendar = new GregorianCalendar();
         // Used to pull user's preferences for background color, highlight color, and visual
         // indicating there are unread notifications.
         SharedPreferences mSharedPref;
-        private LocationCalculator mLocationCalculator = new LocationCalculator(mCalendar);
 
         private boolean mRegisteredTimeZoneReceiver = false;
         private boolean mMuteMode;
@@ -195,7 +191,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
                     new WatchPartTicksRingsDrawable(),
                     new WatchPartComplicationsDrawable(),
                     new WatchPartHandsDrawable(),
-                    new WatchPartStatsDrawable()}, mLocationCalculator);
+                    new WatchPartStatsDrawable()}, mWatchFaceGlobalDrawable.getWatchFaceState().mLocationCalculator);
             mWatchFaceGlobalDrawable.getWatchFaceState().preset = new WatchFacePreset();
             mWatchFaceGlobalDrawable.getWatchFaceState().paintBox =
                     new PaintBox(context, mWatchFaceGlobalDrawable.getWatchFaceState().preset);
@@ -229,7 +225,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
                                                     + location.getLongitude()
                                                     + " / " + location.getAltitude()));
                                     // Note: can be null in rare situations; handle accordingly.
-                                    mLocationCalculator.setLocation(location);
+                                    mWatchFaceGlobalDrawable.getWatchFaceState().mLocationCalculator.setLocation(location);
                                     WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_LOCATION;
                                     postInvalidate();
                                 }
@@ -501,8 +497,8 @@ private final int COMPLICATION_AMBIENT_WHITE =
 
             if (isInAmbientMode()) {
 //                Log.d(TAG, "Draw (ambient)");
-                int newComplicationWhite = mLocationCalculator.getDuskDawnColor(COMPLICATION_AMBIENT_WHITE);
-                int newComplicationGrey = mLocationCalculator.getDuskDawnColor(COMPLICATION_AMBIENT_GREY);
+                int newComplicationWhite = mWatchFaceGlobalDrawable.getWatchFaceState().mLocationCalculator.getDuskDawnColor(COMPLICATION_AMBIENT_WHITE);
+                int newComplicationGrey = mWatchFaceGlobalDrawable.getWatchFaceState().mLocationCalculator.getDuskDawnColor(COMPLICATION_AMBIENT_GREY);
 
                 if (currentComplicationWhite != newComplicationWhite
                         || currentComplicationGrey != newComplicationGrey) {
@@ -529,7 +525,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
             {
                 // Draw all our drawables.
                 // First set all our state objects.
-                mCalendar.setTimeInMillis(now);
+                mWatchFaceGlobalDrawable.getWatchFaceState().mCalendar.setTimeInMillis(now);
                 mWatchFaceGlobalDrawable.getWatchFaceState().unreadNotifications = unreadNotifications;
                 mWatchFaceGlobalDrawable.getWatchFaceState().totalNotifications = totalNotifications;
 //                mWatchFaceGlobalDrawable.getWatchFaceState().preset = preset;
@@ -570,7 +566,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
 
                 registerReceiver();
                 // Update time zone in case it changed while we weren't visible.
-                mCalendar.setTimeZone(TimeZone.getDefault());
+                mWatchFaceGlobalDrawable.getWatchFaceState().mCalendar.setTimeZone(TimeZone.getDefault());
                 WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_TIMEZONE;
                 invalidate();
             } else {

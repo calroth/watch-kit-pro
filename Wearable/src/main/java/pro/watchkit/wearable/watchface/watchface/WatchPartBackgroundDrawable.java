@@ -32,7 +32,7 @@ final class WatchPartBackgroundDrawable extends WatchPartDrawable {
 
         if (mWatchFaceState.ambient) {
             mWatchFaceState.paintBox.getAmbientPaint().setColor(
-                    mLocationCalculator.getDuskDawnColor(PaintBox.AMBIENT_WHITE));
+                    mWatchFaceState.mLocationCalculator.getDuskDawnColor(PaintBox.AMBIENT_WHITE));
         }
 
         if (mWatchFaceState.ambient /*&& (mLowBitAmbient || mBurnInProtection)*/) {

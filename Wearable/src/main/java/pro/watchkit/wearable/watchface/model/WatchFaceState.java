@@ -19,6 +19,7 @@
 package pro.watchkit.wearable.watchface.model;
 
 import java.util.Collection;
+import java.util.GregorianCalendar;
 
 public class WatchFaceState {
     public WatchFacePreset preset;
@@ -27,4 +28,6 @@ public class WatchFaceState {
     public int unreadNotifications;
     public int totalNotifications;
     public boolean ambient;
+    public GregorianCalendar mCalendar = new GregorianCalendar();
+    public LocationCalculator mLocationCalculator = new LocationCalculator(mCalendar);
 }

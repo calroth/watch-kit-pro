@@ -23,7 +23,6 @@ import android.graphics.ColorFilter;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 
-import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import androidx.annotation.NonNull;
@@ -38,12 +37,11 @@ import pro.watchkit.wearable.watchface.model.WatchFaceState;
 public class WatchFaceGlobalDrawable extends Drawable {
     private WatchPartDrawable[] mWatchPartDrawables;
     private WatchFaceState mWatchFaceState = new WatchFaceState();
-    private GregorianCalendar mCalendar = new GregorianCalendar();
 
     public WatchFaceGlobalDrawable(WatchPartDrawable[] watchPartDrawables, LocationCalculator locationCalculator) {
         mWatchPartDrawables = watchPartDrawables;
         for (WatchPartDrawable d : mWatchPartDrawables) {
-            d.setState(mWatchFaceState, mCalendar, locationCalculator);
+            d.setState(mWatchFaceState);
         }
     }
 
@@ -54,7 +52,7 @@ public class WatchFaceGlobalDrawable extends Drawable {
                 new WatchPartHandsDrawable()};
 
         for (WatchPartDrawable d : mWatchPartDrawables) {
-            d.setState(mWatchFaceState, mCalendar, null);
+            d.setState(mWatchFaceState);
         }
     }
 
@@ -65,8 +63,8 @@ public class WatchFaceGlobalDrawable extends Drawable {
     @Override
     public void draw(@NonNull Canvas canvas) {
         // Set the current date and time.
-        mCalendar.setTimeZone(TimeZone.getDefault());
-        mCalendar.setTimeInMillis(System.currentTimeMillis());
+        mWatchFaceState.mCalendar.setTimeZone(TimeZone.getDefault());
+        mWatchFaceState.mCalendar.setTimeInMillis(System.currentTimeMillis());
         for (WatchPartDrawable d : mWatchPartDrawables) {
             // For each of our drawables: draw it!
             d.draw(canvas);

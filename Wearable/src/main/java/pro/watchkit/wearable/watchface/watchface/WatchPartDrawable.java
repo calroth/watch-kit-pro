@@ -25,26 +25,18 @@ import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 
-import java.util.GregorianCalendar;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import pro.watchkit.wearable.watchface.model.LocationCalculator;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 abstract class WatchPartDrawable extends Drawable {
     WatchFaceState mWatchFaceState;
-    GregorianCalendar mCalendar;
-    LocationCalculator mLocationCalculator;
     int height = 0, width = 0;
     float pc = 0f; // percent, set to 0.01f * height, all units are based on percent
     float mCenterX, mCenterY;
 
-    void setState(WatchFaceState mWatchFaceState, GregorianCalendar mCalendar,
-                  LocationCalculator mLocationCalculator) {
+    void setState(WatchFaceState mWatchFaceState) {
         this.mWatchFaceState = mWatchFaceState;
-        this.mCalendar = mCalendar;
-        this.mLocationCalculator = mLocationCalculator;
     }
 
 //    boolean ambient;

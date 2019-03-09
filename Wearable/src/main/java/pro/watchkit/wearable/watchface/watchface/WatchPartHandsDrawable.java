@@ -64,14 +64,14 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
          * 360 / 60 = 6 and 360 / 12 = 30.
          */
         final float seconds =
-                (mCalendar.get(Calendar.SECOND) + mCalendar.get(Calendar.MILLISECOND) / 1000f);
+                (mWatchFaceState.mCalendar.get(Calendar.SECOND) + mWatchFaceState.mCalendar.get(Calendar.MILLISECOND) / 1000f);
         final float secondsRotation = seconds * 6f;
 
         final float minuteHandOffset = secondsRotation / 60f;
-        final float minutesRotation = mCalendar.get(Calendar.MINUTE) * 6f + minuteHandOffset;
+        final float minutesRotation = mWatchFaceState.mCalendar.get(Calendar.MINUTE) * 6f + minuteHandOffset;
 
         final float hourHandOffset = minutesRotation / 12f;
-        final float hoursRotation = (mCalendar.get(Calendar.HOUR) * 30) + hourHandOffset;
+        final float hoursRotation = (mWatchFaceState.mCalendar.get(Calendar.HOUR) * 30) + hourHandOffset;
 
         Paint hourHandPaint = mWatchFaceState.paintBox.getPaintFromPreset(preset.getHourHandStyle());
         Path hourHandShape = getHourHandShape(preset, hoursRotation);
