@@ -27,7 +27,6 @@ import java.util.TimeZone;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import pro.watchkit.wearable.watchface.model.LocationCalculator;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 /**
@@ -38,7 +37,7 @@ public class WatchFaceGlobalDrawable extends Drawable {
     private WatchPartDrawable[] mWatchPartDrawables;
     private WatchFaceState mWatchFaceState = new WatchFaceState();
 
-    public WatchFaceGlobalDrawable(WatchPartDrawable[] watchPartDrawables, LocationCalculator locationCalculator) {
+    public WatchFaceGlobalDrawable(WatchPartDrawable[] watchPartDrawables) {
         mWatchPartDrawables = watchPartDrawables;
         for (WatchPartDrawable d : mWatchPartDrawables) {
             d.setState(mWatchFaceState);

@@ -191,7 +191,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
                     new WatchPartTicksRingsDrawable(),
                     new WatchPartComplicationsDrawable(),
                     new WatchPartHandsDrawable(),
-                    new WatchPartStatsDrawable()}, mWatchFaceGlobalDrawable.getWatchFaceState().mLocationCalculator);
+                    new WatchPartStatsDrawable()});
             mWatchFaceGlobalDrawable.getWatchFaceState().preset = new WatchFacePreset();
             mWatchFaceGlobalDrawable.getWatchFaceState().paintBox =
                     new PaintBox(context, mWatchFaceGlobalDrawable.getWatchFaceState().preset);
