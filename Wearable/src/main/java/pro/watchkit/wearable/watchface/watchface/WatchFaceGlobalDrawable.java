@@ -28,8 +28,6 @@ import java.util.TimeZone;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import pro.watchkit.wearable.watchface.model.PaintBox;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 /**
@@ -37,28 +35,23 @@ import pro.watchkit.wearable.watchface.model.WatchFaceState;
  * draws a watch face!
  */
 public class WatchFaceGlobalDrawable extends Drawable {
-    private WatchPartDrawable[] mWatchPartDrawables = new WatchPartDrawable[]{
-            new WatchPartBackgroundDrawable(),
-            new WatchPartTicksRingsDrawable(),
-//            new WatchPartComplicationsDrawable(),
-            new WatchPartHandsDrawable()/*,
-            new WatchPartStatsDrawable()*/
-    };
-
-    private WatchFaceState mStateObject;
+    private WatchPartDrawable[] mWatchPartDrawables;
+    private WatchFaceState mWatchFaceState = new WatchFaceState();
     private GregorianCalendar mCalendar = new GregorianCalendar();
 
-    public WatchFaceGlobalDrawable(WatchFacePreset watchFacePreset, PaintBox paintBox) {
-        mStateObject = new WatchFaceState();
-        mStateObject.preset = watchFacePreset;
-        mStateObject.paintBox = paintBox;
-        mStateObject.unreadNotifications = 0;
-        mStateObject.totalNotifications = 0;
-        mStateObject.ambient = false;
+    public WatchFaceGlobalDrawable() {
+        mWatchPartDrawables = new WatchPartDrawable[]{
+                new WatchPartBackgroundDrawable(),
+                new WatchPartTicksRingsDrawable(),
+                new WatchPartHandsDrawable()};
 
         for (WatchPartDrawable d : mWatchPartDrawables) {
-            d.setState(mStateObject, mCalendar, null);
+            d.setState(mWatchFaceState, mCalendar, null);
         }
+    }
+
+    public WatchFaceState getWatchFaceState() {
+        return mWatchFaceState;
     }
 
     @Override

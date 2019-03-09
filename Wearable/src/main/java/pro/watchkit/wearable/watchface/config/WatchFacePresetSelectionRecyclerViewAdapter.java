@@ -91,7 +91,13 @@ public class WatchFacePresetSelectionRecyclerViewAdapter extends
         }
 
         public void setPreset(WatchFacePreset watchFacePreset, PaintBox paintBox) {
-            mColorCircleImageView.setImageDrawable(new WatchFaceGlobalDrawable(watchFacePreset, paintBox));
+            WatchFaceGlobalDrawable drawable = new WatchFaceGlobalDrawable();
+            drawable.getWatchFaceState().preset = watchFacePreset;
+            drawable.getWatchFaceState().paintBox = paintBox;
+            drawable.getWatchFaceState().unreadNotifications = 0;
+            drawable.getWatchFaceState().totalNotifications = 0;
+            drawable.getWatchFaceState().ambient = false;
+            mColorCircleImageView.setImageDrawable(drawable);
         }
 
         @Override
