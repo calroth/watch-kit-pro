@@ -69,6 +69,7 @@ import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
+import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanvasWatchFaceService {
     //public class AnalogComplicationWatchFaceService extends WatchFaceService {
@@ -116,7 +117,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                 new BroadcastReceiver() {
                     @Override
                     public void onReceive(Context context, Intent intent) {
-                        mWatchFaceGlobalDrawable.getWatchFaceState().mCalendar.setTimeZone(TimeZone.getDefault());
+                        getWatchFaceState().mCalendar.setTimeZone(TimeZone.getDefault());
                         WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_TIMEZONE;
                         invalidate();
                     }
@@ -156,6 +157,16 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             }
         }
 
+        /**
+         * Gets the current watch face state. Convenience method for
+         * "mWatchFaceGlobalDrawable.getWatchFaceState()".
+         *
+         * @return Current watch face state
+         */
+        private WatchFaceState getWatchFaceState() {
+            return mWatchFaceGlobalDrawable.getWatchFaceState();
+        }
+
         @Override
         public void onCreate(SurfaceHolder holder) {
             Log.d(TAG, "onCreate");
@@ -182,9 +193,9 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                     new WatchPartComplicationsDrawable(),
                     new WatchPartHandsDrawable(),
                     new WatchPartStatsDrawable()});
-            mWatchFaceGlobalDrawable.getWatchFaceState().preset = new WatchFacePreset();
-            mWatchFaceGlobalDrawable.getWatchFaceState().paintBox =
-                    new PaintBox(context, mWatchFaceGlobalDrawable.getWatchFaceState().preset);
+            getWatchFaceState().preset = new WatchFacePreset();
+            getWatchFaceState().paintBox =
+                    new PaintBox(context, getWatchFaceState().preset);
 
             loadSavedPreferences();
             initializeComplications();
@@ -215,7 +226,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                                                     + location.getLongitude()
                                                     + " / " + location.getAltitude()));
                                     // Note: can be null in rare situations; handle accordingly.
-                                    mWatchFaceGlobalDrawable.getWatchFaceState().mLocationCalculator.setLocation(location);
+                                    getWatchFaceState().mLocationCalculator.setLocation(location);
                                     WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_LOCATION;
                                     postInvalidate();
                                 }
@@ -239,7 +250,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
         // Pulls all user's preferences for watch face appearance.
         private void loadSavedPreferences() {
-            mWatchFaceGlobalDrawable.getWatchFaceState().preset.setString(mSharedPref.getString(
+            getWatchFaceState().preset.setString(mSharedPref.getString(
                     getApplicationContext().getString(R.string.saved_watch_face_preset),
                     null));
 
@@ -254,7 +265,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             Log.d(TAG, "initializeComplications()");
 
             Context context = getApplicationContext();
-            int[] complicationIds = mWatchFaceGlobalDrawable.initializeComplications(context, this);
+            int[] complicationIds = getWatchFaceState().initializeComplications(context, this);
             setActiveComplications(complicationIds);
         }
 
@@ -267,11 +278,11 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             boolean burnInProtection = properties.getBoolean(PROPERTY_BURN_IN_PROTECTION, false);
 
 //            painter.setLowBitAmbientBurnInProtection(lowBitAmbient, burnInProtection);
-            mWatchFaceGlobalDrawable.getWatchFaceState().paintBox.getAmbientPaint().setAntiAlias(!lowBitAmbient);
+            getWatchFaceState().paintBox.getAmbientPaint().setAntiAlias(!lowBitAmbient);
 
             // Updates complications to properly render in ambient mode based on the
             // screen's capabilities.
-            for (ComplicationHolder complication : mWatchFaceGlobalDrawable.getWatchFaceState().complications) {
+            for (ComplicationHolder complication : getWatchFaceState().complications) {
                 complication.setLowBitAmbientBurnInProtection(lowBitAmbient, burnInProtection);
             }
         }
@@ -285,23 +296,8 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 //            Log.d(TAG, "onComplicationDataUpdate() id: " + complicationId + " / " + complicationData.getType());
 
             // Adds/updates active complication data in the array.
+            getWatchFaceState().onComplicationDataUpdate(complicationId, complicationData);
 
-            // Updates correct ComplicationDrawable with updated data.
-            for (ComplicationHolder complication : mWatchFaceGlobalDrawable.getWatchFaceState().complications) {
-                if (complication.getId() == complicationId) {
-                    switch (complicationData.getType()) {
-                        case ComplicationData.TYPE_EMPTY:
-                        case ComplicationData.TYPE_NO_DATA:
-                        case ComplicationData.TYPE_NOT_CONFIGURED:
-                        case ComplicationData.TYPE_NO_PERMISSION:
-                            complication.isActive = false;
-                            break;
-                        default:
-                            complication.isActive = true;
-                    }
-                    complication.setComplicationData(complicationData);
-                }
-            }
             WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_COMPLICATION;
             invalidate();
         }
@@ -311,25 +307,8 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 //            Log.d(TAG, "OnTapCommand()");
             switch (tapType) {
                 case TAP_TYPE_TAP:
-                    // Try all foreground complications first, before background complications.
-                    for (ComplicationHolder complication : mWatchFaceGlobalDrawable.getWatchFaceState().complications) {
-                        if (complication.isForeground) {
-                            boolean successfulTap = complication.onDrawableTap(x, y);
-
-                            if (successfulTap) {
-                                return;
-                            }
-                        }
-                    }
-                    // Try all background complications.
-                    for (ComplicationHolder complication : mWatchFaceGlobalDrawable.getWatchFaceState().complications) {
-                        if (!complication.isForeground) {
-                            boolean successfulTap = complication.onDrawableTap(x, y);
-
-                            if (successfulTap) {
-                                return;
-                            }
-                        }
+                    if (getWatchFaceState().onComplicationTap(x, y)) {
+                        return;
                     }
                     break;
             }
@@ -347,7 +326,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             super.onAmbientModeChanged(inAmbientMode);
 //            Log.d(TAG, "onAmbientModeChanged: " + inAmbientMode);
 
-            mWatchFaceGlobalDrawable.onAmbientModeChanged(inAmbientMode);
+            getWatchFaceState().onAmbientModeChanged(inAmbientMode);
 
             // Check and trigger whether or not timer should be running (only in active mode).
             updateTimer();
@@ -385,7 +364,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
              * better readability.
              */
 
-            mWatchFaceGlobalDrawable.onSurfaceChanged(width, height);
+            getWatchFaceState().onSurfaceChanged(width, height);
 
             WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_SURFACE;
             invalidate();
@@ -393,7 +372,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
-            boolean prevAmbient = mWatchFaceGlobalDrawable.getWatchFaceState().ambient;
+            boolean prevAmbient = getWatchFaceState().ambient;
             super.onDraw(canvas, bounds);
             long now = System.currentTimeMillis();
 
@@ -401,14 +380,14 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             int totalNotifications = mUnreadNotificationsPreference ? getNotificationCount() : 0;
 
             if (isInAmbientMode()) {
-                mWatchFaceGlobalDrawable.preDrawAmbientCheck();
+                getWatchFaceState().preDrawAmbientCheck();
             }
             // Draw all our drawables.
             // First set all our state objects.
-            mWatchFaceGlobalDrawable.getWatchFaceState().mCalendar.setTimeInMillis(now);
-            mWatchFaceGlobalDrawable.getWatchFaceState().unreadNotifications = unreadNotifications;
-            mWatchFaceGlobalDrawable.getWatchFaceState().totalNotifications = totalNotifications;
-//          mWatchFaceGlobalDrawable.getWatchFaceState().preset = preset;
+            getWatchFaceState().mCalendar.setTimeInMillis(now);
+            getWatchFaceState().unreadNotifications = unreadNotifications;
+            getWatchFaceState().totalNotifications = totalNotifications;
+//          getWatchFaceState().preset = preset;
 
             mWatchFaceGlobalDrawable.draw(canvas);
 //          int s = 0;
@@ -422,7 +401,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 //              s++;
 //          }
 
-            if (prevAmbient != mWatchFaceGlobalDrawable.getWatchFaceState().ambient) {
+            if (prevAmbient != getWatchFaceState().ambient) {
                 WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_WTF;
                 invalidate();
             }
@@ -441,11 +420,11 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                 // the active/ambient colors, we only need to update the complications' colors when
                 // the user actually makes a change to the highlight color, not when the watch goes
                 // in and out of ambient mode.
-                mWatchFaceGlobalDrawable.setComplicationsActiveAndAmbientColors();
+                getWatchFaceState().setComplicationsActiveAndAmbientColors();
 
                 registerReceiver();
                 // Update time zone in case it changed while we weren't visible.
-                mWatchFaceGlobalDrawable.getWatchFaceState().mCalendar.setTimeZone(TimeZone.getDefault());
+                getWatchFaceState().mCalendar.setTimeZone(TimeZone.getDefault());
                 WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_TIMEZONE;
                 invalidate();
             } else {
