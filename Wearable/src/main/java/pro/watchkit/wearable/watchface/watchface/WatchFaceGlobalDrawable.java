@@ -30,6 +30,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
+import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 /**
  * A very basic Drawable that you feed a WatchFacePreset and a PaintBox and it
@@ -44,11 +45,11 @@ public class WatchFaceGlobalDrawable extends Drawable {
             new WatchPartStatsDrawable()*/
     };
 
-    private WatchPartDrawable.StateObject mStateObject;
+    private WatchFaceState mStateObject;
     private GregorianCalendar mCalendar = new GregorianCalendar();
 
     public WatchFaceGlobalDrawable(WatchFacePreset watchFacePreset, PaintBox paintBox) {
-        mStateObject = mWatchPartDrawables[0].new StateObject();
+        mStateObject = new WatchFaceState();
         mStateObject.preset = watchFacePreset;
         mStateObject.paintBox = paintBox;
         mStateObject.unreadNotifications = 0;

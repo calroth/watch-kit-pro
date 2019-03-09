@@ -25,25 +25,22 @@ import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 
-import java.util.Collection;
 import java.util.GregorianCalendar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.LocationCalculator;
-import pro.watchkit.wearable.watchface.model.PaintBox;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset;
+import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 abstract class WatchPartDrawable extends Drawable {
-    StateObject mStateObject;
+    WatchFaceState mStateObject;
     GregorianCalendar mCalendar;
     LocationCalculator mLocationCalculator;
     int height = 0, width = 0;
     float pc = 0f; // percent, set to 0.01f * height, all units are based on percent
     float mCenterX, mCenterY;
 
-    void setState(StateObject mStateObject, GregorianCalendar mCalendar,
+    void setState(WatchFaceState mStateObject, GregorianCalendar mCalendar,
                   LocationCalculator mLocationCalculator) {
         this.mStateObject = mStateObject;
         this.mCalendar = mCalendar;
@@ -144,12 +141,4 @@ abstract class WatchPartDrawable extends Drawable {
 //        return 0;
     }
 
-    class StateObject {
-        WatchFacePreset preset;
-        PaintBox paintBox;
-        Collection<ComplicationHolder> complications;
-        int unreadNotifications;
-        int totalNotifications;
-        boolean ambient;
-    }
 }

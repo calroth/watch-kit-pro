@@ -74,6 +74,7 @@ import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.LocationCalculator;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
+import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanvasWatchFaceService {
     //public class AnalogComplicationWatchFaceService extends WatchFaceService {
@@ -133,7 +134,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
                         invalidate();
                     }
                 };
-        private WatchPartDrawable.StateObject mStateObject;
+        private WatchFaceState mStateObject;
         private GregorianCalendar mCalendar = new GregorianCalendar();
         // Used to pull user's preferences for background color, highlight color, and visual
         // indicating there are unread notifications.
@@ -206,7 +207,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
                             .setViewProtectionMode(WatchFaceStyle.PROTECT_STATUS_BAR)
                             .build());
 
-            mStateObject = mWatchPartDrawables[0].new StateObject();
+            mStateObject = new WatchFaceState();
             mStateObject.preset = new WatchFacePreset();
             mStateObject.paintBox = new PaintBox(context, mStateObject.preset);
 
