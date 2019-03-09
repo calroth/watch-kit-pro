@@ -26,7 +26,6 @@ import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
-import java.util.ArrayList;
 import java.util.TimeZone;
 
 import androidx.annotation.NonNull;
@@ -96,7 +95,7 @@ public class WatchFaceGlobalDrawable extends Drawable {
         // and background, but you could add many more.
         ComplicationHolder.resetBaseId();
 
-        mWatchFaceState.complications = new ArrayList<>();
+        mWatchFaceState.complications.clear();
         {
             final ComplicationHolder b = new ComplicationHolder(context);
             b.isForeground = false;

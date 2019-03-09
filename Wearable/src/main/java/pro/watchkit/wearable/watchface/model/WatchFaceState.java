@@ -18,13 +18,14 @@
 
 package pro.watchkit.wearable.watchface.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 
 public class WatchFaceState {
     public WatchFacePreset preset;
     public PaintBox paintBox;
-    public Collection<ComplicationHolder> complications;
+    public Collection<ComplicationHolder> complications = new ArrayList<>();
     public int unreadNotifications;
     public int totalNotifications;
     public boolean ambient;
