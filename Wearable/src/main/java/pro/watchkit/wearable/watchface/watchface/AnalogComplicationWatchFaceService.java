@@ -41,7 +41,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.location.Location;
 import android.os.Bundle;
@@ -62,7 +61,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
@@ -79,8 +77,6 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
     // Unique IDs for each complication. The settings activity that supports allowing users
     // to select their complication data provider requires numbers to be >= 0.
 //    private static final int BACKGROUND_COMPLICATION_ID = 99;
-
-    private static final int FOREGROUND_COMPLICATION_COUNT = 6;
 
     /*
      * Update rate in milliseconds for interactive mode. We update once a second to advance the
@@ -116,11 +112,6 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
         // Handler to update the time once a second in interactive mode.
         private final Handler mUpdateTimeHandler = new UpdateTimeHandler(this);
 
-//        private WatchFacePreset preset = new WatchFacePreset();
-private final int COMPLICATION_AMBIENT_WHITE =
-        Color.argb(0xff, 0xff, 0xff, 0xff);
-        private final int COMPLICATION_AMBIENT_GREY =
-                Color.argb(0xff, 0xaa, 0xaa, 0xaa);
         private final BroadcastReceiver mTimeZoneReceiver =
                 new BroadcastReceiver() {
                     @Override
@@ -139,7 +130,6 @@ private final int COMPLICATION_AMBIENT_WHITE =
         private boolean mMuteMode;
         // User's preference for if they want visual shown to indicate unread notifications.
         private boolean mUnreadNotificationsPreference;
-        private int currentComplicationWhite, currentComplicationGrey;
 
         @Override
         protected void beforeDoFrame(int invalidated) {
@@ -263,54 +253,9 @@ private final int COMPLICATION_AMBIENT_WHITE =
         private void initializeComplications() {
             Log.d(TAG, "initializeComplications()");
 
-            // Creates a ComplicationDrawable for each location where the user can render a
-            // complication on the watch face. In this watch face, we create one for left, right,
-            // and background, but you could add many more.
-            ComplicationHolder.resetBaseId();
-
             Context context = getApplicationContext();
-
-            mWatchFaceGlobalDrawable.getWatchFaceState().complications = new ArrayList<>();
-            {
-                final ComplicationHolder b = new ComplicationHolder(context);
-                b.isForeground = false;
-                b.isActive = false;
-                b.setDrawableCallback(this);
-                mWatchFaceGlobalDrawable.getWatchFaceState().complications.add(b);
-            }
-
-            for (int i = 0; i < FOREGROUND_COMPLICATION_COUNT; i++) {
-                final ComplicationHolder f = new ComplicationHolder(context);
-                f.isForeground = true;
-                f.setDrawableCallback(this);
-                mWatchFaceGlobalDrawable.getWatchFaceState().complications.add(f);
-            }
-
-            // Adds new complications to a SparseArray to simplify setting styles and ambient
-            // properties for all complications, i.e., iterate over them all.
-            setComplicationsActiveAndAmbientColors(mWatchFaceGlobalDrawable.getWatchFaceState().paintBox.getColor(WatchFacePreset.ColorType.HIGHLIGHT));
-
-            int[] complicationIds = new int[mWatchFaceGlobalDrawable.getWatchFaceState().complications.size()];
-            int i = 0;
-            for (ComplicationHolder complication : mWatchFaceGlobalDrawable.getWatchFaceState().complications) {
-                complicationIds[i] = complication.getId();
-                i++;
-            }
-
+            int[] complicationIds = mWatchFaceGlobalDrawable.initializeComplications(context, this);
             setActiveComplications(complicationIds);
-        }
-
-        /* Sets active/ambient mode colors for all complications.
-         *
-         * Note: With the rest of the watch face, we update the paint colors based on
-         * ambient/active mode callbacks, but because the ComplicationDrawable handles
-         * the active/ambient colors, we only set the colors twice. Once at initialization and
-         * again if the user changes the highlight color via AnalogComplicationConfigActivity.
-         */
-        private void setComplicationsActiveAndAmbientColors(int primaryComplicationColor) {
-            for (ComplicationHolder complication : mWatchFaceGlobalDrawable.getWatchFaceState().complications) {
-                complication.setColors(primaryComplicationColor);
-            }
         }
 
         @Override
@@ -402,15 +347,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
             super.onAmbientModeChanged(inAmbientMode);
 //            Log.d(TAG, "onAmbientModeChanged: " + inAmbientMode);
 
-//            painter.onAmbientModeChanged(inAmbientMode);
-            mWatchFaceGlobalDrawable.getWatchFaceState().ambient = inAmbientMode;
-
-            // Update drawable complications' ambient state.
-            // Note: ComplicationDrawable handles switching between active/ambient colors, we just
-            // have to inform it to enter ambient mode.
-            for (ComplicationHolder complication : mWatchFaceGlobalDrawable.getWatchFaceState().complications) {
-                complication.setAmbientMode(inAmbientMode);
-            }
+            mWatchFaceGlobalDrawable.onAmbientModeChanged(inAmbientMode);
 
             // Check and trigger whether or not timer should be running (only in active mode).
             updateTimer();
@@ -448,39 +385,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
              * better readability.
              */
 
-            // For most Wear devices, width and height are the same, so we just chose one (width).
-            int sizeOfComplication = width / 4;
-            int midpointOfScreen = width / 2;
-
-            int i = 0;
-            for (ComplicationHolder complication : mWatchFaceGlobalDrawable.getWatchFaceState().complications) {
-                if (complication.isForeground) {
-                    // Foreground
-                    float degrees = (float) ((i + 0.5f) * Math.PI * 2 / FOREGROUND_COMPLICATION_COUNT);
-
-                    float halfSize = sizeOfComplication / 2f;
-                    float offset = midpointOfScreen / 2f;
-
-                    float innerX = midpointOfScreen + (float) Math.sin(degrees) * offset;
-                    float innerY = midpointOfScreen - (float) Math.cos(degrees) * offset;
-
-                    Rect bounds =
-                            // Left, Top, Right, Bottom
-                            new Rect((int) (innerX - halfSize),
-                                    (int) (innerY - halfSize),
-                                    (int) (innerX + halfSize),
-                                    (int) (innerY + halfSize));
-
-                    complication.setBounds(bounds);
-                    i++;
-                } else {
-                    // Background
-                    Rect screenForBackgroundBound =
-                            // Left, Top, Right, Bottom
-                            new Rect(0, 0, width, height);
-                    complication.setBounds(screenForBackgroundBound);
-                }
-            }
+            mWatchFaceGlobalDrawable.onSurfaceChanged(width, height);
 
             WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_SURFACE;
             invalidate();
@@ -496,52 +401,26 @@ private final int COMPLICATION_AMBIENT_WHITE =
             int totalNotifications = mUnreadNotificationsPreference ? getNotificationCount() : 0;
 
             if (isInAmbientMode()) {
-//                Log.d(TAG, "Draw (ambient)");
-                int newComplicationWhite = mWatchFaceGlobalDrawable.getWatchFaceState().mLocationCalculator.getDuskDawnColor(COMPLICATION_AMBIENT_WHITE);
-                int newComplicationGrey = mWatchFaceGlobalDrawable.getWatchFaceState().mLocationCalculator.getDuskDawnColor(COMPLICATION_AMBIENT_GREY);
-
-                if (currentComplicationWhite != newComplicationWhite
-                        || currentComplicationGrey != newComplicationGrey) {
-                    for (ComplicationHolder complication : mWatchFaceGlobalDrawable.getWatchFaceState().complications) {
-                        complication.setAmbientColors(newComplicationWhite, newComplicationGrey,
-                                newComplicationGrey);
-//                        complication.drawable.setTextColorAmbient(newComplicationWhite);
-//                        complication.drawable.setTitleColorAmbient(newComplicationGrey);
-//                        complication.drawable.setIconColorAmbient(newComplicationGrey);
-                    }
-
-                    // Why go to the trouble of tracking current and new complication colors,
-                    // and only updating when it's changed?
-
-                    // Optimisation. We assume that setting colors on ComplicationDrawable is a
-                    // heinously slow operation (it probably isn't though) and so we avoid it...
-
-                    currentComplicationWhite = newComplicationWhite;
-                    currentComplicationGrey = newComplicationGrey;
-                }
+                mWatchFaceGlobalDrawable.preDrawAmbientCheck();
             }
+            // Draw all our drawables.
+            // First set all our state objects.
+            mWatchFaceGlobalDrawable.getWatchFaceState().mCalendar.setTimeInMillis(now);
+            mWatchFaceGlobalDrawable.getWatchFaceState().unreadNotifications = unreadNotifications;
+            mWatchFaceGlobalDrawable.getWatchFaceState().totalNotifications = totalNotifications;
+//          mWatchFaceGlobalDrawable.getWatchFaceState().preset = preset;
 
-//            painter.drawAll(canvas, preset, now, complications, unreadNotifications, totalNotifications);
-            {
-                // Draw all our drawables.
-                // First set all our state objects.
-                mWatchFaceGlobalDrawable.getWatchFaceState().mCalendar.setTimeInMillis(now);
-                mWatchFaceGlobalDrawable.getWatchFaceState().unreadNotifications = unreadNotifications;
-                mWatchFaceGlobalDrawable.getWatchFaceState().totalNotifications = totalNotifications;
-//                mWatchFaceGlobalDrawable.getWatchFaceState().preset = preset;
-
-                mWatchFaceGlobalDrawable.draw(canvas);
-//                int s = 0;
-//                long now0 = SystemClock.elapsedRealtimeNanos();
-//                for (WatchPartDrawable d : mWatchPartDrawables) {
-//                    // For each of our drawables: draw it!
-//                    d.draw(canvas);
-//                    long now1 = SystemClock.elapsedRealtimeNanos();
-//                    WatchPartStatsDrawable.now[s] = now1 - now0;
-//                    now0 = now1;
-//                    s++;
-//                }
-            }
+            mWatchFaceGlobalDrawable.draw(canvas);
+//          int s = 0;
+//          long now0 = SystemClock.elapsedRealtimeNanos();
+//          for (WatchPartDrawable d : mWatchPartDrawables) {
+//              // For each of our drawables: draw it!
+//              d.draw(canvas);
+//              long now1 = SystemClock.elapsedRealtimeNanos();
+//              WatchPartStatsDrawable.now[s] = now1 - now0;
+//              now0 = now1;
+//              s++;
+//          }
 
             if (prevAmbient != mWatchFaceGlobalDrawable.getWatchFaceState().ambient) {
                 WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_WTF;
@@ -562,7 +441,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
                 // the active/ambient colors, we only need to update the complications' colors when
                 // the user actually makes a change to the highlight color, not when the watch goes
                 // in and out of ambient mode.
-                setComplicationsActiveAndAmbientColors(mWatchFaceGlobalDrawable.getWatchFaceState().paintBox.getColor(WatchFacePreset.ColorType.HIGHLIGHT));
+                mWatchFaceGlobalDrawable.setComplicationsActiveAndAmbientColors();
 
                 registerReceiver();
                 // Update time zone in case it changed while we weren't visible.
