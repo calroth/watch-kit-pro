@@ -82,10 +82,10 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
         int original = 0, currentNightVisionTint = 0;
 
-        int unreadNotifications = mStateObject.unreadNotifications;
-        int totalNotifications = mStateObject.totalNotifications;
-        Collection<ComplicationHolder> complications = mStateObject.complications;
-        Paint twelveTickPaint = mStateObject.paintBox.getPaintFromPreset(mStateObject.preset.getTwelveTickStyle());
+        int unreadNotifications = mWatchFaceState.unreadNotifications;
+        int totalNotifications = mWatchFaceState.totalNotifications;
+        Collection<ComplicationHolder> complications = mWatchFaceState.complications;
+        Paint twelveTickPaint = mWatchFaceState.paintBox.getPaintFromPreset(mWatchFaceState.preset.getTwelveTickStyle());
 
         // Invalidate if complications, unread notifications or total notifications have changed.
         int currentSerial = Objects.hash(twelveTickPaint, complications, unreadNotifications, totalNotifications);
@@ -96,7 +96,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
         }
 
         // Invalidate if our night vision tint has changed
-        if (mStateObject.ambient) {
+        if (mWatchFaceState.ambient) {
             original = PaintBox.AMBIENT_WHITE;
             currentNightVisionTint = mLocationCalculator.getDuskDawnColor(original);
             if (mPreviousNightVisionTint != currentNightVisionTint) {
@@ -108,7 +108,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
         }
 
         // If we've been invalidated, regenerate and/or clear our bitmaps.
-        if (mStateObject.ambient) {
+        if (mWatchFaceState.ambient) {
             if (mTicksAmbientBitmapInvalidated) {
                 // Initialise bitmap on first use or if our width/height have changed.
                 if (mTicksAmbientBitmap == null) {
@@ -231,7 +231,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                     float x = mCenterX + (innerX + outerX) / 2f;
                     float y = mCenterY + (innerY + outerY) / 2f;
                     p.addCircle(x, y, 4f * pc, Path.Direction.CW);
-                    if (!mStateObject.ambient) {
+                    if (!mWatchFaceState.ambient) {
                         // Punch a hole in the circle to make it a donut.
                         Path p2 = new Path();
                         p2.addCircle(x, y, 3f * pc, Path.Direction.CW);
@@ -280,7 +280,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
             }
 
             // If not ambient, draw our complication rings.
-            if (!mStateObject.ambient && complications != null) {
+            if (!mWatchFaceState.ambient && complications != null) {
                 Path rings = new Path();
                 Path holes = new Path();
 
@@ -306,7 +306,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
             }
 
             // Test: if ambient, draw our burn-in exclusion rings
-            if (mStateObject.ambient) {
+            if (mWatchFaceState.ambient) {
 //            p.addCircle(mCenterX + 10, mCenterY + 10, mCenterX, Path.Direction.CW);
 //            p.addCircle(mCenterX + 10, mCenterY - 10, mCenterX, Path.Direction.CW);
 //            p.addCircle(mCenterX - 10, mCenterY + 10, mCenterX, Path.Direction.CW);
@@ -356,14 +356,14 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                 Canvas tempCanvas = new Canvas(ticksBitmap);
                 int color = -1;
                 // Save and restore ambient color; for caching we always use white.
-                if (mStateObject.ambient) {
-                    color = mStateObject.paintBox.getAmbientPaint().getColor();
-                    mStateObject.paintBox.getAmbientPaint().setColor(PaintBox.AMBIENT_WHITE);
+                if (mWatchFaceState.ambient) {
+                    color = mWatchFaceState.paintBox.getAmbientPaint().getColor();
+                    mWatchFaceState.paintBox.getAmbientPaint().setColor(PaintBox.AMBIENT_WHITE);
                 }
                 drawPath(tempCanvas, p, twelveTickPaint);
 //                drawPath(tempCanvas, p, mPaintBox.getTickPaint());
-                if (mStateObject.ambient) {
-                    mStateObject.paintBox.getAmbientPaint().setColor(color);
+                if (mWatchFaceState.ambient) {
+                    mWatchFaceState.paintBox.getAmbientPaint().setColor(color);
                 }
 
                 // Hardware Bitmap Power
@@ -393,7 +393,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
             mAmbientColorShiftPaint.setColorFilter(currentNightVisionTint != original
                     ? new LightingColorFilter(currentNightVisionTint, 0) : null);
 
-            Paint paint = mStateObject.ambient ? mAmbientColorShiftPaint : null;
+            Paint paint = mWatchFaceState.ambient ? mAmbientColorShiftPaint : null;
             canvas.drawBitmap(ticksBitmap, 0, 0, paint);
         }
     }

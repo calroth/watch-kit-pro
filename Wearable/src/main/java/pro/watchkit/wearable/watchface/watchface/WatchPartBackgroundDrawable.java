@@ -30,15 +30,15 @@ final class WatchPartBackgroundDrawable extends WatchPartDrawable {
     public void draw(@NonNull Canvas canvas) {
         super.draw(canvas);
 
-        if (mStateObject.ambient) {
-            mStateObject.paintBox.getAmbientPaint().setColor(
+        if (mWatchFaceState.ambient) {
+            mWatchFaceState.paintBox.getAmbientPaint().setColor(
                     mLocationCalculator.getDuskDawnColor(PaintBox.AMBIENT_WHITE));
         }
 
-        if (mStateObject.ambient /*&& (mLowBitAmbient || mBurnInProtection)*/) {
+        if (mWatchFaceState.ambient /*&& (mLowBitAmbient || mBurnInProtection)*/) {
             canvas.drawColor(Color.BLACK);
         } else {
-            Paint p = mStateObject.paintBox.getPaintFromPreset(mStateObject.preset.getBackgroundStyle());
+            Paint p = mWatchFaceState.paintBox.getPaintFromPreset(mWatchFaceState.preset.getBackgroundStyle());
             canvas.drawPaint(p);
 //            mPaintBox.getBaseAccentPaint().setStyle(Paint.Style.FILL);
 //            canvas.drawPaint(mPaintBox.getBackgroundPaint());

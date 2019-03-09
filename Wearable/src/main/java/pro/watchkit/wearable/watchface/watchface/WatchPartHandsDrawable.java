@@ -57,7 +57,7 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
 //        Path hub = new Path();
 //        hub.addCircle(mCenterX, mCenterY, HUB_RADIUS_PERCENT * pc, Path.Direction.CCW);
 
-        WatchFacePreset preset = mStateObject.preset;
+        WatchFacePreset preset = mWatchFaceState.preset;
 
         /*
          * These calculations reflect the rotation in degrees per unit of time, e.g.,
@@ -73,7 +73,7 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
         final float hourHandOffset = minutesRotation / 12f;
         final float hoursRotation = (mCalendar.get(Calendar.HOUR) * 30) + hourHandOffset;
 
-        Paint hourHandPaint = mStateObject.paintBox.getPaintFromPreset(preset.getHourHandStyle());
+        Paint hourHandPaint = mWatchFaceState.paintBox.getPaintFromPreset(preset.getHourHandStyle());
         Path hourHandShape = getHourHandShape(preset, hoursRotation);
 //        Path hourHandShape = getHandShape(
 //                preset.getHourHandShape(), preset.getHourHandLength(),
@@ -85,7 +85,7 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
 //        }
         drawPath(canvas, hourHandShape, hourHandPaint);
 
-        Paint minuteHandPaint = mStateObject.paintBox.getPaintFromPreset(preset.getMinuteHandStyle());
+        Paint minuteHandPaint = mWatchFaceState.paintBox.getPaintFromPreset(preset.getMinuteHandStyle());
         Path minuteHandShape = getMinuteHandShape(preset, minutesRotation);
         // Add the hub to the minute hand in ambient mode.
 //        Path minuteHub = ambient ? hub : null;
@@ -99,8 +99,8 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
          * Ensure the "seconds" hand is drawn only when we are in interactive mode.
          * Otherwise, we only update the watch face once a minute.
          */
-        if (!mStateObject.ambient) {
-            Paint secondHandPaint = mStateObject.paintBox.getPaintFromPreset(preset.getSecondHandStyle());
+        if (!mWatchFaceState.ambient) {
+            Paint secondHandPaint = mWatchFaceState.paintBox.getPaintFromPreset(preset.getSecondHandStyle());
             // Add the hub to the second hand in interactive mode.
             Path secondHandShape = getSecondHandShape(preset, secondsRotation);
 //            Path secondHandShape = getHandShape(
@@ -158,7 +158,7 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
 
         // Reset mHourHandPath and rotate the relevant hand into it.
         mHourHandPath.reset();
-        if (mStateObject.ambient)
+        if (mWatchFaceState.ambient)
             mHourHandAmbientPath.transform(m, mHourHandPath);
         else
             mHourHandActivePath.transform(m, mHourHandPath);
@@ -203,7 +203,7 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
 
         // Reset mMinuteHandPath and rotate the relevant hand into it.
         mMinuteHandPath.reset();
-        if (mStateObject.ambient)
+        if (mWatchFaceState.ambient)
             mMinuteHandAmbientPath.transform(m, mMinuteHandPath);
         else
             mMinuteHandActivePath.transform(m, mMinuteHandPath);
