@@ -47,7 +47,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
 import android.support.wearable.complications.ComplicationData;
 import android.support.wearable.watchface.WatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
@@ -74,7 +73,6 @@ import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.LocationCalculator;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
-import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanvasWatchFaceService {
     //public class AnalogComplicationWatchFaceService extends WatchFaceService {
@@ -134,28 +132,13 @@ private final int COMPLICATION_AMBIENT_WHITE =
                         invalidate();
                     }
                 };
-        private WatchFaceState mStateObject;
+        private WatchFaceGlobalDrawable mWatchFaceGlobalDrawable;
         private GregorianCalendar mCalendar = new GregorianCalendar();
         // Used to pull user's preferences for background color, highlight color, and visual
         // indicating there are unread notifications.
         SharedPreferences mSharedPref;
         private LocationCalculator mLocationCalculator = new LocationCalculator(mCalendar);
 
-        /* Maps active complication ids to the data for that complication. Note: Data will only be
-         * present if the user has chosen a provider via the settings activity for the watch face.
-         */
-//        private SparseArray<ComplicationData> mActiveComplicationDataSparseArray;
-        /* Maps complication ids to corresponding ComplicationDrawable that renders the
-         * the complication data on the watch face.
-         */
-        //private SparseArray<ComplicationDrawable> mComplicationDrawableSparseArray;
-        private WatchPartDrawable[] mWatchPartDrawables = new WatchPartDrawable[]{
-                new WatchPartBackgroundDrawable(),
-                new WatchPartTicksRingsDrawable(),
-                new WatchPartComplicationsDrawable(),
-                new WatchPartHandsDrawable(),
-                new WatchPartStatsDrawable()
-        };
         private boolean mRegisteredTimeZoneReceiver = false;
         private boolean mMuteMode;
         // User's preference for if they want visual shown to indicate unread notifications.
@@ -207,16 +190,18 @@ private final int COMPLICATION_AMBIENT_WHITE =
                             .setViewProtectionMode(WatchFaceStyle.PROTECT_STATUS_BAR)
                             .build());
 
-            mStateObject = new WatchFaceState();
-            mStateObject.preset = new WatchFacePreset();
-            mStateObject.paintBox = new PaintBox(context, mStateObject.preset);
+            mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(new WatchPartDrawable[]{
+                    new WatchPartBackgroundDrawable(),
+                    new WatchPartTicksRingsDrawable(),
+                    new WatchPartComplicationsDrawable(),
+                    new WatchPartHandsDrawable(),
+                    new WatchPartStatsDrawable()}, mLocationCalculator);
+            mWatchFaceGlobalDrawable.getWatchFaceState().preset = new WatchFacePreset();
+            mWatchFaceGlobalDrawable.getWatchFaceState().paintBox =
+                    new PaintBox(context, mWatchFaceGlobalDrawable.getWatchFaceState().preset);
 
             loadSavedPreferences();
             initializeComplications();
-
-            for (WatchPartDrawable d : mWatchPartDrawables) {
-                d.setState(mStateObject, mCalendar, mLocationCalculator);
-            }
 
             FusedLocationProviderClient locationClient
                     = LocationServices.getFusedLocationProviderClient(context);
@@ -268,26 +253,9 @@ private final int COMPLICATION_AMBIENT_WHITE =
 
         // Pulls all user's preferences for watch face appearance.
         private void loadSavedPreferences() {
-            mStateObject.preset.setString(mSharedPref.getString(
+            mWatchFaceGlobalDrawable.getWatchFaceState().preset.setString(mSharedPref.getString(
                     getApplicationContext().getString(R.string.saved_watch_face_preset),
                     null));
-//            mStateObject.preset.setFillSixBitColor(mSharedPref.getInt(
-//                    getApplicationContext().getString(R.string.saved_fill_color),
-//                    Color.WHITE));
-//            mStateObject.preset.setAccentSixBitColor(mSharedPref.getInt(
-//                    getApplicationContext().getString(R.string.saved_accent_color),
-//                    Color.BLUE));
-//            mStateObject.preset.setHighlightSixBitColor(mSharedPref.getInt(
-//                    getApplicationContext().getString(R.string.saved_marker_color),
-//                    Color.RED));
-//            mStateObject.preset.setBaseSixBitColor(mSharedPref.getInt(
-//                    getApplicationContext().getString(R.string.saved_base_color),
-//                    Color.BLACK));
-
-//            mPaintBox.setPalette(mStateObject.preset);
-
-//            painter.setPalette(-1, -10011977, -43230, -16777216);
-//            painter.setPalette(preset);
 
             String unreadNotificationPreferenceResourceName =
                     getApplicationContext().getString(R.string.saved_unread_notifications_pref);
@@ -306,29 +274,29 @@ private final int COMPLICATION_AMBIENT_WHITE =
 
             Context context = getApplicationContext();
 
-            mStateObject.complications = new ArrayList<>();
+            mWatchFaceGlobalDrawable.getWatchFaceState().complications = new ArrayList<>();
             {
                 final ComplicationHolder b = new ComplicationHolder(context);
                 b.isForeground = false;
                 b.isActive = false;
                 b.setDrawableCallback(this);
-                mStateObject.complications.add(b);
+                mWatchFaceGlobalDrawable.getWatchFaceState().complications.add(b);
             }
 
             for (int i = 0; i < FOREGROUND_COMPLICATION_COUNT; i++) {
                 final ComplicationHolder f = new ComplicationHolder(context);
                 f.isForeground = true;
                 f.setDrawableCallback(this);
-                mStateObject.complications.add(f);
+                mWatchFaceGlobalDrawable.getWatchFaceState().complications.add(f);
             }
 
             // Adds new complications to a SparseArray to simplify setting styles and ambient
             // properties for all complications, i.e., iterate over them all.
-            setComplicationsActiveAndAmbientColors(mStateObject.paintBox.getColor(WatchFacePreset.ColorType.HIGHLIGHT));
+            setComplicationsActiveAndAmbientColors(mWatchFaceGlobalDrawable.getWatchFaceState().paintBox.getColor(WatchFacePreset.ColorType.HIGHLIGHT));
 
-            int[] complicationIds = new int[mStateObject.complications.size()];
+            int[] complicationIds = new int[mWatchFaceGlobalDrawable.getWatchFaceState().complications.size()];
             int i = 0;
-            for (ComplicationHolder complication : mStateObject.complications) {
+            for (ComplicationHolder complication : mWatchFaceGlobalDrawable.getWatchFaceState().complications) {
                 complicationIds[i] = complication.getId();
                 i++;
             }
@@ -344,7 +312,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
          * again if the user changes the highlight color via AnalogComplicationConfigActivity.
          */
         private void setComplicationsActiveAndAmbientColors(int primaryComplicationColor) {
-            for (ComplicationHolder complication : mStateObject.complications) {
+            for (ComplicationHolder complication : mWatchFaceGlobalDrawable.getWatchFaceState().complications) {
                 complication.setColors(primaryComplicationColor);
             }
         }
@@ -358,11 +326,11 @@ private final int COMPLICATION_AMBIENT_WHITE =
             boolean burnInProtection = properties.getBoolean(PROPERTY_BURN_IN_PROTECTION, false);
 
 //            painter.setLowBitAmbientBurnInProtection(lowBitAmbient, burnInProtection);
-            mStateObject.paintBox.getAmbientPaint().setAntiAlias(!lowBitAmbient);
+            mWatchFaceGlobalDrawable.getWatchFaceState().paintBox.getAmbientPaint().setAntiAlias(!lowBitAmbient);
 
             // Updates complications to properly render in ambient mode based on the
             // screen's capabilities.
-            for (ComplicationHolder complication : mStateObject.complications) {
+            for (ComplicationHolder complication : mWatchFaceGlobalDrawable.getWatchFaceState().complications) {
                 complication.setLowBitAmbientBurnInProtection(lowBitAmbient, burnInProtection);
             }
         }
@@ -378,7 +346,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
             // Adds/updates active complication data in the array.
 
             // Updates correct ComplicationDrawable with updated data.
-            for (ComplicationHolder complication : mStateObject.complications) {
+            for (ComplicationHolder complication : mWatchFaceGlobalDrawable.getWatchFaceState().complications) {
                 if (complication.getId() == complicationId) {
                     switch (complicationData.getType()) {
                         case ComplicationData.TYPE_EMPTY:
@@ -403,7 +371,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
             switch (tapType) {
                 case TAP_TYPE_TAP:
                     // Try all foreground complications first, before background complications.
-                    for (ComplicationHolder complication : mStateObject.complications) {
+                    for (ComplicationHolder complication : mWatchFaceGlobalDrawable.getWatchFaceState().complications) {
                         if (complication.isForeground) {
                             boolean successfulTap = complication.onDrawableTap(x, y);
 
@@ -413,7 +381,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
                         }
                     }
                     // Try all background complications.
-                    for (ComplicationHolder complication : mStateObject.complications) {
+                    for (ComplicationHolder complication : mWatchFaceGlobalDrawable.getWatchFaceState().complications) {
                         if (!complication.isForeground) {
                             boolean successfulTap = complication.onDrawableTap(x, y);
 
@@ -439,12 +407,12 @@ private final int COMPLICATION_AMBIENT_WHITE =
 //            Log.d(TAG, "onAmbientModeChanged: " + inAmbientMode);
 
 //            painter.onAmbientModeChanged(inAmbientMode);
-            mStateObject.ambient = inAmbientMode;
+            mWatchFaceGlobalDrawable.getWatchFaceState().ambient = inAmbientMode;
 
             // Update drawable complications' ambient state.
             // Note: ComplicationDrawable handles switching between active/ambient colors, we just
             // have to inform it to enter ambient mode.
-            for (ComplicationHolder complication : mStateObject.complications) {
+            for (ComplicationHolder complication : mWatchFaceGlobalDrawable.getWatchFaceState().complications) {
                 complication.setAmbientMode(inAmbientMode);
             }
 
@@ -489,7 +457,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
             int midpointOfScreen = width / 2;
 
             int i = 0;
-            for (ComplicationHolder complication : mStateObject.complications) {
+            for (ComplicationHolder complication : mWatchFaceGlobalDrawable.getWatchFaceState().complications) {
                 if (complication.isForeground) {
                     // Foreground
                     float degrees = (float) ((i + 0.5f) * Math.PI * 2 / FOREGROUND_COMPLICATION_COUNT);
@@ -524,7 +492,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
 
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
-            boolean prevAmbient = mStateObject.ambient;
+            boolean prevAmbient = mWatchFaceGlobalDrawable.getWatchFaceState().ambient;
             super.onDraw(canvas, bounds);
             long now = System.currentTimeMillis();
 
@@ -538,7 +506,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
 
                 if (currentComplicationWhite != newComplicationWhite
                         || currentComplicationGrey != newComplicationGrey) {
-                    for (ComplicationHolder complication : mStateObject.complications) {
+                    for (ComplicationHolder complication : mWatchFaceGlobalDrawable.getWatchFaceState().complications) {
                         complication.setAmbientColors(newComplicationWhite, newComplicationGrey,
                                 newComplicationGrey);
 //                        complication.drawable.setTextColorAmbient(newComplicationWhite);
@@ -562,23 +530,24 @@ private final int COMPLICATION_AMBIENT_WHITE =
                 // Draw all our drawables.
                 // First set all our state objects.
                 mCalendar.setTimeInMillis(now);
-                mStateObject.unreadNotifications = unreadNotifications;
-                mStateObject.totalNotifications = totalNotifications;
-//                mStateObject.preset = preset;
+                mWatchFaceGlobalDrawable.getWatchFaceState().unreadNotifications = unreadNotifications;
+                mWatchFaceGlobalDrawable.getWatchFaceState().totalNotifications = totalNotifications;
+//                mWatchFaceGlobalDrawable.getWatchFaceState().preset = preset;
 
-                int s = 0;
-                long now0 = SystemClock.elapsedRealtimeNanos();
-                for (WatchPartDrawable d : mWatchPartDrawables) {
-                    // For each of our drawables: draw it!
-                    d.draw(canvas);
-                    long now1 = SystemClock.elapsedRealtimeNanos();
-                    WatchPartStatsDrawable.now[s] = now1 - now0;
-                    now0 = now1;
-                    s++;
-                }
+                mWatchFaceGlobalDrawable.draw(canvas);
+//                int s = 0;
+//                long now0 = SystemClock.elapsedRealtimeNanos();
+//                for (WatchPartDrawable d : mWatchPartDrawables) {
+//                    // For each of our drawables: draw it!
+//                    d.draw(canvas);
+//                    long now1 = SystemClock.elapsedRealtimeNanos();
+//                    WatchPartStatsDrawable.now[s] = now1 - now0;
+//                    now0 = now1;
+//                    s++;
+//                }
             }
 
-            if (prevAmbient != mStateObject.ambient) {
+            if (prevAmbient != mWatchFaceGlobalDrawable.getWatchFaceState().ambient) {
                 WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_WTF;
                 invalidate();
             }
@@ -597,7 +566,7 @@ private final int COMPLICATION_AMBIENT_WHITE =
                 // the active/ambient colors, we only need to update the complications' colors when
                 // the user actually makes a change to the highlight color, not when the watch goes
                 // in and out of ambient mode.
-                setComplicationsActiveAndAmbientColors(mStateObject.paintBox.getColor(WatchFacePreset.ColorType.HIGHLIGHT));
+                setComplicationsActiveAndAmbientColors(mWatchFaceGlobalDrawable.getWatchFaceState().paintBox.getColor(WatchFacePreset.ColorType.HIGHLIGHT));
 
                 registerReceiver();
                 // Update time zone in case it changed while we weren't visible.
