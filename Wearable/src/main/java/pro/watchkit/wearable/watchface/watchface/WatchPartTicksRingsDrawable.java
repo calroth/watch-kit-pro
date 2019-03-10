@@ -82,8 +82,8 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
         int original = 0, currentNightVisionTint = 0;
 
-        int unreadNotifications = mWatchFaceState.unreadNotifications;
-        int totalNotifications = mWatchFaceState.totalNotifications;
+        int unreadNotifications = mWatchFaceState.getUnreadNotifications();
+        int totalNotifications = mWatchFaceState.getTotalNotifications();
         Collection<ComplicationHolder> complications = mWatchFaceState.getComplications();
         Paint twelveTickPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(mWatchFaceState.getWatchFacePreset().getTwelveTickStyle());
 
@@ -160,7 +160,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
         if (!cacheHit) {
 
 //        Paint textPaint = ambient ? mAmbientPaint : mFillHighlightPaint;
-//        String notification = unreadNotifications + "/" + totalNotifications;
+//        String notification = mUnreadNotifications + "/" + mTotalNotifications;
 //        float width = textPaint.measureText(notification);
 //        canvas.drawText(notification, mCenterX - (width / 2f), mCenterY / 2f, textPaint);
 

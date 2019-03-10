@@ -379,8 +379,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             // Draw all our drawables.
             // First set all our state objects.
             getWatchFaceState().setCurrentTimeToNow();
-            getWatchFaceState().unreadNotifications = unreadNotifications;
-            getWatchFaceState().totalNotifications = totalNotifications;
+            getWatchFaceState().setNotifications(unreadNotifications, totalNotifications);
 //          getWatchFaceState().preset = preset;
 
             mWatchFaceGlobalDrawable.draw(canvas);

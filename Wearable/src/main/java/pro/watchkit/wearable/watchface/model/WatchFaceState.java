@@ -33,8 +33,8 @@ public class WatchFaceState {
     private WatchFacePreset mWatchFacePreset = new WatchFacePreset();
     private PaintBox mPaintBox;
     private Collection<ComplicationHolder> mComplications = new ArrayList<>();
-    public int unreadNotifications;
-    public int totalNotifications;
+    private int mUnreadNotifications = 0;
+    private int mTotalNotifications = 0;
     private boolean mAmbient = false;
     private GregorianCalendar mCalendar = new GregorianCalendar();
     private LocationCalculator mLocationCalculator = new LocationCalculator(mCalendar);
@@ -319,5 +319,18 @@ public class WatchFaceState {
 
     public void setAmbient(boolean ambient) {
         mAmbient = ambient;
+    }
+
+    public int getUnreadNotifications() {
+        return mUnreadNotifications;
+    }
+
+    public int getTotalNotifications() {
+        return mTotalNotifications;
+    }
+
+    public void setNotifications(int unread, int total) {
+        mUnreadNotifications = unread;
+        mTotalNotifications = total;
     }
 }

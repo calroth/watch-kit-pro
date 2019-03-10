@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 import pro.watchkit.wearable.watchface.R;
+import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 /**
@@ -89,11 +90,10 @@ public class WatchFacePresetSelectionRecyclerViewAdapter extends
         }
 
         public void setPreset(String watchFacePresetString) {
-            mWatchFaceGlobalDrawable.getWatchFaceState().getWatchFacePreset().setString(
-                    watchFacePresetString);
-            mWatchFaceGlobalDrawable.getWatchFaceState().unreadNotifications = 0;
-            mWatchFaceGlobalDrawable.getWatchFaceState().totalNotifications = 0;
-            mWatchFaceGlobalDrawable.getWatchFaceState().setAmbient(false);
+            WatchFaceState w = mWatchFaceGlobalDrawable.getWatchFaceState();
+            w.getWatchFacePreset().setString(watchFacePresetString);
+            w.setNotifications(0, 0);
+            w.setAmbient(false);
             mColorCircleImageView.setImageDrawable(mWatchFaceGlobalDrawable);
         }
 
