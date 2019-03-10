@@ -23,8 +23,6 @@ import android.graphics.ColorFilter;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 
-import java.util.TimeZone;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
@@ -62,8 +60,9 @@ public class WatchFaceGlobalDrawable extends Drawable {
     @Override
     public void draw(@NonNull Canvas canvas) {
         // Set the current date and time.
-        mWatchFaceState.mCalendar.setTimeZone(TimeZone.getDefault());
-        mWatchFaceState.mCalendar.setTimeInMillis(System.currentTimeMillis());
+        mWatchFaceState.setDefaultTimeZone();
+        mWatchFaceState.setCurrentTimeToNow();
+
         for (WatchPartDrawable d : mWatchPartDrawables) {
             // For each of our drawables: draw it!
             d.draw(canvas);

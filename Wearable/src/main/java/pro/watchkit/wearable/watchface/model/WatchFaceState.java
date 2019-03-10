@@ -24,8 +24,10 @@ import android.graphics.Rect;
 import android.support.wearable.complications.ComplicationData;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 public class WatchFaceState {
     public WatchFacePreset preset;
@@ -34,7 +36,7 @@ public class WatchFaceState {
     public int unreadNotifications;
     public int totalNotifications;
     public boolean ambient;
-    public GregorianCalendar mCalendar = new GregorianCalendar();
+    private GregorianCalendar mCalendar = new GregorianCalendar();
     public LocationCalculator mLocationCalculator = new LocationCalculator(mCalendar);
 
     private static final int FOREGROUND_COMPLICATION_COUNT = 6;
@@ -44,6 +46,58 @@ public class WatchFaceState {
             Color.argb(0xff, 0xaa, 0xaa, 0xaa);
 
     private int currentComplicationWhite, currentComplicationGrey;
+
+    /**
+     * Get the current time as milliseconds from the calendar's time.
+     *
+     * @return Current number of milliseconds
+     */
+    public long getTimeInMillis() {
+        return mCalendar.getTimeInMillis();
+    }
+
+    /**
+     * Get the current number of seconds from the calendar's time, including the fractional part.
+     *
+     * @return Current number of seconds including fractional
+     */
+    public float getSecondsDecimal() {
+        return (mCalendar.get(Calendar.SECOND) + mCalendar.get(Calendar.MILLISECOND) / 1000f);
+    }
+
+    /**
+     * Get the current number of minutes from the calendar's time.
+     *
+     * @return Current number of minutes
+     */
+    public int getMinutes() {
+        return mCalendar.get(Calendar.MINUTE);
+    }
+
+    /**
+     * Get the current number of hours from the calendar's time.
+     *
+     * @return Current number of hours
+     */
+    public int getHours() {
+        return mCalendar.get(Calendar.HOUR);
+    }
+
+    /**
+     * Set the calendar's time zone to default. Call this if you suspect that the time zone may
+     * have changed, daylight savings time has started or ended, etc.
+     */
+    public void setDefaultTimeZone() {
+        mCalendar.setTimeZone(TimeZone.getDefault());
+    }
+
+    /**
+     * Set the calendar's current time to now. An excellent thing to do before showing or
+     * calculating the time.
+     */
+    public void setCurrentTimeToNow() {
+        mCalendar.setTimeInMillis(System.currentTimeMillis());
+    }
 
     public void onAmbientModeChanged(boolean inAmbientMode) {
         ambient = inAmbientMode;

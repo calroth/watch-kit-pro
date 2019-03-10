@@ -61,7 +61,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.lang.ref.WeakReference;
-import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
@@ -117,7 +116,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                 new BroadcastReceiver() {
                     @Override
                     public void onReceive(Context context, Intent intent) {
-                        getWatchFaceState().mCalendar.setTimeZone(TimeZone.getDefault());
+                        getWatchFaceState().setDefaultTimeZone();
                         WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_TIMEZONE;
                         invalidate();
                     }
@@ -374,7 +373,6 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
         public void onDraw(Canvas canvas, Rect bounds) {
             boolean prevAmbient = getWatchFaceState().ambient;
             super.onDraw(canvas, bounds);
-            long now = System.currentTimeMillis();
 
             int unreadNotifications = mUnreadNotificationsPreference ? getUnreadCount() : 0;
             int totalNotifications = mUnreadNotificationsPreference ? getNotificationCount() : 0;
@@ -384,7 +382,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             }
             // Draw all our drawables.
             // First set all our state objects.
-            getWatchFaceState().mCalendar.setTimeInMillis(now);
+            getWatchFaceState().setCurrentTimeToNow();
             getWatchFaceState().unreadNotifications = unreadNotifications;
             getWatchFaceState().totalNotifications = totalNotifications;
 //          getWatchFaceState().preset = preset;
@@ -424,7 +422,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
                 registerReceiver();
                 // Update time zone in case it changed while we weren't visible.
-                getWatchFaceState().mCalendar.setTimeZone(TimeZone.getDefault());
+                getWatchFaceState().setDefaultTimeZone();
                 WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_TIMEZONE;
                 invalidate();
             } else {

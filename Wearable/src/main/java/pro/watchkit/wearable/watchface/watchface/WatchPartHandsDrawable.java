@@ -24,8 +24,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 
-import java.util.Calendar;
-
 import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 
@@ -63,15 +61,14 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
          * These calculations reflect the rotation in degrees per unit of time, e.g.,
          * 360 / 60 = 6 and 360 / 12 = 30.
          */
-        final float seconds =
-                (mWatchFaceState.mCalendar.get(Calendar.SECOND) + mWatchFaceState.mCalendar.get(Calendar.MILLISECOND) / 1000f);
+        final float seconds = mWatchFaceState.getSecondsDecimal();
         final float secondsRotation = seconds * 6f;
 
         final float minuteHandOffset = secondsRotation / 60f;
-        final float minutesRotation = mWatchFaceState.mCalendar.get(Calendar.MINUTE) * 6f + minuteHandOffset;
+        final float minutesRotation = mWatchFaceState.getMinutes() * 6f + minuteHandOffset;
 
         final float hourHandOffset = minutesRotation / 12f;
-        final float hoursRotation = (mWatchFaceState.mCalendar.get(Calendar.HOUR) * 30) + hourHandOffset;
+        final float hoursRotation = mWatchFaceState.getHours() * 30f + hourHandOffset;
 
         Paint hourHandPaint = mWatchFaceState.paintBox.getPaintFromPreset(preset.getHourHandStyle());
         Path hourHandShape = getHourHandShape(preset, hoursRotation);
