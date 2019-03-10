@@ -53,7 +53,7 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
             canvas.drawText(mInvalidTrigger, 20f * pc, 35f * pc, textPaint);
 
             canvas.drawText(invalid
-                            + String.format(" Alt: %.2f° / ", mWatchFaceState.mLocationCalculator.getSunAltitude())
+                            + String.format(" Alt: %.2f° / ", mWatchFaceState.getLocationCalculator().getSunAltitude())
                             + String.format("%.2f", (double) (now[0] + now[1] + now[2] + now[3] + now[4]) / 1000000d)
                             + (canvas.isHardwareAccelerated() ? " (hw)" : " (sw)"),
                     12f * pc, 55f * pc, textPaint);

@@ -98,7 +98,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
         // Invalidate if our night vision tint has changed
         if (mWatchFaceState.ambient) {
             original = PaintBox.AMBIENT_WHITE;
-            currentNightVisionTint = mWatchFaceState.mLocationCalculator.getDuskDawnColor(original);
+            currentNightVisionTint = mWatchFaceState.getLocationCalculator().getDuskDawnColor(original);
             if (mPreviousNightVisionTint != currentNightVisionTint) {
                 Log.d("AnalogWatchFace", "currentNightVisionTint: was "
                         + mPreviousNightVisionTint + ", now " + currentNightVisionTint);

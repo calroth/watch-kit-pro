@@ -37,7 +37,7 @@ public class WatchFaceState {
     public int totalNotifications;
     public boolean ambient;
     private GregorianCalendar mCalendar = new GregorianCalendar();
-    public LocationCalculator mLocationCalculator = new LocationCalculator(mCalendar);
+    private LocationCalculator mLocationCalculator = new LocationCalculator(mCalendar);
 
     private static final int FOREGROUND_COMPLICATION_COUNT = 6;
     private static final int COMPLICATION_AMBIENT_WHITE =
@@ -291,5 +291,9 @@ public class WatchFaceState {
             currentComplicationWhite = newComplicationWhite;
             currentComplicationGrey = newComplicationGrey;
         }
+    }
+
+    public LocationCalculator getLocationCalculator() {
+        return mLocationCalculator;
     }
 }

@@ -225,7 +225,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                                                     + location.getLongitude()
                                                     + " / " + location.getAltitude()));
                                     // Note: can be null in rare situations; handle accordingly.
-                                    getWatchFaceState().mLocationCalculator.setLocation(location);
+                                    getWatchFaceState().getLocationCalculator().setLocation(location);
                                     WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_LOCATION;
                                     postInvalidate();
                                 }
