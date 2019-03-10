@@ -35,7 +35,6 @@
 package pro.watchkit.wearable.watchface.model;
 
 import android.content.Context;
-import android.graphics.Color;
 
 import java.util.ArrayList;
 
@@ -60,41 +59,6 @@ public class AnalogComplicationConfigData {
      */
     public static Class getWatchFaceServiceClass() {
         return AnalogComplicationWatchFaceService.class;
-    }
-
-    /**
-     * Returns Material Design color options.
-     */
-    public static ArrayList<Integer> getColorOptionsDataSet() {
-        ArrayList<Integer> colorOptionsDataSet = new ArrayList<>();
-        colorOptionsDataSet.add(Color.parseColor("#FFFFFF")); // White
-
-        colorOptionsDataSet.add(Color.parseColor("#FFEB3B")); // Yellow
-        colorOptionsDataSet.add(Color.parseColor("#FFC107")); // Amber
-        colorOptionsDataSet.add(Color.parseColor("#FF9800")); // Orange
-        colorOptionsDataSet.add(Color.parseColor("#FF5722")); // Deep Orange
-
-        colorOptionsDataSet.add(Color.parseColor("#F44336")); // Red
-        colorOptionsDataSet.add(Color.parseColor("#E91E63")); // Pink
-
-        colorOptionsDataSet.add(Color.parseColor("#9C27B0")); // Purple
-        colorOptionsDataSet.add(Color.parseColor("#673AB7")); // Deep Purple
-        colorOptionsDataSet.add(Color.parseColor("#3F51B5")); // Indigo
-        colorOptionsDataSet.add(Color.parseColor("#2196F3")); // Blue
-        colorOptionsDataSet.add(Color.parseColor("#03A9F4")); // Light Blue
-
-        colorOptionsDataSet.add(Color.parseColor("#00BCD4")); // Cyan
-        colorOptionsDataSet.add(Color.parseColor("#009688")); // Teal
-        colorOptionsDataSet.add(Color.parseColor("#4CAF50")); // Green
-        colorOptionsDataSet.add(Color.parseColor("#8BC34A")); // Lime Green
-        colorOptionsDataSet.add(Color.parseColor("#CDDC39")); // Lime
-
-        colorOptionsDataSet.add(Color.parseColor("#607D8B")); // Blue Grey
-        colorOptionsDataSet.add(Color.parseColor("#9E9E9E")); // Grey
-        colorOptionsDataSet.add(Color.parseColor("#795548")); // Brown
-        colorOptionsDataSet.add(Color.parseColor("#000000")); // Black
-
-        return colorOptionsDataSet;
     }
 
     /**
