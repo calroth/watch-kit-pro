@@ -66,8 +66,6 @@ import java.util.concurrent.TimeUnit;
 import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
-import pro.watchkit.wearable.watchface.model.PaintBox;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanvasWatchFaceService {
@@ -186,15 +184,13 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                             .setViewProtectionMode(WatchFaceStyle.PROTECT_STATUS_BAR)
                             .build());
 
-            mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(new WatchPartDrawable[]{
-                    new WatchPartBackgroundDrawable(),
-                    new WatchPartTicksRingsDrawable(),
-                    new WatchPartComplicationsDrawable(),
-                    new WatchPartHandsDrawable(),
-                    new WatchPartStatsDrawable()});
-            getWatchFaceState().preset = new WatchFacePreset();
-            getWatchFaceState().paintBox =
-                    new PaintBox(context, getWatchFaceState().preset);
+            mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(context,
+                    new WatchPartDrawable[]{
+                            new WatchPartBackgroundDrawable(),
+                            new WatchPartTicksRingsDrawable(),
+                            new WatchPartComplicationsDrawable(),
+                            new WatchPartHandsDrawable(),
+                            new WatchPartStatsDrawable()});
 
             loadSavedPreferences();
             initializeComplications();
@@ -249,7 +245,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
         // Pulls all user's preferences for watch face appearance.
         private void loadSavedPreferences() {
-            getWatchFaceState().preset.setString(mSharedPref.getString(
+            getWatchFaceState().getWatchFacePreset().setString(mSharedPref.getString(
                     getApplicationContext().getString(R.string.saved_watch_face_preset),
                     null));
 

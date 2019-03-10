@@ -30,7 +30,7 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 public class WatchFaceState {
-    public WatchFacePreset preset;
+    private WatchFacePreset mWatchFacePreset = new WatchFacePreset();
     public PaintBox paintBox;
     public Collection<ComplicationHolder> complications = new ArrayList<>();
     public int unreadNotifications;
@@ -46,6 +46,10 @@ public class WatchFaceState {
             Color.argb(0xff, 0xaa, 0xaa, 0xaa);
 
     private int currentComplicationWhite, currentComplicationGrey;
+
+    public WatchFaceState(Context context) {
+        paintBox = new PaintBox(context, mWatchFacePreset);
+    }
 
     /**
      * Get the current time as milliseconds from the calendar's time.
@@ -295,5 +299,9 @@ public class WatchFaceState {
 
     public LocationCalculator getLocationCalculator() {
         return mLocationCalculator;
+    }
+
+    public WatchFacePreset getWatchFacePreset() {
+        return mWatchFacePreset;
     }
 }

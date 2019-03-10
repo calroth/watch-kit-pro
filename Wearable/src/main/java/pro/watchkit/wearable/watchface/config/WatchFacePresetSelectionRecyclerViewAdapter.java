@@ -28,8 +28,6 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 import pro.watchkit.wearable.watchface.R;
-import pro.watchkit.wearable.watchface.model.PaintBox;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 /**
@@ -43,13 +41,10 @@ public class WatchFacePresetSelectionRecyclerViewAdapter extends
         RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final String TAG = WatchFacePresetSelectionRecyclerViewAdapter.class.getSimpleName();
 
-    private WatchFacePreset[] mWatchFacePresets;
-    private PaintBox[] mPaintBoxes;
+    private String[] mWatchFacePresetStrings;
 
-    public WatchFacePresetSelectionRecyclerViewAdapter(WatchFacePreset[] watchFacePresets,
-                                                       PaintBox[] paintBoxes) {
-        mWatchFacePresets = watchFacePresets;
-        mPaintBoxes = paintBoxes;
+    public WatchFacePresetSelectionRecyclerViewAdapter(String[] watchFacePresetStrings) {
+        mWatchFacePresetStrings = watchFacePresetStrings;
     }
 
     @Override
@@ -67,12 +62,12 @@ public class WatchFacePresetSelectionRecyclerViewAdapter extends
         Log.d(TAG, "Element " + position + " set.");
 
         WatchFacePresetViewHolder watchFacePresetViewHolder = (WatchFacePresetViewHolder) viewHolder;
-        watchFacePresetViewHolder.setPreset(mWatchFacePresets[position], mPaintBoxes[position]);
+        watchFacePresetViewHolder.setPreset(mWatchFacePresetStrings[position]);
     }
 
     @Override
     public int getItemCount() {
-        return mWatchFacePresets.length;
+        return mWatchFacePresetStrings.length;
     }
 
     /**
@@ -84,28 +79,30 @@ public class WatchFacePresetSelectionRecyclerViewAdapter extends
 
         private CircledImageView mColorCircleImageView;
 
+        private WatchFaceGlobalDrawable mWatchFaceGlobalDrawable;
+
         public WatchFacePresetViewHolder(final View view) {
             super(view);
             mColorCircleImageView = view.findViewById(R.id.color);
             view.setOnClickListener(this);
+            mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(view.getContext());
         }
 
-        public void setPreset(WatchFacePreset watchFacePreset, PaintBox paintBox) {
-            WatchFaceGlobalDrawable drawable = new WatchFaceGlobalDrawable();
-            drawable.getWatchFaceState().preset = watchFacePreset;
-            drawable.getWatchFaceState().paintBox = paintBox;
-            drawable.getWatchFaceState().unreadNotifications = 0;
-            drawable.getWatchFaceState().totalNotifications = 0;
-            drawable.getWatchFaceState().ambient = false;
-            mColorCircleImageView.setImageDrawable(drawable);
+        public void setPreset(String watchFacePresetString) {
+            mWatchFaceGlobalDrawable.getWatchFaceState().getWatchFacePreset().setString(
+                    watchFacePresetString);
+            mWatchFaceGlobalDrawable.getWatchFaceState().unreadNotifications = 0;
+            mWatchFaceGlobalDrawable.getWatchFaceState().totalNotifications = 0;
+            mWatchFaceGlobalDrawable.getWatchFaceState().ambient = false;
+            mColorCircleImageView.setImageDrawable(mWatchFaceGlobalDrawable);
         }
 
         @Override
         public void onClick(View view) {
             int position = getAdapterPosition();
-            WatchFacePreset watchFacePreset = mWatchFacePresets[position];
+            String watchFacePresetString = mWatchFacePresetStrings[position];
 
-            Log.d(TAG, "WatchFacePreset: " + watchFacePreset + " onClick() position: " + position);
+            Log.d(TAG, "WatchFacePreset: " + watchFacePresetString + " onClick() position: " + position);
 
             Activity activity = (Activity) view.getContext();
 
@@ -114,7 +111,7 @@ public class WatchFacePresetSelectionRecyclerViewAdapter extends
                     Context.MODE_PRIVATE);
 
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putString(activity.getString(R.string.saved_watch_face_preset), watchFacePreset.getString());
+            editor.putString(activity.getString(R.string.saved_watch_face_preset), watchFacePresetString);
             editor.commit();
 
             // Lets Complication Config Activity know there was an update to colors.

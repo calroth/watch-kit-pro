@@ -18,6 +18,7 @@
 
 package pro.watchkit.wearable.watchface.watchface;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.PixelFormat;
@@ -33,20 +34,25 @@ import pro.watchkit.wearable.watchface.model.WatchFaceState;
  */
 public class WatchFaceGlobalDrawable extends Drawable {
     private WatchPartDrawable[] mWatchPartDrawables;
-    private WatchFaceState mWatchFaceState = new WatchFaceState();
+    private WatchFaceState mWatchFaceState;
 
-    WatchFaceGlobalDrawable(WatchPartDrawable[] watchPartDrawables) {
+    WatchFaceGlobalDrawable(Context context, WatchPartDrawable[] watchPartDrawables) {
         mWatchPartDrawables = watchPartDrawables;
+
+        mWatchFaceState = new WatchFaceState(context);
+
         for (WatchPartDrawable d : mWatchPartDrawables) {
             d.setState(mWatchFaceState);
         }
     }
 
-    public WatchFaceGlobalDrawable() {
+    public WatchFaceGlobalDrawable(Context context) {
         mWatchPartDrawables = new WatchPartDrawable[]{
                 new WatchPartBackgroundDrawable(),
                 new WatchPartTicksRingsDrawable(),
                 new WatchPartHandsDrawable()};
+
+        mWatchFaceState = new WatchFaceState(context);
 
         for (WatchPartDrawable d : mWatchPartDrawables) {
             d.setState(mWatchFaceState);

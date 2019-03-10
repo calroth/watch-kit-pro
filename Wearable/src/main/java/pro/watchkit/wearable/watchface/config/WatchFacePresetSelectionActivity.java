@@ -70,21 +70,8 @@ public class WatchFacePresetSelectionActivity extends Activity {
 
         String[] strings = getIntent().getStringArrayExtra(EXTRA_SHARED_PREF);
 
-        WatchFacePreset[] watchFacePresets = new WatchFacePreset[strings.length];
-        PaintBox[] paintBoxes = new PaintBox[strings.length];
-
-        // Get our presets out of the intent's extra data.
-        for (int i = 0; i < strings.length; i++) {
-            // Create a new item here.
-            watchFacePresets[i] = new WatchFacePreset();
-            watchFacePresets[i].setString(strings[i]);
-            paintBoxes[i] = new PaintBox(this, watchFacePresets[i]);
-        }
-
         mWatchFacePresetSelectionRecyclerViewAdapter =
-                new WatchFacePresetSelectionRecyclerViewAdapter(
-                        watchFacePresets,
-                        paintBoxes);
+                new WatchFacePresetSelectionRecyclerViewAdapter(strings);
 
         mWearableRecyclerView =
                 findViewById(R.id.wearable_recycler_view);

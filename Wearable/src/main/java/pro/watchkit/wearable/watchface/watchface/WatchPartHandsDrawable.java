@@ -55,7 +55,7 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
 //        Path hub = new Path();
 //        hub.addCircle(mCenterX, mCenterY, HUB_RADIUS_PERCENT * pc, Path.Direction.CCW);
 
-        WatchFacePreset preset = mWatchFaceState.preset;
+        WatchFacePreset preset = mWatchFaceState.getWatchFacePreset();
 
         /*
          * These calculations reflect the rotation in degrees per unit of time, e.g.,
