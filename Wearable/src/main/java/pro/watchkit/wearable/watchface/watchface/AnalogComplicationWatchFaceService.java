@@ -277,7 +277,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
             // Updates complications to properly render in ambient mode based on the
             // screen's capabilities.
-            for (ComplicationHolder complication : getWatchFaceState().complications) {
+            for (ComplicationHolder complication : getWatchFaceState().getComplications()) {
                 complication.setLowBitAmbientBurnInProtection(lowBitAmbient, burnInProtection);
             }
         }

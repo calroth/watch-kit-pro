@@ -84,7 +84,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
         int unreadNotifications = mWatchFaceState.unreadNotifications;
         int totalNotifications = mWatchFaceState.totalNotifications;
-        Collection<ComplicationHolder> complications = mWatchFaceState.complications;
+        Collection<ComplicationHolder> complications = mWatchFaceState.getComplications();
         Paint twelveTickPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(mWatchFaceState.getWatchFacePreset().getTwelveTickStyle());
 
         // Invalidate if complications, unread notifications or total notifications have changed.

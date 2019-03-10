@@ -32,7 +32,7 @@ import java.util.TimeZone;
 public class WatchFaceState {
     private WatchFacePreset mWatchFacePreset = new WatchFacePreset();
     private PaintBox mPaintBox;
-    public Collection<ComplicationHolder> complications = new ArrayList<>();
+    private Collection<ComplicationHolder> mComplications = new ArrayList<>();
     public int unreadNotifications;
     public int totalNotifications;
     public boolean ambient;
@@ -109,7 +109,7 @@ public class WatchFaceState {
         // Update drawable complications' ambient state.
         // Note: ComplicationDrawable handles switching between active/ambient colors, we just
         // have to inform it to enter ambient mode.
-        for (ComplicationHolder complication : complications) {
+        for (ComplicationHolder complication : mComplications) {
             complication.setAmbientMode(inAmbientMode);
         }
     }
@@ -117,7 +117,7 @@ public class WatchFaceState {
     public void onComplicationDataUpdate(
             int complicationId, ComplicationData complicationData) {
         // Updates correct ComplicationDrawable with updated data.
-        for (ComplicationHolder complication : complications) {
+        for (ComplicationHolder complication : mComplications) {
             if (complication.getId() == complicationId) {
                 switch (complicationData.getType()) {
                     case ComplicationData.TYPE_EMPTY:
@@ -136,7 +136,7 @@ public class WatchFaceState {
 
     public boolean onComplicationTap(int x, int y) {
         // Try all foreground complications first, before background complications.
-        for (ComplicationHolder complication : complications) {
+        for (ComplicationHolder complication : mComplications) {
             if (complication.isForeground) {
                 boolean successfulTap = complication.onDrawableTap(x, y);
 
@@ -146,7 +146,7 @@ public class WatchFaceState {
             }
         }
         // Try all background complications.
-        for (ComplicationHolder complication : complications) {
+        for (ComplicationHolder complication : mComplications) {
             if (!complication.isForeground) {
                 boolean successfulTap = complication.onDrawableTap(x, y);
 
@@ -171,29 +171,29 @@ public class WatchFaceState {
         // and background, but you could add many more.
         ComplicationHolder.resetBaseId();
 
-        complications.clear();
+        mComplications.clear();
         {
             final ComplicationHolder b = new ComplicationHolder(context);
             b.isForeground = false;
             b.isActive = false;
             b.setDrawableCallback(invalidateCallback);
-            complications.add(b);
+            mComplications.add(b);
         }
 
         for (int i = 0; i < FOREGROUND_COMPLICATION_COUNT; i++) {
             final ComplicationHolder f = new ComplicationHolder(context);
             f.isForeground = true;
             f.setDrawableCallback(invalidateCallback);
-            complications.add(f);
+            mComplications.add(f);
         }
 
         // Adds new complications to a SparseArray to simplify setting styles and ambient
         // properties for all complications, i.e., iterate over them all.
         setComplicationsActiveAndAmbientColors();
 
-        int[] complicationIds = new int[complications.size()];
+        int[] complicationIds = new int[mComplications.size()];
         int i = 0;
-        for (ComplicationHolder complication : complications) {
+        for (ComplicationHolder complication : mComplications) {
             complicationIds[i] = complication.getId();
             i++;
         }
@@ -216,7 +216,7 @@ public class WatchFaceState {
         int midpointOfScreen = width / 2;
 
         int i = 0;
-        for (ComplicationHolder complication : complications) {
+        for (ComplicationHolder complication : mComplications) {
             if (complication.isForeground) {
                 // Foreground
                 float degrees = (float) ((i + 0.5f) * Math.PI * 2 / FOREGROUND_COMPLICATION_COUNT);
@@ -266,7 +266,7 @@ public class WatchFaceState {
      * again if the user changes the highlight color via AnalogComplicationConfigActivity.
      */
     private void setComplicationsActiveAndAmbientColors(int primaryComplicationColor) {
-        for (ComplicationHolder complication : complications) {
+        for (ComplicationHolder complication : mComplications) {
             complication.setColors(primaryComplicationColor);
         }
     }
@@ -281,7 +281,7 @@ public class WatchFaceState {
 
         if (currentComplicationWhite != newComplicationWhite
                 || currentComplicationGrey != newComplicationGrey) {
-            for (ComplicationHolder complication : complications) {
+            for (ComplicationHolder complication : mComplications) {
                 complication.setAmbientColors(
                         newComplicationWhite, newComplicationGrey, newComplicationGrey);
             }
@@ -307,5 +307,9 @@ public class WatchFaceState {
 
     public PaintBox getPaintBox() {
         return mPaintBox;
+    }
+
+    public Collection<ComplicationHolder> getComplications() {
+        return mComplications;
     }
 }

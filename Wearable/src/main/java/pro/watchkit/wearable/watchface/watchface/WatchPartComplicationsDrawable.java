@@ -28,7 +28,7 @@ final class WatchPartComplicationsDrawable extends WatchPartDrawable {
     public void draw(@NonNull Canvas canvas) {
         super.draw(canvas);
 
-        for (ComplicationHolder complication : mWatchFaceState.complications) {
+        for (ComplicationHolder complication : mWatchFaceState.getComplications()) {
             complication.draw(canvas, mWatchFaceState.getTimeInMillis());
         }
     }
