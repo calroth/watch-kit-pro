@@ -273,7 +273,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             boolean burnInProtection = properties.getBoolean(PROPERTY_BURN_IN_PROTECTION, false);
 
 //            painter.setLowBitAmbientBurnInProtection(lowBitAmbient, burnInProtection);
-            getWatchFaceState().paintBox.getAmbientPaint().setAntiAlias(!lowBitAmbient);
+            getWatchFaceState().getPaintBox().getAmbientPaint().setAntiAlias(!lowBitAmbient);
 
             // Updates complications to properly render in ambient mode based on the
             // screen's capabilities.

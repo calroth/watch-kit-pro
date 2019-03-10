@@ -85,7 +85,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
         int unreadNotifications = mWatchFaceState.unreadNotifications;
         int totalNotifications = mWatchFaceState.totalNotifications;
         Collection<ComplicationHolder> complications = mWatchFaceState.complications;
-        Paint twelveTickPaint = mWatchFaceState.paintBox.getPaintFromPreset(mWatchFaceState.getWatchFacePreset().getTwelveTickStyle());
+        Paint twelveTickPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(mWatchFaceState.getWatchFacePreset().getTwelveTickStyle());
 
         // Invalidate if complications, unread notifications or total notifications have changed.
         int currentSerial = Objects.hash(twelveTickPaint, complications, unreadNotifications, totalNotifications);
@@ -357,13 +357,13 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                 int color = -1;
                 // Save and restore ambient color; for caching we always use white.
                 if (mWatchFaceState.ambient) {
-                    color = mWatchFaceState.paintBox.getAmbientPaint().getColor();
-                    mWatchFaceState.paintBox.getAmbientPaint().setColor(PaintBox.AMBIENT_WHITE);
+                    color = mWatchFaceState.getPaintBox().getAmbientPaint().getColor();
+                    mWatchFaceState.getPaintBox().getAmbientPaint().setColor(PaintBox.AMBIENT_WHITE);
                 }
                 drawPath(tempCanvas, p, twelveTickPaint);
 //                drawPath(tempCanvas, p, mPaintBox.getTickPaint());
                 if (mWatchFaceState.ambient) {
-                    mWatchFaceState.paintBox.getAmbientPaint().setColor(color);
+                    mWatchFaceState.getPaintBox().getAmbientPaint().setColor(color);
                 }
 
                 // Hardware Bitmap Power

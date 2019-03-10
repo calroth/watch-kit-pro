@@ -54,10 +54,10 @@ abstract class WatchPartDrawable extends Drawable {
             float mBevelOffset = 0.2f; // 0.2%
 
             // Shadow
-            canvas.drawPath(p, mWatchFaceState.paintBox.getShadowPaint());
+            canvas.drawPath(p, mWatchFaceState.getPaintBox().getShadowPaint());
             // Primary bevel, offset to the top left
             {
-                Paint bezelPaint1 = mWatchFaceState.paintBox.getBezelPaint1();
+                Paint bezelPaint1 = mWatchFaceState.getPaintBox().getBezelPaint1();
                 Path primaryP = new Path();
                 p.offset(-(mBevelOffset * pc), -(mBevelOffset * pc), primaryP);
                 bezelPaint1.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -65,7 +65,7 @@ abstract class WatchPartDrawable extends Drawable {
             }
             // Secondary bevel, offset to the top right
             {
-                Paint bezelPaint2 = mWatchFaceState.paintBox.getBezelPaint2();
+                Paint bezelPaint2 = mWatchFaceState.getPaintBox().getBezelPaint2();
                 Path secondaryP = new Path();
                 p.offset((mBevelOffset * pc), (mBevelOffset * pc), secondaryP);
                 bezelPaint2.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -77,7 +77,7 @@ abstract class WatchPartDrawable extends Drawable {
         } else {
             // Ambient.
             // The path itself.
-            canvas.drawPath(p, mWatchFaceState.paintBox.getAmbientPaint());
+            canvas.drawPath(p, mWatchFaceState.getPaintBox().getAmbientPaint());
         }
     }
 
@@ -108,7 +108,7 @@ abstract class WatchPartDrawable extends Drawable {
     @Override
     public void draw(@NonNull Canvas canvas) {
         // Check width and height.
-        mWatchFaceState.paintBox.onWidthAndHeightChanged(canvas.getWidth(), canvas.getHeight());
+        mWatchFaceState.getPaintBox().onWidthAndHeightChanged(canvas.getWidth(), canvas.getHeight());
         if (canvas.getWidth() != width || canvas.getHeight() != height) {
             onWidthAndHeightChanged(canvas);
         }

@@ -31,7 +31,7 @@ import java.util.TimeZone;
 
 public class WatchFaceState {
     private WatchFacePreset mWatchFacePreset = new WatchFacePreset();
-    public PaintBox paintBox;
+    private PaintBox mPaintBox;
     public Collection<ComplicationHolder> complications = new ArrayList<>();
     public int unreadNotifications;
     public int totalNotifications;
@@ -48,7 +48,7 @@ public class WatchFaceState {
     private int currentComplicationWhite, currentComplicationGrey;
 
     public WatchFaceState(Context context) {
-        paintBox = new PaintBox(context, mWatchFacePreset);
+        mPaintBox = new PaintBox(context, mWatchFacePreset);
     }
 
     /**
@@ -255,7 +255,7 @@ public class WatchFaceState {
      */
     public void setComplicationsActiveAndAmbientColors() {
         setComplicationsActiveAndAmbientColors(
-                paintBox.getColor(WatchFacePreset.ColorType.HIGHLIGHT));
+                mPaintBox.getColor(WatchFacePreset.ColorType.HIGHLIGHT));
     }
 
     /* Sets active/ambient mode colors for all complications.
@@ -303,5 +303,9 @@ public class WatchFaceState {
 
     public WatchFacePreset getWatchFacePreset() {
         return mWatchFacePreset;
+    }
+
+    public PaintBox getPaintBox() {
+        return mPaintBox;
     }
 }
