@@ -35,7 +35,7 @@ public class WatchFaceState {
     private Collection<ComplicationHolder> mComplications = new ArrayList<>();
     public int unreadNotifications;
     public int totalNotifications;
-    public boolean ambient;
+    private boolean mAmbient = false;
     private GregorianCalendar mCalendar = new GregorianCalendar();
     private LocationCalculator mLocationCalculator = new LocationCalculator(mCalendar);
 
@@ -104,7 +104,7 @@ public class WatchFaceState {
     }
 
     public void onAmbientModeChanged(boolean inAmbientMode) {
-        ambient = inAmbientMode;
+        mAmbient = inAmbientMode;
 
         // Update drawable complications' ambient state.
         // Note: ComplicationDrawable handles switching between active/ambient colors, we just
@@ -311,5 +311,13 @@ public class WatchFaceState {
 
     public Collection<ComplicationHolder> getComplications() {
         return mComplications;
+    }
+
+    public boolean isAmbient() {
+        return mAmbient;
+    }
+
+    public void setAmbient(boolean ambient) {
+        mAmbient = ambient;
     }
 }

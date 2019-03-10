@@ -50,7 +50,7 @@ abstract class WatchPartDrawable extends Drawable {
         // Primary bevel
         // Secondary bevel
         // And finally the path itself.
-        if (!mWatchFaceState.ambient) {
+        if (!mWatchFaceState.isAmbient()) {
             float mBevelOffset = 0.2f; // 0.2%
 
             // Shadow

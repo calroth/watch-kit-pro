@@ -367,7 +367,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
-            boolean prevAmbient = getWatchFaceState().ambient;
+            boolean prevAmbient = getWatchFaceState().isAmbient();
             super.onDraw(canvas, bounds);
 
             int unreadNotifications = mUnreadNotificationsPreference ? getUnreadCount() : 0;
@@ -395,7 +395,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 //              s++;
 //          }
 
-            if (prevAmbient != getWatchFaceState().ambient) {
+            if (prevAmbient != getWatchFaceState().isAmbient()) {
                 WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_WTF;
                 invalidate();
             }

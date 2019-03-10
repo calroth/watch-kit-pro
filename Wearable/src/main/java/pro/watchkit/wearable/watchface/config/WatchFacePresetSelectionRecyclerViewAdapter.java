@@ -93,7 +93,7 @@ public class WatchFacePresetSelectionRecyclerViewAdapter extends
                     watchFacePresetString);
             mWatchFaceGlobalDrawable.getWatchFaceState().unreadNotifications = 0;
             mWatchFaceGlobalDrawable.getWatchFaceState().totalNotifications = 0;
-            mWatchFaceGlobalDrawable.getWatchFaceState().ambient = false;
+            mWatchFaceGlobalDrawable.getWatchFaceState().setAmbient(false);
             mColorCircleImageView.setImageDrawable(mWatchFaceGlobalDrawable);
         }
 

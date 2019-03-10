@@ -47,7 +47,7 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
         super.draw(canvas);
 
         if (drawStats) {
-            Paint textPaint = mWatchFaceState.ambient
+            Paint textPaint = mWatchFaceState.isAmbient()
                     ? mWatchFaceState.getPaintBox().getAmbientPaint() : mWatchFaceState.getPaintBox().getFillHighlightPaint();
 
             canvas.drawText(mInvalidTrigger, 20f * pc, 35f * pc, textPaint);

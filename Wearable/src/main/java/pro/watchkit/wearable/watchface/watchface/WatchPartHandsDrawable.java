@@ -96,7 +96,7 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
          * Ensure the "seconds" hand is drawn only when we are in interactive mode.
          * Otherwise, we only update the watch face once a minute.
          */
-        if (!mWatchFaceState.ambient) {
+        if (!mWatchFaceState.isAmbient()) {
             Paint secondHandPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(preset.getSecondHandStyle());
             // Add the hub to the second hand in interactive mode.
             Path secondHandShape = getSecondHandShape(preset, secondsRotation);
@@ -155,7 +155,7 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
 
         // Reset mHourHandPath and rotate the relevant hand into it.
         mHourHandPath.reset();
-        if (mWatchFaceState.ambient)
+        if (mWatchFaceState.isAmbient())
             mHourHandAmbientPath.transform(m, mHourHandPath);
         else
             mHourHandActivePath.transform(m, mHourHandPath);
@@ -200,7 +200,7 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
 
         // Reset mMinuteHandPath and rotate the relevant hand into it.
         mMinuteHandPath.reset();
-        if (mWatchFaceState.ambient)
+        if (mWatchFaceState.isAmbient())
             mMinuteHandAmbientPath.transform(m, mMinuteHandPath);
         else
             mMinuteHandActivePath.transform(m, mMinuteHandPath);
