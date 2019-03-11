@@ -44,6 +44,7 @@ import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.AnalogComplicationConfigActivity;
 import pro.watchkit.wearable.watchface.config.AnalogComplicationConfigRecyclerViewAdapter;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
+import pro.watchkit.wearable.watchface.config.WatchFacePresetSelectionActivity;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
 /**
@@ -110,6 +111,38 @@ public class AnalogComplicationConfigData {
                 WatchFacePreset.ColorType.BASE,
 //                context.getString(R.string.saved_base_color),
                 ColorSelectionActivity.class));
+
+        // Data for hour hand shape in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_hour_hand_shape),
+                R.drawable.icn_styles,
+//                WatchFacePreset.ColorType.BASE,
+//                context.getString(R.string.saved_base_color),
+                WatchFacePresetSelectionActivity.class));
+
+        // Data for hour hand length in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_hour_hand_length),
+                R.drawable.icn_styles,
+//                WatchFacePreset.ColorType.BASE,
+//                context.getString(R.string.saved_base_color),
+                WatchFacePresetSelectionActivity.class));
+
+        // Data for hour hand thickness in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_hour_hand_thickness),
+                R.drawable.icn_styles,
+//                WatchFacePreset.ColorType.BASE,
+//                context.getString(R.string.saved_base_color),
+                WatchFacePresetSelectionActivity.class));
+
+        // Data for hour hand stalk in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_hour_hand_stalk),
+                R.drawable.icn_styles,
+//                WatchFacePreset.ColorType.BASE,
+//                context.getString(R.string.saved_base_color),
+                WatchFacePresetSelectionActivity.class));
 
         // Data for Background color UX in settings Activity.
 //        ConfigItemType backgroundColorConfigItem =
@@ -243,6 +276,53 @@ public class AnalogComplicationConfigData {
         @Override
         public int getConfigType() {
             return AnalogComplicationConfigRecyclerViewAdapter.TYPE_COLOR_CONFIG;
+        }
+    }
+
+    /**
+     * Data for color picker item in RecyclerView.
+     */
+    public static class WatchFacePresetConfigItem implements ConfigItemType {
+
+        private String name;
+        private int iconResourceId;
+        //        private WatchFacePreset.ColorType mColorType;
+        private Class<WatchFacePresetSelectionActivity> activityToChoosePreference;
+
+        WatchFacePresetConfigItem(
+                String name,
+                int iconResourceId,
+//                WatchFacePreset.ColorType colorType,
+                Class<WatchFacePresetSelectionActivity> activity) {
+            this.name = name;
+            this.iconResourceId = iconResourceId;
+//            this.mColorType = colorType;
+            this.activityToChoosePreference = activity;
+        }
+
+//        public WatchFacePreset.ColorType getType() {
+//            return mColorType;
+//        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getIconResourceId() {
+            return iconResourceId;
+        }
+
+//        public String getSharedPrefString() {
+//            return sharedPrefString;
+//        }
+
+        public Class<WatchFacePresetSelectionActivity> getActivityToChoosePreference() {
+            return activityToChoosePreference;
+        }
+
+        @Override
+        public int getConfigType() {
+            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_CONFIG;
         }
     }
 
