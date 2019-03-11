@@ -29,6 +29,34 @@ import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+/**
+ * The state class for our watch face.
+ * <p>
+ * This class attempts to capture all the state for our watch face, leaving everything else (in
+ * particular the display classes) stateless. By "state" we mean preferences like the following:
+ * <ul>
+ * <li>The user's selected watch face preset</li>
+ * <li>The number of complication slots to display</li>
+ * <li>The user's selected complications (i.e. what to fill the slots with)</li>
+ * <li>Any other user preferences</li>
+ * </ul>
+ * <p>
+ * And by "state" we also mean anything else relevant to the display of a watch face, like:
+ * <ul>
+ * <li>The current (or selected) time, date and time zone</li>
+ * <li>The user's current location</li>
+ * <li>The current data for any selected complications</li>
+ * <li>The current number of notifications, of which, how many are unread</li>
+ * <li>Whether the watch is currently switched on, or in "ambient" (or "always-on") state</li>
+ * </ul>
+ * <p>
+ * Again, it's all held in this model class so that our display/UI classes are stateless. With a
+ * fully populated WatchFaceState object, you have enough information to render your watch face
+ * from scratch.
+ * <p>
+ * When creating a WatchFaceState object, you'll need to pass a Context. This is so we can get
+ * the relevant resources out of the application (e.g. localised UI strings).
+ */
 public class WatchFaceState {
     private WatchFacePreset mWatchFacePreset = new WatchFacePreset();
     private PaintBox mPaintBox;
