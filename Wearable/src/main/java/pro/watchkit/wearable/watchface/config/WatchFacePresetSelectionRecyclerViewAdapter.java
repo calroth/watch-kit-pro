@@ -54,7 +54,7 @@ public class WatchFacePresetSelectionRecyclerViewAdapter extends
 
         RecyclerView.ViewHolder viewHolder =
                 new WatchFacePresetViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.color_config_list_item, parent, false));
+                        .inflate(R.layout.watch_face_preset_config_list_item, parent, false));
         return viewHolder;
     }
 
@@ -84,7 +84,7 @@ public class WatchFacePresetSelectionRecyclerViewAdapter extends
 
         public WatchFacePresetViewHolder(final View view) {
             super(view);
-            mColorCircleImageView = view.findViewById(R.id.color);
+            mColorCircleImageView = view.findViewById(R.id.watch_face_preset);
             view.setOnClickListener(this);
             mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(view.getContext());
         }

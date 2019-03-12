@@ -38,6 +38,7 @@ import android.content.Context;
 
 import java.util.ArrayList;
 
+import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import pro.watchkit.wearable.watchface.R;
@@ -113,36 +114,20 @@ public class AnalogComplicationConfigData {
                 ColorSelectionActivity.class));
 
         // Data for hour hand shape in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
-                context.getString(R.string.config_preset_hour_hand_shape),
-                R.drawable.icn_styles,
-//                WatchFacePreset.ColorType.BASE,
-//                context.getString(R.string.saved_base_color),
-                WatchFacePresetSelectionActivity.class));
+        settingsConfigData.add(new WatchFacePresetHourHandShapeConfigItem(
+                context, R.drawable.icn_styles, WatchFacePresetSelectionActivity.class));
 
         // Data for hour hand length in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
-                context.getString(R.string.config_preset_hour_hand_length),
-                R.drawable.icn_styles,
-//                WatchFacePreset.ColorType.BASE,
-//                context.getString(R.string.saved_base_color),
-                WatchFacePresetSelectionActivity.class));
+        settingsConfigData.add(new WatchFacePresetHourHandLengthConfigItem(
+                context, R.drawable.icn_styles, WatchFacePresetSelectionActivity.class));
 
         // Data for hour hand thickness in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
-                context.getString(R.string.config_preset_hour_hand_thickness),
-                R.drawable.icn_styles,
-//                WatchFacePreset.ColorType.BASE,
-//                context.getString(R.string.saved_base_color),
-                WatchFacePresetSelectionActivity.class));
+        settingsConfigData.add(new WatchFacePresetHourHandThicknessConfigItem(
+                context, R.drawable.icn_styles, WatchFacePresetSelectionActivity.class));
 
         // Data for hour hand stalk in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
-                context.getString(R.string.config_preset_hour_hand_stalk),
-                R.drawable.icn_styles,
-//                WatchFacePreset.ColorType.BASE,
-//                context.getString(R.string.saved_base_color),
-                WatchFacePresetSelectionActivity.class));
+        settingsConfigData.add(new WatchFacePresetHourHandStalkConfigItem(
+                context, R.drawable.icn_styles, WatchFacePresetSelectionActivity.class));
 
         // Data for Background color UX in settings Activity.
 //        ConfigItemType backgroundColorConfigItem =
@@ -279,30 +264,22 @@ public class AnalogComplicationConfigData {
         }
     }
 
-    /**
-     * Data for color picker item in RecyclerView.
-     */
-    public static class WatchFacePresetConfigItem implements ConfigItemType {
+    public static abstract class WatchFacePresetConfigItem implements ConfigItemType {
 
         private String name;
         private int iconResourceId;
         //        private WatchFacePreset.ColorType mColorType;
         private Class<WatchFacePresetSelectionActivity> activityToChoosePreference;
 
+
         WatchFacePresetConfigItem(
-                String name,
+                Context context,
                 int iconResourceId,
-//                WatchFacePreset.ColorType colorType,
                 Class<WatchFacePresetSelectionActivity> activity) {
-            this.name = name;
+            this.name = context.getString(getNameResourceId());
             this.iconResourceId = iconResourceId;
-//            this.mColorType = colorType;
             this.activityToChoosePreference = activity;
         }
-
-//        public WatchFacePreset.ColorType getType() {
-//            return mColorType;
-//        }
 
         public String getName() {
             return name;
@@ -312,10 +289,6 @@ public class AnalogComplicationConfigData {
             return iconResourceId;
         }
 
-//        public String getSharedPrefString() {
-//            return sharedPrefString;
-//        }
-
         public Class<WatchFacePresetSelectionActivity> getActivityToChoosePreference() {
             return activityToChoosePreference;
         }
@@ -323,6 +296,123 @@ public class AnalogComplicationConfigData {
         @Override
         public int getConfigType() {
             return AnalogComplicationConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_CONFIG;
+        }
+
+        @StringRes
+        int getNameResourceId() {
+            return R.string.config_preset_hour_hand_shape;
+        }
+
+        public String[] permute(WatchFacePreset watchFacePreset) {
+            return new String[]{};
+        }
+    }
+
+    private static class WatchFacePresetHourHandShapeConfigItem extends WatchFacePresetConfigItem {
+        WatchFacePresetHourHandShapeConfigItem(
+                Context context,
+                int iconResourceId, Class<WatchFacePresetSelectionActivity> activity) {
+            super(context, iconResourceId, activity);
+        }
+
+        @Override
+        @StringRes
+        int getNameResourceId() {
+            return R.string.config_preset_hour_hand_shape;
+        }
+
+        @Override
+        public String[] permute(WatchFacePreset watchFacePreset) {
+            String[] result = new String[WatchFacePreset.HandShape.values().length];
+            WatchFacePreset permutation = watchFacePreset.clone();
+            int i = 0;
+            for (WatchFacePreset.HandShape h : WatchFacePreset.HandShape.values()) {
+                permutation.setHourHandShape(h);
+                result[i] = permutation.getString();
+                i++;
+            }
+            return result;
+        }
+    }
+
+    private static class WatchFacePresetHourHandLengthConfigItem extends WatchFacePresetConfigItem {
+        WatchFacePresetHourHandLengthConfigItem(
+                Context context,
+                int iconResourceId, Class<WatchFacePresetSelectionActivity> activity) {
+            super(context, iconResourceId, activity);
+        }
+
+        @Override
+        @StringRes
+        int getNameResourceId() {
+            return R.string.config_preset_hour_hand_length;
+        }
+
+        @Override
+        public String[] permute(WatchFacePreset watchFacePreset) {
+            String[] result = new String[WatchFacePreset.HandLength.values().length];
+            WatchFacePreset permutation = watchFacePreset.clone();
+            int i = 0;
+            for (WatchFacePreset.HandLength h : WatchFacePreset.HandLength.values()) {
+                permutation.setHourHandLength(h);
+                result[i] = permutation.getString();
+                i++;
+            }
+            return result;
+        }
+    }
+
+    private static class WatchFacePresetHourHandThicknessConfigItem extends WatchFacePresetConfigItem {
+        WatchFacePresetHourHandThicknessConfigItem(
+                Context context,
+                int iconResourceId, Class<WatchFacePresetSelectionActivity> activity) {
+            super(context, iconResourceId, activity);
+        }
+
+        @Override
+        @StringRes
+        int getNameResourceId() {
+            return R.string.config_preset_hour_hand_thickness;
+        }
+
+        @Override
+        public String[] permute(WatchFacePreset watchFacePreset) {
+            String[] result = new String[WatchFacePreset.HandThickness.values().length];
+            WatchFacePreset permutation = watchFacePreset.clone();
+            int i = 0;
+            for (WatchFacePreset.HandThickness h : WatchFacePreset.HandThickness.values()) {
+                permutation.setHourHandThickness(h);
+                result[i] = permutation.getString();
+                i++;
+            }
+            return result;
+        }
+    }
+
+    private static class WatchFacePresetHourHandStalkConfigItem extends WatchFacePresetConfigItem {
+        WatchFacePresetHourHandStalkConfigItem(
+                Context context,
+                int iconResourceId, Class<WatchFacePresetSelectionActivity> activity) {
+            super(context, iconResourceId, activity);
+        }
+
+        @Override
+        @StringRes
+        int getNameResourceId() {
+            return R.string.config_preset_hour_hand_stalk;
+        }
+
+        @Override
+        public String[] permute(WatchFacePreset watchFacePreset) {
+            String[] result = new String[WatchFacePreset.HandStalk.values().length];
+            WatchFacePreset permutation = watchFacePreset.clone();
+            int i = 0;
+            for (WatchFacePreset.HandStalk h : WatchFacePreset.HandStalk.values()) {
+                permutation.setHourHandStalk(h);
+                result[i] = permutation.getString();
+                i++;
+            }
+            return result;
         }
     }
 

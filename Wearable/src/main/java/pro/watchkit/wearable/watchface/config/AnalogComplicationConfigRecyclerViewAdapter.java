@@ -158,6 +158,15 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     private List<ColorPickerViewHolder> mColorPickerViewHolders =
             new ArrayList<ColorPickerViewHolder>();
 
+    /**
+     * The current user-selected WatchFacePreset with what's currently stored in preferences.
+     */
+    private WatchFacePreset mCurrentWatchFacePreset = new WatchFacePreset();
+    /**
+     * A PaintBox with the current user-selected WatchFacePreset.
+     */
+    private PaintBox mCurrentPaintBox;
+
     public AnalogComplicationConfigRecyclerViewAdapter(
             Context context,
             Class watchFaceServiceClass,
@@ -192,6 +201,23 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         mProviderInfoRetriever =
                 new ProviderInfoRetriever(mContext, Executors.newCachedThreadPool());
         mProviderInfoRetriever.init();
+
+        mCurrentPaintBox = new PaintBox(context, mCurrentWatchFacePreset);
+        regenerateCurrentWatchFacePreset(context);
+    }
+
+    /**
+     * Regenerates the current WatchFacePreset with what's currently stored in preferences.
+     *
+     * @param context Current application context, to get preferences from
+     */
+    private void regenerateCurrentWatchFacePreset(Context context) {
+        SharedPreferences preferences =
+                context.getSharedPreferences(
+                        context.getString(R.string.analog_complication_preference_file_key),
+                        Context.MODE_PRIVATE);
+        mCurrentWatchFacePreset.setString(preferences.getString(
+                context.getString(R.string.saved_watch_face_preset), null));
     }
 
     @Override
@@ -341,7 +367,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
                 watchFacePresetPickerViewHolder.setIcon(iconResourceId);
                 watchFacePresetPickerViewHolder.setName(name);
-//                watchFacePresetPickerViewHolder.setType(watchFacePresetType);
+                watchFacePresetPickerViewHolder.setType(
+                        watchFacePresetConfigItem.permute(mCurrentWatchFacePreset));
 //                watchFacePresetPickerViewHolder.setSharedPrefString(sharedPrefString);
                 watchFacePresetPickerViewHolder.setLaunchActivityToSelectWatchFacePreset(activity);
                 break;
@@ -822,18 +849,9 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 //                if (mSharedPrefResourceString == null) return;
                 if (mColorType == null) return;
 
-                Context context = mAppearanceButton.getContext();
-                SharedPreferences preferences =
-                        context.getSharedPreferences(
-                                context.getString(R.string.analog_complication_preference_file_key),
-                                Context.MODE_PRIVATE);
-                WatchFacePreset preset = new WatchFacePreset();
-                preset.setString(preferences.getString(
-                        context.getString(R.string.saved_watch_face_preset), null));
+                regenerateCurrentWatchFacePreset(mAppearanceButton.getContext());
 
-                PaintBox paintBox = new PaintBox(context, preset);
-
-                @ColorInt int color = paintBox.getColor(mColorType);
+                @ColorInt int color = mCurrentPaintBox.getColor(mColorType);
 
                 // Draw a circle that's 20px from right, top and left borders.
                 float radius = (canvas.getHeight() / 2f) - 20f;
@@ -974,6 +992,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 //            }
 //        };
 
+        private String[] mPermutations;
+
         public WatchFacePresetPickerViewHolder(View view) {
             super(view);
 
@@ -995,9 +1015,9 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             itemView.invalidate();
         }
 
-//        public void setType(WatchFacePreset.ColorType colorType) {
-//            this.mColorType = colorType;
-//        }
+        public void setType(String[] permutations) {
+            mPermutations = permutations;
+        }
 
 //        public void setSharedPrefString(String sharedPrefString) {
 //            mSharedPrefResourceString = sharedPrefString;
@@ -1017,9 +1037,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 Intent launchIntent = new Intent(view.getContext(), mLaunchActivityToSelectColor);
 
                 // Pass shared preference name to save color value to.
-//                launchIntent.putExtra(EXTRA_SHARED_PREF, mSharedPrefResourceString);
-//                launchIntent.putExtra(EXTRA_SHARED_PREF, mColorType.name());
-                // TODO: Magic happens here!
+                launchIntent.putExtra(EXTRA_SHARED_PREF, mPermutations);
 
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(
