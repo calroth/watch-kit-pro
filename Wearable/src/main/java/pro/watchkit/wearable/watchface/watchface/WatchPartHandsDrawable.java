@@ -258,22 +258,27 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
         float bottom;
 
         switch (handLength) {
-            case SHORT:
+            case SHORT: {
                 length = 0.6f;
                 break;
-            case MEDIUM:
+            }
+            case MEDIUM: {
                 length = 0.8f;
                 break;
-            case LONG:
+            }
+            case LONG: {
                 length = 1.0f;
                 break;
-            case X_LONG:
+            }
+            case X_LONG: {
                 length = 1.2f;
                 break;
-            default:
+            }
+            default: {
                 // Shouldn't happen!
                 // Make same as LONG
                 length = 1.0f;
+            }
         }
 
         if (isMinuteHand) {
