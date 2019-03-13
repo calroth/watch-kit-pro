@@ -285,22 +285,27 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
         }
 
         switch (handThickness) {
-            case THIN:
+            case THIN: {
                 thickness = 0.5f;
                 break;
-            case REGULAR:
+            }
+            case REGULAR: {
                 thickness = 1.0f;
                 break;
-            case THICK:
+            }
+            case THICK: {
                 thickness = 1.5f;
                 break;
-            case X_THICK:
+            }
+            case X_THICK: {
                 thickness = 2.0f;
                 break;
-            default:
+            }
+            default: {
                 // Shouldn't happen!
                 // Make same as REGULAR
                 thickness = 1.0f;
+            }
         }
 
         if (isSecondHand) {
@@ -316,13 +321,15 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
         float stalkTopBitExtra = HUB_RADIUS_PERCENT * pc * 0.5f;
 
         switch (handStalk) {
-            case NEGATIVE:
+            case NEGATIVE: {
                 bottom = -HUB_RADIUS_PERCENT * pc * 2;
                 break;
-            case NONE:
+            }
+            case NONE: {
                 bottom = 0;
                 break;
-            case SHORT:
+            }
+            case SHORT: {
                 // Current: it's a factor of the size of the hub
                 //bottom = HUB_RADIUS_PERCENT * pc * 5;
                 // Alternate: it's a factor of the length of the stalk
@@ -340,7 +347,8 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
                 p.addRoundRect(mCenterX - straightWidth1, mCenterY - bottom - stalkTopBitExtra, mCenterX + straightWidth1,
                         mCenterY - stalkBottom, roundRectRadius, roundRectRadius, Path.Direction.CW);
                 break;
-            case MEDIUM:
+            }
+            case MEDIUM: {
                 // Current: it's a factor of the size of the hub
                 //bottom = HUB_RADIUS_PERCENT * pc * 9;
                 // Alternate: it's a factor of the length of the stalk
@@ -358,15 +366,17 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
                 p.addRoundRect(mCenterX - straightWidth2, mCenterY - bottom - stalkTopBitExtra, mCenterX + straightWidth2,
                         mCenterY - stalkBottom, roundRectRadius, roundRectRadius, Path.Direction.CW);
                 break;
-            default:
+            }
+            default: {
                 // Shouldn't happen!
                 // Make same as NONE
                 bottom = 0;
                 break;
+            }
         }
 
         switch (handShape) {
-            case STRAIGHT:
+            case STRAIGHT: {
                 float straightWidth = STRAIGHT_HAND_WIDTH_PERCENT * pc * thickness / 2f;
                 p.addRoundRect(mCenterX - straightWidth, mCenterY - length, mCenterX + straightWidth,
                         mCenterY - bottom, roundRectRadius, roundRectRadius, Path.Direction.CW);
@@ -376,7 +386,8 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
 //                p.lineTo(mCenterX - straightWidth, mCenterY - bottom);
 //                p.lineTo(mCenterX + straightWidth, mCenterY - bottom);
                 break;
-            case DIAMOND:
+            }
+            case DIAMOND: {
                 float diamondWidth = DIAMOND_HAND_ASPECT_RATIO * thickness;
                 // Add extra extension to the diamond top and bottom
                 // because the diamond shape tapers to a point
@@ -392,19 +403,23 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
                 p.close();
                 //p.lineTo(mCenterX, mCenterY - diamondTop);
                 break;
-            case ROUNDED:
+            }
+            case ROUNDED: {
                 break;
-            case UNKNOWN1:
+            }
+            case UNKNOWN1: {
                 break;
+            }
         }
 
         float cutoutWidth = 0.8f * pc; // 0.8 percent
 
         // Cutout
         switch (handShape) {
-            case STRAIGHT:
+            case STRAIGHT: {
                 break;
-            case DIAMOND:
+            }
+            case DIAMOND: {
                 float diamondWidth = DIAMOND_HAND_ASPECT_RATIO * thickness;
                 // Add extra extension to the diamond top and bottom
                 // because the diamond shape tapers to a point
@@ -448,22 +463,27 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
                 p.op(cutout, Path.Op.DIFFERENCE);
 
                 break;
-            case ROUNDED:
+            }
+            case ROUNDED: {
                 break;
-            case UNKNOWN1:
+            }
+            case UNKNOWN1: {
                 break;
+            }
         }
 
         // Stalk cutout
         RectF r;
         switch (handStalk) {
-            case NEGATIVE:
+            case NEGATIVE: {
                 bottom = -HUB_RADIUS_PERCENT * pc * 2;
                 break;
-            case NONE:
+            }
+            case NONE: {
                 bottom = 0;
                 break;
-            case SHORT:
+            }
+            case SHORT: {
                 // Current: it's a factor of the size of the hub
                 //bottom = HUB_RADIUS_PERCENT * pc * 5;
                 // Alternate: it's a factor of the length of the stalk
@@ -489,7 +509,8 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
                     p.op(cutout, Path.Op.DIFFERENCE);
                 }
                 break;
-            case MEDIUM:
+            }
+            case MEDIUM: {
                 // Current: it's a factor of the size of the hub
                 //bottom = HUB_RADIUS_PERCENT * pc * 9;
                 // Alternate: it's a factor of the length of the stalk
@@ -515,11 +536,13 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
                     p.op(cutout, Path.Op.DIFFERENCE);
                 }
                 break;
-            default:
+            }
+            default: {
                 // Shouldn't happen!
                 // Make same as NONE
                 bottom = 0;
                 break;
+            }
         }
 
         // Add the stalk!
