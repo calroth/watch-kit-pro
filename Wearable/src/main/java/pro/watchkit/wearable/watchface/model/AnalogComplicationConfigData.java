@@ -115,17 +115,16 @@ public class AnalogComplicationConfigData {
         // Data for hour hand shape in settings Activity.
         settingsConfigData.add(new WatchFacePresetConfigItem(
                 context.getString(R.string.config_preset_hour_hand_shape),
-                R.drawable.icn_styles, WatchFacePresetSelectionActivity.class,
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
                 new WatchFacePresetMutator() {
                     @Override
-                    public String[] permute(WatchFacePreset watchFacePreset) {
+                    public String[] permute(WatchFacePreset permutation) {
                         String[] result = new String[WatchFacePreset.HandShape.values().length];
-                        WatchFacePreset permutation = watchFacePreset.clone();
                         int i = 0;
                         for (WatchFacePreset.HandShape h : WatchFacePreset.HandShape.values()) {
                             permutation.setHourHandShape(h);
-                            result[i] = permutation.getString();
-                            i++;
+                            result[i++] = permutation.getString();
                         }
                         return result;
                     }
@@ -134,17 +133,16 @@ public class AnalogComplicationConfigData {
         // Data for hour hand length in settings Activity.
         settingsConfigData.add(new WatchFacePresetConfigItem(
                 context.getString(R.string.config_preset_hour_hand_length),
-                R.drawable.icn_styles, WatchFacePresetSelectionActivity.class,
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
                 new WatchFacePresetMutator() {
                     @Override
-                    public String[] permute(WatchFacePreset watchFacePreset) {
+                    public String[] permute(WatchFacePreset permutation) {
                         String[] result = new String[WatchFacePreset.HandLength.values().length];
-                        WatchFacePreset permutation = watchFacePreset.clone();
                         int i = 0;
                         for (WatchFacePreset.HandLength h : WatchFacePreset.HandLength.values()) {
                             permutation.setHourHandLength(h);
-                            result[i] = permutation.getString();
-                            i++;
+                            result[i++] = permutation.getString();
                         }
                         return result;
                     }
@@ -153,17 +151,16 @@ public class AnalogComplicationConfigData {
         // Data for hour hand thickness in settings Activity.
         settingsConfigData.add(new WatchFacePresetConfigItem(
                 context.getString(R.string.config_preset_hour_hand_thickness),
-                R.drawable.icn_styles, WatchFacePresetSelectionActivity.class,
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
                 new WatchFacePresetMutator() {
                     @Override
-                    public String[] permute(WatchFacePreset watchFacePreset) {
+                    public String[] permute(WatchFacePreset permutation) {
                         String[] result = new String[WatchFacePreset.HandThickness.values().length];
-                        WatchFacePreset permutation = watchFacePreset.clone();
                         int i = 0;
                         for (WatchFacePreset.HandThickness h : WatchFacePreset.HandThickness.values()) {
                             permutation.setHourHandThickness(h);
-                            result[i] = permutation.getString();
-                            i++;
+                            result[i++] = permutation.getString();
                         }
                         return result;
                     }
@@ -172,17 +169,236 @@ public class AnalogComplicationConfigData {
         // Data for hour hand stalk in settings Activity.
         settingsConfigData.add(new WatchFacePresetConfigItem(
                 context.getString(R.string.config_preset_hour_hand_stalk),
-                R.drawable.icn_styles, WatchFacePresetSelectionActivity.class,
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
                 new WatchFacePresetMutator() {
                     @Override
-                    public String[] permute(WatchFacePreset watchFacePreset) {
+                    public String[] permute(WatchFacePreset permutation) {
                         String[] result = new String[WatchFacePreset.HandStalk.values().length];
-                        WatchFacePreset permutation = watchFacePreset.clone();
                         int i = 0;
                         for (WatchFacePreset.HandStalk h : WatchFacePreset.HandStalk.values()) {
                             permutation.setHourHandStalk(h);
-                            result[i] = permutation.getString();
-                            i++;
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for hour hand style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_hour_hand_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.Style.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.Style h : WatchFacePreset.Style.values()) {
+                            permutation.setHourHandStyle(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for hour hand cutout in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_hour_hand_cutout),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        // TODO: fill this in
+                        return new String[]{permutation.getString()};
+//                        String[] result = new String[WatchFacePreset.HandStalk.values().length];
+//                        int i = 0;
+//                        for (WatchFacePreset.HandStalk h : WatchFacePreset.HandStalk.values()) {
+//                            permutation.setHourHandStalk(h);
+//                            result[i++] = permutation.getString();
+//                        }
+//                        return result;
+                    }
+                }));
+
+        // Data for minute hand shape in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_minute_hand_shape),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.HandShape.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.HandShape h : WatchFacePreset.HandShape.values()) {
+                            permutation.setMinuteHandShape(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for minute hand length in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_minute_hand_length),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.HandLength.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.HandLength h : WatchFacePreset.HandLength.values()) {
+                            permutation.setMinuteHandLength(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for minute hand thickness in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_minute_hand_thickness),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.HandThickness.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.HandThickness h : WatchFacePreset.HandThickness.values()) {
+                            permutation.setMinuteHandThickness(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for minute hand stalk in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_minute_hand_stalk),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.HandStalk.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.HandStalk h : WatchFacePreset.HandStalk.values()) {
+                            permutation.setMinuteHandStalk(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for minute hand style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_minute_hand_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.Style.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.Style h : WatchFacePreset.Style.values()) {
+                            permutation.setMinuteHandStyle(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for minute hand cutout in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_minute_hand_cutout),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        // TODO: fill this in
+                        return new String[]{permutation.getString()};
+//                        String[] result = new String[WatchFacePreset.HandStalk.values().length];
+//                        int i = 0;
+//                        for (WatchFacePreset.HandStalk h : WatchFacePreset.HandStalk.values()) {
+//                            permutation.setMinuteHandStalk(h);
+//                            result[i++] = permutation.getString();
+//                        }
+//                        return result;
+                    }
+                }));
+
+        // Data for second hand shape in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_second_hand_shape),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.HandShape.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.HandShape h : WatchFacePreset.HandShape.values()) {
+                            permutation.setSecondHandShape(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for second hand length in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_second_hand_length),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.HandLength.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.HandLength h : WatchFacePreset.HandLength.values()) {
+                            permutation.setSecondHandLength(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for second hand thickness in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_second_hand_thickness),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.HandThickness.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.HandThickness h : WatchFacePreset.HandThickness.values()) {
+                            permutation.setSecondHandThickness(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for second hand style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_second_hand_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.Style.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.Style h : WatchFacePreset.Style.values()) {
+                            permutation.setSecondHandStyle(h);
+                            result[i++] = permutation.getString();
                         }
                         return result;
                     }
@@ -324,7 +540,14 @@ public class AnalogComplicationConfigData {
     }
 
     private interface WatchFacePresetMutator {
-        String[] permute(WatchFacePreset watchFacePreset);
+        /**
+         * For the given WatchFacePreset (which must be a clone, since we'll modify it in the
+         * process) return a String array with each permutation.
+         *
+         * @param permutation WatchFacePreset, which must be a clone, since we'll modify it
+         * @return String array with each permutation
+         */
+        String[] permute(WatchFacePreset permutation);
     }
 
     public static class WatchFacePresetConfigItem implements ConfigItemType {
@@ -362,7 +585,7 @@ public class AnalogComplicationConfigData {
         }
 
         public String[] permute(WatchFacePreset watchFacePreset) {
-            return mMutator.permute(watchFacePreset);
+            return mMutator.permute(watchFacePreset.clone());
         }
     }
 

@@ -67,6 +67,20 @@
     <string name="config_preset_hour_hand_length">Hour Hand Length</string>
     <string name="config_preset_hour_hand_thickness">Hour Hand Thickness</string>
     <string name="config_preset_hour_hand_stalk">Hour Hand Stalk</string>
+    <string name="config_preset_hour_hand_style">Hour Hand Style</string>
+    <string name="config_preset_hour_hand_cutout">Hour Hand Cutout</string>
+
+    <string name="config_preset_minute_hand_shape">Minute Hand Shape</string>
+    <string name="config_preset_minute_hand_length">Minute Hand Length</string>
+    <string name="config_preset_minute_hand_thickness">Minute Hand Thickness</string>
+    <string name="config_preset_minute_hand_stalk">Minute Hand Stalk</string>
+    <string name="config_preset_minute_hand_style">Minute Hand Style</string>
+    <string name="config_preset_minute_hand_cutout">Minute Hand Cutout</string>
+
+    <string name="config_preset_second_hand_shape">Second Hand Shape</string>
+    <string name="config_preset_second_hand_length">Second Hand Length</string>
+    <string name="config_preset_second_hand_thickness">Second Hand Thickness</string>
+    <string name="config_preset_second_hand_style">Second Hand Style</string>
 
     <!-- TODO: this should be shared (needs covering all the samples with Gradle build model) -->
     <string name="color_black">Black</string>
