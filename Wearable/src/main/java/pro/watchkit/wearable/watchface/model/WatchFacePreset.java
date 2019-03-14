@@ -124,7 +124,7 @@ public final class WatchFacePreset {
         return bytePacker.getStringFast();
     }
 
-    public void setString(String s) {
+    void setString(String s) {
         if (s == null || s == "") return;
         try {
             bytePacker.setStringFast(s);
@@ -135,7 +135,7 @@ public final class WatchFacePreset {
         }
     }
 
-    public void pack() {
+    private void pack() {
         bytePacker.rewind();
 
         backgroundStyle.pack(bytePacker);
@@ -195,7 +195,7 @@ public final class WatchFacePreset {
         bytePacker.finish();
     }
 
-    public void unpack() {
+    private void unpack() {
         bytePacker.rewind();
 
         backgroundStyle = Style.unpack(bytePacker);
@@ -253,7 +253,7 @@ public final class WatchFacePreset {
         mBaseSixBitColor = bytePacker.getSixBitColor();
     }
 
-//    public void setPalette(
+//    void setPalette(
 //            int fillColor, int accentColor, int highlightColor, int baseColor) {
 //        setFillSixBitColor(fillColor);
 //        setAccentSixBitColor(accentColor);
@@ -261,19 +261,19 @@ public final class WatchFacePreset {
 //        setBaseSixBitColor(baseColor);
 //    }
 
-    public void setMinuteHandOverride(boolean minuteHandOverride) {
+    void setMinuteHandOverride(boolean minuteHandOverride) {
         this.minuteHandOverride = minuteHandOverride;
     }
 
-    public void setSecondHandOverride(boolean secondHandOverride) {
+    void setSecondHandOverride(boolean secondHandOverride) {
         this.secondHandOverride = secondHandOverride;
     }
 
-    public void setTwelveTickOverride(boolean twelveTickOverride) {
+    void setTwelveTickOverride(boolean twelveTickOverride) {
         this.twelveTickOverride = twelveTickOverride;
     }
 
-    public void setSixtyTickOverride(boolean sixtyTickOverride) {
+    void setSixtyTickOverride(boolean sixtyTickOverride) {
         this.sixtyTickOverride = sixtyTickOverride;
     }
 
@@ -281,7 +281,7 @@ public final class WatchFacePreset {
         return backgroundStyle;
     }
 
-    public void setBackgroundStyle(Style backgroundStyle) {
+    void setBackgroundStyle(Style backgroundStyle) {
         this.backgroundStyle = backgroundStyle;
     }
 
@@ -289,7 +289,7 @@ public final class WatchFacePreset {
         return hourHandShape;
     }
 
-    public void setHourHandShape(HandShape hourHandShape) {
+    void setHourHandShape(HandShape hourHandShape) {
         this.hourHandShape = hourHandShape;
     }
 
@@ -297,7 +297,7 @@ public final class WatchFacePreset {
         return minuteHandOverride ? minuteHandShape : hourHandShape;
     }
 
-    public void setMinuteHandShape(HandShape minuteHandShape) {
+    void setMinuteHandShape(HandShape minuteHandShape) {
         this.minuteHandShape = minuteHandShape;
     }
 
@@ -306,7 +306,7 @@ public final class WatchFacePreset {
         return secondHandOverride ? secondHandShape : HandShape.STRAIGHT;
     }
 
-    public void setSecondHandShape(HandShape secondHandShape) {
+    void setSecondHandShape(HandShape secondHandShape) {
         this.secondHandShape = secondHandShape;
     }
 
@@ -314,7 +314,7 @@ public final class WatchFacePreset {
         return hourHandLength;
     }
 
-    public void setHourHandLength(HandLength hourHandLength) {
+    void setHourHandLength(HandLength hourHandLength) {
         this.hourHandLength = hourHandLength;
     }
 
@@ -322,7 +322,7 @@ public final class WatchFacePreset {
         return minuteHandOverride ? minuteHandLength : hourHandLength;
     }
 
-    public void setMinuteHandLength(HandLength minuteHandLength) {
+    void setMinuteHandLength(HandLength minuteHandLength) {
         this.minuteHandLength = minuteHandLength;
     }
 
@@ -331,7 +331,7 @@ public final class WatchFacePreset {
         return secondHandOverride ? secondHandLength : HandLength.LONG;
     }
 
-    public void setSecondHandLength(HandLength secondHandLength) {
+    void setSecondHandLength(HandLength secondHandLength) {
         this.secondHandLength = secondHandLength;
     }
 
@@ -339,7 +339,7 @@ public final class WatchFacePreset {
         return hourHandThickness;
     }
 
-    public void setHourHandThickness(HandThickness hourHandThickness) {
+    void setHourHandThickness(HandThickness hourHandThickness) {
         this.hourHandThickness = hourHandThickness;
     }
 
@@ -347,7 +347,7 @@ public final class WatchFacePreset {
         return minuteHandOverride ? minuteHandThickness : hourHandThickness;
     }
 
-    public void setMinuteHandThickness(HandThickness minuteHandThickness) {
+    void setMinuteHandThickness(HandThickness minuteHandThickness) {
         this.minuteHandThickness = minuteHandThickness;
     }
 
@@ -356,7 +356,7 @@ public final class WatchFacePreset {
         return secondHandOverride ? secondHandThickness : HandThickness.THIN;
     }
 
-    public void setSecondHandThickness(HandThickness secondHandThickness) {
+    void setSecondHandThickness(HandThickness secondHandThickness) {
         this.secondHandThickness = secondHandThickness;
     }
 
@@ -364,7 +364,7 @@ public final class WatchFacePreset {
         return hourHandStyle;
     }
 
-    public void setHourHandStyle(Style hourHandStyle) {
+    void setHourHandStyle(Style hourHandStyle) {
         this.hourHandStyle = hourHandStyle;
     }
 
@@ -372,7 +372,7 @@ public final class WatchFacePreset {
         return minuteHandOverride ? minuteHandStyle : hourHandStyle;
     }
 
-    public void setMinuteHandStyle(Style minuteHandStyle) {
+    void setMinuteHandStyle(Style minuteHandStyle) {
         this.minuteHandStyle = minuteHandStyle;
     }
 
@@ -381,7 +381,7 @@ public final class WatchFacePreset {
         return secondHandOverride ? secondHandStyle : Style.HIGHLIGHT;
     }
 
-    public void setSecondHandStyle(Style secondHandStyle) {
+    void setSecondHandStyle(Style secondHandStyle) {
         this.secondHandStyle = secondHandStyle;
     }
 
@@ -389,7 +389,7 @@ public final class WatchFacePreset {
         return twelveTickHidden;
     }
 
-    public void setTwelveTickHidden(boolean twelveTickHidden) {
+    void setTwelveTickHidden(boolean twelveTickHidden) {
         this.twelveTickHidden = twelveTickHidden;
     }
 
@@ -397,7 +397,7 @@ public final class WatchFacePreset {
         return sixtyTickHidden;
     }
 
-    public void setSixtyTickHidden(boolean sixtyTickHidden) {
+    void setSixtyTickHidden(boolean sixtyTickHidden) {
         this.sixtyTickHidden = sixtyTickHidden;
     }
 
@@ -405,7 +405,7 @@ public final class WatchFacePreset {
         return fourTickShape;
     }
 
-    public void setFourTickShape(TickShape fourTickShape) {
+    void setFourTickShape(TickShape fourTickShape) {
         this.fourTickShape = fourTickShape;
     }
 
@@ -413,7 +413,7 @@ public final class WatchFacePreset {
         return twelveTickOverride ? twelveTickShape : fourTickShape;
     }
 
-    public void setTwelveTickShape(TickShape twelveTickShape) {
+    void setTwelveTickShape(TickShape twelveTickShape) {
         this.twelveTickShape = twelveTickShape;
     }
 
@@ -421,7 +421,7 @@ public final class WatchFacePreset {
         return sixtyTickOverride ? sixtyTickShape : fourTickShape;
     }
 
-    public void setSixtyTickShape(TickShape sixtyTickShape) {
+    void setSixtyTickShape(TickShape sixtyTickShape) {
         this.sixtyTickShape = sixtyTickShape;
     }
 
@@ -429,7 +429,7 @@ public final class WatchFacePreset {
         return fourTickLength;
     }
 
-    public void setFourTickLength(TickLength fourTickLength) {
+    void setFourTickLength(TickLength fourTickLength) {
         this.fourTickLength = fourTickLength;
     }
 
@@ -437,7 +437,7 @@ public final class WatchFacePreset {
         return twelveTickOverride ? twelveTickLength : fourTickLength;
     }
 
-    public void setTwelveTickLength(TickLength twelveTickLength) {
+    void setTwelveTickLength(TickLength twelveTickLength) {
         this.twelveTickLength = twelveTickLength;
     }
 
@@ -445,7 +445,7 @@ public final class WatchFacePreset {
         return sixtyTickOverride ? sixtyTickLength : fourTickLength;
     }
 
-    public void setSixtyTickLength(TickLength sixtyTickLength) {
+    void setSixtyTickLength(TickLength sixtyTickLength) {
         this.sixtyTickLength = sixtyTickLength;
     }
 
@@ -453,7 +453,7 @@ public final class WatchFacePreset {
         return fourTickThickness;
     }
 
-    public void setFourTickThickness(TickThickness fourTickThickness) {
+    void setFourTickThickness(TickThickness fourTickThickness) {
         this.fourTickThickness = fourTickThickness;
     }
 
@@ -461,7 +461,7 @@ public final class WatchFacePreset {
         return twelveTickOverride ? twelveTickThickness : fourTickThickness;
     }
 
-    public void setTwelveTickThickness(TickThickness twelveTickThickness) {
+    void setTwelveTickThickness(TickThickness twelveTickThickness) {
         this.twelveTickThickness = twelveTickThickness;
     }
 
@@ -469,7 +469,7 @@ public final class WatchFacePreset {
         return sixtyTickOverride ? sixtyTickThickness : fourTickThickness;
     }
 
-    public void setSixtyTickThickness(TickThickness sixtyTickThickness) {
+    void setSixtyTickThickness(TickThickness sixtyTickThickness) {
         this.sixtyTickThickness = sixtyTickThickness;
     }
 
@@ -477,7 +477,7 @@ public final class WatchFacePreset {
         return fourTickRadiusPosition;
     }
 
-    public void setFourTickRadiusPosition(TickRadiusPosition fourTickRadiusPosition) {
+    void setFourTickRadiusPosition(TickRadiusPosition fourTickRadiusPosition) {
         this.fourTickRadiusPosition = fourTickRadiusPosition;
     }
 
@@ -485,7 +485,7 @@ public final class WatchFacePreset {
         return twelveTickOverride ? twelveTickRadiusPosition : twelveTickRadiusPosition;
     }
 
-    public void setTwelveTickRadiusPosition(TickRadiusPosition twelveTickRadiusPosition) {
+    void setTwelveTickRadiusPosition(TickRadiusPosition twelveTickRadiusPosition) {
         this.twelveTickRadiusPosition = twelveTickRadiusPosition;
     }
 
@@ -493,7 +493,7 @@ public final class WatchFacePreset {
         return sixtyTickOverride ? sixtyTickRadiusPosition : sixtyTickRadiusPosition;
     }
 
-    public void setSixtyTickRadiusPosition(TickRadiusPosition sixtyTickRadiusPosition) {
+    void setSixtyTickRadiusPosition(TickRadiusPosition sixtyTickRadiusPosition) {
         this.sixtyTickRadiusPosition = sixtyTickRadiusPosition;
     }
 
@@ -501,7 +501,7 @@ public final class WatchFacePreset {
         return fourTickStyle;
     }
 
-    public void setFourTickStyle(Style fourTickStyle) {
+    void setFourTickStyle(Style fourTickStyle) {
         this.fourTickStyle = fourTickStyle;
     }
 
@@ -509,7 +509,7 @@ public final class WatchFacePreset {
         return twelveTickOverride ? twelveTickStyle : fourTickStyle;
     }
 
-    public void setTwelveTickStyle(Style twelveTickStyle) {
+    void setTwelveTickStyle(Style twelveTickStyle) {
         this.twelveTickStyle = twelveTickStyle;
     }
 
@@ -517,7 +517,7 @@ public final class WatchFacePreset {
         return sixtyTickOverride ? sixtyTickStyle : fourTickStyle;
     }
 
-    public void setSixtyTickStyle(Style sixtyTickStyle) {
+    void setSixtyTickStyle(Style sixtyTickStyle) {
         this.sixtyTickStyle = sixtyTickStyle;
     }
 
@@ -525,7 +525,7 @@ public final class WatchFacePreset {
         return fillHighlightStyle;
     }
 
-    public void setFillHighlightStyle(GradientStyle fillHighlightStyle) {
+    void setFillHighlightStyle(GradientStyle fillHighlightStyle) {
         this.fillHighlightStyle = fillHighlightStyle;
     }
 
@@ -533,7 +533,7 @@ public final class WatchFacePreset {
         return accentFillStyle;
     }
 
-    public void setAccentFillStyle(GradientStyle accentFillStyle) {
+    void setAccentFillStyle(GradientStyle accentFillStyle) {
         this.accentFillStyle = accentFillStyle;
     }
 
@@ -541,7 +541,7 @@ public final class WatchFacePreset {
         return accentHighlightStyle;
     }
 
-    public void setAccentHighlightStyle(GradientStyle accentHighlightStyle) {
+    void setAccentHighlightStyle(GradientStyle accentHighlightStyle) {
         this.accentHighlightStyle = accentHighlightStyle;
     }
 
@@ -549,7 +549,7 @@ public final class WatchFacePreset {
         return baseAccentStyle;
     }
 
-    public void setBaseAccentStyle(GradientStyle baseAccentStyle) {
+    void setBaseAccentStyle(GradientStyle baseAccentStyle) {
         this.baseAccentStyle = baseAccentStyle;
     }
 
@@ -557,7 +557,7 @@ public final class WatchFacePreset {
         return hourHandStalk;
     }
 
-    public void setHourHandStalk(HandStalk hourHandStalk) {
+    void setHourHandStalk(HandStalk hourHandStalk) {
         this.hourHandStalk = hourHandStalk;
     }
 
@@ -565,11 +565,11 @@ public final class WatchFacePreset {
         return minuteHandStalk;
     }
 
-    public void setMinuteHandStalk(HandStalk minuteHandStalk) {
+    void setMinuteHandStalk(HandStalk minuteHandStalk) {
         this.minuteHandStalk = minuteHandStalk;
     }
 
-    public int getSixBitColor(ColorType colorType) {
+    int getSixBitColor(ColorType colorType) {
         switch (colorType) {
             case FILL:
                 return mFillSixBitColor;
