@@ -404,6 +404,277 @@ public class AnalogComplicationConfigData {
                     }
                 }));
 
+        // Data for four tick shape in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_four_tick_shape),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickShape.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickShape h : WatchFacePreset.TickShape.values()) {
+                            permutation.setFourTickShape(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for four tick length in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_four_tick_length),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickLength.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickLength h : WatchFacePreset.TickLength.values()) {
+                            permutation.setFourTickLength(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for four tick thickness in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_four_tick_thickness),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickThickness.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickThickness h : WatchFacePreset.TickThickness.values()) {
+                            permutation.setFourTickThickness(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for four tick radius position in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_four_tick_radius_position),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickRadiusPosition.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickRadiusPosition h : WatchFacePreset.TickRadiusPosition.values()) {
+                            permutation.setFourTickRadiusPosition(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for four tick style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_four_tick_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.Style.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.Style h : WatchFacePreset.Style.values()) {
+                            permutation.setFourTickStyle(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+
+        // Data for twelve tick shape in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_twelve_tick_shape),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickShape.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickShape h : WatchFacePreset.TickShape.values()) {
+                            permutation.setTwelveTickShape(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for twelve tick length in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_twelve_tick_length),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickLength.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickLength h : WatchFacePreset.TickLength.values()) {
+                            permutation.setTwelveTickLength(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for twelve tick thickness in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_twelve_tick_thickness),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickThickness.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickThickness h : WatchFacePreset.TickThickness.values()) {
+                            permutation.setTwelveTickThickness(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for twelve tick radius position in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_twelve_tick_radius_position),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickRadiusPosition.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickRadiusPosition h : WatchFacePreset.TickRadiusPosition.values()) {
+                            permutation.setTwelveTickRadiusPosition(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for twelve tick style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_twelve_tick_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.Style.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.Style h : WatchFacePreset.Style.values()) {
+                            permutation.setTwelveTickStyle(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for sixty tick shape in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_sixty_tick_shape),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickShape.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickShape h : WatchFacePreset.TickShape.values()) {
+                            permutation.setSixtyTickShape(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for sixty tick length in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_sixty_tick_length),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickLength.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickLength h : WatchFacePreset.TickLength.values()) {
+                            permutation.setSixtyTickLength(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for sixty tick thickness in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_sixty_tick_thickness),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickThickness.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickThickness h : WatchFacePreset.TickThickness.values()) {
+                            permutation.setSixtyTickThickness(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for sixty tick radius position in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_sixty_tick_radius_position),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickRadiusPosition.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickRadiusPosition h : WatchFacePreset.TickRadiusPosition.values()) {
+                            permutation.setSixtyTickRadiusPosition(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for sixty tick style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_sixty_tick_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.Style.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.Style h : WatchFacePreset.Style.values()) {
+                            permutation.setSixtyTickStyle(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+        
         // Data for Background color UX in settings Activity.
 //        ConfigItemType backgroundColorConfigItem =
 //                new ColorConfigItem(
