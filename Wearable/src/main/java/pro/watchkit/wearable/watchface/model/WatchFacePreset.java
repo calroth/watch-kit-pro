@@ -521,7 +521,7 @@ public final class WatchFacePreset {
         this.sixtyTickStyle = sixtyTickStyle;
     }
 
-    public GradientStyle getFillHighlightStyle() {
+    GradientStyle getFillHighlightStyle() {
         return fillHighlightStyle;
     }
 
@@ -529,7 +529,7 @@ public final class WatchFacePreset {
         this.fillHighlightStyle = fillHighlightStyle;
     }
 
-    public GradientStyle getAccentFillStyle() {
+    GradientStyle getAccentFillStyle() {
         return accentFillStyle;
     }
 
@@ -537,7 +537,7 @@ public final class WatchFacePreset {
         this.accentFillStyle = accentFillStyle;
     }
 
-    public GradientStyle getAccentHighlightStyle() {
+    GradientStyle getAccentHighlightStyle() {
         return accentHighlightStyle;
     }
 
@@ -545,7 +545,7 @@ public final class WatchFacePreset {
         this.accentHighlightStyle = accentHighlightStyle;
     }
 
-    public GradientStyle getBaseAccentStyle() {
+    GradientStyle getBaseAccentStyle() {
         return baseAccentStyle;
     }
 
