@@ -674,6 +674,96 @@ public class AnalogComplicationConfigData {
                         return result;
                     }
                 }));
+
+        // Data for sixty tick style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_sixty_tick_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.Style.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.Style h : WatchFacePreset.Style.values()) {
+                            permutation.setSixtyTickStyle(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for fill highlight style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_fill_highlight_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.GradientStyle.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.GradientStyle h : WatchFacePreset.GradientStyle.values()) {
+                            permutation.setFillHighlightStyle(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for accent fill style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_accent_fill_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.GradientStyle.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.GradientStyle h : WatchFacePreset.GradientStyle.values()) {
+                            permutation.setAccentFillStyle(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for accent highlight style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_accent_highlight_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.GradientStyle.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.GradientStyle h : WatchFacePreset.GradientStyle.values()) {
+                            permutation.setAccentHighlightStyle(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for base accent style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetConfigItem(
+                context.getString(R.string.config_preset_base_accent_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.GradientStyle.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.GradientStyle h : WatchFacePreset.GradientStyle.values()) {
+                            permutation.setBaseAccentStyle(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
         
         // Data for Background color UX in settings Activity.
 //        ConfigItemType backgroundColorConfigItem =

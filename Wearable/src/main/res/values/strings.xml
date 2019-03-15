@@ -100,6 +100,11 @@
     <string name="config_preset_sixty_tick_radius_position">Sixty Tick Radius Position</string>
     <string name="config_preset_sixty_tick_style">Sixty Tick Style</string>
 
+    <string name="config_preset_fill_highlight_style">Fill Highlight Style</string>
+    <string name="config_preset_accent_fill_style">Accent Fill Style</string>
+    <string name="config_preset_accent_highlight_style">Accent Highlight Style</string>
+    <string name="config_preset_base_accent_style">Base Accent Style</string>
+
     <!-- TODO: this should be shared (needs covering all the samples with Gradle build model) -->
     <string name="color_black">Black</string>
     <string name="color_blue">Blue</string>
