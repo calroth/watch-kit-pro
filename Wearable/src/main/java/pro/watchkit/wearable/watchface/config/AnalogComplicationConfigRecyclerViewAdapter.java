@@ -231,7 +231,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         RecyclerView.ViewHolder viewHolder = null;
 
         switch (viewType) {
-            case TYPE_PREVIEW_AND_COMPLICATIONS_CONFIG:
+            case TYPE_PREVIEW_AND_COMPLICATIONS_CONFIG: {
                 // Need direct reference to watch face preview view holder to update watch face
                 // preview based on selections from the user.
                 mPreviewAndComplicationsViewHolder =
@@ -243,8 +243,9 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                                                 false));
                 viewHolder = mPreviewAndComplicationsViewHolder;
                 break;
+            }
 
-            case TYPE_MORE_OPTIONS:
+            case TYPE_MORE_OPTIONS: {
                 viewHolder =
                         new MoreOptionsViewHolder(
                                 LayoutInflater.from(parent.getContext())
@@ -253,32 +254,36 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                                                 parent,
                                                 false));
                 break;
+            }
 
-            case TYPE_COLOR_CONFIG:
+            case TYPE_COLOR_CONFIG: {
                 viewHolder =
                         new ColorPickerViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.config_list_color_item, parent, false));
                 mTicklish.add((Ticklish) viewHolder);
                 break;
+            }
 
-            case TYPE_WATCH_FACE_PRESET_PICKER_CONFIG:
+            case TYPE_WATCH_FACE_PRESET_PICKER_CONFIG: {
                 viewHolder =
                         new WatchFacePresetPickerViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.config_list_watch_face_preset_item, parent, false));
                 mTicklish.add((Ticklish) viewHolder);
                 break;
+            }
 
-            case TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG:
+            case TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG: {
                 viewHolder =
                         new WatchFacePresetToggleViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.config_list_watch_face_preset_toggle, parent, false));
                 mTicklish.add((Ticklish) viewHolder);
                 break;
+            }
 
-            case TYPE_UNREAD_NOTIFICATION_CONFIG:
+            case TYPE_UNREAD_NOTIFICATION_CONFIG: {
                 viewHolder =
                         new UnreadNotificationViewHolder(
                                 LayoutInflater.from(parent.getContext())
@@ -287,8 +292,9 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                                                 parent,
                                                 false));
                 break;
+            }
 
-            case TYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG:
+            case TYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG: {
                 viewHolder =
                         new BackgroundComplicationViewHolder(
                                 LayoutInflater.from(parent.getContext())
@@ -297,8 +303,9 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                                                 parent,
                                                 false));
                 break;
+            }
 
-            case TYPE_NIGHT_VISION_CONFIG:
+            case TYPE_NIGHT_VISION_CONFIG: {
                 viewHolder =
                         new NightVisionViewHolder(
                                 LayoutInflater.from(parent.getContext())
@@ -307,6 +314,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                                                 parent,
                                                 false));
                 break;
+            }
         }
 
         return viewHolder;
@@ -320,7 +328,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         ConfigItemType configItemType = mSettingsDataSet.get(position);
 
         switch (viewHolder.getItemViewType()) {
-            case TYPE_PREVIEW_AND_COMPLICATIONS_CONFIG:
+            case TYPE_PREVIEW_AND_COMPLICATIONS_CONFIG: {
                 PreviewAndComplicationsViewHolder previewAndComplicationsViewHolder =
                         (PreviewAndComplicationsViewHolder) viewHolder;
 
@@ -334,14 +342,16 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
                 previewAndComplicationsViewHolder.initializesColorsAndComplications();
                 break;
+            }
 
-            case TYPE_MORE_OPTIONS:
+            case TYPE_MORE_OPTIONS: {
                 MoreOptionsViewHolder moreOptionsViewHolder = (MoreOptionsViewHolder) viewHolder;
                 MoreOptionsConfigItem moreOptionsConfigItem =
                         (MoreOptionsConfigItem) configItemType;
 
                 moreOptionsViewHolder.setIcon(moreOptionsConfigItem.getIconResourceId());
                 break;
+            }
 
             case TYPE_COLOR_CONFIG: {
                 ColorPickerViewHolder colorPickerViewHolder = (ColorPickerViewHolder) viewHolder;
@@ -401,7 +411,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 break;
             }
 
-            case TYPE_UNREAD_NOTIFICATION_CONFIG:
+            case TYPE_UNREAD_NOTIFICATION_CONFIG: {
                 UnreadNotificationViewHolder unreadViewHolder =
                         (UnreadNotificationViewHolder) viewHolder;
 
@@ -419,8 +429,9 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 unreadViewHolder.setName(unreadName);
                 unreadViewHolder.setSharedPrefId(unreadSharedPrefId);
                 break;
+            }
 
-            case TYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG:
+            case TYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG: {
                 BackgroundComplicationViewHolder backgroundComplicationViewHolder =
                         (BackgroundComplicationViewHolder) viewHolder;
 
@@ -433,8 +444,9 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 backgroundComplicationViewHolder.setIcon(backgroundIconResourceId);
                 backgroundComplicationViewHolder.setName(backgroundName);
                 break;
+            }
 
-            case TYPE_NIGHT_VISION_CONFIG:
+            case TYPE_NIGHT_VISION_CONFIG: {
                 NightVisionViewHolder nightVisionViewHolder =
                         (NightVisionViewHolder) viewHolder;
 
@@ -451,6 +463,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                         nightVisionEnabledIconResourceId, nightVisionDisabledIconResourceId);
                 nightVisionViewHolder.setName(nightVisionName);
                 nightVisionViewHolder.setSharedPrefId(nightVisionSharedPrefId);
+                break;
+            }
         }
     }
 
