@@ -222,6 +222,23 @@ public class AnalogComplicationConfigData {
                     }
                 }));
 
+        // Data for minute hand override in settings Activity.
+        settingsConfigData.add(new WatchFacePresetToggleConfigItem(
+                context.getString(R.string.config_preset_minute_hand_override),
+                R.drawable.ic_notifications_white_24dp,
+                R.drawable.ic_notifications_off_white_24dp,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[2];
+                        permutation.setMinuteHandOverride(false);
+                        result[0] = permutation.getString();
+                        permutation.setMinuteHandOverride(true);
+                        result[1] = permutation.getString();
+                        return result;
+                    }
+                }));
+
         // Data for minute hand shape in settings Activity.
         settingsConfigData.add(new WatchFacePresetConfigItem(
                 context.getString(R.string.config_preset_minute_hand_shape),
@@ -329,6 +346,23 @@ public class AnalogComplicationConfigData {
 //                            result[i++] = permutation.getString();
 //                        }
 //                        return result;
+                    }
+                }));
+
+        // Data for second hand override in settings Activity.
+        settingsConfigData.add(new WatchFacePresetToggleConfigItem(
+                context.getString(R.string.config_preset_second_hand_override),
+                R.drawable.ic_notifications_white_24dp,
+                R.drawable.ic_notifications_off_white_24dp,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[2];
+                        permutation.setSecondHandOverride(false);
+                        result[0] = permutation.getString();
+                        permutation.setSecondHandOverride(true);
+                        result[1] = permutation.getString();
+                        return result;
                     }
                 }));
 
@@ -942,7 +976,50 @@ public class AnalogComplicationConfigData {
 
         @Override
         public int getConfigType() {
-            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_CONFIG;
+            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_PICKER_CONFIG;
+        }
+
+        public String[] permute(WatchFacePreset watchFacePreset) {
+            return mMutator.permute(watchFacePreset.clone());
+        }
+    }
+
+    /**
+     * Data for Night Vision preference picker item in RecyclerView.
+     */
+    public static class WatchFacePresetToggleConfigItem implements ConfigItemType {
+
+        private String name;
+        private int iconEnabledResourceId;
+        private int iconDisabledResourceId;
+        private WatchFacePresetMutator mMutator;
+
+        WatchFacePresetToggleConfigItem(
+                String name,
+                int iconEnabledResourceId,
+                int iconDisabledResourceId,
+                WatchFacePresetMutator mutator) {
+            this.name = name;
+            this.iconEnabledResourceId = iconEnabledResourceId;
+            this.iconDisabledResourceId = iconDisabledResourceId;
+            this.mMutator = mutator;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getIconEnabledResourceId() {
+            return iconEnabledResourceId;
+        }
+
+        public int getIconDisabledResourceId() {
+            return iconDisabledResourceId;
+        }
+
+        @Override
+        public int getConfigType() {
+            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG;
         }
 
         public String[] permute(WatchFacePreset watchFacePreset) {

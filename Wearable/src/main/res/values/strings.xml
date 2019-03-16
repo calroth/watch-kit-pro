@@ -70,6 +70,7 @@
     <string name="config_preset_hour_hand_style">Hour Hand Style</string>
     <string name="config_preset_hour_hand_cutout">Hour Hand Cutout</string>
 
+    <string name="config_preset_minute_hand_override">Minute Hand Override</string>
     <string name="config_preset_minute_hand_shape">Minute Hand Shape</string>
     <string name="config_preset_minute_hand_length">Minute Hand Length</string>
     <string name="config_preset_minute_hand_thickness">Minute Hand Thickness</string>
@@ -77,6 +78,7 @@
     <string name="config_preset_minute_hand_style">Minute Hand Style</string>
     <string name="config_preset_minute_hand_cutout">Minute Hand Cutout</string>
 
+    <string name="config_preset_second_hand_override">Second Hand Override</string>
     <string name="config_preset_second_hand_shape">Second Hand Shape</string>
     <string name="config_preset_second_hand_length">Second Hand Length</string>
     <string name="config_preset_second_hand_thickness">Second Hand Thickness</string>
