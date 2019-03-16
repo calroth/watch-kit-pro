@@ -113,7 +113,7 @@ public class AnalogComplicationConfigData {
                 ColorSelectionActivity.class));
 
         // Data for hour hand shape in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_hour_hand_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -131,7 +131,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for hour hand length in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_hour_hand_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -149,7 +149,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for hour hand thickness in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_hour_hand_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -167,7 +167,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for hour hand stalk in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_hour_hand_stalk),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -185,7 +185,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for hour hand style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_hour_hand_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -203,7 +203,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for hour hand cutout in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_hour_hand_cutout),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -240,7 +240,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for minute hand shape in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_minute_hand_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -258,7 +258,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for minute hand length in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_minute_hand_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -276,7 +276,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for minute hand thickness in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_minute_hand_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -294,7 +294,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for minute hand stalk in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_minute_hand_stalk),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -312,7 +312,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for minute hand style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_minute_hand_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -330,7 +330,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for minute hand cutout in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_minute_hand_cutout),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -367,7 +367,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for second hand shape in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_second_hand_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -385,7 +385,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for second hand length in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_second_hand_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -403,7 +403,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for second hand thickness in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_second_hand_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -421,7 +421,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for second hand style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_second_hand_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -439,7 +439,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for four tick shape in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_four_tick_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -457,7 +457,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for four tick length in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_four_tick_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -475,7 +475,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for four tick thickness in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_four_tick_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -493,7 +493,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for four tick radius position in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_four_tick_radius_position),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -511,7 +511,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for four tick style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_four_tick_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -530,7 +530,7 @@ public class AnalogComplicationConfigData {
 
 
         // Data for twelve tick shape in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_twelve_tick_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -548,7 +548,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for twelve tick length in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_twelve_tick_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -566,7 +566,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for twelve tick thickness in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_twelve_tick_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -584,7 +584,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for twelve tick radius position in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_twelve_tick_radius_position),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -602,7 +602,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for twelve tick style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_twelve_tick_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -620,7 +620,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for sixty tick shape in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_sixty_tick_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -638,7 +638,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for sixty tick length in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_sixty_tick_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -656,7 +656,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for sixty tick thickness in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_sixty_tick_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -674,7 +674,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for sixty tick radius position in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_sixty_tick_radius_position),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -692,7 +692,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for sixty tick style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_sixty_tick_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -710,7 +710,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for sixty tick style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_sixty_tick_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -728,7 +728,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for fill highlight style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_fill_highlight_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -746,7 +746,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for accent fill style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_accent_fill_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -764,7 +764,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for accent highlight style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_accent_highlight_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -782,7 +782,7 @@ public class AnalogComplicationConfigData {
                 }));
 
         // Data for base accent style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetConfigItem(
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_base_accent_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -945,13 +945,13 @@ public class AnalogComplicationConfigData {
         String[] permute(WatchFacePreset permutation);
     }
 
-    public static class WatchFacePresetConfigItem implements ConfigItemType {
+    public static class WatchFacePresetPickerConfigItem implements ConfigItemType {
         private String name;
         private int iconResourceId;
         private Class<WatchFacePresetSelectionActivity> activityToChoosePreference;
         private WatchFacePresetMutator mMutator;
 
-        WatchFacePresetConfigItem(
+        WatchFacePresetPickerConfigItem(
                 String name,
                 int iconResourceId,
                 Class<WatchFacePresetSelectionActivity> activity,

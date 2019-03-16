@@ -74,6 +74,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import pro.watchkit.wearable.watchface.R;
+import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.BackgroundComplicationConfigItem;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.ColorConfigItem;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.ConfigItemType;
@@ -81,7 +82,7 @@ import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.MoreOp
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.NightVisionConfigItem;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.PreviewAndComplicationsConfigItem;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.UnreadNotificationConfigItem;
-import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.WatchFacePresetConfigItem;
+import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.WatchFacePresetPickerConfigItem;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.WatchFacePresetToggleConfigItem;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.PaintBox;
@@ -364,20 +365,20 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             case TYPE_WATCH_FACE_PRESET_PICKER_CONFIG: {
                 WatchFacePresetPickerViewHolder watchFacePresetPickerViewHolder =
                         (WatchFacePresetPickerViewHolder) viewHolder;
-                WatchFacePresetConfigItem watchFacePresetConfigItem =
-                        (WatchFacePresetConfigItem) configItemType;
+                WatchFacePresetPickerConfigItem watchFacePresetPickerConfigItem =
+                        (AnalogComplicationConfigData.WatchFacePresetPickerConfigItem) configItemType;
 
-                int iconResourceId = watchFacePresetConfigItem.getIconResourceId();
-                String name = watchFacePresetConfigItem.getName();
-//                WatchFacePreset.WatchFacePresetType watchFacePresetType = watchFacePresetConfigItem.getType();
-//                String sharedPrefString = watchFacePresetConfigItem.getSharedPrefString();
+                int iconResourceId = watchFacePresetPickerConfigItem.getIconResourceId();
+                String name = watchFacePresetPickerConfigItem.getName();
+//                WatchFacePreset.WatchFacePresetType watchFacePresetType = watchFacePresetPickerConfigItem.getType();
+//                String sharedPrefString = watchFacePresetPickerConfigItem.getSharedPrefString();
                 Class<WatchFacePresetSelectionActivity> activity =
-                        watchFacePresetConfigItem.getActivityToChoosePreference();
+                        watchFacePresetPickerConfigItem.getActivityToChoosePreference();
 
                 watchFacePresetPickerViewHolder.setIcon(iconResourceId);
                 watchFacePresetPickerViewHolder.setName(name);
                 watchFacePresetPickerViewHolder.setType(
-                        watchFacePresetConfigItem.permute(mCurrentWatchFacePreset));
+                        watchFacePresetPickerConfigItem.permute(mCurrentWatchFacePreset));
 //                watchFacePresetPickerViewHolder.setSharedPrefString(sharedPrefString);
                 watchFacePresetPickerViewHolder.setLaunchActivityToSelectWatchFacePreset(activity);
                 break;
