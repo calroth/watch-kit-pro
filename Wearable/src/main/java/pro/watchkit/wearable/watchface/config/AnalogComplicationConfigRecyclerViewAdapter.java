@@ -1108,7 +1108,6 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         private Switch mToggleSwitch;
         private int mEnabledIconResourceId;
         private int mDisabledIconResourceId;
-        private int mSharedPrefResourceId;
         private String[] mPermutations;
 
         public WatchFacePresetToggleViewHolder(View view) {
@@ -1139,20 +1138,13 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         }
 
         public void setType(String[] permutations) {
+            // Expects "mPermutations" to be as follows:
+            // mPermutations[0]: off state
+            // mPermutations[1]: on state
             mPermutations = permutations;
-        }
-
-        public void setSharedPrefId(int sharedPrefId) {
-            mSharedPrefResourceId = sharedPrefId;
-
-            if (mToggleSwitch != null) {
-
-                Context context = mToggleSwitch.getContext();
-                String sharedPreferenceString = context.getString(mSharedPrefResourceId);
-                Boolean currentState = mSharedPref.getBoolean(sharedPreferenceString, true);
-
-                updateIcon(context, currentState);
-            }
+            // Set "checked" based on whether our current watch face preset is
+            // the same as mPermutations[1] (the on state).
+            mToggleSwitch.setChecked(mCurrentWatchFacePreset.getString().equals(mPermutations[1]));
         }
 
         private void updateIcon(Context context, Boolean currentState) {
@@ -1174,12 +1166,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             int position = getAdapterPosition();
             Log.d(TAG, "Complication onClick() position: " + position);
 
+            Boolean newState = mToggleSwitch.isChecked();
             Context context = view.getContext();
-            String sharedPreferenceString = context.getString(mSharedPrefResourceId);
-
-            // Since user clicked on a switch, new state should be opposite of current state.
-            Boolean newState = !mSharedPref.getBoolean(sharedPreferenceString, true);
-
             SharedPreferences.Editor editor = mSharedPref.edit();
             editor.putString(context.getString(R.string.saved_watch_face_preset),
                     newState ? mPermutations[1] : mPermutations[0]);
