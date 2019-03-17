@@ -950,7 +950,6 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                     context.getDrawable(resourceId), null, mColorSwatchDrawable, null);
         }
 
-        @Override
         public void tickle() {
             itemView.invalidate();
         }
@@ -992,7 +991,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
      * background color, etc.
      */
     public class WatchFacePresetPickerViewHolder
-            extends RecyclerView.ViewHolder implements OnClickListener {
+            extends RecyclerView.ViewHolder implements OnClickListener, Ticklish {
 
         private Button mAppearanceButton;
 
@@ -1104,9 +1103,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     /**
      * Displays switch to indicate whether or not the given WatchFacePreset flag is toggled on/off.
      */
-    public class WatchFacePresetToggleViewHolder extends RecyclerView.ViewHolder
-            implements OnClickListener {
-
+    public class WatchFacePresetToggleViewHolder
+            extends RecyclerView.ViewHolder implements OnClickListener, Ticklish {
         private Switch mNightVisionSwitch;
         private int mEnabledIconResourceId;
         private int mDisabledIconResourceId;
