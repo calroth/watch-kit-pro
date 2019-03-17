@@ -1105,7 +1105,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
      */
     public class WatchFacePresetToggleViewHolder
             extends RecyclerView.ViewHolder implements OnClickListener, Ticklish {
-        private Switch mNightVisionSwitch;
+        private Switch mToggleSwitch;
         private int mEnabledIconResourceId;
         private int mDisabledIconResourceId;
         private int mSharedPrefResourceId;
@@ -1114,12 +1114,12 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         public WatchFacePresetToggleViewHolder(View view) {
             super(view);
 
-            mNightVisionSwitch = view.findViewById(R.id.night_vision_switch);
+            mToggleSwitch = view.findViewById(R.id.watch_face_preset_toggle_switch);
             view.setOnClickListener(this);
         }
 
         public void setName(String name) {
-            mNightVisionSwitch.setText(name);
+            mToggleSwitch.setText(name);
         }
 
         public void setIcons(int enabledIconResourceId, int disabledIconResourceId) {
@@ -1127,10 +1127,10 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             mEnabledIconResourceId = enabledIconResourceId;
             mDisabledIconResourceId = disabledIconResourceId;
 
-            Context context = mNightVisionSwitch.getContext();
+            Context context = mToggleSwitch.getContext();
 
             // Set default to enabled.
-            mNightVisionSwitch.setCompoundDrawablesWithIntrinsicBounds(
+            mToggleSwitch.setCompoundDrawablesWithIntrinsicBounds(
                     context.getDrawable(mEnabledIconResourceId), null, null, null);
         }
 
@@ -1145,9 +1145,9 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         public void setSharedPrefId(int sharedPrefId) {
             mSharedPrefResourceId = sharedPrefId;
 
-            if (mNightVisionSwitch != null) {
+            if (mToggleSwitch != null) {
 
-                Context context = mNightVisionSwitch.getContext();
+                Context context = mToggleSwitch.getContext();
                 String sharedPreferenceString = context.getString(mSharedPrefResourceId);
                 Boolean currentState = mSharedPref.getBoolean(sharedPreferenceString, true);
 
@@ -1164,8 +1164,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 currentIconResourceId = mDisabledIconResourceId;
             }
 
-            mNightVisionSwitch.setChecked(currentState);
-            mNightVisionSwitch.setCompoundDrawablesWithIntrinsicBounds(
+            mToggleSwitch.setChecked(currentState);
+            mToggleSwitch.setCompoundDrawablesWithIntrinsicBounds(
                     context.getDrawable(currentIconResourceId), null, null, null);
         }
 
