@@ -135,7 +135,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     public static final int TYPE_WATCH_FACE_PRESET_PICKER_CONFIG = 6;
     public static final int TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG = 7;
     private static final String TAG = "CompConfigAdapter";
-    SharedPreferences mSharedPref;
+    private SharedPreferences mSharedPref;
     private Collection<ComplicationHolder> complications;
     private ComplicationHolder backgroundComplication;
     // ComponentName associated with watch face service (service that renders watch face). Used
@@ -169,7 +169,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
      */
     private PaintBox mCurrentPaintBox;
 
-    public AnalogComplicationConfigRecyclerViewAdapter(
+    AnalogComplicationConfigRecyclerViewAdapter(
             Context context,
             Class watchFaceServiceClass,
             ArrayList<ConfigItemType> settingsDataSet) {
@@ -378,14 +378,14 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 WatchFacePresetPickerConfigItem watchFacePresetPickerConfigItem =
                         (AnalogComplicationConfigData.WatchFacePresetPickerConfigItem) configItemType;
 
-                int iconResourceId = watchFacePresetPickerConfigItem.getIconResourceId();
+//                int iconResourceId = watchFacePresetPickerConfigItem.getIconResourceId();
                 String name = watchFacePresetPickerConfigItem.getName();
 //                WatchFacePreset.WatchFacePresetType watchFacePresetType = watchFacePresetPickerConfigItem.getType();
 //                String sharedPrefString = watchFacePresetPickerConfigItem.getSharedPrefString();
                 Class<WatchFacePresetSelectionActivity> activity =
                         watchFacePresetPickerConfigItem.getActivityToChoosePreference();
 
-                watchFacePresetPickerViewHolder.setIcon(iconResourceId);
+//                watchFacePresetPickerViewHolder.setIcon(iconResourceId);
                 watchFacePresetPickerViewHolder.setName(name);
                 watchFacePresetPickerViewHolder.setType(
                         watchFacePresetPickerConfigItem.permute(mCurrentWatchFacePreset));
@@ -482,7 +482,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     /**
      * Updates the selected complication id saved earlier with the new information.
      */
-    public void updateSelectedComplication(ComplicationProviderInfo complicationProviderInfo) {
+    void updateSelectedComplication(ComplicationProviderInfo complicationProviderInfo) {
 
         Log.d(TAG, "updateSelectedComplication: " + mPreviewAndComplicationsViewHolder);
 
@@ -496,13 +496,13 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     }
 
     @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
         // Required to release retriever for active complication data on detach.
         mProviderInfoRetriever.release();
     }
 
-    public void updatePreviewColors() {
+    void updatePreviewColors() {
         Log.d(TAG, "updatePreviewColors(): " + mPreviewAndComplicationsViewHolder);
 
         if (mPreviewAndComplicationsViewHolder != null) {
@@ -538,7 +538,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
         private boolean mBackgroundComplicationEnabled;
 
-        public PreviewAndComplicationsViewHolder(final View view) {
+        PreviewAndComplicationsViewHolder(final View view) {
             super(view);
 
             backgroundComplication = new ComplicationHolder(null);
@@ -629,7 +629,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 //            }
         }
 
-        public void updateWatchFaceColors() {
+        void updateWatchFaceColors() {
 
             // Only update background colors for preview if background complications are disabled.
             if (!mBackgroundComplicationEnabled) {
@@ -702,7 +702,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             }
         }
 
-        public void setDefaultComplicationDrawable(int resourceId) {
+        void setDefaultComplicationDrawable(int resourceId) {
             Context context = mWatchFaceArmsAndTicksView.getContext();
             mDefaultComplicationDrawable = context.getDrawable(resourceId);
 
@@ -723,13 +723,13 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 //            mRightComplicationBackground.setVisibility(View.INVISIBLE);
         }
 
-        public void updateComplicationViews(
+        void updateComplicationViews(
                 ComplicationHolder complication, ComplicationProviderInfo complicationProviderInfo) {
 //                int watchFaceComplicationId, ComplicationProviderInfo complicationProviderInfo) {
             Log.d(TAG, "updateComplicationViews(): id: " + complication);
             Log.d(TAG, "\tinfo: " + complicationProviderInfo);
 
-            if (complication.isForeground == false) {
+            if (!complication.isForeground) {
 //            if (watchFaceComplicationId == mBackgroundComplicationId) {
                 if (complicationProviderInfo != null) {
                     mBackgroundComplicationEnabled = true;
@@ -802,7 +802,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             }
         }
 
-        public void initializesColorsAndComplications() {
+        void initializesColorsAndComplications() {
 
             // Initializes highlight color (just second arm and part of complications).
 //            String highlightSharedPrefString = mContext.getString(R.string.saved_marker_color);
@@ -872,12 +872,12 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
         private ImageView mMoreOptionsImageView;
 
-        public MoreOptionsViewHolder(View view) {
+        MoreOptionsViewHolder(View view) {
             super(view);
             mMoreOptionsImageView = view.findViewById(R.id.more_options_image_view);
         }
 
-        public void setIcon(int resourceId) {
+        void setIcon(int resourceId) {
             Context context = mMoreOptionsImageView.getContext();
             mMoreOptionsImageView.setImageDrawable(context.getDrawable(resourceId));
         }
@@ -933,7 +933,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             }
         };
 
-        public ColorPickerViewHolder(View view) {
+        ColorPickerViewHolder(View view) {
             super(view);
 
             mAppearanceButton = view.findViewById(R.id.color_picker_button);
@@ -944,7 +944,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             mAppearanceButton.setText(name);
         }
 
-        public void setIcon(int resourceId) {
+        void setIcon(int resourceId) {
             Context context = mAppearanceButton.getContext();
             mAppearanceButton.setCompoundDrawablesWithIntrinsicBounds(
                     context.getDrawable(resourceId), null, mColorSwatchDrawable, null);
@@ -954,7 +954,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             itemView.invalidate();
         }
 
-        public void setType(WatchFacePreset.ColorType colorType) {
+        void setType(WatchFacePreset.ColorType colorType) {
             this.mColorType = colorType;
         }
 
@@ -962,7 +962,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 //            mSharedPrefResourceString = sharedPrefString;
 //        }
 
-        public void setLaunchActivityToSelectColor(Class<ColorSelectionActivity> activity) {
+        void setLaunchActivityToSelectColor(Class<ColorSelectionActivity> activity) {
             mLaunchActivityToSelectColor = activity;
         }
 
@@ -1047,7 +1047,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
         private String[] mPermutations;
 
-        public WatchFacePresetPickerViewHolder(View view) {
+        WatchFacePresetPickerViewHolder(View view) {
             super(view);
 
             mAppearanceButton = view.findViewById(R.id.watch_face_preset_picker_button);
@@ -1058,17 +1058,17 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             mAppearanceButton.setText(name);
         }
 
-        public void setIcon(int resourceId) {
+//        void setIcon(int resourceId) {
 //            Context context = mAppearanceButton.getContext();
 //            mAppearanceButton.setCompoundDrawablesWithIntrinsicBounds(
 //                    context.getDrawable(resourceId), null, mColorSwatchDrawable, null);
-        }
+//        }
 
         public void tickle() {
             itemView.invalidate();
         }
 
-        public void setType(String[] permutations) {
+        void setType(String[] permutations) {
             mPermutations = permutations;
         }
 
@@ -1076,7 +1076,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 //            mSharedPrefResourceString = sharedPrefString;
 //        }
 
-        public void setLaunchActivityToSelectWatchFacePreset(
+        void setLaunchActivityToSelectWatchFacePreset(
                 Class<WatchFacePresetSelectionActivity> activity) {
             mLaunchActivityToSelectColor = activity;
         }
@@ -1110,7 +1110,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         private int mDisabledIconResourceId;
         private String[] mPermutations;
 
-        public WatchFacePresetToggleViewHolder(View view) {
+        WatchFacePresetToggleViewHolder(View view) {
             super(view);
 
             mToggleSwitch = view.findViewById(R.id.watch_face_preset_toggle_switch);
@@ -1121,7 +1121,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             mToggleSwitch.setText(name);
         }
 
-        public void setIcons(int enabledIconResourceId, int disabledIconResourceId) {
+        void setIcons(int enabledIconResourceId, int disabledIconResourceId) {
 
             mEnabledIconResourceId = enabledIconResourceId;
             mDisabledIconResourceId = disabledIconResourceId;
@@ -1137,7 +1137,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             itemView.invalidate();
         }
 
-        public void setType(String[] permutations) {
+        void setType(String[] permutations) {
             // Expects "mPermutations" to be as follows:
             // mPermutations[0]: off state
             // mPermutations[1]: on state
@@ -1191,7 +1191,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
         private int mSharedPrefResourceId;
 
-        public UnreadNotificationViewHolder(View view) {
+        UnreadNotificationViewHolder(View view) {
             super(view);
 
             mUnreadNotificationSwitch = view.findViewById(R.id.unread_notification_switch);
@@ -1202,7 +1202,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             mUnreadNotificationSwitch.setText(name);
         }
 
-        public void setIcons(int enabledIconResourceId, int disabledIconResourceId) {
+        void setIcons(int enabledIconResourceId, int disabledIconResourceId) {
 
             mEnabledIconResourceId = enabledIconResourceId;
             mDisabledIconResourceId = disabledIconResourceId;
@@ -1214,7 +1214,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                     context.getDrawable(mEnabledIconResourceId), null, null, null);
         }
 
-        public void setSharedPrefId(int sharedPrefId) {
+        void setSharedPrefId(int sharedPrefId) {
             mSharedPrefResourceId = sharedPrefId;
 
             if (mUnreadNotificationSwitch != null) {
@@ -1250,7 +1250,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             String sharedPreferenceString = context.getString(mSharedPrefResourceId);
 
             // Since user clicked on a switch, new state should be opposite of current state.
-            Boolean newState = !mSharedPref.getBoolean(sharedPreferenceString, true);
+            boolean newState = !mSharedPref.getBoolean(sharedPreferenceString, true);
 
             SharedPreferences.Editor editor = mSharedPref.edit();
             editor.putBoolean(sharedPreferenceString, newState);
@@ -1268,7 +1268,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
         private Button mBackgroundComplicationButton;
 
-        public BackgroundComplicationViewHolder(View view) {
+        BackgroundComplicationViewHolder(View view) {
             super(view);
 
             mBackgroundComplicationButton =
@@ -1280,7 +1280,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             mBackgroundComplicationButton.setText(name);
         }
 
-        public void setIcon(int resourceId) {
+        void setIcon(int resourceId) {
             Context context = mBackgroundComplicationButton.getContext();
             mBackgroundComplicationButton.setCompoundDrawablesWithIntrinsicBounds(
                     context.getDrawable(resourceId), null, null, null);
@@ -1335,7 +1335,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         private int mDisabledIconResourceId;
         private int mSharedPrefResourceId;
 
-        public NightVisionViewHolder(View view) {
+        NightVisionViewHolder(View view) {
             super(view);
 
             mNightVisionSwitch = view.findViewById(R.id.night_vision_switch);
@@ -1346,7 +1346,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             mNightVisionSwitch.setText(name);
         }
 
-        public void setIcons(int enabledIconResourceId, int disabledIconResourceId) {
+        void setIcons(int enabledIconResourceId, int disabledIconResourceId) {
 
             mEnabledIconResourceId = enabledIconResourceId;
             mDisabledIconResourceId = disabledIconResourceId;
@@ -1358,7 +1358,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                     context.getDrawable(mEnabledIconResourceId), null, null, null);
         }
 
-        public void setSharedPrefId(int sharedPrefId) {
+        void setSharedPrefId(int sharedPrefId) {
             mSharedPrefResourceId = sharedPrefId;
 
             if (mNightVisionSwitch != null) {
@@ -1394,7 +1394,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             String sharedPreferenceString = context.getString(mSharedPrefResourceId);
 
             // Since user clicked on a switch, new state should be opposite of current state.
-            Boolean newState = !mSharedPref.getBoolean(sharedPreferenceString, true);
+            boolean newState = !mSharedPref.getBoolean(sharedPreferenceString, true);
 
             if (newState && context.checkSelfPermission(
                     android.Manifest.permission.ACCESS_COARSE_LOCATION)
