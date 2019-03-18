@@ -3287,11 +3287,10 @@ public final class PaintBox {
         if (this.width == width && this.height == height) {
             return;
         }
-        Log.d("onWidthAndHeightChanged", "width " + width + " height " + height);
 
         this.width = width;
         this.height = height;
-        pc = 0.01f * height;
+        pc = 0.01f * Math.min(height, width);
         mCenterX = width / 2f;
         mCenterY = height / 2f;
 

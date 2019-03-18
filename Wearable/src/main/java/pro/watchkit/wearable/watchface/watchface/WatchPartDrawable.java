@@ -84,7 +84,7 @@ abstract class WatchPartDrawable extends Drawable {
     void onWidthAndHeightChanged(Canvas canvas) {
         width = canvas.getWidth();
         height = canvas.getHeight();
-        pc = 0.01f * height;
+        pc = 0.01f * Math.min(height, width);
         /*
          * Find the coordinates of the center point on the screen, and ignore the window
          * insets, so that, on round watches with a "chin", the watch face is centered on the

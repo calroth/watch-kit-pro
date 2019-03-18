@@ -214,7 +214,7 @@ public class ColorSelectionActivity extends Activity {
                 }
 
                 RectF bounds = new RectF(getBounds());
-                float pc = 0.01f * bounds.width();
+                float pc = 0.01f * Math.min(bounds.height(), bounds.width());
 
                 Paint b = new Paint();
                 b.setColor(Color.RED);
