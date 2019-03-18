@@ -185,30 +185,31 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
             for (int tickIndex = 0; tickIndex < numTicks; tickIndex++) {
                 int majorTickDegrees = 90; // One major tick every 90 degrees.
                 int minorTickDegrees = 30; // One minor tick every 30 degrees.
+                float mCenter = Math.min(mCenterX, mCenterY);
                 if (tickIndex * (360 / numTicks) % majorTickDegrees == 0) {
                     //innerTickRadius = outerTickRadius - 20;
-//                outerTickRadius = mCenterX - (3f * pc);// - 10;
-//                innerTickRadius = mCenterX - (12f * pc);// - 40;
-//                    outerTickRadius = mCenterX - (3f * pc);// - 10;
-//                    innerTickRadius = mCenterX - (15f * pc);// - 40;
-                    outerTickRadius = mCenterX - (1f * pc);
-                    innerTickRadius = mCenterX - (13f * pc);
+//                outerTickRadius = mCenter - (3f * pc);// - 10;
+//                innerTickRadius = mCenter - (12f * pc);// - 40;
+//                    outerTickRadius = mCenter - (3f * pc);// - 10;
+//                    innerTickRadius = mCenter - (15f * pc);// - 40;
+                    outerTickRadius = mCenter - (1f * pc);
+                    innerTickRadius = mCenter - (13f * pc);
                 } else if (tickIndex * (360 / numTicks) % minorTickDegrees == 0) {
                     //innerTickRadius = outerTickRadius - 10;
-//                outerTickRadius = mCenterX - (5f * pc);// 15;
-//                innerTickRadius = mCenterX - (12f * pc);// 40;
-//                    outerTickRadius = mCenterX - (5f * pc);// 15;
-//                    innerTickRadius = mCenterX - (12f * pc);// 40;
-                    outerTickRadius = mCenterX - (3f * pc);
-                    innerTickRadius = mCenterX - (10f * pc);
+//                outerTickRadius = mCenter - (5f * pc);// 15;
+//                innerTickRadius = mCenter - (12f * pc);// 40;
+//                    outerTickRadius = mCenter - (5f * pc);// 15;
+//                    innerTickRadius = mCenter - (12f * pc);// 40;
+                    outerTickRadius = mCenter - (3f * pc);
+                    innerTickRadius = mCenter - (10f * pc);
                 } else {
                     //innerTickRadius = outerTickRadius - 5;
-//                outerTickRadius = mCenterX - (5f * pc);// 15;
-//                innerTickRadius = mCenterX - (10f * pc);// 30;
-//                    outerTickRadius = mCenterX - (7f * pc);// 15;
-//                    innerTickRadius = mCenterX - (9f * pc);// 30;
-                    outerTickRadius = mCenterX - (5f * pc);
-                    innerTickRadius = mCenterX - (7f * pc);
+//                outerTickRadius = mCenter - (5f * pc);// 15;
+//                innerTickRadius = mCenter - (10f * pc);// 30;
+//                    outerTickRadius = mCenter - (7f * pc);// 15;
+//                    innerTickRadius = mCenter - (9f * pc);// 30;
+                    outerTickRadius = mCenter - (5f * pc);
+                    innerTickRadius = mCenter - (7f * pc);
                 }
 
                 boolean isSixOClock = tickIndex == numTicks / 2;
