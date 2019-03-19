@@ -438,6 +438,24 @@ public class AnalogComplicationConfigData {
                     }
                 }));
 
+        // Data for ticks display in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_ticks_display),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TicksDisplay.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TicksDisplay h : WatchFacePreset.TicksDisplay.values()) {
+                            permutation.setTicksDisplay(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
         // Data for four tick shape in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_four_tick_shape),
@@ -528,6 +546,22 @@ public class AnalogComplicationConfigData {
                     }
                 }));
 
+        // Data for twelve tick override in settings Activity.
+        settingsConfigData.add(new WatchFacePresetToggleConfigItem(
+                context.getString(R.string.config_preset_twelve_tick_override),
+                R.drawable.ic_notifications_white_24dp,
+                R.drawable.ic_notifications_off_white_24dp,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[2];
+                        permutation.setTwelveTickOverride(false);
+                        result[0] = permutation.getString();
+                        permutation.setTwelveTickOverride(true);
+                        result[1] = permutation.getString();
+                        return result;
+                    }
+                }));
 
         // Data for twelve tick shape in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
@@ -615,6 +649,23 @@ public class AnalogComplicationConfigData {
                             permutation.setTwelveTickStyle(h);
                             result[i++] = permutation.getString();
                         }
+                        return result;
+                    }
+                }));
+
+        // Data for sixty tick override in settings Activity.
+        settingsConfigData.add(new WatchFacePresetToggleConfigItem(
+                context.getString(R.string.config_preset_sixty_tick_override),
+                R.drawable.ic_notifications_white_24dp,
+                R.drawable.ic_notifications_off_white_24dp,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[2];
+                        permutation.setSixtyTickOverride(false);
+                        result[0] = permutation.getString();
+                        permutation.setSixtyTickOverride(true);
+                        result[1] = permutation.getString();
                         return result;
                     }
                 }));

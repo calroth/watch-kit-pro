@@ -84,18 +84,22 @@
     <string name="config_preset_second_hand_thickness">Second Hand Thickness</string>
     <string name="config_preset_second_hand_style">Second Hand Style</string>
 
+    <string name="config_preset_ticks_display">Ticks Display</string>
+
     <string name="config_preset_four_tick_shape">Four Tick Shape</string>
     <string name="config_preset_four_tick_length">Four Tick Length</string>
     <string name="config_preset_four_tick_thickness">Four Tick Thickness</string>
     <string name="config_preset_four_tick_radius_position">Four Tick Radius Position</string>
     <string name="config_preset_four_tick_style">Four Tick Style</string>
 
+    <string name="config_preset_twelve_tick_override">Twelve Tick Override</string>
     <string name="config_preset_twelve_tick_shape">Twelve Tick Shape</string>
     <string name="config_preset_twelve_tick_length">Twelve Tick Length</string>
     <string name="config_preset_twelve_tick_thickness">Twelve Tick Thickness</string>
     <string name="config_preset_twelve_tick_radius_position">Twelve Tick Radius Position</string>
     <string name="config_preset_twelve_tick_style">Twelve Tick Style</string>
 
+    <string name="config_preset_sixty_tick_override">Sixty Tick Override</string>
     <string name="config_preset_sixty_tick_shape">Sixty Tick Shape</string>
     <string name="config_preset_sixty_tick_length">Sixty Tick Length</string>
     <string name="config_preset_sixty_tick_thickness">Sixty Tick Thickness</string>

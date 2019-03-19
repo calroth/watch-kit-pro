@@ -88,7 +88,8 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
         Paint twelveTickPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(mWatchFaceState.getWatchFacePreset().getTwelveTickStyle());
 
         // Invalidate if complications, unread notifications or total notifications have changed.
-        int currentSerial = Objects.hash(twelveTickPaint, complications, unreadNotifications, totalNotifications);
+        // Or the entire preset.
+        int currentSerial = Objects.hash(mWatchFaceState.getWatchFacePreset(), twelveTickPaint, complications, unreadNotifications, totalNotifications);
         if (mPreviousSerial != currentSerial) {
             mTicksActiveBitmapInvalidated = true;
             mTicksAmbientBitmapInvalidated = true;
@@ -182,10 +183,14 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
             //    mTickAndCirclePaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT);
             //}
 //        Log.d("AnalogWatchFace", "Start ticks");
+            boolean isFourTicksVisible = mWatchFaceState.getWatchFacePreset().isFourTicksVisible();
+            boolean isTwelveTicksVisible = mWatchFaceState.getWatchFacePreset().isTwelveTicksVisible();
+            boolean isSixtyTicksVisible = mWatchFaceState.getWatchFacePreset().isSixtyTicksVisible();
             for (int tickIndex = 0; tickIndex < numTicks; tickIndex++) {
                 int majorTickDegrees = 90; // One major tick every 90 degrees.
                 int minorTickDegrees = 30; // One minor tick every 30 degrees.
                 float mCenter = Math.min(mCenterX, mCenterY);
+                boolean isTickVisible;
                 if (tickIndex * (360 / numTicks) % majorTickDegrees == 0) {
                     //innerTickRadius = outerTickRadius - 20;
 //                outerTickRadius = mCenter - (3f * pc);// - 10;
@@ -194,6 +199,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 //                    innerTickRadius = mCenter - (15f * pc);// - 40;
                     outerTickRadius = mCenter - (1f * pc);
                     innerTickRadius = mCenter - (13f * pc);
+                    isTickVisible = isFourTicksVisible;
                 } else if (tickIndex * (360 / numTicks) % minorTickDegrees == 0) {
                     //innerTickRadius = outerTickRadius - 10;
 //                outerTickRadius = mCenter - (5f * pc);// 15;
@@ -202,6 +208,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 //                    innerTickRadius = mCenter - (12f * pc);// 40;
                     outerTickRadius = mCenter - (3f * pc);
                     innerTickRadius = mCenter - (10f * pc);
+                    isTickVisible = isTwelveTicksVisible;
                 } else {
                     //innerTickRadius = outerTickRadius - 5;
 //                outerTickRadius = mCenter - (5f * pc);// 15;
@@ -210,6 +217,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 //                    innerTickRadius = mCenter - (9f * pc);// 30;
                     outerTickRadius = mCenter - (5f * pc);
                     innerTickRadius = mCenter - (7f * pc);
+                    isTickVisible = isSixtyTicksVisible;
                 }
 
                 boolean isSixOClock = tickIndex == numTicks / 2;
@@ -245,7 +253,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                 } else if (numTicks == 60 && (tickIndex == 29 || tickIndex == 31) && drawUnreadNotification) {
                     // Don't draw seconds ticks 29 or 31 (either side of the notification at 30).
                     // (Do nothing.)
-                } else {
+                } else if (isTickVisible) {
                     // Draw the tick.
 
                     float tickWidth = TICK_WIDTH_PERCENT * pc;

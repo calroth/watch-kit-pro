@@ -20,6 +20,8 @@ package pro.watchkit.wearable.watchface.model;
 
 import android.util.Log;
 
+import java.util.Objects;
+
 public final class WatchFacePreset {
     private BytePacker bytePacker = new BytePacker();
     private Style backgroundStyle;
@@ -31,8 +33,8 @@ public final class WatchFacePreset {
     private HandStalk hourHandStalk;
     private HandStalk minuteHandStalk;
     private Style hourHandStyle, minuteHandStyle, secondHandStyle;
+    private TicksDisplay ticksDisplay;
     private boolean twelveTickOverride, sixtyTickOverride;
-    private boolean twelveTickHidden, sixtyTickHidden;
     private TickShape fourTickShape, twelveTickShape, sixtyTickShape;
     private TickLength fourTickLength, twelveTickLength, sixtyTickLength;
     private TickThickness fourTickThickness, twelveTickThickness, sixtyTickThickness;
@@ -79,13 +81,14 @@ public final class WatchFacePreset {
         setSecondHandThickness(HandThickness.THIN);
         setSecondHandStyle(Style.FILL);
 
+        setTicksDisplay(TicksDisplay.FOUR_TWELVE_60);
+
         setFourTickShape(TickShape.BAR);
         setFourTickLength(TickLength.MEDIUM);
         setFourTickThickness(TickThickness.THIN);
         setFourTickRadiusPosition(TickRadiusPosition.X_LONG);
         setFourTickStyle(Style.ACCENT_HIGHLIGHT);
 
-        setTwelveTickHidden(false);
         setTwelveTickOverride(false);
         setTwelveTickShape(TickShape.BAR);
         setTwelveTickLength(TickLength.MEDIUM);
@@ -93,7 +96,6 @@ public final class WatchFacePreset {
         setTwelveTickRadiusPosition(TickRadiusPosition.X_LONG);
         setTwelveTickStyle(Style.ACCENT_HIGHLIGHT);
 
-        setSixtyTickHidden(false);
         setSixtyTickOverride(false);
         setSixtyTickShape(TickShape.BAR);
         setSixtyTickLength(TickLength.MEDIUM);
@@ -109,6 +111,37 @@ public final class WatchFacePreset {
 //        bytePacker.unitTest();
 
         pack();
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode() + Objects.hash(
+                backgroundStyle,
+                minuteHandOverride,
+                secondHandOverride,
+                hourHandShape, minuteHandShape, secondHandShape,
+                hourHandLength, minuteHandLength, secondHandLength,
+                hourHandThickness, minuteHandThickness, secondHandThickness,
+                hourHandStalk,
+                minuteHandStalk,
+                hourHandStyle, minuteHandStyle, secondHandStyle,
+                ticksDisplay,
+                twelveTickOverride, sixtyTickOverride,
+                fourTickShape, twelveTickShape, sixtyTickShape,
+                fourTickLength, twelveTickLength, sixtyTickLength,
+                fourTickThickness, twelveTickThickness, sixtyTickThickness,
+                fourTickRadiusPosition, twelveTickRadiusPosition, sixtyTickRadiusPosition,
+                fourTickStyle,
+                twelveTickStyle,
+                sixtyTickStyle,
+                mFillSixBitColor,
+                mAccentSixBitColor,
+                mHighlightSixBitColor,
+                mBaseSixBitColor,
+                fillHighlightStyle,
+                accentFillStyle,
+                accentHighlightStyle,
+                baseAccentStyle);
     }
 
     public WatchFacePreset clone() {
@@ -160,13 +193,14 @@ public final class WatchFacePreset {
         secondHandThickness.pack(bytePacker);
         secondHandStyle.pack(bytePacker);
 
+        ticksDisplay.pack(bytePacker);
+
         fourTickShape.pack(bytePacker);
         fourTickLength.pack(bytePacker);
         fourTickThickness.pack(bytePacker);
         fourTickRadiusPosition.pack(bytePacker);
         fourTickStyle.pack(bytePacker);
 
-        bytePacker.put(twelveTickHidden);
         bytePacker.put(twelveTickOverride);
         twelveTickShape.pack(bytePacker);
         twelveTickLength.pack(bytePacker);
@@ -174,7 +208,6 @@ public final class WatchFacePreset {
         twelveTickRadiusPosition.pack(bytePacker);
         twelveTickStyle.pack(bytePacker);
 
-        bytePacker.put(sixtyTickHidden);
         bytePacker.put(sixtyTickOverride);
         sixtyTickShape.pack(bytePacker);
         sixtyTickLength.pack(bytePacker);
@@ -220,13 +253,14 @@ public final class WatchFacePreset {
         secondHandThickness = HandThickness.unpack(bytePacker);
         secondHandStyle = Style.unpack(bytePacker);
 
+        ticksDisplay = TicksDisplay.unpack(bytePacker);
+
         fourTickShape = TickShape.unpack(bytePacker);
         fourTickLength = TickLength.unpack(bytePacker);
         fourTickThickness = TickThickness.unpack(bytePacker);
         fourTickRadiusPosition = TickRadiusPosition.unpack(bytePacker);
         fourTickStyle = Style.unpack(bytePacker);
 
-        twelveTickHidden = bytePacker.getBoolean();
         twelveTickOverride = bytePacker.getBoolean();
         twelveTickShape = TickShape.unpack(bytePacker);
         twelveTickLength = TickLength.unpack(bytePacker);
@@ -234,7 +268,6 @@ public final class WatchFacePreset {
         twelveTickRadiusPosition = TickRadiusPosition.unpack(bytePacker);
         twelveTickStyle = Style.unpack(bytePacker);
 
-        sixtyTickHidden = bytePacker.getBoolean();
         sixtyTickOverride = bytePacker.getBoolean();
         sixtyTickShape = TickShape.unpack(bytePacker);
         sixtyTickLength = TickLength.unpack(bytePacker);
@@ -385,20 +418,35 @@ public final class WatchFacePreset {
         this.secondHandStyle = secondHandStyle;
     }
 
-    public boolean isTwelveTickHidden() {
-        return twelveTickHidden;
+    void setTicksDisplay(TicksDisplay ticksDisplay) {
+        this.ticksDisplay = ticksDisplay;
     }
 
-    void setTwelveTickHidden(boolean twelveTickHidden) {
-        this.twelveTickHidden = twelveTickHidden;
+    public boolean isFourTicksVisible() {
+        return this.ticksDisplay != TicksDisplay.NONE;
     }
 
-    public boolean isSixtyTickHidden() {
-        return sixtyTickHidden;
+    public boolean isTwelveTicksVisible() {
+        return this.ticksDisplay == TicksDisplay.FOUR_TWELVE ||
+                this.ticksDisplay == TicksDisplay.FOUR_TWELVE_60;
     }
 
-    void setSixtyTickHidden(boolean sixtyTickHidden) {
-        this.sixtyTickHidden = sixtyTickHidden;
+    public boolean isSixtyTicksVisible() {
+        return this.ticksDisplay == TicksDisplay.FOUR_TWELVE_60;
+    }
+
+    public enum TicksDisplay {
+        NONE, FOUR, FOUR_TWELVE, FOUR_TWELVE_60;
+
+        private static final int bits = 2;
+
+        static TicksDisplay unpack(BytePacker bytePacker) {
+            return values()[bytePacker.get(bits)];
+        }
+
+        void pack(BytePacker bytePacker) {
+            bytePacker.put(bits, values(), this);
+        }
     }
 
     public TickShape getFourTickShape() {
