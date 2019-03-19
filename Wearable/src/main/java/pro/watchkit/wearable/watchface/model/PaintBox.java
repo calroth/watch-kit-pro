@@ -45,64 +45,6 @@ public final class PaintBox {
 
     private static final float AMBIENT_PAINT_STROKE_WIDTH_PERCENT = 0.333f; // 0.333%
     private static final float PAINT_STROKE_WIDTH_PERCENT = 0.5f; // 0.5%
-
-    private int height = -1, width = -1;
-    private float pc = 0f; // percent, set to 0.01f * height, all units are based on percent
-    private float mCenterX, mCenterY;
-
-//    private int mFillColor;
-//    private int mAccentColor;
-//    private int mHighlightColor;
-//    private int mBaseColor;
-
-    private Paint mFillPaint;
-    private Paint mAccentPaint;
-    private Paint mHighlightPaint;
-    private Paint mBasePaint;
-
-    private Paint mAmbientPaint;
-    private Paint mShadowPaint;
-
-    private GradientPaint mFillHighlightPaint = new GradientPaint();
-    private GradientPaint mAccentFillPaint = new GradientPaint(),
-            mBezelPaint1,
-            mBezelPaint2 = new GradientPaint();
-    private GradientPaint mAccentHighlightPaint = new GradientPaint();
-    private GradientPaint mBaseAccentPaint = new GradientPaint();
-    private WatchFacePreset preset;
-    private int mPreviousSerial = -1;
-
-    private Context mContext;
-
-    public PaintBox(Context context, WatchFacePreset preset) {
-        this.preset = preset;
-        mContext = context;
-        mFillPaint = newDefaultPaint();
-        mAccentPaint = newDefaultPaint();
-        mHighlightPaint = newDefaultPaint();
-        mBasePaint = newDefaultPaint();
-
-//        mFillHighlightPaint = newDefaultPaint();
-//        mAccentFillPaint = newDefaultPaint();
-//        mBezelPaint2 = newDefaultPaint();
-//        mAccentHighlightPaint = newDefaultPaint();
-//        mBaseAccentPaint = newDefaultPaint();
-
-        mAmbientPaint = newDefaultPaint();
-        mAmbientPaint.setStyle(Paint.Style.STROKE);
-        mAmbientPaint.setColor(AMBIENT_WHITE);
-//        mAmbientPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mBaseColor);
-
-        mShadowPaint = newDefaultPaint();
-        mShadowPaint.setStyle(Paint.Style.FILL);
-//        mShadowPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mWatchHandShadowColor);
-//        mShadowPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, Color.WHITE);
-
-//        generatePalette();
-//        generateHugeListOfColors();
-//        generateTuples();
-    }
-
     private static String[] wikipediaNames = {
             "Absolute Zero",
             "Acajou",
@@ -1593,7 +1535,6 @@ public final class PaintBox {
             "Zinnwaldite Brown",
             "Zomp"
     };
-
     private static int[] wikipediaRawColors = {
             0x00, 0x48, 0xBA,
             0x4C, 0x2F, 0x27,
@@ -3084,6 +3025,59 @@ public final class PaintBox {
             0x2C, 0x16, 0x08,
             0x39, 0xA7, 0x8E
     };
+    private int height = -1, width = -1;
+
+    //    private int mFillColor;
+//    private int mAccentColor;
+//    private int mHighlightColor;
+//    private int mBaseColor;
+    private float pc = 0f; // percent, set to 0.01f * height, all units are based on percent
+    private float mCenterX, mCenterY;
+    private Paint mFillPaint;
+    private Paint mAccentPaint;
+    private Paint mHighlightPaint;
+    private Paint mBasePaint;
+    private Paint mAmbientPaint;
+    private Paint mShadowPaint;
+    private GradientPaint mFillHighlightPaint = new GradientPaint();
+    private GradientPaint mAccentFillPaint = new GradientPaint(),
+            mBezelPaint1,
+            mBezelPaint2 = new GradientPaint();
+    private GradientPaint mAccentHighlightPaint = new GradientPaint();
+    private GradientPaint mBaseAccentPaint = new GradientPaint();
+    private WatchFacePreset preset;
+    private int mPreviousSerial = -1;
+    private Context mContext;
+    private long[] wikipediaColors = new long[wikipediaNames.length];
+
+    public PaintBox(Context context, WatchFacePreset preset) {
+        this.preset = preset;
+        mContext = context;
+        mFillPaint = newDefaultPaint();
+        mAccentPaint = newDefaultPaint();
+        mHighlightPaint = newDefaultPaint();
+        mBasePaint = newDefaultPaint();
+
+//        mFillHighlightPaint = newDefaultPaint();
+//        mAccentFillPaint = newDefaultPaint();
+//        mBezelPaint2 = newDefaultPaint();
+//        mAccentHighlightPaint = newDefaultPaint();
+//        mBaseAccentPaint = newDefaultPaint();
+
+        mAmbientPaint = newDefaultPaint();
+        mAmbientPaint.setStyle(Paint.Style.STROKE);
+        mAmbientPaint.setColor(AMBIENT_WHITE);
+//        mAmbientPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mBaseColor);
+
+        mShadowPaint = newDefaultPaint();
+        mShadowPaint.setStyle(Paint.Style.FILL);
+//        mShadowPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mWatchHandShadowColor);
+//        mShadowPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, Color.WHITE);
+
+//        generatePalette();
+//        generateHugeListOfColors();
+//        generateTuples();
+    }
 
     private static Paint newDefaultPaint() {
         Paint result = new Paint();
@@ -3093,6 +3087,30 @@ public final class PaintBox {
 //        result.setPathEffect(new CornerPathEffect(3.2f));
         return result;
     }
+
+//    public Paint getAccentHighlightPaint() {
+//        regeneratePaints2();
+//        return mAccentHighlightPaint;
+//    }
+//
+//    public Paint getBaseAccentPaint() {
+//        regeneratePaints2();
+//        return mBaseAccentPaint;
+//    }
+
+//    public Paint getTickPaint() {
+//        regeneratePaints2();
+//        return mTickPaint;
+//    }
+
+//    public Paint getBackgroundPaint() {
+//        regeneratePaints2();
+//        return mBackgroundPaint;
+//    }
+
+    //    private Paint mHandPaint;
+//    private Paint mTickPaint;
+//    private Paint mBackgroundPaint;
 
     private static void generatePalette() {
         if (Build.VERSION.SDK_INT >= 26) {
@@ -3125,30 +3143,6 @@ public final class PaintBox {
             }
         }
     }
-
-//    public Paint getAccentHighlightPaint() {
-//        regeneratePaints2();
-//        return mAccentHighlightPaint;
-//    }
-//
-//    public Paint getBaseAccentPaint() {
-//        regeneratePaints2();
-//        return mBaseAccentPaint;
-//    }
-
-//    public Paint getTickPaint() {
-//        regeneratePaints2();
-//        return mTickPaint;
-//    }
-
-//    public Paint getBackgroundPaint() {
-//        regeneratePaints2();
-//        return mBackgroundPaint;
-//    }
-
-    //    private Paint mHandPaint;
-//    private Paint mTickPaint;
-//    private Paint mBackgroundPaint;
 
     private static void generatePalette1() {
         if (Build.VERSION.SDK_INT >= 26) {
@@ -3234,11 +3228,6 @@ public final class PaintBox {
         }
     }
 
-    public Paint getAmbientPaint() {
-        regeneratePaints2();
-        return mAmbientPaint;
-    }
-
 //    public void setPalette(WatchFacePreset preset) {
 //        this.mFillColor = preset.getColor(WatchFacePreset.ColorType.FILL);
 //        this.mAccentColor = preset.getColor(WatchFacePreset.ColorType.ACCENT);
@@ -3248,9 +3237,9 @@ public final class PaintBox {
 //        regeneratePaints();
 //    }
 
-    public Paint getShadowPaint() {
+    public Paint getAmbientPaint() {
         regeneratePaints2();
-        return mShadowPaint;
+        return mAmbientPaint;
     }
 
 //    private void regeneratePaints() {
@@ -3273,6 +3262,11 @@ public final class PaintBox {
 //        // TODO: make the above only trigger when the colors actually change.
 //        // TODO: actually, just hook it up to the WatchFacePreset code...
 //    }
+
+    public Paint getShadowPaint() {
+        regeneratePaints2();
+        return mShadowPaint;
+    }
 
     public Paint getFillHighlightPaint() {
         regeneratePaints2();
@@ -3543,6 +3537,22 @@ public final class PaintBox {
         }
     }
 
+    @TargetApi(26)
+    private void generateHugeListOfColors() {
+        ColorSpace CIE_LAB = ColorSpace.get(ColorSpace.Named.CIE_LAB);
+
+        Log.d("AnalogWatchFace", "Generating lots of colors...");
+
+        for (int i = 0; i < wikipediaNames.length; i++) {
+            wikipediaColors[i] = Color.convert(Color.argb(255,
+                    wikipediaRawColors[i * 3 + 0],
+                    wikipediaRawColors[i * 3 + 1],
+                    wikipediaRawColors[i * 3 + 2]), CIE_LAB);
+        }
+
+        Log.d("AnalogWatchFace", "Generated!");
+    }
+
     private class GradientPaint extends Paint {
         private int mCustomHashCode = -1;
 
@@ -3688,24 +3698,6 @@ public final class PaintBox {
             setShader(new BitmapShader(mAccentBasePaintBitmap,
                     Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
         }
-    }
-
-    private long[] wikipediaColors = new long[wikipediaNames.length];
-
-    @TargetApi(26)
-    private void generateHugeListOfColors() {
-        ColorSpace CIE_LAB = ColorSpace.get(ColorSpace.Named.CIE_LAB);
-
-        Log.d("AnalogWatchFace", "Generating lots of colors...");
-
-        for (int i = 0; i < wikipediaNames.length; i++) {
-            wikipediaColors[i] = Color.convert(Color.argb(255,
-                    wikipediaRawColors[i * 3 + 0],
-                    wikipediaRawColors[i * 3 + 1],
-                    wikipediaRawColors[i * 3 + 2]), CIE_LAB);
-        }
-
-        Log.d("AnalogWatchFace", "Generated!");
     }
 
     @TargetApi(26)

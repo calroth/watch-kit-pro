@@ -72,12 +72,11 @@ public class ColorSelectionActivity extends Activity {
 
     private int[][] mRows;
     private RectF[][] mRectFs;
+    private float mLastTouchX = -1f, mLastTouchY = -1f;
 
     private int calc(int a, int b, int c) {
         return (a * 16) + (b * 4) + c;
     }
-
-    private float mLastTouchX = -1f, mLastTouchY = -1f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -378,8 +377,8 @@ public class ColorSelectionActivity extends Activity {
      * back to preferences.
      *
      * @param sixBitColor New 6-bit color to set (between 0 and 63)
-     * @param preset WatchFacePreset to modify and write
-     * @param paintBox PaintBox to get the color names from, for display purposes
+     * @param preset      WatchFacePreset to modify and write
+     * @param paintBox    PaintBox to get the color names from, for display purposes
      */
     private void setSixBitColor(int sixBitColor, WatchFacePreset preset, PaintBox paintBox) {
         SharedPreferences preferences = getSharedPreferences(

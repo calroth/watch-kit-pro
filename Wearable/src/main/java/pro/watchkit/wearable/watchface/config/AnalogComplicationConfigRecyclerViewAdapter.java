@@ -784,27 +784,6 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
         private Class<ColorSelectionActivity> mLaunchActivityToSelectColor;
         private WatchFacePreset.ColorType mColorType;
-
-        public ColorPickerViewHolder(View view) {
-            super(view);
-
-            mAppearanceButton = view.findViewById(R.id.color_picker_button);
-            view.setOnClickListener(this);
-        }
-
-        public void setName(String name) {
-            mAppearanceButton.setText(name);
-        }
-
-        public void setIcon(int resourceId) {
-            Context context = mAppearanceButton.getContext();
-            mAppearanceButton.setCompoundDrawablesWithIntrinsicBounds(
-                    context.getDrawable(resourceId), null, mColorSwatchDrawable, null);
-        }
-
-        public void tickle() {
-            itemView.invalidate();
-        }
         private Drawable mColorSwatchDrawable = new Drawable() {
             @Override
             public void draw(@NonNull Canvas canvas) {
@@ -850,6 +829,27 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 return PixelFormat.OPAQUE;
             }
         };
+
+        public ColorPickerViewHolder(View view) {
+            super(view);
+
+            mAppearanceButton = view.findViewById(R.id.color_picker_button);
+            view.setOnClickListener(this);
+        }
+
+        public void setName(String name) {
+            mAppearanceButton.setText(name);
+        }
+
+        public void setIcon(int resourceId) {
+            Context context = mAppearanceButton.getContext();
+            mAppearanceButton.setCompoundDrawablesWithIntrinsicBounds(
+                    context.getDrawable(resourceId), null, mColorSwatchDrawable, null);
+        }
+
+        public void tickle() {
+            itemView.invalidate();
+        }
 
         public void setType(WatchFacePreset.ColorType colorType) {
             this.mColorType = colorType;
