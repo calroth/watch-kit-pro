@@ -25,20 +25,20 @@ import android.graphics.Paint;
 import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 
-final class WatchFaceBackgroundDrawable extends WatchFaceDrawable {
+final class WatchPartBackgroundDrawable extends WatchPartDrawable {
     @Override
     public void draw(@NonNull Canvas canvas) {
         super.draw(canvas);
 
-        if (mStateObject.ambient) {
-            mStateObject.paintBox.getAmbientPaint().setColor(
-                    mLocationCalculator.getDuskDawnColor(PaintBox.AMBIENT_WHITE));
+        if (mWatchFaceState.isAmbient()) {
+            mWatchFaceState.getPaintBox().getAmbientPaint().setColor(
+                    mWatchFaceState.getLocationCalculator().getDuskDawnColor(PaintBox.AMBIENT_WHITE));
         }
 
-        if (mStateObject.ambient /*&& (mLowBitAmbient || mBurnInProtection)*/) {
+        if (mWatchFaceState.isAmbient() /*&& (mLowBitAmbient || mBurnInProtection)*/) {
             canvas.drawColor(Color.BLACK);
         } else {
-            Paint p = mStateObject.paintBox.getPaintFromPreset(mStateObject.preset.getBackgroundStyle());
+            Paint p = mWatchFaceState.getPaintBox().getPaintFromPreset(mWatchFaceState.getWatchFacePreset().getBackgroundStyle());
             canvas.drawPaint(p);
 //            mPaintBox.getBaseAccentPaint().setStyle(Paint.Style.FILL);
 //            canvas.drawPaint(mPaintBox.getBackgroundPaint());

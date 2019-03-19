@@ -25,29 +25,18 @@ import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 
-import java.util.Collection;
-import java.util.GregorianCalendar;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import pro.watchkit.wearable.watchface.model.ComplicationHolder;
-import pro.watchkit.wearable.watchface.model.LocationCalculator;
-import pro.watchkit.wearable.watchface.model.PaintBox;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset;
+import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
-abstract class WatchFaceDrawable extends Drawable {
-    StateObject mStateObject;
-    GregorianCalendar mCalendar;
-    LocationCalculator mLocationCalculator;
+abstract class WatchPartDrawable extends Drawable {
+    WatchFaceState mWatchFaceState;
     int height = 0, width = 0;
     float pc = 0f; // percent, set to 0.01f * height, all units are based on percent
     float mCenterX, mCenterY;
 
-    void setState(StateObject mStateObject, GregorianCalendar mCalendar,
-                  LocationCalculator mLocationCalculator) {
-        this.mStateObject = mStateObject;
-        this.mCalendar = mCalendar;
-        this.mLocationCalculator = mLocationCalculator;
+    void setState(WatchFaceState mWatchFaceState) {
+        this.mWatchFaceState = mWatchFaceState;
     }
 
 //    boolean ambient;
@@ -61,14 +50,14 @@ abstract class WatchFaceDrawable extends Drawable {
         // Primary bevel
         // Secondary bevel
         // And finally the path itself.
-        if (!mStateObject.ambient) {
+        if (!mWatchFaceState.isAmbient()) {
             float mBevelOffset = 0.2f; // 0.2%
 
             // Shadow
-            canvas.drawPath(p, mStateObject.paintBox.getShadowPaint());
+            canvas.drawPath(p, mWatchFaceState.getPaintBox().getShadowPaint());
             // Primary bevel, offset to the top left
             {
-                Paint bezelPaint1 = mStateObject.paintBox.getBezelPaint1();
+                Paint bezelPaint1 = mWatchFaceState.getPaintBox().getBezelPaint1();
                 Path primaryP = new Path();
                 p.offset(-(mBevelOffset * pc), -(mBevelOffset * pc), primaryP);
                 bezelPaint1.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -76,7 +65,7 @@ abstract class WatchFaceDrawable extends Drawable {
             }
             // Secondary bevel, offset to the top right
             {
-                Paint bezelPaint2 = mStateObject.paintBox.getBezelPaint2();
+                Paint bezelPaint2 = mWatchFaceState.getPaintBox().getBezelPaint2();
                 Path secondaryP = new Path();
                 p.offset((mBevelOffset * pc), (mBevelOffset * pc), secondaryP);
                 bezelPaint2.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -88,14 +77,14 @@ abstract class WatchFaceDrawable extends Drawable {
         } else {
             // Ambient.
             // The path itself.
-            canvas.drawPath(p, mStateObject.paintBox.getAmbientPaint());
+            canvas.drawPath(p, mWatchFaceState.getPaintBox().getAmbientPaint());
         }
     }
 
     void onWidthAndHeightChanged(Canvas canvas) {
         width = canvas.getWidth();
         height = canvas.getHeight();
-        pc = 0.01f * height;
+        pc = 0.01f * Math.min(height, width);
         /*
          * Find the coordinates of the center point on the screen, and ignore the window
          * insets, so that, on round watches with a "chin", the watch face is centered on the
@@ -119,7 +108,7 @@ abstract class WatchFaceDrawable extends Drawable {
     @Override
     public void draw(@NonNull Canvas canvas) {
         // Check width and height.
-        mStateObject.paintBox.onWidthAndHeightChanged(canvas.getWidth(), canvas.getHeight());
+        mWatchFaceState.getPaintBox().onWidthAndHeightChanged(canvas.getWidth(), canvas.getHeight());
         if (canvas.getWidth() != width || canvas.getHeight() != height) {
             onWidthAndHeightChanged(canvas);
         }
@@ -144,12 +133,4 @@ abstract class WatchFaceDrawable extends Drawable {
 //        return 0;
     }
 
-    class StateObject {
-        WatchFacePreset preset;
-        PaintBox paintBox;
-        Collection<ComplicationHolder> complications;
-        int unreadNotifications;
-        int totalNotifications;
-        boolean ambient;
-    }
 }

@@ -3290,7 +3290,7 @@ public final class PaintBox {
 
         this.width = width;
         this.height = height;
-        pc = 0.01f * height;
+        pc = 0.01f * Math.min(height, width);
         mCenterX = width / 2f;
         mCenterY = height / 2f;
 
@@ -3669,6 +3669,7 @@ public final class PaintBox {
             float percent = mCenterX / 50f;
             float offset = 0.5f * percent;
             int alpha = 50;
+            float mCenter = Math.min(mCenterX, mCenterY);
 
             Paint circlePaint = new Paint();
             circlePaint.setStyle(Paint.Style.STROKE);
@@ -3679,7 +3680,7 @@ public final class PaintBox {
             // Spun metal circles?
             for (int max = 50, i = max; i > 0; i--) {
                 Path p = new Path();
-                p.addCircle(mCenterX, mCenterY, mCenterX * i / max, Path.Direction.CW);
+                p.addCircle(mCenterX, mCenterY, mCenter * i / max, Path.Direction.CW);
 
                 p.offset(-offset, -offset);
                 circlePaint.setColor(Color.WHITE);

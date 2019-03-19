@@ -52,7 +52,7 @@ import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 
-final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
+final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
     private static final boolean useNewBackgroundCachingMethod = true;
     private static final float TICK_WIDTH_PERCENT = 0.05f; // 0.05%
     private int mPreviousSerial = -1;
@@ -82,10 +82,10 @@ final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
 
         int original = 0, currentNightVisionTint = 0;
 
-        int unreadNotifications = mStateObject.unreadNotifications;
-        int totalNotifications = mStateObject.totalNotifications;
-        Collection<ComplicationHolder> complications = mStateObject.complications;
-        Paint twelveTickPaint = mStateObject.paintBox.getPaintFromPreset(mStateObject.preset.getTwelveTickStyle());
+        int unreadNotifications = mWatchFaceState.getUnreadNotifications();
+        int totalNotifications = mWatchFaceState.getTotalNotifications();
+        Collection<ComplicationHolder> complications = mWatchFaceState.getComplications();
+        Paint twelveTickPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(mWatchFaceState.getWatchFacePreset().getTwelveTickStyle());
 
         // Invalidate if complications, unread notifications or total notifications have changed.
         int currentSerial = Objects.hash(twelveTickPaint, complications, unreadNotifications, totalNotifications);
@@ -96,9 +96,9 @@ final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
         }
 
         // Invalidate if our night vision tint has changed
-        if (mStateObject.ambient) {
+        if (mWatchFaceState.isAmbient()) {
             original = PaintBox.AMBIENT_WHITE;
-            currentNightVisionTint = mLocationCalculator.getDuskDawnColor(original);
+            currentNightVisionTint = mWatchFaceState.getLocationCalculator().getDuskDawnColor(original);
             if (mPreviousNightVisionTint != currentNightVisionTint) {
                 Log.d("AnalogWatchFace", "currentNightVisionTint: was "
                         + mPreviousNightVisionTint + ", now " + currentNightVisionTint);
@@ -108,7 +108,7 @@ final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
         }
 
         // If we've been invalidated, regenerate and/or clear our bitmaps.
-        if (mStateObject.ambient) {
+        if (mWatchFaceState.isAmbient()) {
             if (mTicksAmbientBitmapInvalidated) {
                 // Initialise bitmap on first use or if our width/height have changed.
                 if (mTicksAmbientBitmap == null) {
@@ -160,7 +160,7 @@ final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
         if (!cacheHit) {
 
 //        Paint textPaint = ambient ? mAmbientPaint : mFillHighlightPaint;
-//        String notification = unreadNotifications + "/" + totalNotifications;
+//        String notification = mUnreadNotifications + "/" + mTotalNotifications;
 //        float width = textPaint.measureText(notification);
 //        canvas.drawText(notification, mCenterX - (width / 2f), mCenterY / 2f, textPaint);
 
@@ -185,30 +185,31 @@ final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
             for (int tickIndex = 0; tickIndex < numTicks; tickIndex++) {
                 int majorTickDegrees = 90; // One major tick every 90 degrees.
                 int minorTickDegrees = 30; // One minor tick every 30 degrees.
+                float mCenter = Math.min(mCenterX, mCenterY);
                 if (tickIndex * (360 / numTicks) % majorTickDegrees == 0) {
                     //innerTickRadius = outerTickRadius - 20;
-//                outerTickRadius = mCenterX - (3f * pc);// - 10;
-//                innerTickRadius = mCenterX - (12f * pc);// - 40;
-//                    outerTickRadius = mCenterX - (3f * pc);// - 10;
-//                    innerTickRadius = mCenterX - (15f * pc);// - 40;
-                    outerTickRadius = mCenterX - (1f * pc);
-                    innerTickRadius = mCenterX - (13f * pc);
+//                outerTickRadius = mCenter - (3f * pc);// - 10;
+//                innerTickRadius = mCenter - (12f * pc);// - 40;
+//                    outerTickRadius = mCenter - (3f * pc);// - 10;
+//                    innerTickRadius = mCenter - (15f * pc);// - 40;
+                    outerTickRadius = mCenter - (1f * pc);
+                    innerTickRadius = mCenter - (13f * pc);
                 } else if (tickIndex * (360 / numTicks) % minorTickDegrees == 0) {
                     //innerTickRadius = outerTickRadius - 10;
-//                outerTickRadius = mCenterX - (5f * pc);// 15;
-//                innerTickRadius = mCenterX - (12f * pc);// 40;
-//                    outerTickRadius = mCenterX - (5f * pc);// 15;
-//                    innerTickRadius = mCenterX - (12f * pc);// 40;
-                    outerTickRadius = mCenterX - (3f * pc);
-                    innerTickRadius = mCenterX - (10f * pc);
+//                outerTickRadius = mCenter - (5f * pc);// 15;
+//                innerTickRadius = mCenter - (12f * pc);// 40;
+//                    outerTickRadius = mCenter - (5f * pc);// 15;
+//                    innerTickRadius = mCenter - (12f * pc);// 40;
+                    outerTickRadius = mCenter - (3f * pc);
+                    innerTickRadius = mCenter - (10f * pc);
                 } else {
                     //innerTickRadius = outerTickRadius - 5;
-//                outerTickRadius = mCenterX - (5f * pc);// 15;
-//                innerTickRadius = mCenterX - (10f * pc);// 30;
-//                    outerTickRadius = mCenterX - (7f * pc);// 15;
-//                    innerTickRadius = mCenterX - (9f * pc);// 30;
-                    outerTickRadius = mCenterX - (5f * pc);
-                    innerTickRadius = mCenterX - (7f * pc);
+//                outerTickRadius = mCenter - (5f * pc);// 15;
+//                innerTickRadius = mCenter - (10f * pc);// 30;
+//                    outerTickRadius = mCenter - (7f * pc);// 15;
+//                    innerTickRadius = mCenter - (9f * pc);// 30;
+                    outerTickRadius = mCenter - (5f * pc);
+                    innerTickRadius = mCenter - (7f * pc);
                 }
 
                 boolean isSixOClock = tickIndex == numTicks / 2;
@@ -231,7 +232,7 @@ final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
                     float x = mCenterX + (innerX + outerX) / 2f;
                     float y = mCenterY + (innerY + outerY) / 2f;
                     p.addCircle(x, y, 4f * pc, Path.Direction.CW);
-                    if (!mStateObject.ambient) {
+                    if (!mWatchFaceState.isAmbient()) {
                         // Punch a hole in the circle to make it a donut.
                         Path p2 = new Path();
                         p2.addCircle(x, y, 3f * pc, Path.Direction.CW);
@@ -280,7 +281,7 @@ final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
             }
 
             // If not ambient, draw our complication rings.
-            if (!mStateObject.ambient && complications != null) {
+            if (!mWatchFaceState.isAmbient() && complications != null) {
                 Path rings = new Path();
                 Path holes = new Path();
 
@@ -306,7 +307,7 @@ final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
             }
 
             // Test: if ambient, draw our burn-in exclusion rings
-            if (mStateObject.ambient) {
+            if (mWatchFaceState.isAmbient()) {
 //            p.addCircle(mCenterX + 10, mCenterY + 10, mCenterX, Path.Direction.CW);
 //            p.addCircle(mCenterX + 10, mCenterY - 10, mCenterX, Path.Direction.CW);
 //            p.addCircle(mCenterX - 10, mCenterY + 10, mCenterX, Path.Direction.CW);
@@ -356,14 +357,14 @@ final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
                 Canvas tempCanvas = new Canvas(ticksBitmap);
                 int color = -1;
                 // Save and restore ambient color; for caching we always use white.
-                if (mStateObject.ambient) {
-                    color = mStateObject.paintBox.getAmbientPaint().getColor();
-                    mStateObject.paintBox.getAmbientPaint().setColor(PaintBox.AMBIENT_WHITE);
+                if (mWatchFaceState.isAmbient()) {
+                    color = mWatchFaceState.getPaintBox().getAmbientPaint().getColor();
+                    mWatchFaceState.getPaintBox().getAmbientPaint().setColor(PaintBox.AMBIENT_WHITE);
                 }
                 drawPath(tempCanvas, p, twelveTickPaint);
 //                drawPath(tempCanvas, p, mPaintBox.getTickPaint());
-                if (mStateObject.ambient) {
-                    mStateObject.paintBox.getAmbientPaint().setColor(color);
+                if (mWatchFaceState.isAmbient()) {
+                    mWatchFaceState.getPaintBox().getAmbientPaint().setColor(color);
                 }
 
                 // Hardware Bitmap Power
@@ -393,7 +394,7 @@ final class WatchFaceTicksRingsDrawable extends WatchFaceDrawable {
             mAmbientColorShiftPaint.setColorFilter(currentNightVisionTint != original
                     ? new LightingColorFilter(currentNightVisionTint, 0) : null);
 
-            Paint paint = mStateObject.ambient ? mAmbientColorShiftPaint : null;
+            Paint paint = mWatchFaceState.isAmbient() ? mAmbientColorShiftPaint : null;
             canvas.drawBitmap(ticksBitmap, 0, 0, paint);
         }
     }

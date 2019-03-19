@@ -74,6 +74,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 import pro.watchkit.wearable.watchface.R;
+import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.BackgroundComplicationConfigItem;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.ColorConfigItem;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.ConfigItemType;
@@ -81,6 +82,8 @@ import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.MoreOp
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.NightVisionConfigItem;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.PreviewAndComplicationsConfigItem;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.UnreadNotificationConfigItem;
+import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.WatchFacePresetPickerConfigItem;
+import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.WatchFacePresetToggleConfigItem;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
@@ -129,8 +132,10 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     public static final int TYPE_UNREAD_NOTIFICATION_CONFIG = 3;
     public static final int TYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG = 4;
     public static final int TYPE_NIGHT_VISION_CONFIG = 5;
+    public static final int TYPE_WATCH_FACE_PRESET_PICKER_CONFIG = 6;
+    public static final int TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG = 7;
     private static final String TAG = "CompConfigAdapter";
-    SharedPreferences mSharedPref;
+    private SharedPreferences mSharedPref;
     private Collection<ComplicationHolder> complications;
     private ComplicationHolder backgroundComplication;
     // ComponentName associated with watch face service (service that renders watch face). Used
@@ -153,10 +158,18 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     // Maintains reference view holder to dynamically update watch face preview. Used instead of
     // notifyItemChanged(int position) to avoid flicker and re-inflating the view.
     private PreviewAndComplicationsViewHolder mPreviewAndComplicationsViewHolder;
-    private List<ColorPickerViewHolder> mColorPickerViewHolders =
-            new ArrayList<ColorPickerViewHolder>();
+    private List<Ticklish> mTicklish = new ArrayList<>();
 
-    public AnalogComplicationConfigRecyclerViewAdapter(
+    /**
+     * The current user-selected WatchFacePreset with what's currently stored in preferences.
+     */
+    private WatchFacePreset mCurrentWatchFacePreset = new WatchFacePreset();
+    /**
+     * A PaintBox with the current user-selected WatchFacePreset.
+     */
+    private PaintBox mCurrentPaintBox;
+
+    AnalogComplicationConfigRecyclerViewAdapter(
             Context context,
             Class watchFaceServiceClass,
             ArrayList<ConfigItemType> settingsDataSet) {
@@ -190,6 +203,23 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         mProviderInfoRetriever =
                 new ProviderInfoRetriever(mContext, Executors.newCachedThreadPool());
         mProviderInfoRetriever.init();
+
+        mCurrentPaintBox = new PaintBox(context, mCurrentWatchFacePreset);
+        regenerateCurrentWatchFacePreset(context);
+    }
+
+    /**
+     * Regenerates the current WatchFacePreset with what's currently stored in preferences.
+     *
+     * @param context Current application context, to get preferences from
+     */
+    private void regenerateCurrentWatchFacePreset(Context context) {
+        SharedPreferences preferences =
+                context.getSharedPreferences(
+                        context.getString(R.string.analog_complication_preference_file_key),
+                        Context.MODE_PRIVATE);
+        mCurrentWatchFacePreset.setString(preferences.getString(
+                context.getString(R.string.saved_watch_face_preset), null));
     }
 
     @Override
@@ -201,7 +231,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         RecyclerView.ViewHolder viewHolder = null;
 
         switch (viewType) {
-            case TYPE_PREVIEW_AND_COMPLICATIONS_CONFIG:
+            case TYPE_PREVIEW_AND_COMPLICATIONS_CONFIG: {
                 // Need direct reference to watch face preview view holder to update watch face
                 // preview based on selections from the user.
                 mPreviewAndComplicationsViewHolder =
@@ -213,8 +243,9 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                                                 false));
                 viewHolder = mPreviewAndComplicationsViewHolder;
                 break;
+            }
 
-            case TYPE_MORE_OPTIONS:
+            case TYPE_MORE_OPTIONS: {
                 viewHolder =
                         new MoreOptionsViewHolder(
                                 LayoutInflater.from(parent.getContext())
@@ -223,16 +254,36 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                                                 parent,
                                                 false));
                 break;
+            }
 
-            case TYPE_COLOR_CONFIG:
+            case TYPE_COLOR_CONFIG: {
                 viewHolder =
                         new ColorPickerViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.config_list_color_item, parent, false));
-                mColorPickerViewHolders.add((ColorPickerViewHolder) viewHolder);
+                mTicklish.add((Ticklish) viewHolder);
                 break;
+            }
 
-            case TYPE_UNREAD_NOTIFICATION_CONFIG:
+            case TYPE_WATCH_FACE_PRESET_PICKER_CONFIG: {
+                viewHolder =
+                        new WatchFacePresetPickerViewHolder(
+                                LayoutInflater.from(parent.getContext())
+                                        .inflate(R.layout.config_list_watch_face_preset_item, parent, false));
+                mTicklish.add((Ticklish) viewHolder);
+                break;
+            }
+
+            case TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG: {
+                viewHolder =
+                        new WatchFacePresetToggleViewHolder(
+                                LayoutInflater.from(parent.getContext())
+                                        .inflate(R.layout.config_list_watch_face_preset_toggle, parent, false));
+                mTicklish.add((Ticklish) viewHolder);
+                break;
+            }
+
+            case TYPE_UNREAD_NOTIFICATION_CONFIG: {
                 viewHolder =
                         new UnreadNotificationViewHolder(
                                 LayoutInflater.from(parent.getContext())
@@ -241,8 +292,9 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                                                 parent,
                                                 false));
                 break;
+            }
 
-            case TYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG:
+            case TYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG: {
                 viewHolder =
                         new BackgroundComplicationViewHolder(
                                 LayoutInflater.from(parent.getContext())
@@ -251,8 +303,9 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                                                 parent,
                                                 false));
                 break;
+            }
 
-            case TYPE_NIGHT_VISION_CONFIG:
+            case TYPE_NIGHT_VISION_CONFIG: {
                 viewHolder =
                         new NightVisionViewHolder(
                                 LayoutInflater.from(parent.getContext())
@@ -261,6 +314,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                                                 parent,
                                                 false));
                 break;
+            }
         }
 
         return viewHolder;
@@ -274,7 +328,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         ConfigItemType configItemType = mSettingsDataSet.get(position);
 
         switch (viewHolder.getItemViewType()) {
-            case TYPE_PREVIEW_AND_COMPLICATIONS_CONFIG:
+            case TYPE_PREVIEW_AND_COMPLICATIONS_CONFIG: {
                 PreviewAndComplicationsViewHolder previewAndComplicationsViewHolder =
                         (PreviewAndComplicationsViewHolder) viewHolder;
 
@@ -288,16 +342,18 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
                 previewAndComplicationsViewHolder.initializesColorsAndComplications();
                 break;
+            }
 
-            case TYPE_MORE_OPTIONS:
+            case TYPE_MORE_OPTIONS: {
                 MoreOptionsViewHolder moreOptionsViewHolder = (MoreOptionsViewHolder) viewHolder;
                 MoreOptionsConfigItem moreOptionsConfigItem =
                         (MoreOptionsConfigItem) configItemType;
 
                 moreOptionsViewHolder.setIcon(moreOptionsConfigItem.getIconResourceId());
                 break;
+            }
 
-            case TYPE_COLOR_CONFIG:
+            case TYPE_COLOR_CONFIG: {
                 ColorPickerViewHolder colorPickerViewHolder = (ColorPickerViewHolder) viewHolder;
                 ColorConfigItem colorConfigItem = (ColorConfigItem) configItemType;
 
@@ -314,8 +370,48 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 //                colorPickerViewHolder.setSharedPrefString(sharedPrefString);
                 colorPickerViewHolder.setLaunchActivityToSelectColor(activity);
                 break;
+            }
 
-            case TYPE_UNREAD_NOTIFICATION_CONFIG:
+            case TYPE_WATCH_FACE_PRESET_PICKER_CONFIG: {
+                WatchFacePresetPickerViewHolder watchFacePresetPickerViewHolder =
+                        (WatchFacePresetPickerViewHolder) viewHolder;
+                WatchFacePresetPickerConfigItem watchFacePresetPickerConfigItem =
+                        (AnalogComplicationConfigData.WatchFacePresetPickerConfigItem) configItemType;
+
+//                int iconResourceId = watchFacePresetPickerConfigItem.getIconResourceId();
+                String name = watchFacePresetPickerConfigItem.getName();
+//                WatchFacePreset.WatchFacePresetType watchFacePresetType = watchFacePresetPickerConfigItem.getType();
+//                String sharedPrefString = watchFacePresetPickerConfigItem.getSharedPrefString();
+                Class<WatchFacePresetSelectionActivity> activity =
+                        watchFacePresetPickerConfigItem.getActivityToChoosePreference();
+
+//                watchFacePresetPickerViewHolder.setIcon(iconResourceId);
+                watchFacePresetPickerViewHolder.setName(name);
+                watchFacePresetPickerViewHolder.setType(
+                        watchFacePresetPickerConfigItem.permute(mCurrentWatchFacePreset));
+//                watchFacePresetPickerViewHolder.setSharedPrefString(sharedPrefString);
+                watchFacePresetPickerViewHolder.setLaunchActivityToSelectWatchFacePreset(activity);
+                break;
+            }
+
+            case TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG: {
+                WatchFacePresetToggleViewHolder watchFacePresetToggleViewHolder =
+                        (WatchFacePresetToggleViewHolder) viewHolder;
+                WatchFacePresetToggleConfigItem watchFacePresetToggleConfigItem =
+                        (WatchFacePresetToggleConfigItem) configItemType;
+
+                String name = watchFacePresetToggleConfigItem.getName();
+
+                watchFacePresetToggleViewHolder.setIcons(
+                        watchFacePresetToggleConfigItem.getIconEnabledResourceId(),
+                        watchFacePresetToggleConfigItem.getIconDisabledResourceId());
+                watchFacePresetToggleViewHolder.setName(name);
+                watchFacePresetToggleViewHolder.setType(
+                        watchFacePresetToggleConfigItem.permute(mCurrentWatchFacePreset));
+                break;
+            }
+
+            case TYPE_UNREAD_NOTIFICATION_CONFIG: {
                 UnreadNotificationViewHolder unreadViewHolder =
                         (UnreadNotificationViewHolder) viewHolder;
 
@@ -333,8 +429,9 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 unreadViewHolder.setName(unreadName);
                 unreadViewHolder.setSharedPrefId(unreadSharedPrefId);
                 break;
+            }
 
-            case TYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG:
+            case TYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG: {
                 BackgroundComplicationViewHolder backgroundComplicationViewHolder =
                         (BackgroundComplicationViewHolder) viewHolder;
 
@@ -347,8 +444,9 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 backgroundComplicationViewHolder.setIcon(backgroundIconResourceId);
                 backgroundComplicationViewHolder.setName(backgroundName);
                 break;
+            }
 
-            case TYPE_NIGHT_VISION_CONFIG:
+            case TYPE_NIGHT_VISION_CONFIG: {
                 NightVisionViewHolder nightVisionViewHolder =
                         (NightVisionViewHolder) viewHolder;
 
@@ -365,6 +463,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                         nightVisionEnabledIconResourceId, nightVisionDisabledIconResourceId);
                 nightVisionViewHolder.setName(nightVisionName);
                 nightVisionViewHolder.setSharedPrefId(nightVisionSharedPrefId);
+                break;
+            }
         }
     }
 
@@ -382,7 +482,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     /**
      * Updates the selected complication id saved earlier with the new information.
      */
-    public void updateSelectedComplication(ComplicationProviderInfo complicationProviderInfo) {
+    void updateSelectedComplication(ComplicationProviderInfo complicationProviderInfo) {
 
         Log.d(TAG, "updateSelectedComplication: " + mPreviewAndComplicationsViewHolder);
 
@@ -396,22 +496,22 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     }
 
     @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
         // Required to release retriever for active complication data on detach.
         mProviderInfoRetriever.release();
     }
 
-    public void updatePreviewColors() {
+    void updatePreviewColors() {
         Log.d(TAG, "updatePreviewColors(): " + mPreviewAndComplicationsViewHolder);
 
         if (mPreviewAndComplicationsViewHolder != null) {
             mPreviewAndComplicationsViewHolder.updateWatchFaceColors();
         }
 
-        // Update our ColorPickerViewHolders.
-        for (ColorPickerViewHolder c : mColorPickerViewHolders) {
-            c.tickle();
+        // Update our Ticklish objects.
+        for (Ticklish t : mTicklish) {
+            t.tickle();
         }
     }
 
@@ -438,7 +538,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
         private boolean mBackgroundComplicationEnabled;
 
-        public PreviewAndComplicationsViewHolder(final View view) {
+        PreviewAndComplicationsViewHolder(final View view) {
             super(view);
 
             backgroundComplication = new ComplicationHolder(null);
@@ -529,7 +629,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 //            }
         }
 
-        public void updateWatchFaceColors() {
+        void updateWatchFaceColors() {
 
             // Only update background colors for preview if background complications are disabled.
             if (!mBackgroundComplicationEnabled) {
@@ -602,7 +702,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             }
         }
 
-        public void setDefaultComplicationDrawable(int resourceId) {
+        void setDefaultComplicationDrawable(int resourceId) {
             Context context = mWatchFaceArmsAndTicksView.getContext();
             mDefaultComplicationDrawable = context.getDrawable(resourceId);
 
@@ -623,13 +723,13 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 //            mRightComplicationBackground.setVisibility(View.INVISIBLE);
         }
 
-        public void updateComplicationViews(
+        void updateComplicationViews(
                 ComplicationHolder complication, ComplicationProviderInfo complicationProviderInfo) {
 //                int watchFaceComplicationId, ComplicationProviderInfo complicationProviderInfo) {
             Log.d(TAG, "updateComplicationViews(): id: " + complication);
             Log.d(TAG, "\tinfo: " + complicationProviderInfo);
 
-            if (complication.isForeground == false) {
+            if (!complication.isForeground) {
 //            if (watchFaceComplicationId == mBackgroundComplicationId) {
                 if (complicationProviderInfo != null) {
                     mBackgroundComplicationEnabled = true;
@@ -702,7 +802,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             }
         }
 
-        public void initializesColorsAndComplications() {
+        void initializesColorsAndComplications() {
 
             // Initializes highlight color (just second arm and part of complications).
 //            String highlightSharedPrefString = mContext.getString(R.string.saved_marker_color);
@@ -755,18 +855,29 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     }
 
     /**
+     * An object is ticklish if it can be tickled. When ticked, an object invalidates and
+     * redraws itself.
+     */
+    private interface Ticklish {
+        /**
+         * Invalidate this object.
+         */
+        void tickle();
+    }
+
+    /**
      * Displays icon to indicate there are more options below the fold.
      */
     public class MoreOptionsViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView mMoreOptionsImageView;
 
-        public MoreOptionsViewHolder(View view) {
+        MoreOptionsViewHolder(View view) {
             super(view);
             mMoreOptionsImageView = view.findViewById(R.id.more_options_image_view);
         }
 
-        public void setIcon(int resourceId) {
+        void setIcon(int resourceId) {
             Context context = mMoreOptionsImageView.getContext();
             mMoreOptionsImageView.setImageDrawable(context.getDrawable(resourceId));
         }
@@ -776,7 +887,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
      * Displays color options for the an item on the watch face. These could include marker color,
      * background color, etc.
      */
-    public class ColorPickerViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
+    public class ColorPickerViewHolder
+            extends RecyclerView.ViewHolder implements OnClickListener, Ticklish {
 
         private Button mAppearanceButton;
 
@@ -790,18 +902,9 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 //                if (mSharedPrefResourceString == null) return;
                 if (mColorType == null) return;
 
-                Context context = mAppearanceButton.getContext();
-                SharedPreferences preferences =
-                        context.getSharedPreferences(
-                                context.getString(R.string.analog_complication_preference_file_key),
-                                Context.MODE_PRIVATE);
-                WatchFacePreset preset = new WatchFacePreset();
-                preset.setString(preferences.getString(
-                        context.getString(R.string.saved_watch_face_preset), null));
+                regenerateCurrentWatchFacePreset(mAppearanceButton.getContext());
 
-                PaintBox paintBox = new PaintBox(context, preset);
-
-                @ColorInt int color = paintBox.getColor(mColorType);
+                @ColorInt int color = mCurrentPaintBox.getColor(mColorType);
 
                 // Draw a circle that's 20px from right, top and left borders.
                 float radius = (canvas.getHeight() / 2f) - 20f;
@@ -830,7 +933,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             }
         };
 
-        public ColorPickerViewHolder(View view) {
+        ColorPickerViewHolder(View view) {
             super(view);
 
             mAppearanceButton = view.findViewById(R.id.color_picker_button);
@@ -841,7 +944,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             mAppearanceButton.setText(name);
         }
 
-        public void setIcon(int resourceId) {
+        void setIcon(int resourceId) {
             Context context = mAppearanceButton.getContext();
             mAppearanceButton.setCompoundDrawablesWithIntrinsicBounds(
                     context.getDrawable(resourceId), null, mColorSwatchDrawable, null);
@@ -851,7 +954,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             itemView.invalidate();
         }
 
-        public void setType(WatchFacePreset.ColorType colorType) {
+        void setType(WatchFacePreset.ColorType colorType) {
             this.mColorType = colorType;
         }
 
@@ -859,7 +962,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 //            mSharedPrefResourceString = sharedPrefString;
 //        }
 
-        public void setLaunchActivityToSelectColor(Class<ColorSelectionActivity> activity) {
+        void setLaunchActivityToSelectColor(Class<ColorSelectionActivity> activity) {
             mLaunchActivityToSelectColor = activity;
         }
 
@@ -878,8 +981,199 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(
                         launchIntent,
-                        AnalogComplicationConfigActivity.UPDATE_COLORS_CONFIG_REQUEST_CODE);
+                        AnalogComplicationConfigActivity.UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE);
             }
+        }
+    }
+
+    /**
+     * Displays color options for the an item on the watch face. These could include marker color,
+     * background color, etc.
+     */
+    public class WatchFacePresetPickerViewHolder
+            extends RecyclerView.ViewHolder implements OnClickListener, Ticklish {
+
+        private Button mAppearanceButton;
+
+//        private String mSharedPrefResourceString;
+
+        private Class<WatchFacePresetSelectionActivity> mLaunchActivityToSelectColor;
+//        private WatchFacePreset.ColorType mColorType;
+//        private Drawable mColorSwatchDrawable = new Drawable() {
+//            @Override
+//            public void draw(@NonNull Canvas canvas) {
+////                if (mSharedPrefResourceString == null) return;
+//                if (mColorType == null) return;
+//
+//                Context context = mAppearanceButton.getContext();
+//                SharedPreferences preferences =
+//                        context.getSharedPreferences(
+//                                context.getString(R.string.analog_complication_preference_file_key),
+//                                Context.MODE_PRIVATE);
+//                WatchFacePreset preset = new WatchFacePreset();
+//                preset.setString(preferences.getString(
+//                        context.getString(R.string.saved_watch_face_preset), null));
+//
+//                PaintBox paintBox = new PaintBox(context, preset);
+//
+//                @ColorInt int color = paintBox.getColor(mColorType);
+//
+//                // Draw a circle that's 20px from right, top and left borders.
+//                float radius = (canvas.getHeight() / 2f) - 20f;
+//                Paint p = new Paint();
+//                p.setColor(color);
+//                p.setStyle(Paint.Style.FILL);
+//                p.setAntiAlias(true);
+//                android.graphics.Rect r = canvas.getClipBounds();
+//                canvas.drawCircle(r.right - 20f - radius,
+//                        (r.top + r.bottom) / 2f, radius, p);
+//            }
+//
+//            @Override
+//            public void setAlpha(int alpha) {
+//                // Unused
+//            }
+//
+//            @Override
+//            public void setColorFilter(@Nullable ColorFilter colorFilter) {
+//                // Unused
+//            }
+//
+//            @Override
+//            public int getOpacity() {
+//                return PixelFormat.OPAQUE;
+//            }
+//        };
+
+        private String[] mPermutations;
+
+        WatchFacePresetPickerViewHolder(View view) {
+            super(view);
+
+            mAppearanceButton = view.findViewById(R.id.watch_face_preset_picker_button);
+            view.setOnClickListener(this);
+        }
+
+        public void setName(String name) {
+            mAppearanceButton.setText(name);
+        }
+
+//        void setIcon(int resourceId) {
+//            Context context = mAppearanceButton.getContext();
+//            mAppearanceButton.setCompoundDrawablesWithIntrinsicBounds(
+//                    context.getDrawable(resourceId), null, mColorSwatchDrawable, null);
+//        }
+
+        public void tickle() {
+            itemView.invalidate();
+        }
+
+        void setType(String[] permutations) {
+            mPermutations = permutations;
+        }
+
+//        public void setSharedPrefString(String sharedPrefString) {
+//            mSharedPrefResourceString = sharedPrefString;
+//        }
+
+        void setLaunchActivityToSelectWatchFacePreset(
+                Class<WatchFacePresetSelectionActivity> activity) {
+            mLaunchActivityToSelectColor = activity;
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            Log.d(TAG, "Complication onClick() position: " + position);
+
+            if (mLaunchActivityToSelectColor != null) {
+                Intent launchIntent = new Intent(view.getContext(), mLaunchActivityToSelectColor);
+
+                // Pass shared preference name to save color value to.
+                launchIntent.putExtra(EXTRA_SHARED_PREF, mPermutations);
+
+                Activity activity = (Activity) view.getContext();
+                activity.startActivityForResult(
+                        launchIntent,
+                        AnalogComplicationConfigActivity.UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE);
+            }
+        }
+    }
+
+    /**
+     * Displays switch to indicate whether or not the given WatchFacePreset flag is toggled on/off.
+     */
+    public class WatchFacePresetToggleViewHolder
+            extends RecyclerView.ViewHolder implements OnClickListener, Ticklish {
+        private Switch mToggleSwitch;
+        private int mEnabledIconResourceId;
+        private int mDisabledIconResourceId;
+        private String[] mPermutations;
+
+        WatchFacePresetToggleViewHolder(View view) {
+            super(view);
+
+            mToggleSwitch = view.findViewById(R.id.watch_face_preset_toggle_switch);
+            view.setOnClickListener(this);
+        }
+
+        public void setName(String name) {
+            mToggleSwitch.setText(name);
+        }
+
+        void setIcons(int enabledIconResourceId, int disabledIconResourceId) {
+
+            mEnabledIconResourceId = enabledIconResourceId;
+            mDisabledIconResourceId = disabledIconResourceId;
+
+            Context context = mToggleSwitch.getContext();
+
+            // Set default to enabled.
+            mToggleSwitch.setCompoundDrawablesWithIntrinsicBounds(
+                    context.getDrawable(mEnabledIconResourceId), null, null, null);
+        }
+
+        public void tickle() {
+            itemView.invalidate();
+        }
+
+        void setType(String[] permutations) {
+            // Expects "mPermutations" to be as follows:
+            // mPermutations[0]: off state
+            // mPermutations[1]: on state
+            mPermutations = permutations;
+            // Set "checked" based on whether our current watch face preset is
+            // the same as mPermutations[1] (the on state).
+            mToggleSwitch.setChecked(mCurrentWatchFacePreset.getString().equals(mPermutations[1]));
+        }
+
+        private void updateIcon(Context context, Boolean currentState) {
+            int currentIconResourceId;
+
+            if (currentState) {
+                currentIconResourceId = mEnabledIconResourceId;
+            } else {
+                currentIconResourceId = mDisabledIconResourceId;
+            }
+
+            mToggleSwitch.setChecked(currentState);
+            mToggleSwitch.setCompoundDrawablesWithIntrinsicBounds(
+                    context.getDrawable(currentIconResourceId), null, null, null);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            Log.d(TAG, "Complication onClick() position: " + position);
+
+            Boolean newState = mToggleSwitch.isChecked();
+            Context context = view.getContext();
+            SharedPreferences.Editor editor = mSharedPref.edit();
+            editor.putString(context.getString(R.string.saved_watch_face_preset),
+                    newState ? mPermutations[1] : mPermutations[0]);
+            editor.apply();
+
+            updateIcon(context, newState);
         }
     }
 
@@ -897,7 +1191,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
         private int mSharedPrefResourceId;
 
-        public UnreadNotificationViewHolder(View view) {
+        UnreadNotificationViewHolder(View view) {
             super(view);
 
             mUnreadNotificationSwitch = view.findViewById(R.id.unread_notification_switch);
@@ -908,7 +1202,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             mUnreadNotificationSwitch.setText(name);
         }
 
-        public void setIcons(int enabledIconResourceId, int disabledIconResourceId) {
+        void setIcons(int enabledIconResourceId, int disabledIconResourceId) {
 
             mEnabledIconResourceId = enabledIconResourceId;
             mDisabledIconResourceId = disabledIconResourceId;
@@ -920,7 +1214,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                     context.getDrawable(mEnabledIconResourceId), null, null, null);
         }
 
-        public void setSharedPrefId(int sharedPrefId) {
+        void setSharedPrefId(int sharedPrefId) {
             mSharedPrefResourceId = sharedPrefId;
 
             if (mUnreadNotificationSwitch != null) {
@@ -956,7 +1250,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             String sharedPreferenceString = context.getString(mSharedPrefResourceId);
 
             // Since user clicked on a switch, new state should be opposite of current state.
-            Boolean newState = !mSharedPref.getBoolean(sharedPreferenceString, true);
+            boolean newState = !mSharedPref.getBoolean(sharedPreferenceString, true);
 
             SharedPreferences.Editor editor = mSharedPref.edit();
             editor.putBoolean(sharedPreferenceString, newState);
@@ -974,7 +1268,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
         private Button mBackgroundComplicationButton;
 
-        public BackgroundComplicationViewHolder(View view) {
+        BackgroundComplicationViewHolder(View view) {
             super(view);
 
             mBackgroundComplicationButton =
@@ -986,7 +1280,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             mBackgroundComplicationButton.setText(name);
         }
 
-        public void setIcon(int resourceId) {
+        void setIcon(int resourceId) {
             Context context = mBackgroundComplicationButton.getContext();
             mBackgroundComplicationButton.setCompoundDrawablesWithIntrinsicBounds(
                     context.getDrawable(resourceId), null, null, null);
@@ -1041,7 +1335,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         private int mDisabledIconResourceId;
         private int mSharedPrefResourceId;
 
-        public NightVisionViewHolder(View view) {
+        NightVisionViewHolder(View view) {
             super(view);
 
             mNightVisionSwitch = view.findViewById(R.id.night_vision_switch);
@@ -1052,7 +1346,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             mNightVisionSwitch.setText(name);
         }
 
-        public void setIcons(int enabledIconResourceId, int disabledIconResourceId) {
+        void setIcons(int enabledIconResourceId, int disabledIconResourceId) {
 
             mEnabledIconResourceId = enabledIconResourceId;
             mDisabledIconResourceId = disabledIconResourceId;
@@ -1064,7 +1358,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                     context.getDrawable(mEnabledIconResourceId), null, null, null);
         }
 
-        public void setSharedPrefId(int sharedPrefId) {
+        void setSharedPrefId(int sharedPrefId) {
             mSharedPrefResourceId = sharedPrefId;
 
             if (mNightVisionSwitch != null) {
@@ -1100,7 +1394,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             String sharedPreferenceString = context.getString(mSharedPrefResourceId);
 
             // Since user clicked on a switch, new state should be opposite of current state.
-            Boolean newState = !mSharedPref.getBoolean(sharedPreferenceString, true);
+            boolean newState = !mSharedPref.getBoolean(sharedPreferenceString, true);
 
             if (newState && context.checkSelfPermission(
                     android.Manifest.permission.ACCESS_COARSE_LOCATION)

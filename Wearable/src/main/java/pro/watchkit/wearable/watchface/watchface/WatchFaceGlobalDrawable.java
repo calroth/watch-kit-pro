@@ -18,54 +18,58 @@
 
 package pro.watchkit.wearable.watchface.watchface;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import pro.watchkit.wearable.watchface.model.PaintBox;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset;
+import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 /**
  * A very basic Drawable that you feed a WatchFacePreset and a PaintBox and it
  * draws a watch face!
  */
 public class WatchFaceGlobalDrawable extends Drawable {
-    private WatchFaceDrawable[] mWatchFaceDrawables = new WatchFaceDrawable[]{
-            new WatchFaceBackgroundDrawable(),
-            new WatchFaceTicksRingsDrawable(),
-//            new WatchFaceComplicationsDrawable(),
-            new WatchFaceHandsDrawable()/*,
-            new WatchFaceStatsDrawable()*/
-    };
+    private WatchPartDrawable[] mWatchPartDrawables;
+    private WatchFaceState mWatchFaceState;
 
-    private WatchFaceDrawable.StateObject mStateObject;
-    private GregorianCalendar mCalendar = new GregorianCalendar();
+    WatchFaceGlobalDrawable(Context context, WatchPartDrawable[] watchPartDrawables) {
+        mWatchPartDrawables = watchPartDrawables;
 
-    public WatchFaceGlobalDrawable(WatchFacePreset watchFacePreset, PaintBox paintBox) {
-        mStateObject = mWatchFaceDrawables[0].new StateObject();
-        mStateObject.preset = watchFacePreset;
-        mStateObject.paintBox = paintBox;
-        mStateObject.unreadNotifications = 0;
-        mStateObject.totalNotifications = 0;
-        mStateObject.ambient = false;
+        mWatchFaceState = new WatchFaceState(context);
 
-        for (WatchFaceDrawable d : mWatchFaceDrawables) {
-            d.setState(mStateObject, mCalendar, null);
+        for (WatchPartDrawable d : mWatchPartDrawables) {
+            d.setState(mWatchFaceState);
         }
+    }
+
+    public WatchFaceGlobalDrawable(Context context) {
+        mWatchPartDrawables = new WatchPartDrawable[]{
+                new WatchPartBackgroundDrawable(),
+                new WatchPartTicksRingsDrawable(),
+                new WatchPartHandsDrawable()};
+
+        mWatchFaceState = new WatchFaceState(context);
+
+        for (WatchPartDrawable d : mWatchPartDrawables) {
+            d.setState(mWatchFaceState);
+        }
+    }
+
+    public WatchFaceState getWatchFaceState() {
+        return mWatchFaceState;
     }
 
     @Override
     public void draw(@NonNull Canvas canvas) {
         // Set the current date and time.
-        mCalendar.setTimeZone(TimeZone.getDefault());
-        mCalendar.setTimeInMillis(System.currentTimeMillis());
-        for (WatchFaceDrawable d : mWatchFaceDrawables) {
+        mWatchFaceState.setDefaultTimeZone();
+        mWatchFaceState.setCurrentTimeToNow();
+
+        for (WatchPartDrawable d : mWatchPartDrawables) {
             // For each of our drawables: draw it!
             d.draw(canvas);
         }

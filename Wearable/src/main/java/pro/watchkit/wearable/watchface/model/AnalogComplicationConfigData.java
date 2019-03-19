@@ -35,7 +35,6 @@
 package pro.watchkit.wearable.watchface.model;
 
 import android.content.Context;
-import android.graphics.Color;
 
 import java.util.ArrayList;
 
@@ -45,6 +44,7 @@ import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.AnalogComplicationConfigActivity;
 import pro.watchkit.wearable.watchface.config.AnalogComplicationConfigRecyclerViewAdapter;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
+import pro.watchkit.wearable.watchface.config.WatchFacePresetSelectionActivity;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
 /**
@@ -60,41 +60,6 @@ public class AnalogComplicationConfigData {
      */
     public static Class getWatchFaceServiceClass() {
         return AnalogComplicationWatchFaceService.class;
-    }
-
-    /**
-     * Returns Material Design color options.
-     */
-    public static ArrayList<Integer> getColorOptionsDataSet() {
-        ArrayList<Integer> colorOptionsDataSet = new ArrayList<>();
-        colorOptionsDataSet.add(Color.parseColor("#FFFFFF")); // White
-
-        colorOptionsDataSet.add(Color.parseColor("#FFEB3B")); // Yellow
-        colorOptionsDataSet.add(Color.parseColor("#FFC107")); // Amber
-        colorOptionsDataSet.add(Color.parseColor("#FF9800")); // Orange
-        colorOptionsDataSet.add(Color.parseColor("#FF5722")); // Deep Orange
-
-        colorOptionsDataSet.add(Color.parseColor("#F44336")); // Red
-        colorOptionsDataSet.add(Color.parseColor("#E91E63")); // Pink
-
-        colorOptionsDataSet.add(Color.parseColor("#9C27B0")); // Purple
-        colorOptionsDataSet.add(Color.parseColor("#673AB7")); // Deep Purple
-        colorOptionsDataSet.add(Color.parseColor("#3F51B5")); // Indigo
-        colorOptionsDataSet.add(Color.parseColor("#2196F3")); // Blue
-        colorOptionsDataSet.add(Color.parseColor("#03A9F4")); // Light Blue
-
-        colorOptionsDataSet.add(Color.parseColor("#00BCD4")); // Cyan
-        colorOptionsDataSet.add(Color.parseColor("#009688")); // Teal
-        colorOptionsDataSet.add(Color.parseColor("#4CAF50")); // Green
-        colorOptionsDataSet.add(Color.parseColor("#8BC34A")); // Lime Green
-        colorOptionsDataSet.add(Color.parseColor("#CDDC39")); // Lime
-
-        colorOptionsDataSet.add(Color.parseColor("#607D8B")); // Blue Grey
-        colorOptionsDataSet.add(Color.parseColor("#9E9E9E")); // Grey
-        colorOptionsDataSet.add(Color.parseColor("#795548")); // Brown
-        colorOptionsDataSet.add(Color.parseColor("#000000")); // Black
-
-        return colorOptionsDataSet;
     }
 
     /**
@@ -147,6 +112,693 @@ public class AnalogComplicationConfigData {
 //                context.getString(R.string.saved_base_color),
                 ColorSelectionActivity.class));
 
+        // Data for hour hand shape in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_hour_hand_shape),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.HandShape.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.HandShape h : WatchFacePreset.HandShape.values()) {
+                            permutation.setHourHandShape(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for hour hand length in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_hour_hand_length),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.HandLength.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.HandLength h : WatchFacePreset.HandLength.values()) {
+                            permutation.setHourHandLength(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for hour hand thickness in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_hour_hand_thickness),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.HandThickness.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.HandThickness h : WatchFacePreset.HandThickness.values()) {
+                            permutation.setHourHandThickness(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for hour hand stalk in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_hour_hand_stalk),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.HandStalk.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.HandStalk h : WatchFacePreset.HandStalk.values()) {
+                            permutation.setHourHandStalk(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for hour hand style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_hour_hand_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.Style.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.Style h : WatchFacePreset.Style.values()) {
+                            permutation.setHourHandStyle(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for hour hand cutout in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_hour_hand_cutout),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        // TODO: fill this in
+                        return new String[]{permutation.getString()};
+//                        String[] result = new String[WatchFacePreset.HandStalk.values().length];
+//                        int i = 0;
+//                        for (WatchFacePreset.HandStalk h : WatchFacePreset.HandStalk.values()) {
+//                            permutation.setHourHandStalk(h);
+//                            result[i++] = permutation.getString();
+//                        }
+//                        return result;
+                    }
+                }));
+
+        // Data for minute hand override in settings Activity.
+        settingsConfigData.add(new WatchFacePresetToggleConfigItem(
+                context.getString(R.string.config_preset_minute_hand_override),
+                R.drawable.ic_notifications_white_24dp,
+                R.drawable.ic_notifications_off_white_24dp,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[2];
+                        permutation.setMinuteHandOverride(false);
+                        result[0] = permutation.getString();
+                        permutation.setMinuteHandOverride(true);
+                        result[1] = permutation.getString();
+                        return result;
+                    }
+                }));
+
+        // Data for minute hand shape in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_minute_hand_shape),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.HandShape.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.HandShape h : WatchFacePreset.HandShape.values()) {
+                            permutation.setMinuteHandShape(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for minute hand length in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_minute_hand_length),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.HandLength.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.HandLength h : WatchFacePreset.HandLength.values()) {
+                            permutation.setMinuteHandLength(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for minute hand thickness in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_minute_hand_thickness),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.HandThickness.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.HandThickness h : WatchFacePreset.HandThickness.values()) {
+                            permutation.setMinuteHandThickness(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for minute hand stalk in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_minute_hand_stalk),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.HandStalk.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.HandStalk h : WatchFacePreset.HandStalk.values()) {
+                            permutation.setMinuteHandStalk(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for minute hand style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_minute_hand_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.Style.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.Style h : WatchFacePreset.Style.values()) {
+                            permutation.setMinuteHandStyle(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for minute hand cutout in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_minute_hand_cutout),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        // TODO: fill this in
+                        return new String[]{permutation.getString()};
+//                        String[] result = new String[WatchFacePreset.HandStalk.values().length];
+//                        int i = 0;
+//                        for (WatchFacePreset.HandStalk h : WatchFacePreset.HandStalk.values()) {
+//                            permutation.setMinuteHandStalk(h);
+//                            result[i++] = permutation.getString();
+//                        }
+//                        return result;
+                    }
+                }));
+
+        // Data for second hand override in settings Activity.
+        settingsConfigData.add(new WatchFacePresetToggleConfigItem(
+                context.getString(R.string.config_preset_second_hand_override),
+                R.drawable.ic_notifications_white_24dp,
+                R.drawable.ic_notifications_off_white_24dp,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[2];
+                        permutation.setSecondHandOverride(false);
+                        result[0] = permutation.getString();
+                        permutation.setSecondHandOverride(true);
+                        result[1] = permutation.getString();
+                        return result;
+                    }
+                }));
+
+        // Data for second hand shape in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_second_hand_shape),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.HandShape.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.HandShape h : WatchFacePreset.HandShape.values()) {
+                            permutation.setSecondHandShape(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for second hand length in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_second_hand_length),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.HandLength.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.HandLength h : WatchFacePreset.HandLength.values()) {
+                            permutation.setSecondHandLength(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for second hand thickness in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_second_hand_thickness),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.HandThickness.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.HandThickness h : WatchFacePreset.HandThickness.values()) {
+                            permutation.setSecondHandThickness(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for second hand style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_second_hand_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.Style.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.Style h : WatchFacePreset.Style.values()) {
+                            permutation.setSecondHandStyle(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for four tick shape in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_four_tick_shape),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickShape.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickShape h : WatchFacePreset.TickShape.values()) {
+                            permutation.setFourTickShape(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for four tick length in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_four_tick_length),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickLength.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickLength h : WatchFacePreset.TickLength.values()) {
+                            permutation.setFourTickLength(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for four tick thickness in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_four_tick_thickness),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickThickness.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickThickness h : WatchFacePreset.TickThickness.values()) {
+                            permutation.setFourTickThickness(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for four tick radius position in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_four_tick_radius_position),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickRadiusPosition.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickRadiusPosition h : WatchFacePreset.TickRadiusPosition.values()) {
+                            permutation.setFourTickRadiusPosition(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for four tick style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_four_tick_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.Style.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.Style h : WatchFacePreset.Style.values()) {
+                            permutation.setFourTickStyle(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+
+        // Data for twelve tick shape in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_twelve_tick_shape),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickShape.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickShape h : WatchFacePreset.TickShape.values()) {
+                            permutation.setTwelveTickShape(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for twelve tick length in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_twelve_tick_length),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickLength.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickLength h : WatchFacePreset.TickLength.values()) {
+                            permutation.setTwelveTickLength(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for twelve tick thickness in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_twelve_tick_thickness),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickThickness.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickThickness h : WatchFacePreset.TickThickness.values()) {
+                            permutation.setTwelveTickThickness(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for twelve tick radius position in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_twelve_tick_radius_position),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickRadiusPosition.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickRadiusPosition h : WatchFacePreset.TickRadiusPosition.values()) {
+                            permutation.setTwelveTickRadiusPosition(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for twelve tick style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_twelve_tick_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.Style.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.Style h : WatchFacePreset.Style.values()) {
+                            permutation.setTwelveTickStyle(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for sixty tick shape in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_sixty_tick_shape),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickShape.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickShape h : WatchFacePreset.TickShape.values()) {
+                            permutation.setSixtyTickShape(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for sixty tick length in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_sixty_tick_length),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickLength.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickLength h : WatchFacePreset.TickLength.values()) {
+                            permutation.setSixtyTickLength(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for sixty tick thickness in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_sixty_tick_thickness),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickThickness.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickThickness h : WatchFacePreset.TickThickness.values()) {
+                            permutation.setSixtyTickThickness(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for sixty tick radius position in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_sixty_tick_radius_position),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.TickRadiusPosition.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.TickRadiusPosition h : WatchFacePreset.TickRadiusPosition.values()) {
+                            permutation.setSixtyTickRadiusPosition(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for sixty tick style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_sixty_tick_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.Style.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.Style h : WatchFacePreset.Style.values()) {
+                            permutation.setSixtyTickStyle(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for sixty tick style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_sixty_tick_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.Style.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.Style h : WatchFacePreset.Style.values()) {
+                            permutation.setSixtyTickStyle(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for fill highlight style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_fill_highlight_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.GradientStyle.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.GradientStyle h : WatchFacePreset.GradientStyle.values()) {
+                            permutation.setFillHighlightStyle(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for accent fill style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_accent_fill_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.GradientStyle.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.GradientStyle h : WatchFacePreset.GradientStyle.values()) {
+                            permutation.setAccentFillStyle(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for accent highlight style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_accent_highlight_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.GradientStyle.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.GradientStyle h : WatchFacePreset.GradientStyle.values()) {
+                            permutation.setAccentHighlightStyle(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+
+        // Data for base accent style in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_base_accent_style),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.GradientStyle.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.GradientStyle h : WatchFacePreset.GradientStyle.values()) {
+                            permutation.setBaseAccentStyle(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+                }));
+        
         // Data for Background color UX in settings Activity.
 //        ConfigItemType backgroundColorConfigItem =
 //                new ColorConfigItem(
@@ -279,6 +931,99 @@ public class AnalogComplicationConfigData {
         @Override
         public int getConfigType() {
             return AnalogComplicationConfigRecyclerViewAdapter.TYPE_COLOR_CONFIG;
+        }
+    }
+
+    private interface WatchFacePresetMutator {
+        /**
+         * For the given WatchFacePreset (which must be a clone, since we'll modify it in the
+         * process) return a String array with each permutation.
+         *
+         * @param permutation WatchFacePreset, which must be a clone, since we'll modify it
+         * @return String array with each permutation
+         */
+        String[] permute(WatchFacePreset permutation);
+    }
+
+    public static class WatchFacePresetPickerConfigItem implements ConfigItemType {
+        private String name;
+        private int iconResourceId;
+        private Class<WatchFacePresetSelectionActivity> activityToChoosePreference;
+        private WatchFacePresetMutator mMutator;
+
+        WatchFacePresetPickerConfigItem(
+                String name,
+                int iconResourceId,
+                Class<WatchFacePresetSelectionActivity> activity,
+                WatchFacePresetMutator mutator) {
+            mMutator = mutator;
+            this.name = name;
+            this.iconResourceId = iconResourceId;
+            this.activityToChoosePreference = activity;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getIconResourceId() {
+            return iconResourceId;
+        }
+
+        public Class<WatchFacePresetSelectionActivity> getActivityToChoosePreference() {
+            return activityToChoosePreference;
+        }
+
+        @Override
+        public int getConfigType() {
+            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_PICKER_CONFIG;
+        }
+
+        public String[] permute(WatchFacePreset watchFacePreset) {
+            return mMutator.permute(watchFacePreset.clone());
+        }
+    }
+
+    /**
+     * Data for Night Vision preference picker item in RecyclerView.
+     */
+    public static class WatchFacePresetToggleConfigItem implements ConfigItemType {
+
+        private String name;
+        private int iconEnabledResourceId;
+        private int iconDisabledResourceId;
+        private WatchFacePresetMutator mMutator;
+
+        WatchFacePresetToggleConfigItem(
+                String name,
+                int iconEnabledResourceId,
+                int iconDisabledResourceId,
+                WatchFacePresetMutator mutator) {
+            this.name = name;
+            this.iconEnabledResourceId = iconEnabledResourceId;
+            this.iconDisabledResourceId = iconDisabledResourceId;
+            this.mMutator = mutator;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getIconEnabledResourceId() {
+            return iconEnabledResourceId;
+        }
+
+        public int getIconDisabledResourceId() {
+            return iconDisabledResourceId;
+        }
+
+        @Override
+        public int getConfigType() {
+            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG;
+        }
+
+        public String[] permute(WatchFacePreset watchFacePreset) {
+            return mMutator.permute(watchFacePreset.clone());
         }
     }
 

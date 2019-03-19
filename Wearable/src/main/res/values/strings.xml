@@ -63,6 +63,50 @@
     <string name="config_background_image_complication_label">Background\nImage</string>
     <string name="config_night_vision_label">Night\nVision</string>
 
+    <string name="config_preset_hour_hand_shape">Hour Hand Shape</string>
+    <string name="config_preset_hour_hand_length">Hour Hand Length</string>
+    <string name="config_preset_hour_hand_thickness">Hour Hand Thickness</string>
+    <string name="config_preset_hour_hand_stalk">Hour Hand Stalk</string>
+    <string name="config_preset_hour_hand_style">Hour Hand Style</string>
+    <string name="config_preset_hour_hand_cutout">Hour Hand Cutout</string>
+
+    <string name="config_preset_minute_hand_override">Minute Hand Override</string>
+    <string name="config_preset_minute_hand_shape">Minute Hand Shape</string>
+    <string name="config_preset_minute_hand_length">Minute Hand Length</string>
+    <string name="config_preset_minute_hand_thickness">Minute Hand Thickness</string>
+    <string name="config_preset_minute_hand_stalk">Minute Hand Stalk</string>
+    <string name="config_preset_minute_hand_style">Minute Hand Style</string>
+    <string name="config_preset_minute_hand_cutout">Minute Hand Cutout</string>
+
+    <string name="config_preset_second_hand_override">Second Hand Override</string>
+    <string name="config_preset_second_hand_shape">Second Hand Shape</string>
+    <string name="config_preset_second_hand_length">Second Hand Length</string>
+    <string name="config_preset_second_hand_thickness">Second Hand Thickness</string>
+    <string name="config_preset_second_hand_style">Second Hand Style</string>
+
+    <string name="config_preset_four_tick_shape">Four Tick Shape</string>
+    <string name="config_preset_four_tick_length">Four Tick Length</string>
+    <string name="config_preset_four_tick_thickness">Four Tick Thickness</string>
+    <string name="config_preset_four_tick_radius_position">Four Tick Radius Position</string>
+    <string name="config_preset_four_tick_style">Four Tick Style</string>
+
+    <string name="config_preset_twelve_tick_shape">Twelve Tick Shape</string>
+    <string name="config_preset_twelve_tick_length">Twelve Tick Length</string>
+    <string name="config_preset_twelve_tick_thickness">Twelve Tick Thickness</string>
+    <string name="config_preset_twelve_tick_radius_position">Twelve Tick Radius Position</string>
+    <string name="config_preset_twelve_tick_style">Twelve Tick Style</string>
+
+    <string name="config_preset_sixty_tick_shape">Sixty Tick Shape</string>
+    <string name="config_preset_sixty_tick_length">Sixty Tick Length</string>
+    <string name="config_preset_sixty_tick_thickness">Sixty Tick Thickness</string>
+    <string name="config_preset_sixty_tick_radius_position">Sixty Tick Radius Position</string>
+    <string name="config_preset_sixty_tick_style">Sixty Tick Style</string>
+
+    <string name="config_preset_fill_highlight_style">Fill Highlight Style</string>
+    <string name="config_preset_accent_fill_style">Accent Fill Style</string>
+    <string name="config_preset_accent_highlight_style">Accent Highlight Style</string>
+    <string name="config_preset_base_accent_style">Base Accent Style</string>
+
     <!-- TODO: this should be shared (needs covering all the samples with Gradle build model) -->
     <string name="color_black">Black</string>
     <string name="color_blue">Blue</string>

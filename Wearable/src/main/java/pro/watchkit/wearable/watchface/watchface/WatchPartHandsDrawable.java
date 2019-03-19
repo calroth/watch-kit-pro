@@ -24,12 +24,10 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 
-import java.util.Calendar;
-
 import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 
-final class WatchFaceHandsDrawable extends WatchFaceDrawable {
+final class WatchPartHandsDrawable extends WatchPartDrawable {
     private static final float HUB_RADIUS_PERCENT = 3f; // 3% // 1.5f; // 1.5%
     private static final float DIAMOND_HAND_ASPECT_RATIO = 8f;
     private static final float STRAIGHT_HAND_WIDTH_PERCENT = 2f; // 2% // 0.3f; // 0.3%
@@ -57,23 +55,22 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
 //        Path hub = new Path();
 //        hub.addCircle(mCenterX, mCenterY, HUB_RADIUS_PERCENT * pc, Path.Direction.CCW);
 
-        WatchFacePreset preset = mStateObject.preset;
+        WatchFacePreset preset = mWatchFaceState.getWatchFacePreset();
 
         /*
          * These calculations reflect the rotation in degrees per unit of time, e.g.,
          * 360 / 60 = 6 and 360 / 12 = 30.
          */
-        final float seconds =
-                (mCalendar.get(Calendar.SECOND) + mCalendar.get(Calendar.MILLISECOND) / 1000f);
+        final float seconds = mWatchFaceState.getSecondsDecimal();
         final float secondsRotation = seconds * 6f;
 
         final float minuteHandOffset = secondsRotation / 60f;
-        final float minutesRotation = mCalendar.get(Calendar.MINUTE) * 6f + minuteHandOffset;
+        final float minutesRotation = mWatchFaceState.getMinutes() * 6f + minuteHandOffset;
 
         final float hourHandOffset = minutesRotation / 12f;
-        final float hoursRotation = (mCalendar.get(Calendar.HOUR) * 30) + hourHandOffset;
+        final float hoursRotation = mWatchFaceState.getHours() * 30f + hourHandOffset;
 
-        Paint hourHandPaint = mStateObject.paintBox.getPaintFromPreset(preset.getHourHandStyle());
+        Paint hourHandPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(preset.getHourHandStyle());
         Path hourHandShape = getHourHandShape(preset, hoursRotation);
 //        Path hourHandShape = getHandShape(
 //                preset.getHourHandShape(), preset.getHourHandLength(),
@@ -85,7 +82,7 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
 //        }
         drawPath(canvas, hourHandShape, hourHandPaint);
 
-        Paint minuteHandPaint = mStateObject.paintBox.getPaintFromPreset(preset.getMinuteHandStyle());
+        Paint minuteHandPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(preset.getMinuteHandStyle());
         Path minuteHandShape = getMinuteHandShape(preset, minutesRotation);
         // Add the hub to the minute hand in ambient mode.
 //        Path minuteHub = ambient ? hub : null;
@@ -99,8 +96,8 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
          * Ensure the "seconds" hand is drawn only when we are in interactive mode.
          * Otherwise, we only update the watch face once a minute.
          */
-        if (!mStateObject.ambient) {
-            Paint secondHandPaint = mStateObject.paintBox.getPaintFromPreset(preset.getSecondHandStyle());
+        if (!mWatchFaceState.isAmbient()) {
+            Paint secondHandPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(preset.getSecondHandStyle());
             // Add the hub to the second hand in interactive mode.
             Path secondHandShape = getSecondHandShape(preset, secondsRotation);
 //            Path secondHandShape = getHandShape(
@@ -158,7 +155,7 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
 
         // Reset mHourHandPath and rotate the relevant hand into it.
         mHourHandPath.reset();
-        if (mStateObject.ambient)
+        if (mWatchFaceState.isAmbient())
             mHourHandAmbientPath.transform(m, mHourHandPath);
         else
             mHourHandActivePath.transform(m, mHourHandPath);
@@ -203,7 +200,7 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
 
         // Reset mMinuteHandPath and rotate the relevant hand into it.
         mMinuteHandPath.reset();
-        if (mStateObject.ambient)
+        if (mWatchFaceState.isAmbient())
             mMinuteHandAmbientPath.transform(m, mMinuteHandPath);
         else
             mMinuteHandActivePath.transform(m, mMinuteHandPath);
@@ -261,22 +258,27 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
         float bottom;
 
         switch (handLength) {
-            case SHORT:
+            case SHORT: {
                 length = 0.6f;
                 break;
-            case MEDIUM:
+            }
+            case MEDIUM: {
                 length = 0.8f;
                 break;
-            case LONG:
+            }
+            case LONG: {
                 length = 1.0f;
                 break;
-            case X_LONG:
+            }
+            case X_LONG: {
                 length = 1.2f;
                 break;
-            default:
+            }
+            default: {
                 // Shouldn't happen!
                 // Make same as LONG
                 length = 1.0f;
+            }
         }
 
         if (isMinuteHand) {
@@ -288,22 +290,27 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
         }
 
         switch (handThickness) {
-            case THIN:
+            case THIN: {
                 thickness = 0.5f;
                 break;
-            case REGULAR:
+            }
+            case REGULAR: {
                 thickness = 1.0f;
                 break;
-            case THICK:
+            }
+            case THICK: {
                 thickness = 1.5f;
                 break;
-            case X_THICK:
+            }
+            case X_THICK: {
                 thickness = 2.0f;
                 break;
-            default:
+            }
+            default: {
                 // Shouldn't happen!
                 // Make same as REGULAR
                 thickness = 1.0f;
+            }
         }
 
         if (isSecondHand) {
@@ -319,13 +326,15 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
         float stalkTopBitExtra = HUB_RADIUS_PERCENT * pc * 0.5f;
 
         switch (handStalk) {
-            case NEGATIVE:
+            case NEGATIVE: {
                 bottom = -HUB_RADIUS_PERCENT * pc * 2;
                 break;
-            case NONE:
+            }
+            case NONE: {
                 bottom = 0;
                 break;
-            case SHORT:
+            }
+            case SHORT: {
                 // Current: it's a factor of the size of the hub
                 //bottom = HUB_RADIUS_PERCENT * pc * 5;
                 // Alternate: it's a factor of the length of the stalk
@@ -343,7 +352,8 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
                 p.addRoundRect(mCenterX - straightWidth1, mCenterY - bottom - stalkTopBitExtra, mCenterX + straightWidth1,
                         mCenterY - stalkBottom, roundRectRadius, roundRectRadius, Path.Direction.CW);
                 break;
-            case MEDIUM:
+            }
+            case MEDIUM: {
                 // Current: it's a factor of the size of the hub
                 //bottom = HUB_RADIUS_PERCENT * pc * 9;
                 // Alternate: it's a factor of the length of the stalk
@@ -361,15 +371,17 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
                 p.addRoundRect(mCenterX - straightWidth2, mCenterY - bottom - stalkTopBitExtra, mCenterX + straightWidth2,
                         mCenterY - stalkBottom, roundRectRadius, roundRectRadius, Path.Direction.CW);
                 break;
-            default:
+            }
+            default: {
                 // Shouldn't happen!
                 // Make same as NONE
                 bottom = 0;
                 break;
+            }
         }
 
         switch (handShape) {
-            case STRAIGHT:
+            case STRAIGHT: {
                 float straightWidth = STRAIGHT_HAND_WIDTH_PERCENT * pc * thickness / 2f;
                 p.addRoundRect(mCenterX - straightWidth, mCenterY - length, mCenterX + straightWidth,
                         mCenterY - bottom, roundRectRadius, roundRectRadius, Path.Direction.CW);
@@ -379,7 +391,8 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
 //                p.lineTo(mCenterX - straightWidth, mCenterY - bottom);
 //                p.lineTo(mCenterX + straightWidth, mCenterY - bottom);
                 break;
-            case DIAMOND:
+            }
+            case DIAMOND: {
                 float diamondWidth = DIAMOND_HAND_ASPECT_RATIO * thickness;
                 // Add extra extension to the diamond top and bottom
                 // because the diamond shape tapers to a point
@@ -395,19 +408,23 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
                 p.close();
                 //p.lineTo(mCenterX, mCenterY - diamondTop);
                 break;
-            case ROUNDED:
+            }
+            case ROUNDED: {
                 break;
-            case UNKNOWN1:
+            }
+            case UNKNOWN1: {
                 break;
+            }
         }
 
         float cutoutWidth = 0.8f * pc; // 0.8 percent
 
         // Cutout
         switch (handShape) {
-            case STRAIGHT:
+            case STRAIGHT: {
                 break;
-            case DIAMOND:
+            }
+            case DIAMOND: {
                 float diamondWidth = DIAMOND_HAND_ASPECT_RATIO * thickness;
                 // Add extra extension to the diamond top and bottom
                 // because the diamond shape tapers to a point
@@ -451,22 +468,27 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
                 p.op(cutout, Path.Op.DIFFERENCE);
 
                 break;
-            case ROUNDED:
+            }
+            case ROUNDED: {
                 break;
-            case UNKNOWN1:
+            }
+            case UNKNOWN1: {
                 break;
+            }
         }
 
         // Stalk cutout
         RectF r;
         switch (handStalk) {
-            case NEGATIVE:
+            case NEGATIVE: {
                 bottom = -HUB_RADIUS_PERCENT * pc * 2;
                 break;
-            case NONE:
+            }
+            case NONE: {
                 bottom = 0;
                 break;
-            case SHORT:
+            }
+            case SHORT: {
                 // Current: it's a factor of the size of the hub
                 //bottom = HUB_RADIUS_PERCENT * pc * 5;
                 // Alternate: it's a factor of the length of the stalk
@@ -492,7 +514,8 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
                     p.op(cutout, Path.Op.DIFFERENCE);
                 }
                 break;
-            case MEDIUM:
+            }
+            case MEDIUM: {
                 // Current: it's a factor of the size of the hub
                 //bottom = HUB_RADIUS_PERCENT * pc * 9;
                 // Alternate: it's a factor of the length of the stalk
@@ -518,11 +541,13 @@ final class WatchFaceHandsDrawable extends WatchFaceDrawable {
                     p.op(cutout, Path.Op.DIFFERENCE);
                 }
                 break;
-            default:
+            }
+            default: {
                 // Shouldn't happen!
                 // Make same as NONE
                 bottom = 0;
                 break;
+            }
         }
 
         // Add the stalk!

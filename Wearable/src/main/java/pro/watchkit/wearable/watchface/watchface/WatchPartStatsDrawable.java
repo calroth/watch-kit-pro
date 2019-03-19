@@ -24,7 +24,7 @@ import android.graphics.Paint;
 import androidx.annotation.NonNull;
 
 @Deprecated
-final class WatchFaceStatsDrawable extends WatchFaceDrawable {
+final class WatchPartStatsDrawable extends WatchPartDrawable {
     static final String INVALID_COMPLICATION = "Complication";
     static final String INVALID_TIME_TICK = "Time Tick";
     static final String INVALID_TIMER_HANDLER = "Timer Handler";
@@ -47,13 +47,13 @@ final class WatchFaceStatsDrawable extends WatchFaceDrawable {
         super.draw(canvas);
 
         if (drawStats) {
-            Paint textPaint = mStateObject.ambient
-                    ? mStateObject.paintBox.getAmbientPaint() : mStateObject.paintBox.getFillHighlightPaint();
+            Paint textPaint = mWatchFaceState.isAmbient()
+                    ? mWatchFaceState.getPaintBox().getAmbientPaint() : mWatchFaceState.getPaintBox().getFillHighlightPaint();
 
             canvas.drawText(mInvalidTrigger, 20f * pc, 35f * pc, textPaint);
 
             canvas.drawText(invalid
-                            + String.format(" Alt: %.2f° / ", mLocationCalculator.getSunAltitude())
+                            + String.format(" Alt: %.2f° / ", mWatchFaceState.getLocationCalculator().getSunAltitude())
                             + String.format("%.2f", (double) (now[0] + now[1] + now[2] + now[3] + now[4]) / 1000000d)
                             + (canvas.isHardwareAccelerated() ? " (hw)" : " (sw)"),
                     12f * pc, 55f * pc, textPaint);

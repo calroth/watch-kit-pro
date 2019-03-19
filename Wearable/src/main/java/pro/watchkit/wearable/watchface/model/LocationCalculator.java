@@ -35,7 +35,7 @@ public final class LocationCalculator {
     private long previousSunAltitudeTime = 0;
     private double previousSunAltitude = 90d;
 
-    public LocationCalculator(GregorianCalendar mCalendar) {
+    LocationCalculator(GregorianCalendar mCalendar) {
         this.mCalendar = mCalendar;
     }
 

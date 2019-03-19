@@ -95,11 +95,11 @@ public final class ComplicationHolder implements Drawable.Callback {
         return "Complication " + getId() + (isForeground ? " (foreground)" : " (background)");
     }
 
-    public boolean onDrawableTap(int x, int y) {
+    boolean onDrawableTap(int x, int y) {
         return drawable.onTap(x, y);
     }
 
-    public void setAmbientMode(boolean inAmbientMode) {
+    void setAmbientMode(boolean inAmbientMode) {
         drawable.setInAmbientMode(inAmbientMode);
         drawable.setRangedValueProgressHidden(inAmbientMode);
         mIsInAmbientMode = inAmbientMode;
@@ -109,7 +109,7 @@ public final class ComplicationHolder implements Drawable.Callback {
         return mBounds;
     }
 
-    public void setBounds(Rect bounds) {
+    void setBounds(Rect bounds) {
         boolean dimensionsChanged = true;
         if (mBounds != null) {
             dimensionsChanged = mBounds.width() == bounds.width()
@@ -131,18 +131,19 @@ public final class ComplicationHolder implements Drawable.Callback {
         }
     }
 
-    @Deprecated
+    // TODO: why did I deprecate this?
+    //@Deprecated
     public void setBorderStyleActive(int borderStyle) {
         drawable.setBorderStyleActive(borderStyle);
     }
 
-    public void setAmbientColors(int textColor, int titleColor, int iconColor) {
+    void setAmbientColors(int textColor, int titleColor, int iconColor) {
         drawable.setTextColorAmbient(textColor);
         drawable.setTitleColorAmbient(titleColor);
         drawable.setIconColorAmbient(iconColor);
     }
 
-    public void setColors(int primaryComplicationColor) {
+    void setColors(int primaryComplicationColor) {
         if (!isForeground) {
             // Set the default to black, in case the user-defined image takes a while to load.
             drawable.setBackgroundColorActive(Color.BLACK);
@@ -182,7 +183,7 @@ public final class ComplicationHolder implements Drawable.Callback {
         mHandler.removeCallbacks(what, who);
     }
 
-    public void setDrawableCallback(InvalidateCallback invalidateCallback) {
+    void setDrawableCallback(InvalidateCallback invalidateCallback) {
         mInvalidateCallback = invalidateCallback;
 //        public void setDrawableCallback(Drawable.Callback cb) {
 //        drawable.setCallback(this);
@@ -191,7 +192,7 @@ public final class ComplicationHolder implements Drawable.Callback {
 //        drawable.invalidateSelf();
     }
 
-    public void setComplicationData(ComplicationData complicationData) {
+    void setComplicationData(ComplicationData complicationData) {
         drawable.setComplicationData(complicationData);
 //        mComplicationDescription = complicationData.toString();
         invalidate();
