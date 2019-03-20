@@ -51,6 +51,10 @@ import java.util.Objects;
 import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.PaintBox;
+import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickLength;
+import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickRadiusPosition;
+import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickShape;
+import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickThickness;
 
 final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
     private static final boolean useNewBackgroundCachingMethod = true;
@@ -191,6 +195,10 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                 int minorTickDegrees = 30; // One minor tick every 30 degrees.
                 float mCenter = Math.min(mCenterX, mCenterY);
                 boolean isTickVisible;
+				TickShape tickShape;
+				TickLength tickLength;
+				TickThickness tickThickness;
+				TickRadiusPosition tickRadiusPosition;
                 if (tickIndex * (360 / numTicks) % majorTickDegrees == 0) {
                     //innerTickRadius = outerTickRadius - 20;
 //                outerTickRadius = mCenter - (3f * pc);// - 10;
@@ -200,6 +208,10 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                     outerTickRadius = mCenter - (1f * pc);
                     innerTickRadius = mCenter - (13f * pc);
                     isTickVisible = isFourTicksVisible;
+					tickShape = mWatchFaceState.getWatchFacePreset().getFourTickShape();
+					tickLength = mWatchFaceState.getWatchFacePreset().getFourTickLength();
+					tickThickness = mWatchFaceState.getWatchFacePreset().getFourTickThickness();
+					tickRadiusPosition = mWatchFaceState.getWatchFacePreset().getFourTickRadiusPosition();
                 } else if (tickIndex * (360 / numTicks) % minorTickDegrees == 0) {
                     //innerTickRadius = outerTickRadius - 10;
 //                outerTickRadius = mCenter - (5f * pc);// 15;
@@ -209,6 +221,10 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                     outerTickRadius = mCenter - (3f * pc);
                     innerTickRadius = mCenter - (10f * pc);
                     isTickVisible = isTwelveTicksVisible;
+					tickShape = mWatchFaceState.getWatchFacePreset().getTwelveTickShape();
+					tickLength = mWatchFaceState.getWatchFacePreset().getTwelveTickLength();
+					tickThickness = mWatchFaceState.getWatchFacePreset().getTwelveTickThickness();
+					tickRadiusPosition = mWatchFaceState.getWatchFacePreset().getTwelveTickRadiusPosition();
                 } else {
                     //innerTickRadius = outerTickRadius - 5;
 //                outerTickRadius = mCenter - (5f * pc);// 15;
@@ -218,6 +234,10 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                     outerTickRadius = mCenter - (5f * pc);
                     innerTickRadius = mCenter - (7f * pc);
                     isTickVisible = isSixtyTicksVisible;
+					tickShape = mWatchFaceState.getWatchFacePreset().getSixtyTickShape();
+					tickLength = mWatchFaceState.getWatchFacePreset().getSixtyTickLength();
+					tickThickness = mWatchFaceState.getWatchFacePreset().getSixtyTickThickness();
+					tickRadiusPosition = mWatchFaceState.getWatchFacePreset().getSixtyTickRadiusPosition();
                 }
 
                 boolean isSixOClock = tickIndex == numTicks / 2;
@@ -257,6 +277,25 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                     // Draw the tick.
 
                     float tickWidth = TICK_WIDTH_PERCENT * pc;
+					
+					switch (tickThickness) {
+						case THIN: {
+							tickWidth *= 0.5f;
+							break;
+						}
+						case REGULAR: {
+							tickWidth *= 1.0f;
+							break;
+						}
+						case THICK: {
+							tickWidth *= 1.5f;
+							break;
+						}
+						case X_THICK: {
+							tickWidth *= 2.0f;
+							break;
+						}
+					}
                     float halfTickWidth = tickWidth / 2f;
 
                     // Draw the anticlockwise-side line and the outer curve.
