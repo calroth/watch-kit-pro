@@ -46,6 +46,8 @@ import android.support.wearable.complications.rendering.ComplicationDrawable;
 import android.util.Log;
 
 import java.util.Collection;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -58,7 +60,6 @@ import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickThickness;
 
 final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
     private static final boolean useNewBackgroundCachingMethod = true;
-    private static final float TICK_WIDTH_PERCENT = 0.05f; // 0.05%
     private int mPreviousSerial = -1;
     private int mPreviousNightVisionTint = -1;
     private Bitmap mTicksActiveBitmap = null;
@@ -67,6 +68,49 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
     private boolean mTicksActiveBitmapInvalidated = true;
     private Path mAmbientExclusionPath;
     private Paint mAmbientColorShiftPaint = new Paint();
+
+    private Map<TickShape, Map<TickThickness, Float>> mTickThicknessDimensions
+            = new EnumMap<>(TickShape.class);
+
+    WatchPartTicksRingsDrawable() {
+        super();
+
+        float tickWidthPercent = 0.05f;
+
+        Map<TickThickness, Float> tickThicknessBarDimensions
+                = new EnumMap<>(TickThickness.class);
+        Map<TickThickness, Float> tickThicknessDotDimensions
+                = new EnumMap<>(TickThickness.class);
+        Map<TickThickness, Float> tickThicknessTriangleDimensions
+                = new EnumMap<>(TickThickness.class);
+        Map<TickThickness, Float> tickThicknessDiamondDimensions
+                = new EnumMap<>(TickThickness.class);
+
+        tickThicknessBarDimensions.put(TickThickness.THIN, tickWidthPercent * 0.5f);
+        tickThicknessBarDimensions.put(TickThickness.REGULAR, tickWidthPercent * 1.0f);
+        tickThicknessBarDimensions.put(TickThickness.THICK, tickWidthPercent * 1.5f);
+        tickThicknessBarDimensions.put(TickThickness.X_THICK, tickWidthPercent * 2.0f);
+
+        tickThicknessDotDimensions.put(TickThickness.THIN, tickWidthPercent * 0.5f);
+        tickThicknessDotDimensions.put(TickThickness.REGULAR, tickWidthPercent * 1.0f);
+        tickThicknessDotDimensions.put(TickThickness.THICK, tickWidthPercent * 1.5f);
+        tickThicknessDotDimensions.put(TickThickness.X_THICK, tickWidthPercent * 2.0f);
+
+        tickThicknessTriangleDimensions.put(TickThickness.THIN, tickWidthPercent * 0.5f);
+        tickThicknessTriangleDimensions.put(TickThickness.REGULAR, tickWidthPercent * 1.0f);
+        tickThicknessTriangleDimensions.put(TickThickness.THICK, tickWidthPercent * 1.5f);
+        tickThicknessTriangleDimensions.put(TickThickness.X_THICK, tickWidthPercent * 2.0f);
+
+        tickThicknessDiamondDimensions.put(TickThickness.THIN, tickWidthPercent * 0.5f);
+        tickThicknessDiamondDimensions.put(TickThickness.REGULAR, tickWidthPercent * 1.0f);
+        tickThicknessDiamondDimensions.put(TickThickness.THICK, tickWidthPercent * 1.5f);
+        tickThicknessDiamondDimensions.put(TickThickness.X_THICK, tickWidthPercent * 2.0f);
+
+        mTickThicknessDimensions.put(TickShape.BAR, tickThicknessBarDimensions);
+        mTickThicknessDimensions.put(TickShape.DOT, tickThicknessDotDimensions);
+        mTickThicknessDimensions.put(TickShape.TRIANGLE, tickThicknessTriangleDimensions);
+        mTickThicknessDimensions.put(TickShape.DIAMOND, tickThicknessDiamondDimensions);
+    }
 
     @Override
     void onWidthAndHeightChanged(Canvas canvas) {
@@ -276,26 +320,9 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                 } else if (isTickVisible) {
                     // Draw the tick.
 
-                    float tickWidth = TICK_WIDTH_PERCENT * pc;
-					
-					switch (tickThickness) {
-						case THIN: {
-							tickWidth *= 0.5f;
-							break;
-						}
-						case REGULAR: {
-							tickWidth *= 1.0f;
-							break;
-						}
-						case THICK: {
-							tickWidth *= 1.5f;
-							break;
-						}
-						case X_THICK: {
-							tickWidth *= 2.0f;
-							break;
-						}
-					}
+                    // Get our dimensions.
+                    float tickWidth =
+                            mTickThicknessDimensions.get(tickShape).get(tickThickness) * pc;
                     float halfTickWidth = tickWidth / 2f;
 
                     // Draw the anticlockwise-side line and the outer curve.

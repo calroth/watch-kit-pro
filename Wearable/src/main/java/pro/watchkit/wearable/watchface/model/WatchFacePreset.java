@@ -678,6 +678,7 @@ public final class WatchFacePreset {
             bytePacker.put(bits, values(), this);
         }
     }
+
     public enum HandThickness {
         THIN, REGULAR, THICK, X_THICK;
 
@@ -691,6 +692,7 @@ public final class WatchFacePreset {
             bytePacker.put(bits, values(), this);
         }
     }
+
     public enum HandStalk {
         NEGATIVE, NONE, SHORT, MEDIUM;
 
@@ -704,6 +706,7 @@ public final class WatchFacePreset {
             bytePacker.put(bits, values(), this);
         }
     }
+
     public enum TickShape {
         BAR, DOT, TRIANGLE, DIAMOND;
 
@@ -745,6 +748,7 @@ public final class WatchFacePreset {
             bytePacker.put(bits, values(), this);
         }
     }
+
     public enum TickRadiusPosition {
         SHORT, MEDIUM, LONG, X_LONG;
 
