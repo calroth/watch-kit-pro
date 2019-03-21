@@ -77,39 +77,34 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
         float tickWidthPercent = 0.05f;
 
-        Map<TickThickness, Float> tickThicknessBarDimensions
-                = new EnumMap<>(TickThickness.class);
-        Map<TickThickness, Float> tickThicknessDotDimensions
-                = new EnumMap<>(TickThickness.class);
-        Map<TickThickness, Float> tickThicknessTriangleDimensions
-                = new EnumMap<>(TickThickness.class);
-        Map<TickThickness, Float> tickThicknessDiamondDimensions
-                = new EnumMap<>(TickThickness.class);
+        mTickThicknessDimensions.put(TickShape.BAR,
+                new EnumMap<TickThickness, Float>(TickThickness.class));
+        mTickThicknessDimensions.put(TickShape.DOT,
+                new EnumMap<TickThickness, Float>(TickThickness.class));
+        mTickThicknessDimensions.put(TickShape.TRIANGLE,
+                new EnumMap<TickThickness, Float>(TickThickness.class));
+        mTickThicknessDimensions.put(TickShape.DIAMOND,
+                new EnumMap<TickThickness, Float>(TickThickness.class));
 
-        tickThicknessBarDimensions.put(TickThickness.THIN, tickWidthPercent * 0.5f);
-        tickThicknessBarDimensions.put(TickThickness.REGULAR, tickWidthPercent * 1.0f);
-        tickThicknessBarDimensions.put(TickThickness.THICK, tickWidthPercent * 1.5f);
-        tickThicknessBarDimensions.put(TickThickness.X_THICK, tickWidthPercent * 2.0f);
+        mTickThicknessDimensions.get(TickShape.BAR).put(TickThickness.THIN, tickWidthPercent * 0.5f);
+        mTickThicknessDimensions.get(TickShape.BAR).put(TickThickness.REGULAR, tickWidthPercent * 1.0f);
+        mTickThicknessDimensions.get(TickShape.BAR).put(TickThickness.THICK, tickWidthPercent * 1.5f);
+        mTickThicknessDimensions.get(TickShape.BAR).put(TickThickness.X_THICK, tickWidthPercent * 2.0f);
 
-        tickThicknessDotDimensions.put(TickThickness.THIN, tickWidthPercent * 0.5f);
-        tickThicknessDotDimensions.put(TickThickness.REGULAR, tickWidthPercent * 1.0f);
-        tickThicknessDotDimensions.put(TickThickness.THICK, tickWidthPercent * 1.5f);
-        tickThicknessDotDimensions.put(TickThickness.X_THICK, tickWidthPercent * 2.0f);
+        mTickThicknessDimensions.get(TickShape.DOT).put(TickThickness.THIN, tickWidthPercent * 0.5f);
+        mTickThicknessDimensions.get(TickShape.DOT).put(TickThickness.REGULAR, tickWidthPercent * 1.0f);
+        mTickThicknessDimensions.get(TickShape.DOT).put(TickThickness.THICK, tickWidthPercent * 1.5f);
+        mTickThicknessDimensions.get(TickShape.DOT).put(TickThickness.X_THICK, tickWidthPercent * 2.0f);
 
-        tickThicknessTriangleDimensions.put(TickThickness.THIN, tickWidthPercent * 0.5f);
-        tickThicknessTriangleDimensions.put(TickThickness.REGULAR, tickWidthPercent * 1.0f);
-        tickThicknessTriangleDimensions.put(TickThickness.THICK, tickWidthPercent * 1.5f);
-        tickThicknessTriangleDimensions.put(TickThickness.X_THICK, tickWidthPercent * 2.0f);
+        mTickThicknessDimensions.get(TickShape.TRIANGLE).put(TickThickness.THIN, tickWidthPercent * 0.5f);
+        mTickThicknessDimensions.get(TickShape.TRIANGLE).put(TickThickness.REGULAR, tickWidthPercent * 1.0f);
+        mTickThicknessDimensions.get(TickShape.TRIANGLE).put(TickThickness.THICK, tickWidthPercent * 1.5f);
+        mTickThicknessDimensions.get(TickShape.TRIANGLE).put(TickThickness.X_THICK, tickWidthPercent * 2.0f);
 
-        tickThicknessDiamondDimensions.put(TickThickness.THIN, tickWidthPercent * 0.5f);
-        tickThicknessDiamondDimensions.put(TickThickness.REGULAR, tickWidthPercent * 1.0f);
-        tickThicknessDiamondDimensions.put(TickThickness.THICK, tickWidthPercent * 1.5f);
-        tickThicknessDiamondDimensions.put(TickThickness.X_THICK, tickWidthPercent * 2.0f);
-
-        mTickThicknessDimensions.put(TickShape.BAR, tickThicknessBarDimensions);
-        mTickThicknessDimensions.put(TickShape.DOT, tickThicknessDotDimensions);
-        mTickThicknessDimensions.put(TickShape.TRIANGLE, tickThicknessTriangleDimensions);
-        mTickThicknessDimensions.put(TickShape.DIAMOND, tickThicknessDiamondDimensions);
+        mTickThicknessDimensions.get(TickShape.DIAMOND).put(TickThickness.THIN, tickWidthPercent * 0.5f);
+        mTickThicknessDimensions.get(TickShape.DIAMOND).put(TickThickness.REGULAR, tickWidthPercent * 1.0f);
+        mTickThicknessDimensions.get(TickShape.DIAMOND).put(TickThickness.THICK, tickWidthPercent * 1.5f);
+        mTickThicknessDimensions.get(TickShape.DIAMOND).put(TickThickness.X_THICK, tickWidthPercent * 2.0f);
     }
 
     @Override
