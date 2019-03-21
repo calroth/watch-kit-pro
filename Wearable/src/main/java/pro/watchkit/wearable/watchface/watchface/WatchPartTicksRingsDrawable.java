@@ -46,11 +46,12 @@ import android.support.wearable.complications.rendering.ComplicationDrawable;
 import android.util.Log;
 
 import java.util.Collection;
-import java.util.EnumMap;
+import java.util.Hashtable;
 import java.util.Map;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickLength;
@@ -69,42 +70,32 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
     private Path mAmbientExclusionPath;
     private Paint mAmbientColorShiftPaint = new Paint();
 
-    private Map<TickShape, Map<TickThickness, Float>> mTickThicknessDimensions
-            = new EnumMap<>(TickShape.class);
+    private Map<Pair<TickShape, TickThickness>, Float> mTickThicknessDimens = new Hashtable<>();
 
     WatchPartTicksRingsDrawable() {
         super();
 
         float tickWidthPercent = 0.05f;
 
-        mTickThicknessDimensions.put(TickShape.BAR,
-                new EnumMap<TickThickness, Float>(TickThickness.class));
-        mTickThicknessDimensions.put(TickShape.DOT,
-                new EnumMap<TickThickness, Float>(TickThickness.class));
-        mTickThicknessDimensions.put(TickShape.TRIANGLE,
-                new EnumMap<TickThickness, Float>(TickThickness.class));
-        mTickThicknessDimensions.put(TickShape.DIAMOND,
-                new EnumMap<TickThickness, Float>(TickThickness.class));
+        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.THIN), tickWidthPercent * 0.5f);
+        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.REGULAR), tickWidthPercent * 1.0f);
+        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.THICK), tickWidthPercent * 1.5f);
+        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.X_THICK), tickWidthPercent * 2.0f);
 
-        mTickThicknessDimensions.get(TickShape.BAR).put(TickThickness.THIN, tickWidthPercent * 0.5f);
-        mTickThicknessDimensions.get(TickShape.BAR).put(TickThickness.REGULAR, tickWidthPercent * 1.0f);
-        mTickThicknessDimensions.get(TickShape.BAR).put(TickThickness.THICK, tickWidthPercent * 1.5f);
-        mTickThicknessDimensions.get(TickShape.BAR).put(TickThickness.X_THICK, tickWidthPercent * 2.0f);
+        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.THIN), tickWidthPercent * 0.5f);
+        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.REGULAR), tickWidthPercent * 1.0f);
+        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.THICK), tickWidthPercent * 1.5f);
+        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.X_THICK), tickWidthPercent * 2.0f);
 
-        mTickThicknessDimensions.get(TickShape.DOT).put(TickThickness.THIN, tickWidthPercent * 0.5f);
-        mTickThicknessDimensions.get(TickShape.DOT).put(TickThickness.REGULAR, tickWidthPercent * 1.0f);
-        mTickThicknessDimensions.get(TickShape.DOT).put(TickThickness.THICK, tickWidthPercent * 1.5f);
-        mTickThicknessDimensions.get(TickShape.DOT).put(TickThickness.X_THICK, tickWidthPercent * 2.0f);
+        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.THIN), tickWidthPercent * 0.5f);
+        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.REGULAR), tickWidthPercent * 1.0f);
+        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.THICK), tickWidthPercent * 1.5f);
+        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.X_THICK), tickWidthPercent * 2.0f);
 
-        mTickThicknessDimensions.get(TickShape.TRIANGLE).put(TickThickness.THIN, tickWidthPercent * 0.5f);
-        mTickThicknessDimensions.get(TickShape.TRIANGLE).put(TickThickness.REGULAR, tickWidthPercent * 1.0f);
-        mTickThicknessDimensions.get(TickShape.TRIANGLE).put(TickThickness.THICK, tickWidthPercent * 1.5f);
-        mTickThicknessDimensions.get(TickShape.TRIANGLE).put(TickThickness.X_THICK, tickWidthPercent * 2.0f);
-
-        mTickThicknessDimensions.get(TickShape.DIAMOND).put(TickThickness.THIN, tickWidthPercent * 0.5f);
-        mTickThicknessDimensions.get(TickShape.DIAMOND).put(TickThickness.REGULAR, tickWidthPercent * 1.0f);
-        mTickThicknessDimensions.get(TickShape.DIAMOND).put(TickThickness.THICK, tickWidthPercent * 1.5f);
-        mTickThicknessDimensions.get(TickShape.DIAMOND).put(TickThickness.X_THICK, tickWidthPercent * 2.0f);
+        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.THIN), tickWidthPercent * 0.5f);
+        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.REGULAR), tickWidthPercent * 1.0f);
+        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.THICK), tickWidthPercent * 1.5f);
+        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.X_THICK), tickWidthPercent * 2.0f);
     }
 
     @Override
@@ -317,7 +308,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
                     // Get our dimensions.
                     float tickWidth =
-                            mTickThicknessDimensions.get(tickShape).get(tickThickness) * pc;
+                            mTickThicknessDimens.get(Pair.create(tickShape, tickThickness)) * pc;
                     float halfTickWidth = tickWidth / 2f;
 
                     // Draw the anticlockwise-side line and the outer curve.
