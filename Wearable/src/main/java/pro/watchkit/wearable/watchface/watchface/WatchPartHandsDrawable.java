@@ -24,13 +24,18 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
+import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandLength;
+import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandShape;
+import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandStalk;
+import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandThickness;
 
 final class WatchPartHandsDrawable extends WatchPartDrawable {
     private static final float HUB_RADIUS_PERCENT = 3f; // 3% // 1.5f; // 1.5%
-    private static final float DIAMOND_HAND_ASPECT_RATIO = 8f;
-    private static final float STRAIGHT_HAND_WIDTH_PERCENT = 2f; // 2% // 0.3f; // 0.3%
     private static final float HOUR_MINUTE_HAND_MIDPOINT = 0.333f;
     private static final float ROUND_RECT_RADIUS_PERCENT = 1f;
     private Path mHub;
@@ -45,6 +50,77 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
     private WatchFacePreset mSecondPreset = null;
     private Path mSecondHandActivePath = new Path();
     private Path mSecondHandPath = new Path();
+
+    private Map<HandShape, Map<HandThickness, Float>> mHandThicknessDimensions
+            = new EnumMap<>(HandShape.class);
+
+    private Map<HandShape, Map<HandLength, Float>> mHandLengthDimensions
+            = new EnumMap<>(HandShape.class);
+
+    WatchPartHandsDrawable() {
+        super();
+
+        final float STRAIGHT_HAND_WIDTH_PERCENT = 2f;// 2% // 0.3f; // 0.3%
+        final float DIAMOND_HAND_ASPECT_RATIO = 8f;
+
+        mHandThicknessDimensions.put(HandShape.STRAIGHT,
+                new EnumMap<HandThickness, Float>(HandThickness.class));
+        mHandThicknessDimensions.put(HandShape.ROUNDED,
+                new EnumMap<HandThickness, Float>(HandThickness.class));
+        mHandThicknessDimensions.put(HandShape.DIAMOND,
+                new EnumMap<HandThickness, Float>(HandThickness.class));
+        mHandThicknessDimensions.put(HandShape.UNKNOWN1,
+                new EnumMap<HandThickness, Float>(HandThickness.class));
+
+        mHandThicknessDimensions.get(HandShape.STRAIGHT).put(HandThickness.THIN, 0.5f * STRAIGHT_HAND_WIDTH_PERCENT * 0.5f);
+        mHandThicknessDimensions.get(HandShape.STRAIGHT).put(HandThickness.REGULAR, 1.0f * STRAIGHT_HAND_WIDTH_PERCENT * 0.5f);
+        mHandThicknessDimensions.get(HandShape.STRAIGHT).put(HandThickness.THICK, 1.5f * STRAIGHT_HAND_WIDTH_PERCENT * 0.5f);
+        mHandThicknessDimensions.get(HandShape.STRAIGHT).put(HandThickness.X_THICK, 2.0f * STRAIGHT_HAND_WIDTH_PERCENT * 0.5f);
+
+        mHandThicknessDimensions.get(HandShape.ROUNDED).put(HandThickness.THIN, 0.5f);
+        mHandThicknessDimensions.get(HandShape.ROUNDED).put(HandThickness.REGULAR, 1.0f);
+        mHandThicknessDimensions.get(HandShape.ROUNDED).put(HandThickness.THICK, 1.5f);
+        mHandThicknessDimensions.get(HandShape.ROUNDED).put(HandThickness.X_THICK, 2.0f);
+
+        mHandThicknessDimensions.get(HandShape.DIAMOND).put(HandThickness.THIN, 0.5f * DIAMOND_HAND_ASPECT_RATIO);
+        mHandThicknessDimensions.get(HandShape.DIAMOND).put(HandThickness.REGULAR, 1.0f * DIAMOND_HAND_ASPECT_RATIO);
+        mHandThicknessDimensions.get(HandShape.DIAMOND).put(HandThickness.THICK, 1.5f * DIAMOND_HAND_ASPECT_RATIO);
+        mHandThicknessDimensions.get(HandShape.DIAMOND).put(HandThickness.X_THICK, 2.0f * DIAMOND_HAND_ASPECT_RATIO);
+
+        mHandThicknessDimensions.get(HandShape.UNKNOWN1).put(HandThickness.THIN, 0.5f);
+        mHandThicknessDimensions.get(HandShape.UNKNOWN1).put(HandThickness.REGULAR, 1.0f);
+        mHandThicknessDimensions.get(HandShape.UNKNOWN1).put(HandThickness.THICK, 1.5f);
+        mHandThicknessDimensions.get(HandShape.UNKNOWN1).put(HandThickness.X_THICK, 2.0f);
+
+        mHandLengthDimensions.put(HandShape.STRAIGHT,
+                new EnumMap<HandLength, Float>(HandLength.class));
+        mHandLengthDimensions.put(HandShape.ROUNDED,
+                new EnumMap<HandLength, Float>(HandLength.class));
+        mHandLengthDimensions.put(HandShape.DIAMOND,
+                new EnumMap<HandLength, Float>(HandLength.class));
+        mHandLengthDimensions.put(HandShape.UNKNOWN1,
+                new EnumMap<HandLength, Float>(HandLength.class));
+
+        mHandLengthDimensions.get(HandShape.STRAIGHT).put(HandLength.SHORT, 0.6f);
+        mHandLengthDimensions.get(HandShape.STRAIGHT).put(HandLength.MEDIUM, 0.8f);
+        mHandLengthDimensions.get(HandShape.STRAIGHT).put(HandLength.LONG, 1.0f);
+        mHandLengthDimensions.get(HandShape.STRAIGHT).put(HandLength.X_LONG, 1.2f);
+
+        mHandLengthDimensions.get(HandShape.ROUNDED).put(HandLength.SHORT, 0.6f);
+        mHandLengthDimensions.get(HandShape.ROUNDED).put(HandLength.MEDIUM, 0.8f);
+        mHandLengthDimensions.get(HandShape.ROUNDED).put(HandLength.LONG, 1.0f);
+        mHandLengthDimensions.get(HandShape.ROUNDED).put(HandLength.X_LONG, 1.2f);
+
+        mHandLengthDimensions.get(HandShape.DIAMOND).put(HandLength.SHORT, 0.6f);
+        mHandLengthDimensions.get(HandShape.DIAMOND).put(HandLength.MEDIUM, 0.8f);
+        mHandLengthDimensions.get(HandShape.DIAMOND).put(HandLength.LONG, 1.0f);
+        mHandLengthDimensions.get(HandShape.DIAMOND).put(HandLength.X_LONG, 1.2f);
+
+        mHandLengthDimensions.get(HandShape.UNKNOWN1).put(HandLength.SHORT, 0.6f);
+        mHandLengthDimensions.get(HandShape.UNKNOWN1).put(HandLength.MEDIUM, 0.8f);
+        mHandLengthDimensions.get(HandShape.UNKNOWN1).put(HandLength.LONG, 1.0f);
+        mHandLengthDimensions.get(HandShape.UNKNOWN1).put(HandLength.X_LONG, 1.2f);
+    }
 
     @Override
     public void draw(@NonNull Canvas canvas) {
@@ -249,37 +325,14 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
 
     private void getHandShape(
             Path p,
-            WatchFacePreset.HandShape handShape, WatchFacePreset.HandLength handLength,
-            WatchFacePreset.HandThickness handThickness, WatchFacePreset.HandStalk handStalk,
+            HandShape handShape, HandLength handLength,
+            HandThickness handThickness, HandStalk handStalk,
             boolean isMinuteHand, boolean isSecondHand) {
 //        Path p = new Path();
 
-        float length, thickness;
+        float length = mHandLengthDimensions.get(handShape).get(handLength);
+        float thickness = mHandThicknessDimensions.get(handShape).get(handThickness);
         float bottom;
-
-        switch (handLength) {
-            case SHORT: {
-                length = 0.6f;
-                break;
-            }
-            case MEDIUM: {
-                length = 0.8f;
-                break;
-            }
-            case LONG: {
-                length = 1.0f;
-                break;
-            }
-            case X_LONG: {
-                length = 1.2f;
-                break;
-            }
-            default: {
-                // Shouldn't happen!
-                // Make same as LONG
-                length = 1.0f;
-            }
-        }
 
         if (isMinuteHand) {
             length = length * 40f * pc; // 40%
@@ -287,30 +340,6 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
             length = length * 45f * pc; // 45%
         } else {
             length = length * 30f * pc; // 30%
-        }
-
-        switch (handThickness) {
-            case THIN: {
-                thickness = 0.5f;
-                break;
-            }
-            case REGULAR: {
-                thickness = 1.0f;
-                break;
-            }
-            case THICK: {
-                thickness = 1.5f;
-                break;
-            }
-            case X_THICK: {
-                thickness = 2.0f;
-                break;
-            }
-            default: {
-                // Shouldn't happen!
-                // Make same as REGULAR
-                thickness = 1.0f;
-            }
         }
 
         if (isSecondHand) {
@@ -323,6 +352,9 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
         float stalkBottom = -HUB_RADIUS_PERCENT * pc * 2;
         // We add a bit extra to the stalk top so it overlaps with the hand,
         // in order that the union works OK without gaps.
+        // For the stalk thickness, use the width of the Straight hand shape, but only half.
+        float stalkThickness =
+                mHandThicknessDimensions.get(HandShape.STRAIGHT).get(handThickness) * pc * 0.5f;
         float stalkTopBitExtra = HUB_RADIUS_PERCENT * pc * 0.5f;
 
         switch (handStalk) {
@@ -343,13 +375,12 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
                 //bottom = mCenterX * 0.25f
 //                stalk = new Path();
                 // Draw a stalk. This is just a straight hand at 1/2 the thickness.
-                float straightWidth1 = STRAIGHT_HAND_WIDTH_PERCENT * pc * thickness / 4f;
 //                p.moveTo(mCenterX + straightWidth1, mCenterY - stalkBottom1);
 //                p.lineTo(mCenterX + straightWidth1, mCenterY - bottom);
 //                p.lineTo(mCenterX - straightWidth1, mCenterY - bottom);
 //                p.lineTo(mCenterX - straightWidth1, mCenterY - stalkBottom1);
 //                p.lineTo(mCenterX + straightWidth1, mCenterY - stalkBottom1);
-                p.addRoundRect(mCenterX - straightWidth1, mCenterY - bottom - stalkTopBitExtra, mCenterX + straightWidth1,
+                p.addRoundRect(mCenterX - stalkThickness, mCenterY - bottom - stalkTopBitExtra, mCenterX + stalkThickness,
                         mCenterY - stalkBottom, roundRectRadius, roundRectRadius, Path.Direction.CW);
                 break;
             }
@@ -362,13 +393,12 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
                 //bottom = mCenterX * 0.5f
 //                stalk = new Path();
                 // Draw a stalk. This is just a straight hand at 1/2 the thickness.
-                float straightWidth2 = STRAIGHT_HAND_WIDTH_PERCENT * pc * thickness / 4f;
 //                p.moveTo(mCenterX + straightWidth2, mCenterY - stalkBottom2);
 //                p.lineTo(mCenterX + straightWidth2, mCenterY - bottom);
 //                p.lineTo(mCenterX - straightWidth2, mCenterY - bottom);
 //                p.lineTo(mCenterX - straightWidth2, mCenterY - stalkBottom2);
 //                p.lineTo(mCenterX + straightWidth2, mCenterY - stalkBottom2);
-                p.addRoundRect(mCenterX - straightWidth2, mCenterY - bottom - stalkTopBitExtra, mCenterX + straightWidth2,
+                p.addRoundRect(mCenterX - stalkThickness, mCenterY - bottom - stalkTopBitExtra, mCenterX + stalkThickness,
                         mCenterY - stalkBottom, roundRectRadius, roundRectRadius, Path.Direction.CW);
                 break;
             }
@@ -382,7 +412,7 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
 
         switch (handShape) {
             case STRAIGHT: {
-                float straightWidth = STRAIGHT_HAND_WIDTH_PERCENT * pc * thickness / 2f;
+                float straightWidth = thickness * pc;
                 p.addRoundRect(mCenterX - straightWidth, mCenterY - length, mCenterX + straightWidth,
                         mCenterY - bottom, roundRectRadius, roundRectRadius, Path.Direction.CW);
 //                p.moveTo(mCenterX + straightWidth, mCenterY - bottom);
@@ -393,7 +423,7 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
                 break;
             }
             case DIAMOND: {
-                float diamondWidth = DIAMOND_HAND_ASPECT_RATIO * thickness;
+                float diamondWidth = thickness;
                 // Add extra extension to the diamond top and bottom
                 // because the diamond shape tapers to a point
                 float diamondTop = length + (HUB_RADIUS_PERCENT * pc * 0.5f);
@@ -425,7 +455,7 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
                 break;
             }
             case DIAMOND: {
-                float diamondWidth = DIAMOND_HAND_ASPECT_RATIO * thickness;
+                float diamondWidth = thickness;
                 // Add extra extension to the diamond top and bottom
                 // because the diamond shape tapers to a point
                 float diamondTop = length + (HUB_RADIUS_PERCENT * pc * 0.5f);
@@ -497,11 +527,10 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
                 //bottom = mCenterX * 0.25f
 //                stalk = new Path();
                 // Draw a stalk. This is just a straight hand at 1/2 the thickness.
-                float straightWidth1 = STRAIGHT_HAND_WIDTH_PERCENT * pc * thickness / 4f;
 
-                r = new RectF(mCenterX - straightWidth1,
+                r = new RectF(mCenterX - stalkThickness,
                         mCenterY - bottom - stalkTopBitExtra,
-                        mCenterX + straightWidth1,
+                        mCenterX + stalkThickness,
                         mCenterY - stalkBottom);
                 r.inset(cutoutWidth, cutoutWidth);
 
@@ -524,11 +553,10 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
                 //bottom = mCenterX * 0.5f
 //                stalk = new Path();
                 // Draw a stalk. This is just a straight hand at 1/2 the thickness.
-                float straightWidth2 = STRAIGHT_HAND_WIDTH_PERCENT * pc * thickness / 4f;
 
-                r = new RectF(mCenterX - straightWidth2,
+                r = new RectF(mCenterX - stalkThickness,
                         mCenterY - bottom - stalkTopBitExtra,
-                        mCenterX + straightWidth2,
+                        mCenterX + stalkThickness,
                         mCenterY - stalkBottom);
                 r.inset(cutoutWidth, cutoutWidth);
 
