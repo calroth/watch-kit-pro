@@ -81,7 +81,7 @@ public class AnalogComplicationConfigData {
         settingsConfigData.add(moreOptionsConfigItem);
 
         // Data for fill color UX in settings Activity.
-        settingsConfigData.add(new ColorConfigItem(
+        settingsConfigData.add(new ColorPickerConfigItem(
                 context.getString(R.string.config_fill_color_label),
                 R.drawable.icn_styles,
                 WatchFacePreset.ColorType.FILL,
@@ -89,7 +89,7 @@ public class AnalogComplicationConfigData {
                 ColorSelectionActivity.class));
 
         // Data for accent color UX in settings Activity.
-        settingsConfigData.add(new ColorConfigItem(
+        settingsConfigData.add(new ColorPickerConfigItem(
                 context.getString(R.string.config_accent_color_label),
                 R.drawable.icn_styles,
                 WatchFacePreset.ColorType.ACCENT,
@@ -97,7 +97,7 @@ public class AnalogComplicationConfigData {
                 ColorSelectionActivity.class));
 
         // Data for highlight/marker (second hand) color UX in settings Activity.
-        settingsConfigData.add(new ColorConfigItem(
+        settingsConfigData.add(new ColorPickerConfigItem(
                 context.getString(R.string.config_marker_color_label),
                 R.drawable.icn_styles,
                 WatchFacePreset.ColorType.HIGHLIGHT,
@@ -105,7 +105,7 @@ public class AnalogComplicationConfigData {
                 ColorSelectionActivity.class));
 
         // Data for base color UX in settings Activity.
-        settingsConfigData.add(new ColorConfigItem(
+        settingsConfigData.add(new ColorPickerConfigItem(
                 context.getString(R.string.config_base_color_label),
                 R.drawable.icn_styles,
                 WatchFacePreset.ColorType.BASE,
@@ -852,7 +852,7 @@ public class AnalogComplicationConfigData {
         
         // Data for Background color UX in settings Activity.
 //        ConfigItemType backgroundColorConfigItem =
-//                new ColorConfigItem(
+//                new ColorPickerConfigItem(
 //                        context.getString(R.string.config_background_color_label),
 //                        R.drawable.icn_styles,
 //                        context.getString(R.string.saved_background_color),
@@ -941,14 +941,14 @@ public class AnalogComplicationConfigData {
     /**
      * Data for color picker item in RecyclerView.
      */
-    public static class ColorConfigItem implements ConfigItemType {
+    public static class ColorPickerConfigItem implements ConfigItemType {
 
         private String name;
         private int iconResourceId;
         private WatchFacePreset.ColorType mColorType;
         private Class<ColorSelectionActivity> activityToChoosePreference;
 
-        ColorConfigItem(
+        ColorPickerConfigItem(
                 String name,
                 int iconResourceId,
                 WatchFacePreset.ColorType colorType,
@@ -981,7 +981,7 @@ public class AnalogComplicationConfigData {
 
         @Override
         public int getConfigType() {
-            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_COLOR_CONFIG;
+            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_COLOR_PICKER_CONFIG;
         }
     }
 

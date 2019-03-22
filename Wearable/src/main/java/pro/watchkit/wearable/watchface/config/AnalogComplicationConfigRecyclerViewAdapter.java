@@ -76,7 +76,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.BackgroundComplicationConfigItem;
-import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.ColorConfigItem;
+import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.ColorPickerConfigItem;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.ConfigItemType;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.MoreOptionsConfigItem;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData.NightVisionConfigItem;
@@ -128,7 +128,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
     public static final int TYPE_PREVIEW_AND_COMPLICATIONS_CONFIG = 0;
     public static final int TYPE_MORE_OPTIONS = 1;
-    public static final int TYPE_COLOR_CONFIG = 2;
+    public static final int TYPE_COLOR_PICKER_CONFIG = 2;
     public static final int TYPE_UNREAD_NOTIFICATION_CONFIG = 3;
     public static final int TYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG = 4;
     public static final int TYPE_NIGHT_VISION_CONFIG = 5;
@@ -261,7 +261,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 break;
             }
 
-            case TYPE_COLOR_CONFIG: {
+            case TYPE_COLOR_PICKER_CONFIG: {
                 viewHolder =
                         new ColorPickerViewHolder(
                                 LayoutInflater.from(parent.getContext())
@@ -370,10 +370,10 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 break;
             }
 
-            case TYPE_COLOR_CONFIG: {
+            case TYPE_COLOR_PICKER_CONFIG: {
                 ColorPickerViewHolder colorPickerViewHolder = (ColorPickerViewHolder) viewHolder;
-                ColorConfigItem colorConfigItem = (ColorConfigItem) configItemType;
-                colorPickerViewHolder.bind(colorConfigItem);
+                ColorPickerConfigItem colorPickerConfigItem = (ColorPickerConfigItem) configItemType;
+                colorPickerViewHolder.bind(colorPickerConfigItem);
                 break;
             }
 
@@ -919,14 +919,11 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             view.setOnClickListener(this);
         }
 
-        void bind(ColorConfigItem configItem) {
+        void bind(ColorPickerConfigItem configItem) {
             mButton.setText(configItem.getName());
-
-            Context context = mButton.getContext();
             mButton.setCompoundDrawablesWithIntrinsicBounds(
-                    context.getDrawable(configItem.getIconResourceId()),
+                    mButton.getContext().getDrawable(configItem.getIconResourceId()),
                     null, mColorSwatchDrawable, null);
-
             mColorType = configItem.getType();
             mLaunchActivity = configItem.getActivityToChoosePreference();
         }
