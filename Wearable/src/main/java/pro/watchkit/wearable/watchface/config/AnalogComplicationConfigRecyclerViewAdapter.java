@@ -373,19 +373,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             case TYPE_COLOR_CONFIG: {
                 ColorPickerViewHolder colorPickerViewHolder = (ColorPickerViewHolder) viewHolder;
                 ColorConfigItem colorConfigItem = (ColorConfigItem) configItemType;
-
-                int iconResourceId = colorConfigItem.getIconResourceId();
-                String name = colorConfigItem.getName();
-                WatchFacePreset.ColorType colorType = colorConfigItem.getType();
-//                String sharedPrefString = colorConfigItem.getSharedPrefString();
-                Class<ColorSelectionActivity> activity =
-                        colorConfigItem.getActivityToChoosePreference();
-
-                colorPickerViewHolder.setIcon(iconResourceId);
-                colorPickerViewHolder.setName(name);
-                colorPickerViewHolder.setType(colorType);
-//                colorPickerViewHolder.setSharedPrefString(sharedPrefString);
-                colorPickerViewHolder.setLaunchActivityToSelectColor(activity);
+                colorPickerViewHolder.bind(colorConfigItem);
                 break;
             }
 
@@ -886,19 +874,15 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     public class ColorPickerViewHolder
             extends RecyclerView.ViewHolder implements OnClickListener, Ticklish {
 
-        private Button mAppearanceButton;
-
-//        private String mSharedPrefResourceString;
-
-        private Class<ColorSelectionActivity> mLaunchActivityToSelectColor;
+        private Button mButton;
+        private Class<ColorSelectionActivity> mLaunchActivity;
         private WatchFacePreset.ColorType mColorType;
         private Drawable mColorSwatchDrawable = new Drawable() {
             @Override
             public void draw(@NonNull Canvas canvas) {
-//                if (mSharedPrefResourceString == null) return;
                 if (mColorType == null) return;
 
-                regenerateCurrentWatchFacePreset(mAppearanceButton.getContext());
+                regenerateCurrentWatchFacePreset(mButton.getContext());
                 @ColorInt int color = mCurrentPaintBox.getColor(mColorType);
 
                 // Draw a circle that's 20px from right, top and left borders.
@@ -931,43 +915,30 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         ColorPickerViewHolder(View view) {
             super(view);
 
-            mAppearanceButton = view.findViewById(R.id.color_picker_button);
+            mButton = view.findViewById(R.id.color_picker_button);
             view.setOnClickListener(this);
         }
 
-        public void setName(String name) {
-            mAppearanceButton.setText(name);
-        }
+        void bind(ColorConfigItem configItem) {
+            mButton.setText(configItem.getName());
 
-        void setIcon(int resourceId) {
-            Context context = mAppearanceButton.getContext();
-            mAppearanceButton.setCompoundDrawablesWithIntrinsicBounds(
-                    context.getDrawable(resourceId), null, mColorSwatchDrawable, null);
+            Context context = mButton.getContext();
+            mButton.setCompoundDrawablesWithIntrinsicBounds(
+                    context.getDrawable(configItem.getIconResourceId()),
+                    null, mColorSwatchDrawable, null);
+
+            mColorType = configItem.getType();
+            mLaunchActivity = configItem.getActivityToChoosePreference();
         }
 
         public void tickle() {
             itemView.invalidate();
         }
 
-        void setType(WatchFacePreset.ColorType colorType) {
-            this.mColorType = colorType;
-        }
-
-//        public void setSharedPrefString(String sharedPrefString) {
-//            mSharedPrefResourceString = sharedPrefString;
-//        }
-
-        void setLaunchActivityToSelectColor(Class<ColorSelectionActivity> activity) {
-            mLaunchActivityToSelectColor = activity;
-        }
-
         @Override
         public void onClick(View view) {
-            int position = getAdapterPosition();
-            Log.d(TAG, "Complication onClick() position: " + position);
-
-            if (mLaunchActivityToSelectColor != null) {
-                Intent launchIntent = new Intent(view.getContext(), mLaunchActivityToSelectColor);
+            if (mLaunchActivity != null) {
+                Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
 
                 // Pass shared preference name to save color value to.
 //                launchIntent.putExtra(EXTRA_SHARED_PREF, mSharedPrefResourceString);
