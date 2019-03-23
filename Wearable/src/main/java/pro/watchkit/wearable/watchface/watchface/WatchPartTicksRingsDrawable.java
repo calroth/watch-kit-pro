@@ -419,8 +419,13 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                             float centerTickRadius = (innerTickRadius + outerTickRadius) / 2f;
                             float tickDegrees = ((float) tickIndex / (float) numTicks) * 360f;
 
+                            // Apply an offset correction because the geometric centre of the
+                            // triangle isn't in the actual centre of its bounds.
+                            float radius = (tickWidth * 2f) / (float) Math.sqrt(2d);
+                            float correction = radius - tickLengthDimens;
+
                             float x = mCenterX;
-                            float y = mCenterY - centerTickRadius;
+                            float y = mCenterY - centerTickRadius + correction;
 
                             // Move to top left.
                             temp.moveTo(x - tickWidth, y - tickLengthDimens);
