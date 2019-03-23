@@ -80,45 +80,59 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
         float tickWidthPercent = 0.05f;
         float triangleFactor = (float) (Math.sqrt(3d) / 2d); // Height of an equilateral triangle.
 
+        float globalScale = 0.5f;
+
+        // f0, f1, f2, f3 are a geometric series!
+        float f0 = globalScale * (float) (1d / Math.sqrt(2d));
+        float f1 = globalScale * 1f;
+        float f2 = globalScale * (float) Math.sqrt(2d);
+        float f3 = globalScale * 2f;
+
+        // Scaling factors for dot, triangle and diamond.
+        // Relative to a square of side 1. So all greater than 1.
+        float dotScale = (float) Math.sqrt(4d / Math.PI);
+        float triangleScale = (float) Math.sqrt(4d / Math.sqrt(3d));
+        float diamondScale = (float) Math.sqrt(2d);
+
         mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.THIN), tickWidthPercent * 0.5f);
         mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.REGULAR), tickWidthPercent * 1.0f);
         mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.THICK), tickWidthPercent * 1.5f);
         mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.X_THICK), tickWidthPercent * 2.0f);
 
-        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.THIN), 0.7f);
-        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.REGULAR), 1.0f);
-        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.THICK), 1.3f);
-        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.X_THICK), 1.6f);
+        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.THIN), dotScale * f0);
+        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.REGULAR), dotScale * f1);
+        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.THICK), dotScale * f2);
+        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.X_THICK), dotScale * f3);
 
-        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.THIN), 0.7f);
-        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.REGULAR), 1.0f);
-        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.THICK), 1.3f);
-        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.X_THICK), 1.6f);
+        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.THIN), triangleScale * f0);
+        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.REGULAR), triangleScale * f1);
+        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.THICK), triangleScale * f2);
+        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.X_THICK), triangleScale * f3);
 
-        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.THIN), 0.7f);
-        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.REGULAR), 1.0f);
-        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.THICK), 1.3f);
-        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.X_THICK), 1.6f);
+        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.THIN), diamondScale * f0);
+        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.REGULAR), diamondScale * f1);
+        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.THICK), diamondScale * f2);
+        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.X_THICK), diamondScale * f3);
 
         mTickLengthDimens.put(Pair.create(TickShape.BAR, TickLength.SHORT), tickWidthPercent * 0.5f);
         mTickLengthDimens.put(Pair.create(TickShape.BAR, TickLength.MEDIUM), tickWidthPercent * 1.0f);
         mTickLengthDimens.put(Pair.create(TickShape.BAR, TickLength.LONG), tickWidthPercent * 1.5f);
         mTickLengthDimens.put(Pair.create(TickShape.BAR, TickLength.X_LONG), tickWidthPercent * 2.0f);
 
-        mTickLengthDimens.put(Pair.create(TickShape.DOT, TickLength.SHORT), 0.7f);
-        mTickLengthDimens.put(Pair.create(TickShape.DOT, TickLength.MEDIUM), 1.0f);
-        mTickLengthDimens.put(Pair.create(TickShape.DOT, TickLength.LONG), 1.3f);
-        mTickLengthDimens.put(Pair.create(TickShape.DOT, TickLength.X_LONG), 1.6f);
+        mTickLengthDimens.put(Pair.create(TickShape.DOT, TickLength.SHORT), dotScale * f0);
+        mTickLengthDimens.put(Pair.create(TickShape.DOT, TickLength.MEDIUM), dotScale * f1);
+        mTickLengthDimens.put(Pair.create(TickShape.DOT, TickLength.LONG), dotScale * f2);
+        mTickLengthDimens.put(Pair.create(TickShape.DOT, TickLength.X_LONG), dotScale * f3);
 
-        mTickLengthDimens.put(Pair.create(TickShape.TRIANGLE, TickLength.SHORT), triangleFactor * 0.7f);
-        mTickLengthDimens.put(Pair.create(TickShape.TRIANGLE, TickLength.MEDIUM), triangleFactor * 1.0f);
-        mTickLengthDimens.put(Pair.create(TickShape.TRIANGLE, TickLength.LONG), triangleFactor * 1.3f);
-        mTickLengthDimens.put(Pair.create(TickShape.TRIANGLE, TickLength.X_LONG), triangleFactor * 1.6f);
+        mTickLengthDimens.put(Pair.create(TickShape.TRIANGLE, TickLength.SHORT), triangleFactor * triangleScale * f0);
+        mTickLengthDimens.put(Pair.create(TickShape.TRIANGLE, TickLength.MEDIUM), triangleFactor * triangleScale * f1);
+        mTickLengthDimens.put(Pair.create(TickShape.TRIANGLE, TickLength.LONG), triangleFactor * triangleScale * f2);
+        mTickLengthDimens.put(Pair.create(TickShape.TRIANGLE, TickLength.X_LONG), triangleFactor * triangleScale * f3);
 
-        mTickLengthDimens.put(Pair.create(TickShape.DIAMOND, TickLength.SHORT), 0.7f);
-        mTickLengthDimens.put(Pair.create(TickShape.DIAMOND, TickLength.MEDIUM), 1.0f);
-        mTickLengthDimens.put(Pair.create(TickShape.DIAMOND, TickLength.LONG), 1.3f);
-        mTickLengthDimens.put(Pair.create(TickShape.DIAMOND, TickLength.X_LONG), 1.6f);
+        mTickLengthDimens.put(Pair.create(TickShape.DIAMOND, TickLength.SHORT), diamondScale * f0);
+        mTickLengthDimens.put(Pair.create(TickShape.DIAMOND, TickLength.MEDIUM), diamondScale * f1);
+        mTickLengthDimens.put(Pair.create(TickShape.DIAMOND, TickLength.LONG), diamondScale * f2);
+        mTickLengthDimens.put(Pair.create(TickShape.DIAMOND, TickLength.X_LONG), diamondScale * f3);
 
         // TODO: Make sure that (dot, triangle, diamond) are normalised, so if we select...
         // THIN/SHORT or X_THICK/X_LONG for (dot, triangle, diamond), their AREA is the same.
