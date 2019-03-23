@@ -760,24 +760,6 @@ public class AnalogComplicationConfigData {
                     }
                 }));
 
-        // Data for sixty tick style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
-                context.getString(R.string.config_preset_sixty_tick_style),
-                R.drawable.icn_styles,
-                WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutator() {
-                    @Override
-                    public String[] permute(WatchFacePreset permutation) {
-                        String[] result = new String[WatchFacePreset.Style.values().length];
-                        int i = 0;
-                        for (WatchFacePreset.Style h : WatchFacePreset.Style.values()) {
-                            permutation.setSixtyTickStyle(h);
-                            result[i++] = permutation.getString();
-                        }
-                        return result;
-                    }
-                }));
-
         // Data for fill highlight style in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_fill_highlight_style),
