@@ -38,6 +38,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
@@ -71,31 +72,57 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
     private Paint mAmbientColorShiftPaint = new Paint();
 
     private Map<Pair<TickShape, TickThickness>, Float> mTickThicknessDimens = new Hashtable<>();
+    private Map<Pair<TickShape, TickLength>, Float> mTickLengthDimens = new Hashtable<>();
 
     WatchPartTicksRingsDrawable() {
         super();
 
         float tickWidthPercent = 0.05f;
+        float triangleFactor = (float) (Math.sqrt(3d) / 2d); // Height of an equilateral triangle.
 
         mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.THIN), tickWidthPercent * 0.5f);
         mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.REGULAR), tickWidthPercent * 1.0f);
         mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.THICK), tickWidthPercent * 1.5f);
         mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.X_THICK), tickWidthPercent * 2.0f);
 
-        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.THIN), tickWidthPercent * 0.5f);
-        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.REGULAR), tickWidthPercent * 1.0f);
-        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.THICK), tickWidthPercent * 1.5f);
-        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.X_THICK), tickWidthPercent * 2.0f);
+        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.THIN), 0.7f);
+        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.REGULAR), 1.0f);
+        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.THICK), 1.3f);
+        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.X_THICK), 1.6f);
 
-        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.THIN), tickWidthPercent * 0.5f);
-        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.REGULAR), tickWidthPercent * 1.0f);
-        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.THICK), tickWidthPercent * 1.5f);
-        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.X_THICK), tickWidthPercent * 2.0f);
+        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.THIN), 0.7f);
+        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.REGULAR), 1.0f);
+        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.THICK), 1.3f);
+        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.X_THICK), 1.6f);
 
-        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.THIN), tickWidthPercent * 0.5f);
-        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.REGULAR), tickWidthPercent * 1.0f);
-        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.THICK), tickWidthPercent * 1.5f);
-        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.X_THICK), tickWidthPercent * 2.0f);
+        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.THIN), 0.7f);
+        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.REGULAR), 1.0f);
+        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.THICK), 1.3f);
+        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.X_THICK), 1.6f);
+
+        mTickLengthDimens.put(Pair.create(TickShape.BAR, TickLength.SHORT), tickWidthPercent * 0.5f);
+        mTickLengthDimens.put(Pair.create(TickShape.BAR, TickLength.MEDIUM), tickWidthPercent * 1.0f);
+        mTickLengthDimens.put(Pair.create(TickShape.BAR, TickLength.LONG), tickWidthPercent * 1.5f);
+        mTickLengthDimens.put(Pair.create(TickShape.BAR, TickLength.X_LONG), tickWidthPercent * 2.0f);
+
+        mTickLengthDimens.put(Pair.create(TickShape.DOT, TickLength.SHORT), 0.7f);
+        mTickLengthDimens.put(Pair.create(TickShape.DOT, TickLength.MEDIUM), 1.0f);
+        mTickLengthDimens.put(Pair.create(TickShape.DOT, TickLength.LONG), 1.3f);
+        mTickLengthDimens.put(Pair.create(TickShape.DOT, TickLength.X_LONG), 1.6f);
+
+        mTickLengthDimens.put(Pair.create(TickShape.TRIANGLE, TickLength.SHORT), triangleFactor * 0.7f);
+        mTickLengthDimens.put(Pair.create(TickShape.TRIANGLE, TickLength.MEDIUM), triangleFactor * 1.0f);
+        mTickLengthDimens.put(Pair.create(TickShape.TRIANGLE, TickLength.LONG), triangleFactor * 1.3f);
+        mTickLengthDimens.put(Pair.create(TickShape.TRIANGLE, TickLength.X_LONG), triangleFactor * 1.6f);
+
+        mTickLengthDimens.put(Pair.create(TickShape.DIAMOND, TickLength.SHORT), 0.7f);
+        mTickLengthDimens.put(Pair.create(TickShape.DIAMOND, TickLength.MEDIUM), 1.0f);
+        mTickLengthDimens.put(Pair.create(TickShape.DIAMOND, TickLength.LONG), 1.3f);
+        mTickLengthDimens.put(Pair.create(TickShape.DIAMOND, TickLength.X_LONG), 1.6f);
+
+        // TODO: Make sure that (dot, triangle, diamond) are normalised, so if we select...
+        // THIN/SHORT or X_THICK/X_LONG for (dot, triangle, diamond), their AREA is the same.
+        // Simple geometry.
     }
 
     @Override
@@ -202,6 +229,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
             RectF oval = new RectF();
             float startAngle, sweepRadius;
             Path p = new Path();
+            Path temp = new Path();
             /*
              * Draw ticks. Usually you will want to bake this directly into the photo, but in
              * cases where you want to allow users to select their own photos, this dynamically
@@ -311,32 +339,124 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                             mTickThicknessDimens.get(Pair.create(tickShape, tickThickness)) * pc;
                     float halfTickWidth = tickWidth / 2f;
 
-                    // Draw the anticlockwise-side line and the outer curve.
-                    tickRot = (float) ((tickIndex - halfTickWidth) * Math.PI * 2 / numTicks);
-                    innerX = (float) Math.sin(tickRot) * innerTickRadius;
-                    innerY = (float) -Math.cos(tickRot) * innerTickRadius;
-                    outerX = (float) Math.sin(tickRot) * outerTickRadius;
-                    outerY = (float) -Math.cos(tickRot) * outerTickRadius;
-                    startAngle = ((tickIndex - halfTickWidth) * 360 / numTicks) - 90f;
-                    sweepRadius = tickWidth * 360f / numTicks;
-                    oval.set(mCenterX - outerTickRadius, mCenterY - outerTickRadius,
-                            mCenterX + outerTickRadius, mCenterY + outerTickRadius);
+                    float tickLengthDimens =
+                            mTickLengthDimens.get(Pair.create(tickShape, tickLength)) * pc;
 
-                    p.moveTo(mCenterX + innerX, mCenterY + innerY);
-                    p.lineTo(mCenterX + outerX, mCenterY + outerY);
-                    p.arcTo(oval, startAngle, sweepRadius);
+                    switch (tickShape) {
+                        case BAR: {
+                            // Draw the anticlockwise-side line and the outer curve.
+                            tickRot = (float) ((tickIndex - halfTickWidth) * Math.PI * 2 / numTicks);
+                            innerX = (float) Math.sin(tickRot) * innerTickRadius;
+                            innerY = (float) -Math.cos(tickRot) * innerTickRadius;
+                            outerX = (float) Math.sin(tickRot) * outerTickRadius;
+                            outerY = (float) -Math.cos(tickRot) * outerTickRadius;
+                            startAngle = ((tickIndex - halfTickWidth) * 360 / numTicks) - 90f;
+                            sweepRadius = tickWidth * 360f / numTicks;
+                            oval.set(mCenterX - outerTickRadius, mCenterY - outerTickRadius,
+                                    mCenterX + outerTickRadius, mCenterY + outerTickRadius);
 
-                    // Draw the clockwise-side line and the inner curve back to the start.
-                    tickRot = (float) ((tickIndex + halfTickWidth) * Math.PI * 2 / numTicks);
-                    innerX = (float) Math.sin(tickRot) * innerTickRadius;
-                    innerY = (float) -Math.cos(tickRot) * innerTickRadius;
+                            p.moveTo(mCenterX + innerX, mCenterY + innerY);
+                            p.lineTo(mCenterX + outerX, mCenterY + outerY);
+                            p.arcTo(oval, startAngle, sweepRadius);
 
-                    startAngle = ((tickIndex + halfTickWidth) * 360 / numTicks) - 90f;
-                    sweepRadius = tickWidth * (-360f) / numTicks;
-                    p.lineTo(mCenterX + innerX, mCenterY + innerY);
-                    oval.set(mCenterX - innerTickRadius, mCenterY - innerTickRadius,
-                            mCenterX + innerTickRadius, mCenterY + innerTickRadius);
-                    p.arcTo(oval, startAngle, sweepRadius);
+                            // Draw the clockwise-side line and the inner curve back to the start.
+                            tickRot = (float) ((tickIndex + halfTickWidth) * Math.PI * 2 / numTicks);
+                            innerX = (float) Math.sin(tickRot) * innerTickRadius;
+                            innerY = (float) -Math.cos(tickRot) * innerTickRadius;
+
+                            startAngle = ((tickIndex + halfTickWidth) * 360 / numTicks) - 90f;
+                            sweepRadius = tickWidth * (-360f) / numTicks;
+                            p.lineTo(mCenterX + innerX, mCenterY + innerY);
+                            oval.set(mCenterX - innerTickRadius, mCenterY - innerTickRadius,
+                                    mCenterX + innerTickRadius, mCenterY + innerTickRadius);
+                            p.arcTo(oval, startAngle, sweepRadius);
+                            break;
+                        }
+                        case DOT: {
+                            temp.reset();
+
+                            // Draw the object at 12 o'clock, then rotate it to desired location.
+
+                            float centerTickRadius = (innerTickRadius + outerTickRadius) / 2f;
+                            float tickDegrees = ((float) tickIndex / (float) numTicks) * 360f;
+
+                            float x = mCenterX;
+                            float y = mCenterY - centerTickRadius;
+
+                            temp.addOval(
+                                    x - tickWidth,
+                                    y - tickLengthDimens,
+                                    x + tickWidth,
+                                    y + tickLengthDimens,
+                                    Path.Direction.CW);
+
+                            Matrix m = new Matrix();
+                            m.setRotate(tickDegrees, mCenterX, mCenterY);
+                            temp.transform(m);
+
+                            p.op(temp, Path.Op.UNION);
+                            break;
+                        }
+                        case TRIANGLE: {
+                            temp.reset();
+
+                            // Draw the object at 12 o'clock, then rotate it to desired location.
+
+                            float centerTickRadius = (innerTickRadius + outerTickRadius) / 2f;
+                            float tickDegrees = ((float) tickIndex / (float) numTicks) * 360f;
+
+                            float x = mCenterX;
+                            float y = mCenterY - centerTickRadius;
+
+                            // Move to top left.
+                            temp.moveTo(x - tickWidth, y - tickLengthDimens);
+                            // Line to top right.
+                            temp.lineTo(x + tickWidth, y - tickLengthDimens);
+                            // Line to bottom centre.
+                            temp.lineTo(x, y + tickLengthDimens);
+                            // And line back to origin.
+                            temp.close();
+
+                            Matrix m = new Matrix();
+                            m.setRotate(tickDegrees, mCenterX, mCenterY);
+                            temp.transform(m);
+
+                            p.op(temp, Path.Op.UNION);
+                            break;
+                        }
+                        case DIAMOND: {
+                            temp.reset();
+
+                            // Draw the object at 12 o'clock, then rotate it to desired location.
+
+                            float centerTickRadius = (innerTickRadius + outerTickRadius) / 2f;
+                            float tickDegrees = ((float) tickIndex / (float) numTicks) * 360f;
+
+                            float x = mCenterX;
+                            float y = mCenterY - centerTickRadius;
+
+                            // Move to top centre.
+                            temp.moveTo(x, y - tickLengthDimens);
+                            // Line to centre right.
+                            temp.lineTo(x + tickWidth, y);
+                            // Line to bottom centre.
+                            temp.lineTo(x, y + tickLengthDimens);
+                            // Line to centre left.
+                            temp.lineTo(x - tickWidth, y);
+                            // And line back to origin.
+                            temp.close();
+
+                            Matrix m = new Matrix();
+                            m.setRotate(tickDegrees, mCenterX, mCenterY);
+                            temp.transform(m);
+
+                            p.op(temp, Path.Op.UNION);
+                            break;
+                        }
+                        default: {
+                            break;
+                        }
+                    }
                 }
             }
 
