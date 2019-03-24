@@ -73,6 +73,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
     private Map<Pair<TickShape, TickThickness>, Float> mTickThicknessDimens = new Hashtable<>();
     private Map<Pair<TickShape, TickLength>, Float> mTickLengthDimens = new Hashtable<>();
+    private Map<Pair<TickShape, TickRadiusPosition>, Float> mTickRadiusPositionDimens = new Hashtable<>();
 
     WatchPartTicksRingsDrawable() {
         super();
@@ -137,6 +138,26 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
         // TODO: Make sure that (dot, triangle, diamond) are normalised, so if we select...
         // THIN/SHORT or X_THICK/X_LONG for (dot, triangle, diamond), their AREA is the same.
         // Simple geometry.
+
+        mTickRadiusPositionDimens.put(Pair.create(TickShape.BAR, TickRadiusPosition.SHORT), 0f);
+        mTickRadiusPositionDimens.put(Pair.create(TickShape.BAR, TickRadiusPosition.MEDIUM), 3f);
+        mTickRadiusPositionDimens.put(Pair.create(TickShape.BAR, TickRadiusPosition.LONG), 6f);
+        mTickRadiusPositionDimens.put(Pair.create(TickShape.BAR, TickRadiusPosition.X_LONG), 9f);
+
+        mTickRadiusPositionDimens.put(Pair.create(TickShape.DOT, TickRadiusPosition.SHORT), 0f);
+        mTickRadiusPositionDimens.put(Pair.create(TickShape.DOT, TickRadiusPosition.MEDIUM), 3f);
+        mTickRadiusPositionDimens.put(Pair.create(TickShape.DOT, TickRadiusPosition.LONG), 6f);
+        mTickRadiusPositionDimens.put(Pair.create(TickShape.DOT, TickRadiusPosition.X_LONG), 9f);
+
+        mTickRadiusPositionDimens.put(Pair.create(TickShape.TRIANGLE, TickRadiusPosition.SHORT), 0f);
+        mTickRadiusPositionDimens.put(Pair.create(TickShape.TRIANGLE, TickRadiusPosition.MEDIUM), 3f);
+        mTickRadiusPositionDimens.put(Pair.create(TickShape.TRIANGLE, TickRadiusPosition.LONG), 6f);
+        mTickRadiusPositionDimens.put(Pair.create(TickShape.TRIANGLE, TickRadiusPosition.X_LONG), 9f);
+
+        mTickRadiusPositionDimens.put(Pair.create(TickShape.DIAMOND, TickRadiusPosition.SHORT), 0f);
+        mTickRadiusPositionDimens.put(Pair.create(TickShape.DIAMOND, TickRadiusPosition.MEDIUM), 3f);
+        mTickRadiusPositionDimens.put(Pair.create(TickShape.DIAMOND, TickRadiusPosition.LONG), 6f);
+        mTickRadiusPositionDimens.put(Pair.create(TickShape.DIAMOND, TickRadiusPosition.X_LONG), 9f);
     }
 
     @Override
@@ -353,8 +374,11 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                             mTickThicknessDimens.get(Pair.create(tickShape, tickThickness)) * pc;
                     float halfTickWidth = tickWidth / 2f;
 
-                    float tickLengthDimens =
+                    float tickLengthDimen =
                             mTickLengthDimens.get(Pair.create(tickShape, tickLength)) * pc;
+
+                    float tickRadiusPositionDimen =
+                            mTickRadiusPositionDimens.get(Pair.create(tickShape, tickRadiusPosition)) * pc;
 
                     switch (tickShape) {
                         case BAR: {
@@ -391,7 +415,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
                             // Draw the object at 12 o'clock, then rotate it to desired location.
 
-                            float centerTickRadius = (innerTickRadius + outerTickRadius) / 2f;
+                            float centerTickRadius = mCenter - tickRadiusPositionDimen;
                             float tickDegrees = ((float) tickIndex / (float) numTicks) * 360f;
 
                             float x = mCenterX;
@@ -399,9 +423,9 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
                             temp.addOval(
                                     x - tickWidth,
-                                    y - tickLengthDimens,
+                                    y - tickLengthDimen,
                                     x + tickWidth,
-                                    y + tickLengthDimens,
+                                    y + tickLengthDimen,
                                     Path.Direction.CW);
 
                             Matrix m = new Matrix();
@@ -416,23 +440,23 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
                             // Draw the object at 12 o'clock, then rotate it to desired location.
 
-                            float centerTickRadius = (innerTickRadius + outerTickRadius) / 2f;
+                            float centerTickRadius = mCenter - tickRadiusPositionDimen;
                             float tickDegrees = ((float) tickIndex / (float) numTicks) * 360f;
 
                             // Apply an offset correction because the geometric centre of the
                             // triangle isn't in the actual centre of its bounds.
                             float radius = (tickWidth * 2f) / (float) Math.sqrt(2d);
-                            float correction = radius - tickLengthDimens;
+                            float correction = radius - tickLengthDimen;
 
                             float x = mCenterX;
                             float y = mCenterY - centerTickRadius + correction;
 
                             // Move to top left.
-                            temp.moveTo(x - tickWidth, y - tickLengthDimens);
+                            temp.moveTo(x - tickWidth, y - tickLengthDimen);
                             // Line to top right.
-                            temp.lineTo(x + tickWidth, y - tickLengthDimens);
+                            temp.lineTo(x + tickWidth, y - tickLengthDimen);
                             // Line to bottom centre.
-                            temp.lineTo(x, y + tickLengthDimens);
+                            temp.lineTo(x, y + tickLengthDimen);
                             // And line back to origin.
                             temp.close();
 
@@ -448,18 +472,18 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
                             // Draw the object at 12 o'clock, then rotate it to desired location.
 
-                            float centerTickRadius = (innerTickRadius + outerTickRadius) / 2f;
+                            float centerTickRadius = mCenter - tickRadiusPositionDimen;
                             float tickDegrees = ((float) tickIndex / (float) numTicks) * 360f;
 
                             float x = mCenterX;
                             float y = mCenterY - centerTickRadius;
 
                             // Move to top centre.
-                            temp.moveTo(x, y - tickLengthDimens);
+                            temp.moveTo(x, y - tickLengthDimen);
                             // Line to centre right.
                             temp.lineTo(x + tickWidth, y);
                             // Line to bottom centre.
-                            temp.lineTo(x, y + tickLengthDimens);
+                            temp.lineTo(x, y + tickLengthDimen);
                             // Line to centre left.
                             temp.lineTo(x - tickWidth, y);
                             // And line back to origin.
