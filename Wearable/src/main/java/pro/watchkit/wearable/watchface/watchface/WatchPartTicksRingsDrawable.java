@@ -292,6 +292,8 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 				TickLength tickLength;
 				TickThickness tickThickness;
 				TickRadiusPosition tickRadiusPosition;
+                // Modifiers: four ticks are one size up; sixty ticks one size down.
+                float mod;
                 if (tickIndex * (360 / numTicks) % majorTickDegrees == 0) {
                     //innerTickRadius = outerTickRadius - 20;
 //                outerTickRadius = mCenter - (3f * pc);// - 10;
@@ -305,6 +307,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 					tickLength = mWatchFaceState.getWatchFacePreset().getFourTickLength();
 					tickThickness = mWatchFaceState.getWatchFacePreset().getFourTickThickness();
 					tickRadiusPosition = mWatchFaceState.getWatchFacePreset().getFourTickRadiusPosition();
+                    mod = (float) Math.sqrt(2d);
                 } else if (tickIndex * (360 / numTicks) % minorTickDegrees == 0) {
                     //innerTickRadius = outerTickRadius - 10;
 //                outerTickRadius = mCenter - (5f * pc);// 15;
@@ -318,6 +321,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 					tickLength = mWatchFaceState.getWatchFacePreset().getTwelveTickLength();
 					tickThickness = mWatchFaceState.getWatchFacePreset().getTwelveTickThickness();
 					tickRadiusPosition = mWatchFaceState.getWatchFacePreset().getTwelveTickRadiusPosition();
+                    mod = 1f;
                 } else {
                     //innerTickRadius = outerTickRadius - 5;
 //                outerTickRadius = mCenter - (5f * pc);// 15;
@@ -331,6 +335,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 					tickLength = mWatchFaceState.getWatchFacePreset().getSixtyTickLength();
 					tickThickness = mWatchFaceState.getWatchFacePreset().getSixtyTickThickness();
 					tickRadiusPosition = mWatchFaceState.getWatchFacePreset().getSixtyTickRadiusPosition();
+                    mod = (float) Math.sqrt(0.5d);
                 }
 
                 boolean isSixOClock = tickIndex == numTicks / 2;
@@ -371,14 +376,14 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
                     // Get our dimensions.
                     float tickWidth =
-                            mTickThicknessDimens.get(Pair.create(tickShape, tickThickness)) * pc;
+                            mTickThicknessDimens.get(Pair.create(tickShape, tickThickness)) * pc * mod;
                     float halfTickWidth = tickWidth / 2f;
 
                     float tickLengthDimen =
-                            mTickLengthDimens.get(Pair.create(tickShape, tickLength)) * pc;
+                            mTickLengthDimens.get(Pair.create(tickShape, tickLength)) * pc * mod;
 
                     float tickRadiusPositionDimen =
-                            mTickRadiusPositionDimens.get(Pair.create(tickShape, tickRadiusPosition)) * pc;
+                            mTickRadiusPositionDimens.get(Pair.create(tickShape, tickRadiusPosition)) * pc * mod;
 
                     switch (tickShape) {
                         case BAR: {
