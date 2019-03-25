@@ -383,7 +383,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                             mTickLengthDimens.get(Pair.create(tickShape, tickLength)) * pc * mod;
 
                     float tickRadiusPositionDimen =
-                            mTickRadiusPositionDimens.get(Pair.create(tickShape, tickRadiusPosition)) * pc * mod;
+                            mTickRadiusPositionDimens.get(Pair.create(tickShape, tickRadiusPosition)) * pc;
 
                     switch (tickShape) {
                         case BAR: {
