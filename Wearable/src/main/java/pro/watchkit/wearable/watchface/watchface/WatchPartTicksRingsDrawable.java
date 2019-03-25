@@ -169,9 +169,25 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
         mTicksActiveBitmapInvalidated = true;
     }
 
+    private Path.Direction mDirection;
+
+    /**
+     * Flip and get our current direction.
+     * We alternate between clockwise and anticlockwise drawing.
+     *
+     * @return Our current direction, which is flipped from the last call to this method
+     */
+    private Path.Direction getDirection() {
+        mDirection = mDirection == Path.Direction.CCW ? Path.Direction.CW : Path.Direction.CCW;
+        return mDirection;
+    }
+
     @Override
     public void draw(@NonNull Canvas canvas) {
         super.draw(canvas);
+
+        // Reset to a known direction (either one) each draw.
+        mDirection = Path.Direction.CCW;
 
         boolean cacheHit = true;
         Bitmap ticksBitmap;
@@ -261,10 +277,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
             boolean isFourTicksVisible = mWatchFaceState.getWatchFacePreset().isFourTicksVisible();
             boolean isTwelveTicksVisible = mWatchFaceState.getWatchFacePreset().isTwelveTicksVisible();
             boolean isSixtyTicksVisible = mWatchFaceState.getWatchFacePreset().isSixtyTicksVisible();
-            Path.Direction direction = Path.Direction.CCW;
             for (int tickIndex = 0; tickIndex < numTicks; tickIndex++) {
-                direction =
-                        direction == Path.Direction.CCW ? Path.Direction.CW : Path.Direction.CCW;
                 int majorTickDegrees = 90; // One major tick every 90 degrees.
                 int minorTickDegrees = 30; // One minor tick every 30 degrees.
                 float mCenter = Math.min(mCenterX, mCenterY);
@@ -350,7 +363,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                                     y - tickLengthDimen,
                                     x + tickWidth,
                                     y + tickLengthDimen,
-                                    direction);
+                                    getDirection());
                             break;
                         }
                         case DOT: {
@@ -360,13 +373,13 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                                     y - tickLengthDimen,
                                     x + tickWidth,
                                     y + tickLengthDimen,
-                                    direction);
+                                    getDirection());
                             break;
                         }
                         case TRIANGLE: {
                             // Move to top left.
                             temp.moveTo(x - tickWidth, y - tickLengthDimen);
-                            if (direction == Path.Direction.CW) {
+                            if (getDirection() == Path.Direction.CW) {
                                 // Line to top right.
                                 temp.lineTo(x + tickWidth, y - tickLengthDimen);
                                 // Line to bottom centre.
@@ -384,7 +397,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                         case DIAMOND: {
                             // Move to top centre.
                             temp.moveTo(x, y - tickLengthDimen);
-                            if (direction == Path.Direction.CW) {
+                            if (getDirection() == Path.Direction.CW) {
                                 // Line to centre right.
                                 temp.lineTo(x + tickWidth, y);
                                 // Line to bottom centre.
@@ -421,16 +434,13 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                 Path rings = new Path();
                 Path holes = new Path();
 
-                Path.Direction d = Path.Direction.CW;
                 for (ComplicationHolder complication : complications) {
                     if (complication.isForeground && complication.isActive) {
                         Rect r = complication.getBounds();
                         rings.addCircle(r.exactCenterX(), r.exactCenterY(),
-                                1.05f * r.width() / 2f, d);
-                        // Reverse direction!
-                        d = d == Path.Direction.CW ? Path.Direction.CCW : Path.Direction.CW;
+                                1.05f * r.width() / 2f, getDirection());
                         holes.addCircle(r.exactCenterX(), r.exactCenterY(),
-                                1.01f * r.width() / 2f, d);
+                                1.01f * r.width() / 2f, getDirection());
                         complication.setBorderStyleActive(
                                 ComplicationDrawable.BORDER_STYLE_NONE);
                     }
