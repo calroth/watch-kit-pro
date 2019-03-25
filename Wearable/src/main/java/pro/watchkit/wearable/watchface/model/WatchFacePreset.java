@@ -530,7 +530,7 @@ public final class WatchFacePreset {
     }
 
     public TickRadiusPosition getTwelveTickRadiusPosition() {
-        return twelveTickOverride ? twelveTickRadiusPosition : twelveTickRadiusPosition;
+        return twelveTickOverride ? twelveTickRadiusPosition : fourTickRadiusPosition;
     }
 
     void setTwelveTickRadiusPosition(TickRadiusPosition twelveTickRadiusPosition) {
@@ -538,7 +538,7 @@ public final class WatchFacePreset {
     }
 
     public TickRadiusPosition getSixtyTickRadiusPosition() {
-        return sixtyTickOverride ? sixtyTickRadiusPosition : sixtyTickRadiusPosition;
+        return sixtyTickOverride ? sixtyTickRadiusPosition : fourTickRadiusPosition;
     }
 
     void setSixtyTickRadiusPosition(TickRadiusPosition sixtyTickRadiusPosition) {
