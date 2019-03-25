@@ -42,7 +42,6 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.support.wearable.complications.rendering.ComplicationDrawable;
 import android.util.Log;
 
@@ -78,10 +77,11 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
     WatchPartTicksRingsDrawable() {
         super();
 
-        float tickWidthPercent = 0.05f;
+        float barThicknessScale = 1f / 3f;
+        float barLengthScale = 3f;
         float triangleFactor = (float) (Math.sqrt(3d) / 2d); // Height of an equilateral triangle.
 
-        float globalScale = 0.5f;
+        float globalScale = 1.0f;
 
         // f0, f1, f2, f3 are a geometric series!
         float f0 = globalScale * (float) (1d / Math.sqrt(2d));
@@ -95,10 +95,10 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
         float triangleScale = 2f / (float) Math.sqrt(Math.sqrt(3d));
         float diamondScale = (float) Math.sqrt(2d);
 
-        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.THIN), tickWidthPercent * 0.5f);
-        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.REGULAR), tickWidthPercent * 1.0f);
-        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.THICK), tickWidthPercent * 1.5f);
-        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.X_THICK), tickWidthPercent * 2.0f);
+        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.THIN), barThicknessScale * f0);
+        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.REGULAR), barThicknessScale * f1);
+        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.THICK), barThicknessScale * f2);
+        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.X_THICK), barThicknessScale * f3);
 
         mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.THIN), dotScale * f0);
         mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.REGULAR), dotScale * f1);
@@ -115,10 +115,10 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
         mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.THICK), diamondScale * f2);
         mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.X_THICK), diamondScale * f3);
 
-        mTickLengthDimens.put(Pair.create(TickShape.BAR, TickLength.SHORT), tickWidthPercent * 0.5f);
-        mTickLengthDimens.put(Pair.create(TickShape.BAR, TickLength.MEDIUM), tickWidthPercent * 1.0f);
-        mTickLengthDimens.put(Pair.create(TickShape.BAR, TickLength.LONG), tickWidthPercent * 1.5f);
-        mTickLengthDimens.put(Pair.create(TickShape.BAR, TickLength.X_LONG), tickWidthPercent * 2.0f);
+        mTickLengthDimens.put(Pair.create(TickShape.BAR, TickLength.SHORT), barLengthScale * f0);
+        mTickLengthDimens.put(Pair.create(TickShape.BAR, TickLength.MEDIUM), barLengthScale * f1);
+        mTickLengthDimens.put(Pair.create(TickShape.BAR, TickLength.LONG), barLengthScale * f2);
+        mTickLengthDimens.put(Pair.create(TickShape.BAR, TickLength.X_LONG), barLengthScale * f3);
 
         mTickLengthDimens.put(Pair.create(TickShape.DOT, TickLength.SHORT), dotScale * f0);
         mTickLengthDimens.put(Pair.create(TickShape.DOT, TickLength.MEDIUM), dotScale * f1);
@@ -255,31 +255,9 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 //        }
 
         if (!cacheHit) {
-
-//        Paint textPaint = ambient ? mAmbientPaint : mFillHighlightPaint;
-//        String notification = mUnreadNotifications + "/" + mTotalNotifications;
-//        float width = textPaint.measureText(notification);
-//        canvas.drawText(notification, mCenterX - (width / 2f), mCenterY / 2f, textPaint);
-
-            RectF oval = new RectF();
-            float startAngle, sweepRadius;
             Path p = new Path();
             Path temp = new Path();
-            /*
-             * Draw ticks. Usually you will want to bake this directly into the photo, but in
-             * cases where you want to allow users to select their own photos, this dynamically
-             * creates them on top of the photo.
-             */
-            float innerTickRadius; // = mCenterX - 10;
-            float outerTickRadius; // = mCenterX;
             int numTicks = 60;
-            //if (ambient) {
-            //    mTickAndCirclePaint.setStrokeWidth(0);
-            //    outerTickRadius -= 5;
-            //} else {
-            //    mTickAndCirclePaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT);
-            //}
-//        Log.d("AnalogWatchFace", "Start ticks");
             boolean isFourTicksVisible = mWatchFaceState.getWatchFacePreset().isFourTicksVisible();
             boolean isTwelveTicksVisible = mWatchFaceState.getWatchFacePreset().isTwelveTicksVisible();
             boolean isSixtyTicksVisible = mWatchFaceState.getWatchFacePreset().isSixtyTicksVisible();
@@ -298,13 +276,6 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                 // Modifiers: four ticks are one size up; sixty ticks one size down.
                 float mod;
                 if (tickIndex * (360 / numTicks) % majorTickDegrees == 0) {
-                    //innerTickRadius = outerTickRadius - 20;
-//                outerTickRadius = mCenter - (3f * pc);// - 10;
-//                innerTickRadius = mCenter - (12f * pc);// - 40;
-//                    outerTickRadius = mCenter - (3f * pc);// - 10;
-//                    innerTickRadius = mCenter - (15f * pc);// - 40;
-                    outerTickRadius = mCenter - (1f * pc);
-                    innerTickRadius = mCenter - (13f * pc);
                     isTickVisible = isFourTicksVisible;
 					tickShape = mWatchFaceState.getWatchFacePreset().getFourTickShape();
 					tickLength = mWatchFaceState.getWatchFacePreset().getFourTickLength();
@@ -312,13 +283,6 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 					tickRadiusPosition = mWatchFaceState.getWatchFacePreset().getFourTickRadiusPosition();
                     mod = (float) Math.sqrt(2d);
                 } else if (tickIndex * (360 / numTicks) % minorTickDegrees == 0) {
-                    //innerTickRadius = outerTickRadius - 10;
-//                outerTickRadius = mCenter - (5f * pc);// 15;
-//                innerTickRadius = mCenter - (12f * pc);// 40;
-//                    outerTickRadius = mCenter - (5f * pc);// 15;
-//                    innerTickRadius = mCenter - (12f * pc);// 40;
-                    outerTickRadius = mCenter - (3f * pc);
-                    innerTickRadius = mCenter - (10f * pc);
                     isTickVisible = isTwelveTicksVisible;
 					tickShape = mWatchFaceState.getWatchFacePreset().getTwelveTickShape();
 					tickLength = mWatchFaceState.getWatchFacePreset().getTwelveTickLength();
@@ -326,13 +290,6 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 					tickRadiusPosition = mWatchFaceState.getWatchFacePreset().getTwelveTickRadiusPosition();
                     mod = 1f;
                 } else {
-                    //innerTickRadius = outerTickRadius - 5;
-//                outerTickRadius = mCenter - (5f * pc);// 15;
-//                innerTickRadius = mCenter - (10f * pc);// 30;
-//                    outerTickRadius = mCenter - (7f * pc);// 15;
-//                    innerTickRadius = mCenter - (9f * pc);// 30;
-                    outerTickRadius = mCenter - (5f * pc);
-                    innerTickRadius = mCenter - (7f * pc);
                     isTickVisible = isSixtyTicksVisible;
 					tickShape = mWatchFaceState.getWatchFacePreset().getSixtyTickShape();
 					tickLength = mWatchFaceState.getWatchFacePreset().getSixtyTickLength();
@@ -343,23 +300,15 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
                 boolean isSixOClock = tickIndex == numTicks / 2;
 
-                float tickRot = (float) (tickIndex * Math.PI * 2 / numTicks);
-                float innerX = (float) Math.sin(tickRot) * innerTickRadius;
-                float innerY = (float) -Math.cos(tickRot) * innerTickRadius;
-                float outerX = (float) Math.sin(tickRot) * outerTickRadius;
-                float outerY = (float) -Math.cos(tickRot) * outerTickRadius;
-                /*canvas.drawLine(
-                        mCenterX + innerX,
-                        mCenterY + innerY,
-                        mCenterX + outerX,
-                        mCenterY + outerY,
-                        mTickAndCirclePaint);*/
-
                 boolean drawUnreadNotification = totalNotifications > 0;
 
                 if (isSixOClock && drawUnreadNotification) {
-                    float x = mCenterX + (innerX + outerX) / 2f;
-                    float y = mCenterY + (innerY + outerY) / 2f;
+                    float tickRadiusPositionDimen =
+                            mTickRadiusPositionDimens.get(Pair.create(tickShape, tickRadiusPosition)) * pc;
+                    float centerTickRadius = mCenter - tickRadiusPositionDimen;
+                    float x = mCenterX;// + (innerX + outerX) / 2f;
+                    float y = mCenterY + centerTickRadius;//+ (innerY + outerY) / 2f;
+
                     p.addCircle(x, y, 4f * pc, Path.Direction.CW);
                     if (!mWatchFaceState.isAmbient()) {
                         // Punch a hole in the circle to make it a donut.
@@ -380,85 +329,41 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                     // Get our dimensions.
                     float tickWidth =
                             mTickThicknessDimens.get(Pair.create(tickShape, tickThickness)) * pc * mod;
-                    float halfTickWidth = tickWidth / 2f;
-
                     float tickLengthDimen =
                             mTickLengthDimens.get(Pair.create(tickShape, tickLength)) * pc * mod;
-
                     float tickRadiusPositionDimen =
                             mTickRadiusPositionDimens.get(Pair.create(tickShape, tickRadiusPosition)) * pc;
 
+                    float centerTickRadius = mCenter - tickRadiusPositionDimen;
+                    float tickDegrees = ((float) tickIndex / (float) numTicks) * 360f;
+
+                    float x = mCenterX;
+                    float y = mCenterY - centerTickRadius;
+
+                    temp.reset();
+
+                    // Draw the object at 12 o'clock, then rotate it to desired location.
                     switch (tickShape) {
                         case BAR: {
-                            // Draw the anticlockwise-side line and the outer curve.
-                            tickRot = (float) ((tickIndex - halfTickWidth) * Math.PI * 2 / numTicks);
-                            innerX = (float) Math.sin(tickRot) * innerTickRadius;
-                            innerY = (float) -Math.cos(tickRot) * innerTickRadius;
-                            outerX = (float) Math.sin(tickRot) * outerTickRadius;
-                            outerY = (float) -Math.cos(tickRot) * outerTickRadius;
-                            startAngle = ((tickIndex - halfTickWidth) * 360 / numTicks) - 90f;
-                            sweepRadius = tickWidth * 360f / numTicks;
-                            oval.set(mCenterX - outerTickRadius, mCenterY - outerTickRadius,
-                                    mCenterX + outerTickRadius, mCenterY + outerTickRadius);
-
-                            p.moveTo(mCenterX + innerX, mCenterY + innerY);
-                            p.lineTo(mCenterX + outerX, mCenterY + outerY);
-                            p.arcTo(oval, startAngle, sweepRadius);
-
-                            // Draw the clockwise-side line and the inner curve back to the start.
-                            tickRot = (float) ((tickIndex + halfTickWidth) * Math.PI * 2 / numTicks);
-                            innerX = (float) Math.sin(tickRot) * innerTickRadius;
-                            innerY = (float) -Math.cos(tickRot) * innerTickRadius;
-
-                            startAngle = ((tickIndex + halfTickWidth) * 360 / numTicks) - 90f;
-                            sweepRadius = tickWidth * (-360f) / numTicks;
-                            p.lineTo(mCenterX + innerX, mCenterY + innerY);
-                            oval.set(mCenterX - innerTickRadius, mCenterY - innerTickRadius,
-                                    mCenterX + innerTickRadius, mCenterY + innerTickRadius);
-                            p.arcTo(oval, startAngle, sweepRadius);
+                            // Draw a rectangle.
+                            temp.addRect(x - tickWidth,
+                                    y - tickLengthDimen,
+                                    x + tickWidth,
+                                    y + tickLengthDimen,
+                                    direction);
                             break;
                         }
                         case DOT: {
-                            temp.reset();
-
-                            // Draw the object at 12 o'clock, then rotate it to desired location.
-
-                            float centerTickRadius = mCenter - tickRadiusPositionDimen;
-                            float tickDegrees = ((float) tickIndex / (float) numTicks) * 360f;
-
-                            float x = mCenterX;
-                            float y = mCenterY - centerTickRadius;
-
+                            // Draw an oval.
                             temp.addOval(
                                     x - tickWidth,
                                     y - tickLengthDimen,
                                     x + tickWidth,
                                     y + tickLengthDimen,
                                     direction);
-
-                            Matrix m = new Matrix();
-                            m.setRotate(tickDegrees, mCenterX, mCenterY);
-                            temp.transform(m);
-
-                            p.op(temp, Path.Op.UNION);
                             break;
                         }
                         case TRIANGLE: {
-                            temp.reset();
-
-                            // Draw the object at 12 o'clock, then rotate it to desired location.
-
-                            float centerTickRadius = mCenter - tickRadiusPositionDimen;
-                            float tickDegrees = ((float) tickIndex / (float) numTicks) * 360f;
-
-                            // Apply an offset correction because the geometric centre of the
-                            // triangle isn't in the actual centre of its bounds.
-							// The offset being: 1/3 of the tick length
-                            float correction = tickLengthDimen / 3f;
-
-                            float x = mCenterX;
-                            float y = mCenterY - centerTickRadius + correction;
-
                             // Move to top left.
                             temp.moveTo(x - tickWidth, y - tickLengthDimen);
                             if (direction == Path.Direction.CW) {
@@ -474,25 +379,9 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                             }
                             // And line back to origin.
                             temp.close();
-
-                            Matrix m = new Matrix();
-                            m.setRotate(tickDegrees, mCenterX, mCenterY);
-                            temp.transform(m);
-
-                            p.op(temp, Path.Op.UNION);
                             break;
                         }
                         case DIAMOND: {
-                            temp.reset();
-
-                            // Draw the object at 12 o'clock, then rotate it to desired location.
-
-                            float centerTickRadius = mCenter - tickRadiusPositionDimen;
-                            float tickDegrees = ((float) tickIndex / (float) numTicks) * 360f;
-
-                            float x = mCenterX;
-                            float y = mCenterY - centerTickRadius;
-
                             // Move to top centre.
                             temp.moveTo(x, y - tickLengthDimen);
                             if (direction == Path.Direction.CW) {
@@ -512,18 +401,18 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                             }
                             // And line back to origin.
                             temp.close();
-
-                            Matrix m = new Matrix();
-                            m.setRotate(tickDegrees, mCenterX, mCenterY);
-                            temp.transform(m);
-
-                            p.op(temp, Path.Op.UNION);
                             break;
                         }
                         default: {
                             break;
                         }
                     }
+
+                    Matrix m = new Matrix();
+                    m.setRotate(tickDegrees, mCenterX, mCenterY);
+                    temp.transform(m);
+
+                    p.op(temp, Path.Op.UNION);
                 }
             }
 
