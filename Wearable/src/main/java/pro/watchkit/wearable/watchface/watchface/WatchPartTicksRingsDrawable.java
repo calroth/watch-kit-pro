@@ -91,8 +91,8 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
         // Scaling factors for dot, triangle and diamond.
         // Relative to a square of side 1. So all greater than 1.
-        float dotScale = (float) Math.sqrt(4d / Math.PI);
-        float triangleScale = (float) Math.sqrt(4d / Math.sqrt(3d));
+        float dotScale = 2f / (float) Math.sqrt(Math.PI);
+        float triangleScale = 2f / (float) Math.sqrt(Math.sqrt(3d));
         float diamondScale = (float) Math.sqrt(2d);
 
         mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.THIN), tickWidthPercent * 0.5f);
@@ -450,8 +450,8 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
                             // Apply an offset correction because the geometric centre of the
                             // triangle isn't in the actual centre of its bounds.
-                            float radius = (tickWidth * 2f) / (float) Math.sqrt(2d);
-                            float correction = radius - tickLengthDimen;
+							// The offset being: 1/3 of the tick length
+                            float correction = tickLengthDimen / 3f;
 
                             float x = mCenterX;
                             float y = mCenterY - centerTickRadius + correction;
