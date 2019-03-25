@@ -283,7 +283,10 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
             boolean isFourTicksVisible = mWatchFaceState.getWatchFacePreset().isFourTicksVisible();
             boolean isTwelveTicksVisible = mWatchFaceState.getWatchFacePreset().isTwelveTicksVisible();
             boolean isSixtyTicksVisible = mWatchFaceState.getWatchFacePreset().isSixtyTicksVisible();
+            Path.Direction direction = Path.Direction.CCW;
             for (int tickIndex = 0; tickIndex < numTicks; tickIndex++) {
+                direction =
+                        direction == Path.Direction.CCW ? Path.Direction.CW : Path.Direction.CCW;
                 int majorTickDegrees = 90; // One major tick every 90 degrees.
                 int minorTickDegrees = 30; // One minor tick every 30 degrees.
                 float mCenter = Math.min(mCenterX, mCenterY);
@@ -431,7 +434,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                                     y - tickLengthDimen,
                                     x + tickWidth,
                                     y + tickLengthDimen,
-                                    Path.Direction.CW);
+                                    direction);
 
                             Matrix m = new Matrix();
                             m.setRotate(tickDegrees, mCenterX, mCenterY);
@@ -458,10 +461,17 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
                             // Move to top left.
                             temp.moveTo(x - tickWidth, y - tickLengthDimen);
-                            // Line to top right.
-                            temp.lineTo(x + tickWidth, y - tickLengthDimen);
-                            // Line to bottom centre.
-                            temp.lineTo(x, y + tickLengthDimen);
+                            if (direction == Path.Direction.CW) {
+                                // Line to top right.
+                                temp.lineTo(x + tickWidth, y - tickLengthDimen);
+                                // Line to bottom centre.
+                                temp.lineTo(x, y + tickLengthDimen);
+                            } else {
+                                // Line to bottom centre.
+                                temp.lineTo(x, y + tickLengthDimen);
+                                // Line to top right.
+                                temp.lineTo(x + tickWidth, y - tickLengthDimen);
+                            }
                             // And line back to origin.
                             temp.close();
 
@@ -485,12 +495,21 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
                             // Move to top centre.
                             temp.moveTo(x, y - tickLengthDimen);
-                            // Line to centre right.
-                            temp.lineTo(x + tickWidth, y);
-                            // Line to bottom centre.
-                            temp.lineTo(x, y + tickLengthDimen);
-                            // Line to centre left.
-                            temp.lineTo(x - tickWidth, y);
+                            if (direction == Path.Direction.CW) {
+                                // Line to centre right.
+                                temp.lineTo(x + tickWidth, y);
+                                // Line to bottom centre.
+                                temp.lineTo(x, y + tickLengthDimen);
+                                // Line to centre left.
+                                temp.lineTo(x - tickWidth, y);
+                            } else {
+                                // Line to centre left.
+                                temp.lineTo(x - tickWidth, y);
+                                // Line to bottom centre.
+                                temp.lineTo(x, y + tickLengthDimen);
+                                // Line to centre right.
+                                temp.lineTo(x + tickWidth, y);
+                            }
                             // And line back to origin.
                             temp.close();
 
