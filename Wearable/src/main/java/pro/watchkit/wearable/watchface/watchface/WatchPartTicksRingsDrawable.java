@@ -77,7 +77,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
     WatchPartTicksRingsDrawable() {
         super();
 
-        float barThicknessScale = 1f / 3f;
+        float barThicknessScale = (float) (Math.PI / 60d);
         float barLengthScale = 3f;
         float triangleFactor = (float) (Math.sqrt(3d) / 2d); // Height of an equilateral triangle.
 
@@ -95,10 +95,10 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
         float triangleScale = 2f / (float) Math.sqrt(Math.sqrt(3d));
         float diamondScale = (float) Math.sqrt(2d);
 
-        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.THIN), barThicknessScale * f0);
-        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.REGULAR), barThicknessScale * f1);
-        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.THICK), barThicknessScale * f2);
-        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.X_THICK), barThicknessScale * f3);
+        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.THIN), barThicknessScale * 0.125f);
+        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.REGULAR), barThicknessScale * 0.25f);
+        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.THICK), barThicknessScale * 0.5f);
+        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.X_THICK), barThicknessScale * 1.0f);
 
         mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.THIN), dotScale * f0);
         mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.REGULAR), dotScale * f1);
@@ -363,12 +363,38 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                     // Draw the object at 12 o'clock, then rotate it to desired location.
                     switch (tickShape) {
                         case BAR: {
-                            // Draw a rectangle.
-                            temp.addRect(x - tickWidth,
-                                    y - tickLengthDimen,
-                                    x + tickWidth,
-                                    y + tickLengthDimen,
-                                    getDirection());
+                            // Draw a really large triangle, then crop it with two
+                            // circles to give us a wedge shape with arc top and bottom.
+                            // Height "2 * mCenterY", centered on (mCenterX, mCenterY)
+                            temp.moveTo(mCenterX, mCenterY);
+                            // Assume "tickWidth" is radians. Undo the multiplication by "pc".
+                            // Also undo the multiplication by "mod". Assume we don't mod that.
+                            double offsetRadians = tickWidth / (pc * mod);
+                            float offsetX = (float) Math.sin(offsetRadians) * 2 * mCenterY;
+                            if (getDirection() == Path.Direction.CW) {
+                                // Line to top left.
+                                temp.lineTo(x - offsetX, 0f - mCenterY);
+                                // Line to top right.
+                                temp.lineTo(x + offsetX, 0f - mCenterY);
+                            } else {
+                                // Line to top right.
+                                temp.lineTo(x + offsetX, 0f - mCenterY);
+                                // Line to top left.
+                                temp.lineTo(x - offsetX, 0f - mCenterY);
+                            }
+                            // And line back to origin.
+                            temp.close();
+
+                            // Crop it with our top circle and bottom circle.
+                            Path t2 = new Path();
+                            t2.addCircle(mCenterX, mCenterY,
+                                    mCenterY - y + tickLengthDimen, getDirection());
+                            temp.op(t2, Path.Op.INTERSECT);
+                            t2.reset();
+                            t2.addCircle(mCenterX, mCenterY,
+                                    mCenterY - y - tickLengthDimen, getDirection());
+                            temp.op(t2, Path.Op.DIFFERENCE);
+
                             break;
                         }
                         case DOT: {
