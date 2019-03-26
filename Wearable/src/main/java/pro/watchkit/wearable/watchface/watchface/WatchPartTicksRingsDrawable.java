@@ -182,6 +182,11 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
         return mDirection;
     }
 
+    private Path p = new Path();
+    private Path temp = new Path();
+    private Path rings = new Path();
+    private Path holes = new Path();
+
     @Override
     public void draw(@NonNull Canvas canvas) {
         super.draw(canvas);
@@ -271,8 +276,8 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 //        }
 
         if (!cacheHit) {
-            Path p = new Path();
-            Path temp = new Path();
+            p.reset();
+            temp.reset();
             int numTicks = 60;
             boolean isFourTicksVisible = mWatchFaceState.getWatchFacePreset().isFourTicksVisible();
             boolean isTwelveTicksVisible = mWatchFaceState.getWatchFacePreset().isTwelveTicksVisible();
@@ -431,8 +436,8 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
             // If not ambient, draw our complication rings.
             if (!mWatchFaceState.isAmbient() && complications != null) {
-                Path rings = new Path();
-                Path holes = new Path();
+                rings.reset();
+                holes.reset();
 
                 for (ComplicationHolder complication : complications) {
                     if (complication.isForeground && complication.isActive) {
