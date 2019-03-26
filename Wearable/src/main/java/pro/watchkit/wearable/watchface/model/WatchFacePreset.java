@@ -115,7 +115,8 @@ public final class WatchFacePreset {
 
     @Override
     public int hashCode() {
-        return super.hashCode() + Objects.hash(
+        return Objects.hash(
+                super.hashCode(),
                 backgroundStyle,
                 minuteHandOverride,
                 secondHandOverride,
