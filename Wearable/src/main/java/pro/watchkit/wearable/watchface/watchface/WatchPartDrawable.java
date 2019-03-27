@@ -53,57 +53,59 @@ abstract class WatchPartDrawable extends Drawable {
         // Primary bevel
         // Secondary bevel
         // And finally the path itself.
+        final boolean olde = false;
         if (!mWatchFaceState.isAmbient()) {
             float mBevelOffset = 0.2f; // 0.2%
 
             // Shadow
             canvas.drawPath(p, mWatchFaceState.getPaintBox().getShadowPaint());
-            //// Primary bevel, offset to the top left
-            //{
-            //    Paint bezelPaint1 = mWatchFaceState.getPaintBox().getBezelPaint1();
-            //    Path primaryP = new Path();
-            //    p.offset(-(mBevelOffset * pc), -(mBevelOffset * pc), primaryP);
-            //    bezelPaint1.setStyle(Paint.Style.FILL_AND_STROKE);
-            //    canvas.drawPath(primaryP, bezelPaint1);
-            //}
-            //// Secondary bevel, offset to the top right
-            //{
-            //    Paint bezelPaint2 = mWatchFaceState.getPaintBox().getBezelPaint2();
-            //    Path secondaryP = new Path();
-            //    p.offset((mBevelOffset * pc), (mBevelOffset * pc), secondaryP);
-            //    bezelPaint2.setStyle(Paint.Style.FILL_AND_STROKE);
-            //    canvas.drawPath(secondaryP, bezelPaint2);
-            //}
+            // Primary bevel, offset to the top left
+            if (olde) {
+                Paint bezelPaint1 = mWatchFaceState.getPaintBox().getBezelPaint1();
+                Path primaryP = new Path();
+                p.offset(-(mBevelOffset * pc), -(mBevelOffset * pc), primaryP);
+                bezelPaint1.setStyle(Paint.Style.FILL_AND_STROKE);
+                canvas.drawPath(primaryP, bezelPaint1);
+            }
+            // Secondary bevel, offset to the top right
+            if (olde) {
+                Paint bezelPaint2 = mWatchFaceState.getPaintBox().getBezelPaint2();
+                Path secondaryP = new Path();
+                p.offset((mBevelOffset * pc), (mBevelOffset * pc), secondaryP);
+                bezelPaint2.setStyle(Paint.Style.FILL_AND_STROKE);
+                canvas.drawPath(secondaryP, bezelPaint2);
+            }
             // The path itself.
             paint.setStyle(Paint.Style.FILL);
             canvas.drawPath(p, paint);
             // Primary and secondary bevels as stroke.
-			{
-				// Draw our bevels to a temporary bitmap.
-                Bitmap b = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            if (!olde) {
+                // Draw our bevels to a temporary bitmap.
+                Bitmap b = Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(), Bitmap.Config.ARGB_8888);
                 Canvas c = new Canvas(b);
-				
-				Paint bezelPaint1 = mWatchFaceState.getPaintBox().getBezelPaint1();
+
+                Paint bezelPaint1 = mWatchFaceState.getPaintBox().getBezelPaint1();
                 Path primaryP = new Path();
                 p.offset(-(mBevelOffset * pc), -(mBevelOffset * pc), primaryP);
                 bezelPaint1.setStyle(Paint.Style.FILL);
                 c.drawPath(primaryP, bezelPaint1);
-				
-				Paint bezelPaint2 = mWatchFaceState.getPaintBox().getBezelPaint2();
+
+                Paint bezelPaint2 = mWatchFaceState.getPaintBox().getBezelPaint2();
                 Path secondaryP = new Path();
                 p.offset((mBevelOffset * pc), (mBevelOffset * pc), secondaryP);
                 bezelPaint2.setStyle(Paint.Style.FILL);
                 c.drawPath(secondaryP, bezelPaint2);
-				
-				// Create a new paint with our temporary bitmap as a shader.
-				Paint bitmapPaint = new Paint();
-				bitmapPaint.setStyle(Paint.Style.STROKE);
-				bitmapPaint.setStrokeWidth(mBevelOffset);
-				bitmapPaint.setShader(new BitmapShader(b,
+
+                // Create a new paint with our temporary bitmap as a shader.
+                Paint bitmapPaint = new Paint();
+                bitmapPaint.setStyle(Paint.Style.STROKE);
+                bitmapPaint.setStrokeWidth(mBevelOffset * pc * 2);
+                bitmapPaint.setAntiAlias(true);
+                bitmapPaint.setShader(new BitmapShader(b,
                         Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-				// Draw a stroke with our new bitmap-shader paint.
-				canvas.drawPath(p, bitmapPaint);
-			}
+                // Draw a stroke with our new bitmap-shader paint.
+                canvas.drawPath(p, bitmapPaint);
+            }
         } else {
             // Ambient.
             // The path itself.
