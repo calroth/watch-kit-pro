@@ -64,14 +64,27 @@ public class WatchFaceGlobalDrawable extends Drawable {
     }
 
     @Override
+    public void setBounds(int left, int top, int right, int bottom) {
+        super.setBounds(left, top, right, bottom);
+
+        for (WatchPartDrawable d : mWatchPartDrawables) {
+            // For each of our drawables: set its bounds!
+            d.setBounds(left, top, right, bottom);
+        }
+    }
+
+    @Override
     public void draw(@NonNull Canvas canvas) {
         // Set the current date and time.
         mWatchFaceState.setDefaultTimeZone();
         mWatchFaceState.setCurrentTimeToNow();
 
-        for (WatchPartDrawable d : mWatchPartDrawables) {
-            // For each of our drawables: draw it!
-            d.draw(canvas);
+        // Draw, only if we're a non-zero size (otherwise what's there to draw?)
+        if (getBounds().width() > 0 && getBounds().height() > 0) {
+            for (WatchPartDrawable d : mWatchPartDrawables) {
+                // For each of our drawables: draw it!
+                d.draw(canvas);
+            }
         }
     }
 

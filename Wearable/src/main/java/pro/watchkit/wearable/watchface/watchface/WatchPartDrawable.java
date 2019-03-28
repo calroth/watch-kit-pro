@@ -48,6 +48,8 @@ abstract class WatchPartDrawable extends Drawable {
 //    private int mWatchHandShadowColor = Color.BLACK;
 //    private float mBevelOffset = 0.2f; // 0.2%
 
+    private final float mBevelOffset = 0.2f; // 0.2%
+
     private Bitmap mBezelBitmap;
     private Canvas mBezelCanvas;
     private Paint mBezelBitmapPaint;
@@ -60,7 +62,6 @@ abstract class WatchPartDrawable extends Drawable {
         // And finally the path itself.
         final boolean olde = false;
         if (!mWatchFaceState.isAmbient()) {
-            float mBevelOffset = 0.2f; // 0.2%
 
             // Shadow
             canvas.drawPath(p, mWatchFaceState.getPaintBox().getShadowPaint());
@@ -86,21 +87,22 @@ abstract class WatchPartDrawable extends Drawable {
             // Primary and secondary bevels as stroke.
             if (!olde) {
                 // Draw our bevels to a temporary bitmap.
-                regenerateBezelBitmap(canvas);
+                // Clear the bezel canvas first.
+                mBezelCanvas.drawColor(Color.TRANSPARENT);
 
+                // Draw primary bevel.
                 Paint bezelPaint1 = mWatchFaceState.getPaintBox().getBezelPaint1();
                 Path primaryP = new Path();
                 p.offset(-(mBevelOffset * pc), -(mBevelOffset * pc), primaryP);
                 bezelPaint1.setStyle(Paint.Style.FILL);
                 mBezelCanvas.drawPath(primaryP, bezelPaint1);
 
+                // Draw secondary bevel.
                 Paint bezelPaint2 = mWatchFaceState.getPaintBox().getBezelPaint2();
                 Path secondaryP = new Path();
                 p.offset((mBevelOffset * pc), (mBevelOffset * pc), secondaryP);
                 bezelPaint2.setStyle(Paint.Style.FILL);
                 mBezelCanvas.drawPath(secondaryP, bezelPaint2);
-
-                mBezelBitmapPaint.setStrokeWidth(mBevelOffset * pc * 2);
 
                 // Draw a stroke with our new bitmap-shader paint.
                 canvas.drawPath(p, mBezelBitmapPaint);
@@ -109,25 +111,6 @@ abstract class WatchPartDrawable extends Drawable {
             // Ambient.
             // The path itself.
             canvas.drawPath(p, mWatchFaceState.getPaintBox().getAmbientPaint());
-        }
-    }
-
-    private void regenerateBezelBitmap(Canvas canvas) {
-        if (mBezelBitmap == null || mBezelCanvas == null || mBezelBitmapPaint == null ||
-                mBezelBitmap.getHeight() != canvas.getHeight() ||
-                mBezelBitmap.getWidth() != canvas.getWidth()) {
-            mBezelBitmap = Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(),
-                    Bitmap.Config.ARGB_8888);
-            mBezelCanvas = new Canvas(mBezelBitmap);
-
-            // Create a new paint with our temporary bitmap as a shader.
-            mBezelBitmapPaint = new Paint();
-            mBezelBitmapPaint.setStyle(Paint.Style.STROKE);
-            mBezelBitmapPaint.setAntiAlias(true);
-            mBezelBitmapPaint.setShader(new BitmapShader(mBezelBitmap,
-                    Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-        } else {
-            mBezelCanvas.drawColor(Color.TRANSPARENT);
         }
     }
 
@@ -143,23 +126,27 @@ abstract class WatchPartDrawable extends Drawable {
         mCenterX = width / 2f;
         mCenterY = height / 2f;
 
-//            /*
-//             * Calculate lengths of different hands based on watch screen size.
-//             */
-//            mSecondHandLength = 43.75f * pc; // 43.75%
-//            mMinuteHandLength = 37.5f * pc; // 37.5%
-//            mHourHandLength = 25f * pc; // 25%
-//            // I changed my mind...
-//            mSecondHandLength = 45f * pc; // 45%
-//            mMinuteHandLength = 40f * pc; // 40%
-//            mHourHandLength = 30f * pc; // 30%
+        // Set up our bezel bitmap, canvas and paint structures.
+        if (width > 0 && height > 0) {
+            mBezelBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            mBezelCanvas = new Canvas(mBezelBitmap);
+
+            // Create a new paint with our temporary bitmap as a shader.
+            mBezelBitmapPaint = new Paint();
+            mBezelBitmapPaint.setStyle(Paint.Style.STROKE);
+            mBezelBitmapPaint.setAntiAlias(true);
+            mBezelBitmapPaint.setShader(new BitmapShader(mBezelBitmap,
+                    Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+            mBezelBitmapPaint.setStrokeWidth(mBevelOffset * pc * 2);
+        }
     }
 
     @Override
     public void draw(@NonNull Canvas canvas) {
         // Check width and height.
-        mWatchFaceState.getPaintBox().onWidthAndHeightChanged(canvas.getWidth(), canvas.getHeight());
-        if (canvas.getWidth() != width || canvas.getHeight() != height) {
+        mWatchFaceState.getPaintBox().onWidthAndHeightChanged(
+                getBounds().width(), getBounds().height());
+        if (getBounds().width() != width || getBounds().height() != height) {
             onWidthAndHeightChanged(canvas);
         }
 
