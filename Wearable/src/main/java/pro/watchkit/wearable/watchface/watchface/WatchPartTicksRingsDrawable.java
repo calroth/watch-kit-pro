@@ -321,6 +321,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
                 boolean drawUnreadNotification = totalNotifications > 0;
 
                 if (isSixOClock && drawUnreadNotification) {
+                    // TODO: Don't draw this as a tick, draw our ticks then punch this out.
                     float tickRadiusPositionDimen =
                             mTickRadiusPositionDimens.get(Pair.create(tickShape, tickRadiusPosition)) * pc;
                     float centerTickRadius = mCenter - tickRadiusPositionDimen;

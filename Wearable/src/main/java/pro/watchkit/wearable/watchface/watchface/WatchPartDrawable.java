@@ -21,6 +21,7 @@ package pro.watchkit.wearable.watchface.watchface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -46,6 +47,10 @@ abstract class WatchPartDrawable extends Drawable {
 
 //    private int mWatchHandShadowColor = Color.BLACK;
 //    private float mBevelOffset = 0.2f; // 0.2%
+
+    private Bitmap mBezelBitmap;
+    private Canvas mBezelCanvas;
+    private Paint mBezelBitmapPaint;
 
     void drawPath(Canvas canvas, Path p, Paint paint) {
         // 4 layers:
@@ -81,35 +86,48 @@ abstract class WatchPartDrawable extends Drawable {
             // Primary and secondary bevels as stroke.
             if (!olde) {
                 // Draw our bevels to a temporary bitmap.
-                Bitmap b = Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas c = new Canvas(b);
+                regenerateBezelBitmap(canvas);
 
                 Paint bezelPaint1 = mWatchFaceState.getPaintBox().getBezelPaint1();
                 Path primaryP = new Path();
                 p.offset(-(mBevelOffset * pc), -(mBevelOffset * pc), primaryP);
                 bezelPaint1.setStyle(Paint.Style.FILL);
-                c.drawPath(primaryP, bezelPaint1);
+                mBezelCanvas.drawPath(primaryP, bezelPaint1);
 
                 Paint bezelPaint2 = mWatchFaceState.getPaintBox().getBezelPaint2();
                 Path secondaryP = new Path();
                 p.offset((mBevelOffset * pc), (mBevelOffset * pc), secondaryP);
                 bezelPaint2.setStyle(Paint.Style.FILL);
-                c.drawPath(secondaryP, bezelPaint2);
+                mBezelCanvas.drawPath(secondaryP, bezelPaint2);
 
-                // Create a new paint with our temporary bitmap as a shader.
-                Paint bitmapPaint = new Paint();
-                bitmapPaint.setStyle(Paint.Style.STROKE);
-                bitmapPaint.setStrokeWidth(mBevelOffset * pc * 2);
-                bitmapPaint.setAntiAlias(true);
-                bitmapPaint.setShader(new BitmapShader(b,
-                        Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+                mBezelBitmapPaint.setStrokeWidth(mBevelOffset * pc * 2);
+
                 // Draw a stroke with our new bitmap-shader paint.
-                canvas.drawPath(p, bitmapPaint);
+                canvas.drawPath(p, mBezelBitmapPaint);
             }
         } else {
             // Ambient.
             // The path itself.
             canvas.drawPath(p, mWatchFaceState.getPaintBox().getAmbientPaint());
+        }
+    }
+
+    private void regenerateBezelBitmap(Canvas canvas) {
+        if (mBezelBitmap == null || mBezelCanvas == null || mBezelBitmapPaint == null ||
+                mBezelBitmap.getHeight() != canvas.getHeight() ||
+                mBezelBitmap.getWidth() != canvas.getWidth()) {
+            mBezelBitmap = Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(),
+                    Bitmap.Config.ARGB_8888);
+            mBezelCanvas = new Canvas(mBezelBitmap);
+
+            // Create a new paint with our temporary bitmap as a shader.
+            mBezelBitmapPaint = new Paint();
+            mBezelBitmapPaint.setStyle(Paint.Style.STROKE);
+            mBezelBitmapPaint.setAntiAlias(true);
+            mBezelBitmapPaint.setShader(new BitmapShader(mBezelBitmap,
+                    Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+        } else {
+            mBezelCanvas.drawColor(Color.TRANSPARENT);
         }
     }
 
