@@ -20,11 +20,11 @@ package pro.watchkit.wearable.watchface.config;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.wearable.view.CircledImageView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
 import pro.watchkit.wearable.watchface.R;
@@ -78,13 +78,13 @@ public class WatchFacePresetSelectionRecyclerViewAdapter extends
     public class WatchFacePresetViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
-        private CircledImageView mColorCircleImageView;
+        private ImageView mImageView;
 
         private WatchFaceGlobalDrawable mWatchFaceGlobalDrawable;
 
         public WatchFacePresetViewHolder(final View view) {
             super(view);
-            mColorCircleImageView = view.findViewById(R.id.watch_face_preset);
+            mImageView = view.findViewById(R.id.watch_face_preset);
             view.setOnClickListener(this);
             mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(view.getContext());
         }
@@ -94,7 +94,7 @@ public class WatchFacePresetSelectionRecyclerViewAdapter extends
             w.getWatchFacePreset().setString(watchFacePresetString);
             w.setNotifications(0, 0);
             w.setAmbient(false);
-            mColorCircleImageView.setImageDrawable(mWatchFaceGlobalDrawable);
+            mImageView.setImageDrawable(mWatchFaceGlobalDrawable);
         }
 
         @Override
