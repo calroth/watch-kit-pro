@@ -50,7 +50,6 @@ abstract class WatchPartDrawable extends Drawable {
 
     private final float mBevelOffset = 0.2f; // 0.2%
 
-    private Bitmap mBezelBitmap;
     private Canvas mBezelCanvas;
     private Paint mBezelBitmapPaint;
 
@@ -128,14 +127,14 @@ abstract class WatchPartDrawable extends Drawable {
 
         // Set up our bezel bitmap, canvas and paint structures.
         if (width > 0 && height > 0) {
-            mBezelBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            mBezelCanvas = new Canvas(mBezelBitmap);
+            Bitmap bezelBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            mBezelCanvas = new Canvas(bezelBitmap);
 
             // Create a new paint with our temporary bitmap as a shader.
             mBezelBitmapPaint = new Paint();
             mBezelBitmapPaint.setStyle(Paint.Style.STROKE);
             mBezelBitmapPaint.setAntiAlias(true);
-            mBezelBitmapPaint.setShader(new BitmapShader(mBezelBitmap,
+            mBezelBitmapPaint.setShader(new BitmapShader(bezelBitmap,
                     Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
             mBezelBitmapPaint.setStrokeWidth(mBevelOffset * pc * 2);
         }
