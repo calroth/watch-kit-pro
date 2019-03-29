@@ -26,8 +26,6 @@ import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 final class WatchPartComplicationsDrawable extends WatchPartDrawable {
     @Override
     public void draw(@NonNull Canvas canvas) {
-        super.draw(canvas);
-
         for (ComplicationHolder complication : mWatchFaceState.getComplications()) {
             complication.draw(canvas, mWatchFaceState.getTimeInMillis());
         }

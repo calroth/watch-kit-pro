@@ -44,8 +44,6 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        super.draw(canvas);
-
         if (drawStats) {
             Paint textPaint = mWatchFaceState.isAmbient()
                     ? mWatchFaceState.getPaintBox().getAmbientPaint() : mWatchFaceState.getPaintBox().getFillHighlightPaint();

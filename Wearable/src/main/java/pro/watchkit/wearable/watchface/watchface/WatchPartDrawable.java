@@ -26,6 +26,7 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
+import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 
@@ -113,9 +114,12 @@ abstract class WatchPartDrawable extends Drawable {
         }
     }
 
-    void onWidthAndHeightChanged(Canvas canvas) {
-        width = canvas.getWidth();
-        height = canvas.getHeight();
+    @Override
+    protected void onBoundsChange(Rect bounds) {
+        super.onBoundsChange(bounds);
+
+        width = bounds.width();
+        height = bounds.height();
         pc = 0.01f * Math.min(height, width);
         /*
          * Find the coordinates of the center point on the screen, and ignore the window
@@ -138,18 +142,9 @@ abstract class WatchPartDrawable extends Drawable {
                     Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
             mBezelBitmapPaint.setStrokeWidth(mBevelOffset * pc * 2);
         }
-    }
 
-    @Override
-    public void draw(@NonNull Canvas canvas) {
         // Check width and height.
-        mWatchFaceState.getPaintBox().onWidthAndHeightChanged(
-                getBounds().width(), getBounds().height());
-        if (getBounds().width() != width || getBounds().height() != height) {
-            onWidthAndHeightChanged(canvas);
-        }
-
-        // Override this but call super(canvas) first.
+        mWatchFaceState.getPaintBox().onWidthAndHeightChanged(width, height);
     }
 
     @Override

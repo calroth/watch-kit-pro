@@ -161,9 +161,8 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
     }
 
     @Override
-    void onWidthAndHeightChanged(Canvas canvas) {
-        super.onWidthAndHeightChanged(canvas);
-
+    protected void onBoundsChange(Rect bounds) {
+        super.onBoundsChange(bounds);
         // Invalidate our ticks bitmaps. They'll be regenerated next time around.
         mTicksAmbientBitmapInvalidated = true;
         mTicksActiveBitmapInvalidated = true;
@@ -189,8 +188,6 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        super.draw(canvas);
-
         // Reset to a known direction (either one) each draw.
         mDirection = Path.Direction.CCW;
 

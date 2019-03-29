@@ -350,9 +350,6 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
         public void onSurfaceChanged(SurfaceHolder holder, int format, int width, int height) {
             super.onSurfaceChanged(holder, format, width, height);
 
-            // Propagate our size to our drawable.
-            mWatchFaceGlobalDrawable.setBounds(0, 0, width, height);
-
             /*
              * Calculates location bounds for right and left circular complications. Please note,
              * we are not demonstrating a long text complication in this watch face.
@@ -385,6 +382,8 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             getWatchFaceState().setNotifications(unreadNotifications, totalNotifications);
 //          getWatchFaceState().preset = preset;
 
+            // Propagate our size to our drawable. Turns out this isn't as slow as I imagined.
+            mWatchFaceGlobalDrawable.setBounds(bounds);
             mWatchFaceGlobalDrawable.draw(canvas);
 //          int s = 0;
 //          long now0 = SystemClock.elapsedRealtimeNanos();

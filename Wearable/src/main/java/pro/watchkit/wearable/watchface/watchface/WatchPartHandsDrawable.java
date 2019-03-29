@@ -124,7 +124,6 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        super.draw(canvas);
 //    }
 //    void drawHands(Canvas canvas, WatchFacePreset preset) {
         // Add a hub.
