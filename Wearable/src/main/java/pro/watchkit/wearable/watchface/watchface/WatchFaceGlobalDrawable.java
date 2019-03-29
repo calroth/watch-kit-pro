@@ -45,7 +45,7 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
         mWatchFaceState = new WatchFaceState(context);
 
         for (WatchPartDrawable d : mWatchPartDrawables) {
-            d.setState(mWatchFaceState);
+            d.setWatchFaceState(mWatchFaceState);
         }
     }
 
@@ -58,7 +58,7 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
         mWatchFaceState = new WatchFaceState(context);
 
         for (WatchPartDrawable d : mWatchPartDrawables) {
-            d.setState(mWatchFaceState);
+            d.setWatchFaceState(mWatchFaceState);
         }
     }
 

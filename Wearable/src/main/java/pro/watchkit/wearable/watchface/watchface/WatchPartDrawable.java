@@ -39,8 +39,8 @@ abstract class WatchPartDrawable extends Drawable {
     float pc = 0f; // percent, set to 0.01f * height, all units are based on percent
     float mCenterX, mCenterY;
 
-    void setState(WatchFaceState mWatchFaceState) {
-        this.mWatchFaceState = mWatchFaceState;
+    void setWatchFaceState(@NonNull WatchFaceState watchFaceState) {
+        mWatchFaceState = watchFaceState;
     }
 
 //    boolean ambient;
