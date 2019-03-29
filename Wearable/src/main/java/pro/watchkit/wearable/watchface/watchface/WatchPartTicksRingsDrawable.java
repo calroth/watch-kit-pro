@@ -59,7 +59,7 @@ import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickRadiusPosition;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickShape;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickThickness;
 
-final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
+abstract class WatchPartTicksRingsDrawable extends WatchPartDrawable {
     private static final boolean useNewBackgroundCachingMethod = true;
     private int mPreviousSerial = -1;
     private int mPreviousNightVisionTint = -1;
@@ -73,6 +73,18 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
     private Map<Pair<TickShape, TickThickness>, Float> mTickThicknessDimens = new Hashtable<>();
     private Map<Pair<TickShape, TickLength>, Float> mTickLengthDimens = new Hashtable<>();
     private Map<Pair<TickShape, TickRadiusPosition>, Float> mTickRadiusPositionDimens = new Hashtable<>();
+
+    abstract protected boolean isVisible(int tickIndex);
+
+    abstract protected float getMod();
+
+    abstract protected TickShape getTickShape();
+
+    abstract protected TickLength getTickLength();
+
+    abstract protected TickThickness getTickThickness();
+
+    abstract protected TickRadiusPosition getTickRadiusPosition();
 
     WatchPartTicksRingsDrawable() {
         super();
@@ -276,42 +288,15 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
             p.reset();
             temp.reset();
             int numTicks = 60;
-            boolean isFourTicksVisible = mWatchFaceState.getWatchFacePreset().isFourTicksVisible();
-            boolean isTwelveTicksVisible = mWatchFaceState.getWatchFacePreset().isTwelveTicksVisible();
-            boolean isSixtyTicksVisible = mWatchFaceState.getWatchFacePreset().isSixtyTicksVisible();
             for (int tickIndex = 0; tickIndex < numTicks; tickIndex++) {
-                int majorTickDegrees = 90; // One major tick every 90 degrees.
-                int minorTickDegrees = 30; // One minor tick every 30 degrees.
                 float mCenter = Math.min(mCenterX, mCenterY);
-                boolean isTickVisible;
-				TickShape tickShape;
-				TickLength tickLength;
-				TickThickness tickThickness;
-				TickRadiusPosition tickRadiusPosition;
+                boolean isTickVisible = isVisible(tickIndex);
+                TickShape tickShape = getTickShape();
+                TickLength tickLength = getTickLength();
+                TickThickness tickThickness = getTickThickness();
+                TickRadiusPosition tickRadiusPosition = getTickRadiusPosition();
                 // Modifiers: four ticks are one size up; sixty ticks one size down.
-                float mod;
-                if (tickIndex * (360 / numTicks) % majorTickDegrees == 0) {
-                    isTickVisible = isFourTicksVisible;
-					tickShape = mWatchFaceState.getWatchFacePreset().getFourTickShape();
-					tickLength = mWatchFaceState.getWatchFacePreset().getFourTickLength();
-					tickThickness = mWatchFaceState.getWatchFacePreset().getFourTickThickness();
-					tickRadiusPosition = mWatchFaceState.getWatchFacePreset().getFourTickRadiusPosition();
-                    mod = (float) Math.sqrt(2d);
-                } else if (tickIndex * (360 / numTicks) % minorTickDegrees == 0) {
-                    isTickVisible = isTwelveTicksVisible;
-					tickShape = mWatchFaceState.getWatchFacePreset().getTwelveTickShape();
-					tickLength = mWatchFaceState.getWatchFacePreset().getTwelveTickLength();
-					tickThickness = mWatchFaceState.getWatchFacePreset().getTwelveTickThickness();
-					tickRadiusPosition = mWatchFaceState.getWatchFacePreset().getTwelveTickRadiusPosition();
-                    mod = 1f;
-                } else {
-                    isTickVisible = isSixtyTicksVisible;
-					tickShape = mWatchFaceState.getWatchFacePreset().getSixtyTickShape();
-					tickLength = mWatchFaceState.getWatchFacePreset().getSixtyTickLength();
-					tickThickness = mWatchFaceState.getWatchFacePreset().getSixtyTickThickness();
-					tickRadiusPosition = mWatchFaceState.getWatchFacePreset().getSixtyTickRadiusPosition();
-                    mod = (float) Math.sqrt(0.5d);
-                }
+                float mod = getMod();
 
                 boolean isSixOClock = tickIndex == numTicks / 2;
 
@@ -459,7 +444,7 @@ final class WatchPartTicksRingsDrawable extends WatchPartDrawable {
             }
 
             // If not ambient, draw our complication rings.
-            if (!mWatchFaceState.isAmbient() && complications != null) {
+            if (!mWatchFaceState.isAmbient() && complications != null && getMod() == 1.0f) {
                 rings.reset();
                 holes.reset();
 

@@ -52,7 +52,9 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
     public WatchFaceGlobalDrawable(@NonNull Context context) {
         this(new WatchPartDrawable[]{
                 new WatchPartBackgroundDrawable(),
-                new WatchPartTicksRingsDrawable(),
+                new WatchPartTicksFourDrawable(),
+                new WatchPartTicksTwelveDrawable(),
+                new WatchPartTicksSixtyDrawable(),
                 new WatchPartHandsDrawable()});
 
         mWatchFaceState = new WatchFaceState(context);

@@ -187,7 +187,9 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(context,
                     new WatchPartDrawable[]{
                             new WatchPartBackgroundDrawable(),
-                            new WatchPartTicksRingsDrawable(),
+                            new WatchPartTicksFourDrawable(),
+                            new WatchPartTicksTwelveDrawable(),
+                            new WatchPartTicksSixtyDrawable(),
                             new WatchPartComplicationsDrawable(),
                             new WatchPartHandsDrawable(),
                             new WatchPartStatsDrawable()});
