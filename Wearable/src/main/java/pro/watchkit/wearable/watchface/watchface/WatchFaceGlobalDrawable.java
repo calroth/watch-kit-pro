@@ -20,24 +20,27 @@ package pro.watchkit.wearable.watchface.watchface;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.PixelFormat;
-import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 /**
  * A very basic Drawable that you feed a WatchFacePreset and a PaintBox and it
  * draws a watch face!
  */
-public class WatchFaceGlobalDrawable extends Drawable {
-    private WatchPartDrawable[] mWatchPartDrawables;
+public class WatchFaceGlobalDrawable extends LayerDrawable {
     private WatchFaceState mWatchFaceState;
+    private WatchPartDrawable[] mWatchPartDrawables;
 
-    WatchFaceGlobalDrawable(Context context, WatchPartDrawable[] watchPartDrawables) {
+    private WatchFaceGlobalDrawable(@NonNull WatchPartDrawable[] watchPartDrawables) {
+        super(watchPartDrawables);
         mWatchPartDrawables = watchPartDrawables;
+    }
+
+    WatchFaceGlobalDrawable(
+            @NonNull Context context, @NonNull WatchPartDrawable[] watchPartDrawables) {
+        this(watchPartDrawables);
 
         mWatchFaceState = new WatchFaceState(context);
 
@@ -46,11 +49,11 @@ public class WatchFaceGlobalDrawable extends Drawable {
         }
     }
 
-    public WatchFaceGlobalDrawable(Context context) {
-        mWatchPartDrawables = new WatchPartDrawable[]{
+    public WatchFaceGlobalDrawable(@NonNull Context context) {
+        this(new WatchPartDrawable[]{
                 new WatchPartBackgroundDrawable(),
                 new WatchPartTicksRingsDrawable(),
-                new WatchPartHandsDrawable()};
+                new WatchPartHandsDrawable()});
 
         mWatchFaceState = new WatchFaceState(context);
 
@@ -59,18 +62,9 @@ public class WatchFaceGlobalDrawable extends Drawable {
         }
     }
 
+    @NonNull
     public WatchFaceState getWatchFaceState() {
         return mWatchFaceState;
-    }
-
-    @Override
-    public void setBounds(int left, int top, int right, int bottom) {
-        super.setBounds(left, top, right, bottom);
-
-        for (WatchPartDrawable d : mWatchPartDrawables) {
-            // For each of our drawables: set its bounds!
-            d.setBounds(left, top, right, bottom);
-        }
     }
 
     @Override
@@ -79,25 +73,6 @@ public class WatchFaceGlobalDrawable extends Drawable {
         mWatchFaceState.setDefaultTimeZone();
         mWatchFaceState.setCurrentTimeToNow();
 
-        // Draw, only if we're a non-zero size (otherwise what's there to draw?)
-        if (getBounds().width() > 0 && getBounds().height() > 0) {
-            for (WatchPartDrawable d : mWatchPartDrawables) {
-                // For each of our drawables: draw it!
-                d.draw(canvas);
-            }
-        }
-    }
-
-    @Override
-    public void setAlpha(int alpha) {
-    }
-
-    @Override
-    public void setColorFilter(@Nullable ColorFilter colorFilter) {
-    }
-
-    @Override
-    public int getOpacity() {
-        return PixelFormat.OPAQUE;
+        super.draw(canvas);
     }
 }
