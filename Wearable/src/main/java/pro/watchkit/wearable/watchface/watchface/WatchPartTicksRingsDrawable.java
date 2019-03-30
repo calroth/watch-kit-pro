@@ -42,7 +42,6 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
-import android.support.wearable.complications.rendering.ComplicationDrawable;
 import android.util.Log;
 
 import java.util.Collection;
@@ -182,8 +181,6 @@ abstract class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
     private Path p = new Path();
     private Path temp = new Path();
-    private Path rings = new Path();
-    private Path holes = new Path();
 
     @Override
     public void draw(@NonNull Canvas canvas) {
@@ -425,29 +422,6 @@ abstract class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
                     p.op(temp, Path.Op.UNION);
                 }
-            }
-
-            // If not ambient, draw our complication rings.
-            if (!mWatchFaceState.isAmbient() && complications != null && getMod() == 1.0f) {
-                rings.reset();
-                holes.reset();
-
-                for (ComplicationHolder complication : complications) {
-                    if (complication.isForeground && complication.isActive) {
-                        Rect r = complication.getBounds();
-                        rings.addCircle(r.exactCenterX(), r.exactCenterY(),
-                                1.05f * r.width() / 2f, getDirection());
-                        holes.addCircle(r.exactCenterX(), r.exactCenterY(),
-                                1.01f * r.width() / 2f, getDirection());
-                        complication.setBorderStyleActive(
-                                ComplicationDrawable.BORDER_STYLE_NONE);
-                    }
-                }
-
-                p.op(rings, Path.Op.UNION);
-                p.op(holes, Path.Op.DIFFERENCE);
-//                p.op(getComplicationRings(complications), Path.Op.UNION);
-//                p.op(getComplicationHoles(complications), Path.Op.DIFFERENCE);
             }
 
             // Test: if ambient, draw our burn-in exclusion rings
