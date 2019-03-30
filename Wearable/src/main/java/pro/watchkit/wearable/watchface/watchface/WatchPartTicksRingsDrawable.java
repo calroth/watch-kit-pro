@@ -180,19 +180,6 @@ abstract class WatchPartTicksRingsDrawable extends WatchPartDrawable {
         mTicksActiveBitmapInvalidated = true;
     }
 
-    private Path.Direction mDirection;
-
-    /**
-     * Flip and get our current direction.
-     * We alternate between clockwise and anticlockwise drawing.
-     *
-     * @return Our current direction, which is flipped from the last call to this method
-     */
-    private Path.Direction getDirection() {
-        mDirection = mDirection == Path.Direction.CCW ? Path.Direction.CW : Path.Direction.CCW;
-        return mDirection;
-    }
-
     private Path p = new Path();
     private Path temp = new Path();
     private Path rings = new Path();
@@ -200,9 +187,6 @@ abstract class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        // Reset to a known direction (either one) each draw.
-        mDirection = Path.Direction.CCW;
-
         boolean cacheHit = true;
         Bitmap ticksBitmap;
 

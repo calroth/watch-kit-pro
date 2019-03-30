@@ -44,10 +44,29 @@ abstract class WatchPartDrawable extends Drawable {
         mWatchFaceState = watchFaceState;
     }
 
-//    boolean ambient;
+    /**
+     * Our current direction. Static, so shared amongst all our accessors.
+     */
+    private static Path.Direction mDirection = Path.Direction.CCW;
 
-//    private int mWatchHandShadowColor = Color.BLACK;
-//    private float mBevelOffset = 0.2f; // 0.2%
+    /**
+     * Reset our current direction. Call this before starting any drawing, so we get consistency
+     * from draw to draw.
+     */
+    static void resetDirection() {
+        mDirection = Path.Direction.CCW;
+    }
+
+    /**
+     * Flip and get our current direction.
+     * We alternate between clockwise and anticlockwise drawing.
+     *
+     * @return Our current direction, which is flipped from the last call to this method
+     */
+    protected Path.Direction getDirection() {
+        mDirection = mDirection == Path.Direction.CCW ? Path.Direction.CW : Path.Direction.CCW;
+        return mDirection;
+    }
 
     private final float mBevelOffset = 0.2f; // 0.2%
 

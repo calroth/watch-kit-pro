@@ -75,6 +75,9 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
         mWatchFaceState.setDefaultTimeZone();
         mWatchFaceState.setCurrentTimeToNow();
 
+        // Reset the direction so we get consistency per draw (hopefully).
+        WatchPartDrawable.resetDirection();
+
         super.draw(canvas);
     }
 }
