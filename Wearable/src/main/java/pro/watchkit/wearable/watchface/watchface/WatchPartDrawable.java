@@ -51,8 +51,8 @@ abstract class WatchPartDrawable extends Drawable {
 
     private final float mBevelOffset = 0.2f; // 0.2%
 
-    private Canvas mBezelCanvas;
-    private Paint mBezelBitmapPaint;
+    private static Canvas mBezelCanvas;
+    private static Paint mBezelBitmapPaint;
 
     void drawPath(Canvas canvas, Path p, Paint paint) {
         // 4 layers:
