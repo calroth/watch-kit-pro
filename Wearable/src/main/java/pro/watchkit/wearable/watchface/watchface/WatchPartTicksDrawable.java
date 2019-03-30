@@ -58,7 +58,7 @@ import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickRadiusPosition;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickShape;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickThickness;
 
-abstract class WatchPartTicksRingsDrawable extends WatchPartDrawable {
+abstract class WatchPartTicksDrawable extends WatchPartDrawable {
     private static final boolean useNewBackgroundCachingMethod = true;
     private int mPreviousSerial = -1;
     private int mPreviousNightVisionTint = -1;
@@ -85,7 +85,7 @@ abstract class WatchPartTicksRingsDrawable extends WatchPartDrawable {
 
     abstract protected TickRadiusPosition getTickRadiusPosition();
 
-    WatchPartTicksRingsDrawable() {
+    WatchPartTicksDrawable() {
         super();
 
         float barThicknessScale = (float) (Math.PI / 60d);

@@ -5,7 +5,7 @@ import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickRadiusPosition;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickShape;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickThickness;
 
-final class WatchPartTicksFourDrawable extends WatchPartTicksRingsDrawable {
+final class WatchPartTicksFourDrawable extends WatchPartTicksDrawable {
     @Override
     protected boolean isVisible(int tickIndex) {
         if (tickIndex % 15 == 0)
