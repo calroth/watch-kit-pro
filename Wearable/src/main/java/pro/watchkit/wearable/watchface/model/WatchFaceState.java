@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.Objects;
 import java.util.TimeZone;
 
 /**
@@ -74,6 +75,22 @@ public class WatchFaceState {
             Color.argb(0xff, 0xaa, 0xaa, 0xaa);
 
     private int currentComplicationWhite, currentComplicationGrey;
+
+    @Override
+    public int hashCode() {
+        int currentNightVisionTint = -1;
+        if (mAmbient) {
+            currentNightVisionTint = mLocationCalculator.getDuskDawnColor(PaintBox.AMBIENT_WHITE);
+        }
+
+        return Objects.hash(
+                mWatchFacePreset,
+                mComplications,
+                mAmbient,
+                currentNightVisionTint,
+                mUnreadNotifications,
+                mTotalNotifications);
+    }
 
     public WatchFaceState(Context context) {
         mPaintBox = new PaintBox(context, mWatchFacePreset);
