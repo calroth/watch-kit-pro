@@ -36,6 +36,11 @@ import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 
 final class WatchPartComplicationsDrawable extends WatchPartDrawable {
+    @Override
+    String getStatsName() {
+        return "Comps";
+    }
+
     private static final boolean useNewBackgroundCachingMethod = true;
     private int mPreviousSerial = -1;
     private int mPreviousNightVisionTint = -1;

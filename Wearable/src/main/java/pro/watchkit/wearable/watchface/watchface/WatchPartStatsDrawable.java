@@ -21,6 +21,8 @@ package pro.watchkit.wearable.watchface.watchface;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import java.util.Objects;
+
 import androidx.annotation.NonNull;
 
 @Deprecated
@@ -35,33 +37,49 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
     static final String INVALID_SURFACE = "Surface Change";
     static final String INVALID_NOTIFICATION = "Notification Change";
     static final String INVALID_WTF = "WTF?";
-    final static boolean drawStats = false;
     @Deprecated
     static int invalid = 0;
     @Deprecated
-    static long now[] = new long[5];
+    WatchPartDrawable[] mWatchPartDrawables;
     static String mInvalidTrigger = "";
 
     @Override
+    String getStatsName() {
+        return "Stats";
+    }
+
+    @Override
     public void draw2(@NonNull Canvas canvas) {
-        if (drawStats) {
-            Paint textPaint = mWatchFaceState.isAmbient()
-                    ? mWatchFaceState.getPaintBox().getAmbientPaint() : mWatchFaceState.getPaintBox().getFillHighlightPaint();
+        Paint textPaint = mWatchFaceState.isAmbient()
+                ? mWatchFaceState.getPaintBox().getAmbientPaint() : mWatchFaceState.getPaintBox().getFillHighlightPaint();
 
-            canvas.drawText(mInvalidTrigger, 20f * pc, 35f * pc, textPaint);
+        float x = 12f * pc;
+        float y = 45f * pc;
 
-            canvas.drawText(invalid
-                            + String.format(" Alt: %.2f° / ", mWatchFaceState.getLocationCalculator().getSunAltitude())
-                            + String.format("%.2f", (double) (now[0] + now[1] + now[2] + now[3] + now[4]) / 1000000d)
-                            + (canvas.isHardwareAccelerated() ? " (hw)" : " (sw)"),
-                    12f * pc, 55f * pc, textPaint);
+        canvas.drawText(mInvalidTrigger, x, y, textPaint);
+        y += 3f * pc;
 
-            canvas.drawText(String.format("%.2f / %.2f / %.2f / %.2f / %.2f",
-                    (double) (now[0]) / 1000000d,
-                    (double) (now[1]) / 1000000d,
-                    (double) (now[2]) / 1000000d,
-                    (double) (now[3]) / 1000000d,
-                    (double) (now[4]) / 1000000d), 12f * pc, 45f * pc, textPaint);
+        for (WatchPartDrawable d : mWatchPartDrawables) {
+            String extra = "";
+            if (d.canBeCached()) {
+                extra += "(c) ";
+            }
+            if (d.mSkipDrawingIntoCache) {
+                extra += "(s) ";
+            }
+            if (d.mIsCachePoint) {
+                extra += "(p) ";
+            }
+            extra = extra.trim();
+            canvas.drawText(String.format("%s %s: %.2f", d.getStatsName(), extra,
+                    (double) (d.mLastStatsTime) / 1000000d), x, y, textPaint);
+            y += 3f * pc;
         }
+
+        canvas.drawText(invalid
+                + String.format(" Alt: %.2f° / ", mWatchFaceState.getLocationCalculator().getSunAltitude())
+                + Objects.hashCode(mWatchFaceState)
+                //+ String.format("%.2f", (double) (now[0] + now[1] + now[2] + now[3] + now[4]) / 1000000d)
+                + (canvas.isHardwareAccelerated() ? " (hw)" : " (sw)"), x, y, textPaint);
     }
 }

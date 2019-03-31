@@ -123,6 +123,11 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
     }
 
     @Override
+    String getStatsName() {
+        return "Hands";
+    }
+
+    @Override
     public void draw2(@NonNull Canvas canvas) {
 //    }
 //    void drawHands(Canvas canvas, WatchFacePreset preset) {

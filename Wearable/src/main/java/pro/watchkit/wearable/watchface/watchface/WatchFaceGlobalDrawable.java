@@ -40,6 +40,14 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
     private WatchFaceGlobalDrawable(@NonNull WatchPartDrawable[] watchPartDrawables) {
         super(watchPartDrawables);
         mWatchPartDrawables = watchPartDrawables;
+
+        // Stats start
+        for (WatchPartDrawable d : mWatchPartDrawables) {
+            if (d instanceof WatchPartStatsDrawable) {
+                ((WatchPartStatsDrawable) d).mWatchPartDrawables = watchPartDrawables;
+            }
+        }
+        // Stats end
     }
 
     WatchFaceGlobalDrawable(

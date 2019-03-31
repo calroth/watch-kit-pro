@@ -8,6 +8,11 @@ import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickThickness;
 
 final class WatchPartTicksTwelveDrawable extends WatchPartTicksDrawable {
     @Override
+    String getStatsName() {
+        return "Twelve";
+    }
+
+    @Override
     protected boolean isVisible(int tickIndex) {
         if (tickIndex % 15 == 0)
             return false;

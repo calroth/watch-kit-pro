@@ -29,6 +29,7 @@ import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
+import android.os.SystemClock;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -73,8 +74,8 @@ abstract class WatchPartDrawable extends Drawable {
     private static Canvas mBezelCanvas;
     private static Paint mBezelBitmapPaint;
 
-    private boolean mSkipDrawingIntoCache = false;
-    private boolean mIsCachePoint = false;
+    /*private*/ boolean mSkipDrawingIntoCache = false;
+    /*private*/ boolean mIsCachePoint = false;
     private Canvas mCacheCanvas;
     private Bitmap mCacheBitmap;
 
@@ -131,8 +132,17 @@ abstract class WatchPartDrawable extends Drawable {
         mCacheBitmap = cacheBitmap;
     }
 
+    long mLastStatsTime = 0;
+
+    // Stats start
+    abstract String getStatsName();
+    // Stats end
+
     @Override
     final public void draw(@NonNull Canvas canvas) {
+        // Stats start
+        long start = SystemClock.elapsedRealtimeNanos();
+        // Stats end
         if (mCacheCanvas != null && canBeCached()) {
             // We can be cached and we've got a canvas to cache to.
             // Draw into it, but only if we need to.
@@ -152,6 +162,10 @@ abstract class WatchPartDrawable extends Drawable {
             // Now write mCacheCanvas to the main canvas.
             canvas.drawBitmap(mCacheBitmap, 0, 0, null);
         }
+
+        // Stats start
+        mLastStatsTime = SystemClock.elapsedRealtimeNanos() - start;
+        // Stats end
     }
 
     abstract void draw2(@NonNull Canvas canvas);
