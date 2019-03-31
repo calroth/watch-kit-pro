@@ -1,5 +1,6 @@
 package pro.watchkit.wearable.watchface.watchface;
 
+import pro.watchkit.wearable.watchface.model.WatchFacePreset.Style;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickLength;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickRadiusPosition;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickShape;
@@ -39,5 +40,10 @@ final class WatchPartTicksSixtyDrawable extends WatchPartTicksDrawable {
     @Override
     protected TickRadiusPosition getTickRadiusPosition() {
         return mWatchFaceState.getWatchFacePreset().getSixtyTickRadiusPosition();
+    }
+
+    @Override
+    protected Style getTickStyle() {
+        return mWatchFaceState.getWatchFacePreset().getSixtyTickStyle();
     }
 }

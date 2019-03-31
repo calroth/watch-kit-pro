@@ -44,6 +44,7 @@ import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
+import pro.watchkit.wearable.watchface.model.WatchFacePreset.Style;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickLength;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickRadiusPosition;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickShape;
@@ -51,14 +52,14 @@ import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickThickness;
 
 abstract class WatchPartTicksDrawable extends WatchPartDrawable {
     //    private static final boolean useNewBackgroundCachingMethod = true;
-    private int mPreviousSerial = -1;
-    private int mPreviousNightVisionTint = -1;
+//    private int mPreviousSerial = -1;
+//    private int mPreviousNightVisionTint = -1;
     //    private Bitmap mTicksActiveBitmap = null;
 //    private Bitmap mTicksAmbientBitmap = null;
 //    private boolean mTicksAmbientBitmapInvalidated = true;
 //    private boolean mTicksActiveBitmapInvalidated = true;
     private Path mAmbientExclusionPath;
-    private Paint mAmbientColorShiftPaint = new Paint();
+//    private Paint mAmbientColorShiftPaint = new Paint();
 
     private Map<Pair<TickShape, TickThickness>, Float> mTickThicknessDimens = new Hashtable<>();
     private Map<Pair<TickShape, TickLength>, Float> mTickLengthDimens = new Hashtable<>();
@@ -75,6 +76,8 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
     abstract protected TickThickness getTickThickness();
 
     abstract protected TickRadiusPosition getTickRadiusPosition();
+
+    abstract protected Style getTickStyle();
 
     WatchPartTicksDrawable() {
         super();
@@ -183,7 +186,7 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
         int unreadNotifications = mWatchFaceState.getUnreadNotifications();
         int totalNotifications = mWatchFaceState.getTotalNotifications();
 //        Collection<ComplicationHolder> complications = mWatchFaceState.getComplications();
-        Paint twelveTickPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(mWatchFaceState.getWatchFacePreset().getTwelveTickStyle());
+        Paint tickPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(getTickStyle());
 
 //        // Invalidate if complications, unread notifications or total notifications have changed.
 //        // Or the entire preset.
@@ -487,7 +490,7 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
 ////                    }
 ////                }
 //            } else {
-        drawPath(canvas, p, twelveTickPaint);
+        drawPath(canvas, p, tickPaint);
 //                drawPath(canvas, p, mPaintBox.getTickPaint());
 //            }
 
