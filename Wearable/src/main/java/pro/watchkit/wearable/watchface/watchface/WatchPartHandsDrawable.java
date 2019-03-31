@@ -123,7 +123,7 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
     }
 
     @Override
-    public void draw(@NonNull Canvas canvas) {
+    public void draw2(@NonNull Canvas canvas) {
 //    }
 //    void drawHands(Canvas canvas, WatchFacePreset preset) {
         // Add a hub.

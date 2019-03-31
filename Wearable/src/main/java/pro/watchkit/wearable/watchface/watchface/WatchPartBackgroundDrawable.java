@@ -27,7 +27,7 @@ import pro.watchkit.wearable.watchface.model.PaintBox;
 
 final class WatchPartBackgroundDrawable extends WatchPartDrawable {
     @Override
-    public void draw(@NonNull Canvas canvas) {
+    public void draw2(@NonNull Canvas canvas) {
         if (mWatchFaceState.isAmbient()) {
             mWatchFaceState.getPaintBox().getAmbientPaint().setColor(
                     mWatchFaceState.getLocationCalculator().getDuskDawnColor(PaintBox.AMBIENT_WHITE));
@@ -41,5 +41,10 @@ final class WatchPartBackgroundDrawable extends WatchPartDrawable {
 //            mPaintBox.getBaseAccentPaint().setStyle(Paint.Style.FILL);
 //            canvas.drawPaint(mPaintBox.getBackgroundPaint());
         }
+    }
+
+    @Override
+    boolean canBeCached() {
+        return true;
     }
 }

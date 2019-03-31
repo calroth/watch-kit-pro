@@ -34,38 +34,29 @@
 
 package pro.watchkit.wearable.watchface.watchface;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.LightingColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Rect;
-import android.util.Log;
 
-import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Map;
-import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
-import pro.watchkit.wearable.watchface.model.ComplicationHolder;
-import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickLength;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickRadiusPosition;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickShape;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickThickness;
 
 abstract class WatchPartTicksDrawable extends WatchPartDrawable {
-    private static final boolean useNewBackgroundCachingMethod = true;
+    //    private static final boolean useNewBackgroundCachingMethod = true;
     private int mPreviousSerial = -1;
     private int mPreviousNightVisionTint = -1;
-    private Bitmap mTicksActiveBitmap = null;
-    private Bitmap mTicksAmbientBitmap = null;
-    private boolean mTicksAmbientBitmapInvalidated = true;
-    private boolean mTicksActiveBitmapInvalidated = true;
+    //    private Bitmap mTicksActiveBitmap = null;
+//    private Bitmap mTicksAmbientBitmap = null;
+//    private boolean mTicksAmbientBitmapInvalidated = true;
+//    private boolean mTicksActiveBitmapInvalidated = true;
     private Path mAmbientExclusionPath;
     private Paint mAmbientColorShiftPaint = new Paint();
 
@@ -171,91 +162,91 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
         mTickRadiusPositionDimens.put(Pair.create(TickShape.DIAMOND, TickRadiusPosition.X_LONG), 9f);
     }
 
-    @Override
-    protected void onBoundsChange(Rect bounds) {
-        super.onBoundsChange(bounds);
-        // Invalidate our ticks bitmaps. They'll be regenerated next time around.
-        mTicksAmbientBitmapInvalidated = true;
-        mTicksActiveBitmapInvalidated = true;
-    }
+//    @Override
+//    protected void onBoundsChange(Rect bounds) {
+//        super.onBoundsChange(bounds);
+//        // Invalidate our ticks bitmaps. They'll be regenerated next time around.
+//        mTicksAmbientBitmapInvalidated = true;
+//        mTicksActiveBitmapInvalidated = true;
+//    }
 
     private Path p = new Path();
     private Path temp = new Path();
 
     @Override
-    public void draw(@NonNull Canvas canvas) {
-        boolean cacheHit = true;
-        Bitmap ticksBitmap;
+    public void draw2(@NonNull Canvas canvas) {
+//        boolean cacheHit = true;
+//        Bitmap ticksBitmap;
 
-        int original = 0, currentNightVisionTint = 0;
+//        int original = 0, currentNightVisionTint = 0;
 
         int unreadNotifications = mWatchFaceState.getUnreadNotifications();
         int totalNotifications = mWatchFaceState.getTotalNotifications();
-        Collection<ComplicationHolder> complications = mWatchFaceState.getComplications();
+//        Collection<ComplicationHolder> complications = mWatchFaceState.getComplications();
         Paint twelveTickPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(mWatchFaceState.getWatchFacePreset().getTwelveTickStyle());
 
-        // Invalidate if complications, unread notifications or total notifications have changed.
-        // Or the entire preset.
-        int currentSerial = Objects.hash(mWatchFaceState.getWatchFacePreset(), twelveTickPaint, complications, unreadNotifications, totalNotifications);
-        if (mPreviousSerial != currentSerial) {
-            mTicksActiveBitmapInvalidated = true;
-            mTicksAmbientBitmapInvalidated = true;
-            mPreviousSerial = currentSerial;
-        }
-
-        // Invalidate if our night vision tint has changed
-        if (mWatchFaceState.isAmbient()) {
-            original = PaintBox.AMBIENT_WHITE;
-            currentNightVisionTint = mWatchFaceState.getLocationCalculator().getDuskDawnColor(original);
-            if (mPreviousNightVisionTint != currentNightVisionTint) {
-                Log.d("AnalogWatchFace", "currentNightVisionTint: was "
-                        + mPreviousNightVisionTint + ", now " + currentNightVisionTint);
-                mTicksAmbientBitmapInvalidated = true;
-                mPreviousNightVisionTint = currentNightVisionTint;
-            }
-        }
-
-        // If we've been invalidated, regenerate and/or clear our bitmaps.
-        if (mWatchFaceState.isAmbient()) {
-            if (mTicksAmbientBitmapInvalidated) {
-                // Initialise bitmap on first use or if our width/height have changed.
-                if (mTicksAmbientBitmap == null) {
-                    mTicksAmbientBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-                } else if (mTicksAmbientBitmap.getWidth() != width ||
-                        mTicksAmbientBitmap.getHeight() != height) {
-                    mTicksAmbientBitmap.setWidth(width);
-                    mTicksAmbientBitmap.setHeight(height);
-                    mTicksAmbientBitmap.eraseColor(Color.TRANSPARENT);
-                } else {
-                    mTicksAmbientBitmap.eraseColor(Color.TRANSPARENT);
-                }
-
-                cacheHit = false;
-                mTicksAmbientBitmapInvalidated = false;
-            }
-
-            ticksBitmap = mTicksAmbientBitmap;
-        } else {
-            if (mTicksActiveBitmapInvalidated) {
-                // Initialise bitmap on first use or if our width/height have changed.
-                if (mTicksActiveBitmap == null) {
-                    mTicksActiveBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-                } else if (mTicksActiveBitmap.getWidth() != width ||
-                        mTicksActiveBitmap.getHeight() != height) {
-                    mTicksActiveBitmap.setWidth(width);
-                    mTicksActiveBitmap.setHeight(height);
-                    mTicksActiveBitmap.eraseColor(Color.TRANSPARENT);
-                } else {
-                    mTicksActiveBitmap.eraseColor(Color.TRANSPARENT);
-                }
-
-                cacheHit = false;
-                mTicksActiveBitmapInvalidated = false;
-//                Log.d("AnalogWatchFace", "BigInvalidated!");
-            }
-
-            ticksBitmap = mTicksActiveBitmap;
-        }
+//        // Invalidate if complications, unread notifications or total notifications have changed.
+//        // Or the entire preset.
+//        int currentSerial = Objects.hash(mWatchFaceState.getWatchFacePreset(), twelveTickPaint, complications, unreadNotifications, totalNotifications);
+//        if (mPreviousSerial != currentSerial) {
+//            mTicksActiveBitmapInvalidated = true;
+//            mTicksAmbientBitmapInvalidated = true;
+//            mPreviousSerial = currentSerial;
+//        }
+//
+//        // Invalidate if our night vision tint has changed
+//        if (mWatchFaceState.isAmbient()) {
+//            original = PaintBox.AMBIENT_WHITE;
+//            currentNightVisionTint = mWatchFaceState.getLocationCalculator().getDuskDawnColor(original);
+//            if (mPreviousNightVisionTint != currentNightVisionTint) {
+//                Log.d("AnalogWatchFace", "currentNightVisionTint: was "
+//                        + mPreviousNightVisionTint + ", now " + currentNightVisionTint);
+//                mTicksAmbientBitmapInvalidated = true;
+//                mPreviousNightVisionTint = currentNightVisionTint;
+//            }
+//        }
+//
+//        // If we've been invalidated, regenerate and/or clear our bitmaps.
+//        if (mWatchFaceState.isAmbient()) {
+//            if (mTicksAmbientBitmapInvalidated) {
+//                // Initialise bitmap on first use or if our width/height have changed.
+//                if (mTicksAmbientBitmap == null) {
+//                    mTicksAmbientBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+//                } else if (mTicksAmbientBitmap.getWidth() != width ||
+//                        mTicksAmbientBitmap.getHeight() != height) {
+//                    mTicksAmbientBitmap.setWidth(width);
+//                    mTicksAmbientBitmap.setHeight(height);
+//                    mTicksAmbientBitmap.eraseColor(Color.TRANSPARENT);
+//                } else {
+//                    mTicksAmbientBitmap.eraseColor(Color.TRANSPARENT);
+//                }
+//
+//                cacheHit = false;
+//                mTicksAmbientBitmapInvalidated = false;
+//            }
+//
+//            ticksBitmap = mTicksAmbientBitmap;
+//        } else {
+//            if (mTicksActiveBitmapInvalidated) {
+//                // Initialise bitmap on first use or if our width/height have changed.
+//                if (mTicksActiveBitmap == null) {
+//                    mTicksActiveBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+//                } else if (mTicksActiveBitmap.getWidth() != width ||
+//                        mTicksActiveBitmap.getHeight() != height) {
+//                    mTicksActiveBitmap.setWidth(width);
+//                    mTicksActiveBitmap.setHeight(height);
+//                    mTicksActiveBitmap.eraseColor(Color.TRANSPARENT);
+//                } else {
+//                    mTicksActiveBitmap.eraseColor(Color.TRANSPARENT);
+//                }
+//
+//                cacheHit = false;
+//                mTicksActiveBitmapInvalidated = false;
+////                Log.d("AnalogWatchFace", "BigInvalidated!");
+//            }
+//
+//            ticksBitmap = mTicksActiveBitmap;
+//        }
 
 //        if (mTicksPreset != null) {
 //            cacheHit = preset.getMinuteHandShape() == mTicksPreset.getMinuteHandShape() &
@@ -265,174 +256,174 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
 //            // TODO: Fix that...
 //        }
 
-        if (!cacheHit) {
-            p.reset();
-            temp.reset();
-            int numTicks = 60;
-            for (int tickIndex = 0; tickIndex < numTicks; tickIndex++) {
-                float mCenter = Math.min(mCenterX, mCenterY);
-                boolean isTickVisible = isVisible(tickIndex);
-                TickShape tickShape = getTickShape();
-                TickLength tickLength = getTickLength();
-                TickThickness tickThickness = getTickThickness();
-                TickRadiusPosition tickRadiusPosition = getTickRadiusPosition();
-                // Modifiers: four ticks are one size up; sixty ticks one size down.
-                float mod = getMod();
+//        if (!cacheHit) {
+        p.reset();
+        temp.reset();
+        int numTicks = 60;
+        for (int tickIndex = 0; tickIndex < numTicks; tickIndex++) {
+            float mCenter = Math.min(mCenterX, mCenterY);
+            boolean isTickVisible = isVisible(tickIndex);
+            TickShape tickShape = getTickShape();
+            TickLength tickLength = getTickLength();
+            TickThickness tickThickness = getTickThickness();
+            TickRadiusPosition tickRadiusPosition = getTickRadiusPosition();
+            // Modifiers: four ticks are one size up; sixty ticks one size down.
+            float mod = getMod();
 
-                boolean isSixOClock = tickIndex == numTicks / 2;
+            boolean isSixOClock = tickIndex == numTicks / 2;
 
-                boolean drawUnreadNotification = totalNotifications > 0;
+            boolean drawUnreadNotification = totalNotifications > 0;
 
-                if (isSixOClock && drawUnreadNotification) {
-                    // TODO: Don't draw this as a tick, draw our ticks then punch this out.
-                    float tickRadiusPositionDimen =
-                            mTickRadiusPositionDimens.get(Pair.create(tickShape, tickRadiusPosition)) * pc;
-                    float centerTickRadius = mCenter - tickRadiusPositionDimen;
-                    float x = mCenterX;// + (innerX + outerX) / 2f;
-                    float y = mCenterY + centerTickRadius;//+ (innerY + outerY) / 2f;
+            if (isSixOClock && drawUnreadNotification) {
+                // TODO: Don't draw this as a tick, draw our ticks then punch this out.
+                float tickRadiusPositionDimen =
+                        mTickRadiusPositionDimens.get(Pair.create(tickShape, tickRadiusPosition)) * pc;
+                float centerTickRadius = mCenter - tickRadiusPositionDimen;
+                float x = mCenterX;// + (innerX + outerX) / 2f;
+                float y = mCenterY + centerTickRadius;//+ (innerY + outerY) / 2f;
 
-                    p.addCircle(x, y, 4f * pc, Path.Direction.CW);
-                    if (!mWatchFaceState.isAmbient()) {
-                        // Punch a hole in the circle to make it a donut.
-                        Path p2 = new Path();
-                        p2.addCircle(x, y, 3f * pc, Path.Direction.CW);
-                        p.op(p2, Path.Op.DIFFERENCE);
-                    }
-                    if (unreadNotifications > 0) {
-                        // Extra circle for unread notifications.
-                        p.addCircle(x, y, 2f * pc, Path.Direction.CW);
-                    }
-                } else if (numTicks == 60 && (tickIndex == 29 || tickIndex == 31) && drawUnreadNotification) {
-                    // Don't draw seconds ticks 29 or 31 (either side of the notification at 30).
-                    // (Do nothing.)
-                } else if (isTickVisible) {
-                    // Draw the tick.
-
-                    // Get our dimensions.
-                    float tickWidth =
-                            mTickThicknessDimens.get(Pair.create(tickShape, tickThickness)) * pc * mod;
-                    float tickLengthDimen =
-                            mTickLengthDimens.get(Pair.create(tickShape, tickLength)) * pc * mod;
-                    float tickRadiusPositionDimen =
-                            mTickRadiusPositionDimens.get(Pair.create(tickShape, tickRadiusPosition)) * pc;
-
-                    float centerTickRadius = mCenter - tickRadiusPositionDimen;
-                    float tickDegrees = ((float) tickIndex / (float) numTicks) * 360f;
-
-                    float x = mCenterX;
-                    float y = mCenterY - centerTickRadius;
-
-                    temp.reset();
-
-                    // Draw the object at 12 o'clock, then rotate it to desired location.
-                    switch (tickShape) {
-                        case BAR: {
-                            // Draw a really large triangle, then crop it with two
-                            // circles to give us a wedge shape with arc top and bottom.
-                            // Height "2 * mCenterY", centered on (mCenterX, mCenterY)
-                            temp.moveTo(mCenterX, mCenterY);
-                            // Assume "tickWidth" is radians. Undo the multiplication by "pc".
-                            // Also undo the multiplication by "mod". Assume we don't mod that.
-                            double offsetRadians = tickWidth / (pc * mod);
-                            float offsetX = (float) Math.sin(offsetRadians) * 2 * mCenterY;
-                            if (getDirection() == Path.Direction.CW) {
-                                // Line to top left.
-                                temp.lineTo(x - offsetX, 0f - mCenterY);
-                                // Line to top right.
-                                temp.lineTo(x + offsetX, 0f - mCenterY);
-                            } else {
-                                // Line to top right.
-                                temp.lineTo(x + offsetX, 0f - mCenterY);
-                                // Line to top left.
-                                temp.lineTo(x - offsetX, 0f - mCenterY);
-                            }
-                            // And line back to origin.
-                            temp.close();
-
-                            // Crop it with our top circle and bottom circle.
-                            Path t2 = new Path();
-                            t2.addCircle(mCenterX, mCenterY,
-                                    mCenterY - y + tickLengthDimen, getDirection());
-                            temp.op(t2, Path.Op.INTERSECT);
-                            t2.reset();
-                            t2.addCircle(mCenterX, mCenterY,
-                                    mCenterY - y - tickLengthDimen, getDirection());
-                            temp.op(t2, Path.Op.DIFFERENCE);
-
-                            break;
-                        }
-                        case DOT: {
-                            // Draw an oval.
-                            temp.addOval(
-                                    x - tickWidth,
-                                    y - tickLengthDimen,
-                                    x + tickWidth,
-                                    y + tickLengthDimen,
-                                    getDirection());
-                            break;
-                        }
-                        case TRIANGLE: {
-                            // Move to top left.
-                            temp.moveTo(x - tickWidth, y - tickLengthDimen);
-                            if (getDirection() == Path.Direction.CW) {
-                                // Line to top right.
-                                temp.lineTo(x + tickWidth, y - tickLengthDimen);
-                                // Line to bottom centre.
-                                temp.lineTo(x, y + tickLengthDimen);
-                            } else {
-                                // Line to bottom centre.
-                                temp.lineTo(x, y + tickLengthDimen);
-                                // Line to top right.
-                                temp.lineTo(x + tickWidth, y - tickLengthDimen);
-                            }
-                            // And line back to origin.
-                            temp.close();
-                            break;
-                        }
-                        case DIAMOND: {
-                            // Move to top centre.
-                            temp.moveTo(x, y - tickLengthDimen);
-                            if (getDirection() == Path.Direction.CW) {
-                                // Line to centre right.
-                                temp.lineTo(x + tickWidth, y);
-                                // Line to bottom centre.
-                                temp.lineTo(x, y + tickLengthDimen);
-                                // Line to centre left.
-                                temp.lineTo(x - tickWidth, y);
-                            } else {
-                                // Line to centre left.
-                                temp.lineTo(x - tickWidth, y);
-                                // Line to bottom centre.
-                                temp.lineTo(x, y + tickLengthDimen);
-                                // Line to centre right.
-                                temp.lineTo(x + tickWidth, y);
-                            }
-                            // And line back to origin.
-                            temp.close();
-                            break;
-                        }
-                        default: {
-                            break;
-                        }
-                    }
-
-                    Matrix m = new Matrix();
-                    m.setRotate(tickDegrees, mCenterX, mCenterY);
-                    temp.transform(m);
-
-                    p.op(temp, Path.Op.UNION);
+                p.addCircle(x, y, 4f * pc, Path.Direction.CW);
+                if (!mWatchFaceState.isAmbient()) {
+                    // Punch a hole in the circle to make it a donut.
+                    Path p2 = new Path();
+                    p2.addCircle(x, y, 3f * pc, Path.Direction.CW);
+                    p.op(p2, Path.Op.DIFFERENCE);
                 }
-            }
+                if (unreadNotifications > 0) {
+                    // Extra circle for unread notifications.
+                    p.addCircle(x, y, 2f * pc, Path.Direction.CW);
+                }
+            } else if (numTicks == 60 && (tickIndex == 29 || tickIndex == 31) && drawUnreadNotification) {
+                // Don't draw seconds ticks 29 or 31 (either side of the notification at 30).
+                // (Do nothing.)
+            } else if (isTickVisible) {
+                // Draw the tick.
 
-            // Test: if ambient, draw our burn-in exclusion rings
-            if (mWatchFaceState.isAmbient()) {
+                // Get our dimensions.
+                float tickWidth =
+                        mTickThicknessDimens.get(Pair.create(tickShape, tickThickness)) * pc * mod;
+                float tickLengthDimen =
+                        mTickLengthDimens.get(Pair.create(tickShape, tickLength)) * pc * mod;
+                float tickRadiusPositionDimen =
+                        mTickRadiusPositionDimens.get(Pair.create(tickShape, tickRadiusPosition)) * pc;
+
+                float centerTickRadius = mCenter - tickRadiusPositionDimen;
+                float tickDegrees = ((float) tickIndex / (float) numTicks) * 360f;
+
+                float x = mCenterX;
+                float y = mCenterY - centerTickRadius;
+
+                temp.reset();
+
+                // Draw the object at 12 o'clock, then rotate it to desired location.
+                switch (tickShape) {
+                    case BAR: {
+                        // Draw a really large triangle, then crop it with two
+                        // circles to give us a wedge shape with arc top and bottom.
+                        // Height "2 * mCenterY", centered on (mCenterX, mCenterY)
+                        temp.moveTo(mCenterX, mCenterY);
+                        // Assume "tickWidth" is radians. Undo the multiplication by "pc".
+                        // Also undo the multiplication by "mod". Assume we don't mod that.
+                        double offsetRadians = tickWidth / (pc * mod);
+                        float offsetX = (float) Math.sin(offsetRadians) * 2 * mCenterY;
+                        if (getDirection() == Path.Direction.CW) {
+                            // Line to top left.
+                            temp.lineTo(x - offsetX, 0f - mCenterY);
+                            // Line to top right.
+                            temp.lineTo(x + offsetX, 0f - mCenterY);
+                        } else {
+                            // Line to top right.
+                            temp.lineTo(x + offsetX, 0f - mCenterY);
+                            // Line to top left.
+                            temp.lineTo(x - offsetX, 0f - mCenterY);
+                        }
+                        // And line back to origin.
+                        temp.close();
+
+                        // Crop it with our top circle and bottom circle.
+                        Path t2 = new Path();
+                        t2.addCircle(mCenterX, mCenterY,
+                                mCenterY - y + tickLengthDimen, getDirection());
+                        temp.op(t2, Path.Op.INTERSECT);
+                        t2.reset();
+                        t2.addCircle(mCenterX, mCenterY,
+                                mCenterY - y - tickLengthDimen, getDirection());
+                        temp.op(t2, Path.Op.DIFFERENCE);
+
+                        break;
+                    }
+                    case DOT: {
+                        // Draw an oval.
+                        temp.addOval(
+                                x - tickWidth,
+                                y - tickLengthDimen,
+                                x + tickWidth,
+                                y + tickLengthDimen,
+                                getDirection());
+                        break;
+                    }
+                    case TRIANGLE: {
+                        // Move to top left.
+                        temp.moveTo(x - tickWidth, y - tickLengthDimen);
+                        if (getDirection() == Path.Direction.CW) {
+                            // Line to top right.
+                            temp.lineTo(x + tickWidth, y - tickLengthDimen);
+                            // Line to bottom centre.
+                            temp.lineTo(x, y + tickLengthDimen);
+                        } else {
+                            // Line to bottom centre.
+                            temp.lineTo(x, y + tickLengthDimen);
+                            // Line to top right.
+                            temp.lineTo(x + tickWidth, y - tickLengthDimen);
+                        }
+                        // And line back to origin.
+                        temp.close();
+                        break;
+                    }
+                    case DIAMOND: {
+                        // Move to top centre.
+                        temp.moveTo(x, y - tickLengthDimen);
+                        if (getDirection() == Path.Direction.CW) {
+                            // Line to centre right.
+                            temp.lineTo(x + tickWidth, y);
+                            // Line to bottom centre.
+                            temp.lineTo(x, y + tickLengthDimen);
+                            // Line to centre left.
+                            temp.lineTo(x - tickWidth, y);
+                        } else {
+                            // Line to centre left.
+                            temp.lineTo(x - tickWidth, y);
+                            // Line to bottom centre.
+                            temp.lineTo(x, y + tickLengthDimen);
+                            // Line to centre right.
+                            temp.lineTo(x + tickWidth, y);
+                        }
+                        // And line back to origin.
+                        temp.close();
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
+                }
+
+                Matrix m = new Matrix();
+                m.setRotate(tickDegrees, mCenterX, mCenterY);
+                temp.transform(m);
+
+                p.op(temp, Path.Op.UNION);
+            }
+        }
+
+        // Test: if ambient, draw our burn-in exclusion rings
+        if (mWatchFaceState.isAmbient()) {
 //            p.addCircle(mCenterX + 10, mCenterY + 10, mCenterX, Path.Direction.CW);
 //            p.addCircle(mCenterX + 10, mCenterY - 10, mCenterX, Path.Direction.CW);
 //            p.addCircle(mCenterX - 10, mCenterY + 10, mCenterX, Path.Direction.CW);
 //            p.addCircle(mCenterX - 10, mCenterY - 10, mCenterX, Path.Direction.CW);
 
-                if (mAmbientExclusionPath == null) {
-                    mAmbientExclusionPath = new Path();
+            if (mAmbientExclusionPath == null) {
+                mAmbientExclusionPath = new Path();
 //                    mAmbientExclusionPath.addCircle(mCenterX + 10, mCenterY + 10, mCenterX, Path.Direction.CW);
 //                    Path p2 = new Path();
 //                    p2.addCircle(mCenterX + 10, mCenterY - 10, mCenterX, Path.Direction.CW);
@@ -445,75 +436,80 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
 //                    mAmbientExclusionPath.op(p3, Path.Op.INTERSECT);
 //                    mAmbientExclusionPath.op(p4, Path.Op.INTERSECT);
 
-                    final int exclusion = 6;
+                final int exclusion = 6;
 
-                    Path p5 = new Path();
-                    p5.addCircle(mCenterX + exclusion, mCenterY + exclusion, mCenterX, Path.Direction.CW);
-                    Path p6 = new Path();
-                    p6.addCircle(mCenterX + exclusion, mCenterY - exclusion, mCenterX, Path.Direction.CW);
-                    Path p7 = new Path();
-                    p7.addCircle(mCenterX - exclusion, mCenterY + exclusion, mCenterX, Path.Direction.CW);
-                    Path p8 = new Path();
-                    p8.addCircle(mCenterX - exclusion, mCenterY - exclusion, mCenterX, Path.Direction.CW);
+                Path p5 = new Path();
+                p5.addCircle(mCenterX + exclusion, mCenterY + exclusion, mCenterX, Path.Direction.CW);
+                Path p6 = new Path();
+                p6.addCircle(mCenterX + exclusion, mCenterY - exclusion, mCenterX, Path.Direction.CW);
+                Path p7 = new Path();
+                p7.addCircle(mCenterX - exclusion, mCenterY + exclusion, mCenterX, Path.Direction.CW);
+                Path p8 = new Path();
+                p8.addCircle(mCenterX - exclusion, mCenterY - exclusion, mCenterX, Path.Direction.CW);
 
-                    p5.op(p6, Path.Op.INTERSECT);
-                    p5.op(p7, Path.Op.INTERSECT);
-                    p5.op(p8, Path.Op.INTERSECT);
+                p5.op(p6, Path.Op.INTERSECT);
+                p5.op(p7, Path.Op.INTERSECT);
+                p5.op(p8, Path.Op.INTERSECT);
 
-                    mAmbientExclusionPath.addPath(p5);
-                }
+                mAmbientExclusionPath.addPath(p5);
+            }
 
 //                p.addPath(mAmbientExclusionPath);
-                p.op(mAmbientExclusionPath, Path.Op.INTERSECT);
+            p.op(mAmbientExclusionPath, Path.Op.INTERSECT);
 
 //            p.addCircle(mCenterX, mCenterY, mCenterX - 20f, Path.Direction.CW);
-            }
+        }
 
-            //drawPath(canvas, mTickAndCirclePaint, p);
+        //drawPath(canvas, mTickAndCirclePaint, p);
 
-            if (useNewBackgroundCachingMethod) {
-                Canvas tempCanvas = new Canvas(ticksBitmap);
-                int color = -1;
-                // Save and restore ambient color; for caching we always use white.
-                if (mWatchFaceState.isAmbient()) {
-                    color = mWatchFaceState.getPaintBox().getAmbientPaint().getColor();
-                    mWatchFaceState.getPaintBox().getAmbientPaint().setColor(PaintBox.AMBIENT_WHITE);
-                }
-                drawPath(tempCanvas, p, twelveTickPaint);
-//                drawPath(tempCanvas, p, mPaintBox.getTickPaint());
-                if (mWatchFaceState.isAmbient()) {
-                    mWatchFaceState.getPaintBox().getAmbientPaint().setColor(color);
-                }
-
-                // Hardware Bitmap Power
-//                if (Build.VERSION.SDK_INT >= 26 && canvas.isHardwareAccelerated()) {
-//                    if (ambient) {
-//                        mTicksAmbientBitmap = ticksBitmap.copy(Bitmap.Config.HARDWARE, false);
-//                        ticksBitmap = mTicksAmbientBitmap;
-//                    } else {
-//                        mTicksActiveBitmap = ticksBitmap.copy(Bitmap.Config.HARDWARE, false);
-//                        ticksBitmap = mTicksActiveBitmap;
-//                    }
+//            if (useNewBackgroundCachingMethod) {
+//                Canvas tempCanvas = new Canvas(ticksBitmap);
+//                int color = -1;
+//                // Save and restore ambient color; for caching we always use white.
+//                if (mWatchFaceState.isAmbient()) {
+//                    color = mWatchFaceState.getPaintBox().getAmbientPaint().getColor();
+//                    mWatchFaceState.getPaintBox().getAmbientPaint().setColor(PaintBox.AMBIENT_WHITE);
 //                }
-            } else {
-                drawPath(canvas, p, twelveTickPaint);
+//                drawPath(tempCanvas, p, twelveTickPaint);
+////                drawPath(tempCanvas, p, mPaintBox.getTickPaint());
+//                if (mWatchFaceState.isAmbient()) {
+//                    mWatchFaceState.getPaintBox().getAmbientPaint().setColor(color);
+//                }
+//
+//                // Hardware Bitmap Power
+////                if (Build.VERSION.SDK_INT >= 26 && canvas.isHardwareAccelerated()) {
+////                    if (ambient) {
+////                        mTicksAmbientBitmap = ticksBitmap.copy(Bitmap.Config.HARDWARE, false);
+////                        ticksBitmap = mTicksAmbientBitmap;
+////                    } else {
+////                        mTicksActiveBitmap = ticksBitmap.copy(Bitmap.Config.HARDWARE, false);
+////                        ticksBitmap = mTicksActiveBitmap;
+////                    }
+////                }
+//            } else {
+        drawPath(canvas, p, twelveTickPaint);
 //                drawPath(canvas, p, mPaintBox.getTickPaint());
-            }
+//            }
 
 //        Log.d("AnalogWatchFace", "End ticks");
-        }
+//        }
 
 //        Log.d("AnalogWatchFace", "drawTicksAndComplicationRings: drawing " +
 //                (ambient ? "ambient" : "active") + " from " +
 //                (cacheHit ? "cache" : "populating the cache with a new graphic"));
 
-        if (useNewBackgroundCachingMethod) {
-            //ColorFilter f = new PorterDuffColorFilter(mAmbientPaint.getColor(), PorterDuff.Mode.SRC_ATOP);
-            mAmbientColorShiftPaint.setColorFilter(currentNightVisionTint != original
-                    ? new LightingColorFilter(currentNightVisionTint, 0) : null);
+//        if (useNewBackgroundCachingMethod) {
+//            //ColorFilter f = new PorterDuffColorFilter(mAmbientPaint.getColor(), PorterDuff.Mode.SRC_ATOP);
+//            mAmbientColorShiftPaint.setColorFilter(currentNightVisionTint != original
+//                    ? new LightingColorFilter(currentNightVisionTint, 0) : null);
+//
+//            Paint paint = mWatchFaceState.isAmbient() ? mAmbientColorShiftPaint : null;
+//            canvas.drawBitmap(ticksBitmap, 0, 0, paint);
+//        }
+    }
 
-            Paint paint = mWatchFaceState.isAmbient() ? mAmbientColorShiftPaint : null;
-            canvas.drawBitmap(ticksBitmap, 0, 0, paint);
-        }
+    @Override
+    boolean canBeCached() {
+        return true;
     }
 }

@@ -43,7 +43,7 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
     static String mInvalidTrigger = "";
 
     @Override
-    public void draw(@NonNull Canvas canvas) {
+    public void draw2(@NonNull Canvas canvas) {
         if (drawStats) {
             Paint textPaint = mWatchFaceState.isAmbient()
                     ? mWatchFaceState.getPaintBox().getAmbientPaint() : mWatchFaceState.getPaintBox().getFillHighlightPaint();

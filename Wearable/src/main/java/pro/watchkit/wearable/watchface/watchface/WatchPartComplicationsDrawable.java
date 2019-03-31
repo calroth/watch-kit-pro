@@ -49,7 +49,7 @@ final class WatchPartComplicationsDrawable extends WatchPartDrawable {
     private Path holes = new Path();
 
     @Override
-    public void draw(@NonNull Canvas canvas) {
+    public void draw2(@NonNull Canvas canvas) {
         drawRings(canvas);
         for (ComplicationHolder complication : mWatchFaceState.getComplications()) {
             complication.draw(canvas, mWatchFaceState.getTimeInMillis());
