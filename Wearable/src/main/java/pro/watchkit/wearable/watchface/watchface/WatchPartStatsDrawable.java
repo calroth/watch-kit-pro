@@ -20,6 +20,7 @@ package pro.watchkit.wearable.watchface.watchface;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 
 import java.util.Objects;
 
@@ -40,7 +41,7 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
     @Deprecated
     static int invalid = 0;
     @Deprecated
-    WatchPartDrawable[] mWatchPartDrawables;
+    Drawable[] mWatchPartDrawables, mWatchPartDrawables2;
     static String mInvalidTrigger = "";
 
     @Override
@@ -59,21 +60,20 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
         canvas.drawText(mInvalidTrigger, x, y, textPaint);
         y += 3f * pc;
 
-        for (WatchPartDrawable d : mWatchPartDrawables) {
-            String extra = "";
-            if (d.canBeCached()) {
-                extra += "(c) ";
+        if (mWatchPartDrawables2 != null) {
+            for (Drawable d : mWatchPartDrawables2) {
+                if (d instanceof WatchPartDrawable) {
+                    y = drawStats(((WatchPartDrawable) d), canvas, textPaint, x, y);
+                }
             }
-            if (d.mSkipDrawingIntoCache) {
-                extra += "(s) ";
+        }
+
+        if (mWatchPartDrawables != null) {
+            for (Drawable d : mWatchPartDrawables) {
+                if (d instanceof WatchPartDrawable) {
+                    y = drawStats(((WatchPartDrawable) d), canvas, textPaint, x, y);
+                }
             }
-            if (d.mIsCachePoint) {
-                extra += "(p) ";
-            }
-            extra = extra.trim();
-            canvas.drawText(String.format("%s %s: %.2f", d.getStatsName(), extra,
-                    (double) (d.mLastStatsTime) / 1000000d), x, y, textPaint);
-            y += 3f * pc;
         }
 
         canvas.drawText(invalid
@@ -81,5 +81,13 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
                 + Objects.hashCode(mWatchFaceState)
                 //+ String.format("%.2f", (double) (now[0] + now[1] + now[2] + now[3] + now[4]) / 1000000d)
                 + (canvas.isHardwareAccelerated() ? " (hw)" : " (sw)"), x, y, textPaint);
+    }
+
+    private float drawStats(
+            WatchPartDrawable d, @NonNull Canvas canvas, Paint textPaint, float x, float y) {
+        canvas.drawText(String.format("%s: %.2f", d.getStatsName(),
+                    (double) (d.mLastStatsTime) / 1000000d), x, y, textPaint);
+            y += 3f * pc;
+        return y;
     }
 }

@@ -42,6 +42,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -185,11 +186,13 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                             .build());
 
             mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(context,
-                    new WatchPartDrawable[]{
-                            new WatchPartBackgroundDrawable(),
-                            new WatchPartTicksFourDrawable(),
-                            new WatchPartTicksTwelveDrawable(),
-                            new WatchPartTicksSixtyDrawable(),
+                    new Drawable[]{
+                            new WatchFaceGlobalCacheDrawable(
+                                    new Drawable[]{
+                                            new WatchPartBackgroundDrawable(),
+                                            new WatchPartTicksFourDrawable(),
+                                            new WatchPartTicksTwelveDrawable(),
+                                            new WatchPartTicksSixtyDrawable()}),
                             new WatchPartComplicationsDrawable(),
                             new WatchPartHandsDrawable(),
                             new WatchPartStatsDrawable()});
