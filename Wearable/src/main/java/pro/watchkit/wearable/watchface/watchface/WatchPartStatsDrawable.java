@@ -22,8 +22,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 
-import java.util.Objects;
-
 import androidx.annotation.NonNull;
 
 @Deprecated
@@ -38,6 +36,8 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
     static final String INVALID_SURFACE = "Surface Change";
     static final String INVALID_NOTIFICATION = "Notification Change";
     static final String INVALID_WTF = "WTF?";
+    @Deprecated
+    static long total;
     @Deprecated
     static int invalid = 0;
     @Deprecated
@@ -78,8 +78,8 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
 
         canvas.drawText(invalid
                 + String.format(" Alt: %.2f° / ", mWatchFaceState.getLocationCalculator().getSunAltitude())
-                + Objects.hashCode(mWatchFaceState)
-                //+ String.format("%.2f", (double) (now[0] + now[1] + now[2] + now[3] + now[4]) / 1000000d)
+//                + Objects.hashCode(mWatchFaceState)
+                + String.format("%.2f", (double) (total) / 1000000d)
                 + (canvas.isHardwareAccelerated() ? " (hw)" : " (sw)"), x, y, textPaint);
     }
 

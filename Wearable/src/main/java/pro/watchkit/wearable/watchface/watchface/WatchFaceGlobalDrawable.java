@@ -22,6 +22,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.os.SystemClock;
 
 import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
@@ -91,6 +92,10 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
 
     @Override
     public void draw(@NonNull Canvas canvas) {
+        // Stats start
+        long start = SystemClock.elapsedRealtimeNanos();
+        // Stats end
+
         // Set the current date and time.
         mWatchFaceState.setDefaultTimeZone();
         mWatchFaceState.setCurrentTimeToNow();
@@ -99,5 +104,9 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
         WatchPartDrawable.resetDirection();
 
         super.draw(canvas);
+
+        // Stats start
+        WatchPartStatsDrawable.total = SystemClock.elapsedRealtimeNanos() - start;
+        // Stats end
     }
 }
