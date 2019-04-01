@@ -74,10 +74,6 @@ abstract class WatchPartDrawable extends Drawable {
     private static Canvas mBezelCanvas;
     private static Paint mBezelBitmapPaint;
 
-    boolean canBeCached() {
-        return false;
-    }
-
     // Stats start
     long mLastStatsTime = 0;
     abstract String getStatsName();

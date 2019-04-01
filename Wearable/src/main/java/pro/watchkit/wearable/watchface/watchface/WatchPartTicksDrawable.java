@@ -510,9 +510,4 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
 //            canvas.drawBitmap(ticksBitmap, 0, 0, paint);
 //        }
     }
-
-    @Override
-    boolean canBeCached() {
-        return true;
-    }
 }

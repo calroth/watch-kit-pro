@@ -47,9 +47,4 @@ final class WatchPartBackgroundDrawable extends WatchPartDrawable {
 //            canvas.drawPaint(mPaintBox.getBackgroundPaint());
         }
     }
-
-    @Override
-    boolean canBeCached() {
-        return true;
-    }
 }
