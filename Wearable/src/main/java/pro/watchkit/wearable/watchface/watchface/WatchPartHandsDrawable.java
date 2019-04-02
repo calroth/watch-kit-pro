@@ -34,6 +34,7 @@ import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandLength;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandShape;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandStalk;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandThickness;
+import pro.watchkit.wearable.watchface.model.WatchFacePreset.Style;
 
 abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     private static final float HUB_RADIUS_PERCENT = 3f; // 3% // 1.5f; // 1.5%
@@ -140,7 +141,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
     abstract HandStalk getHandStalk();
 
-    abstract WatchFacePreset.Style getStyle();
+    abstract Style getStyle();
 
     abstract float getDegreesRotation();
 
