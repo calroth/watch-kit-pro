@@ -195,7 +195,9 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                                             new WatchPartTicksTwelveDrawable(),
                                             new WatchPartTicksSixtyDrawable()}),
                             new WatchPartComplicationsDrawable(),
-                            new WatchPartHandsDrawable(),
+                            new WatchPartHandsHourDrawable(),
+                            new WatchPartHandsMinuteDrawable(),
+                            new WatchPartHandsSecondDrawable(),
                             new WatchPartStatsDrawable()});
 
             loadSavedPreferences();

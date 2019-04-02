@@ -26,6 +26,7 @@ import android.graphics.RectF;
 
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
@@ -34,22 +35,11 @@ import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandShape;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandStalk;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandThickness;
 
-final class WatchPartHandsDrawable extends WatchPartDrawable {
+abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     private static final float HUB_RADIUS_PERCENT = 3f; // 3% // 1.5f; // 1.5%
     private static final float HOUR_MINUTE_HAND_MIDPOINT = 0.333f;
     private static final float ROUND_RECT_RADIUS_PERCENT = 1f;
     private Path mHub;
-    private WatchFacePreset mHourPreset = null;
-    private Path mHourHandActivePath = new Path();
-    private Path mHourHandAmbientPath = new Path();
-    private Path mHourHandPath = new Path();
-    private WatchFacePreset mMinutePreset = null;
-    private Path mMinuteHandActivePath = new Path();
-    private Path mMinuteHandAmbientPath = new Path();
-    private Path mMinuteHandPath = new Path();
-    private WatchFacePreset mSecondPreset = null;
-    private Path mSecondHandActivePath = new Path();
-    private Path mSecondHandPath = new Path();
 
     private Map<HandShape, Map<HandThickness, Float>> mHandThicknessDimensions
             = new EnumMap<>(HandShape.class);
@@ -122,75 +112,19 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
         mHandLengthDimensions.get(HandShape.UNKNOWN1).put(HandLength.X_LONG, 1.2f);
     }
 
-    @Override
-    String getStatsName() {
-        return "Hands";
-    }
+    Path mHandActivePath = new Path();
+    Path mHandAmbientPath = new Path();
+    private int mPreviousSerial = -1;
+    private Path mHandPath = new Path();
 
     @Override
     public void draw2(@NonNull Canvas canvas) {
-//    }
-//    void drawHands(Canvas canvas, WatchFacePreset preset) {
-        // Add a hub.
-//        Path hub = new Path();
-//        hub.addCircle(mCenterX, mCenterY, HUB_RADIUS_PERCENT * pc, Path.Direction.CCW);
-
-        WatchFacePreset preset = mWatchFaceState.getWatchFacePreset();
-
-        /*
-         * These calculations reflect the rotation in degrees per unit of time, e.g.,
-         * 360 / 60 = 6 and 360 / 12 = 30.
-         */
-        final float seconds = mWatchFaceState.getSecondsDecimal();
-        final float secondsRotation = seconds * 6f;
-
-        final float minuteHandOffset = secondsRotation / 60f;
-        final float minutesRotation = mWatchFaceState.getMinutes() * 6f + minuteHandOffset;
-
-        final float hourHandOffset = minutesRotation / 12f;
-        final float hoursRotation = mWatchFaceState.getHours() * 30f + hourHandOffset;
-
-        Paint hourHandPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(preset.getHourHandStyle());
-        Path hourHandShape = getHourHandShape(preset, hoursRotation);
-//        Path hourHandShape = getHandShape(
-//                preset.getHourHandShape(), preset.getHourHandLength(),
-//                preset.getHourHandThickness(), preset.getHourHandStalk(),
-//                false, false, hoursRotation, null);
-//        if (ambient) {
-//            // Punch the hub out of the hour hand in ambient mode.
-//            hourHandShape.op(hub, Path.Op.DIFFERENCE);
-//        }
-        drawPath(canvas, hourHandShape, hourHandPaint);
-
-        Paint minuteHandPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(preset.getMinuteHandStyle());
-        Path minuteHandShape = getMinuteHandShape(preset, minutesRotation);
-        // Add the hub to the minute hand in ambient mode.
-//        Path minuteHub = ambient ? hub : null;
-//        Path minuteHandShape = getHandShape(
-//                preset.getMinuteHandShape(), preset.getMinuteHandLength(),
-//                preset.getMinuteHandThickness(), preset.getMinuteHandStalk(),
-//                true, false, minutesRotation, minuteHub);
-        drawPath(canvas, minuteHandShape, minuteHandPaint);
-
-        /*
-         * Ensure the "seconds" hand is drawn only when we are in interactive mode.
-         * Otherwise, we only update the watch face once a minute.
-         */
-        if (!mWatchFaceState.isAmbient()) {
-            Paint secondHandPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(preset.getSecondHandStyle());
-            // Add the hub to the second hand in interactive mode.
-            Path secondHandShape = getSecondHandShape(preset, secondsRotation);
-//            Path secondHandShape = getHandShape(
-//                    preset.getSecondHandShape(), preset.getSecondHandLength(),
-//                    preset.getSecondHandThickness(), WatchFacePreset.HandStalk.NEGATIVE,
-//                    false, true, secondsRotation, hub);
-            drawPath(canvas, secondHandShape, secondHandPaint);
-        }
-//        drawCircle(canvas, mCenterX, mCenterY, HUB_RADIUS_PERCENT * pc, mHandPaint);
-//        Log.d("AnalogWatchFace", "End ticks 2");
+        Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(getStyle());
+        Path path = getHandPath();
+        drawPath(canvas, path, paint);
     }
 
-    private Path getHub() {
+    Path getHub() {
         if (mHub == null) {
             mHub = new Path();
             mHub.addCircle(mCenterX, mCenterY, HUB_RADIUS_PERCENT * pc, Path.Direction.CCW);
@@ -198,141 +132,68 @@ final class WatchPartHandsDrawable extends WatchPartDrawable {
         return mHub;
     }
 
-    private Path getHourHandShape(WatchFacePreset preset, float degreesRotation) {
-        boolean cacheHit = false;
+    abstract HandShape getHandShape();
 
-        if (mHourPreset != null) {
-            cacheHit = preset.getHourHandShape() == mHourPreset.getHourHandShape() &
-                    preset.getHourHandLength() == mHourPreset.getHourHandLength() &&
-                    preset.getHourHandThickness() == mHourPreset.getHourHandThickness() &&
-                    preset.getHourHandStalk() == mHourPreset.getHourHandStalk();
-        }
+    abstract HandLength getHandLength();
+
+    abstract HandThickness getHandThickness();
+
+    abstract HandStalk getHandStalk();
+
+    abstract WatchFacePreset.Style getStyle();
+
+    abstract float getDegreesRotation();
+
+    abstract void punchHub();
+
+    boolean isMinuteHand() {
+        return false;
+    }
+
+    boolean isSecondHand() {
+        return false;
+    }
+
+    private Path getHandPath() {
+        WatchFacePreset preset = mWatchFaceState.getWatchFacePreset();
+
+        int currentSerial = Objects.hashCode(preset);
+        boolean cacheHit = currentSerial == mPreviousSerial;
+        mPreviousSerial = currentSerial;
+
+        float degreesRotation = getDegreesRotation();
 
         if (!cacheHit) {
-//            Log.d("AnalogWatchFace", "getHourHandShape: cache " + (cacheHit ? "hit" : "miss"));
-
             // Cache miss. Regenerate the hand.
-            mHourHandActivePath.reset();
-            getHandShape(mHourHandActivePath,
-                    preset.getHourHandShape(), preset.getHourHandLength(),
-                    preset.getHourHandThickness(), preset.getHourHandStalk(),
-                    false, false);
-
-            mHourHandAmbientPath.reset();
-            mHourHandAmbientPath.addPath(mHourHandActivePath);
-            // Punch the hub out of the hour hand in ambient mode.
-            mHourHandAmbientPath.op(getHub(), Path.Op.DIFFERENCE);
-//            Log.d("AnalogWatchFace", "getHourHandShape: cache 2 " + (cacheHit ? "hit" : "miss"));
-
-            // Set the hour preset to current. Next time this will ensure a cache hit.
-            mHourPreset = preset.clone();
-//            Log.d("AnalogWatchFace", "getHourHandShape: cache 3 " + (cacheHit ? "hit" : "miss"));
+            mHandActivePath.reset();
+            getHandShapePath();
+            mHandAmbientPath.reset();
+            mHandAmbientPath.addPath(mHandActivePath);
+            punchHub();
         }
 
         // Rotate the hand to its specified position.
         Matrix m = new Matrix();
         m.postRotate(degreesRotation, mCenterX, mCenterY);
 
-        // Reset mHourHandPath and rotate the relevant hand into it.
-        mHourHandPath.reset();
+        // Reset mHandPath and rotate the relevant hand into it.
+        mHandPath.reset();
         if (mWatchFaceState.isAmbient())
-            mHourHandAmbientPath.transform(m, mHourHandPath);
+            mHandAmbientPath.transform(m, mHandPath);
         else
-            mHourHandActivePath.transform(m, mHourHandPath);
+            mHandActivePath.transform(m, mHandPath);
 
-        return mHourHandPath;
+        return mHandPath;
     }
 
-    private Path getMinuteHandShape(WatchFacePreset preset, float degreesRotation) {
-        boolean cacheHit = false;
-
-        if (mMinutePreset != null) {
-            cacheHit = preset.getMinuteHandShape() == mMinutePreset.getMinuteHandShape() &
-                    preset.getMinuteHandLength() == mMinutePreset.getMinuteHandLength() &&
-                    preset.getMinuteHandThickness() == mMinutePreset.getMinuteHandThickness() &&
-                    preset.getMinuteHandStalk() == mMinutePreset.getMinuteHandStalk();
-        }
-
-        if (!cacheHit) {
-//            Log.d("AnalogWatchFace", "getMinuteHandShape: cache " + (cacheHit ? "hit" : "miss"));
-
-            // Cache miss. Regenerate the hand.
-            mMinuteHandActivePath.reset();
-            getHandShape(mMinuteHandActivePath,
-                    preset.getMinuteHandShape(), preset.getMinuteHandLength(),
-                    preset.getMinuteHandThickness(), preset.getMinuteHandStalk(),
-                    true, false);
-
-            mMinuteHandAmbientPath.reset();
-            mMinuteHandAmbientPath.addPath(mMinuteHandActivePath);
-            // Add the hub to the Minute hand in ambient mode.
-            mMinuteHandAmbientPath.op(getHub(), Path.Op.UNION);
-//            Log.d("AnalogWatchFace", "getMinuteHandShape: cache 2 " + (cacheHit ? "hit" : "miss"));
-
-            // Set the Minute preset to current. Next time this will ensure a cache hit.
-            mMinutePreset = preset.clone();
-//            Log.d("AnalogWatchFace", "getMinuteHandShape: cache 3 " + (cacheHit ? "hit" : "miss"));
-        }
-
-        // Rotate the hand to its specified position.
-        Matrix m = new Matrix();
-        m.postRotate(degreesRotation, mCenterX, mCenterY);
-
-        // Reset mMinuteHandPath and rotate the relevant hand into it.
-        mMinuteHandPath.reset();
-        if (mWatchFaceState.isAmbient())
-            mMinuteHandAmbientPath.transform(m, mMinuteHandPath);
-        else
-            mMinuteHandActivePath.transform(m, mMinuteHandPath);
-
-        return mMinuteHandPath;
-    }
-
-    private Path getSecondHandShape(WatchFacePreset preset, float degreesRotation) {
-        boolean cacheHit = false;
-
-        if (mSecondPreset != null) {
-            cacheHit = preset.getSecondHandShape() == mSecondPreset.getSecondHandShape() &
-                    preset.getSecondHandLength() == mSecondPreset.getSecondHandLength() &&
-                    preset.getSecondHandThickness() == mSecondPreset.getSecondHandThickness();
-        }
-
-        if (!cacheHit) {
-//            Log.d("AnalogWatchFace", "getSecondHandShape: cache " + (cacheHit ? "hit" : "miss"));
-
-            // Cache miss. Regenerate the hand.
-            mSecondHandActivePath.reset();
-            getHandShape(mSecondHandActivePath,
-                    preset.getSecondHandShape(), preset.getSecondHandLength(),
-                    preset.getSecondHandThickness(), WatchFacePreset.HandStalk.NEGATIVE,
-                    false, true);
-
-            // Add the hub to the Second hand in active mode.
-            mSecondHandActivePath.op(getHub(), Path.Op.UNION);
-//            Log.d("AnalogWatchFace", "getSecondHandShape: cache 2 " + (cacheHit ? "hit" : "miss"));
-
-            // Set the Second preset to current. Next time this will ensure a cache hit.
-            mSecondPreset = preset.clone();
-//            Log.d("AnalogWatchFace", "getSecondHandShape: cache 3 " + (cacheHit ? "hit" : "miss"));
-        }
-
-        // Rotate the hand to its specified position.
-        Matrix m = new Matrix();
-        m.postRotate(degreesRotation, mCenterX, mCenterY);
-
-        // Reset mSecondHandPath and rotate the relevant hand into it.
-        mSecondHandPath.reset();
-        mSecondHandActivePath.transform(m, mSecondHandPath);
-
-        return mSecondHandPath;
-    }
-
-    private void getHandShape(
-            Path p,
-            HandShape handShape, HandLength handLength,
-            HandThickness handThickness, HandStalk handStalk,
-            boolean isMinuteHand, boolean isSecondHand) {
-//        Path p = new Path();
+    private void getHandShapePath() {
+        Path p = mHandActivePath;
+        HandShape handShape = getHandShape();
+        HandLength handLength = getHandLength();
+        HandThickness handThickness = getHandThickness();
+        HandStalk handStalk = getHandStalk();
+        boolean isMinuteHand = isMinuteHand();
+        boolean isSecondHand = isSecondHand();
 
         float length = mHandLengthDimensions.get(handShape).get(handLength);
         float thickness = mHandThicknessDimensions.get(handShape).get(handThickness);

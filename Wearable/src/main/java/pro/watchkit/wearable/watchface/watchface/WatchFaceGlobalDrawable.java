@@ -68,7 +68,9 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
                 new WatchPartTicksFourDrawable(),
                 new WatchPartTicksTwelveDrawable(),
                 new WatchPartTicksSixtyDrawable(),
-                new WatchPartHandsDrawable()});
+                new WatchPartHandsHourDrawable(),
+                new WatchPartHandsMinuteDrawable(),
+                new WatchPartHandsSecondDrawable()});
 
         setWatchFaceState(context);
     }
