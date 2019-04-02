@@ -29,7 +29,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandLength;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandShape;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandStalk;
@@ -156,15 +155,11 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     }
 
     private Path getHandPath() {
-        WatchFacePreset preset = mWatchFaceState.getWatchFacePreset();
+        // Regenerate "mHandActivePath" and "mHandAmbientPath" if we need to.
+        int currentSerial = Objects.hashCode(mWatchFaceState.getWatchFacePreset());
 
-        int currentSerial = Objects.hashCode(preset);
-        boolean cacheHit = currentSerial == mPreviousSerial;
-        mPreviousSerial = currentSerial;
-
-        float degreesRotation = getDegreesRotation();
-
-        if (!cacheHit) {
+        if (mPreviousSerial != currentSerial) {
+            mPreviousSerial = currentSerial;
             // Cache miss. Regenerate the hand.
             mHandActivePath.reset();
             getHandShapePath();
@@ -175,7 +170,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
         // Rotate the hand to its specified position.
         Matrix m = new Matrix();
-        m.postRotate(degreesRotation, mCenterX, mCenterY);
+        m.postRotate(getDegreesRotation(), mCenterX, mCenterY);
 
         // Reset mHandPath and rotate the relevant hand into it.
         mHandPath.reset();
