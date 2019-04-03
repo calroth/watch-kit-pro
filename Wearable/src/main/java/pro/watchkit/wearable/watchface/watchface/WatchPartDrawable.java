@@ -150,7 +150,14 @@ abstract class WatchPartDrawable extends Drawable {
         } else {
             // Ambient.
             // The path itself.
-            canvas.drawPath(p, mWatchFaceState.getPaintBox().getAmbientPaint());
+            Paint ambientPaint = mWatchFaceState.getPaintBox().getAmbientPaint();
+
+//            int currentNightVisionTint =
+//                    mWatchFaceState.getLocationCalculator().getDuskDawnColor(PaintBox.AMBIENT_WHITE);
+//
+//            ambientPaint.setColorFilter(currentNightVisionTint != PaintBox.AMBIENT_WHITE
+//                    ? new LightingColorFilter(currentNightVisionTint, 0) : null);
+            canvas.drawPath(p, ambientPaint);
         }
     }
 
