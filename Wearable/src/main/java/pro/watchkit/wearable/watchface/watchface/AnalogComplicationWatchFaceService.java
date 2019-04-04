@@ -47,6 +47,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.wearable.complications.ComplicationData;
 import android.support.wearable.watchface.WatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
@@ -203,35 +204,46 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             loadSavedPreferences();
             initializeComplications();
 
-            FusedLocationProviderClient locationClient
-                    = LocationServices.getFusedLocationProviderClient(context);
+            final FusedLocationProviderClient locationClient =
+                    LocationServices.getFusedLocationProviderClient(context);
 
-            if (context.checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
+            // Set the default location to Terence's city.
+            // Remove for release...
+//            locationClient.setMockMode(true);
+            Location mockLocation = new Location("?");
+            mockLocation.setLatitude(-35d);
+            mockLocation.setLongitude(147d);
+            mockLocation.setAltitude(600d);
+            mockLocation.setAccuracy(100f);
+            mockLocation.setTime(System.currentTimeMillis());
+            mockLocation.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
+            updateLocation(mockLocation);
+//            locationClient.setMockLocation(mockLocation);
+
+            if (context.checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                    PackageManager.PERMISSION_GRANTED) {
                 LocationRequest req = new LocationRequest();
                 req.setInterval(1000 * 60 * 15);
                 req.setFastestInterval(1000 * 60);
                 req.setPriority(LocationRequest.PRIORITY_LOW_POWER);
 
+                // Get the last location right away.
+                locationClient.getLastLocation().addOnCompleteListener(
+                        new OnCompleteListener<Location>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Location> task) {
+                                updateLocation(task.getResult());
+                            }
+                        });
+
+                // Sign up for ongoing location reports.
                 locationClient.requestLocationUpdates(req, new LocationCallback() {
                             @Override
                             public void onLocationResult(LocationResult locationResult) {
                                 if (locationResult == null) {
                                     Log.d(TAG, "onLocationResult: no locations (it's null)");
-                                    return;
-                                }
-                                for (Location location : locationResult.getLocations()) {
-                                    // Update UI with location data
-                                    // ...
-                                    Log.w(TAG, "onLocationResult: Got last location! It's "
-                                            + (location == null ? "null..." :
-                                            location.getLatitude() + " / "
-                                                    + location.getLongitude()
-                                                    + " / " + location.getAltitude()));
-                                    // Note: can be null in rare situations; handle accordingly.
-                                    getWatchFaceState().getLocationCalculator().setLocation(location);
-                                    WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_LOCATION;
-                                    postInvalidate();
+                                } else {
+                                    updateLocation(locationResult.getLastLocation());
                                 }
                             }
                         },
@@ -248,6 +260,20 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
                     }
                 });
+            }
+        }
+
+        private void updateLocation(Location location) {
+            if (location != null) {
+                // Update UI with location data
+                // ...
+                Log.w(TAG, "onLocationResult: Got last location! It's " +
+                        (location == null ? "null..." : location.getLatitude() + " / " +
+                                location.getLongitude() + " / " + location.getAltitude()));
+                // Note: can be null in rare situations; handle accordingly.
+                getWatchFaceState().getLocationCalculator().setLocation(location);
+                WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_LOCATION;
+                postInvalidate();
             }
         }
 
