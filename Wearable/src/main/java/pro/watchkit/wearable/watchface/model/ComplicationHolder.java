@@ -150,7 +150,7 @@ public final class ComplicationHolder implements Drawable.Callback {
         } else {
             // Active mode colors
 //            drawable.setBorderColorActive(primaryComplicationColor);
-//            drawable.setBorderStyleActive(ComplicationDrawable.BORDER_STYLE_NONE);
+            drawable.setBorderStyleActive(ComplicationDrawable.BORDER_STYLE_NONE);
             drawable.setRangedValuePrimaryColorActive(primaryComplicationColor);
 
             // Ambient mode colors
