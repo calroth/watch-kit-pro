@@ -41,9 +41,7 @@ abstract class WatchPartDrawable extends Drawable {
     float pc = 0f; // percent, set to 0.01f * height, all units are based on percent
     float mCenterX, mCenterY;
 
-    void setWatchFaceState(@NonNull WatchFaceState watchFaceState) {
-        mWatchFaceState = watchFaceState;
-    }
+    private Path mExclusionPath;
 
     /**
      * Our current direction. Static, so shared amongst all our accessors.
@@ -211,4 +209,12 @@ abstract class WatchPartDrawable extends Drawable {
 //        return 0;
     }
 
+    void setWatchFaceState(@NonNull WatchFaceState watchFaceState, @NonNull Path path) {
+        mWatchFaceState = watchFaceState;
+        mExclusionPath = path;
+    }
+
+    void addExclusionPath(@NonNull Path path, Path.Op op) {
+        mExclusionPath.op(path, op);
+    }
 }

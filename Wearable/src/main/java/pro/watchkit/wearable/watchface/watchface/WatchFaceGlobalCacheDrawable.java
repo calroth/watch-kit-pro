@@ -3,6 +3,7 @@ package pro.watchkit.wearable.watchface.watchface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -18,6 +19,8 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable {
     private int mPreviousSerial = -1;
     private Bitmap mCacheBitmap;
     private Canvas mCacheCanvas;
+    private Path mExclusionPath;
+    private Path mCacheExclusionPath = new Path();
 
     WatchFaceGlobalCacheDrawable(@NonNull Drawable[] watchPartDrawables) {
         super(watchPartDrawables);
@@ -25,12 +28,13 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable {
         mWatchPartDrawables = watchPartDrawables;
     }
 
-    void setWatchFaceState(@NonNull WatchFaceState watchFaceState) {
+    void setWatchFaceState(@NonNull WatchFaceState watchFaceState, @NonNull Path path) {
         mWatchFaceState = watchFaceState;
+        mExclusionPath = path;
 
         for (Drawable d : mWatchPartDrawables) {
             if (d instanceof WatchPartDrawable) {
-                ((WatchPartDrawable) d).setWatchFaceState(mWatchFaceState);
+                ((WatchPartDrawable) d).setWatchFaceState(mWatchFaceState, mCacheExclusionPath);
             }
         }
     }
@@ -64,11 +68,13 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable {
         if (mPreviousSerial != currentSerial) {
             // Cache invalid. Draw into our cache canvas.
             mCacheCanvas.drawColor(Color.TRANSPARENT); // Clear it first.
+            mCacheExclusionPath.reset();
             super.draw(mCacheCanvas);
             mPreviousSerial = currentSerial;
         }
 
         // Then copy our cache to the results!
+        mExclusionPath.set(mCacheExclusionPath);
         canvas.drawBitmap(mCacheBitmap, 0, 0, null);
     }
 }

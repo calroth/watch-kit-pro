@@ -20,6 +20,7 @@ package pro.watchkit.wearable.watchface.watchface;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Path;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.SystemClock;
@@ -34,6 +35,7 @@ import pro.watchkit.wearable.watchface.model.WatchFaceState;
 public class WatchFaceGlobalDrawable extends LayerDrawable {
     private WatchFaceState mWatchFaceState;
     private Drawable[] mWatchPartDrawables;
+    private Path mExclusionPath = new Path();
 
     private WatchFaceGlobalDrawable(@NonNull Drawable[] watchPartDrawables) {
         super(watchPartDrawables);
@@ -80,9 +82,9 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
 
         for (Drawable d : mWatchPartDrawables) {
             if (d instanceof WatchPartDrawable) {
-                ((WatchPartDrawable) d).setWatchFaceState(mWatchFaceState);
+                ((WatchPartDrawable) d).setWatchFaceState(mWatchFaceState, mExclusionPath);
             } else if (d instanceof WatchFaceGlobalCacheDrawable) {
-                ((WatchFaceGlobalCacheDrawable) d).setWatchFaceState(mWatchFaceState);
+                ((WatchFaceGlobalCacheDrawable) d).setWatchFaceState(mWatchFaceState, mExclusionPath);
             }
         }
     }
@@ -97,6 +99,8 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
         // Stats start
         long start = SystemClock.elapsedRealtimeNanos();
         // Stats end
+
+        mExclusionPath.reset();
 
         // Set the current date and time.
         mWatchFaceState.setDefaultTimeZone();
