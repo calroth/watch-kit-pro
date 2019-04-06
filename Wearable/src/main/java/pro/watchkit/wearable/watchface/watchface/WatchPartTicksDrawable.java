@@ -51,16 +51,6 @@ import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickShape;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickThickness;
 
 abstract class WatchPartTicksDrawable extends WatchPartDrawable {
-    //    private static final boolean useNewBackgroundCachingMethod = true;
-//    private int mPreviousSerial = -1;
-//    private int mPreviousNightVisionTint = -1;
-    //    private Bitmap mTicksActiveBitmap = null;
-//    private Bitmap mTicksAmbientBitmap = null;
-//    private boolean mTicksAmbientBitmapInvalidated = true;
-//    private boolean mTicksActiveBitmapInvalidated = true;
-//    private Path mAmbientExclusionPath;
-//    private Paint mAmbientColorShiftPaint = new Paint();
-
     private Map<Pair<TickShape, TickThickness>, Float> mTickThicknessDimens = new Hashtable<>();
     private Map<Pair<TickShape, TickLength>, Float> mTickLengthDimens = new Hashtable<>();
     private Map<Pair<TickShape, TickRadiusPosition>, Float> mTickRadiusPositionDimens = new Hashtable<>();
@@ -165,101 +155,15 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
         mTickRadiusPositionDimens.put(Pair.create(TickShape.DIAMOND, TickRadiusPosition.X_LONG), 9f);
     }
 
-//    @Override
-//    protected void onBoundsChange(Rect bounds) {
-//        super.onBoundsChange(bounds);
-//        // Invalidate our ticks bitmaps. They'll be regenerated next time around.
-//        mTicksAmbientBitmapInvalidated = true;
-//        mTicksActiveBitmapInvalidated = true;
-//    }
-
     private Path p = new Path();
     private Path temp = new Path();
 
     @Override
     public void draw2(@NonNull Canvas canvas) {
-//        boolean cacheHit = true;
-//        Bitmap ticksBitmap;
-
-//        int original = 0, currentNightVisionTint = 0;
-
         int unreadNotifications = mWatchFaceState.getUnreadNotifications();
         int totalNotifications = mWatchFaceState.getTotalNotifications();
-//        Collection<ComplicationHolder> complications = mWatchFaceState.getComplications();
         Paint tickPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(getTickStyle());
 
-//        // Invalidate if complications, unread notifications or total notifications have changed.
-//        // Or the entire preset.
-//        int currentSerial = Objects.hash(mWatchFaceState.getWatchFacePreset(), twelveTickPaint, complications, unreadNotifications, totalNotifications);
-//        if (mPreviousSerial != currentSerial) {
-//            mTicksActiveBitmapInvalidated = true;
-//            mTicksAmbientBitmapInvalidated = true;
-//            mPreviousSerial = currentSerial;
-//        }
-//
-//        // Invalidate if our night vision tint has changed
-//        if (mWatchFaceState.isAmbient()) {
-//            original = PaintBox.AMBIENT_WHITE;
-//            currentNightVisionTint = mWatchFaceState.getLocationCalculator().getDuskDawnColor(original);
-//            if (mPreviousNightVisionTint != currentNightVisionTint) {
-//                Log.d("AnalogWatchFace", "currentNightVisionTint: was "
-//                        + mPreviousNightVisionTint + ", now " + currentNightVisionTint);
-//                mTicksAmbientBitmapInvalidated = true;
-//                mPreviousNightVisionTint = currentNightVisionTint;
-//            }
-//        }
-//
-//        // If we've been invalidated, regenerate and/or clear our bitmaps.
-//        if (mWatchFaceState.isAmbient()) {
-//            if (mTicksAmbientBitmapInvalidated) {
-//                // Initialise bitmap on first use or if our width/height have changed.
-//                if (mTicksAmbientBitmap == null) {
-//                    mTicksAmbientBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-//                } else if (mTicksAmbientBitmap.getWidth() != width ||
-//                        mTicksAmbientBitmap.getHeight() != height) {
-//                    mTicksAmbientBitmap.setWidth(width);
-//                    mTicksAmbientBitmap.setHeight(height);
-//                    mTicksAmbientBitmap.eraseColor(Color.TRANSPARENT);
-//                } else {
-//                    mTicksAmbientBitmap.eraseColor(Color.TRANSPARENT);
-//                }
-//
-//                cacheHit = false;
-//                mTicksAmbientBitmapInvalidated = false;
-//            }
-//
-//            ticksBitmap = mTicksAmbientBitmap;
-//        } else {
-//            if (mTicksActiveBitmapInvalidated) {
-//                // Initialise bitmap on first use or if our width/height have changed.
-//                if (mTicksActiveBitmap == null) {
-//                    mTicksActiveBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-//                } else if (mTicksActiveBitmap.getWidth() != width ||
-//                        mTicksActiveBitmap.getHeight() != height) {
-//                    mTicksActiveBitmap.setWidth(width);
-//                    mTicksActiveBitmap.setHeight(height);
-//                    mTicksActiveBitmap.eraseColor(Color.TRANSPARENT);
-//                } else {
-//                    mTicksActiveBitmap.eraseColor(Color.TRANSPARENT);
-//                }
-//
-//                cacheHit = false;
-//                mTicksActiveBitmapInvalidated = false;
-////                Log.d("AnalogWatchFace", "BigInvalidated!");
-//            }
-//
-//            ticksBitmap = mTicksActiveBitmap;
-//        }
-
-//        if (mTicksPreset != null) {
-//            cacheHit = preset.getMinuteHandShape() == mTicksPreset.getMinuteHandShape() &
-//                    preset.getMinuteHandLength() == mTicksPreset.getMinuteHandLength() &&
-//                    preset.getMinuteHandThickness() == mTicksPreset.getMinuteHandThickness() &&
-//                    preset.getMinuteHandStalk() == mTicksPreset.getMinuteHandStalk();
-//            // TODO: Fix that...
-//        }
-
-//        if (!cacheHit) {
         p.reset();
         temp.reset();
         int numTicks = 60;
@@ -418,51 +322,6 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
             }
         }
 
-        //drawPath(canvas, mTickAndCirclePaint, p);
-
-//            if (useNewBackgroundCachingMethod) {
-//                Canvas tempCanvas = new Canvas(ticksBitmap);
-//                int color = -1;
-//                // Save and restore ambient color; for caching we always use white.
-//                if (mWatchFaceState.isAmbient()) {
-//                    color = mWatchFaceState.getPaintBox().getAmbientPaint().getColor();
-//                    mWatchFaceState.getPaintBox().getAmbientPaint().setColor(PaintBox.AMBIENT_WHITE);
-//                }
-//                drawPath(tempCanvas, p, twelveTickPaint);
-////                drawPath(tempCanvas, p, mPaintBox.getTickPaint());
-//                if (mWatchFaceState.isAmbient()) {
-//                    mWatchFaceState.getPaintBox().getAmbientPaint().setColor(color);
-//                }
-//
-//                // Hardware Bitmap Power
-////                if (Build.VERSION.SDK_INT >= 26 && canvas.isHardwareAccelerated()) {
-////                    if (ambient) {
-////                        mTicksAmbientBitmap = ticksBitmap.copy(Bitmap.Config.HARDWARE, false);
-////                        ticksBitmap = mTicksAmbientBitmap;
-////                    } else {
-////                        mTicksActiveBitmap = ticksBitmap.copy(Bitmap.Config.HARDWARE, false);
-////                        ticksBitmap = mTicksActiveBitmap;
-////                    }
-////                }
-//            } else {
         drawPath(canvas, p, tickPaint);
-//                drawPath(canvas, p, mPaintBox.getTickPaint());
-//            }
-
-//        Log.d("AnalogWatchFace", "End ticks");
-//        }
-
-//        Log.d("AnalogWatchFace", "drawTicksAndComplicationRings: drawing " +
-//                (ambient ? "ambient" : "active") + " from " +
-//                (cacheHit ? "cache" : "populating the cache with a new graphic"));
-
-//        if (useNewBackgroundCachingMethod) {
-//            //ColorFilter f = new PorterDuffColorFilter(mAmbientPaint.getColor(), PorterDuff.Mode.SRC_ATOP);
-//            mAmbientColorShiftPaint.setColorFilter(currentNightVisionTint != original
-//                    ? new LightingColorFilter(currentNightVisionTint, 0) : null);
-//
-//            Paint paint = mWatchFaceState.isAmbient() ? mAmbientColorShiftPaint : null;
-//            canvas.drawBitmap(ticksBitmap, 0, 0, paint);
-//        }
     }
 }
