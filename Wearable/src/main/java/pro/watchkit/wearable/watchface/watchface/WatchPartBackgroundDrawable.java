@@ -46,13 +46,13 @@ final class WatchPartBackgroundDrawable extends WatchPartDrawable {
             final int exclusion = 6;
 
             Path p5 = new Path();
-            p5.addCircle(mCenterX + exclusion, mCenterY + exclusion, mCenterX, Path.Direction.CW);
+            p5.addCircle(mCenterX + exclusion, mCenterY + exclusion, mCenterX, getDirection());
             Path p6 = new Path();
-            p6.addCircle(mCenterX + exclusion, mCenterY - exclusion, mCenterX, Path.Direction.CW);
+            p6.addCircle(mCenterX + exclusion, mCenterY - exclusion, mCenterX, getDirection());
             Path p7 = new Path();
-            p7.addCircle(mCenterX - exclusion, mCenterY + exclusion, mCenterX, Path.Direction.CW);
+            p7.addCircle(mCenterX - exclusion, mCenterY + exclusion, mCenterX, getDirection());
             Path p8 = new Path();
-            p8.addCircle(mCenterX - exclusion, mCenterY - exclusion, mCenterX, Path.Direction.CW);
+            p8.addCircle(mCenterX - exclusion, mCenterY - exclusion, mCenterX, getDirection());
 
             p5.op(p6, Path.Op.INTERSECT);
             p5.op(p7, Path.Op.INTERSECT);
@@ -63,10 +63,13 @@ final class WatchPartBackgroundDrawable extends WatchPartDrawable {
 
             canvas.drawColor(Color.BLACK);
         } else {
-            Paint p = mWatchFaceState.getPaintBox().getPaintFromPreset(mWatchFaceState.getWatchFacePreset().getBackgroundStyle());
+            Path activeExclusionPath = new Path();
+            activeExclusionPath.addCircle(mCenterX, mCenterY, mCenterX, getDirection());
+            addExclusionPath(activeExclusionPath, Path.Op.UNION);
+
+            Paint p = mWatchFaceState.getPaintBox().getPaintFromPreset(
+                    mWatchFaceState.getWatchFacePreset().getBackgroundStyle());
             canvas.drawPaint(p);
-//            mPaintBox.getBaseAccentPaint().setStyle(Paint.Style.FILL);
-//            canvas.drawPaint(mPaintBox.getBackgroundPaint());
         }
     }
 }
