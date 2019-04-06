@@ -58,7 +58,7 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
 //    private Bitmap mTicksAmbientBitmap = null;
 //    private boolean mTicksAmbientBitmapInvalidated = true;
 //    private boolean mTicksActiveBitmapInvalidated = true;
-    private Path mAmbientExclusionPath;
+//    private Path mAmbientExclusionPath;
 //    private Paint mAmbientColorShiftPaint = new Paint();
 
     private Map<Pair<TickShape, TickThickness>, Float> mTickThicknessDimens = new Hashtable<>();
@@ -416,51 +416,6 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
 
                 p.op(temp, Path.Op.UNION);
             }
-        }
-
-        // Test: if ambient, draw our burn-in exclusion rings
-        if (mWatchFaceState.isAmbient()) {
-//            p.addCircle(mCenterX + 10, mCenterY + 10, mCenterX, Path.Direction.CW);
-//            p.addCircle(mCenterX + 10, mCenterY - 10, mCenterX, Path.Direction.CW);
-//            p.addCircle(mCenterX - 10, mCenterY + 10, mCenterX, Path.Direction.CW);
-//            p.addCircle(mCenterX - 10, mCenterY - 10, mCenterX, Path.Direction.CW);
-
-            if (mAmbientExclusionPath == null) {
-                mAmbientExclusionPath = new Path();
-//                    mAmbientExclusionPath.addCircle(mCenterX + 10, mCenterY + 10, mCenterX, Path.Direction.CW);
-//                    Path p2 = new Path();
-//                    p2.addCircle(mCenterX + 10, mCenterY - 10, mCenterX, Path.Direction.CW);
-//                    Path p3 = new Path();
-//                    p3.addCircle(mCenterX - 10, mCenterY + 10, mCenterX, Path.Direction.CW);
-//                    Path p4 = new Path();
-//                    p4.addCircle(mCenterX - 10, mCenterY - 10, mCenterX, Path.Direction.CW);
-//
-//                    mAmbientExclusionPath.op(p2, Path.Op.INTERSECT);
-//                    mAmbientExclusionPath.op(p3, Path.Op.INTERSECT);
-//                    mAmbientExclusionPath.op(p4, Path.Op.INTERSECT);
-
-                final int exclusion = 6;
-
-                Path p5 = new Path();
-                p5.addCircle(mCenterX + exclusion, mCenterY + exclusion, mCenterX, Path.Direction.CW);
-                Path p6 = new Path();
-                p6.addCircle(mCenterX + exclusion, mCenterY - exclusion, mCenterX, Path.Direction.CW);
-                Path p7 = new Path();
-                p7.addCircle(mCenterX - exclusion, mCenterY + exclusion, mCenterX, Path.Direction.CW);
-                Path p8 = new Path();
-                p8.addCircle(mCenterX - exclusion, mCenterY - exclusion, mCenterX, Path.Direction.CW);
-
-                p5.op(p6, Path.Op.INTERSECT);
-                p5.op(p7, Path.Op.INTERSECT);
-                p5.op(p8, Path.Op.INTERSECT);
-
-                mAmbientExclusionPath.addPath(p5);
-            }
-
-//                p.addPath(mAmbientExclusionPath);
-            p.op(mAmbientExclusionPath, Path.Op.INTERSECT);
-
-//            p.addCircle(mCenterX, mCenterY, mCenterX - 20f, Path.Direction.CW);
         }
 
         //drawPath(canvas, mTickAndCirclePaint, p);

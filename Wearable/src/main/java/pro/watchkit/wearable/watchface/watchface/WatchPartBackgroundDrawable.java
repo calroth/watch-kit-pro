@@ -21,6 +21,7 @@ package pro.watchkit.wearable.watchface.watchface;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 
 import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.model.PaintBox;
@@ -36,9 +37,30 @@ final class WatchPartBackgroundDrawable extends WatchPartDrawable {
         if (mWatchFaceState.isAmbient()) {
             mWatchFaceState.getPaintBox().getAmbientPaint().setColor(
                     mWatchFaceState.getLocationCalculator().getDuskDawnColor(PaintBox.AMBIENT_WHITE));
-        }
 
-        if (mWatchFaceState.isAmbient() /*&& (mLowBitAmbient || mBurnInProtection)*/) {
+            // Test: if ambient, draw our ambient burn-in exclusion rings
+            // We can't draw here because Wear OS shifts our watchface +/- 6px in each direction
+            // and it gets cut off, so just don't try drawing there.
+
+            Path ambientExclusionPath = new Path();
+            final int exclusion = 6;
+
+            Path p5 = new Path();
+            p5.addCircle(mCenterX + exclusion, mCenterY + exclusion, mCenterX, Path.Direction.CW);
+            Path p6 = new Path();
+            p6.addCircle(mCenterX + exclusion, mCenterY - exclusion, mCenterX, Path.Direction.CW);
+            Path p7 = new Path();
+            p7.addCircle(mCenterX - exclusion, mCenterY + exclusion, mCenterX, Path.Direction.CW);
+            Path p8 = new Path();
+            p8.addCircle(mCenterX - exclusion, mCenterY - exclusion, mCenterX, Path.Direction.CW);
+
+            p5.op(p6, Path.Op.INTERSECT);
+            p5.op(p7, Path.Op.INTERSECT);
+            p5.op(p8, Path.Op.INTERSECT);
+
+            ambientExclusionPath.addPath(p5);
+            addExclusionPath(ambientExclusionPath, Path.Op.UNION);
+
             canvas.drawColor(Color.BLACK);
         } else {
             Paint p = mWatchFaceState.getPaintBox().getPaintFromPreset(mWatchFaceState.getWatchFacePreset().getBackgroundStyle());

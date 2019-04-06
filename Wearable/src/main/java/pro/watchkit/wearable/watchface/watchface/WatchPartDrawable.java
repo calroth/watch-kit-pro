@@ -93,6 +93,9 @@ abstract class WatchPartDrawable extends Drawable {
     abstract void draw2(@NonNull Canvas canvas);
 
     void drawPath(Canvas canvas, Path p, Paint paint) {
+        // Apply the exclusion path.
+        p.op(mExclusionPath, Path.Op.INTERSECT);
+
         // 4 layers:
         // Shadow
         // Primary bevel
