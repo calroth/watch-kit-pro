@@ -193,5 +193,10 @@ final class WatchPartRingsDrawable extends WatchPartDrawable {
             Paint paint = mWatchFaceState.isAmbient() ? mAmbientColorShiftPaint : null;
             canvas.drawBitmap(ticksBitmap, 0, 0, paint);
         }
+
+        // Add the rings to our exclusion path.
+        if (!mWatchFaceState.isAmbient() && complications != null) {
+            addExclusionPath(rings, Path.Op.DIFFERENCE);
+        }
     }
 }

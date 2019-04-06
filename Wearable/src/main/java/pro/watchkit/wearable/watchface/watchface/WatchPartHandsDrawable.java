@@ -119,6 +119,9 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
     @Override
     public void draw2(@NonNull Canvas canvas) {
+        // Reset the exclusion path. We ignore it for this layer up!
+        resetExclusionPath();
+
         Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(getStyle());
         Path path = getHandPath();
         drawPath(canvas, path, paint);
