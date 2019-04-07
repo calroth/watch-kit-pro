@@ -160,16 +160,18 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
 
     @Override
     public void draw2(@NonNull Canvas canvas) {
-        int unreadNotifications = mWatchFaceState.getUnreadNotifications();
-        int totalNotifications = mWatchFaceState.getTotalNotifications();
         Paint tickPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(getTickStyle());
 
         p.reset();
         temp.reset();
         int numTicks = 60;
         for (int tickIndex = 0; tickIndex < numTicks; tickIndex++) {
+            if (!isVisible(tickIndex)) {
+                // Tick is not visible. Continue.
+                continue;
+            }
+
             float mCenter = Math.min(mCenterX, mCenterY);
-            boolean isTickVisible = isVisible(tickIndex);
             TickShape tickShape = getTickShape();
             TickLength tickLength = getTickLength();
             TickThickness tickThickness = getTickThickness();
@@ -177,149 +179,121 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
             // Modifiers: four ticks are one size up; sixty ticks one size down.
             float mod = getMod();
 
-            boolean isSixOClock = tickIndex == numTicks / 2;
+            // Draw the tick.
 
-            boolean drawUnreadNotification = totalNotifications > 0;
+            // Get our dimensions.
+            float tickWidth =
+                    mTickThicknessDimens.get(Pair.create(tickShape, tickThickness)) * pc * mod;
+            float tickLengthDimen =
+                    mTickLengthDimens.get(Pair.create(tickShape, tickLength)) * pc * mod;
+            float tickRadiusPositionDimen =
+                    mTickRadiusPositionDimens.get(Pair.create(tickShape, tickRadiusPosition)) * pc;
 
-            if (isSixOClock && drawUnreadNotification) {
-                // TODO: Don't draw this as a tick, draw our ticks then punch this out.
-                float tickRadiusPositionDimen =
-                        mTickRadiusPositionDimens.get(Pair.create(tickShape, tickRadiusPosition)) * pc;
-                float centerTickRadius = mCenter - tickRadiusPositionDimen;
-                float x = mCenterX;// + (innerX + outerX) / 2f;
-                float y = mCenterY + centerTickRadius;//+ (innerY + outerY) / 2f;
+            float centerTickRadius = mCenter - tickRadiusPositionDimen;
+            float tickDegrees = ((float) tickIndex / (float) numTicks) * 360f;
 
-                p.addCircle(x, y, 4f * pc, Path.Direction.CW);
-                if (!mWatchFaceState.isAmbient()) {
-                    // Punch a hole in the circle to make it a donut.
-                    Path p2 = new Path();
-                    p2.addCircle(x, y, 3f * pc, Path.Direction.CW);
-                    p.op(p2, Path.Op.DIFFERENCE);
+            float x = mCenterX;
+            float y = mCenterY - centerTickRadius;
+
+            temp.reset();
+
+            // Draw the object at 12 o'clock, then rotate it to desired location.
+            switch (tickShape) {
+                case BAR: {
+                    // Draw a really large triangle, then crop it with two
+                    // circles to give us a wedge shape with arc top and bottom.
+                    // Height "2 * mCenterY", centered on (mCenterX, mCenterY)
+                    temp.moveTo(mCenterX, mCenterY);
+                    // Assume "tickWidth" is radians. Undo the multiplication by "pc".
+                    // Also undo the multiplication by "mod". Assume we don't mod that.
+                    double offsetRadians = tickWidth / (pc * mod);
+                    float offsetX = (float) Math.sin(offsetRadians) * 2 * mCenterY;
+                    if (getDirection() == Path.Direction.CW) {
+                        // Line to top left.
+                        temp.lineTo(x - offsetX, 0f - mCenterY);
+                        // Line to top right.
+                        temp.lineTo(x + offsetX, 0f - mCenterY);
+                    } else {
+                        // Line to top right.
+                        temp.lineTo(x + offsetX, 0f - mCenterY);
+                        // Line to top left.
+                        temp.lineTo(x - offsetX, 0f - mCenterY);
+                    }
+                    // And line back to origin.
+                    temp.close();
+
+                    // Crop it with our top circle and bottom circle.
+                    Path t2 = new Path();
+                    t2.addCircle(mCenterX, mCenterY,
+                            mCenterY - y + tickLengthDimen, getDirection());
+                    temp.op(t2, Path.Op.INTERSECT);
+                    t2.reset();
+                    t2.addCircle(mCenterX, mCenterY,
+                            mCenterY - y - tickLengthDimen, getDirection());
+                    temp.op(t2, Path.Op.DIFFERENCE);
+
+                    break;
                 }
-                if (unreadNotifications > 0) {
-                    // Extra circle for unread notifications.
-                    p.addCircle(x, y, 2f * pc, Path.Direction.CW);
+                case DOT: {
+                    // Draw an oval.
+                    temp.addOval(
+                            x - tickWidth,
+                            y - tickLengthDimen,
+                            x + tickWidth,
+                            y + tickLengthDimen,
+                            getDirection());
+                    break;
                 }
-            } else if (numTicks == 60 && (tickIndex == 29 || tickIndex == 31) && drawUnreadNotification) {
-                // Don't draw seconds ticks 29 or 31 (either side of the notification at 30).
-                // (Do nothing.)
-            } else if (isTickVisible) {
-                // Draw the tick.
-
-                // Get our dimensions.
-                float tickWidth =
-                        mTickThicknessDimens.get(Pair.create(tickShape, tickThickness)) * pc * mod;
-                float tickLengthDimen =
-                        mTickLengthDimens.get(Pair.create(tickShape, tickLength)) * pc * mod;
-                float tickRadiusPositionDimen =
-                        mTickRadiusPositionDimens.get(Pair.create(tickShape, tickRadiusPosition)) * pc;
-
-                float centerTickRadius = mCenter - tickRadiusPositionDimen;
-                float tickDegrees = ((float) tickIndex / (float) numTicks) * 360f;
-
-                float x = mCenterX;
-                float y = mCenterY - centerTickRadius;
-
-                temp.reset();
-
-                // Draw the object at 12 o'clock, then rotate it to desired location.
-                switch (tickShape) {
-                    case BAR: {
-                        // Draw a really large triangle, then crop it with two
-                        // circles to give us a wedge shape with arc top and bottom.
-                        // Height "2 * mCenterY", centered on (mCenterX, mCenterY)
-                        temp.moveTo(mCenterX, mCenterY);
-                        // Assume "tickWidth" is radians. Undo the multiplication by "pc".
-                        // Also undo the multiplication by "mod". Assume we don't mod that.
-                        double offsetRadians = tickWidth / (pc * mod);
-                        float offsetX = (float) Math.sin(offsetRadians) * 2 * mCenterY;
-                        if (getDirection() == Path.Direction.CW) {
-                            // Line to top left.
-                            temp.lineTo(x - offsetX, 0f - mCenterY);
-                            // Line to top right.
-                            temp.lineTo(x + offsetX, 0f - mCenterY);
-                        } else {
-                            // Line to top right.
-                            temp.lineTo(x + offsetX, 0f - mCenterY);
-                            // Line to top left.
-                            temp.lineTo(x - offsetX, 0f - mCenterY);
-                        }
-                        // And line back to origin.
-                        temp.close();
-
-                        // Crop it with our top circle and bottom circle.
-                        Path t2 = new Path();
-                        t2.addCircle(mCenterX, mCenterY,
-                                mCenterY - y + tickLengthDimen, getDirection());
-                        temp.op(t2, Path.Op.INTERSECT);
-                        t2.reset();
-                        t2.addCircle(mCenterX, mCenterY,
-                                mCenterY - y - tickLengthDimen, getDirection());
-                        temp.op(t2, Path.Op.DIFFERENCE);
-
-                        break;
+                case TRIANGLE: {
+                    // Move to top left.
+                    temp.moveTo(x - tickWidth, y - tickLengthDimen);
+                    if (getDirection() == Path.Direction.CW) {
+                        // Line to top right.
+                        temp.lineTo(x + tickWidth, y - tickLengthDimen);
+                        // Line to bottom centre.
+                        temp.lineTo(x, y + tickLengthDimen);
+                    } else {
+                        // Line to bottom centre.
+                        temp.lineTo(x, y + tickLengthDimen);
+                        // Line to top right.
+                        temp.lineTo(x + tickWidth, y - tickLengthDimen);
                     }
-                    case DOT: {
-                        // Draw an oval.
-                        temp.addOval(
-                                x - tickWidth,
-                                y - tickLengthDimen,
-                                x + tickWidth,
-                                y + tickLengthDimen,
-                                getDirection());
-                        break;
-                    }
-                    case TRIANGLE: {
-                        // Move to top left.
-                        temp.moveTo(x - tickWidth, y - tickLengthDimen);
-                        if (getDirection() == Path.Direction.CW) {
-                            // Line to top right.
-                            temp.lineTo(x + tickWidth, y - tickLengthDimen);
-                            // Line to bottom centre.
-                            temp.lineTo(x, y + tickLengthDimen);
-                        } else {
-                            // Line to bottom centre.
-                            temp.lineTo(x, y + tickLengthDimen);
-                            // Line to top right.
-                            temp.lineTo(x + tickWidth, y - tickLengthDimen);
-                        }
-                        // And line back to origin.
-                        temp.close();
-                        break;
-                    }
-                    case DIAMOND: {
-                        // Move to top centre.
-                        temp.moveTo(x, y - tickLengthDimen);
-                        if (getDirection() == Path.Direction.CW) {
-                            // Line to centre right.
-                            temp.lineTo(x + tickWidth, y);
-                            // Line to bottom centre.
-                            temp.lineTo(x, y + tickLengthDimen);
-                            // Line to centre left.
-                            temp.lineTo(x - tickWidth, y);
-                        } else {
-                            // Line to centre left.
-                            temp.lineTo(x - tickWidth, y);
-                            // Line to bottom centre.
-                            temp.lineTo(x, y + tickLengthDimen);
-                            // Line to centre right.
-                            temp.lineTo(x + tickWidth, y);
-                        }
-                        // And line back to origin.
-                        temp.close();
-                        break;
-                    }
-                    default: {
-                        break;
-                    }
+                    // And line back to origin.
+                    temp.close();
+                    break;
                 }
-
-                Matrix m = new Matrix();
-                m.setRotate(tickDegrees, mCenterX, mCenterY);
-                temp.transform(m);
-
-                p.op(temp, Path.Op.UNION);
+                case DIAMOND: {
+                    // Move to top centre.
+                    temp.moveTo(x, y - tickLengthDimen);
+                    if (getDirection() == Path.Direction.CW) {
+                        // Line to centre right.
+                        temp.lineTo(x + tickWidth, y);
+                        // Line to bottom centre.
+                        temp.lineTo(x, y + tickLengthDimen);
+                        // Line to centre left.
+                        temp.lineTo(x - tickWidth, y);
+                    } else {
+                        // Line to centre left.
+                        temp.lineTo(x - tickWidth, y);
+                        // Line to bottom centre.
+                        temp.lineTo(x, y + tickLengthDimen);
+                        // Line to centre right.
+                        temp.lineTo(x + tickWidth, y);
+                    }
+                    // And line back to origin.
+                    temp.close();
+                    break;
+                }
+                default: {
+                    break;
+                }
             }
+
+            Matrix m = new Matrix();
+            m.setRotate(tickDegrees, mCenterX, mCenterY);
+            temp.transform(m);
+
+            p.op(temp, Path.Op.UNION);
         }
 
         drawPath(canvas, p, tickPaint);
