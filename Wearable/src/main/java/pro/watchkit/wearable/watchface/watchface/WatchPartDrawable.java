@@ -45,6 +45,11 @@ abstract class WatchPartDrawable extends Drawable {
     private Path mResetExclusionActivePath = new Path();
     private Path mResetExclusionAmbientPath = new Path();
 
+    private Path p5 = new Path();
+    private Path p6 = new Path();
+    private Path p7 = new Path();
+    private Path p8 = new Path();
+
     /**
      * Our current direction. Static, so shared amongst all our accessors.
      */
@@ -204,13 +209,13 @@ abstract class WatchPartDrawable extends Drawable {
 
         final int exclusion = 6;
 
-        Path p5 = new Path();
+        p5.reset();
+        p6.reset();
+        p7.reset();
+        p8.reset();
         p5.addCircle(mCenterX + exclusion, mCenterY + exclusion, pc * 50f, getDirection());
-        Path p6 = new Path();
         p6.addCircle(mCenterX + exclusion, mCenterY - exclusion, pc * 50f, getDirection());
-        Path p7 = new Path();
         p7.addCircle(mCenterX - exclusion, mCenterY + exclusion, pc * 50f, getDirection());
-        Path p8 = new Path();
         p8.addCircle(mCenterX - exclusion, mCenterY - exclusion, pc * 50f, getDirection());
 
         p5.op(p6, Path.Op.INTERSECT);
