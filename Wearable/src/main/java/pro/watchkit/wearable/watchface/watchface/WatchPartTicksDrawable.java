@@ -156,6 +156,7 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
     }
 
     private Path p = new Path();
+    private Path p2 = new Path();
     private Path temp = new Path();
 
     @Override
@@ -163,7 +164,8 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
         Paint tickPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(getTickStyle());
 
         p.reset();
-        temp.reset();
+        p2.reset();
+
         int numTicks = 60;
         for (int tickIndex = 0; tickIndex < numTicks; tickIndex++) {
             if (!isVisible(tickIndex)) {
@@ -293,9 +295,18 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
             m.setRotate(tickDegrees, mCenterX, mCenterY);
             temp.transform(m);
 
-            p.op(temp, Path.Op.UNION);
+            if (tickIndex % 2 == 0) {
+                // Draw every 2nd tick into p2. This makes it so the bezels don't "stick together"
+                // if butted up close to each other.
+                // Generally this only happens for sixty ticks, but since the output is cached
+                // we don't mind making the other cases slower for code clarity.
+                p.op(temp, Path.Op.UNION);
+            } else {
+                p2.op(temp, Path.Op.UNION);
+            }
         }
 
         drawPath(canvas, p, tickPaint);
+        drawPath(canvas, p2, tickPaint);
     }
 }
