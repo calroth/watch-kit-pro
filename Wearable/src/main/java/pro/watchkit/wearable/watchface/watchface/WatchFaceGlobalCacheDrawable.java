@@ -18,6 +18,7 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable {
     private Drawable[] mWatchPartDrawables;
     private int mPreviousSerial = -1;
     private Bitmap mCacheBitmap;
+    private Bitmap mHardwareCacheBitmap;
     private Canvas mCacheCanvas;
     private Path mExclusionPath;
     private Path mCacheExclusionPath = new Path();
@@ -71,10 +72,14 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable {
             mCacheExclusionPath.reset();
             super.draw(mCacheCanvas);
             mPreviousSerial = currentSerial;
+            // Hardware power!
+//            if (Build.VERSION.SDK_INT >= 26) {
+//                mHardwareCacheBitmap = mCacheBitmap.copy(Bitmap.Config.HARDWARE, false);
+//            }
         }
 
         // Then copy our cache to the results!
         mExclusionPath.set(mCacheExclusionPath);
-        canvas.drawBitmap(mCacheBitmap, 0, 0, null);
+        canvas.drawBitmap(mHardwareCacheBitmap != null ? mHardwareCacheBitmap : mCacheBitmap, 0, 0, null);
     }
 }
