@@ -42,9 +42,10 @@ final class WatchPartHandsSecondDrawable extends WatchPartHandsDrawable {
     }
 
     @Override
-    void punchHub() {
-        // Add the hub to the Second hand in active mode.
-        mHandActivePath.op(getHub(), Path.Op.UNION);
+    void punchHub(Path active, Path ambient) {
+        // Punch the hub out of the seconds hand in ambient and active modes.
+        ambient.op(getHub(), Path.Op.DIFFERENCE);
+        active.op(getHub(), Path.Op.DIFFERENCE);
     }
 
     @Override

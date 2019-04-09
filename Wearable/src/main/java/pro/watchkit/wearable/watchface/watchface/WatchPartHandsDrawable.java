@@ -112,8 +112,8 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         mHandLengthDimensions.get(HandShape.UNKNOWN1).put(HandLength.X_LONG, 1.2f);
     }
 
-    Path mHandActivePath = new Path();
-    Path mHandAmbientPath = new Path();
+    private Path mHandActivePath = new Path();
+    private Path mHandAmbientPath = new Path();
     private int mPreviousSerial = -1;
     private Path mHandPath = new Path();
 
@@ -147,7 +147,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
     abstract float getDegreesRotation();
 
-    abstract void punchHub();
+    abstract void punchHub(Path active, Path ambient);
 
     boolean isMinuteHand() {
         return false;
@@ -168,7 +168,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
             getHandShapePath();
             mHandAmbientPath.reset();
             mHandAmbientPath.addPath(mHandActivePath);
-            punchHub();
+            punchHub(mHandActivePath, mHandAmbientPath);
         }
 
         // Rotate the hand to its specified position.

@@ -40,9 +40,10 @@ final class WatchPartHandsMinuteDrawable extends WatchPartHandsDrawable {
     }
 
     @Override
-    void punchHub() {
-        // Add the hub to the Minute hand in ambient mode.
-        mHandAmbientPath.op(getHub(), Path.Op.UNION);
+    void punchHub(Path active, Path ambient) {
+        // Add the hub to the Minute hand in ambient and active modes.
+        ambient.op(getHub(), Path.Op.UNION);
+        active.op(getHub(), Path.Op.UNION);
     }
 
     @Override

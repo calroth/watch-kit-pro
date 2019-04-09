@@ -40,9 +40,10 @@ final class WatchPartHandsHourDrawable extends WatchPartHandsDrawable {
     }
 
     @Override
-    void punchHub() {
-        // Punch the hub out of the hour hand in ambient mode.
-        mHandAmbientPath.op(getHub(), Path.Op.DIFFERENCE);
+    void punchHub(Path active, Path ambient) {
+        // Punch the hub out of the hour hand in ambient and active modes.
+        ambient.op(getHub(), Path.Op.DIFFERENCE);
+        active.op(getHub(), Path.Op.DIFFERENCE);
     }
 
     @Override
