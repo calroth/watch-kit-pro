@@ -142,6 +142,8 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         super.onBoundsChange(bounds);
         mHub.reset();
         mHub.addCircle(mCenterX, mCenterY, HUB_RADIUS_PERCENT * pc, Path.Direction.CCW);
+
+        mPreviousSerial = -1;
     }
 
     Path getHub() {
@@ -172,7 +174,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
     private Path getHandPath() {
         // Regenerate "mHandActivePath" and "mHandAmbientPath" if we need to.
-        int currentSerial = Objects.hashCode(mWatchFaceState.getWatchFacePreset());
+        int currentSerial = Objects.hash(mWatchFaceState);
 
         if (mPreviousSerial != currentSerial) {
             mPreviousSerial = currentSerial;
