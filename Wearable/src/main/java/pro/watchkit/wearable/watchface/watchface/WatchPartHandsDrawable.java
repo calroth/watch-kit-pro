@@ -22,6 +22,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.graphics.RectF;
 
 import java.util.EnumMap;
@@ -39,7 +40,6 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     private static final float HUB_RADIUS_PERCENT = 3f; // 3% // 1.5f; // 1.5%
     private static final float HOUR_MINUTE_HAND_MIDPOINT = 0.333f;
     private static final float ROUND_RECT_RADIUS_PERCENT = 1f;
-    private Path mHub;
 
     private Map<HandShape, Map<HandThickness, Float>> mHandThicknessDimensions
             = new EnumMap<>(HandShape.class);
@@ -47,11 +47,26 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     private Map<HandShape, Map<HandLength, Float>> mHandLengthDimensions
             = new EnumMap<>(HandShape.class);
 
+    private Path mHub = new Path();
+
+    private Path mHandActivePath = new Path();
+    private Path mHandAmbientPath = new Path();
+    private int mPreviousSerial = -1;
+    private Path mHandPath = new Path();
+    private Path mCutout = new Path();
     WatchPartHandsDrawable() {
         super();
 
         final float STRAIGHT_HAND_WIDTH_PERCENT = 2f;// 2% // 0.3f; // 0.3%
         final float DIAMOND_HAND_ASPECT_RATIO = 8f;
+
+        float globalScale = 1.0f;
+
+        // f0, f1, f2, f3 are a geometric series!
+        float f0 = globalScale * (float) (1d / Math.sqrt(2d));
+        float f1 = globalScale * 1f;
+        float f2 = globalScale * (float) Math.sqrt(2d);
+        float f3 = globalScale * 2f;
 
         mHandThicknessDimensions.put(HandShape.STRAIGHT,
                 new EnumMap<HandThickness, Float>(HandThickness.class));
@@ -72,10 +87,10 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         mHandThicknessDimensions.get(HandShape.ROUNDED).put(HandThickness.THICK, 1.5f);
         mHandThicknessDimensions.get(HandShape.ROUNDED).put(HandThickness.X_THICK, 2.0f);
 
-        mHandThicknessDimensions.get(HandShape.DIAMOND).put(HandThickness.THIN, 0.5f * DIAMOND_HAND_ASPECT_RATIO);
-        mHandThicknessDimensions.get(HandShape.DIAMOND).put(HandThickness.REGULAR, 1.0f * DIAMOND_HAND_ASPECT_RATIO);
-        mHandThicknessDimensions.get(HandShape.DIAMOND).put(HandThickness.THICK, 1.5f * DIAMOND_HAND_ASPECT_RATIO);
-        mHandThicknessDimensions.get(HandShape.DIAMOND).put(HandThickness.X_THICK, 2.0f * DIAMOND_HAND_ASPECT_RATIO);
+        mHandThicknessDimensions.get(HandShape.DIAMOND).put(HandThickness.THIN, f0 * DIAMOND_HAND_ASPECT_RATIO);
+        mHandThicknessDimensions.get(HandShape.DIAMOND).put(HandThickness.REGULAR, f1 * DIAMOND_HAND_ASPECT_RATIO);
+        mHandThicknessDimensions.get(HandShape.DIAMOND).put(HandThickness.THICK, f2 * DIAMOND_HAND_ASPECT_RATIO);
+        mHandThicknessDimensions.get(HandShape.DIAMOND).put(HandThickness.X_THICK, f3 * DIAMOND_HAND_ASPECT_RATIO);
 
         mHandThicknessDimensions.get(HandShape.UNKNOWN1).put(HandThickness.THIN, 0.5f);
         mHandThicknessDimensions.get(HandShape.UNKNOWN1).put(HandThickness.REGULAR, 1.0f);
@@ -112,11 +127,6 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         mHandLengthDimensions.get(HandShape.UNKNOWN1).put(HandLength.X_LONG, 1.2f);
     }
 
-    private Path mHandActivePath = new Path();
-    private Path mHandAmbientPath = new Path();
-    private int mPreviousSerial = -1;
-    private Path mHandPath = new Path();
-
     @Override
     public void draw2(@NonNull Canvas canvas) {
         // Reset the exclusion path. We ignore it for this layer up!
@@ -127,11 +137,14 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         drawPath(canvas, path, paint);
     }
 
+    @Override
+    protected void onBoundsChange(Rect bounds) {
+        super.onBoundsChange(bounds);
+        mHub.reset();
+        mHub.addCircle(mCenterX, mCenterY, HUB_RADIUS_PERCENT * pc, Path.Direction.CCW);
+    }
+
     Path getHub() {
-        if (mHub == null) {
-            mHub = new Path();
-            mHub.addCircle(mCenterX, mCenterY, HUB_RADIUS_PERCENT * pc, Path.Direction.CCW);
-        }
         return mHub;
     }
 
@@ -220,6 +233,9 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         float stalkThickness =
                 mHandThicknessDimensions.get(HandShape.STRAIGHT).get(handThickness) * pc * 0.5f;
         float stalkTopBitExtra = HUB_RADIUS_PERCENT * pc * 0.5f;
+
+        // A bit more for tweaking.
+        stalkTopBitExtra += 10.0f * pc;
 
         switch (handStalk) {
             case NEGATIVE: {
@@ -311,7 +327,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
             }
         }
 
-        float cutoutWidth = 0.8f * pc; // 0.8 percent
+        float cutoutWidth = 1.2f * pc; // 1.2 percent
 
         // Cutout
         switch (handShape) {
@@ -352,14 +368,14 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 z = (float) Math.sqrt(x * x + y * y);
                 float y3 = w * z / x;
 
-                Path cutout = new Path();
-                cutout.moveTo(mCenterX, mCenterY - diamondTop + y2); // Tip
-                cutout.lineTo(mCenterX + diamondWidth - x2, mCenterY - diamondMidpoint); // Right
-                cutout.lineTo(mCenterX, mCenterY - diamondBottom - y3); // Bottom
-                cutout.lineTo(mCenterX - diamondWidth + x2, mCenterY - diamondMidpoint); // Left
-                cutout.close();
+                mCutout.reset();
+                mCutout.moveTo(mCenterX, mCenterY - diamondTop + y2); // Tip
+                mCutout.lineTo(mCenterX + diamondWidth - x2, mCenterY - diamondMidpoint); // Right
+                mCutout.lineTo(mCenterX, mCenterY - diamondBottom - y3); // Bottom
+                mCutout.lineTo(mCenterX - diamondWidth + x2, mCenterY - diamondMidpoint); // Left
+                mCutout.close();
 
-                p.op(cutout, Path.Op.DIFFERENCE);
+                p.op(mCutout, Path.Op.DIFFERENCE);
 
                 break;
             }
@@ -400,11 +416,11 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
                 // Only if our cutout isn't wider than the stalk itself...
                 if (r.left < r.right) {
-                    Path cutout = new Path();
+                    mCutout.reset();
                     float radius = roundRectRadius - cutoutWidth;
                     radius = radius > 0f ? radius : 0f;
-                    cutout.addRoundRect(r, radius, radius, Path.Direction.CW);
-                    p.op(cutout, Path.Op.DIFFERENCE);
+                    mCutout.addRoundRect(r, radius, radius, Path.Direction.CW);
+                    p.op(mCutout, Path.Op.DIFFERENCE);
                 }
                 break;
             }
@@ -426,11 +442,11 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
                 // Only if our cutout isn't wider than the stalk itself...
                 if (r.left < r.right) {
-                    Path cutout = new Path();
+                    mCutout.reset();
                     float radius = roundRectRadius - cutoutWidth;
                     radius = radius > 0f ? radius : 0f;
-                    cutout.addRoundRect(r, radius, radius, Path.Direction.CW);
-                    p.op(cutout, Path.Op.DIFFERENCE);
+                    mCutout.addRoundRect(r, radius, radius, Path.Direction.CW);
+                    p.op(mCutout, Path.Op.DIFFERENCE);
                 }
                 break;
             }
