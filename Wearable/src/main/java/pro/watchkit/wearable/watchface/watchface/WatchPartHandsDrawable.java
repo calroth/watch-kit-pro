@@ -19,7 +19,6 @@
 package pro.watchkit.wearable.watchface.watchface;
 
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
@@ -52,7 +51,6 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     private Path mHandActivePath = new Path();
     private Path mHandAmbientPath = new Path();
     private int mPreviousSerial = -1;
-    private Path mHandPath = new Path();
     private Path mCutout = new Path();
 
     WatchPartHandsDrawable() {
@@ -128,6 +126,8 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         mHandLengthDimensions.get(HandShape.UNKNOWN1).put(HandLength.X_LONG, 1.2f);
     }
 
+    private float mLastDegrees = -360f;
+
     @Override
     public void draw2(@NonNull Canvas canvas) {
         // Reset the exclusion path. We ignore it for this layer up!
@@ -135,14 +135,13 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
         Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(getStyle());
         Path path = getHandPath();
-        if (mWatchFaceState.isAmbient()) {
-            canvas.save();
-            canvas.rotate(getDegreesRotation(), mCenterX, mCenterY);
+        float degrees = getDegreesRotation();
+        if ((degrees - mLastDegrees) % 360f > 6f) {
+            // Generate a new bezel if the current one is more than 6 degrees (1 minute) out.
+            generateBezels(path, degrees);
+            mLastDegrees = degrees;
         }
-        drawPath(canvas, path, paint);
-        if (mWatchFaceState.isAmbient()) {
-            canvas.restore();
-        }
+        fastDrawPath(canvas, path, paint, degrees);
     }
 
     @Override
@@ -192,23 +191,14 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
             mHandAmbientPath.reset();
             mHandAmbientPath.addPath(mHandActivePath);
             punchHub(mHandActivePath, mHandAmbientPath);
+            // Regenerate our bezels too.
+            mLastDegrees = -360f;
         }
 
         if (mWatchFaceState.isAmbient())
             return mHandAmbientPath;
-
-        // Rotate the hand to its specified position.
-        Matrix m = new Matrix();
-        m.postRotate(getDegreesRotation(), mCenterX, mCenterY);
-
-        // Reset mHandPath and rotate the relevant hand into it.
-        mHandPath.reset();
-        if (mWatchFaceState.isAmbient())
-            mHandAmbientPath.transform(m, mHandPath);
         else
-            mHandActivePath.transform(m, mHandPath);
-
-        return mHandPath;
+            return mHandActivePath;
     }
 
     private void getHandShapePath() {

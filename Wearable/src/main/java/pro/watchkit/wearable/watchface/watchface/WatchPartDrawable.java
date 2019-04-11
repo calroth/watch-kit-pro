@@ -23,6 +23,7 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
@@ -78,7 +79,7 @@ abstract class WatchPartDrawable extends Drawable {
         return mDirection;
     }
 
-    private /*final*/ float mBevelOffset = 0.2f; // 0.2%
+    private final float mBevelOffset = 0.3333333f; // 0.33%
 
     private static Canvas mBezelCanvas;
     private static Paint mBezelBitmapPaint;
@@ -103,6 +104,84 @@ abstract class WatchPartDrawable extends Drawable {
 
     abstract void draw2(@NonNull Canvas canvas);
 
+    private Matrix m1 = new Matrix();
+    private Matrix m2 = new Matrix();
+
+    void fastDrawPath(Canvas canvas, Path p, Paint paint, float degrees) {
+        canvas.save();
+        canvas.rotate(degrees, mCenterX, mCenterY);
+
+        if (!mWatchFaceState.isAmbient()) {
+            // Shadow
+            canvas.drawPath(p, mWatchFaceState.getPaintBox().getShadowPaint());
+
+            // The path.
+            paint.setStyle(Paint.Style.FILL);
+            canvas.drawPath(p, paint);
+
+            // Retrieve our bezel paints and set them to fill.
+            Paint bezelPaint1 = mWatchFaceState.getPaintBox().getBezelPaint1();
+            Paint bezelPaint2 = mWatchFaceState.getPaintBox().getBezelPaint2();
+            bezelPaint1.setStyle(Paint.Style.FILL);
+            bezelPaint2.setStyle(Paint.Style.FILL);
+
+            // The bezels.
+            canvas.drawPath(mPrimaryBezel, bezelPaint1);
+            canvas.drawPath(mSecondaryBezel, bezelPaint2);
+
+        } else {
+            // Ambient.
+            // The path itself.
+            Paint ambientPaint = mWatchFaceState.getPaintBox().getAmbientPaint();
+
+            canvas.drawPath(p, ambientPaint);
+        }
+
+        canvas.restore();
+    }
+
+    void generateBezels(Path p, float degrees) {
+        if (mWatchFaceState.isAmbient()) {
+            return;
+        }
+
+        // The bezels.
+
+        // Draw the bezels in the right position, using matrices.
+        // By: rotating to the angle we want, offsetting them, then rotating back.
+
+        m1.reset();
+        m1.postRotate(degrees, mCenterX, mCenterY);
+        m1.postTranslate(-(mBevelOffset * pc), -(mBevelOffset * pc));
+        m1.postRotate(-degrees, mCenterX, mCenterY);
+
+        m2.reset();
+        m2.postRotate(degrees, mCenterX, mCenterY);
+        m2.postTranslate(mBevelOffset * pc, mBevelOffset * pc);
+        m2.postRotate(-degrees, mCenterX, mCenterY);
+
+        p.transform(m1, mPrimaryBezel);
+        p.transform(m2, mSecondaryBezel);
+
+        // Draw primary and secondary bezels as paths.
+
+        // Calculate the intersection of primary and secondary bezels.
+        mIntersectionBezel.set(mPrimaryBezel);
+        mIntersectionBezel.op(mSecondaryBezel, Path.Op.INTERSECT);
+
+        // Punch that intersection out of primary and secondary bevels.
+        mPrimaryBezel.op(mIntersectionBezel, Path.Op.DIFFERENCE);
+        mSecondaryBezel.op(mIntersectionBezel, Path.Op.DIFFERENCE);
+
+        // And clip the primary and secondary bezels to the original paths.
+        mPrimaryBezel.op(p, Path.Op.INTERSECT);
+        mSecondaryBezel.op(p, Path.Op.INTERSECT);
+
+        // Right, all done, draw them!
+//        canvas.drawPath(mPrimaryBezel, bezelPaint1);
+//        canvas.drawPath(mSecondaryBezel, bezelPaint1);
+    }
+
     void drawPath(Canvas canvas, Path p, Paint paint) {
         // Apply the exclusion path.
         p.op(mExclusionPath, Path.Op.INTERSECT);
@@ -115,7 +194,7 @@ abstract class WatchPartDrawable extends Drawable {
         // Primary bevel
         // Secondary bevel
         // And finally the path itself.
-        boolean olde = true;// seconds % 2 == 0;
+        boolean olde = true; // seconds % 2 == 0;
         if (!mWatchFaceState.isAmbient()) {
             // Shadow
             canvas.drawPath(p, mWatchFaceState.getPaintBox().getShadowPaint());
@@ -125,9 +204,6 @@ abstract class WatchPartDrawable extends Drawable {
             canvas.drawPath(p, paint);
 
             // The bezels.
-            if (olde) {
-                mBevelOffset = 0.33333f;
-            }
 
             // Create our offset paths for our primary and secondary bezels.
             p.offset(-(mBevelOffset * pc), -(mBevelOffset * pc), mPrimaryBezel);
@@ -155,13 +231,17 @@ abstract class WatchPartDrawable extends Drawable {
 
                 // Right, all done, draw them!
                 canvas.drawPath(mPrimaryBezel, bezelPaint1);
-                canvas.drawPath(mSecondaryBezel, bezelPaint1);
+                canvas.drawPath(mSecondaryBezel, bezelPaint2);
             }
             // Draw primary and secondary bevels as strokes from a bitmap-shader paint.
             if (!olde) {
                 // Draw our bevels to a temporary bitmap.
                 // Clear the bezel canvas first.
                 mBezelCanvas.drawColor(Color.TRANSPARENT);
+
+                // And clip the primary and secondary bezels to the original paths.
+                mPrimaryBezel.op(p, Path.Op.INTERSECT);
+                mSecondaryBezel.op(p, Path.Op.INTERSECT);
 
                 // Draw primary and secondary bevels to temporary bitmap.
                 mBezelCanvas.drawPath(mPrimaryBezel, bezelPaint1);
