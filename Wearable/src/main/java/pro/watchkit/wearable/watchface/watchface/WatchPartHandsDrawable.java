@@ -54,6 +54,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     private int mPreviousSerial = -1;
     private Path mHandPath = new Path();
     private Path mCutout = new Path();
+
     WatchPartHandsDrawable() {
         super();
 
@@ -134,7 +135,14 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
         Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(getStyle());
         Path path = getHandPath();
+        if (mWatchFaceState.isAmbient()) {
+            canvas.save();
+            canvas.rotate(getDegreesRotation(), mCenterX, mCenterY);
+        }
         drawPath(canvas, path, paint);
+        if (mWatchFaceState.isAmbient()) {
+            canvas.restore();
+        }
     }
 
     @Override
@@ -185,6 +193,9 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
             mHandAmbientPath.addPath(mHandActivePath);
             punchHub(mHandActivePath, mHandAmbientPath);
         }
+
+        if (mWatchFaceState.isAmbient())
+            return mHandAmbientPath;
 
         // Rotate the hand to its specified position.
         Matrix m = new Matrix();
