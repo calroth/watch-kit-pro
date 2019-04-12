@@ -38,7 +38,7 @@ import pro.watchkit.wearable.watchface.model.WatchFacePreset.Style;
 abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     private static final float HUB_RADIUS_PERCENT = 3f; // 3% // 1.5f; // 1.5%
     private static final float HOUR_MINUTE_HAND_MIDPOINT = 0.333f;
-    private static final float ROUND_RECT_RADIUS_PERCENT = 1f;
+    private static final float ROUND_RECT_RADIUS_PERCENT = 1.5f;
 
     private Map<HandShape, Map<HandThickness, Float>> mHandThicknessDimensions
             = new EnumMap<>(HandShape.class);
@@ -244,7 +244,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
         switch (handStalk) {
             case NEGATIVE: {
-                bottom = -HUB_RADIUS_PERCENT * pc * 2;
+                bottom = -HUB_RADIUS_PERCENT * pc * 2f;
                 break;
             }
             case NONE: {
@@ -298,8 +298,8 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         switch (handShape) {
             case STRAIGHT: {
                 float straightWidth = thickness * pc;
-                p.addRoundRect(mCenterX - straightWidth, mCenterY - length, mCenterX + straightWidth,
-                        mCenterY - bottom, roundRectRadius, roundRectRadius, getDirection());
+                p.addRect(mCenterX - straightWidth, mCenterY - length, mCenterX + straightWidth,
+                        mCenterY - bottom, getDirection());
 //                p.moveTo(mCenterX + straightWidth, mCenterY - bottom);
 //                p.lineTo(mCenterX + straightWidth, mCenterY - length);
 //                p.lineTo(mCenterX - straightWidth, mCenterY - length);
@@ -331,9 +331,15 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 break;
             }
             case ROUNDED: {
+                float straightWidth = thickness * pc;
+                p.addRoundRect(mCenterX - straightWidth, mCenterY - length, mCenterX + straightWidth,
+                        mCenterY - bottom, roundRectRadius, roundRectRadius, getDirection());
                 break;
             }
             case UNKNOWN1: {
+                float straightWidth = thickness * pc;
+                p.addRoundRect(mCenterX - straightWidth, mCenterY - length, mCenterX + straightWidth,
+                        mCenterY - bottom, roundRectRadius * 2f, roundRectRadius * 2f, getDirection());
                 break;
             }
         }
@@ -360,7 +366,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 float y = diamondTop - diamondMidpoint;
                 float z = (float) Math.sqrt(x * x + y * y);
 
-                float w = cutoutWidth;
+                float w = cutoutWidth * 1.5f;
 
                 float y2 = w * z / x;
                 float x2 = w * z / y;
