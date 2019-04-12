@@ -611,7 +611,7 @@ public final class WatchFacePreset {
     }
 
     public HandStalk getMinuteHandStalk() {
-        return minuteHandStalk;
+        return minuteHandOverride ? minuteHandStalk : hourHandStalk;
     }
 
     void setMinuteHandStalk(HandStalk minuteHandStalk) {

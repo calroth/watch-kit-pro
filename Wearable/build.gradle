@@ -65,6 +65,15 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
+    buildTypes {
+        release {
+            debuggable false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
+        }
+    }
+
     sourceSets {
         main {
             dirs.each { dir ->
