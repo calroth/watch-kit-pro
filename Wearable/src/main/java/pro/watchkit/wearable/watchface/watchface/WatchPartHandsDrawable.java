@@ -51,6 +51,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     private Path mHandActivePath = new Path();
     private Path mHandAmbientPath = new Path();
     private int mPreviousSerial = -1;
+    private Path mStalk = new Path();
     private Path mCutout = new Path();
 
     WatchPartHandsDrawable() {
@@ -148,7 +149,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     protected void onBoundsChange(Rect bounds) {
         super.onBoundsChange(bounds);
         mHub.reset();
-        mHub.addCircle(mCenterX, mCenterY, HUB_RADIUS_PERCENT * pc, Path.Direction.CCW);
+        mHub.addCircle(mCenterX, mCenterY, HUB_RADIUS_PERCENT * pc, getDirection());
 
         mPreviousSerial = -1;
     }
@@ -239,6 +240,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
         // A bit more for tweaking.
         stalkTopBitExtra += 10.0f * pc;
+        mStalk.reset();
 
         switch (handStalk) {
             case NEGATIVE: {
@@ -263,8 +265,8 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 //                p.lineTo(mCenterX - straightWidth1, mCenterY - bottom);
 //                p.lineTo(mCenterX - straightWidth1, mCenterY - stalkBottom1);
 //                p.lineTo(mCenterX + straightWidth1, mCenterY - stalkBottom1);
-                p.addRoundRect(mCenterX - stalkThickness, mCenterY - bottom - stalkTopBitExtra, mCenterX + stalkThickness,
-                        mCenterY - stalkBottom, roundRectRadius, roundRectRadius, Path.Direction.CW);
+                mStalk.addRoundRect(mCenterX - stalkThickness, mCenterY - bottom - stalkTopBitExtra, mCenterX + stalkThickness,
+                        mCenterY - stalkBottom, roundRectRadius, roundRectRadius, getDirection());
                 break;
             }
             case MEDIUM: {
@@ -281,8 +283,8 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 //                p.lineTo(mCenterX - straightWidth2, mCenterY - bottom);
 //                p.lineTo(mCenterX - straightWidth2, mCenterY - stalkBottom2);
 //                p.lineTo(mCenterX + straightWidth2, mCenterY - stalkBottom2);
-                p.addRoundRect(mCenterX - stalkThickness, mCenterY - bottom - stalkTopBitExtra, mCenterX + stalkThickness,
-                        mCenterY - stalkBottom, roundRectRadius, roundRectRadius, Path.Direction.CW);
+                mStalk.addRoundRect(mCenterX - stalkThickness, mCenterY - bottom - stalkTopBitExtra, mCenterX + stalkThickness,
+                        mCenterY - stalkBottom, roundRectRadius, roundRectRadius, getDirection());
                 break;
             }
             default: {
@@ -297,7 +299,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
             case STRAIGHT: {
                 float straightWidth = thickness * pc;
                 p.addRoundRect(mCenterX - straightWidth, mCenterY - length, mCenterX + straightWidth,
-                        mCenterY - bottom, roundRectRadius, roundRectRadius, Path.Direction.CW);
+                        mCenterY - bottom, roundRectRadius, roundRectRadius, getDirection());
 //                p.moveTo(mCenterX + straightWidth, mCenterY - bottom);
 //                p.lineTo(mCenterX + straightWidth, mCenterY - length);
 //                p.lineTo(mCenterX - straightWidth, mCenterY - length);
@@ -314,9 +316,15 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 float diamondMidpoint = (diamondTop - diamondBottom) * HOUR_MINUTE_HAND_MIDPOINT +
                         diamondBottom;
                 p.moveTo(mCenterX, mCenterY - diamondBottom); // Extend past the hub
-                p.lineTo(mCenterX - diamondWidth, mCenterY - diamondMidpoint);
-                p.lineTo(mCenterX, mCenterY - diamondTop);
-                p.lineTo(mCenterX + diamondWidth, mCenterY - diamondMidpoint);
+                if (getDirection() == Path.Direction.CW) {
+                    p.lineTo(mCenterX - diamondWidth, mCenterY - diamondMidpoint); // Left
+                    p.lineTo(mCenterX, mCenterY - diamondTop); // Top
+                    p.lineTo(mCenterX + diamondWidth, mCenterY - diamondMidpoint); // Right
+                } else {
+                    p.lineTo(mCenterX + diamondWidth, mCenterY - diamondMidpoint); // Right
+                    p.lineTo(mCenterX, mCenterY - diamondTop); // Top
+                    p.lineTo(mCenterX - diamondWidth, mCenterY - diamondMidpoint); // Left
+                }
                 //p.lineTo(mCenterX, mCenterY - diamondBottom); // Extend past the hub
                 p.close();
                 //p.lineTo(mCenterX, mCenterY - diamondTop);
@@ -329,6 +337,8 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 break;
             }
         }
+
+        p.op(mStalk, Path.Op.UNION);
 
         float cutoutWidth = 1.2f * pc; // 1.2 percent
 
@@ -373,9 +383,15 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
                 mCutout.reset();
                 mCutout.moveTo(mCenterX, mCenterY - diamondTop + y2); // Tip
-                mCutout.lineTo(mCenterX + diamondWidth - x2, mCenterY - diamondMidpoint); // Right
-                mCutout.lineTo(mCenterX, mCenterY - diamondBottom - y3); // Bottom
-                mCutout.lineTo(mCenterX - diamondWidth + x2, mCenterY - diamondMidpoint); // Left
+                if (getDirection() == Path.Direction.CW) {
+                    mCutout.lineTo(mCenterX + diamondWidth - x2, mCenterY - diamondMidpoint); // Right
+                    mCutout.lineTo(mCenterX, mCenterY - diamondBottom - y3); // Bottom
+                    mCutout.lineTo(mCenterX - diamondWidth + x2, mCenterY - diamondMidpoint); // Left
+                } else {
+                    mCutout.lineTo(mCenterX - diamondWidth + x2, mCenterY - diamondMidpoint); // Left
+                    mCutout.lineTo(mCenterX, mCenterY - diamondBottom - y3); // Bottom
+                    mCutout.lineTo(mCenterX + diamondWidth - x2, mCenterY - diamondMidpoint); // Right
+                }
                 mCutout.close();
 
                 p.op(mCutout, Path.Op.DIFFERENCE);
@@ -422,7 +438,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                     mCutout.reset();
                     float radius = roundRectRadius - cutoutWidth;
                     radius = radius > 0f ? radius : 0f;
-                    mCutout.addRoundRect(r, radius, radius, Path.Direction.CW);
+                    mCutout.addRoundRect(r, radius, radius, getDirection());
                     p.op(mCutout, Path.Op.DIFFERENCE);
                 }
                 break;
@@ -448,7 +464,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                     mCutout.reset();
                     float radius = roundRectRadius - cutoutWidth;
                     radius = radius > 0f ? radius : 0f;
-                    mCutout.addRoundRect(r, radius, radius, Path.Direction.CW);
+                    mCutout.addRoundRect(r, radius, radius, getDirection());
                     p.op(mCutout, Path.Op.DIFFERENCE);
                 }
                 break;
