@@ -423,6 +423,10 @@ public final class WatchFacePreset {
         this.ticksDisplay = ticksDisplay;
     }
 
+    TicksDisplay getTicksDisplay() {
+        return this.ticksDisplay;
+    }
+
     public boolean isFourTicksVisible() {
         return this.ticksDisplay != TicksDisplay.NONE;
     }

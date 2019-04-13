@@ -489,6 +489,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     void updatePreviewColors() {
         Log.d(TAG, "updatePreviewColors(): " + mPreviewAndComplicationsViewHolder);
 
+        regenerateCurrentWatchFacePreset(mContext);
+
         if (mPreviewAndComplicationsViewHolder != null) {
             mPreviewAndComplicationsViewHolder.updateWatchFaceColors();
         }
@@ -971,11 +973,12 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         void bind(WatchFacePresetPickerConfigItem configItem) {
             mConfigItem = configItem;
 
-            mButton.setText(configItem.getName());
+            mButton.setText(mConfigItem.getName(mCurrentWatchFacePreset));
             mLaunchActivity = configItem.getActivityToChoosePreference();
         }
 
         public void tickle() {
+            mButton.setText(mConfigItem.getName(mCurrentWatchFacePreset));
             itemView.invalidate();
         }
 

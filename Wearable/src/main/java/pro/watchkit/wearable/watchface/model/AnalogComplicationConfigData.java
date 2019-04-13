@@ -128,6 +128,10 @@ public class AnalogComplicationConfigData {
                         }
                         return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getHourHandShape();
+                    }
                 }));
 
         // Data for hour hand length in settings Activity.
@@ -145,6 +149,10 @@ public class AnalogComplicationConfigData {
                             result[i++] = permutation.getString();
                         }
                         return result;
+                    }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getHourHandLength();
                     }
                 }));
 
@@ -164,6 +172,10 @@ public class AnalogComplicationConfigData {
                         }
                         return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getHourHandThickness();
+                    }
                 }));
 
         // Data for hour hand stalk in settings Activity.
@@ -182,6 +194,10 @@ public class AnalogComplicationConfigData {
                         }
                         return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getHourHandStalk();
+                    }
                 }));
 
         // Data for hour hand style in settings Activity.
@@ -199,6 +215,10 @@ public class AnalogComplicationConfigData {
                             result[i++] = permutation.getString();
                         }
                         return result;
+                    }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getHourHandStyle();
                     }
                 }));
 
@@ -220,6 +240,11 @@ public class AnalogComplicationConfigData {
 //                        }
 //                        return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        // TODO: fill this in
+                        return null;
+                    }
                 }));
 
         // Data for minute hand override in settings Activity.
@@ -236,6 +261,10 @@ public class AnalogComplicationConfigData {
                         permutation.setMinuteHandOverride(true);
                         result[1] = permutation.getString();
                         return result;
+                    }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return null;
                     }
                 }));
 
@@ -255,6 +284,10 @@ public class AnalogComplicationConfigData {
                         }
                         return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getMinuteHandShape();
+                    }
                 }));
 
         // Data for minute hand length in settings Activity.
@@ -272,6 +305,10 @@ public class AnalogComplicationConfigData {
                             result[i++] = permutation.getString();
                         }
                         return result;
+                    }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getMinuteHandLength();
                     }
                 }));
 
@@ -291,6 +328,10 @@ public class AnalogComplicationConfigData {
                         }
                         return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getMinuteHandThickness();
+                    }
                 }));
 
         // Data for minute hand stalk in settings Activity.
@@ -309,6 +350,10 @@ public class AnalogComplicationConfigData {
                         }
                         return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getMinuteHandStalk();
+                    }
                 }));
 
         // Data for minute hand style in settings Activity.
@@ -326,6 +371,10 @@ public class AnalogComplicationConfigData {
                             result[i++] = permutation.getString();
                         }
                         return result;
+                    }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getMinuteHandStyle();
                     }
                 }));
 
@@ -347,6 +396,11 @@ public class AnalogComplicationConfigData {
 //                        }
 //                        return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        // TODO: fill this in
+                        return null;
+                    }
                 }));
 
         // Data for second hand override in settings Activity.
@@ -363,6 +417,10 @@ public class AnalogComplicationConfigData {
                         permutation.setSecondHandOverride(true);
                         result[1] = permutation.getString();
                         return result;
+                    }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return null;
                     }
                 }));
 
@@ -382,6 +440,10 @@ public class AnalogComplicationConfigData {
                         }
                         return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getSecondHandShape();
+                    }
                 }));
 
         // Data for second hand length in settings Activity.
@@ -399,6 +461,10 @@ public class AnalogComplicationConfigData {
                             result[i++] = permutation.getString();
                         }
                         return result;
+                    }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getSecondHandLength();
                     }
                 }));
 
@@ -418,6 +484,10 @@ public class AnalogComplicationConfigData {
                         }
                         return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getSecondHandThickness();
+                    }
                 }));
 
         // Data for second hand style in settings Activity.
@@ -435,6 +505,10 @@ public class AnalogComplicationConfigData {
                             result[i++] = permutation.getString();
                         }
                         return result;
+                    }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getSecondHandStyle();
                     }
                 }));
 
@@ -454,6 +528,10 @@ public class AnalogComplicationConfigData {
                         }
                         return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getTicksDisplay();
+                    }
                 }));
 
         // Data for four tick shape in settings Activity.
@@ -471,6 +549,10 @@ public class AnalogComplicationConfigData {
                             result[i++] = permutation.getString();
                         }
                         return result;
+                    }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getFourTickShape();
                     }
                 }));
 
@@ -490,6 +572,10 @@ public class AnalogComplicationConfigData {
                         }
                         return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getFourTickLength();
+                    }
                 }));
 
         // Data for four tick thickness in settings Activity.
@@ -507,6 +593,10 @@ public class AnalogComplicationConfigData {
                             result[i++] = permutation.getString();
                         }
                         return result;
+                    }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getFourTickThickness();
                     }
                 }));
 
@@ -526,6 +616,10 @@ public class AnalogComplicationConfigData {
                         }
                         return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getFourTickRadiusPosition();
+                    }
                 }));
 
         // Data for four tick style in settings Activity.
@@ -544,6 +638,10 @@ public class AnalogComplicationConfigData {
                         }
                         return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getFourTickStyle();
+                    }
                 }));
 
         // Data for twelve tick override in settings Activity.
@@ -560,6 +658,10 @@ public class AnalogComplicationConfigData {
                         permutation.setTwelveTickOverride(true);
                         result[1] = permutation.getString();
                         return result;
+                    }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return null;
                     }
                 }));
 
@@ -579,6 +681,10 @@ public class AnalogComplicationConfigData {
                         }
                         return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getTwelveTickShape();
+                    }
                 }));
 
         // Data for twelve tick length in settings Activity.
@@ -596,6 +702,10 @@ public class AnalogComplicationConfigData {
                             result[i++] = permutation.getString();
                         }
                         return result;
+                    }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getTwelveTickLength();
                     }
                 }));
 
@@ -615,6 +725,10 @@ public class AnalogComplicationConfigData {
                         }
                         return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getTwelveTickThickness();
+                    }
                 }));
 
         // Data for twelve tick radius position in settings Activity.
@@ -632,6 +746,10 @@ public class AnalogComplicationConfigData {
                             result[i++] = permutation.getString();
                         }
                         return result;
+                    }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getTwelveTickRadiusPosition();
                     }
                 }));
 
@@ -651,6 +769,10 @@ public class AnalogComplicationConfigData {
                         }
                         return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getTwelveTickStyle();
+                    }
                 }));
 
         // Data for sixty tick override in settings Activity.
@@ -667,6 +789,10 @@ public class AnalogComplicationConfigData {
                         permutation.setSixtyTickOverride(true);
                         result[1] = permutation.getString();
                         return result;
+                    }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return null;
                     }
                 }));
 
@@ -686,6 +812,10 @@ public class AnalogComplicationConfigData {
                         }
                         return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getSixtyTickShape();
+                    }
                 }));
 
         // Data for sixty tick length in settings Activity.
@@ -703,6 +833,10 @@ public class AnalogComplicationConfigData {
                             result[i++] = permutation.getString();
                         }
                         return result;
+                    }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getSixtyTickLength();
                     }
                 }));
 
@@ -722,6 +856,10 @@ public class AnalogComplicationConfigData {
                         }
                         return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getSixtyTickThickness();
+                    }
                 }));
 
         // Data for sixty tick radius position in settings Activity.
@@ -739,6 +877,10 @@ public class AnalogComplicationConfigData {
                             result[i++] = permutation.getString();
                         }
                         return result;
+                    }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getSixtyTickRadiusPosition();
                     }
                 }));
 
@@ -758,6 +900,10 @@ public class AnalogComplicationConfigData {
                         }
                         return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getSixtyTickStyle();
+                    }
                 }));
 
         // Data for fill highlight style in settings Activity.
@@ -775,6 +921,10 @@ public class AnalogComplicationConfigData {
                             result[i++] = permutation.getString();
                         }
                         return result;
+                    }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getFillHighlightStyle();
                     }
                 }));
 
@@ -794,6 +944,10 @@ public class AnalogComplicationConfigData {
                         }
                         return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getAccentFillStyle();
+                    }
                 }));
 
         // Data for accent highlight style in settings Activity.
@@ -812,6 +966,10 @@ public class AnalogComplicationConfigData {
                         }
                         return result;
                     }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getAccentHighlightStyle();
+                    }
                 }));
 
         // Data for base accent style in settings Activity.
@@ -829,6 +987,10 @@ public class AnalogComplicationConfigData {
                             result[i++] = permutation.getString();
                         }
                         return result;
+                    }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getBaseAccentStyle();
                     }
                 }));
         
@@ -976,6 +1138,15 @@ public class AnalogComplicationConfigData {
          * @return String array with each permutation
          */
         String[] permute(WatchFacePreset permutation);
+
+        /**
+         * For the given WatchFacePreset (which is our current preference) return the current
+         * value.
+         *
+         * @param currentPreset WatchFacePreset of our current preference
+         * @return Value that it's currently set to
+         */
+        Enum getCurrentValue(WatchFacePreset currentPreset);
     }
 
     public static class WatchFacePresetPickerConfigItem implements ConfigItemType {
@@ -995,8 +1166,14 @@ public class AnalogComplicationConfigData {
             this.activityToChoosePreference = activity;
         }
 
-        public String getName() {
-            return name;
+        public String getName(WatchFacePreset watchFacePreset) {
+            Enum e = mMutator.getCurrentValue(watchFacePreset);
+
+            if (e == null) {
+                return name;
+            }
+
+            return name + "\n" + e.getClass().getSimpleName() + " ~ " + e.name();
         }
 
         public int getIconResourceId() {
