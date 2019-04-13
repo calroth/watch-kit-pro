@@ -23,6 +23,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
+import pro.watchkit.wearable.watchface.BuildConfig;
 
 @Deprecated
 final class WatchPartStatsDrawable extends WatchPartDrawable {
@@ -57,21 +58,23 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
         float x = 12f * pc;
         float y = 35f * pc;
 
-        canvas.drawText(mInvalidTrigger, x, y, textPaint);
-        y += 3f * pc;
+        if (!mWatchFaceState.isAmbient() && BuildConfig.DEBUG) {
+            canvas.drawText(mInvalidTrigger, x, y, textPaint);
+            y += 3f * pc;
 
-        if (mWatchPartDrawables2 != null) {
-            for (Drawable d : mWatchPartDrawables2) {
-                if (d instanceof WatchPartDrawable) {
-                    y = drawStats(((WatchPartDrawable) d), canvas, textPaint, x, y);
+            if (mWatchPartDrawables2 != null) {
+                for (Drawable d : mWatchPartDrawables2) {
+                    if (d instanceof WatchPartDrawable) {
+                        y = drawStats(((WatchPartDrawable) d), canvas, textPaint, x, y);
+                    }
                 }
             }
-        }
 
-        if (mWatchPartDrawables != null) {
-            for (Drawable d : mWatchPartDrawables) {
-                if (d instanceof WatchPartDrawable) {
-                    y = drawStats(((WatchPartDrawable) d), canvas, textPaint, x, y);
+            if (mWatchPartDrawables != null) {
+                for (Drawable d : mWatchPartDrawables) {
+                    if (d instanceof WatchPartDrawable) {
+                        y = drawStats(((WatchPartDrawable) d), canvas, textPaint, x, y);
+                    }
                 }
             }
         }
