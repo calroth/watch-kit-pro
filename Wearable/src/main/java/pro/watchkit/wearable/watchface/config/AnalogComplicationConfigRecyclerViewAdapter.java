@@ -978,7 +978,12 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         }
 
         public void tickle() {
+            String oldText = mButton.getText().toString();
             mButton.setText(mConfigItem.getName(mCurrentWatchFacePreset));
+            String newText = mButton.getText().toString();
+            if (!oldText.equals(newText)) {
+                Toast.makeText(mButton.getContext(), newText, Toast.LENGTH_LONG).show();
+            }
             itemView.invalidate();
         }
 
