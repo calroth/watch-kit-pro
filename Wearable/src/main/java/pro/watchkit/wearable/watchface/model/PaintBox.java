@@ -3351,10 +3351,10 @@ public final class PaintBox {
     private void regeneratePaints2() {
         // Invalidate if our preset has changed.
         int currentSerial = Objects.hash(
-                getColor(WatchFacePreset.ColorType.FILL),
-                getColor(WatchFacePreset.ColorType.ACCENT),
-                getColor(WatchFacePreset.ColorType.HIGHLIGHT),
-                getColor(WatchFacePreset.ColorType.BASE),
+                preset.getSixBitColor(WatchFacePreset.ColorType.FILL),
+                preset.getSixBitColor(WatchFacePreset.ColorType.ACCENT),
+                preset.getSixBitColor(WatchFacePreset.ColorType.HIGHLIGHT),
+                preset.getSixBitColor(WatchFacePreset.ColorType.BASE),
                 preset.getFillHighlightStyle(),
                 preset.getAccentFillStyle(),
                 preset.getAccentHighlightStyle(),
@@ -3363,7 +3363,6 @@ public final class PaintBox {
         if (mPreviousSerial == currentSerial || width <= 0 || height <= 0) {
             return;
         }
-//        android.util.Log.d("AnalogWatchFace", String.format("BigInvalidated! Serial: Old: %d, New: %d", mPreviousSerial, currentSerial));
 
         mPreviousSerial = currentSerial;
 
@@ -3379,8 +3378,6 @@ public final class PaintBox {
         mAccentHighlightPaint.setColors(WatchFacePreset.ColorType.ACCENT, WatchFacePreset.ColorType.HIGHLIGHT, preset.getAccentHighlightStyle());
         mBaseAccentPaint.setColors(WatchFacePreset.ColorType.BASE, WatchFacePreset.ColorType.ACCENT, preset.getBaseAccentStyle());
 
-//        mTickPaint = mAccentHighlightPaint;
-//        mBackgroundPaint = mBaseAccentPaint;
         mShadowPaint.setColor(getColor(WatchFacePreset.ColorType.BASE));
 
         // Regenerate stroke widths based on value of "percent"
