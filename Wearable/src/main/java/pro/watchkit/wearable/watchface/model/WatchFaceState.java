@@ -78,16 +78,11 @@ public class WatchFaceState {
 
     @Override
     public int hashCode() {
-        int currentNightVisionTint = -1;
-        if (mAmbient) {
-            currentNightVisionTint = mLocationCalculator.getDuskDawnColor(PaintBox.AMBIENT_WHITE);
-        }
-
         return Objects.hash(
                 mWatchFacePreset,
                 mComplications,
                 mAmbient,
-                currentNightVisionTint,
+                mAmbient ? mLocationCalculator.getDuskDawnMultiplier() : -1d,
                 mUnreadNotifications,
                 mTotalNotifications);
     }

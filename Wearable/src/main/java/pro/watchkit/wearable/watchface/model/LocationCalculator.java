@@ -80,10 +80,6 @@ public final class LocationCalculator {
             previousSunAltitudeTime = mCalendar.getTimeInMillis();
         }
 
-//        Log.d("AnalogWatchFace", "getSunAltitude: cache = "
-//                + (regenerateSunAltitude ? "true" : "false")
-//                + ", value = " + previousSunAltitude);
-
         return previousSunAltitude;
     }
 
@@ -93,7 +89,7 @@ public final class LocationCalculator {
      *
      * @return Night vision tint multiplier
      */
-    private double getDuskDawnMultiplier() {
+    double getDuskDawnMultiplier() {
         double altitude = getSunAltitude();
         if (altitude < -12d) {
             // Night
@@ -109,13 +105,5 @@ public final class LocationCalculator {
 
     public int getDuskDawnColor(int original) {
         return PaintBox.getIntermediateColor(AMBIENT_WHITE_R, original, getDuskDawnMultiplier());
-
-//        double d = getDuskDawnMultiplier();
-//        double e = 1d - d;
-//        int a = (int) (Color.alpha(AMBIENT_WHITE_R) * d + Color.alpha(original) * e);
-//        int r = (int) (Color.red(AMBIENT_WHITE_R) * d + Color.red(original) * e);
-//        int g = (int) (Color.green(AMBIENT_WHITE_R) * d + Color.green(original) * e);
-//        int b = (int) (Color.blue(AMBIENT_WHITE_R) * d + Color.blue(original) * e);
-//        return Color.argb(a, r, g, b);
     }
 }
