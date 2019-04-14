@@ -19,7 +19,7 @@ final class WatchPartTicksSixtyDrawable extends WatchPartTicksDrawable {
         else if (tickIndex % 5 == 0)
             return false;
         else
-            return mWatchFaceState.getWatchFacePreset().isTwelveTicksVisible();
+            return mWatchFaceState.getWatchFacePreset().isSixtyTicksVisible();
     }
 
     @Override
