@@ -22,6 +22,9 @@ import android.util.Log;
 
 import java.util.Objects;
 
+import androidx.annotation.ArrayRes;
+import pro.watchkit.wearable.watchface.R;
+
 public final class WatchFacePreset {
     private BytePacker bytePacker = new BytePacker();
     private Style backgroundStyle;
@@ -440,7 +443,7 @@ public final class WatchFacePreset {
         return this.ticksDisplay == TicksDisplay.FOUR_TWELVE_60;
     }
 
-    public enum TicksDisplay {
+    public enum TicksDisplay implements EnumResourceId {
         NONE, FOUR, FOUR_TWELVE, FOUR_TWELVE_60;
 
         private static final int bits = 2;
@@ -451,6 +454,12 @@ public final class WatchFacePreset {
 
         void pack(BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
+        }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.WatchFacePreset_TicksDisplay;
         }
     }
 
@@ -656,7 +665,7 @@ public final class WatchFacePreset {
 
     public enum ColorType {FILL, ACCENT, HIGHLIGHT, BASE}
 
-    public enum HandShape {
+    public enum HandShape implements EnumResourceId {
         STRAIGHT, ROUNDED, DIAMOND, UNKNOWN1;
 
         private static final int bits = 2;
@@ -668,9 +677,15 @@ public final class WatchFacePreset {
         void pack(BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.WatchFacePreset_HandShape;
+        }
     }
 
-    public enum HandLength {
+    public enum HandLength implements EnumResourceId {
         SHORT, MEDIUM, LONG, X_LONG;
 
         private static final int bits = 2;
@@ -682,9 +697,15 @@ public final class WatchFacePreset {
         void pack(BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.WatchFacePreset_HandLength;
+        }
     }
 
-    public enum HandThickness {
+    public enum HandThickness implements EnumResourceId {
         THIN, REGULAR, THICK, X_THICK;
 
         private static final int bits = 2;
@@ -696,9 +717,15 @@ public final class WatchFacePreset {
         void pack(BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.WatchFacePreset_HandThickness;
+        }
     }
 
-    public enum HandStalk {
+    public enum HandStalk implements EnumResourceId {
         NEGATIVE, NONE, SHORT, MEDIUM;
 
         private static final int bits = 2;
@@ -710,9 +737,15 @@ public final class WatchFacePreset {
         void pack(BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.WatchFacePreset_HandStalk;
+        }
     }
 
-    public enum TickShape {
+    public enum TickShape implements EnumResourceId {
         BAR, DOT, TRIANGLE, DIAMOND;
 
         private static final int bits = 2;
@@ -724,9 +757,15 @@ public final class WatchFacePreset {
         void pack(BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.WatchFacePreset_TickShape;
+        }
     }
 
-    public enum TickLength {
+    public enum TickLength implements EnumResourceId {
         SHORT, MEDIUM, LONG, X_LONG;
 
         private static final int bits = 2;
@@ -738,9 +777,15 @@ public final class WatchFacePreset {
         void pack(BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.WatchFacePreset_TickLength;
+        }
     }
 
-    public enum TickThickness {
+    public enum TickThickness implements EnumResourceId {
         THIN, REGULAR, THICK, X_THICK;
 
         private static final int bits = 2;
@@ -752,9 +797,15 @@ public final class WatchFacePreset {
         void pack(BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.WatchFacePreset_TickThickness;
+        }
     }
 
-    public enum TickRadiusPosition {
+    public enum TickRadiusPosition implements EnumResourceId {
         SHORT, MEDIUM, LONG, X_LONG;
 
         private static final int bits = 2;
@@ -766,9 +817,15 @@ public final class WatchFacePreset {
         void pack(BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.WatchFacePreset_TickRadiusPosition;
+        }
     }
 
-    public enum Style {
+    public enum Style implements EnumResourceId {
         FILL, ACCENT, HIGHLIGHT, BASE, FILL_HIGHLIGHT, ACCENT_FILL, ACCENT_HIGHLIGHT, ACCENT_BASE;
 
         private static final int bits = 3;
@@ -780,8 +837,15 @@ public final class WatchFacePreset {
         void pack(BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.WatchFacePreset_Style;
+        }
     }
-    public enum GradientStyle {
+
+    public enum GradientStyle implements EnumResourceId {
         SWEEP, SWEEP_BRUSHED, RADIAL, RADIAL_BRUSHED;
 
         private static final int bits = 2;
@@ -793,5 +857,16 @@ public final class WatchFacePreset {
         void pack(BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.WatchFacePreset_GradientStyle;
+        }
+    }
+
+    public interface EnumResourceId {
+        @ArrayRes
+        int getNameResourceId();
     }
 }

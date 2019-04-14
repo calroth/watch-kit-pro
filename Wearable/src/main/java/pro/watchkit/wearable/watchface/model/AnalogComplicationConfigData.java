@@ -1166,14 +1166,18 @@ public class AnalogComplicationConfigData {
             this.activityToChoosePreference = activity;
         }
 
-        public String getName(WatchFacePreset watchFacePreset) {
+        public String getName(WatchFacePreset watchFacePreset, Context context) {
             Enum e = mMutator.getCurrentValue(watchFacePreset);
 
             if (e == null) {
                 return name;
+            } else if (e instanceof WatchFacePreset.EnumResourceId) {
+                WatchFacePreset.EnumResourceId f = (WatchFacePreset.EnumResourceId) e;
+                return name + "\n" +
+                        context.getResources().getStringArray(f.getNameResourceId())[e.ordinal()];
+            } else {
+                return name + "\n" + e.getClass().getSimpleName() + " ~ " + e.name();
             }
-
-            return name + "\n" + e.getClass().getSimpleName() + " ~ " + e.name();
         }
 
         public int getIconResourceId() {

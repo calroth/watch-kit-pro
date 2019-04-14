@@ -973,13 +973,13 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         void bind(WatchFacePresetPickerConfigItem configItem) {
             mConfigItem = configItem;
 
-            mButton.setText(mConfigItem.getName(mCurrentWatchFacePreset));
+            mButton.setText(mConfigItem.getName(mCurrentWatchFacePreset, mButton.getContext()));
             mLaunchActivity = configItem.getActivityToChoosePreference();
         }
 
         public void tickle() {
             String oldText = mButton.getText().toString();
-            mButton.setText(mConfigItem.getName(mCurrentWatchFacePreset));
+            mButton.setText(mConfigItem.getName(mCurrentWatchFacePreset, mButton.getContext()));
             String newText = mButton.getText().toString();
             if (!oldText.equals(newText)) {
                 Toast.makeText(mButton.getContext(), newText, Toast.LENGTH_LONG).show();

@@ -124,6 +124,87 @@
     <string name="add_complication">Add Complication</string>
     <string name="edit_complication">Edit Complication <xliff:g id="name" example="World Clock">%1$s</xliff:g></string>
 
+    <string-array name="WatchFacePreset_TicksDisplay">
+        <item>None</item>
+        <item>Quarters</item>
+        <item>Hours</item>
+        <item>All</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_HandShape">
+        <item>Straight</item>
+        <item>Rounded</item>
+        <item>Diamond</item>
+        <item>Unknown</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_HandLength">
+        <item>Short</item>
+        <item>Medium</item>
+        <item>Long</item>
+        <item>Extra Long</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_HandThickness">
+        <item>Thin</item>
+        <item>Regular</item>
+        <item>Thick</item>
+        <item>Extra Thick</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_HandStalk">
+        <item>Negative</item>
+        <item>None</item>
+        <item>Short</item>
+        <item>Medium</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_TickShape">
+        <item>Bar</item>
+        <item>Dot</item>
+        <item>Triangle</item>
+        <item>Diamond</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_TickLength">
+        <item>Short</item>
+        <item>Medium</item>
+        <item>Long</item>
+        <item>Extra Long</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_TickThickness">
+        <item>Thin</item>
+        <item>Regular</item>
+        <item>Thick</item>
+        <item>Extra Thick</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_TickRadiusPosition">
+        <item>Short</item>
+        <item>Medium</item>
+        <item>Long</item>
+        <item>Extra Long</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_Style">
+        <item>Fill</item>
+        <item>Accent</item>
+        <item>Highlight</item>
+        <item>Base</item>
+        <item>Fill + Highlight</item>
+        <item>Accent + Fill</item>
+        <item>Accent + Highlight</item>
+        <item>Accent + Base</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_GradientStyle">
+        <item>Sweep</item>
+        <item>Sweep + Brushed</item>
+        <item>Radial</item>
+        <item>Radial + Brushed</item>
+    </string-array>
+
     <string-array name="color_array">
         <item>@string/color_black</item>
         <item>@string/color_blue</item>
