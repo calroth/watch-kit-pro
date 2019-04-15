@@ -137,11 +137,11 @@ public final class ComplicationHolder implements Drawable.Callback {
         drawable.setBorderStyleActive(borderStyle);
     }
 
-    void setAmbientColors(int textColor, int titleColor, int iconColor) {
-        drawable.setTextColorAmbient(textColor);
-        drawable.setTitleColorAmbient(titleColor);
-        drawable.setIconColorAmbient(iconColor);
-    }
+//    void setAmbientColors(int textColor, int titleColor, int iconColor) {
+//        drawable.setTextColorAmbient(textColor);
+//        drawable.setTitleColorAmbient(titleColor);
+//        drawable.setIconColorAmbient(iconColor);
+//    }
 
     void setColors(int primaryComplicationColor) {
         if (!isForeground) {
@@ -155,6 +155,9 @@ public final class ComplicationHolder implements Drawable.Callback {
 
             // Ambient mode colors
             drawable.setBorderStyleAmbient(ComplicationDrawable.BORDER_STYLE_NONE);
+            drawable.setTextColorAmbient(0xFFFFFFFF); // White 100% alpha
+            drawable.setTitleColorAmbient(0x7FFFFFFF); // White 50% alpha
+            drawable.setIconColorAmbient(0x7FFFFFFF); // White 50% alpha
         }
     }
 

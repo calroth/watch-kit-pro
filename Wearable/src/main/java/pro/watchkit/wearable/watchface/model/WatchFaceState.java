@@ -19,7 +19,6 @@
 package pro.watchkit.wearable.watchface.model;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.support.wearable.complications.ComplicationData;
 
@@ -69,12 +68,12 @@ public class WatchFaceState {
     private LocationCalculator mLocationCalculator = new LocationCalculator(mCalendar);
 
     private static final int FOREGROUND_COMPLICATION_COUNT = 6;
-    private static final int COMPLICATION_AMBIENT_WHITE =
-            Color.argb(0xff, 0xff, 0xff, 0xff);
-    private static final int COMPLICATION_AMBIENT_GREY =
-            Color.argb(0xff, 0xaa, 0xaa, 0xaa);
-
-    private int currentComplicationWhite, currentComplicationGrey;
+//    private static final int COMPLICATION_AMBIENT_WHITE =
+//            Color.argb(0xff, 0xff, 0xff, 0xff);
+//    private static final int COMPLICATION_AMBIENT_GREY =
+//            Color.argb(0xff, 0xaa, 0xaa, 0xaa);
+//
+//    private int currentComplicationWhite, currentComplicationGrey;
 
     @Override
     public int hashCode() {
@@ -82,7 +81,7 @@ public class WatchFaceState {
                 mWatchFacePreset,
                 mComplications,
                 mAmbient,
-                mAmbient ? mLocationCalculator.getDuskDawnMultiplier() : -1d,
+//                mAmbient ? mLocationCalculator.getDuskDawnMultiplier() : -1d,
                 mUnreadNotifications,
                 mTotalNotifications);
     }
@@ -315,27 +314,27 @@ public class WatchFaceState {
      * Run this method if we're in ambient mode. Re-calculate our complication colors in ambient
      * mode and update them if they've changed.
      */
-    public void preDrawAmbientCheck() {
-        int newComplicationWhite = mLocationCalculator.getDuskDawnColor(COMPLICATION_AMBIENT_WHITE);
-        int newComplicationGrey = mLocationCalculator.getDuskDawnColor(COMPLICATION_AMBIENT_GREY);
-
-        if (currentComplicationWhite != newComplicationWhite
-                || currentComplicationGrey != newComplicationGrey) {
-            for (ComplicationHolder complication : mComplications) {
-                complication.setAmbientColors(
-                        newComplicationWhite, newComplicationGrey, newComplicationGrey);
-            }
-
-            // Why go to the trouble of tracking current and new complication colors,
-            // and only updating when it's changed?
-
-            // Optimisation. We assume that setting colors on ComplicationDrawable is a
-            // heinously slow operation (it probably isn't though) and so we avoid it...
-
-            currentComplicationWhite = newComplicationWhite;
-            currentComplicationGrey = newComplicationGrey;
-        }
-    }
+//    public void preDrawAmbientCheck() {
+//        int newComplicationWhite = mLocationCalculator.getDuskDawnColor(COMPLICATION_AMBIENT_WHITE);
+//        int newComplicationGrey = mLocationCalculator.getDuskDawnColor(COMPLICATION_AMBIENT_GREY);
+//
+//        if (currentComplicationWhite != newComplicationWhite
+//                || currentComplicationGrey != newComplicationGrey) {
+//            for (ComplicationHolder complication : mComplications) {
+//                complication.setAmbientColors(
+//                        newComplicationWhite, newComplicationGrey, newComplicationGrey);
+//            }
+//
+//            // Why go to the trouble of tracking current and new complication colors,
+//            // and only updating when it's changed?
+//
+//            // Optimisation. We assume that setting colors on ComplicationDrawable is a
+//            // heinously slow operation (it probably isn't though) and so we avoid it...
+//
+//            currentComplicationWhite = newComplicationWhite;
+//            currentComplicationGrey = newComplicationGrey;
+//        }
+//    }
 
     public LocationCalculator getLocationCalculator() {
         return mLocationCalculator;

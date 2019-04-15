@@ -408,9 +408,9 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             int unreadNotifications = mUnreadNotificationsPreference ? getUnreadCount() : 0;
             int totalNotifications = mUnreadNotificationsPreference ? getNotificationCount() : 0;
 
-            if (isInAmbientMode()) {
-                getWatchFaceState().preDrawAmbientCheck();
-            }
+//            if (isInAmbientMode()) {
+//                getWatchFaceState().preDrawAmbientCheck();
+//            }
             // Draw all our drawables.
             // First set all our state objects.
             getWatchFaceState().setCurrentTimeToNow();

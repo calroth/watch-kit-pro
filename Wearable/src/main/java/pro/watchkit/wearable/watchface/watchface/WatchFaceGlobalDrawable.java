@@ -20,12 +20,17 @@ package pro.watchkit.wearable.watchface.watchface;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Xfermode;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.SystemClock;
 
 import androidx.annotation.NonNull;
+import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 /**
@@ -94,6 +99,9 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
         return mWatchFaceState;
     }
 
+    private Paint mTint = new Paint();
+    private Xfermode mTintXfermode;
+
     @Override
     public void draw(@NonNull Canvas canvas) {
         // Stats start
@@ -110,6 +118,21 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
         WatchPartDrawable.resetDirection();
 
         super.draw(canvas);
+
+        // If we're ambient and it's night...
+        if (mWatchFaceState.isAmbient() &&
+                mWatchFaceState.getLocationCalculator().getDuskDawnMultiplier() > 0d) {
+            // Set a night vision tint!
+            mTint.setColor(mWatchFaceState.getLocationCalculator().getDuskDawnColor(
+                    PaintBox.AMBIENT_WHITE));
+            if (mTintXfermode == null) {
+                // Set the transfer mode on first use.
+                mTintXfermode = new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY);
+                mTint.setXfermode(mTintXfermode);
+            }
+
+            canvas.drawPaint(mTint);
+        }
 
         // Stats start
         WatchPartStatsDrawable.total = SystemClock.elapsedRealtimeNanos() - start;

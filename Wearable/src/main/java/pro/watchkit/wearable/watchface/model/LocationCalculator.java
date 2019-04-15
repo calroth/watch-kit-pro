@@ -89,7 +89,7 @@ public final class LocationCalculator {
      *
      * @return Night vision tint multiplier
      */
-    double getDuskDawnMultiplier() {
+    public double getDuskDawnMultiplier() {
         double altitude = getSunAltitude();
         if (altitude < -12d) {
             // Night

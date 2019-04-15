@@ -23,7 +23,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import androidx.annotation.NonNull;
-import pro.watchkit.wearable.watchface.model.PaintBox;
 
 final class WatchPartBackgroundDrawable extends WatchPartDrawable {
     @Override
@@ -37,9 +36,6 @@ final class WatchPartBackgroundDrawable extends WatchPartDrawable {
         resetExclusionPath();
 
         if (mWatchFaceState.isAmbient()) {
-            mWatchFaceState.getPaintBox().getAmbientPaint().setColor(
-                    mWatchFaceState.getLocationCalculator().getDuskDawnColor(PaintBox.AMBIENT_WHITE));
-
             canvas.drawColor(Color.BLACK);
         } else {
             Paint p = mWatchFaceState.getPaintBox().getPaintFromPreset(
