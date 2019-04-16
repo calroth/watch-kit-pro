@@ -19,6 +19,7 @@
 package pro.watchkit.wearable.watchface.model;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.support.wearable.complications.ComplicationData;
 
@@ -28,6 +29,8 @@ import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 import java.util.TimeZone;
+
+import androidx.annotation.ColorInt;
 
 /**
  * The state class for our watch face.
@@ -228,7 +231,7 @@ public class WatchFaceState {
 
         // Adds new complications to a SparseArray to simplify setting styles and ambient
         // properties for all complications, i.e., iterate over them all.
-        setComplicationsActiveAndAmbientColors();
+        setComplicationColors();
 
         int[] complicationIds = new int[mComplications.size()];
         int i = 0;
@@ -292,21 +295,13 @@ public class WatchFaceState {
      * the active/ambient colors, we only set the colors twice. Once at initialization and
      * again if the user changes the highlight color via AnalogComplicationConfigActivity.
      */
-    public void setComplicationsActiveAndAmbientColors() {
-        setComplicationsActiveAndAmbientColors(
-                mPaintBox.getColor(WatchFacePreset.ColorType.HIGHLIGHT));
-    }
+    public void setComplicationColors() {
+        @ColorInt int activeColor = mPaintBox.getColor(WatchFacePreset.ColorType.HIGHLIGHT);
+        @ColorInt int ambientColor = Color.WHITE;
+        // TODO: hook that up to the night vision tint when after dark
 
-    /* Sets active/ambient mode colors for all complications.
-     *
-     * Note: With the rest of the watch face, we update the paint colors based on
-     * ambient/active mode callbacks, but because the ComplicationDrawable handles
-     * the active/ambient colors, we only set the colors twice. Once at initialization and
-     * again if the user changes the highlight color via AnalogComplicationConfigActivity.
-     */
-    private void setComplicationsActiveAndAmbientColors(int primaryComplicationColor) {
         for (ComplicationHolder complication : mComplications) {
-            complication.setColors(primaryComplicationColor);
+            complication.setColors(activeColor, ambientColor);
         }
     }
 

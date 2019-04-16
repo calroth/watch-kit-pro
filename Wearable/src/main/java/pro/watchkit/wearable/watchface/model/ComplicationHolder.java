@@ -33,6 +33,7 @@ import android.widget.ImageView;
 
 import java.util.Objects;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
 public final class ComplicationHolder implements Drawable.Callback {
@@ -131,19 +132,13 @@ public final class ComplicationHolder implements Drawable.Callback {
         }
     }
 
-    // TODO: why did I deprecate this?
-    //@Deprecated
-    public void setBorderStyleActive(int borderStyle) {
-        drawable.setBorderStyleActive(borderStyle);
-    }
-
-//    void setAmbientColors(int textColor, int titleColor, int iconColor) {
-//        drawable.setTextColorAmbient(textColor);
-//        drawable.setTitleColorAmbient(titleColor);
-//        drawable.setIconColorAmbient(iconColor);
+//    // TODO: why did I deprecate this?
+//    //@Deprecated
+//    public void setBorderStyleActive(int borderStyle) {
+//        drawable.setBorderStyleActive(borderStyle);
 //    }
 
-    void setColors(int primaryComplicationColor) {
+    void setColors(@ColorInt int activeColor, @ColorInt int ambientColor) {
         if (!isForeground) {
             // Set the default to black, in case the user-defined image takes a while to load.
             drawable.setBackgroundColorActive(Color.BLACK);
@@ -151,13 +146,21 @@ public final class ComplicationHolder implements Drawable.Callback {
             // Active mode colors
 //            drawable.setBorderColorActive(primaryComplicationColor);
             drawable.setBorderStyleActive(ComplicationDrawable.BORDER_STYLE_NONE);
-            drawable.setRangedValuePrimaryColorActive(primaryComplicationColor);
+            drawable.setRangedValuePrimaryColorActive(activeColor);
+
+            // Generate a faded ambient color that is exactly the same as "ambientColor"
+            // only the alpha is 2/3 the value.
+            @ColorInt int fadedAmbientColor = Color.argb(
+                    (int) (Color.alpha(ambientColor) * 0.66666666666667f),
+                    Color.red(ambientColor),
+                    Color.green(ambientColor),
+                    Color.blue(ambientColor));
 
             // Ambient mode colors
             drawable.setBorderStyleAmbient(ComplicationDrawable.BORDER_STYLE_NONE);
-            drawable.setTextColorAmbient(0xFFFFFFFF); // White 100% alpha
-            drawable.setTitleColorAmbient(0x7FFFFFFF); // White 50% alpha
-            drawable.setIconColorAmbient(0x7FFFFFFF); // White 50% alpha
+            drawable.setTextColorAmbient(ambientColor);
+            drawable.setTitleColorAmbient(fadedAmbientColor);
+            drawable.setIconColorAmbient(fadedAmbientColor);
         }
     }
 

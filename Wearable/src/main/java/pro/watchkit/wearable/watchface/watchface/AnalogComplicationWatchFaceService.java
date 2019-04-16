@@ -450,7 +450,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                 // the active/ambient colors, we only need to update the complications' colors when
                 // the user actually makes a change to the highlight color, not when the watch goes
                 // in and out of ambient mode.
-                getWatchFaceState().setComplicationsActiveAndAmbientColors();
+                getWatchFaceState().setComplicationColors();
 
                 registerReceiver();
                 // Update time zone in case it changed while we weren't visible.
