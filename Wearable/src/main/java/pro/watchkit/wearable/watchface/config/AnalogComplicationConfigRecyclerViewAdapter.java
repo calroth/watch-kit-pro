@@ -229,8 +229,6 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     @Override
     @NonNull
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d(TAG, "onCreateViewHolder(): viewType: " + viewType);
-
         ComplicationHolder.resetBaseId();
 
         RecyclerView.ViewHolder viewHolder;
@@ -339,8 +337,6 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-        Log.d(TAG, "Element " + position + " set.");
-
         // Pulls all data required for creating the UX for the specific setting option.
         ConfigItemType configItemType = mSettingsDataSet.get(position);
 
