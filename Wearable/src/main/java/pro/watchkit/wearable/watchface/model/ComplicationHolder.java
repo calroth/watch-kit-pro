@@ -68,6 +68,18 @@ public final class ComplicationHolder implements Drawable.Callback {
         }
 
         drawable.setCallback(this);
+
+//        if (Build.VERSION.SDK_INT >= 26) {
+//            Typeface.Builder b = new Typeface.Builder("/system/fonts/GoogleSans-Medium.ttf");
+//            // This doesn't work because "smcp" is a font FEATURE and not a font VARIATION
+//            b.setFontVariationSettings("'smcp' 0.0");
+//            Typeface d = b.build();
+//
+//            drawable.setTextTypefaceActive(d);
+//            drawable.setTextTypefaceAmbient(d);
+//            drawable.setTitleTypefaceActive(d);
+//            drawable.setTitleTypefaceAmbient(d);
+//        }
     }
 
     public static void resetBaseId() {
