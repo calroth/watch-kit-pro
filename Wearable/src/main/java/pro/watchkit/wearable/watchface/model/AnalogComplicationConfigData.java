@@ -35,6 +35,7 @@
 package pro.watchkit.wearable.watchface.model;
 
 import android.content.Context;
+import android.text.Html;
 
 import java.util.ArrayList;
 
@@ -1166,17 +1167,20 @@ public class AnalogComplicationConfigData {
             this.activityToChoosePreference = activity;
         }
 
-        public String getName(WatchFacePreset watchFacePreset, Context context) {
+        public CharSequence getName(WatchFacePreset watchFacePreset, Context context) {
             Enum e = mMutator.getCurrentValue(watchFacePreset);
 
             if (e == null) {
                 return name;
             } else if (e instanceof WatchFacePreset.EnumResourceId) {
                 WatchFacePreset.EnumResourceId f = (WatchFacePreset.EnumResourceId) e;
-                return name + "\n" +
-                        context.getResources().getStringArray(f.getNameResourceId())[e.ordinal()];
+                return Html.fromHtml(name + "<br/><small>" +
+                        context.getResources().getStringArray(f.getNameResourceId())[e.ordinal()] +
+                        "</small>", Html.FROM_HTML_MODE_LEGACY);
             } else {
-                return name + "\n" + e.getClass().getSimpleName() + " ~ " + e.name();
+                return Html.fromHtml(name + "<br/><small>" +
+                        e.getClass().getSimpleName() + " ~ " + e.name() +
+                        "</small>", Html.FROM_HTML_MODE_LEGACY);
             }
         }
 
