@@ -959,25 +959,55 @@ public class AnalogComplicationConfigRecyclerViewAdapter
         private Class<WatchFacePresetSelectionActivity> mLaunchActivity;
         private WatchFacePresetPickerConfigItem mConfigItem;
 
+        private int mVisibleLayoutHeight, mVisibleLayoutWidth;
+
         WatchFacePresetPickerViewHolder(View view) {
             super(view);
 
             mButton = view.findViewById(R.id.watch_face_preset_picker_button);
             view.setOnClickListener(this);
+
+            mVisibleLayoutHeight = itemView.getLayoutParams().height;
+            mVisibleLayoutWidth = itemView.getLayoutParams().width;
         }
 
         void bind(WatchFacePresetPickerConfigItem configItem) {
             mConfigItem = configItem;
-
-            mButton.setText(mConfigItem.getName(mCurrentWatchFacePreset, mButton.getContext()));
             mLaunchActivity = configItem.getActivityToChoosePreference();
+
+            setTextAndVisibility();
+        }
+
+        private void setTextAndVisibility() {
+            mButton.setText(mConfigItem.getName(mCurrentWatchFacePreset, mButton.getContext()));
+
+            ViewGroup.LayoutParams param = itemView.getLayoutParams();
+            if (mConfigItem.isVisible(mCurrentWatchFacePreset)) {
+                param.height = mVisibleLayoutHeight;
+                param.width = mVisibleLayoutWidth;
+                itemView.setVisibility(View.VISIBLE);
+            } else {
+                param.height = 0;
+                param.width = 0;
+                itemView.setVisibility(View.GONE);
+            }
+            itemView.setLayoutParams(param);
         }
 
         public void tickle() {
             String oldText = mButton.getText().toString();
-            mButton.setText(mConfigItem.getName(mCurrentWatchFacePreset, mButton.getContext()));
+            int oldVisibility = itemView.getVisibility();
+
+            setTextAndVisibility();
+
             String newText = mButton.getText().toString();
-            if (!oldText.equals(newText)) {
+            int newVisibility = itemView.getVisibility();
+            if (!oldText.equals(newText) &&
+                    oldVisibility == View.VISIBLE && newVisibility == View.VISIBLE) {
+                // Show a toast if our text has changed, which assumes this was the setting
+                // that changed.
+                // Don't show if we were previously invisible.
+                // Only show if we are visible.
                 Toast.makeText(mButton.getContext(), newText, Toast.LENGTH_LONG).show();
             }
             itemView.invalidate();
@@ -1076,6 +1106,8 @@ public class AnalogComplicationConfigRecyclerViewAdapter
             editor.apply();
 
             updateIcon(context, newState);
+
+            updatePreviewColors();
         }
     }
 

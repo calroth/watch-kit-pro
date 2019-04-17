@@ -289,6 +289,12 @@ public class AnalogComplicationConfigData {
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getMinuteHandShape();
                     }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isMinuteHandOverridden();
+                    }
                 }));
 
         // Data for minute hand length in settings Activity.
@@ -310,6 +316,12 @@ public class AnalogComplicationConfigData {
 
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getMinuteHandLength();
+                    }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isMinuteHandOverridden();
                     }
                 }));
 
@@ -333,6 +345,12 @@ public class AnalogComplicationConfigData {
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getMinuteHandThickness();
                     }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isMinuteHandOverridden();
+                    }
                 }));
 
         // Data for minute hand stalk in settings Activity.
@@ -355,6 +373,12 @@ public class AnalogComplicationConfigData {
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getMinuteHandStalk();
                     }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isMinuteHandOverridden();
+                    }
                 }));
 
         // Data for minute hand style in settings Activity.
@@ -376,6 +400,12 @@ public class AnalogComplicationConfigData {
 
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getMinuteHandStyle();
+                    }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isMinuteHandOverridden();
                     }
                 }));
 
@@ -401,6 +431,12 @@ public class AnalogComplicationConfigData {
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         // TODO: fill this in
                         return null;
+                    }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isMinuteHandOverridden();
                     }
                 }));
 
@@ -445,6 +481,12 @@ public class AnalogComplicationConfigData {
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getSecondHandShape();
                     }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isSecondHandOverridden();
+                    }
                 }));
 
         // Data for second hand length in settings Activity.
@@ -466,6 +508,12 @@ public class AnalogComplicationConfigData {
 
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getSecondHandLength();
+                    }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isSecondHandOverridden();
                     }
                 }));
 
@@ -489,6 +537,12 @@ public class AnalogComplicationConfigData {
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getSecondHandThickness();
                     }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isSecondHandOverridden();
+                    }
                 }));
 
         // Data for second hand style in settings Activity.
@@ -510,6 +564,12 @@ public class AnalogComplicationConfigData {
 
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getSecondHandStyle();
+                    }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isSecondHandOverridden();
                     }
                 }));
 
@@ -555,6 +615,12 @@ public class AnalogComplicationConfigData {
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getFourTickShape();
                     }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isFourTicksVisible();
+                    }
                 }));
 
         // Data for four tick length in settings Activity.
@@ -576,6 +642,12 @@ public class AnalogComplicationConfigData {
 
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getFourTickLength();
+                    }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isFourTicksVisible();
                     }
                 }));
 
@@ -599,6 +671,12 @@ public class AnalogComplicationConfigData {
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getFourTickThickness();
                     }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isFourTicksVisible();
+                    }
                 }));
 
         // Data for four tick radius position in settings Activity.
@@ -621,6 +699,12 @@ public class AnalogComplicationConfigData {
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getFourTickRadiusPosition();
                     }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isFourTicksVisible();
+                    }
                 }));
 
         // Data for four tick style in settings Activity.
@@ -642,6 +726,12 @@ public class AnalogComplicationConfigData {
 
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getFourTickStyle();
+                    }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isFourTicksVisible();
                     }
                 }));
 
@@ -686,6 +776,13 @@ public class AnalogComplicationConfigData {
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getTwelveTickShape();
                     }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isTwelveTicksVisible() &&
+                                currentPreset.isTwelveTickOverridden();
+                    }
                 }));
 
         // Data for twelve tick length in settings Activity.
@@ -707,6 +804,13 @@ public class AnalogComplicationConfigData {
 
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getTwelveTickLength();
+                    }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isTwelveTicksVisible() &&
+                                currentPreset.isTwelveTickOverridden();
                     }
                 }));
 
@@ -730,6 +834,13 @@ public class AnalogComplicationConfigData {
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getTwelveTickThickness();
                     }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isTwelveTicksVisible() &&
+                                currentPreset.isTwelveTickOverridden();
+                    }
                 }));
 
         // Data for twelve tick radius position in settings Activity.
@@ -752,6 +863,13 @@ public class AnalogComplicationConfigData {
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getTwelveTickRadiusPosition();
                     }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isTwelveTicksVisible() &&
+                                currentPreset.isTwelveTickOverridden();
+                    }
                 }));
 
         // Data for twelve tick style in settings Activity.
@@ -773,6 +891,13 @@ public class AnalogComplicationConfigData {
 
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getTwelveTickStyle();
+                    }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isTwelveTicksVisible() &&
+                                currentPreset.isTwelveTickOverridden();
                     }
                 }));
 
@@ -817,6 +942,13 @@ public class AnalogComplicationConfigData {
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getSixtyTickShape();
                     }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isSixtyTicksVisible() &&
+                                currentPreset.isSixtyTickOverridden();
+                    }
                 }));
 
         // Data for sixty tick length in settings Activity.
@@ -838,6 +970,13 @@ public class AnalogComplicationConfigData {
 
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getSixtyTickLength();
+                    }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isSixtyTicksVisible() &&
+                                currentPreset.isSixtyTickOverridden();
                     }
                 }));
 
@@ -861,6 +1000,13 @@ public class AnalogComplicationConfigData {
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getSixtyTickThickness();
                     }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isSixtyTicksVisible() &&
+                                currentPreset.isSixtyTickOverridden();
+                    }
                 }));
 
         // Data for sixty tick radius position in settings Activity.
@@ -883,6 +1029,13 @@ public class AnalogComplicationConfigData {
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getSixtyTickRadiusPosition();
                     }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isSixtyTicksVisible() &&
+                                currentPreset.isSixtyTickOverridden();
+                    }
                 }));
 
         // Data for sixty tick style in settings Activity.
@@ -904,6 +1057,13 @@ public class AnalogComplicationConfigData {
 
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getSixtyTickStyle();
+                    }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isSixtyTicksVisible() &&
+                                currentPreset.isSixtyTickOverridden();
                     }
                 }));
 
@@ -1150,46 +1310,66 @@ public class AnalogComplicationConfigData {
         Enum getCurrentValue(WatchFacePreset currentPreset);
     }
 
+    /**
+     * Objects inherit this interface to determine the visibility of a ConfigItem.
+     * That is, implement this interface and put in some custom logic that determines
+     * whether an item is visible or not.
+     */
+    private interface ConfigItemVisibilityCalculator {
+        boolean isVisible(WatchFacePreset currentPreset);
+    }
+
     public static class WatchFacePresetPickerConfigItem implements ConfigItemType {
-        private String name;
-        private int iconResourceId;
-        private Class<WatchFacePresetSelectionActivity> activityToChoosePreference;
+        private String mName;
+        private int mIconResourceId;
+        private Class<WatchFacePresetSelectionActivity> mActivityToChoosePreference;
         private WatchFacePresetMutator mMutator;
+        private ConfigItemVisibilityCalculator mConfigItemVisibilityCalculator;
 
         WatchFacePresetPickerConfigItem(
                 String name,
                 int iconResourceId,
                 Class<WatchFacePresetSelectionActivity> activity,
                 WatchFacePresetMutator mutator) {
+            this(name, iconResourceId, activity, mutator, null);
+        }
+
+        WatchFacePresetPickerConfigItem(
+                String name,
+                int iconResourceId,
+                Class<WatchFacePresetSelectionActivity> activity,
+                WatchFacePresetMutator mutator,
+                ConfigItemVisibilityCalculator configItemVisibilityCalculator) {
             mMutator = mutator;
-            this.name = name;
-            this.iconResourceId = iconResourceId;
-            this.activityToChoosePreference = activity;
+            mName = name;
+            mIconResourceId = iconResourceId;
+            mActivityToChoosePreference = activity;
+            mConfigItemVisibilityCalculator = configItemVisibilityCalculator;
         }
 
         public CharSequence getName(WatchFacePreset watchFacePreset, Context context) {
             Enum e = mMutator.getCurrentValue(watchFacePreset);
 
             if (e == null) {
-                return name;
+                return mName;
             } else if (e instanceof WatchFacePreset.EnumResourceId) {
                 WatchFacePreset.EnumResourceId f = (WatchFacePreset.EnumResourceId) e;
-                return Html.fromHtml(name + "<br/><small>" +
+                return Html.fromHtml(mName + "<br/><small>" +
                         context.getResources().getStringArray(f.getNameResourceId())[e.ordinal()] +
                         "</small>", Html.FROM_HTML_MODE_LEGACY);
             } else {
-                return Html.fromHtml(name + "<br/><small>" +
+                return Html.fromHtml(mName + "<br/><small>" +
                         e.getClass().getSimpleName() + " ~ " + e.name() +
                         "</small>", Html.FROM_HTML_MODE_LEGACY);
             }
         }
 
         public int getIconResourceId() {
-            return iconResourceId;
+            return mIconResourceId;
         }
 
         public Class<WatchFacePresetSelectionActivity> getActivityToChoosePreference() {
-            return activityToChoosePreference;
+            return mActivityToChoosePreference;
         }
 
         @Override
@@ -1199,6 +1379,11 @@ public class AnalogComplicationConfigData {
 
         public String[] permute(WatchFacePreset watchFacePreset) {
             return mMutator.permute(watchFacePreset.clone());
+        }
+
+        public boolean isVisible(WatchFacePreset watchFacePreset) {
+            return mConfigItemVisibilityCalculator == null ||
+                    mConfigItemVisibilityCalculator.isVisible(watchFacePreset);
         }
     }
 

@@ -302,16 +302,32 @@ public final class WatchFacePreset {
         this.minuteHandOverride = minuteHandOverride;
     }
 
+    boolean isMinuteHandOverridden() {
+        return minuteHandOverride;
+    }
+
     void setSecondHandOverride(boolean secondHandOverride) {
         this.secondHandOverride = secondHandOverride;
+    }
+
+    boolean isSecondHandOverridden() {
+        return secondHandOverride;
     }
 
     void setTwelveTickOverride(boolean twelveTickOverride) {
         this.twelveTickOverride = twelveTickOverride;
     }
 
+    boolean isTwelveTickOverridden() {
+        return twelveTickOverride;
+    }
+
     void setSixtyTickOverride(boolean sixtyTickOverride) {
         this.sixtyTickOverride = sixtyTickOverride;
+    }
+
+    boolean isSixtyTickOverridden() {
+        return sixtyTickOverride;
     }
 
     public Style getBackgroundStyle() {

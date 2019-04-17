@@ -77,9 +77,9 @@ public class AnalogComplicationConfigActivity extends Activity {
 
         mWearableRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Improves performance because we know changes in content do not change the layout size of
-        // the RecyclerView.
-        mWearableRecyclerView.setHasFixedSize(true);
+        // Because we can add or remove items dynamically, we set this to false.
+        // It makes things a little slower as the RecyclerView can't optimise some things.
+        mWearableRecyclerView.setHasFixedSize(false);
 
         mWearableRecyclerView.setAdapter(mAdapter);
     }
