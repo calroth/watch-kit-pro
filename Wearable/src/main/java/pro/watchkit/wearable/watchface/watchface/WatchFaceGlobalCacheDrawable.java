@@ -17,11 +17,10 @@ import pro.watchkit.wearable.watchface.model.WatchFaceState;
 class WatchFaceGlobalCacheDrawable extends LayerDrawable {
     private WatchFaceState mWatchFaceState;
     private Drawable[] mWatchPartDrawables;
-    private int mActivePreviousSerial = -1;
+    private int mPreviousSerial = -1;
     private Bitmap mActiveCacheBitmap;
     private Bitmap mActiveHardwareCacheBitmap;
     private Canvas mActiveCacheCanvas;
-    private int mAmbientPreviousSerial = -1;
     private Bitmap mAmbientCacheBitmap;
     private Bitmap mAmbientHardwareCacheBitmap;
     private Canvas mAmbientCacheCanvas;
@@ -66,40 +65,44 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable {
                 bounds.width(), bounds.height(), Bitmap.Config.ARGB_8888);
         mAmbientCacheCanvas = new Canvas(mAmbientCacheBitmap);
 
-        mActivePreviousSerial = -1;
-        mAmbientPreviousSerial = -1;
+        mPreviousSerial = -1;
     }
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        Canvas mCacheCanvas = mWatchFaceState.isAmbient() ?
-                mAmbientCacheCanvas : mActiveCacheCanvas;
-        Bitmap mCacheBitmap = mWatchFaceState.isAmbient() ?
-                mAmbientCacheBitmap : mActiveCacheBitmap;
-        int previousSerial = mWatchFaceState.isAmbient() ?
-                mAmbientPreviousSerial : mActivePreviousSerial;
         // Invalidate our bits as required.
         // Invalidate if complications, unread notifications or total notifications have changed.
         // Or the entire preset. Or if we've flipped between active and ambient.
         // Or anything else of interest in the WatchFaceState.
         int currentSerial = Objects.hash(mWatchFaceState);
-        if (previousSerial != currentSerial) {
+        if (mPreviousSerial != currentSerial) {
+            // Keep track of what our ambient currently is, because we're about to draw them both.
+            boolean currentAmbient = mWatchFaceState.isAmbient();
+
             // Cache invalid. Draw into our cache canvas.
-            mCacheCanvas.drawColor(Color.TRANSPARENT); // Clear it first.
+            mAmbientCacheCanvas.drawColor(Color.TRANSPARENT); // Clear it first.
+            mActiveCacheCanvas.drawColor(Color.TRANSPARENT); // Clear it first.
+
+            // Pre-cache our ambient canvas.
             mCacheExclusionPath.reset();
-            super.draw(mCacheCanvas);
-            if (mWatchFaceState.isAmbient()) {
-                mAmbientPreviousSerial = currentSerial;
-            } else {
-                mActivePreviousSerial = currentSerial;
-            }
+            mWatchFaceState.setAmbient(true);
+            super.draw(mAmbientCacheCanvas);
+
+            // Pre-cache our active canvas.
+            mCacheExclusionPath.reset();
+            mWatchFaceState.setAmbient(false);
+            super.draw(mActiveCacheCanvas);
+
+            // And back to how we were.
+            mWatchFaceState.setAmbient(currentAmbient);
+            mPreviousSerial = currentSerial;
+
             // Hardware power!
             if (Build.VERSION.SDK_INT >= 26) {
-                if (mWatchFaceState.isAmbient()) {
-                    mAmbientHardwareCacheBitmap = mCacheBitmap.copy(Bitmap.Config.HARDWARE, false);
-                } else {
-                    mActiveHardwareCacheBitmap = mCacheBitmap.copy(Bitmap.Config.HARDWARE, false);
-                }
+                mAmbientHardwareCacheBitmap =
+                        mAmbientCacheBitmap.copy(Bitmap.Config.HARDWARE, false);
+                mActiveHardwareCacheBitmap =
+                        mActiveCacheBitmap.copy(Bitmap.Config.HARDWARE, false);
             }
         }
 
@@ -107,6 +110,9 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable {
         mExclusionPath.set(mCacheExclusionPath);
         Bitmap mHardwareCacheBitmap = mWatchFaceState.isAmbient() ?
                 mAmbientHardwareCacheBitmap : mActiveHardwareCacheBitmap;
-        canvas.drawBitmap(mHardwareCacheBitmap != null ? mHardwareCacheBitmap : mCacheBitmap, 0, 0, null);
+        Bitmap mCacheBitmap = mWatchFaceState.isAmbient() ?
+                mAmbientCacheBitmap : mActiveCacheBitmap;
+        canvas.drawBitmap(mHardwareCacheBitmap != null ? mHardwareCacheBitmap : mCacheBitmap,
+                0, 0, null);
     }
 }

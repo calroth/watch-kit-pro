@@ -100,7 +100,7 @@ public final class ComplicationHolder implements Drawable.Callback {
 
     @Override
     public int hashCode() {
-        return Objects.hash(isForeground, isActive, id, mIsInAmbientMode, mBounds);
+        return Objects.hash(isForeground, isActive, id, mBounds);
     }
 
     @Override

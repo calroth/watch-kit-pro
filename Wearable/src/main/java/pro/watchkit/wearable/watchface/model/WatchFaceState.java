@@ -83,8 +83,6 @@ public class WatchFaceState {
         return Objects.hash(
                 mWatchFacePreset,
                 mComplications,
-                mAmbient,
-//                mAmbient ? mLocationCalculator.getDuskDawnMultiplier() : -1d,
                 mUnreadNotifications,
                 mTotalNotifications);
     }
