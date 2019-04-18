@@ -106,25 +106,25 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         mHandLengthDimensions.put(HandShape.UNKNOWN1,
                 new EnumMap<HandLength, Float>(HandLength.class));
 
-        mHandLengthDimensions.get(HandShape.STRAIGHT).put(HandLength.SHORT, 0.6f);
-        mHandLengthDimensions.get(HandShape.STRAIGHT).put(HandLength.MEDIUM, 0.8f);
-        mHandLengthDimensions.get(HandShape.STRAIGHT).put(HandLength.LONG, 1.0f);
-        mHandLengthDimensions.get(HandShape.STRAIGHT).put(HandLength.X_LONG, 1.2f);
+        mHandLengthDimensions.get(HandShape.STRAIGHT).put(HandLength.SHORT, 2f + f0);
+        mHandLengthDimensions.get(HandShape.STRAIGHT).put(HandLength.MEDIUM, 2f + f1);
+        mHandLengthDimensions.get(HandShape.STRAIGHT).put(HandLength.LONG, 2f + f2);
+        mHandLengthDimensions.get(HandShape.STRAIGHT).put(HandLength.X_LONG, 2f + f3);
 
-        mHandLengthDimensions.get(HandShape.ROUNDED).put(HandLength.SHORT, 0.6f);
-        mHandLengthDimensions.get(HandShape.ROUNDED).put(HandLength.MEDIUM, 0.8f);
-        mHandLengthDimensions.get(HandShape.ROUNDED).put(HandLength.LONG, 1.0f);
-        mHandLengthDimensions.get(HandShape.ROUNDED).put(HandLength.X_LONG, 1.2f);
+        mHandLengthDimensions.get(HandShape.ROUNDED).put(HandLength.SHORT, 2f + f0);
+        mHandLengthDimensions.get(HandShape.ROUNDED).put(HandLength.MEDIUM, 2f + f1);
+        mHandLengthDimensions.get(HandShape.ROUNDED).put(HandLength.LONG, 2f + f2);
+        mHandLengthDimensions.get(HandShape.ROUNDED).put(HandLength.X_LONG, 2f + f3);
 
-        mHandLengthDimensions.get(HandShape.DIAMOND).put(HandLength.SHORT, 0.6f);
-        mHandLengthDimensions.get(HandShape.DIAMOND).put(HandLength.MEDIUM, 0.8f);
-        mHandLengthDimensions.get(HandShape.DIAMOND).put(HandLength.LONG, 1.0f);
-        mHandLengthDimensions.get(HandShape.DIAMOND).put(HandLength.X_LONG, 1.2f);
+        mHandLengthDimensions.get(HandShape.DIAMOND).put(HandLength.SHORT, 2f + f0);
+        mHandLengthDimensions.get(HandShape.DIAMOND).put(HandLength.MEDIUM, 2f + f1);
+        mHandLengthDimensions.get(HandShape.DIAMOND).put(HandLength.LONG, 2f + f2);
+        mHandLengthDimensions.get(HandShape.DIAMOND).put(HandLength.X_LONG, 2f + f3);
 
-        mHandLengthDimensions.get(HandShape.UNKNOWN1).put(HandLength.SHORT, 0.6f);
-        mHandLengthDimensions.get(HandShape.UNKNOWN1).put(HandLength.MEDIUM, 0.8f);
-        mHandLengthDimensions.get(HandShape.UNKNOWN1).put(HandLength.LONG, 1.0f);
-        mHandLengthDimensions.get(HandShape.UNKNOWN1).put(HandLength.X_LONG, 1.2f);
+        mHandLengthDimensions.get(HandShape.UNKNOWN1).put(HandLength.SHORT, 2f + f0);
+        mHandLengthDimensions.get(HandShape.UNKNOWN1).put(HandLength.MEDIUM, 2f + f1);
+        mHandLengthDimensions.get(HandShape.UNKNOWN1).put(HandLength.LONG, 2f + f2);
+        mHandLengthDimensions.get(HandShape.UNKNOWN1).put(HandLength.X_LONG, 2f + f3);
     }
 
     private float mLastDegrees = -360f;
@@ -215,12 +215,12 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         float thickness = mHandThicknessDimensions.get(handShape).get(handThickness);
         float bottom;
 
-        if (isMinuteHand) {
-            length = length * 40f * pc; // 40%
-        } else if (isSecondHand) {
-            length = length * 45f * pc; // 45%
+        if (isMinuteHand || isSecondHand) {
+            length = length * 12.5f * pc; // 12.5%
+            // Min multiplier is 2.7 (for hand length short) so that'd be 33.75%
+            // Max multiplier is 4 (for hand length x-long) so that'd be 50%.
         } else {
-            length = length * 30f * pc; // 30%
+            length = length * 12.5f * pc * 0.61803398875f; // 12.5% - golden ratio
         }
 
         if (isSecondHand) {
