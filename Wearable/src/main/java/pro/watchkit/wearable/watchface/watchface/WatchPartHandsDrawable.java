@@ -22,7 +22,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
-import android.graphics.RectF;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -57,9 +56,6 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     WatchPartHandsDrawable() {
         super();
 
-        final float STRAIGHT_HAND_WIDTH_PERCENT = 2f;// 2% // 0.3f; // 0.3%
-        final float DIAMOND_HAND_ASPECT_RATIO = 8f;
-
         float globalScale = 1.0f;
 
         // f0, f1, f2, f3 are a geometric series!
@@ -67,6 +63,9 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         float f1 = globalScale * 1f;
         float f2 = globalScale * (float) Math.sqrt(2d);
         float f3 = globalScale * 2f;
+
+        // Diamonds are drawn slightly thicker to account for the fact they taper at the ends.
+        final float DIAMOND_HAND_ASPECT_RATIO = f2;
 
         mHandThicknessDimensions.put(HandShape.STRAIGHT,
                 new EnumMap<HandThickness, Float>(HandThickness.class));
@@ -77,25 +76,25 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         mHandThicknessDimensions.put(HandShape.UNKNOWN1,
                 new EnumMap<HandThickness, Float>(HandThickness.class));
 
-        mHandThicknessDimensions.get(HandShape.STRAIGHT).put(HandThickness.THIN, 0.5f * STRAIGHT_HAND_WIDTH_PERCENT * 0.5f);
-        mHandThicknessDimensions.get(HandShape.STRAIGHT).put(HandThickness.REGULAR, 1.0f * STRAIGHT_HAND_WIDTH_PERCENT * 0.5f);
-        mHandThicknessDimensions.get(HandShape.STRAIGHT).put(HandThickness.THICK, 1.5f * STRAIGHT_HAND_WIDTH_PERCENT * 0.5f);
-        mHandThicknessDimensions.get(HandShape.STRAIGHT).put(HandThickness.X_THICK, 2.0f * STRAIGHT_HAND_WIDTH_PERCENT * 0.5f);
+        mHandThicknessDimensions.get(HandShape.STRAIGHT).put(HandThickness.THIN, f0);
+        mHandThicknessDimensions.get(HandShape.STRAIGHT).put(HandThickness.REGULAR, f1);
+        mHandThicknessDimensions.get(HandShape.STRAIGHT).put(HandThickness.THICK, f2);
+        mHandThicknessDimensions.get(HandShape.STRAIGHT).put(HandThickness.X_THICK, f3);
 
-        mHandThicknessDimensions.get(HandShape.ROUNDED).put(HandThickness.THIN, 0.5f);
-        mHandThicknessDimensions.get(HandShape.ROUNDED).put(HandThickness.REGULAR, 1.0f);
-        mHandThicknessDimensions.get(HandShape.ROUNDED).put(HandThickness.THICK, 1.5f);
-        mHandThicknessDimensions.get(HandShape.ROUNDED).put(HandThickness.X_THICK, 2.0f);
+        mHandThicknessDimensions.get(HandShape.ROUNDED).put(HandThickness.THIN, f0);
+        mHandThicknessDimensions.get(HandShape.ROUNDED).put(HandThickness.REGULAR, f1);
+        mHandThicknessDimensions.get(HandShape.ROUNDED).put(HandThickness.THICK, f2);
+        mHandThicknessDimensions.get(HandShape.ROUNDED).put(HandThickness.X_THICK, f3);
 
         mHandThicknessDimensions.get(HandShape.DIAMOND).put(HandThickness.THIN, f0 * DIAMOND_HAND_ASPECT_RATIO);
         mHandThicknessDimensions.get(HandShape.DIAMOND).put(HandThickness.REGULAR, f1 * DIAMOND_HAND_ASPECT_RATIO);
         mHandThicknessDimensions.get(HandShape.DIAMOND).put(HandThickness.THICK, f2 * DIAMOND_HAND_ASPECT_RATIO);
         mHandThicknessDimensions.get(HandShape.DIAMOND).put(HandThickness.X_THICK, f3 * DIAMOND_HAND_ASPECT_RATIO);
 
-        mHandThicknessDimensions.get(HandShape.UNKNOWN1).put(HandThickness.THIN, 0.5f);
-        mHandThicknessDimensions.get(HandShape.UNKNOWN1).put(HandThickness.REGULAR, 1.0f);
-        mHandThicknessDimensions.get(HandShape.UNKNOWN1).put(HandThickness.THICK, 1.5f);
-        mHandThicknessDimensions.get(HandShape.UNKNOWN1).put(HandThickness.X_THICK, 2.0f);
+        mHandThicknessDimensions.get(HandShape.UNKNOWN1).put(HandThickness.THIN, f0);
+        mHandThicknessDimensions.get(HandShape.UNKNOWN1).put(HandThickness.REGULAR, f1);
+        mHandThicknessDimensions.get(HandShape.UNKNOWN1).put(HandThickness.THICK, f2);
+        mHandThicknessDimensions.get(HandShape.UNKNOWN1).put(HandThickness.X_THICK, f3);
 
         mHandLengthDimensions.put(HandShape.STRAIGHT,
                 new EnumMap<HandLength, Float>(HandLength.class));
@@ -211,139 +210,125 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         boolean isMinuteHand = isMinuteHand();
         boolean isSecondHand = isSecondHand();
 
-        float length = mHandLengthDimensions.get(handShape).get(handLength);
         float thickness = mHandThicknessDimensions.get(handShape).get(handThickness);
-        float bottom;
+        float top, bottom;
 
-        if (isMinuteHand || isSecondHand) {
-            length = length * 12.5f * pc; // 12.5%
-            // Min multiplier is 2.7 (for hand length short) so that'd be 33.75%
-            // Max multiplier is 4 (for hand length x-long) so that'd be 50%.
-        } else {
-            length = length * 12.5f * pc * 0.61803398875f; // 12.5% - golden ratio
+        {
+            float length = mHandLengthDimensions.get(handShape).get(handLength);
+            if (isMinuteHand || isSecondHand) {
+                length = length * 12.5f * pc; // 12.5%
+                // Min multiplier is 2.7 (for hand length short) so that'd be 33.75%
+                // Max multiplier is 4 (for hand length x-long) so that'd be 50%.
+            } else {
+                length = length * 12.5f * pc * 0.61803398875f; // 12.5% - golden ratio
+            }
+
+            if (isSecondHand) {
+                // Second hands are automatically thinner.
+                thickness /= 3;
+            }
+
+            top = mCenterY - length;
         }
 
-        if (isSecondHand) {
-            // Second hands are automatically thinner.
-            thickness /= 3;
-        }
-
-//        Path stalk = null;
         float roundRectRadius = ROUND_RECT_RADIUS_PERCENT * pc;
-        float stalkBottom = -HUB_RADIUS_PERCENT * pc * 2;
         // We add a bit extra to the stalk top so it overlaps with the hand,
         // in order that the union works OK without gaps.
         // For the stalk thickness, use the width of the Straight hand shape, but only half.
         float stalkThickness =
                 mHandThicknessDimensions.get(HandShape.STRAIGHT).get(handThickness) * pc * 0.5f;
-        float stalkTopBitExtra = HUB_RADIUS_PERCENT * pc * 0.5f;
 
-        // A bit more for tweaking.
-        stalkTopBitExtra += 10.0f * pc;
         mStalk.reset();
 
         switch (handStalk) {
             case NEGATIVE: {
-                bottom = -HUB_RADIUS_PERCENT * pc * 2f;
+                bottom = mCenterY + HUB_RADIUS_PERCENT * pc * 2f;
                 break;
             }
             case NONE: {
-                bottom = 0;
+                bottom = mCenterY;
                 break;
             }
             case SHORT: {
-                // Current: it's a factor of the size of the hub
-                //bottom = HUB_RADIUS_PERCENT * pc * 5;
-                // Alternate: it's a factor of the length of the stalk
-                bottom = (length - HUB_RADIUS_PERCENT * pc) * 0.25f + HUB_RADIUS_PERCENT * pc;
-                // Alternate: it's a factor of the size of the watch face
-                //bottom = mCenterX * 0.25f
-//                stalk = new Path();
-                // Draw a stalk. This is just a straight hand at 1/2 the thickness.
-//                p.moveTo(mCenterX + straightWidth1, mCenterY - stalkBottom1);
-//                p.lineTo(mCenterX + straightWidth1, mCenterY - bottom);
-//                p.lineTo(mCenterX - straightWidth1, mCenterY - bottom);
-//                p.lineTo(mCenterX - straightWidth1, mCenterY - stalkBottom1);
-//                p.lineTo(mCenterX + straightWidth1, mCenterY - stalkBottom1);
-                mStalk.addRoundRect(mCenterX - stalkThickness, mCenterY - bottom - stalkTopBitExtra, mCenterX + stalkThickness,
-                        mCenterY - stalkBottom, roundRectRadius, roundRectRadius, getDirection());
+                // Stalk length is 25% of hand length. This dimension "bottom" refers to the hand.
+                bottom = (top + mCenterY + mCenterY + mCenterY) / 4f;
+
+                // Draw the stalk from the hub to 50% of the hand length.
+                // There'll be some overlap, that's OK!
+                float stalkTop = (top + mCenterY) / 2f;
+                float stalkBottom = mCenterY + HUB_RADIUS_PERCENT * pc * 2;
+
+                // Draw a stalk.
+                mStalk.addRoundRect(mCenterX - stalkThickness, stalkTop,
+                        mCenterX + stalkThickness, stalkBottom,
+                        roundRectRadius, roundRectRadius, getDirection());
                 break;
             }
             case MEDIUM: {
-                // Current: it's a factor of the size of the hub
-                //bottom = HUB_RADIUS_PERCENT * pc * 9;
-                // Alternate: it's a factor of the length of the stalk
-                bottom = (length - HUB_RADIUS_PERCENT * pc) * 0.5f + HUB_RADIUS_PERCENT * pc;
-                // Alternate: it's a factor of the size of the watch face
-                //bottom = mCenterX * 0.5f
-//                stalk = new Path();
-                // Draw a stalk. This is just a straight hand at 1/2 the thickness.
-//                p.moveTo(mCenterX + straightWidth2, mCenterY - stalkBottom2);
-//                p.lineTo(mCenterX + straightWidth2, mCenterY - bottom);
-//                p.lineTo(mCenterX - straightWidth2, mCenterY - bottom);
-//                p.lineTo(mCenterX - straightWidth2, mCenterY - stalkBottom2);
-//                p.lineTo(mCenterX + straightWidth2, mCenterY - stalkBottom2);
-                mStalk.addRoundRect(mCenterX - stalkThickness, mCenterY - bottom - stalkTopBitExtra, mCenterX + stalkThickness,
-                        mCenterY - stalkBottom, roundRectRadius, roundRectRadius, getDirection());
+                // Stalk length is 25% of hand length. This dimension "bottom" refers to the hand.
+                bottom = (top + mCenterY) / 2f;
+
+                // Draw the stalk from the hub to 75% of the hand length.
+                // There'll be some overlap, that's OK!
+                float stalkTop = (top + top + top + mCenterY) / 4f;
+                float stalkBottom = mCenterY + HUB_RADIUS_PERCENT * pc * 2;
+
+                // Draw a stalk.
+                mStalk.addRoundRect(mCenterX - stalkThickness, stalkTop,
+                        mCenterX + stalkThickness, stalkBottom,
+                        roundRectRadius, roundRectRadius, getDirection());
                 break;
             }
             default: {
                 // Shouldn't happen!
                 // Make same as NONE
-                bottom = 0;
+                bottom = mCenterY;
                 break;
             }
         }
+
+        float left = mCenterX - (thickness * pc);
+        float right = mCenterX + (thickness * pc);
 
         switch (handShape) {
             case STRAIGHT: {
-                float straightWidth = thickness * pc;
-                p.addRect(mCenterX - straightWidth, mCenterY - length, mCenterX + straightWidth,
-                        mCenterY - bottom, getDirection());
-//                p.moveTo(mCenterX + straightWidth, mCenterY - bottom);
-//                p.lineTo(mCenterX + straightWidth, mCenterY - length);
-//                p.lineTo(mCenterX - straightWidth, mCenterY - length);
-//                p.lineTo(mCenterX - straightWidth, mCenterY - bottom);
-//                p.lineTo(mCenterX + straightWidth, mCenterY - bottom);
+                p.addRect(left, top, right, bottom, getDirection());
                 break;
             }
             case DIAMOND: {
-                float diamondWidth = thickness;
                 // Add extra extension to the diamond top and bottom
                 // because the diamond shape tapers to a point
-                float diamondTop = length + (HUB_RADIUS_PERCENT * pc * 0.5f);
-                float diamondBottom = bottom - (HUB_RADIUS_PERCENT * pc * 0.5f);
-                float diamondMidpoint = (diamondTop - diamondBottom) * HOUR_MINUTE_HAND_MIDPOINT +
-                        diamondBottom;
-                p.moveTo(mCenterX, mCenterY - diamondBottom); // Extend past the hub
+                float diamondTop = top - (HUB_RADIUS_PERCENT * pc * 0.5f);
+                float diamondBottom = bottom + (HUB_RADIUS_PERCENT * pc * 0.5f);
+                float diamondMidpoint = (diamondTop * HOUR_MINUTE_HAND_MIDPOINT) +
+                        (diamondBottom * (1 - HOUR_MINUTE_HAND_MIDPOINT));
+
+                p.moveTo(mCenterX, diamondBottom); // Extend past the hub
                 if (getDirection() == Path.Direction.CW) {
-                    p.lineTo(mCenterX - diamondWidth, mCenterY - diamondMidpoint); // Left
-                    p.lineTo(mCenterX, mCenterY - diamondTop); // Top
-                    p.lineTo(mCenterX + diamondWidth, mCenterY - diamondMidpoint); // Right
+                    p.lineTo(left, diamondMidpoint); // Left
+                    p.lineTo(mCenterX, diamondTop); // Top
+                    p.lineTo(right, diamondMidpoint); // Right
                 } else {
-                    p.lineTo(mCenterX + diamondWidth, mCenterY - diamondMidpoint); // Right
-                    p.lineTo(mCenterX, mCenterY - diamondTop); // Top
-                    p.lineTo(mCenterX - diamondWidth, mCenterY - diamondMidpoint); // Left
+                    p.lineTo(right, diamondMidpoint); // Right
+                    p.lineTo(mCenterX, diamondTop); // Top
+                    p.lineTo(left, diamondMidpoint); // Left
                 }
-                //p.lineTo(mCenterX, mCenterY - diamondBottom); // Extend past the hub
                 p.close();
-                //p.lineTo(mCenterX, mCenterY - diamondTop);
                 break;
             }
             case ROUNDED: {
-                float straightWidth = thickness * pc;
-                p.addRoundRect(mCenterX - straightWidth, mCenterY - length, mCenterX + straightWidth,
-                        mCenterY - bottom, roundRectRadius, roundRectRadius, getDirection());
+                p.addRoundRect(left, top, right, bottom,
+                        roundRectRadius, roundRectRadius, getDirection());
                 break;
             }
             case UNKNOWN1: {
-                float straightWidth = thickness * pc;
-                p.addRoundRect(mCenterX - straightWidth, mCenterY - length, mCenterX + straightWidth,
-                        mCenterY - bottom, roundRectRadius * 2f, roundRectRadius * 2f, getDirection());
+                p.addRoundRect(left, top, right, bottom,
+                        roundRectRadius * 2f, roundRectRadius * 2f, getDirection());
                 break;
             }
         }
 
+        // Add the stalk.
         p.op(mStalk, Path.Op.UNION);
 
         float cutoutWidth = 1.2f * pc; // 1.2 percent
@@ -354,55 +339,55 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 break;
             }
             case DIAMOND: {
-                float diamondWidth = thickness;
-                // Add extra extension to the diamond top and bottom
-                // because the diamond shape tapers to a point
-                float diamondTop = length + (HUB_RADIUS_PERCENT * pc * 0.5f);
-                float diamondBottom = bottom - (HUB_RADIUS_PERCENT * pc * 0.5f);
-                float diamondMidpoint = (diamondTop - diamondBottom) * HOUR_MINUTE_HAND_MIDPOINT +
-                        diamondBottom;
-
-                float x = diamondWidth;
-                float y = diamondTop - diamondMidpoint;
-                float z = (float) Math.sqrt(x * x + y * y);
-
-                float w = cutoutWidth * 1.5f;
-
-                float y2 = w * z / x;
-                float x2 = w * z / y;
-
-                // 1 / z = sin α / x
-                // x / z = sin α
-                // y / z = sin β
-
-                // sin α = w / y2
-                // sin β = w / x2
-
-                // Ratio x : w = Ratio z : y1
-                // Ratio w : x = Ratio y1 : z
-                // w / x = y1 / z
-                // w * z / x = y1
-
-                y = diamondMidpoint - diamondBottom;
-                z = (float) Math.sqrt(x * x + y * y);
-                float y3 = w * z / x;
-
-                mCutout.reset();
-                mCutout.moveTo(mCenterX, mCenterY - diamondTop + y2); // Tip
-                if (getDirection() == Path.Direction.CW) {
-                    mCutout.lineTo(mCenterX + diamondWidth - x2, mCenterY - diamondMidpoint); // Right
-                    mCutout.lineTo(mCenterX, mCenterY - diamondBottom - y3); // Bottom
-                    mCutout.lineTo(mCenterX - diamondWidth + x2, mCenterY - diamondMidpoint); // Left
-                } else {
-                    mCutout.lineTo(mCenterX - diamondWidth + x2, mCenterY - diamondMidpoint); // Left
-                    mCutout.lineTo(mCenterX, mCenterY - diamondBottom - y3); // Bottom
-                    mCutout.lineTo(mCenterX + diamondWidth - x2, mCenterY - diamondMidpoint); // Right
-                }
-                mCutout.close();
-
-                p.op(mCutout, Path.Op.DIFFERENCE);
-
-                break;
+//                float diamondWidth = thickness;
+//                // Add extra extension to the diamond top and bottom
+//                // because the diamond shape tapers to a point
+//                float diamondTop = length + (HUB_RADIUS_PERCENT * pc * 0.5f);
+//                float diamondBottom = bottom - (HUB_RADIUS_PERCENT * pc * 0.5f);
+//                float diamondMidpoint = (diamondTop - diamondBottom) * HOUR_MINUTE_HAND_MIDPOINT +
+//                        diamondBottom;
+//
+//                float x = diamondWidth;
+//                float y = diamondTop - diamondMidpoint;
+//                float z = (float) Math.sqrt(x * x + y * y);
+//
+//                float w = cutoutWidth * 1.5f;
+//
+//                float y2 = w * z / x;
+//                float x2 = w * z / y;
+//
+//                // 1 / z = sin α / x
+//                // x / z = sin α
+//                // y / z = sin β
+//
+//                // sin α = w / y2
+//                // sin β = w / x2
+//
+//                // Ratio x : w = Ratio z : y1
+//                // Ratio w : x = Ratio y1 : z
+//                // w / x = y1 / z
+//                // w * z / x = y1
+//
+//                y = diamondMidpoint - diamondBottom;
+//                z = (float) Math.sqrt(x * x + y * y);
+//                float y3 = w * z / x;
+//
+//                mCutout.reset();
+//                mCutout.moveTo(mCenterX, mCenterY - diamondTop + y2); // Tip
+//                if (getDirection() == Path.Direction.CW) {
+//                    mCutout.lineTo(mCenterX + diamondWidth - x2, mCenterY - diamondMidpoint); // Right
+//                    mCutout.lineTo(mCenterX, mCenterY - diamondBottom - y3); // Bottom
+//                    mCutout.lineTo(mCenterX - diamondWidth + x2, mCenterY - diamondMidpoint); // Left
+//                } else {
+//                    mCutout.lineTo(mCenterX - diamondWidth + x2, mCenterY - diamondMidpoint); // Left
+//                    mCutout.lineTo(mCenterX, mCenterY - diamondBottom - y3); // Bottom
+//                    mCutout.lineTo(mCenterX + diamondWidth - x2, mCenterY - diamondMidpoint); // Right
+//                }
+//                mCutout.close();
+//
+//                p.op(mCutout, Path.Op.DIFFERENCE);
+//
+//                break;
             }
             case ROUNDED: {
                 break;
@@ -412,76 +397,76 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
             }
         }
 
-        // Stalk cutout
-        RectF r;
-        switch (handStalk) {
-            case NEGATIVE: {
-                bottom = -HUB_RADIUS_PERCENT * pc * 2;
-                break;
-            }
-            case NONE: {
-                bottom = 0;
-                break;
-            }
-            case SHORT: {
-                // Current: it's a factor of the size of the hub
-                //bottom = HUB_RADIUS_PERCENT * pc * 5;
-                // Alternate: it's a factor of the length of the stalk
-                bottom = (length - HUB_RADIUS_PERCENT * pc) * 0.25f + HUB_RADIUS_PERCENT * pc;
-                // Alternate: it's a factor of the size of the watch face
-                //bottom = mCenterX * 0.25f
-//                stalk = new Path();
-                // Draw a stalk. This is just a straight hand at 1/2 the thickness.
-
-                r = new RectF(mCenterX - stalkThickness,
-                        mCenterY - bottom - stalkTopBitExtra,
-                        mCenterX + stalkThickness,
-                        mCenterY - stalkBottom);
-                r.inset(cutoutWidth, cutoutWidth);
-
-                // Only if our cutout isn't wider than the stalk itself...
-                if (r.left < r.right) {
-                    mCutout.reset();
-                    float radius = roundRectRadius - cutoutWidth;
-                    radius = radius > 0f ? radius : 0f;
-                    mCutout.addRoundRect(r, radius, radius, getDirection());
-                    p.op(mCutout, Path.Op.DIFFERENCE);
-                }
-                break;
-            }
-            case MEDIUM: {
-                // Current: it's a factor of the size of the hub
-                //bottom = HUB_RADIUS_PERCENT * pc * 9;
-                // Alternate: it's a factor of the length of the stalk
-                bottom = (length - HUB_RADIUS_PERCENT * pc) * 0.5f + HUB_RADIUS_PERCENT * pc;
-                // Alternate: it's a factor of the size of the watch face
-                //bottom = mCenterX * 0.5f
-//                stalk = new Path();
-                // Draw a stalk. This is just a straight hand at 1/2 the thickness.
-
-                r = new RectF(mCenterX - stalkThickness,
-                        mCenterY - bottom - stalkTopBitExtra,
-                        mCenterX + stalkThickness,
-                        mCenterY - stalkBottom);
-                r.inset(cutoutWidth, cutoutWidth);
-
-                // Only if our cutout isn't wider than the stalk itself...
-                if (r.left < r.right) {
-                    mCutout.reset();
-                    float radius = roundRectRadius - cutoutWidth;
-                    radius = radius > 0f ? radius : 0f;
-                    mCutout.addRoundRect(r, radius, radius, getDirection());
-                    p.op(mCutout, Path.Op.DIFFERENCE);
-                }
-                break;
-            }
-            default: {
-                // Shouldn't happen!
-                // Make same as NONE
-                bottom = 0;
-                break;
-            }
-        }
+//        // Stalk cutout
+//        RectF r;
+//        switch (handStalk) {
+//            case NEGATIVE: {
+//                bottom = -HUB_RADIUS_PERCENT * pc * 2;
+//                break;
+//            }
+//            case NONE: {
+//                bottom = 0;
+//                break;
+//            }
+//            case SHORT: {
+//                // Current: it's a factor of the size of the hub
+//                //bottom = HUB_RADIUS_PERCENT * pc * 5;
+//                // Alternate: it's a factor of the length of the stalk
+//                bottom = (length - HUB_RADIUS_PERCENT * pc) * 0.25f + HUB_RADIUS_PERCENT * pc;
+//                // Alternate: it's a factor of the size of the watch face
+//                //bottom = mCenterX * 0.25f
+////                stalk = new Path();
+//                // Draw a stalk. This is just a straight hand at 1/2 the thickness.
+//
+//                r = new RectF(mCenterX - stalkThickness,
+//                        mCenterY - bottom - stalkTopBitExtra,
+//                        mCenterX + stalkThickness,
+//                        mCenterY - stalkBottom);
+//                r.inset(cutoutWidth, cutoutWidth);
+//
+//                // Only if our cutout isn't wider than the stalk itself...
+//                if (r.left < r.right) {
+//                    mCutout.reset();
+//                    float radius = roundRectRadius - cutoutWidth;
+//                    radius = radius > 0f ? radius : 0f;
+//                    mCutout.addRoundRect(r, radius, radius, getDirection());
+//                    p.op(mCutout, Path.Op.DIFFERENCE);
+//                }
+//                break;
+//            }
+//            case MEDIUM: {
+//                // Current: it's a factor of the size of the hub
+//                //bottom = HUB_RADIUS_PERCENT * pc * 9;
+//                // Alternate: it's a factor of the length of the stalk
+//                bottom = (length - HUB_RADIUS_PERCENT * pc) * 0.5f + HUB_RADIUS_PERCENT * pc;
+//                // Alternate: it's a factor of the size of the watch face
+//                //bottom = mCenterX * 0.5f
+////                stalk = new Path();
+//                // Draw a stalk. This is just a straight hand at 1/2 the thickness.
+//
+//                r = new RectF(mCenterX - stalkThickness,
+//                        mCenterY - bottom - stalkTopBitExtra,
+//                        mCenterX + stalkThickness,
+//                        mCenterY - stalkBottom);
+//                r.inset(cutoutWidth, cutoutWidth);
+//
+//                // Only if our cutout isn't wider than the stalk itself...
+//                if (r.left < r.right) {
+//                    mCutout.reset();
+//                    float radius = roundRectRadius - cutoutWidth;
+//                    radius = radius > 0f ? radius : 0f;
+//                    mCutout.addRoundRect(r, radius, radius, getDirection());
+//                    p.op(mCutout, Path.Op.DIFFERENCE);
+//                }
+//                break;
+//            }
+//            default: {
+//                // Shouldn't happen!
+//                // Make same as NONE
+//                bottom = 0;
+//                break;
+//            }
+//        }
 
         // Add the stalk!
 //        if (stalk != null) {
