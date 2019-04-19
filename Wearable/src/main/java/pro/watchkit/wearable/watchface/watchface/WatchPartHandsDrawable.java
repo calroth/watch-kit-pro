@@ -314,6 +314,27 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                     p.lineTo(left, diamondMidpoint); // Left
                 }
                 p.close();
+
+                // Draw a cutout too, because why not.
+                // Cutout is scaled to 2, to be 25% in area of hand.
+                // We tried root 2 to be 50% but that appeared optically too big.
+                float s0 = 0.5f;
+                float x0 = (right - left) * 0.5f * s0;
+                float y1 = (diamondMidpoint - diamondTop) * s0;
+                float y2 = (diamondBottom - diamondMidpoint) * s0;
+
+                mCutout.reset();
+                mCutout.moveTo(mCenterX, diamondBottom - y2); // Extend past the hub
+                if (getDirection() == Path.Direction.CW) {
+                    mCutout.lineTo(left + x0, diamondMidpoint); // Left
+                    mCutout.lineTo(mCenterX, diamondTop + y1); // Top
+                    mCutout.lineTo(right - x0, diamondMidpoint); // Right
+                } else {
+                    mCutout.lineTo(right - x0, diamondMidpoint); // Right
+                    mCutout.lineTo(mCenterX, diamondTop + y1); // Top
+                    mCutout.lineTo(left + x0, diamondMidpoint); // Left
+                }
+                mCutout.close();
                 break;
             }
             case ROUNDED: {
@@ -330,15 +351,17 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
         // Add the stalk.
         p.op(mStalk, Path.Op.UNION);
+        // Remove the cutout.
+        p.op(mCutout, Path.Op.DIFFERENCE);
 
-        float cutoutWidth = 1.2f * pc; // 1.2 percent
-
-        // Cutout
-        switch (handShape) {
-            case STRAIGHT: {
-                break;
-            }
-            case DIAMOND: {
+//        float cutoutWidth = 1.2f * pc; // 1.2 percent
+//
+//        // Cutout
+//        switch (handShape) {
+//            case STRAIGHT: {
+//                break;
+//            }
+//            case DIAMOND: {
 //                float diamondWidth = thickness;
 //                // Add extra extension to the diamond top and bottom
 //                // because the diamond shape tapers to a point
@@ -388,15 +411,15 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 //                p.op(mCutout, Path.Op.DIFFERENCE);
 //
 //                break;
-            }
-            case ROUNDED: {
-                break;
-            }
-            case UNKNOWN1: {
-                break;
-            }
-        }
-
+//            }
+//            case ROUNDED: {
+//                break;
+//            }
+//            case UNKNOWN1: {
+//                break;
+//            }
+//        }
+//
 //        // Stalk cutout
 //        RectF r;
 //        switch (handStalk) {
@@ -467,12 +490,12 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 //                break;
 //            }
 //        }
-
+//
         // Add the stalk!
 //        if (stalk != null) {
 //            p.op(stalk, Path.Op.UNION);
 //        }
-
+//
 //        return p;
     }
 }
