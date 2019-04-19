@@ -239,6 +239,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 mHandThicknessDimensions.get(HandShape.STRAIGHT).get(handThickness) * pc * 0.5f;
 
         mStalk.reset();
+        mCutout.reset();
 
         switch (handStalk) {
             case NEGATIVE: {
@@ -323,7 +324,6 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 float y1 = (diamondMidpoint - diamondTop) * s0;
                 float y2 = (diamondBottom - diamondMidpoint) * s0;
 
-                mCutout.reset();
                 mCutout.moveTo(mCenterX, diamondBottom - y2); // Extend past the hub
                 if (getDirection() == Path.Direction.CW) {
                     mCutout.lineTo(left + x0, diamondMidpoint); // Left
