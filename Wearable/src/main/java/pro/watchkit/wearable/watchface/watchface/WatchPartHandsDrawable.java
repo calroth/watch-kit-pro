@@ -51,7 +51,8 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     private Path mHandAmbientPath = new Path();
     private int mPreviousSerial = -1;
     private Path mStalk = new Path();
-    private Path mCutout = new Path();
+    private Path mHandCutout = new Path();
+    private Path mStalkCutout = new Path();
 
     WatchPartHandsDrawable() {
         super();
@@ -187,7 +188,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
             mPreviousSerial = currentSerial;
             // Cache miss. Regenerate the hand.
             mHandActivePath.reset();
-            getHandShapePath();
+            getHandShapePath(mHandActivePath);
             mHandAmbientPath.reset();
             mHandAmbientPath.addPath(mHandActivePath);
             punchHub(mHandActivePath, mHandAmbientPath);
@@ -201,8 +202,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
             return mHandActivePath;
     }
 
-    private void getHandShapePath() {
-        Path p = mHandActivePath;
+    private void getHandShapePath(Path p) {
         HandShape handShape = getHandShape();
         HandLength handLength = getHandLength();
         HandThickness handThickness = getHandThickness();
@@ -239,7 +239,8 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 mHandThicknessDimensions.get(HandShape.STRAIGHT).get(handThickness) * pc * 0.5f;
 
         mStalk.reset();
-        mCutout.reset();
+        mHandCutout.reset();
+        mStalkCutout.reset();
 
         switch (handStalk) {
             case NEGATIVE: {
@@ -260,9 +261,14 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 float stalkBottom = mCenterY + HUB_RADIUS_PERCENT * pc * 2;
 
                 // Draw a stalk.
-                mStalk.addRoundRect(mCenterX - stalkThickness, stalkTop,
-                        mCenterX + stalkThickness, stalkBottom,
-                        roundRectRadius, roundRectRadius, getDirection());
+                drawRoundRect(mStalk,
+                        mCenterX - stalkThickness, stalkTop,
+                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 0f);
+
+                // Draw a cutout.
+                drawRoundRect(mStalkCutout,
+                        mCenterX - stalkThickness, stalkTop,
+                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 0.5f);
                 break;
             }
             case MEDIUM: {
@@ -275,9 +281,14 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 float stalkBottom = mCenterY + HUB_RADIUS_PERCENT * pc * 2;
 
                 // Draw a stalk.
-                mStalk.addRoundRect(mCenterX - stalkThickness, stalkTop,
-                        mCenterX + stalkThickness, stalkBottom,
-                        roundRectRadius, roundRectRadius, getDirection());
+                drawRoundRect(mStalk,
+                        mCenterX - stalkThickness, stalkTop,
+                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 0f);
+
+                // Draw a cutout.
+                drawRoundRect(mStalkCutout,
+                        mCenterX - stalkThickness, stalkTop,
+                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 0.5f);
                 break;
             }
             default: {
@@ -293,209 +304,94 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
         switch (handShape) {
             case STRAIGHT: {
-                p.addRect(left, top, right, bottom, getDirection());
+                // Draw a rectangle.
+                drawRect(p, left, top, right, bottom, 0f);
+
+                // Draw a cutout.
+                drawRect(mHandCutout, left, top, right, bottom, 0.5f);
                 break;
             }
             case DIAMOND: {
-                // Add extra extension to the diamond top and bottom
-                // because the diamond shape tapers to a point
-                float diamondTop = top - (HUB_RADIUS_PERCENT * pc * 0.5f);
-                float diamondBottom = bottom + (HUB_RADIUS_PERCENT * pc * 0.5f);
-                float diamondMidpoint = (diamondTop * HOUR_MINUTE_HAND_MIDPOINT) +
-                        (diamondBottom * (1 - HOUR_MINUTE_HAND_MIDPOINT));
+                // Draw a diamond.
+                drawDiamond(p, left, top, right, bottom, 0f);
 
-                p.moveTo(mCenterX, diamondBottom); // Extend past the hub
-                if (getDirection() == Path.Direction.CW) {
-                    p.lineTo(left, diamondMidpoint); // Left
-                    p.lineTo(mCenterX, diamondTop); // Top
-                    p.lineTo(right, diamondMidpoint); // Right
-                } else {
-                    p.lineTo(right, diamondMidpoint); // Right
-                    p.lineTo(mCenterX, diamondTop); // Top
-                    p.lineTo(left, diamondMidpoint); // Left
-                }
-                p.close();
-
-                // Draw a cutout too, because why not.
-                // Cutout is scaled to 2, to be 25% in area of hand.
-                // We tried root 2 to be 50% but that appeared optically too big.
-                float s0 = 0.5f;
-                float x0 = (right - left) * 0.5f * s0;
-                float y1 = (diamondMidpoint - diamondTop) * s0;
-                float y2 = (diamondBottom - diamondMidpoint) * s0;
-
-                mCutout.moveTo(mCenterX, diamondBottom - y2); // Extend past the hub
-                if (getDirection() == Path.Direction.CW) {
-                    mCutout.lineTo(left + x0, diamondMidpoint); // Left
-                    mCutout.lineTo(mCenterX, diamondTop + y1); // Top
-                    mCutout.lineTo(right - x0, diamondMidpoint); // Right
-                } else {
-                    mCutout.lineTo(right - x0, diamondMidpoint); // Right
-                    mCutout.lineTo(mCenterX, diamondTop + y1); // Top
-                    mCutout.lineTo(left + x0, diamondMidpoint); // Left
-                }
-                mCutout.close();
+                // Draw a cutout.
+                drawDiamond(mHandCutout, left, top, right, bottom, 0.5f);
                 break;
             }
             case ROUNDED: {
-                p.addRoundRect(left, top, right, bottom,
-                        roundRectRadius, roundRectRadius, getDirection());
+                // Draw a round rect.
+                drawRoundRect(p, left, top, right, bottom, roundRectRadius, 0f);
+
+                // Draw a cutout.
+                drawRoundRect(mHandCutout, left, top, right, bottom, roundRectRadius, 0.5f);
                 break;
             }
             case UNKNOWN1: {
-                p.addRoundRect(left, top, right, bottom,
-                        roundRectRadius * 2f, roundRectRadius * 2f, getDirection());
+                // Dunno! Draw a round rect with double corner radius.
+                drawRoundRect(p, left, top, right, bottom,
+                        roundRectRadius * 2f, 0f);
+
+                // Draw a cutout.
+                drawRoundRect(mHandCutout, left, top, right, bottom,
+                        roundRectRadius * 2f, 0.5f);
                 break;
             }
         }
 
+        // Remove the stalk cutout.
+        // TODO: depending on if we're doing the hand cutout, stalk cutout or both, change this.
+        mStalk.op(mStalkCutout, Path.Op.DIFFERENCE);
         // Add the stalk.
         p.op(mStalk, Path.Op.UNION);
         // Remove the cutout.
-        p.op(mCutout, Path.Op.DIFFERENCE);
+        p.op(mHandCutout, Path.Op.DIFFERENCE);
+    }
 
-//        float cutoutWidth = 1.2f * pc; // 1.2 percent
-//
-//        // Cutout
-//        switch (handShape) {
-//            case STRAIGHT: {
-//                break;
-//            }
-//            case DIAMOND: {
-//                float diamondWidth = thickness;
-//                // Add extra extension to the diamond top and bottom
-//                // because the diamond shape tapers to a point
-//                float diamondTop = length + (HUB_RADIUS_PERCENT * pc * 0.5f);
-//                float diamondBottom = bottom - (HUB_RADIUS_PERCENT * pc * 0.5f);
-//                float diamondMidpoint = (diamondTop - diamondBottom) * HOUR_MINUTE_HAND_MIDPOINT +
-//                        diamondBottom;
-//
-//                float x = diamondWidth;
-//                float y = diamondTop - diamondMidpoint;
-//                float z = (float) Math.sqrt(x * x + y * y);
-//
-//                float w = cutoutWidth * 1.5f;
-//
-//                float y2 = w * z / x;
-//                float x2 = w * z / y;
-//
-//                // 1 / z = sin α / x
-//                // x / z = sin α
-//                // y / z = sin β
-//
-//                // sin α = w / y2
-//                // sin β = w / x2
-//
-//                // Ratio x : w = Ratio z : y1
-//                // Ratio w : x = Ratio y1 : z
-//                // w / x = y1 / z
-//                // w * z / x = y1
-//
-//                y = diamondMidpoint - diamondBottom;
-//                z = (float) Math.sqrt(x * x + y * y);
-//                float y3 = w * z / x;
-//
-//                mCutout.reset();
-//                mCutout.moveTo(mCenterX, mCenterY - diamondTop + y2); // Tip
-//                if (getDirection() == Path.Direction.CW) {
-//                    mCutout.lineTo(mCenterX + diamondWidth - x2, mCenterY - diamondMidpoint); // Right
-//                    mCutout.lineTo(mCenterX, mCenterY - diamondBottom - y3); // Bottom
-//                    mCutout.lineTo(mCenterX - diamondWidth + x2, mCenterY - diamondMidpoint); // Left
-//                } else {
-//                    mCutout.lineTo(mCenterX - diamondWidth + x2, mCenterY - diamondMidpoint); // Left
-//                    mCutout.lineTo(mCenterX, mCenterY - diamondBottom - y3); // Bottom
-//                    mCutout.lineTo(mCenterX + diamondWidth - x2, mCenterY - diamondMidpoint); // Right
-//                }
-//                mCutout.close();
-//
-//                p.op(mCutout, Path.Op.DIFFERENCE);
-//
-//                break;
-//            }
-//            case ROUNDED: {
-//                break;
-//            }
-//            case UNKNOWN1: {
-//                break;
-//            }
-//        }
-//
-//        // Stalk cutout
-//        RectF r;
-//        switch (handStalk) {
-//            case NEGATIVE: {
-//                bottom = -HUB_RADIUS_PERCENT * pc * 2;
-//                break;
-//            }
-//            case NONE: {
-//                bottom = 0;
-//                break;
-//            }
-//            case SHORT: {
-//                // Current: it's a factor of the size of the hub
-//                //bottom = HUB_RADIUS_PERCENT * pc * 5;
-//                // Alternate: it's a factor of the length of the stalk
-//                bottom = (length - HUB_RADIUS_PERCENT * pc) * 0.25f + HUB_RADIUS_PERCENT * pc;
-//                // Alternate: it's a factor of the size of the watch face
-//                //bottom = mCenterX * 0.25f
-////                stalk = new Path();
-//                // Draw a stalk. This is just a straight hand at 1/2 the thickness.
-//
-//                r = new RectF(mCenterX - stalkThickness,
-//                        mCenterY - bottom - stalkTopBitExtra,
-//                        mCenterX + stalkThickness,
-//                        mCenterY - stalkBottom);
-//                r.inset(cutoutWidth, cutoutWidth);
-//
-//                // Only if our cutout isn't wider than the stalk itself...
-//                if (r.left < r.right) {
-//                    mCutout.reset();
-//                    float radius = roundRectRadius - cutoutWidth;
-//                    radius = radius > 0f ? radius : 0f;
-//                    mCutout.addRoundRect(r, radius, radius, getDirection());
-//                    p.op(mCutout, Path.Op.DIFFERENCE);
-//                }
-//                break;
-//            }
-//            case MEDIUM: {
-//                // Current: it's a factor of the size of the hub
-//                //bottom = HUB_RADIUS_PERCENT * pc * 9;
-//                // Alternate: it's a factor of the length of the stalk
-//                bottom = (length - HUB_RADIUS_PERCENT * pc) * 0.5f + HUB_RADIUS_PERCENT * pc;
-//                // Alternate: it's a factor of the size of the watch face
-//                //bottom = mCenterX * 0.5f
-////                stalk = new Path();
-//                // Draw a stalk. This is just a straight hand at 1/2 the thickness.
-//
-//                r = new RectF(mCenterX - stalkThickness,
-//                        mCenterY - bottom - stalkTopBitExtra,
-//                        mCenterX + stalkThickness,
-//                        mCenterY - stalkBottom);
-//                r.inset(cutoutWidth, cutoutWidth);
-//
-//                // Only if our cutout isn't wider than the stalk itself...
-//                if (r.left < r.right) {
-//                    mCutout.reset();
-//                    float radius = roundRectRadius - cutoutWidth;
-//                    radius = radius > 0f ? radius : 0f;
-//                    mCutout.addRoundRect(r, radius, radius, getDirection());
-//                    p.op(mCutout, Path.Op.DIFFERENCE);
-//                }
-//                break;
-//            }
-//            default: {
-//                // Shouldn't happen!
-//                // Make same as NONE
-//                bottom = 0;
-//                break;
-//            }
-//        }
-//
-        // Add the stalk!
-//        if (stalk != null) {
-//            p.op(stalk, Path.Op.UNION);
-//        }
-//
-//        return p;
+    private void drawRect(
+            Path path, float left, float top, float right, float bottom, float scale) {
+        float x0 = (right - left) * 0.5f * scale;
+        float y0 = (bottom - top) * 0.5f * scale;
+
+        path.addRect(left + x0, top + y0, right - x0, bottom - y0,
+                getDirection());
+    }
+
+    private void drawRoundRect(
+            Path path, float left, float top, float right, float bottom, float cornerRadius,
+            float scale) {
+        float x0 = (right - left) * 0.5f * scale;
+        float y0 = (bottom - top) * 0.5f * scale;
+        float v = cornerRadius * (1f - scale);
+
+        path.addRoundRect(left + x0, top + y0, right - x0, bottom - y0,
+                v, v, getDirection());
+    }
+
+    private void drawDiamond(
+            Path path, float left, float top, float right, float bottom, float scale) {
+        // Add extra extension to the diamond top and bottom
+        // because the diamond shape tapers to a point
+        float diamondTop = top - (HUB_RADIUS_PERCENT * pc * 0.5f);
+        float diamondBottom = bottom + (HUB_RADIUS_PERCENT * pc * 0.5f);
+        float diamondMidpoint = (diamondTop * HOUR_MINUTE_HAND_MIDPOINT) +
+                (diamondBottom * (1 - HOUR_MINUTE_HAND_MIDPOINT));
+
+        // Scale factor. Ignored if scale == 0f
+        float x0 = (right - left) * 0.5f * scale;
+        float y1 = (diamondMidpoint - diamondTop) * scale;
+        float y2 = (diamondBottom - diamondMidpoint) * scale;
+
+        path.moveTo(mCenterX, diamondBottom - y2); // Extend past the hub
+        if (getDirection() == Path.Direction.CW) {
+            path.lineTo(left + x0, diamondMidpoint); // Left
+            path.lineTo(mCenterX, diamondTop + y1); // Top
+            path.lineTo(right - x0, diamondMidpoint); // Right
+        } else {
+            path.lineTo(right - x0, diamondMidpoint); // Right
+            path.lineTo(mCenterX, diamondTop + y1); // Top
+            path.lineTo(left + x0, diamondMidpoint); // Left
+        }
+        path.close();
     }
 }
