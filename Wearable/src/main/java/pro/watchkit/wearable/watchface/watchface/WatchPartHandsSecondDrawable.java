@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Path;
 
 import androidx.annotation.NonNull;
+import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandCutout;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandLength;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandShape;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandStalk;
@@ -34,6 +35,11 @@ final class WatchPartHandsSecondDrawable extends WatchPartHandsDrawable {
     @Override
     HandStalk getHandStalk() {
         return HandStalk.NONE; // Don't have this for the seconds hand.
+    }
+
+    @Override
+    HandCutout getHandCutout() {
+        return HandCutout.NONE; // Don't have this for the seconds hand either.
     }
 
     @Override

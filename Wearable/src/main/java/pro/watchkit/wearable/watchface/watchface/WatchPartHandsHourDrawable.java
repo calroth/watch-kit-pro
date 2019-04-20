@@ -2,6 +2,7 @@ package pro.watchkit.wearable.watchface.watchface;
 
 import android.graphics.Path;
 
+import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandCutout;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandLength;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandShape;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandStalk;
@@ -32,6 +33,11 @@ final class WatchPartHandsHourDrawable extends WatchPartHandsDrawable {
     @Override
     HandStalk getHandStalk() {
         return mWatchFaceState.getWatchFacePreset().getHourHandStalk();
+    }
+
+    @Override
+    HandCutout getHandCutout() {
+        return mWatchFaceState.getWatchFacePreset().getHourHandCutout();
     }
 
     @Override

@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
+import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandCutout;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandLength;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandShape;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandStalk;
@@ -166,6 +167,8 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
     abstract HandStalk getHandStalk();
 
+    abstract HandCutout getHandCutout();
+
     abstract Style getStyle();
 
     abstract float getDegreesRotation();
@@ -207,6 +210,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         HandLength handLength = getHandLength();
         HandThickness handThickness = getHandThickness();
         HandStalk handStalk = getHandStalk();
+        HandCutout handCutout = getHandCutout();
         boolean isMinuteHand = isMinuteHand();
         boolean isSecondHand = isSecondHand();
 
@@ -339,13 +343,28 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
             }
         }
 
-        // Remove the stalk cutout.
-        // TODO: depending on if we're doing the hand cutout, stalk cutout or both, change this.
-        mStalk.op(mStalkCutout, Path.Op.DIFFERENCE);
-        // Add the stalk.
-        p.op(mStalk, Path.Op.UNION);
-        // Remove the cutout.
-        p.op(mHandCutout, Path.Op.DIFFERENCE);
+        switch (handCutout) {
+            case NONE: {
+                p.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
+                break;
+            }
+            case HAND: {
+                p.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
+                p.op(mHandCutout, Path.Op.DIFFERENCE); // Remove the hand cutout.
+                break;
+            }
+            case STALK: {
+                mStalk.op(mStalkCutout, Path.Op.DIFFERENCE); // Remove the stalk cutout.
+                p.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
+                break;
+            }
+            case HAND_STALK: {
+                p.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
+                p.op(mStalkCutout, Path.Op.DIFFERENCE); // Remove the stalk cutout.
+                p.op(mHandCutout, Path.Op.DIFFERENCE); // Remove the hand cutout.
+                break;
+            }
+        }
     }
 
     private void drawRect(

@@ -33,8 +33,8 @@ public final class WatchFacePreset {
     private HandShape hourHandShape, minuteHandShape, secondHandShape;
     private HandLength hourHandLength, minuteHandLength, secondHandLength;
     private HandThickness hourHandThickness, minuteHandThickness, secondHandThickness;
-    private HandStalk hourHandStalk;
-    private HandStalk minuteHandStalk;
+    private HandStalk hourHandStalk, minuteHandStalk;
+    private HandCutout hourHandCutout, minuteHandCutout;
     private Style hourHandStyle, minuteHandStyle, secondHandStyle;
     private TicksDisplay ticksDisplay;
     private boolean twelveTickOverride, sixtyTickOverride;
@@ -69,6 +69,7 @@ public final class WatchFacePreset {
         setHourHandLength(HandLength.LONG);
         setHourHandThickness(HandThickness.REGULAR);
         setHourHandStalk(HandStalk.SHORT);
+        setHourHandCutout(HandCutout.HAND_STALK);
         setHourHandStyle(Style.FILL_HIGHLIGHT);
 
         setMinuteHandOverride(true);
@@ -76,6 +77,7 @@ public final class WatchFacePreset {
         setMinuteHandLength(HandLength.LONG);
         setMinuteHandThickness(HandThickness.REGULAR);
         setMinuteHandStalk(HandStalk.SHORT);
+        setMinuteHandCutout(HandCutout.HAND_STALK);
         setMinuteHandStyle(Style.FILL_HIGHLIGHT);
 
         setSecondHandOverride(false);
@@ -126,8 +128,8 @@ public final class WatchFacePreset {
                 hourHandShape, minuteHandShape, secondHandShape,
                 hourHandLength, minuteHandLength, secondHandLength,
                 hourHandThickness, minuteHandThickness, secondHandThickness,
-                hourHandStalk,
-                minuteHandStalk,
+                hourHandStalk, minuteHandStalk,
+                hourHandCutout, minuteHandCutout,
                 hourHandStyle, minuteHandStyle, secondHandStyle,
                 ticksDisplay,
                 twelveTickOverride, sixtyTickOverride,
@@ -229,6 +231,10 @@ public final class WatchFacePreset {
         bytePacker.putSixBitColor(mAccentSixBitColor);
         bytePacker.putSixBitColor(mBaseSixBitColor);
 
+        // TODO: rearrange these into their right place
+        hourHandCutout.pack(bytePacker);
+        minuteHandCutout.pack(bytePacker);
+
         bytePacker.finish();
     }
 
@@ -243,7 +249,6 @@ public final class WatchFacePreset {
         hourHandStalk = HandStalk.unpack(bytePacker);
         hourHandStyle = Style.unpack(bytePacker);
 
-        // TODO: Fix minuteHandOverride and secondHandOverride
         minuteHandOverride = bytePacker.getBoolean();
         minuteHandShape = HandShape.unpack(bytePacker);
         minuteHandLength = HandLength.unpack(bytePacker);
@@ -288,6 +293,10 @@ public final class WatchFacePreset {
         mHighlightSixBitColor = bytePacker.getSixBitColor();
         mAccentSixBitColor = bytePacker.getSixBitColor();
         mBaseSixBitColor = bytePacker.getSixBitColor();
+
+        // TODO: rearrange these into their right place
+        hourHandCutout = HandCutout.unpack(bytePacker);
+        minuteHandCutout = HandCutout.unpack(bytePacker);
     }
 
 //    void setPalette(
@@ -647,6 +656,22 @@ public final class WatchFacePreset {
         this.minuteHandStalk = minuteHandStalk;
     }
 
+    public HandCutout getHourHandCutout() {
+        return hourHandCutout;
+    }
+
+    void setHourHandCutout(HandCutout hourHandCutout) {
+        this.hourHandCutout = hourHandCutout;
+    }
+
+    public HandCutout getMinuteHandCutout() {
+        return minuteHandOverride ? minuteHandCutout : hourHandCutout;
+    }
+
+    void setMinuteHandCutout(HandCutout minuteHandCutout) {
+        this.minuteHandCutout = minuteHandCutout;
+    }
+
     int getSixBitColor(ColorType colorType) {
         switch (colorType) {
             case FILL:
@@ -758,6 +783,26 @@ public final class WatchFacePreset {
         @ArrayRes
         public int getNameResourceId() {
             return R.array.WatchFacePreset_HandStalk;
+        }
+    }
+
+    public enum HandCutout implements EnumResourceId {
+        NONE, HAND, STALK, HAND_STALK;
+
+        private static final int bits = 2;
+
+        static HandCutout unpack(BytePacker bytePacker) {
+            return values()[bytePacker.get(bits)];
+        }
+
+        void pack(BytePacker bytePacker) {
+            bytePacker.put(bits, values(), this);
+        }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.WatchFacePreset_HandCutout;
         }
     }
 

@@ -150,6 +150,28 @@ public class WatchPartHandsConfigData {
                     }
                 }));
 
+        // Data for hour hand cutout in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_hour_hand_cutout),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.HandCutout.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.HandCutout h : WatchFacePreset.HandCutout.values()) {
+                            permutation.setHourHandCutout(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getHourHandCutout();
+                    }
+                }));
+
         // Data for hour hand style in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_hour_hand_style),
@@ -169,31 +191,6 @@ public class WatchPartHandsConfigData {
 
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getHourHandStyle();
-                    }
-                }));
-
-        // Data for hour hand cutout in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
-                context.getString(R.string.config_preset_hour_hand_cutout),
-                R.drawable.icn_styles,
-                WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutator() {
-                    @Override
-                    public String[] permute(WatchFacePreset permutation) {
-                        // TODO: fill this in
-                        return new String[]{permutation.getString()};
-//                        String[] result = new String[WatchFacePreset.HandStalk.values().length];
-//                        int i = 0;
-//                        for (WatchFacePreset.HandStalk h : WatchFacePreset.HandStalk.values()) {
-//                            permutation.setHourHandStalk(h);
-//                            result[i++] = permutation.getString();
-//                        }
-//                        return result;
-                    }
-
-                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
-                        // TODO: fill this in
-                        return null;
                     }
                 }));
 
@@ -330,6 +327,34 @@ public class WatchPartHandsConfigData {
                     }
                 }));
 
+        // Data for minute hand cutout in settings Activity.
+        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+                context.getString(R.string.config_preset_minute_hand_cutout),
+                R.drawable.icn_styles,
+                WatchFacePresetSelectionActivity.class,
+                new WatchFacePresetMutator() {
+                    @Override
+                    public String[] permute(WatchFacePreset permutation) {
+                        String[] result = new String[WatchFacePreset.HandCutout.values().length];
+                        int i = 0;
+                        for (WatchFacePreset.HandCutout h : WatchFacePreset.HandCutout.values()) {
+                            permutation.setMinuteHandCutout(h);
+                            result[i++] = permutation.getString();
+                        }
+                        return result;
+                    }
+
+                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                        return currentPreset.getMinuteHandCutout();
+                    }
+                },
+                new ConfigItemVisibilityCalculator() {
+                    @Override
+                    public boolean isVisible(WatchFacePreset currentPreset) {
+                        return currentPreset.isMinuteHandOverridden();
+                    }
+                }));
+
         // Data for minute hand style in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_minute_hand_style),
@@ -349,37 +374,6 @@ public class WatchPartHandsConfigData {
 
                     public Enum getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getMinuteHandStyle();
-                    }
-                },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isMinuteHandOverridden();
-                    }
-                }));
-
-        // Data for minute hand cutout in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
-                context.getString(R.string.config_preset_minute_hand_cutout),
-                R.drawable.icn_styles,
-                WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutator() {
-                    @Override
-                    public String[] permute(WatchFacePreset permutation) {
-                        // TODO: fill this in
-                        return new String[]{permutation.getString()};
-//                        String[] result = new String[WatchFacePreset.HandStalk.values().length];
-//                        int i = 0;
-//                        for (WatchFacePreset.HandStalk h : WatchFacePreset.HandStalk.values()) {
-//                            permutation.setMinuteHandStalk(h);
-//                            result[i++] = permutation.getString();
-//                        }
-//                        return result;
-                    }
-
-                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
-                        // TODO: fill this in
-                        return null;
                     }
                 },
                 new ConfigItemVisibilityCalculator() {
