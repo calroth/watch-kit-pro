@@ -139,7 +139,11 @@ abstract public class BaseConfigData {
 
     protected abstract static class WatchFacePresetMutatorGeneric<E extends Enum>
             implements WatchFacePresetMutator {
-        abstract E[] values();
+        private E[] mValues;
+
+        WatchFacePresetMutatorGeneric(E[] values) {
+            mValues = values;
+        }
 
         /**
          * For the given WatchFacePreset (which must be a clone, since we'll modify it in the
@@ -149,10 +153,9 @@ abstract public class BaseConfigData {
          * @return String array with each permutation
          */
         public String[] permute(WatchFacePreset permutation) {
-            E[] values = values();
-            String[] result = new String[values.length];
+            String[] result = new String[mValues.length];
             int i = 0;
-            for (E h : values) {
+            for (E h : mValues) {
                 permuteOne(permutation, h);
                 result[i++] = permutation.getString();
             }

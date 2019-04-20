@@ -116,15 +116,11 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_hour_hand_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandShape>() {
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandShape>(WatchFacePreset.HandShape.values()) {
+
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandShape h) {
                         permutation.setHourHandShape(h);
-                    }
-
-                    @Override
-                    WatchFacePreset.HandShape[] values() {
-                        return WatchFacePreset.HandShape.values();
                     }
 
                     @Override
@@ -138,11 +134,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_hour_hand_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandLength>() {
-                    @Override
-                    WatchFacePreset.HandLength[] values() {
-                        return WatchFacePreset.HandLength.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandLength>(WatchFacePreset.HandLength.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandLength h) {
@@ -160,11 +152,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_hour_hand_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandThickness>() {
-                    @Override
-                    WatchFacePreset.HandThickness[] values() {
-                        return WatchFacePreset.HandThickness.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandThickness>(WatchFacePreset.HandThickness.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandThickness h) {
@@ -182,11 +170,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_hour_hand_stalk),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandStalk>() {
-                    @Override
-                    WatchFacePreset.HandStalk[] values() {
-                        return WatchFacePreset.HandStalk.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandStalk>(WatchFacePreset.HandStalk.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandStalk h) {
@@ -204,11 +188,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_hour_hand_cutout),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandCutout>() {
-                    @Override
-                    WatchFacePreset.HandCutout[] values() {
-                        return WatchFacePreset.HandCutout.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandCutout>(WatchFacePreset.HandCutout.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandCutout h) {
@@ -226,11 +206,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_hour_hand_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.Style>() {
-                    @Override
-                    WatchFacePreset.Style[] values() {
-                        return WatchFacePreset.Style.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.Style>(WatchFacePreset.Style.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.Style h) {
@@ -269,11 +245,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_minute_hand_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandShape>() {
-                    @Override
-                    WatchFacePreset.HandShape[] values() {
-                        return WatchFacePreset.HandShape.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandShape>(WatchFacePreset.HandShape.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandShape h) {
@@ -297,11 +269,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_minute_hand_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandLength>() {
-                    @Override
-                    WatchFacePreset.HandLength[] values() {
-                        return WatchFacePreset.HandLength.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandLength>(WatchFacePreset.HandLength.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandLength h) {
@@ -325,11 +293,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_minute_hand_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandThickness>() {
-                    @Override
-                    WatchFacePreset.HandThickness[] values() {
-                        return WatchFacePreset.HandThickness.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandThickness>(WatchFacePreset.HandThickness.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandThickness h) {
@@ -353,11 +317,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_minute_hand_stalk),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandStalk>() {
-                    @Override
-                    WatchFacePreset.HandStalk[] values() {
-                        return WatchFacePreset.HandStalk.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandStalk>(WatchFacePreset.HandStalk.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandStalk h) {
@@ -381,11 +341,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_minute_hand_cutout),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandCutout>() {
-                    @Override
-                    WatchFacePreset.HandCutout[] values() {
-                        return WatchFacePreset.HandCutout.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandCutout>(WatchFacePreset.HandCutout.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandCutout h) {
@@ -409,11 +365,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_minute_hand_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.Style>() {
-                    @Override
-                    WatchFacePreset.Style[] values() {
-                        return WatchFacePreset.Style.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.Style>(WatchFacePreset.Style.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.Style h) {
@@ -458,11 +410,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_second_hand_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandShape>() {
-                    @Override
-                    WatchFacePreset.HandShape[] values() {
-                        return WatchFacePreset.HandShape.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandShape>(WatchFacePreset.HandShape.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandShape h) {
@@ -486,11 +434,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_second_hand_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandLength>() {
-                    @Override
-                    WatchFacePreset.HandLength[] values() {
-                        return WatchFacePreset.HandLength.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandLength>(WatchFacePreset.HandLength.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandLength h) {
@@ -514,11 +458,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_second_hand_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandThickness>() {
-                    @Override
-                    WatchFacePreset.HandThickness[] values() {
-                        return WatchFacePreset.HandThickness.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandThickness>(WatchFacePreset.HandThickness.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandThickness h) {
@@ -542,11 +482,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_second_hand_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.Style>() {
-                    @Override
-                    WatchFacePreset.Style[] values() {
-                        return WatchFacePreset.Style.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.Style>(WatchFacePreset.Style.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.Style h) {
@@ -570,11 +506,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_ticks_display),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TicksDisplay>() {
-                    @Override
-                    WatchFacePreset.TicksDisplay[] values() {
-                        return WatchFacePreset.TicksDisplay.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.TicksDisplay>(WatchFacePreset.TicksDisplay.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.TicksDisplay h) {
@@ -592,11 +524,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_four_tick_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickShape>() {
-                    @Override
-                    WatchFacePreset.TickShape[] values() {
-                        return WatchFacePreset.TickShape.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickShape>(WatchFacePreset.TickShape.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickShape h) {
@@ -620,11 +548,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_four_tick_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickLength>() {
-                    @Override
-                    WatchFacePreset.TickLength[] values() {
-                        return WatchFacePreset.TickLength.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickLength>(WatchFacePreset.TickLength.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickLength h) {
@@ -648,11 +572,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_four_tick_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickThickness>() {
-                    @Override
-                    WatchFacePreset.TickThickness[] values() {
-                        return WatchFacePreset.TickThickness.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickThickness>(WatchFacePreset.TickThickness.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickThickness h) {
@@ -676,11 +596,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_four_tick_radius_position),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickRadiusPosition>() {
-                    @Override
-                    WatchFacePreset.TickRadiusPosition[] values() {
-                        return WatchFacePreset.TickRadiusPosition.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickRadiusPosition>(WatchFacePreset.TickRadiusPosition.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickRadiusPosition h) {
@@ -704,11 +620,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_four_tick_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.Style>() {
-                    @Override
-                    WatchFacePreset.Style[] values() {
-                        return WatchFacePreset.Style.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.Style>(WatchFacePreset.Style.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.Style h) {
@@ -753,11 +665,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_twelve_tick_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickShape>() {
-                    @Override
-                    WatchFacePreset.TickShape[] values() {
-                        return WatchFacePreset.TickShape.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickShape>(WatchFacePreset.TickShape.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickShape h) {
@@ -782,11 +690,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_twelve_tick_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickLength>() {
-                    @Override
-                    WatchFacePreset.TickLength[] values() {
-                        return WatchFacePreset.TickLength.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickLength>(WatchFacePreset.TickLength.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickLength h) {
@@ -811,11 +715,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_twelve_tick_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickThickness>() {
-                    @Override
-                    WatchFacePreset.TickThickness[] values() {
-                        return WatchFacePreset.TickThickness.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickThickness>(WatchFacePreset.TickThickness.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickThickness h) {
@@ -840,11 +740,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_twelve_tick_radius_position),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickRadiusPosition>() {
-                    @Override
-                    WatchFacePreset.TickRadiusPosition[] values() {
-                        return WatchFacePreset.TickRadiusPosition.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickRadiusPosition>(WatchFacePreset.TickRadiusPosition.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickRadiusPosition h) {
@@ -869,11 +765,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_twelve_tick_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.Style>() {
-                    @Override
-                    WatchFacePreset.Style[] values() {
-                        return WatchFacePreset.Style.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.Style>(WatchFacePreset.Style.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.Style h) {
@@ -919,11 +811,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_sixty_tick_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickShape>() {
-                    @Override
-                    WatchFacePreset.TickShape[] values() {
-                        return WatchFacePreset.TickShape.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickShape>(WatchFacePreset.TickShape.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickShape h) {
@@ -948,11 +836,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_sixty_tick_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickLength>() {
-                    @Override
-                    WatchFacePreset.TickLength[] values() {
-                        return WatchFacePreset.TickLength.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickLength>(WatchFacePreset.TickLength.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickLength h) {
@@ -977,11 +861,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_sixty_tick_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickThickness>() {
-                    @Override
-                    WatchFacePreset.TickThickness[] values() {
-                        return WatchFacePreset.TickThickness.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickThickness>(WatchFacePreset.TickThickness.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickThickness h) {
@@ -1006,11 +886,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_sixty_tick_radius_position),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickRadiusPosition>() {
-                    @Override
-                    WatchFacePreset.TickRadiusPosition[] values() {
-                        return WatchFacePreset.TickRadiusPosition.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickRadiusPosition>(WatchFacePreset.TickRadiusPosition.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickRadiusPosition h) {
@@ -1035,11 +911,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_sixty_tick_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.Style>() {
-                    @Override
-                    WatchFacePreset.Style[] values() {
-                        return WatchFacePreset.Style.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.Style>(WatchFacePreset.Style.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.Style h) {
@@ -1064,11 +936,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_fill_highlight_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.GradientStyle>() {
-                    @Override
-                    WatchFacePreset.GradientStyle[] values() {
-                        return WatchFacePreset.GradientStyle.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.GradientStyle>(WatchFacePreset.GradientStyle.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.GradientStyle h) {
@@ -1086,11 +954,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_accent_fill_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.GradientStyle>() {
-                    @Override
-                    WatchFacePreset.GradientStyle[] values() {
-                        return WatchFacePreset.GradientStyle.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.GradientStyle>(WatchFacePreset.GradientStyle.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.GradientStyle h) {
@@ -1108,11 +972,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_accent_highlight_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.GradientStyle>() {
-                    @Override
-                    WatchFacePreset.GradientStyle[] values() {
-                        return WatchFacePreset.GradientStyle.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.GradientStyle>(WatchFacePreset.GradientStyle.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.GradientStyle h) {
@@ -1130,11 +990,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_preset_base_accent_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.GradientStyle>() {
-                    @Override
-                    WatchFacePreset.GradientStyle[] values() {
-                        return WatchFacePreset.GradientStyle.values();
-                    }
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.GradientStyle>(WatchFacePreset.GradientStyle.values()) {
 
                     @Override
                     void permuteOne(WatchFacePreset permutation, WatchFacePreset.GradientStyle h) {
