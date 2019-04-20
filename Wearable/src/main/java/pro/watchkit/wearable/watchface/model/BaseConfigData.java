@@ -137,7 +137,8 @@ abstract public class BaseConfigData {
         }
     }
 
-    protected abstract static class WatchFacePresetMutatorGeneric<E extends Enum> {
+    protected abstract static class WatchFacePresetMutatorGeneric<E extends Enum>
+            implements WatchFacePresetMutator {
         abstract E[] values();
 
         /**
@@ -174,14 +175,14 @@ abstract public class BaseConfigData {
         private String mName;
         private int mIconResourceId;
         private Class<WatchFacePresetSelectionActivity> mActivityToChoosePreference;
-        private WatchFacePresetMutatorGeneric<Enum> mMutator;
+        private WatchFacePresetMutator mMutator;
         private ConfigItemVisibilityCalculator mConfigItemVisibilityCalculator;
 
         WatchFacePresetPickerConfigItem(
                 String name,
                 int iconResourceId,
                 Class<WatchFacePresetSelectionActivity> activity,
-                WatchFacePresetMutatorGeneric mutator) {
+                WatchFacePresetMutator mutator) {
             this(name, iconResourceId, activity, mutator, null);
         }
 
@@ -189,7 +190,7 @@ abstract public class BaseConfigData {
                 String name,
                 int iconResourceId,
                 Class<WatchFacePresetSelectionActivity> activity,
-                WatchFacePresetMutatorGeneric mutator,
+                WatchFacePresetMutator mutator,
                 ConfigItemVisibilityCalculator configItemVisibilityCalculator) {
             mMutator = mutator;
             mName = name;
