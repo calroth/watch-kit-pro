@@ -55,13 +55,13 @@ import java.util.concurrent.Executors;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import pro.watchkit.wearable.watchface.R;
+import pro.watchkit.wearable.watchface.model.BaseConfigData.ConfigItemType;
+import pro.watchkit.wearable.watchface.model.BaseConfigData.WatchFacePresetPickerConfigItem;
+import pro.watchkit.wearable.watchface.model.BaseConfigData.WatchFacePresetToggleConfigItem;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 import pro.watchkit.wearable.watchface.model.WatchPartHandsConfigData;
-import pro.watchkit.wearable.watchface.model.WatchPartHandsConfigData.ConfigItemType;
-import pro.watchkit.wearable.watchface.model.WatchPartHandsConfigData.WatchFacePresetPickerConfigItem;
-import pro.watchkit.wearable.watchface.model.WatchPartHandsConfigData.WatchFacePresetToggleConfigItem;
 
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.EXTRA_SHARED_PREF;
 

@@ -35,11 +35,9 @@
 package pro.watchkit.wearable.watchface.model;
 
 import android.content.Context;
-import android.text.Html;
 
 import java.util.ArrayList;
 
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.WatchFacePresetSelectionActivity;
@@ -52,7 +50,7 @@ import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceServ
  * {@link AnalogComplicationWatchFaceService} watch face's appearance and complications
  * via {@link WatchPartHandsConfigActivity}.
  */
-public class WatchPartHandsConfigData {
+public class WatchPartHandsConfigData extends BaseConfigData {
 
     /**
      * Includes all data to populate each of the 5 different custom
@@ -67,19 +65,19 @@ public class WatchPartHandsConfigData {
                 context.getString(R.string.config_preset_hour_hand_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutator() {
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandShape>() {
                     @Override
-                    public String[] permute(WatchFacePreset permutation) {
-                        String[] result = new String[WatchFacePreset.HandShape.values().length];
-                        int i = 0;
-                        for (WatchFacePreset.HandShape h : WatchFacePreset.HandShape.values()) {
-                            permutation.setHourHandShape(h);
-                            result[i++] = permutation.getString();
-                        }
-                        return result;
+                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandShape h) {
+                        permutation.setHourHandShape(h);
                     }
 
-                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                    @Override
+                    WatchFacePreset.HandShape[] values() {
+                        return WatchFacePreset.HandShape.values();
+                    }
+
+                    @Override
+                    public WatchFacePreset.HandShape getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getHourHandShape();
                     }
                 }));
@@ -89,19 +87,19 @@ public class WatchPartHandsConfigData {
                 context.getString(R.string.config_preset_hour_hand_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutator() {
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandLength>() {
                     @Override
-                    public String[] permute(WatchFacePreset permutation) {
-                        String[] result = new String[WatchFacePreset.HandLength.values().length];
-                        int i = 0;
-                        for (WatchFacePreset.HandLength h : WatchFacePreset.HandLength.values()) {
-                            permutation.setHourHandLength(h);
-                            result[i++] = permutation.getString();
-                        }
-                        return result;
+                    WatchFacePreset.HandLength[] values() {
+                        return WatchFacePreset.HandLength.values();
                     }
 
-                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                    @Override
+                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandLength h) {
+                        permutation.setHourHandLength(h);
+                    }
+
+                    @Override
+                    public WatchFacePreset.HandLength getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getHourHandLength();
                     }
                 }));
@@ -111,19 +109,19 @@ public class WatchPartHandsConfigData {
                 context.getString(R.string.config_preset_hour_hand_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutator() {
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandThickness>() {
                     @Override
-                    public String[] permute(WatchFacePreset permutation) {
-                        String[] result = new String[WatchFacePreset.HandThickness.values().length];
-                        int i = 0;
-                        for (WatchFacePreset.HandThickness h : WatchFacePreset.HandThickness.values()) {
-                            permutation.setHourHandThickness(h);
-                            result[i++] = permutation.getString();
-                        }
-                        return result;
+                    WatchFacePreset.HandThickness[] values() {
+                        return WatchFacePreset.HandThickness.values();
                     }
 
-                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                    @Override
+                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandThickness h) {
+                        permutation.setHourHandThickness(h);
+                    }
+
+                    @Override
+                    public WatchFacePreset.HandThickness getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getHourHandThickness();
                     }
                 }));
@@ -133,19 +131,19 @@ public class WatchPartHandsConfigData {
                 context.getString(R.string.config_preset_hour_hand_stalk),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutator() {
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandStalk>() {
                     @Override
-                    public String[] permute(WatchFacePreset permutation) {
-                        String[] result = new String[WatchFacePreset.HandStalk.values().length];
-                        int i = 0;
-                        for (WatchFacePreset.HandStalk h : WatchFacePreset.HandStalk.values()) {
-                            permutation.setHourHandStalk(h);
-                            result[i++] = permutation.getString();
-                        }
-                        return result;
+                    WatchFacePreset.HandStalk[] values() {
+                        return WatchFacePreset.HandStalk.values();
                     }
 
-                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                    @Override
+                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandStalk h) {
+                        permutation.setHourHandStalk(h);
+                    }
+
+                    @Override
+                    public WatchFacePreset.HandStalk getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getHourHandStalk();
                     }
                 }));
@@ -155,19 +153,19 @@ public class WatchPartHandsConfigData {
                 context.getString(R.string.config_preset_hour_hand_cutout),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutator() {
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandCutout>() {
                     @Override
-                    public String[] permute(WatchFacePreset permutation) {
-                        String[] result = new String[WatchFacePreset.HandCutout.values().length];
-                        int i = 0;
-                        for (WatchFacePreset.HandCutout h : WatchFacePreset.HandCutout.values()) {
-                            permutation.setHourHandCutout(h);
-                            result[i++] = permutation.getString();
-                        }
-                        return result;
+                    WatchFacePreset.HandCutout[] values() {
+                        return WatchFacePreset.HandCutout.values();
                     }
 
-                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                    @Override
+                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandCutout h) {
+                        permutation.setHourHandCutout(h);
+                    }
+
+                    @Override
+                    public WatchFacePreset.HandCutout getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getHourHandCutout();
                     }
                 }));
@@ -177,19 +175,19 @@ public class WatchPartHandsConfigData {
                 context.getString(R.string.config_preset_hour_hand_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutator() {
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.Style>() {
                     @Override
-                    public String[] permute(WatchFacePreset permutation) {
-                        String[] result = new String[WatchFacePreset.Style.values().length];
-                        int i = 0;
-                        for (WatchFacePreset.Style h : WatchFacePreset.Style.values()) {
-                            permutation.setHourHandStyle(h);
-                            result[i++] = permutation.getString();
-                        }
-                        return result;
+                    WatchFacePreset.Style[] values() {
+                        return WatchFacePreset.Style.values();
                     }
 
-                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                    @Override
+                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.Style h) {
+                        permutation.setHourHandStyle(h);
+                    }
+
+                    @Override
+                    public WatchFacePreset.Style getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getHourHandStyle();
                     }
                 }));
@@ -220,19 +218,19 @@ public class WatchPartHandsConfigData {
                 context.getString(R.string.config_preset_minute_hand_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutator() {
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandShape>() {
                     @Override
-                    public String[] permute(WatchFacePreset permutation) {
-                        String[] result = new String[WatchFacePreset.HandShape.values().length];
-                        int i = 0;
-                        for (WatchFacePreset.HandShape h : WatchFacePreset.HandShape.values()) {
-                            permutation.setMinuteHandShape(h);
-                            result[i++] = permutation.getString();
-                        }
-                        return result;
+                    WatchFacePreset.HandShape[] values() {
+                        return WatchFacePreset.HandShape.values();
                     }
 
-                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                    @Override
+                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandShape h) {
+                        permutation.setMinuteHandShape(h);
+                    }
+
+                    @Override
+                    public WatchFacePreset.HandShape getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getMinuteHandShape();
                     }
                 },
@@ -248,19 +246,19 @@ public class WatchPartHandsConfigData {
                 context.getString(R.string.config_preset_minute_hand_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutator() {
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandLength>() {
                     @Override
-                    public String[] permute(WatchFacePreset permutation) {
-                        String[] result = new String[WatchFacePreset.HandLength.values().length];
-                        int i = 0;
-                        for (WatchFacePreset.HandLength h : WatchFacePreset.HandLength.values()) {
-                            permutation.setMinuteHandLength(h);
-                            result[i++] = permutation.getString();
-                        }
-                        return result;
+                    WatchFacePreset.HandLength[] values() {
+                        return WatchFacePreset.HandLength.values();
                     }
 
-                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                    @Override
+                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandLength h) {
+                        permutation.setMinuteHandLength(h);
+                    }
+
+                    @Override
+                    public WatchFacePreset.HandLength getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getMinuteHandLength();
                     }
                 },
@@ -276,19 +274,19 @@ public class WatchPartHandsConfigData {
                 context.getString(R.string.config_preset_minute_hand_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutator() {
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandThickness>() {
                     @Override
-                    public String[] permute(WatchFacePreset permutation) {
-                        String[] result = new String[WatchFacePreset.HandThickness.values().length];
-                        int i = 0;
-                        for (WatchFacePreset.HandThickness h : WatchFacePreset.HandThickness.values()) {
-                            permutation.setMinuteHandThickness(h);
-                            result[i++] = permutation.getString();
-                        }
-                        return result;
+                    WatchFacePreset.HandThickness[] values() {
+                        return WatchFacePreset.HandThickness.values();
                     }
 
-                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                    @Override
+                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandThickness h) {
+                        permutation.setMinuteHandThickness(h);
+                    }
+
+                    @Override
+                    public WatchFacePreset.HandThickness getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getMinuteHandThickness();
                     }
                 },
@@ -304,19 +302,19 @@ public class WatchPartHandsConfigData {
                 context.getString(R.string.config_preset_minute_hand_stalk),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutator() {
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandStalk>() {
                     @Override
-                    public String[] permute(WatchFacePreset permutation) {
-                        String[] result = new String[WatchFacePreset.HandStalk.values().length];
-                        int i = 0;
-                        for (WatchFacePreset.HandStalk h : WatchFacePreset.HandStalk.values()) {
-                            permutation.setMinuteHandStalk(h);
-                            result[i++] = permutation.getString();
-                        }
-                        return result;
+                    WatchFacePreset.HandStalk[] values() {
+                        return WatchFacePreset.HandStalk.values();
                     }
 
-                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                    @Override
+                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandStalk h) {
+                        permutation.setMinuteHandStalk(h);
+                    }
+
+                    @Override
+                    public WatchFacePreset.HandStalk getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getMinuteHandStalk();
                     }
                 },
@@ -332,19 +330,19 @@ public class WatchPartHandsConfigData {
                 context.getString(R.string.config_preset_minute_hand_cutout),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutator() {
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandCutout>() {
                     @Override
-                    public String[] permute(WatchFacePreset permutation) {
-                        String[] result = new String[WatchFacePreset.HandCutout.values().length];
-                        int i = 0;
-                        for (WatchFacePreset.HandCutout h : WatchFacePreset.HandCutout.values()) {
-                            permutation.setMinuteHandCutout(h);
-                            result[i++] = permutation.getString();
-                        }
-                        return result;
+                    WatchFacePreset.HandCutout[] values() {
+                        return WatchFacePreset.HandCutout.values();
                     }
 
-                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                    @Override
+                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandCutout h) {
+                        permutation.setMinuteHandCutout(h);
+                    }
+
+                    @Override
+                    public WatchFacePreset.HandCutout getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getMinuteHandCutout();
                     }
                 },
@@ -360,19 +358,19 @@ public class WatchPartHandsConfigData {
                 context.getString(R.string.config_preset_minute_hand_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutator() {
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.Style>() {
                     @Override
-                    public String[] permute(WatchFacePreset permutation) {
-                        String[] result = new String[WatchFacePreset.Style.values().length];
-                        int i = 0;
-                        for (WatchFacePreset.Style h : WatchFacePreset.Style.values()) {
-                            permutation.setMinuteHandStyle(h);
-                            result[i++] = permutation.getString();
-                        }
-                        return result;
+                    WatchFacePreset.Style[] values() {
+                        return WatchFacePreset.Style.values();
                     }
 
-                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                    @Override
+                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.Style h) {
+                        permutation.setMinuteHandStyle(h);
+                    }
+
+                    @Override
+                    public WatchFacePreset.Style getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getMinuteHandStyle();
                     }
                 },
@@ -409,19 +407,19 @@ public class WatchPartHandsConfigData {
                 context.getString(R.string.config_preset_second_hand_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutator() {
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandShape>() {
                     @Override
-                    public String[] permute(WatchFacePreset permutation) {
-                        String[] result = new String[WatchFacePreset.HandShape.values().length];
-                        int i = 0;
-                        for (WatchFacePreset.HandShape h : WatchFacePreset.HandShape.values()) {
-                            permutation.setSecondHandShape(h);
-                            result[i++] = permutation.getString();
-                        }
-                        return result;
+                    WatchFacePreset.HandShape[] values() {
+                        return WatchFacePreset.HandShape.values();
                     }
 
-                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                    @Override
+                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandShape h) {
+                        permutation.setSecondHandShape(h);
+                    }
+
+                    @Override
+                    public WatchFacePreset.HandShape getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getSecondHandShape();
                     }
                 },
@@ -437,19 +435,19 @@ public class WatchPartHandsConfigData {
                 context.getString(R.string.config_preset_second_hand_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutator() {
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandLength>() {
                     @Override
-                    public String[] permute(WatchFacePreset permutation) {
-                        String[] result = new String[WatchFacePreset.HandLength.values().length];
-                        int i = 0;
-                        for (WatchFacePreset.HandLength h : WatchFacePreset.HandLength.values()) {
-                            permutation.setSecondHandLength(h);
-                            result[i++] = permutation.getString();
-                        }
-                        return result;
+                    WatchFacePreset.HandLength[] values() {
+                        return WatchFacePreset.HandLength.values();
                     }
 
-                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                    @Override
+                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandLength h) {
+                        permutation.setSecondHandLength(h);
+                    }
+
+                    @Override
+                    public WatchFacePreset.HandLength getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getSecondHandLength();
                     }
                 },
@@ -465,19 +463,19 @@ public class WatchPartHandsConfigData {
                 context.getString(R.string.config_preset_second_hand_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutator() {
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandThickness>() {
                     @Override
-                    public String[] permute(WatchFacePreset permutation) {
-                        String[] result = new String[WatchFacePreset.HandThickness.values().length];
-                        int i = 0;
-                        for (WatchFacePreset.HandThickness h : WatchFacePreset.HandThickness.values()) {
-                            permutation.setSecondHandThickness(h);
-                            result[i++] = permutation.getString();
-                        }
-                        return result;
+                    WatchFacePreset.HandThickness[] values() {
+                        return WatchFacePreset.HandThickness.values();
                     }
 
-                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                    @Override
+                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandThickness h) {
+                        permutation.setSecondHandThickness(h);
+                    }
+
+                    @Override
+                    public WatchFacePreset.HandThickness getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getSecondHandThickness();
                     }
                 },
@@ -493,19 +491,19 @@ public class WatchPartHandsConfigData {
                 context.getString(R.string.config_preset_second_hand_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutator() {
+                new WatchFacePresetMutatorGeneric<WatchFacePreset.Style>() {
                     @Override
-                    public String[] permute(WatchFacePreset permutation) {
-                        String[] result = new String[WatchFacePreset.Style.values().length];
-                        int i = 0;
-                        for (WatchFacePreset.Style h : WatchFacePreset.Style.values()) {
-                            permutation.setSecondHandStyle(h);
-                            result[i++] = permutation.getString();
-                        }
-                        return result;
+                    WatchFacePreset.Style[] values() {
+                        return WatchFacePreset.Style.values();
                     }
 
-                    public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                    @Override
+                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.Style h) {
+                        permutation.setSecondHandStyle(h);
+                    }
+
+                    @Override
+                    public WatchFacePreset.Style getCurrentValue(WatchFacePreset currentPreset) {
                         return currentPreset.getSecondHandStyle();
                     }
                 },
@@ -517,153 +515,5 @@ public class WatchPartHandsConfigData {
                 }));
 
         return settingsConfigData;
-    }
-
-    /**
-     * Interface all ConfigItems must implement so the {@link RecyclerView}'s Adapter associated
-     * with the configuration activity knows what type of ViewHolder to inflate.
-     */
-    public interface ConfigItemType {
-        int getConfigType();
-    }
-
-    private interface WatchFacePresetMutator {
-        /**
-         * For the given WatchFacePreset (which must be a clone, since we'll modify it in the
-         * process) return a String array with each permutation.
-         *
-         * @param permutation WatchFacePreset, which must be a clone, since we'll modify it
-         * @return String array with each permutation
-         */
-        String[] permute(WatchFacePreset permutation);
-
-        /**
-         * For the given WatchFacePreset (which is our current preference) return the current
-         * value.
-         *
-         * @param currentPreset WatchFacePreset of our current preference
-         * @return Value that it's currently set to
-         */
-        Enum getCurrentValue(WatchFacePreset currentPreset);
-    }
-
-    /**
-     * Objects inherit this interface to determine the visibility of a ConfigItem.
-     * That is, implement this interface and put in some custom logic that determines
-     * whether an item is visible or not.
-     */
-    private interface ConfigItemVisibilityCalculator {
-        boolean isVisible(WatchFacePreset currentPreset);
-    }
-
-    public static class WatchFacePresetPickerConfigItem implements ConfigItemType {
-        private String mName;
-        private int mIconResourceId;
-        private Class<WatchFacePresetSelectionActivity> mActivityToChoosePreference;
-        private WatchFacePresetMutator mMutator;
-        private ConfigItemVisibilityCalculator mConfigItemVisibilityCalculator;
-
-        WatchFacePresetPickerConfigItem(
-                String name,
-                int iconResourceId,
-                Class<WatchFacePresetSelectionActivity> activity,
-                WatchFacePresetMutator mutator) {
-            this(name, iconResourceId, activity, mutator, null);
-        }
-
-        WatchFacePresetPickerConfigItem(
-                String name,
-                int iconResourceId,
-                Class<WatchFacePresetSelectionActivity> activity,
-                WatchFacePresetMutator mutator,
-                ConfigItemVisibilityCalculator configItemVisibilityCalculator) {
-            mMutator = mutator;
-            mName = name;
-            mIconResourceId = iconResourceId;
-            mActivityToChoosePreference = activity;
-            mConfigItemVisibilityCalculator = configItemVisibilityCalculator;
-        }
-
-        public CharSequence getName(WatchFacePreset watchFacePreset, Context context) {
-            Enum e = mMutator.getCurrentValue(watchFacePreset);
-
-            if (e == null) {
-                return mName;
-            } else if (e instanceof WatchFacePreset.EnumResourceId) {
-                WatchFacePreset.EnumResourceId f = (WatchFacePreset.EnumResourceId) e;
-                return Html.fromHtml(mName + "<br/><small>" +
-                        context.getResources().getStringArray(f.getNameResourceId())[e.ordinal()] +
-                        "</small>", Html.FROM_HTML_MODE_LEGACY);
-            } else {
-                return Html.fromHtml(mName + "<br/><small>" +
-                        e.getClass().getSimpleName() + " ~ " + e.name() +
-                        "</small>", Html.FROM_HTML_MODE_LEGACY);
-            }
-        }
-
-        public int getIconResourceId() {
-            return mIconResourceId;
-        }
-
-        public Class<WatchFacePresetSelectionActivity> getActivityToChoosePreference() {
-            return mActivityToChoosePreference;
-        }
-
-        @Override
-        public int getConfigType() {
-            return WatchPartHandsConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_PICKER_CONFIG;
-        }
-
-        public String[] permute(WatchFacePreset watchFacePreset) {
-            return mMutator.permute(watchFacePreset.clone());
-        }
-
-        public boolean isVisible(WatchFacePreset watchFacePreset) {
-            return mConfigItemVisibilityCalculator == null ||
-                    mConfigItemVisibilityCalculator.isVisible(watchFacePreset);
-        }
-    }
-
-    /**
-     * Data for Night Vision preference picker item in RecyclerView.
-     */
-    public static class WatchFacePresetToggleConfigItem implements ConfigItemType {
-
-        private String name;
-        private int iconEnabledResourceId;
-        private int iconDisabledResourceId;
-        private WatchFacePresetMutator mMutator;
-
-        WatchFacePresetToggleConfigItem(
-                String name,
-                int iconEnabledResourceId,
-                int iconDisabledResourceId,
-                WatchFacePresetMutator mutator) {
-            this.name = name;
-            this.iconEnabledResourceId = iconEnabledResourceId;
-            this.iconDisabledResourceId = iconDisabledResourceId;
-            this.mMutator = mutator;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public int getIconEnabledResourceId() {
-            return iconEnabledResourceId;
-        }
-
-        public int getIconDisabledResourceId() {
-            return iconDisabledResourceId;
-        }
-
-        @Override
-        public int getConfigType() {
-            return WatchPartHandsConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG;
-        }
-
-        public String[] permute(WatchFacePreset watchFacePreset) {
-            return mMutator.permute(watchFacePreset.clone());
-        }
     }
 }
