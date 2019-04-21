@@ -46,6 +46,7 @@ import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData;
 import pro.watchkit.wearable.watchface.model.ConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartHandsConfigData;
+import pro.watchkit.wearable.watchface.model.WatchPartTicksConfigData;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
 /**
@@ -73,6 +74,8 @@ public class ConfigActivity extends Activity {
             String configDataString = getIntent().getStringExtra(CONFIG_DATA);
             if (WatchPartHandsConfigData.class.getSimpleName().equals(configDataString)) {
                 mConfigData = new WatchPartHandsConfigData();
+            } else if (WatchPartTicksConfigData.class.getSimpleName().equals(configDataString)) {
+                mConfigData = new WatchPartTicksConfigData();
             } else {
                 mConfigData = new AnalogComplicationConfigData();
             }
