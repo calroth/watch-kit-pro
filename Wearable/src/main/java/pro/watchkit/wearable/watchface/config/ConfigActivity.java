@@ -44,6 +44,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.wear.widget.WearableRecyclerView;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData;
+import pro.watchkit.wearable.watchface.model.ColorsStylesConfigData;
 import pro.watchkit.wearable.watchface.model.ConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartHandsConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartTicksConfigData;
@@ -72,7 +73,9 @@ public class ConfigActivity extends Activity {
 
         if (mConfigData == null) {
             String configDataString = getIntent().getStringExtra(CONFIG_DATA);
-            if (WatchPartHandsConfigData.class.getSimpleName().equals(configDataString)) {
+            if (ColorsStylesConfigData.class.getSimpleName().equals(configDataString)) {
+                mConfigData = new ColorsStylesConfigData();
+            } else if (WatchPartHandsConfigData.class.getSimpleName().equals(configDataString)) {
                 mConfigData = new WatchPartHandsConfigData();
             } else if (WatchPartTicksConfigData.class.getSimpleName().equals(configDataString)) {
                 mConfigData = new WatchPartTicksConfigData();

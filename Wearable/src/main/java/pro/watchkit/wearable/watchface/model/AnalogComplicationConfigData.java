@@ -40,10 +40,8 @@ import java.util.ArrayList;
 
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import pro.watchkit.wearable.watchface.R;
-import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
 import pro.watchkit.wearable.watchface.config.ConfigRecyclerViewAdapter;
-import pro.watchkit.wearable.watchface.config.WatchFacePresetSelectionActivity;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
 /**
@@ -79,37 +77,12 @@ public class AnalogComplicationConfigData extends ConfigData {
                 new MoreOptionsConfigItem(R.drawable.ic_expand_more_white_18dp);
         settingsConfigData.add(moreOptionsConfigItem);
 
-        // Data for fill color UX in settings Activity.
-        settingsConfigData.add(new ColorPickerConfigItem(
-                context.getString(R.string.config_fill_color_label),
+        // Data for Configure Colors and Styles sub-activity in settings Activity.
+        settingsConfigData.add(new ConfigActivityConfigItem(
+                context.getString(R.string.config_configure_colors_styles),
                 R.drawable.icn_styles,
-                WatchFacePreset.ColorType.FILL,
-//                context.getString(R.string.saved_fill_color),
-                ColorSelectionActivity.class));
-
-        // Data for accent color UX in settings Activity.
-        settingsConfigData.add(new ColorPickerConfigItem(
-                context.getString(R.string.config_accent_color_label),
-                R.drawable.icn_styles,
-                WatchFacePreset.ColorType.ACCENT,
-//                context.getString(R.string.saved_accent_color),
-                ColorSelectionActivity.class));
-
-        // Data for highlight/marker (second hand) color UX in settings Activity.
-        settingsConfigData.add(new ColorPickerConfigItem(
-                context.getString(R.string.config_marker_color_label),
-                R.drawable.icn_styles,
-                WatchFacePreset.ColorType.HIGHLIGHT,
-//                        context.getString(R.string.saved_marker_color),
-                ColorSelectionActivity.class));
-
-        // Data for base color UX in settings Activity.
-        settingsConfigData.add(new ColorPickerConfigItem(
-                context.getString(R.string.config_base_color_label),
-                R.drawable.icn_styles,
-                WatchFacePreset.ColorType.BASE,
-//                context.getString(R.string.saved_base_color),
-                ColorSelectionActivity.class));
+                ColorsStylesConfigData.class,
+                ConfigActivity.class));
 
         // Data for Configure Hands sub-activity in settings Activity.
         settingsConfigData.add(new ConfigActivityConfigItem(
@@ -124,87 +97,6 @@ public class AnalogComplicationConfigData extends ConfigData {
                 R.drawable.icn_styles,
                 WatchPartTicksConfigData.class,
                 ConfigActivity.class));
-
-        // Data for fill highlight style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
-                context.getString(R.string.config_preset_fill_highlight_style),
-                R.drawable.icn_styles,
-                WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.GradientStyle>(WatchFacePreset.GradientStyle.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.GradientStyle h) {
-                        permutation.setFillHighlightStyle(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.GradientStyle getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getFillHighlightStyle();
-                    }
-                }));
-
-        // Data for accent fill style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
-                context.getString(R.string.config_preset_accent_fill_style),
-                R.drawable.icn_styles,
-                WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.GradientStyle>(WatchFacePreset.GradientStyle.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.GradientStyle h) {
-                        permutation.setAccentFillStyle(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.GradientStyle getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getAccentFillStyle();
-                    }
-                }));
-
-        // Data for accent highlight style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
-                context.getString(R.string.config_preset_accent_highlight_style),
-                R.drawable.icn_styles,
-                WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.GradientStyle>(WatchFacePreset.GradientStyle.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.GradientStyle h) {
-                        permutation.setAccentHighlightStyle(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.GradientStyle getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getAccentHighlightStyle();
-                    }
-                }));
-
-        // Data for base accent style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
-                context.getString(R.string.config_preset_base_accent_style),
-                R.drawable.icn_styles,
-                WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.GradientStyle>(WatchFacePreset.GradientStyle.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.GradientStyle h) {
-                        permutation.setBaseAccentStyle(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.GradientStyle getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getBaseAccentStyle();
-                    }
-                }));
-
-        // Data for Background color UX in settings Activity.
-//        ConfigItemType backgroundColorConfigItem =
-//                new ColorPickerConfigItem(
-//                        context.getString(R.string.config_background_color_label),
-//                        R.drawable.icn_styles,
-//                        context.getString(R.string.saved_background_color),
-//                        ColorSelectionActivity.class);
-//        settingsConfigData.add(backgroundColorConfigItem);
 
         // Data for 'Unread Notifications' UX (toggle) in settings Activity.
         ConfigItemType unreadNotificationsConfigItem =
