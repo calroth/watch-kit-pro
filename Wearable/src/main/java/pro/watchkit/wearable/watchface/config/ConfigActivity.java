@@ -44,7 +44,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.wear.widget.WearableRecyclerView;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData;
-import pro.watchkit.wearable.watchface.model.BaseConfigData;
+import pro.watchkit.wearable.watchface.model.ConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartHandsConfigData;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
@@ -61,7 +61,7 @@ public class ConfigActivity extends Activity {
             ConfigActivity.class.getSimpleName() + ".CONFIG_DATA";
     private static final String TAG = ConfigActivity.class.getSimpleName();
     private ConfigRecyclerViewAdapter mAdapter;
-    private BaseConfigData mConfigData;
+    private ConfigData mConfigData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

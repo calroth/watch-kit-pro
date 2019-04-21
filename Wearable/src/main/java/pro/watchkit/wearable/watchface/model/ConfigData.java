@@ -11,7 +11,7 @@ import pro.watchkit.wearable.watchface.config.ConfigActivity;
 import pro.watchkit.wearable.watchface.config.ConfigRecyclerViewAdapter;
 import pro.watchkit.wearable.watchface.config.WatchFacePresetSelectionActivity;
 
-abstract public class BaseConfigData {
+abstract public class ConfigData {
 
     abstract public Class getWatchFaceServiceClass();
 

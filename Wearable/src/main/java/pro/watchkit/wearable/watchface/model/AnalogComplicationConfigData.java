@@ -51,7 +51,7 @@ import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceServ
  * {@link AnalogComplicationWatchFaceService} watch face's appearance and complications
  * via {@link ConfigActivity}.
  */
-public class AnalogComplicationConfigData extends BaseConfigData {
+public class AnalogComplicationConfigData extends ConfigData {
     /**
      * Returns Watch Face Service class associated with configuration Activity.
      */
