@@ -15,8 +15,8 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <Switch xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/watch_face_preset_toggle_switch"
+    android:id="@+id/config_list_toggle"
     style="@style/ButtonConfigurationStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:text="Watch Face Preset Toggle" />
+    android:text="Toggle" />

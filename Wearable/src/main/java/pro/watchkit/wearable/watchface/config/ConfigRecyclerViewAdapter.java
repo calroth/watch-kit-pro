@@ -292,7 +292,7 @@ public class ConfigRecyclerViewAdapter
                 viewHolder =
                         new WatchFacePresetToggleViewHolder(
                                 LayoutInflater.from(parent.getContext())
-                                        .inflate(R.layout.config_list_watch_face_preset_toggle, parent, false));
+                                        .inflate(R.layout.config_list_toggle, parent, false));
                 mTicklish.add((Ticklish) viewHolder);
                 break;
             }
@@ -302,7 +302,7 @@ public class ConfigRecyclerViewAdapter
                         new UnreadNotificationViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(
-                                                R.layout.config_list_unread_notif_item,
+                                                R.layout.config_list_toggle,
                                                 parent,
                                                 false));
                 break;
@@ -324,7 +324,7 @@ public class ConfigRecyclerViewAdapter
                         new NightVisionViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(
-                                                R.layout.config_list_night_vision_item,
+                                                R.layout.config_list_toggle,
                                                 parent,
                                                 false));
                 break;
@@ -1105,7 +1105,7 @@ public class ConfigRecyclerViewAdapter
         WatchFacePresetToggleViewHolder(View view) {
             super(view);
 
-            mToggleSwitch = view.findViewById(R.id.watch_face_preset_toggle_switch);
+            mToggleSwitch = view.findViewById(R.id.config_list_toggle);
             view.setOnClickListener(this);
         }
 
@@ -1185,7 +1185,7 @@ public class ConfigRecyclerViewAdapter
         UnreadNotificationViewHolder(View view) {
             super(view);
 
-            mUnreadNotificationSwitch = view.findViewById(R.id.unread_notification_switch);
+            mUnreadNotificationSwitch = view.findViewById(R.id.config_list_toggle);
             view.setOnClickListener(this);
         }
 
@@ -1329,7 +1329,7 @@ public class ConfigRecyclerViewAdapter
         NightVisionViewHolder(View view) {
             super(view);
 
-            mNightVisionSwitch = view.findViewById(R.id.night_vision_switch);
+            mNightVisionSwitch = view.findViewById(R.id.config_list_toggle);
             view.setOnClickListener(this);
         }
 
