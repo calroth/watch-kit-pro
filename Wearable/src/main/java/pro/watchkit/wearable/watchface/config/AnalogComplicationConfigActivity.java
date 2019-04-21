@@ -44,6 +44,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.wear.widget.WearableRecyclerView;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData;
+import pro.watchkit.wearable.watchface.model.BaseConfigData;
+import pro.watchkit.wearable.watchface.model.WatchPartHandsConfigData;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
 /**
@@ -55,8 +57,11 @@ public class AnalogComplicationConfigActivity extends Activity {
 
     static final int COMPLICATION_CONFIG_REQUEST_CODE = 1001;
     static final int UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE = 1002;
+    static final String CONFIG_DATA =
+            AnalogComplicationConfigActivity.class.getSimpleName() + ".CONFIG_DATA";
     private static final String TAG = AnalogComplicationConfigActivity.class.getSimpleName();
     private AnalogComplicationConfigRecyclerViewAdapter mAdapter;
+    private BaseConfigData mConfigData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +69,19 @@ public class AnalogComplicationConfigActivity extends Activity {
 
         setContentView(R.layout.activity_analog_complication_config);
 
+        if (mConfigData == null) {
+            String configDataString = getIntent().getStringExtra(CONFIG_DATA);
+            if (WatchPartHandsConfigData.class.getSimpleName().equals(configDataString)) {
+                mConfigData = new WatchPartHandsConfigData();
+            } else {
+                mConfigData = new AnalogComplicationConfigData();
+            }
+        }
+
         mAdapter = new AnalogComplicationConfigRecyclerViewAdapter(
                 getApplicationContext(),
-                AnalogComplicationConfigData.getWatchFaceServiceClass(),
-                AnalogComplicationConfigData.getDataToPopulateAdapter(this));
+                mConfigData.getWatchFaceServiceClass(),
+                mConfigData.getDataToPopulateAdapter(this));
 
         WearableRecyclerView mWearableRecyclerView =
                 findViewById(R.id.wearable_recycler_view);

@@ -40,23 +40,31 @@ import java.util.ArrayList;
 
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import pro.watchkit.wearable.watchface.R;
+import pro.watchkit.wearable.watchface.config.AnalogComplicationConfigActivity;
+import pro.watchkit.wearable.watchface.config.AnalogComplicationConfigRecyclerViewAdapter;
 import pro.watchkit.wearable.watchface.config.WatchFacePresetSelectionActivity;
-import pro.watchkit.wearable.watchface.config.WatchPartHandsConfigActivity;
-import pro.watchkit.wearable.watchface.config.WatchPartHandsConfigRecyclerViewAdapter;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
 /**
  * Data represents different views for configuring the
  * {@link AnalogComplicationWatchFaceService} watch face's appearance and complications
- * via {@link WatchPartHandsConfigActivity}.
+ * via {@link AnalogComplicationConfigActivity}.
  */
 public class WatchPartHandsConfigData extends BaseConfigData {
+    /**
+     * Returns Watch Face Service class associated with configuration Activity.
+     */
+    @Override
+    public Class getWatchFaceServiceClass() {
+        return WatchPartHandsConfigData.class;
+    }
 
     /**
      * Includes all data to populate each of the 5 different custom
-     * {@link ViewHolder} types in {@link WatchPartHandsConfigRecyclerViewAdapter}.
+     * {@link ViewHolder} types in {@link AnalogComplicationConfigRecyclerViewAdapter}.
      */
-    public static ArrayList<ConfigItemType> getDataToPopulateAdapter(Context context) {
+    @Override
+    public ArrayList<ConfigItemType> getDataToPopulateAdapter(Context context) {
 
         ArrayList<ConfigItemType> settingsConfigData = new ArrayList<>();
 

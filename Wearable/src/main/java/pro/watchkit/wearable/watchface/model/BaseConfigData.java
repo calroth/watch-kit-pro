@@ -3,13 +3,23 @@ package pro.watchkit.wearable.watchface.model;
 import android.content.Context;
 import android.text.Html;
 
+import java.util.ArrayList;
+
 import androidx.recyclerview.widget.RecyclerView;
+import pro.watchkit.wearable.watchface.config.AnalogComplicationConfigActivity;
 import pro.watchkit.wearable.watchface.config.AnalogComplicationConfigRecyclerViewAdapter;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
 import pro.watchkit.wearable.watchface.config.WatchFacePresetSelectionActivity;
 
 abstract public class BaseConfigData {
 
+    abstract public Class getWatchFaceServiceClass();
+
+    /**
+     * Includes all data to populate each of the 5 different custom
+     * {@link RecyclerView.ViewHolder} types in {@link AnalogComplicationConfigRecyclerViewAdapter}.
+     */
+    abstract public ArrayList<ConfigItemType> getDataToPopulateAdapter(Context context);
 
     /**
      * Interface all ConfigItems must implement so the {@link RecyclerView}'s Adapter associated
@@ -134,6 +144,54 @@ abstract public class BaseConfigData {
         @Override
         public int getConfigType() {
             return AnalogComplicationConfigRecyclerViewAdapter.TYPE_COLOR_PICKER_CONFIG;
+        }
+    }
+
+    /**
+     * Data for another config (sub-) activity in RecyclerView.
+     */
+    public static class ConfigActivityConfigItem implements ConfigItemType {
+
+        private String name;
+        private int iconResourceId;
+        //        private WatchFacePreset.ColorType mColorType;
+        private Class<?> mConfigDataClass;
+        private Class<AnalogComplicationConfigActivity> activityToChoosePreference;
+
+        ConfigActivityConfigItem(
+                String name,
+                int iconResourceId,
+                Class<?> configDataClass,
+                Class<AnalogComplicationConfigActivity> activity) {
+            this.name = name;
+            this.iconResourceId = iconResourceId;
+            mConfigDataClass = configDataClass;
+            this.activityToChoosePreference = activity;
+        }
+
+        public Class<?> getConfigDataClass() {
+            return mConfigDataClass;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getIconResourceId() {
+            return iconResourceId;
+        }
+
+//        public String getSharedPrefString() {
+//            return sharedPrefString;
+//        }
+
+        public Class<AnalogComplicationConfigActivity> getActivityToChoosePreference() {
+            return activityToChoosePreference;
+        }
+
+        @Override
+        public int getConfigType() {
+            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_CONFIG_ACTIVITY_CONFIG;
         }
     }
 

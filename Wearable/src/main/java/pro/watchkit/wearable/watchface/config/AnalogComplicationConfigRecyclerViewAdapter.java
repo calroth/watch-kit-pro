@@ -77,6 +77,7 @@ import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData;
 import pro.watchkit.wearable.watchface.model.BaseConfigData.BackgroundComplicationConfigItem;
 import pro.watchkit.wearable.watchface.model.BaseConfigData.ColorPickerConfigItem;
+import pro.watchkit.wearable.watchface.model.BaseConfigData.ConfigActivityConfigItem;
 import pro.watchkit.wearable.watchface.model.BaseConfigData.ConfigItemType;
 import pro.watchkit.wearable.watchface.model.BaseConfigData.MoreOptionsConfigItem;
 import pro.watchkit.wearable.watchface.model.BaseConfigData.NightVisionConfigItem;
@@ -89,6 +90,7 @@ import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
+import static pro.watchkit.wearable.watchface.config.AnalogComplicationConfigActivity.CONFIG_DATA;
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.EXTRA_SHARED_PREF;
 
 /**
@@ -134,6 +136,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
     public static final int TYPE_NIGHT_VISION_CONFIG = 5;
     public static final int TYPE_WATCH_FACE_PRESET_PICKER_CONFIG = 6;
     public static final int TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG = 7;
+    public static final int TYPE_CONFIG_ACTIVITY_CONFIG = 8;
     private static final String TAG = "CompConfigAdapter";
     private SharedPreferences mSharedPref;
     private Collection<ComplicationHolder> complications;
@@ -204,7 +207,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 new ProviderInfoRetriever(mContext, Executors.newCachedThreadPool());
         mProviderInfoRetriever.init();
 
-        mCurrentPaintBox = new PaintBox(context, mCurrentWatchFacePreset);
+        mCurrentPaintBox = new PaintBox(context, regenerateCurrentWatchFacePreset(context));
     }
 
     /**
@@ -265,6 +268,14 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.config_list_color_item, parent, false));
                 mTicklish.add((Ticklish) viewHolder);
+                break;
+            }
+
+            case TYPE_CONFIG_ACTIVITY_CONFIG: {
+                viewHolder =
+                        new ConfigActivityViewHolder(
+                                LayoutInflater.from(parent.getContext())
+                                        .inflate(R.layout.config_list_color_item, parent, false));
                 break;
             }
 
@@ -370,6 +381,13 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 ColorPickerViewHolder colorPickerViewHolder = (ColorPickerViewHolder) viewHolder;
                 ColorPickerConfigItem colorPickerConfigItem = (ColorPickerConfigItem) configItemType;
                 colorPickerViewHolder.bind(colorPickerConfigItem);
+                break;
+            }
+
+            case TYPE_CONFIG_ACTIVITY_CONFIG: {
+                ConfigActivityViewHolder configActivityViewHolder = (ConfigActivityViewHolder) viewHolder;
+                ConfigActivityConfigItem configActivityConfigItem = (ConfigActivityConfigItem) configItemType;
+                configActivityViewHolder.bind(configActivityConfigItem);
                 break;
             }
 
@@ -938,6 +956,45 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 // Pass shared preference name to save color value to.
 //                launchIntent.putExtra(EXTRA_SHARED_PREF, mSharedPrefResourceString);
                 launchIntent.putExtra(EXTRA_SHARED_PREF, mColorType.name());
+
+                Activity activity = (Activity) view.getContext();
+                activity.startActivityForResult(
+                        launchIntent,
+                        AnalogComplicationConfigActivity.UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE);
+            }
+        }
+    }
+
+    public class ConfigActivityViewHolder
+            extends RecyclerView.ViewHolder implements OnClickListener {
+
+        private Button mButton;
+        private Class<?> mConfigDataClass;
+        private Class<AnalogComplicationConfigActivity> mLaunchActivity;
+
+        ConfigActivityViewHolder(View view) {
+            super(view);
+
+            mButton = view.findViewById(R.id.color_picker_button);
+            view.setOnClickListener(this);
+        }
+
+        void bind(ConfigActivityConfigItem configItem) {
+            mButton.setText(configItem.getName());
+            mButton.setCompoundDrawablesWithIntrinsicBounds(
+                    mButton.getContext().getDrawable(configItem.getIconResourceId()),
+                    null, null, null);
+            mConfigDataClass = configItem.getConfigDataClass();
+            mLaunchActivity = configItem.getActivityToChoosePreference();
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (mLaunchActivity != null) {
+                Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
+
+                // Add an intent to the launch to point it towards our sub-activity.
+                launchIntent.putExtra(CONFIG_DATA, mConfigDataClass.getSimpleName());
 
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(
