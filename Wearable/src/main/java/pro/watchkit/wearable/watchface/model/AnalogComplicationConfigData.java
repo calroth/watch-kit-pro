@@ -40,9 +40,9 @@ import java.util.ArrayList;
 
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import pro.watchkit.wearable.watchface.R;
-import pro.watchkit.wearable.watchface.config.AnalogComplicationConfigRecyclerViewAdapter;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
+import pro.watchkit.wearable.watchface.config.ConfigRecyclerViewAdapter;
 import pro.watchkit.wearable.watchface.config.WatchFacePresetSelectionActivity;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
@@ -62,7 +62,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
 
     /**
      * Includes all data to populate each of the 5 different custom
-     * {@link ViewHolder} types in {@link AnalogComplicationConfigRecyclerViewAdapter}.
+     * {@link ViewHolder} types in {@link ConfigRecyclerViewAdapter}.
      */
     @Override
     public ArrayList<ConfigItemType> getDataToPopulateAdapter(Context context) {

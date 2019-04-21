@@ -6,9 +6,9 @@ import android.text.Html;
 import java.util.ArrayList;
 
 import androidx.recyclerview.widget.RecyclerView;
-import pro.watchkit.wearable.watchface.config.AnalogComplicationConfigRecyclerViewAdapter;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
+import pro.watchkit.wearable.watchface.config.ConfigRecyclerViewAdapter;
 import pro.watchkit.wearable.watchface.config.WatchFacePresetSelectionActivity;
 
 abstract public class BaseConfigData {
@@ -17,7 +17,7 @@ abstract public class BaseConfigData {
 
     /**
      * Includes all data to populate each of the 5 different custom
-     * {@link RecyclerView.ViewHolder} types in {@link AnalogComplicationConfigRecyclerViewAdapter}.
+     * {@link RecyclerView.ViewHolder} types in {@link ConfigRecyclerViewAdapter}.
      */
     abstract public ArrayList<ConfigItemType> getDataToPopulateAdapter(Context context);
 
@@ -75,7 +75,7 @@ abstract public class BaseConfigData {
 
         @Override
         public int getConfigType() {
-            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_PREVIEW_AND_COMPLICATIONS_CONFIG;
+            return ConfigRecyclerViewAdapter.TYPE_PREVIEW_AND_COMPLICATIONS_CONFIG;
         }
     }
 
@@ -96,7 +96,7 @@ abstract public class BaseConfigData {
 
         @Override
         public int getConfigType() {
-            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_MORE_OPTIONS;
+            return ConfigRecyclerViewAdapter.TYPE_MORE_OPTIONS;
         }
     }
 
@@ -143,7 +143,7 @@ abstract public class BaseConfigData {
 
         @Override
         public int getConfigType() {
-            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_COLOR_PICKER_CONFIG;
+            return ConfigRecyclerViewAdapter.TYPE_COLOR_PICKER_CONFIG;
         }
     }
 
@@ -191,7 +191,7 @@ abstract public class BaseConfigData {
 
         @Override
         public int getConfigType() {
-            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_CONFIG_ACTIVITY_CONFIG;
+            return ConfigRecyclerViewAdapter.TYPE_CONFIG_ACTIVITY_CONFIG;
         }
     }
 
@@ -287,7 +287,7 @@ abstract public class BaseConfigData {
 
         @Override
         public int getConfigType() {
-            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_PICKER_CONFIG;
+            return ConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_PICKER_CONFIG;
         }
 
         public String[] permute(WatchFacePreset watchFacePreset) {
@@ -335,7 +335,7 @@ abstract public class BaseConfigData {
 
         @Override
         public int getConfigType() {
-            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG;
+            return ConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG;
         }
 
         public String[] permute(WatchFacePreset watchFacePreset) {
@@ -382,7 +382,7 @@ abstract public class BaseConfigData {
 
         @Override
         public int getConfigType() {
-            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_UNREAD_NOTIFICATION_CONFIG;
+            return ConfigRecyclerViewAdapter.TYPE_UNREAD_NOTIFICATION_CONFIG;
         }
     }
 
@@ -412,7 +412,7 @@ abstract public class BaseConfigData {
 
         @Override
         public int getConfigType() {
-            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG;
+            return ConfigRecyclerViewAdapter.TYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG;
         }
     }
 
@@ -455,7 +455,7 @@ abstract public class BaseConfigData {
 
         @Override
         public int getConfigType() {
-            return AnalogComplicationConfigRecyclerViewAdapter.TYPE_NIGHT_VISION_CONFIG;
+            return ConfigRecyclerViewAdapter.TYPE_NIGHT_VISION_CONFIG;
         }
     }
 }

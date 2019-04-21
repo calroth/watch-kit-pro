@@ -112,7 +112,7 @@ import static pro.watchkit.wearable.watchface.config.ConfigActivity.CONFIG_DATA;
  *
  * <p>Background image complication configuration for changing background image of watch face.
  */
-public class AnalogComplicationConfigRecyclerViewAdapter
+public class ConfigRecyclerViewAdapter
         extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     /**
@@ -172,7 +172,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
      */
     private PaintBox mCurrentPaintBox;
 
-    AnalogComplicationConfigRecyclerViewAdapter(
+    ConfigRecyclerViewAdapter(
             Context context,
             Class watchFaceServiceClass,
             ArrayList<ConfigItemType> settingsDataSet) {

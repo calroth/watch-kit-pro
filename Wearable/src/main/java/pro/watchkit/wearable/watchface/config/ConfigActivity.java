@@ -60,7 +60,7 @@ public class ConfigActivity extends Activity {
     static final String CONFIG_DATA =
             ConfigActivity.class.getSimpleName() + ".CONFIG_DATA";
     private static final String TAG = ConfigActivity.class.getSimpleName();
-    private AnalogComplicationConfigRecyclerViewAdapter mAdapter;
+    private ConfigRecyclerViewAdapter mAdapter;
     private BaseConfigData mConfigData;
 
     @Override
@@ -78,7 +78,7 @@ public class ConfigActivity extends Activity {
             }
         }
 
-        mAdapter = new AnalogComplicationConfigRecyclerViewAdapter(
+        mAdapter = new ConfigRecyclerViewAdapter(
                 getApplicationContext(),
                 mConfigData.getWatchFaceServiceClass(),
                 mConfigData.getDataToPopulateAdapter(this));
