@@ -6,9 +6,9 @@ import android.text.Html;
 import java.util.ArrayList;
 
 import androidx.recyclerview.widget.RecyclerView;
-import pro.watchkit.wearable.watchface.config.AnalogComplicationConfigActivity;
 import pro.watchkit.wearable.watchface.config.AnalogComplicationConfigRecyclerViewAdapter;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
+import pro.watchkit.wearable.watchface.config.ConfigActivity;
 import pro.watchkit.wearable.watchface.config.WatchFacePresetSelectionActivity;
 
 abstract public class BaseConfigData {
@@ -156,13 +156,13 @@ abstract public class BaseConfigData {
         private int iconResourceId;
         //        private WatchFacePreset.ColorType mColorType;
         private Class<?> mConfigDataClass;
-        private Class<AnalogComplicationConfigActivity> activityToChoosePreference;
+        private Class<ConfigActivity> activityToChoosePreference;
 
         ConfigActivityConfigItem(
                 String name,
                 int iconResourceId,
                 Class<?> configDataClass,
-                Class<AnalogComplicationConfigActivity> activity) {
+                Class<ConfigActivity> activity) {
             this.name = name;
             this.iconResourceId = iconResourceId;
             mConfigDataClass = configDataClass;
@@ -185,7 +185,7 @@ abstract public class BaseConfigData {
 //            return sharedPrefString;
 //        }
 
-        public Class<AnalogComplicationConfigActivity> getActivityToChoosePreference() {
+        public Class<ConfigActivity> getActivityToChoosePreference() {
             return activityToChoosePreference;
         }
 

@@ -291,7 +291,7 @@ public class WatchFaceState {
      * Note: With the rest of the watch face, we update the paint colors based on
      * ambient/active mode callbacks, but because the ComplicationDrawable handles
      * the active/ambient colors, we only set the colors twice. Once at initialization and
-     * again if the user changes the highlight color via AnalogComplicationConfigActivity.
+     * again if the user changes the highlight color via ConfigActivity.
      */
     public void setComplicationColors() {
         @ColorInt int activeColor = mPaintBox.getColor(WatchFacePreset.ColorType.HIGHLIGHT);

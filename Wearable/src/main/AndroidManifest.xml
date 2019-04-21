@@ -92,7 +92,7 @@
 
         <activity android:name="android.support.wearable.complications.ComplicationHelperActivity"/>
         <activity
-            android:name=".config.AnalogComplicationConfigActivity"
+            android:name=".config.ConfigActivity"
             android:label="@string/analog_complication_config">
             <intent-filter>
                 <action android:name="pro.watchkit.wearable.watchface.CONFIG_COMPLICATION_SIMPLE"/>

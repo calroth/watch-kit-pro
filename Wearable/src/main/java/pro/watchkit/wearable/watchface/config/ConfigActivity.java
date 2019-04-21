@@ -53,13 +53,13 @@ import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceServ
  * allows for setting the left and right complications of watch face along with the second's marker
  * color, background color, unread notifications toggle, and background complication image.
  */
-public class AnalogComplicationConfigActivity extends Activity {
+public class ConfigActivity extends Activity {
 
     static final int COMPLICATION_CONFIG_REQUEST_CODE = 1001;
     static final int UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE = 1002;
     static final String CONFIG_DATA =
-            AnalogComplicationConfigActivity.class.getSimpleName() + ".CONFIG_DATA";
-    private static final String TAG = AnalogComplicationConfigActivity.class.getSimpleName();
+            ConfigActivity.class.getSimpleName() + ".CONFIG_DATA";
+    private static final String TAG = ConfigActivity.class.getSimpleName();
     private AnalogComplicationConfigRecyclerViewAdapter mAdapter;
     private BaseConfigData mConfigData;
 

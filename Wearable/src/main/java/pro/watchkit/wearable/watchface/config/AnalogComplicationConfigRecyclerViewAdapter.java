@@ -90,8 +90,8 @@ import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
-import static pro.watchkit.wearable.watchface.config.AnalogComplicationConfigActivity.CONFIG_DATA;
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.EXTRA_SHARED_PREF;
+import static pro.watchkit.wearable.watchface.config.ConfigActivity.CONFIG_DATA;
 
 /**
  * Displays different layouts for configuring watch face's complications and appearance settings
@@ -695,7 +695,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                                 watchFace,
                                 mSelectedComplication.getId(),
                                 mSelectedComplication.getSupportedComplicationTypes()),
-                        AnalogComplicationConfigActivity.COMPLICATION_CONFIG_REQUEST_CODE);
+                        ConfigActivity.COMPLICATION_CONFIG_REQUEST_CODE);
 
             } else {
                 Log.d(TAG, "Complication not supported by watch face.");
@@ -960,7 +960,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(
                         launchIntent,
-                        AnalogComplicationConfigActivity.UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE);
+                        ConfigActivity.UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE);
             }
         }
     }
@@ -970,7 +970,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
 
         private Button mButton;
         private Class<?> mConfigDataClass;
-        private Class<AnalogComplicationConfigActivity> mLaunchActivity;
+        private Class<ConfigActivity> mLaunchActivity;
 
         ConfigActivityViewHolder(View view) {
             super(view);
@@ -999,7 +999,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(
                         launchIntent,
-                        AnalogComplicationConfigActivity.UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE);
+                        ConfigActivity.UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE);
             }
         }
     }
@@ -1088,7 +1088,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(
                         launchIntent,
-                        AnalogComplicationConfigActivity.UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE);
+                        ConfigActivity.UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE);
             }
         }
     }
@@ -1306,7 +1306,7 @@ public class AnalogComplicationConfigRecyclerViewAdapter
                                 watchFace,
                                 mSelectedComplication.getId(),
                                 mSelectedComplication.getSupportedComplicationTypes()),
-                        AnalogComplicationConfigActivity.COMPLICATION_CONFIG_REQUEST_CODE);
+                        ConfigActivity.COMPLICATION_CONFIG_REQUEST_CODE);
 
             } else {
                 Log.d(TAG, "Complication not supported by watch face.");

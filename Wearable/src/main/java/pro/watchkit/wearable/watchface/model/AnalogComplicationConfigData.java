@@ -40,16 +40,16 @@ import java.util.ArrayList;
 
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import pro.watchkit.wearable.watchface.R;
-import pro.watchkit.wearable.watchface.config.AnalogComplicationConfigActivity;
 import pro.watchkit.wearable.watchface.config.AnalogComplicationConfigRecyclerViewAdapter;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
+import pro.watchkit.wearable.watchface.config.ConfigActivity;
 import pro.watchkit.wearable.watchface.config.WatchFacePresetSelectionActivity;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
 /**
  * Data represents different views for configuring the
  * {@link AnalogComplicationWatchFaceService} watch face's appearance and complications
- * via {@link AnalogComplicationConfigActivity}.
+ * via {@link ConfigActivity}.
  */
 public class AnalogComplicationConfigData extends BaseConfigData {
     /**
@@ -116,7 +116,7 @@ public class AnalogComplicationConfigData extends BaseConfigData {
                 context.getString(R.string.config_configure_hands),
                 R.drawable.icn_styles,
                 WatchPartHandsConfigData.class,
-                AnalogComplicationConfigActivity.class));
+                ConfigActivity.class));
 
         // Data for ticks display in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
