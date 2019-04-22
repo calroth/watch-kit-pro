@@ -155,13 +155,13 @@ abstract public class ConfigData {
         private String name;
         private int iconResourceId;
         //        private WatchFacePreset.ColorType mColorType;
-        private Class<?> mConfigDataClass;
+        private Class<? extends ConfigData> mConfigDataClass;
         private Class<ConfigActivity> activityToChoosePreference;
 
         ConfigActivityConfigItem(
                 String name,
                 int iconResourceId,
-                Class<?> configDataClass,
+                Class<? extends ConfigData> configDataClass,
                 Class<ConfigActivity> activity) {
             this.name = name;
             this.iconResourceId = iconResourceId;
@@ -169,7 +169,7 @@ abstract public class ConfigData {
             this.activityToChoosePreference = activity;
         }
 
-        public Class<?> getConfigDataClass() {
+        public Class<? extends ConfigData> getConfigDataClass() {
             return mConfigDataClass;
         }
 

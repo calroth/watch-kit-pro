@@ -76,6 +76,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
+import pro.watchkit.wearable.watchface.model.ConfigData;
 import pro.watchkit.wearable.watchface.model.ConfigData.BackgroundComplicationConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ColorPickerConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ConfigActivityConfigItem;
@@ -969,7 +970,7 @@ public class ConfigRecyclerViewAdapter
             extends RecyclerView.ViewHolder implements OnClickListener {
 
         private Button mButton;
-        private Class<?> mConfigDataClass;
+        private Class<? extends ConfigData> mConfigDataClass;
         private Class<ConfigActivity> mLaunchActivity;
 
         ConfigActivityViewHolder(View view) {
