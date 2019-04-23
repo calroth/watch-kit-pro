@@ -34,7 +34,9 @@
 package pro.watchkit.wearable.watchface.config;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.wearable.complications.ComplicationProviderInfo;
 import android.support.wearable.complications.ProviderChooserIntent;
@@ -42,6 +44,7 @@ import android.util.Log;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.wear.widget.WearableRecyclerView;
+import androidx.wear.widget.drawer.WearableNavigationDrawerView;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData;
 import pro.watchkit.wearable.watchface.model.ColorsStylesConfigData;
@@ -49,6 +52,7 @@ import pro.watchkit.wearable.watchface.model.ConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartHandsConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartTicksConfigData;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
+
 
 /**
  * The watch-side config activity for {@link AnalogComplicationWatchFaceService}, which
@@ -64,6 +68,9 @@ public class ConfigActivity extends Activity {
     private static final String TAG = ConfigActivity.class.getSimpleName();
     private ConfigRecyclerViewAdapter mAdapter;
     private ConfigData mConfigData;
+
+    private static final SectionFragment.Section DEFAULT_SECTION = SectionFragment.Section.Sun;
+    private WearableNavigationDrawerView mWearableNavigationDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +109,21 @@ public class ConfigActivity extends Activity {
         mWearableRecyclerView.setHasFixedSize(false);
 
         mWearableRecyclerView.setAdapter(mAdapter);
+
+
+        // TODO:NAV Uncomment the following block to add a navigation drawer.
+
+        mWearableNavigationDrawer =
+                findViewById(R.id.top_navigation_drawer);
+        mWearableNavigationDrawer.setAdapter(new NavigationAdapter(this));
+
+
+        final SectionFragment sunSection = SectionFragment.getSection(DEFAULT_SECTION);
+//        getFragmentManager()
+//                .beginTransaction()
+//                .replace(R.id.fragment_container, sunSection)
+//                .commit();
+
     }
 
     @Override
@@ -124,6 +146,57 @@ public class ConfigActivity extends Activity {
 
             // Updates highlight and background colors based on the user preference.
             mAdapter.updatePreviewColors();
+        }
+    }
+
+    private final class NavigationAdapter
+            extends WearableNavigationDrawerView.WearableNavigationDrawerAdapter {
+
+        private final Context mContext;
+        private SectionFragment.Section mCurrentSection = DEFAULT_SECTION;
+
+        NavigationAdapter(final Context context) {
+            mContext = context;
+        }
+
+        @Override
+        public String getItemText(int index) {
+            return mContext.getString(SectionFragment.Section.values()[index].titleRes);
+        }
+
+        @Override
+        public Drawable getItemDrawable(int index) {
+            return mContext.getDrawable(SectionFragment.Section.values()[index].drawableRes);
+        }
+
+//        @Override
+//        public void onItemSelected(int index) {
+//            SectionFragment.Section selectedSection = SectionFragment.Section.values()[index];
+//
+//            // Only replace the fragment if the section is changing.
+//            if (selectedSection == mCurrentSection) {
+//                return;
+//            }
+//            mCurrentSection = selectedSection;
+
+//            final SectionFragment sectionFragment = SectionFragment.getSection(selectedSection);
+//            getFragmentManager()
+//                    .beginTransaction()
+//                    .replace(R.id.fragment_container, sectionFragment)
+//                    .commit();
+
+        // No actions are available for the settings specific fragment, so the drawer
+        // is locked closed. For all other SelectionFragments, it is unlocked.
+//            if (selectedSection == SectionFragment.Section.Settings) {
+//                mWearableActionDrawer.lockDrawerClosed();
+//            } else {
+//                mWearableActionDrawer.unlockDrawer();
+//            }
+//        }
+
+        @Override
+        public int getCount() {
+            return SectionFragment.Section.values().length;
         }
     }
 }
