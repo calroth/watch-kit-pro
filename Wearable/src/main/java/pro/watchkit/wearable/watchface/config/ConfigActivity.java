@@ -53,7 +53,6 @@ import pro.watchkit.wearable.watchface.model.WatchPartHandsConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartTicksConfigData;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
-
 /**
  * The watch-side config activity for {@link AnalogComplicationWatchFaceService}, which
  * allows for setting the left and right complications of watch face along with the second's marker
@@ -69,7 +68,6 @@ public class ConfigActivity extends Activity {
     private ConfigRecyclerViewAdapter mAdapter;
     private ConfigData mConfigData;
 
-    //    private static final Section DEFAULT_SECTION = Section.Sun;
     private WearableNavigationDrawerView mWearableNavigationDrawer;
 
     @Override
@@ -115,9 +113,7 @@ public class ConfigActivity extends Activity {
 
         mWearableRecyclerView.setAdapter(mAdapter);
 
-
-        // TODO:NAV Uncomment the following block to add a navigation drawer.
-
+        // Set up our navigation drawer at the top of the view.
         mWearableNavigationDrawer =
                 findViewById(R.id.top_navigation_drawer);
         mWearableNavigationDrawer.setAdapter(new NavigationAdapter(this));
@@ -160,14 +156,6 @@ public class ConfigActivity extends Activity {
                         finish(); // Remove this from the "back" stack, so it's a direct switch.
                     }
                 });
-
-
-//        final SectionFragment sunSection = SectionFragment.getSection(DEFAULT_SECTION);
-//        getFragmentManager()
-//                .beginTransaction()
-//                .replace(R.id.fragment_container, sunSection)
-//                .commit();
-
     }
 
     @Override
@@ -212,7 +200,6 @@ public class ConfigActivity extends Activity {
             extends WearableNavigationDrawerView.WearableNavigationDrawerAdapter {
 
         private final Context mContext;
-//        private Section mCurrentSection = DEFAULT_SECTION;
 
         NavigationAdapter(final Context context) {
             mContext = context;
@@ -227,31 +214,6 @@ public class ConfigActivity extends Activity {
         public Drawable getItemDrawable(int index) {
             return mContext.getDrawable(Section.values()[index].drawableRes);
         }
-
-//        @Override
-//        public void onItemSelected(int index) {
-//            SectionFragment.Section selectedSection = SectionFragment.Section.values()[index];
-//
-//            // Only replace the fragment if the section is changing.
-//            if (selectedSection == mCurrentSection) {
-//                return;
-//            }
-//            mCurrentSection = selectedSection;
-
-//            final SectionFragment sectionFragment = SectionFragment.getSection(selectedSection);
-//            getFragmentManager()
-//                    .beginTransaction()
-//                    .replace(R.id.fragment_container, sectionFragment)
-//                    .commit();
-
-        // No actions are available for the settings specific fragment, so the drawer
-        // is locked closed. For all other SelectionFragments, it is unlocked.
-//            if (selectedSection == SectionFragment.Section.Settings) {
-//                mWearableActionDrawer.lockDrawerClosed();
-//            } else {
-//                mWearableActionDrawer.unlockDrawer();
-//            }
-//        }
 
         @Override
         public int getCount() {
