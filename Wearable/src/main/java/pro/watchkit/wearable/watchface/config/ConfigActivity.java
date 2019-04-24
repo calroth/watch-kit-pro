@@ -77,17 +77,22 @@ public class ConfigActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_analog_complication_config);
+        int currentItem = 3;
 
         if (mConfigData == null) {
             String configDataString = getIntent().getStringExtra(CONFIG_DATA);
             if (ColorsStylesConfigData.class.getSimpleName().equals(configDataString)) {
                 mConfigData = new ColorsStylesConfigData();
+                currentItem = 0;
             } else if (WatchPartHandsConfigData.class.getSimpleName().equals(configDataString)) {
                 mConfigData = new WatchPartHandsConfigData();
+                currentItem = 1;
             } else if (WatchPartTicksConfigData.class.getSimpleName().equals(configDataString)) {
                 mConfigData = new WatchPartTicksConfigData();
+                currentItem = 2;
             } else {
                 mConfigData = new AnalogComplicationConfigData();
+                currentItem = 3;
             }
         }
 
@@ -116,6 +121,45 @@ public class ConfigActivity extends Activity {
         mWearableNavigationDrawer =
                 findViewById(R.id.top_navigation_drawer);
         mWearableNavigationDrawer.setAdapter(new NavigationAdapter(this));
+        mWearableNavigationDrawer.setCurrentItem(currentItem, false);
+        mWearableNavigationDrawer.addOnItemSelectedListener(
+                new WearableNavigationDrawerView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(int pos) {
+                        String configData;
+                        switch (pos) {
+                            case 0: {
+                                configData = ColorsStylesConfigData.class.getSimpleName();
+                                break;
+                            }
+                            case 1: {
+                                configData = WatchPartHandsConfigData.class.getSimpleName();
+                                break;
+                            }
+                            case 2: {
+                                configData = WatchPartTicksConfigData.class.getSimpleName();
+                                break;
+                            }
+                            case 3:
+                            default: {
+                                configData = null;
+                                break;
+                            }
+                        }
+
+                        Intent launchIntent =
+                                new Intent(mWearableNavigationDrawer.getContext(), ConfigActivity.class);
+
+                        // Add an intent to the launch to point it towards our sub-activity.
+                        if (configData != null) {
+                            launchIntent.putExtra(CONFIG_DATA, configData);
+                        }
+
+                        Activity activity = (Activity) mWearableNavigationDrawer.getContext();
+                        activity.startActivity(launchIntent);
+                        finish(); // Remove this from the "back" stack, so it's a direct switch.
+                    }
+                });
 
 
         final SectionFragment sunSection = SectionFragment.getSection(DEFAULT_SECTION);
