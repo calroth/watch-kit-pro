@@ -69,7 +69,7 @@ public class ConfigActivity extends Activity {
     private ConfigRecyclerViewAdapter mAdapter;
     private ConfigData mConfigData;
 
-    private static final SectionFragment.Section DEFAULT_SECTION = SectionFragment.Section.Sun;
+    //    private static final Section DEFAULT_SECTION = Section.Sun;
     private WearableNavigationDrawerView mWearableNavigationDrawer;
 
     @Override
@@ -162,7 +162,7 @@ public class ConfigActivity extends Activity {
                 });
 
 
-        final SectionFragment sunSection = SectionFragment.getSection(DEFAULT_SECTION);
+//        final SectionFragment sunSection = SectionFragment.getSection(DEFAULT_SECTION);
 //        getFragmentManager()
 //                .beginTransaction()
 //                .replace(R.id.fragment_container, sunSection)
@@ -193,11 +193,26 @@ public class ConfigActivity extends Activity {
         }
     }
 
+    public enum Section {
+        Sun(R.string.color_gray, R.drawable.ic_lock_open_white_24dp),
+        Moon(R.string.color_green, R.drawable.ic_add_white_24dp),
+        Earth(R.string.color_black, R.drawable.ic_more_horiz_24dp_wht),
+        Settings(R.string.color_blue, R.drawable.ic_notifications_white_24dp);
+
+        final int titleRes;
+        final int drawableRes;
+
+        Section(final int titleRes, final int drawableRes) {
+            this.titleRes = titleRes;
+            this.drawableRes = drawableRes;
+        }
+    }
+
     private final class NavigationAdapter
             extends WearableNavigationDrawerView.WearableNavigationDrawerAdapter {
 
         private final Context mContext;
-        private SectionFragment.Section mCurrentSection = DEFAULT_SECTION;
+//        private Section mCurrentSection = DEFAULT_SECTION;
 
         NavigationAdapter(final Context context) {
             mContext = context;
@@ -205,12 +220,12 @@ public class ConfigActivity extends Activity {
 
         @Override
         public String getItemText(int index) {
-            return mContext.getString(SectionFragment.Section.values()[index].titleRes);
+            return mContext.getString(Section.values()[index].titleRes);
         }
 
         @Override
         public Drawable getItemDrawable(int index) {
-            return mContext.getDrawable(SectionFragment.Section.values()[index].drawableRes);
+            return mContext.getDrawable(Section.values()[index].drawableRes);
         }
 
 //        @Override
@@ -240,7 +255,7 @@ public class ConfigActivity extends Activity {
 
         @Override
         public int getCount() {
-            return SectionFragment.Section.values().length;
+            return Section.values().length;
         }
     }
 }
