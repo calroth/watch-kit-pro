@@ -135,6 +135,9 @@ public class ConfigActivity extends Activity {
                         finish(); // Remove this from the "back" stack, so it's a direct switch.
                     }
                 });
+
+        // Give a hint it's there.
+        mWearableNavigationDrawer.getController().peekDrawer();
     }
 
     private enum ConfigSubActivity {
