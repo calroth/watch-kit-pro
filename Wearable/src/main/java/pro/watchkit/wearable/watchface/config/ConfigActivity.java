@@ -66,6 +66,7 @@ public class ConfigActivity extends Activity {
             ConfigActivity.class.getSimpleName() + ".CONFIG_DATA";
     private static final String TAG = ConfigActivity.class.getSimpleName();
     private ConfigRecyclerViewAdapter mAdapter;
+    private ConfigSubActivity mCurrentSubActivity;
     private ConfigData mConfigData;
 
     private WearableNavigationDrawerView mWearableNavigationDrawer;
@@ -74,25 +75,22 @@ public class ConfigActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_analog_complication_config);
-        int currentItem = 3;
-
-        if (mConfigData == null) {
+        if (mCurrentSubActivity == null) {
+            mCurrentSubActivity = ConfigSubActivity.Settings;
             String configDataString = getIntent().getStringExtra(CONFIG_DATA);
-            if (ColorsStylesConfigData.class.getSimpleName().equals(configDataString)) {
-                mConfigData = new ColorsStylesConfigData();
-                currentItem = 0;
-            } else if (WatchPartHandsConfigData.class.getSimpleName().equals(configDataString)) {
-                mConfigData = new WatchPartHandsConfigData();
-                currentItem = 1;
-            } else if (WatchPartTicksConfigData.class.getSimpleName().equals(configDataString)) {
-                mConfigData = new WatchPartTicksConfigData();
-                currentItem = 2;
-            } else {
-                mConfigData = new AnalogComplicationConfigData();
-                currentItem = 3;
+            for (ConfigSubActivity c : ConfigSubActivity.values()) {
+                if (c.mClassName.equals(configDataString)) {
+                    mCurrentSubActivity = c;
+                    break;
+                }
             }
         }
+
+        if (mConfigData == null) {
+            mConfigData = mCurrentSubActivity.getNewInstance();
+        }
+
+        setContentView(R.layout.activity_analog_complication_config);
 
         mAdapter = new ConfigRecyclerViewAdapter(
                 getApplicationContext(),
@@ -117,31 +115,12 @@ public class ConfigActivity extends Activity {
         mWearableNavigationDrawer =
                 findViewById(R.id.top_navigation_drawer);
         mWearableNavigationDrawer.setAdapter(new NavigationAdapter(this));
-        mWearableNavigationDrawer.setCurrentItem(currentItem, false);
+        mWearableNavigationDrawer.setCurrentItem(mCurrentSubActivity.ordinal(), false);
         mWearableNavigationDrawer.addOnItemSelectedListener(
                 new WearableNavigationDrawerView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(int pos) {
-                        String configData;
-                        switch (pos) {
-                            case 0: {
-                                configData = ColorsStylesConfigData.class.getSimpleName();
-                                break;
-                            }
-                            case 1: {
-                                configData = WatchPartHandsConfigData.class.getSimpleName();
-                                break;
-                            }
-                            case 2: {
-                                configData = WatchPartTicksConfigData.class.getSimpleName();
-                                break;
-                            }
-                            case 3:
-                            default: {
-                                configData = null;
-                                break;
-                            }
-                        }
+                        String configData = ConfigSubActivity.values()[pos].mClassName;
 
                         Intent launchIntent =
                                 new Intent(mWearableNavigationDrawer.getContext(), ConfigActivity.class);
@@ -156,6 +135,35 @@ public class ConfigActivity extends Activity {
                         finish(); // Remove this from the "back" stack, so it's a direct switch.
                     }
                 });
+    }
+
+    private enum ConfigSubActivity {
+        Settings(AnalogComplicationConfigData.class, R.string.config_configure_settings, R.drawable.ic_notifications_white_24dp),
+        ColorsStyles(ColorsStylesConfigData.class, R.string.config_configure_colors_styles, R.drawable.ic_lock_open_white_24dp),
+        WatchPartHands(WatchPartHandsConfigData.class, R.string.config_configure_hands, R.drawable.ic_add_white_24dp),
+        WatchPartTicks(WatchPartTicksConfigData.class, R.string.config_configure_ticks, R.drawable.ic_more_horiz_24dp_wht);
+
+        final String mClassName;
+        final Class<? extends ConfigData> mClass;
+        final int mTitleId;
+        final int mDrawableId;
+
+        ConfigSubActivity(final Class<? extends ConfigData> c, final int titleId, final int drawableId) {
+            mClass = c;
+            mClassName = c.getSimpleName();
+            mTitleId = titleId;
+            mDrawableId = drawableId;
+        }
+
+        ConfigData getNewInstance() {
+            try {
+                return mClass.newInstance();
+            } catch (IllegalAccessException e) {
+                return null;
+            } catch (InstantiationException e) {
+                return null;
+            }
+        }
     }
 
     @Override
@@ -181,21 +189,6 @@ public class ConfigActivity extends Activity {
         }
     }
 
-    public enum Section {
-        Sun(R.string.color_gray, R.drawable.ic_lock_open_white_24dp),
-        Moon(R.string.color_green, R.drawable.ic_add_white_24dp),
-        Earth(R.string.color_black, R.drawable.ic_more_horiz_24dp_wht),
-        Settings(R.string.color_blue, R.drawable.ic_notifications_white_24dp);
-
-        final int titleRes;
-        final int drawableRes;
-
-        Section(final int titleRes, final int drawableRes) {
-            this.titleRes = titleRes;
-            this.drawableRes = drawableRes;
-        }
-    }
-
     private final class NavigationAdapter
             extends WearableNavigationDrawerView.WearableNavigationDrawerAdapter {
 
@@ -207,17 +200,17 @@ public class ConfigActivity extends Activity {
 
         @Override
         public String getItemText(int index) {
-            return mContext.getString(Section.values()[index].titleRes);
+            return mContext.getString(ConfigSubActivity.values()[index].mTitleId);
         }
 
         @Override
         public Drawable getItemDrawable(int index) {
-            return mContext.getDrawable(Section.values()[index].drawableRes);
+            return mContext.getDrawable(ConfigSubActivity.values()[index].mDrawableId);
         }
 
         @Override
         public int getCount() {
-            return Section.values().length;
+            return ConfigSubActivity.values().length;
         }
     }
 }
