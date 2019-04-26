@@ -68,6 +68,7 @@ import java.util.concurrent.TimeUnit;
 import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
+import pro.watchkit.wearable.watchface.model.Settings;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanvasWatchFaceService {
@@ -129,7 +130,8 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
         private boolean mRegisteredTimeZoneReceiver = false;
         private boolean mMuteMode;
         // User's preference for if they want visual shown to indicate unread notifications.
-        private boolean mUnreadNotificationsPreference;
+//        private boolean mUnreadNotificationsPreference;
+        private Settings mSettings = new Settings();
 
         @Override
         protected void beforeDoFrame(int invalidated) {
@@ -284,11 +286,8 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                     getApplicationContext().getString(R.string.saved_watch_face_preset),
                     null));
 
-            String unreadNotificationPreferenceResourceName =
-                    getApplicationContext().getString(R.string.saved_unread_notifications_pref);
-
-            mUnreadNotificationsPreference =
-                    mSharedPref.getBoolean(unreadNotificationPreferenceResourceName, true);
+            mSettings.setString(mSharedPref.getString(
+                    getApplicationContext().getString(R.string.saved_settings), null));
         }
 
         private void initializeComplications() {
@@ -405,8 +404,8 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             boolean prevAmbient = getWatchFaceState().isAmbient();
             super.onDraw(canvas, bounds);
 
-            int unreadNotifications = mUnreadNotificationsPreference ? getUnreadCount() : 0;
-            int totalNotifications = mUnreadNotificationsPreference ? getNotificationCount() : 0;
+            int unreadNotifications = mSettings.isShowUnreadNotifications() ? getUnreadCount() : 0;
+            int totalNotifications = mSettings.isShowUnreadNotifications() ? getNotificationCount() : 0;
 
 //            if (isInAmbientMode()) {
 //                getWatchFaceState().preDrawAmbientCheck();
@@ -469,7 +468,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
         public void onNotificationCountChanged(int count) {
             Log.d(TAG, "onNotificationCountChanged(): " + count);
 
-            if (mUnreadNotificationsPreference) {
+            if (mSettings.isShowUnreadNotifications()) {
                 WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_NOTIFICATION;
                 invalidate();
             }
@@ -479,7 +478,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
         public void onUnreadCountChanged(int count) {
             Log.d(TAG, "onUnreadCountChanged(): " + count);
 
-            if (mUnreadNotificationsPreference) {
+            if (mSettings.isShowUnreadNotifications()) {
                 WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_NOTIFICATION;
                 invalidate();
             }

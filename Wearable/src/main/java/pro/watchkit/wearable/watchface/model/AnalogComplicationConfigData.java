@@ -103,8 +103,8 @@ public class AnalogComplicationConfigData extends ConfigData {
                 new UnreadNotificationConfigItem(
                         context.getString(R.string.config_unread_notifications_label),
                         R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp,
-                        R.string.saved_unread_notifications_pref);
+                        R.drawable.ic_notifications_off_white_24dp/*,
+                        R.string.saved_unread_notifications_pref*/);
         settingsConfigData.add(unreadNotificationsConfigItem);
 
         // Data for background complications UX in settings Activity.
@@ -120,8 +120,8 @@ public class AnalogComplicationConfigData extends ConfigData {
                 new NightVisionConfigItem(
                         context.getString(R.string.config_night_vision_label),
                         R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp,
-                        R.string.saved_night_vision_pref);
+                        R.drawable.ic_notifications_off_white_24dp/*,
+                        R.string.saved_night_vision_pref*/);
         settingsConfigData.add(nightVisionConfigItem);
 
         return settingsConfigData;

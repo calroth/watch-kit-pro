@@ -283,7 +283,7 @@ final class BytePacker {
         put(length, 0);
     }
 
-    private void put(int length, int value) {
+    void put(int length, int value) {
         put(length, value, mBytePtr);
         mBytePtr += length;
     }

@@ -351,17 +351,17 @@ abstract public class ConfigData {
         private String name;
         private int iconEnabledResourceId;
         private int iconDisabledResourceId;
-        private int sharedPrefId;
+//        private int sharedPrefId;
 
         UnreadNotificationConfigItem(
                 String name,
                 int iconEnabledResourceId,
-                int iconDisabledResourceId,
-                int sharedPrefId) {
+                int iconDisabledResourceId/*,
+                int sharedPrefId*/) {
             this.name = name;
             this.iconEnabledResourceId = iconEnabledResourceId;
             this.iconDisabledResourceId = iconDisabledResourceId;
-            this.sharedPrefId = sharedPrefId;
+//            this.sharedPrefId = sharedPrefId;
         }
 
         public String getName() {
@@ -376,9 +376,9 @@ abstract public class ConfigData {
             return iconDisabledResourceId;
         }
 
-        public int getSharedPrefId() {
-            return sharedPrefId;
-        }
+//        public int getSharedPrefId() {
+//            return sharedPrefId;
+//        }
 
         @Override
         public int getConfigType() {
@@ -424,17 +424,17 @@ abstract public class ConfigData {
         private String name;
         private int iconEnabledResourceId;
         private int iconDisabledResourceId;
-        private int sharedPrefId;
+//        private int sharedPrefId;
 
         NightVisionConfigItem(
                 String name,
                 int iconEnabledResourceId,
-                int iconDisabledResourceId,
-                int sharedPrefId) {
+                int iconDisabledResourceId/*,
+                int sharedPrefId*/) {
             this.name = name;
             this.iconEnabledResourceId = iconEnabledResourceId;
             this.iconDisabledResourceId = iconDisabledResourceId;
-            this.sharedPrefId = sharedPrefId;
+//            this.sharedPrefId = sharedPrefId;
         }
 
         public String getName() {
@@ -449,9 +449,9 @@ abstract public class ConfigData {
             return iconDisabledResourceId;
         }
 
-        public int getSharedPrefId() {
-            return sharedPrefId;
-        }
+//        public int getSharedPrefId() {
+//            return sharedPrefId;
+//        }
 
         @Override
         public int getConfigType() {

@@ -88,6 +88,7 @@ import pro.watchkit.wearable.watchface.model.ConfigData.UnreadNotificationConfig
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFacePresetPickerConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFacePresetToggleConfigItem;
 import pro.watchkit.wearable.watchface.model.PaintBox;
+import pro.watchkit.wearable.watchface.model.Settings;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
@@ -421,12 +422,12 @@ public class ConfigRecyclerViewAdapter
                 int unreadDisabledIconResourceId = unreadConfigItem.getIconDisabledResourceId();
 
                 String unreadName = unreadConfigItem.getName();
-                int unreadSharedPrefId = unreadConfigItem.getSharedPrefId();
+//                int unreadSharedPrefId = unreadConfigItem.getSharedPrefId();
 
                 unreadViewHolder.setIcons(
                         unreadEnabledIconResourceId, unreadDisabledIconResourceId);
                 unreadViewHolder.setName(unreadName);
-                unreadViewHolder.setSharedPrefId(unreadSharedPrefId);
+//                unreadViewHolder.setSharedPrefId(unreadSharedPrefId);
                 break;
             }
 
@@ -456,12 +457,12 @@ public class ConfigRecyclerViewAdapter
                 int nightVisionDisabledIconResourceId = nightVisionConfigItem.getIconDisabledResourceId();
 
                 String nightVisionName = nightVisionConfigItem.getName();
-                int nightVisionSharedPrefId = nightVisionConfigItem.getSharedPrefId();
+//                int nightVisionSharedPrefId = nightVisionConfigItem.getSharedPrefId();
 
                 nightVisionViewHolder.setIcons(
                         nightVisionEnabledIconResourceId, nightVisionDisabledIconResourceId);
                 nightVisionViewHolder.setName(nightVisionName);
-                nightVisionViewHolder.setSharedPrefId(nightVisionSharedPrefId);
+//                nightVisionViewHolder.setSharedPrefId(nightVisionSharedPrefId);
                 break;
             }
         }
@@ -1181,7 +1182,7 @@ public class ConfigRecyclerViewAdapter
         private int mEnabledIconResourceId;
         private int mDisabledIconResourceId;
 
-        private int mSharedPrefResourceId;
+//        private int mSharedPrefResourceId;
 
         UnreadNotificationViewHolder(View view) {
             super(view);
@@ -1204,16 +1205,14 @@ public class ConfigRecyclerViewAdapter
             // Set default to enabled.
             mUnreadNotificationSwitch.setCompoundDrawablesWithIntrinsicBounds(
                     context.getDrawable(mEnabledIconResourceId), null, null, null);
-        }
-
-        void setSharedPrefId(int sharedPrefId) {
-            mSharedPrefResourceId = sharedPrefId;
 
             if (mUnreadNotificationSwitch != null) {
+//                String sharedPreferenceString = context.getString(mSharedPrefResourceId);
+                String sharedPreferenceString = context.getString(R.string.saved_settings);
 
-                Context context = mUnreadNotificationSwitch.getContext();
-                String sharedPreferenceString = context.getString(mSharedPrefResourceId);
-                Boolean currentState = mSharedPref.getBoolean(sharedPreferenceString, true);
+                Settings settings = new Settings();
+                settings.setString(mSharedPref.getString(sharedPreferenceString, null));
+                boolean currentState = settings.isShowUnreadNotifications();
 
                 updateIcon(context, currentState);
             }
@@ -1239,13 +1238,17 @@ public class ConfigRecyclerViewAdapter
             Log.d(TAG, "Complication onClick() position: " + position);
 
             Context context = view.getContext();
-            String sharedPreferenceString = context.getString(mSharedPrefResourceId);
+//            String sharedPreferenceString = context.getString(mSharedPrefResourceId);
+            String sharedPreferenceString = context.getString(R.string.saved_settings);
 
             // Since user clicked on a switch, new state should be opposite of current state.
-            boolean newState = !mSharedPref.getBoolean(sharedPreferenceString, true);
+//            boolean newState = !mSharedPref.getBoolean(sharedPreferenceString, true);
+            Settings settings = new Settings();
+            settings.setString(mSharedPref.getString(sharedPreferenceString, null));
+            boolean newState = settings.toggleShowUnreadNotifications();
 
             SharedPreferences.Editor editor = mSharedPref.edit();
-            editor.putBoolean(sharedPreferenceString, newState);
+            editor.putString(sharedPreferenceString, settings.getString());
             editor.apply();
 
             updateIcon(context, newState);
@@ -1325,7 +1328,7 @@ public class ConfigRecyclerViewAdapter
         private Switch mNightVisionSwitch;
         private int mEnabledIconResourceId;
         private int mDisabledIconResourceId;
-        private int mSharedPrefResourceId;
+//        private int mSharedPrefResourceId;
 
         NightVisionViewHolder(View view) {
             super(view);
@@ -1348,16 +1351,13 @@ public class ConfigRecyclerViewAdapter
             // Set default to enabled.
             mNightVisionSwitch.setCompoundDrawablesWithIntrinsicBounds(
                     context.getDrawable(mEnabledIconResourceId), null, null, null);
-        }
-
-        void setSharedPrefId(int sharedPrefId) {
-            mSharedPrefResourceId = sharedPrefId;
 
             if (mNightVisionSwitch != null) {
-
-                Context context = mNightVisionSwitch.getContext();
-                String sharedPreferenceString = context.getString(mSharedPrefResourceId);
-                Boolean currentState = mSharedPref.getBoolean(sharedPreferenceString, true);
+//            String sharedPreferenceString = context.getString(mSharedPrefResourceId);
+                String sharedPreferenceString = context.getString(R.string.saved_settings);
+                Settings settings = new Settings();
+                settings.setString(mSharedPref.getString(sharedPreferenceString, null));
+                boolean currentState = settings.toggleEnableNightVisionMode();
 
                 updateIcon(context, currentState);
             }
@@ -1383,10 +1383,14 @@ public class ConfigRecyclerViewAdapter
             Log.d(TAG, "Complication onClick() position: " + position);
 
             Context context = view.getContext();
-            String sharedPreferenceString = context.getString(mSharedPrefResourceId);
+//            String sharedPreferenceString = context.getString(mSharedPrefResourceId);
+            String sharedPreferenceString = context.getString(R.string.saved_settings);
 
             // Since user clicked on a switch, new state should be opposite of current state.
-            boolean newState = !mSharedPref.getBoolean(sharedPreferenceString, true);
+//            boolean newState = !mSharedPref.getBoolean(sharedPreferenceString, true);
+            Settings settings = new Settings();
+            settings.setString(mSharedPref.getString(sharedPreferenceString, null));
+            boolean newState = settings.toggleEnableNightVisionMode();
 
             if (newState && context.checkSelfPermission(
                     android.Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -1398,7 +1402,7 @@ public class ConfigRecyclerViewAdapter
             }
 
             SharedPreferences.Editor editor = mSharedPref.edit();
-            editor.putBoolean(sharedPreferenceString, newState);
+            editor.putString(sharedPreferenceString, settings.toString());
             editor.apply();
 
             updateIcon(context, newState);
