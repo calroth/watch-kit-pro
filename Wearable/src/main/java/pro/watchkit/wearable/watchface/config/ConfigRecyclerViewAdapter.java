@@ -1117,7 +1117,7 @@ public class ConfigRecyclerViewAdapter
         }
 
         @Override
-        protected void setDefaultSwitchValue(Context context) {
+        void setDefaultSwitchValue(Context context) {
             tickle();
         }
 
@@ -1158,7 +1158,7 @@ public class ConfigRecyclerViewAdapter
         }
 
         @Override
-        protected void setDefaultSwitchValue(Context context) {
+        void setDefaultSwitchValue(Context context) {
             String sharedPreferenceString = context.getString(R.string.saved_settings);
 
             Settings settings = new Settings();
@@ -1260,7 +1260,7 @@ public class ConfigRecyclerViewAdapter
         }
 
         @Override
-        protected void setDefaultSwitchValue(Context context) {
+        void setDefaultSwitchValue(Context context) {
             String sharedPreferenceString = context.getString(R.string.saved_settings);
             Settings settings = new Settings();
             settings.setString(mSharedPref.getString(sharedPreferenceString, null));
@@ -1301,7 +1301,7 @@ public class ConfigRecyclerViewAdapter
      */
     public abstract class ToggleViewHolder extends RecyclerView.ViewHolder
             implements OnClickListener {
-        protected Switch mSwitch;
+        Switch mSwitch;
         private int mEnabledIconResourceId;
         private int mDisabledIconResourceId;
 
@@ -1332,9 +1332,9 @@ public class ConfigRecyclerViewAdapter
             }
         }
 
-        abstract protected void setDefaultSwitchValue(Context context);
+        abstract void setDefaultSwitchValue(Context context);
 
-        protected void updateIcon(Context context, Boolean currentState) {
+        void updateIcon(Context context, Boolean currentState) {
             int currentIconResourceId;
 
             if (currentState) {
