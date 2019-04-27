@@ -1098,17 +1098,10 @@ public class ConfigRecyclerViewAdapter
     /**
      * Displays switch to indicate whether or not the given WatchFacePreset flag is toggled on/off.
      */
-    public class WatchFacePresetToggleViewHolder
-            extends RecyclerView.ViewHolder implements OnClickListener, Ticklish {
-        private Switch mToggleSwitch;
-        private int mEnabledIconResourceId;
-        private int mDisabledIconResourceId;
+    public class WatchFacePresetToggleViewHolder extends ToggleViewHolder implements Ticklish {
 
         WatchFacePresetToggleViewHolder(View view) {
             super(view);
-
-            mToggleSwitch = view.findViewById(R.id.config_list_toggle);
-            view.setOnClickListener(this);
         }
 
         private WatchFacePresetToggleConfigItem mConfigItem;
@@ -1116,48 +1109,33 @@ public class ConfigRecyclerViewAdapter
         void bind(WatchFacePresetToggleConfigItem configItem) {
             mConfigItem = configItem;
 
-            mToggleSwitch.setText(configItem.getName());
-            mEnabledIconResourceId = configItem.getIconEnabledResourceId();
-            mDisabledIconResourceId = configItem.getIconDisabledResourceId();
+            setName(configItem.getName());
+            setIcons(configItem.getIconEnabledResourceId(),
+                    configItem.getIconDisabledResourceId());
 
-            Context context = mToggleSwitch.getContext();
+            tickle();
+        }
 
-            // Set default to enabled.
-            mToggleSwitch.setCompoundDrawablesWithIntrinsicBounds(
-                    context.getDrawable(mEnabledIconResourceId), null, null, null);
-
+        @Override
+        protected void setDefaultSwitchValue(Context context) {
             tickle();
         }
 
         public void tickle() {
             // Regenerate and grab our current permutations. Just in time!
             String[] permutations =
-                    mConfigItem.permute(regenerateCurrentWatchFacePreset(mToggleSwitch.getContext()));
-            mToggleSwitch.setChecked(mCurrentWatchFacePreset.getString().equals(permutations[1]));
+                    mConfigItem.permute(regenerateCurrentWatchFacePreset(mSwitch.getContext()));
+            mSwitch.setChecked(mCurrentWatchFacePreset.getString().equals(permutations[1]));
             itemView.invalidate();
-        }
-
-        private void updateIcon(Context context, Boolean currentState) {
-            int currentIconResourceId;
-
-            if (currentState) {
-                currentIconResourceId = mEnabledIconResourceId;
-            } else {
-                currentIconResourceId = mDisabledIconResourceId;
-            }
-
-            mToggleSwitch.setChecked(currentState);
-            mToggleSwitch.setCompoundDrawablesWithIntrinsicBounds(
-                    context.getDrawable(currentIconResourceId), null, null, null);
         }
 
         @Override
         public void onClick(View view) {
             // Regenerate and grab our current permutations. Just in time!
             String[] permutations =
-                    mConfigItem.permute(regenerateCurrentWatchFacePreset(mToggleSwitch.getContext()));
+                    mConfigItem.permute(regenerateCurrentWatchFacePreset(mSwitch.getContext()));
 
-            Boolean newState = mToggleSwitch.isChecked();
+            Boolean newState = mSwitch.isChecked();
             Context context = view.getContext();
             SharedPreferences.Editor editor = mSharedPref.edit();
             editor.putString(context.getString(R.string.saved_watch_face_preset),
@@ -1174,75 +1152,28 @@ public class ConfigRecyclerViewAdapter
      * Displays switch to indicate whether or not icon appears for unread notifications. User can
      * toggle on/off.
      */
-    public class UnreadNotificationViewHolder extends RecyclerView.ViewHolder
-            implements OnClickListener {
-
-        private Switch mUnreadNotificationSwitch;
-
-        private int mEnabledIconResourceId;
-        private int mDisabledIconResourceId;
-
-//        private int mSharedPrefResourceId;
-
+    public class UnreadNotificationViewHolder extends ToggleViewHolder {
         UnreadNotificationViewHolder(View view) {
             super(view);
-
-            mUnreadNotificationSwitch = view.findViewById(R.id.config_list_toggle);
-            view.setOnClickListener(this);
         }
 
-        public void setName(String name) {
-            mUnreadNotificationSwitch.setText(name);
-        }
+        @Override
+        protected void setDefaultSwitchValue(Context context) {
+            String sharedPreferenceString = context.getString(R.string.saved_settings);
 
-        void setIcons(int enabledIconResourceId, int disabledIconResourceId) {
+            Settings settings = new Settings();
+            settings.setString(mSharedPref.getString(sharedPreferenceString, null));
+            boolean currentState = settings.isShowUnreadNotifications();
 
-            mEnabledIconResourceId = enabledIconResourceId;
-            mDisabledIconResourceId = disabledIconResourceId;
-
-            Context context = mUnreadNotificationSwitch.getContext();
-
-            // Set default to enabled.
-            mUnreadNotificationSwitch.setCompoundDrawablesWithIntrinsicBounds(
-                    context.getDrawable(mEnabledIconResourceId), null, null, null);
-
-            if (mUnreadNotificationSwitch != null) {
-//                String sharedPreferenceString = context.getString(mSharedPrefResourceId);
-                String sharedPreferenceString = context.getString(R.string.saved_settings);
-
-                Settings settings = new Settings();
-                settings.setString(mSharedPref.getString(sharedPreferenceString, null));
-                boolean currentState = settings.isShowUnreadNotifications();
-
-                updateIcon(context, currentState);
-            }
-        }
-
-        private void updateIcon(Context context, Boolean currentState) {
-            int currentIconResourceId;
-
-            if (currentState) {
-                currentIconResourceId = mEnabledIconResourceId;
-            } else {
-                currentIconResourceId = mDisabledIconResourceId;
-            }
-
-            mUnreadNotificationSwitch.setChecked(currentState);
-            mUnreadNotificationSwitch.setCompoundDrawablesWithIntrinsicBounds(
-                    context.getDrawable(currentIconResourceId), null, null, null);
+            updateIcon(context, currentState);
         }
 
         @Override
         public void onClick(View view) {
-            int position = getAdapterPosition();
-            Log.d(TAG, "Complication onClick() position: " + position);
-
             Context context = view.getContext();
-//            String sharedPreferenceString = context.getString(mSharedPrefResourceId);
             String sharedPreferenceString = context.getString(R.string.saved_settings);
 
             // Since user clicked on a switch, new state should be opposite of current state.
-//            boolean newState = !mSharedPref.getBoolean(sharedPreferenceString, true);
             Settings settings = new Settings();
             settings.setString(mSharedPref.getString(sharedPreferenceString, null));
             boolean newState = settings.toggleShowUnreadNotifications();
@@ -1321,73 +1252,29 @@ public class ConfigRecyclerViewAdapter
     /**
      * Displays switch to indicate whether or not night vision is toggled on/off.
      */
-    public class NightVisionViewHolder extends RecyclerView.ViewHolder
-            implements OnClickListener {
-
+    public class NightVisionViewHolder extends ToggleViewHolder {
         final private int MY_PERMISSION_ACCESS_COURSE_LOCATION = 1;
-        private Switch mNightVisionSwitch;
-        private int mEnabledIconResourceId;
-        private int mDisabledIconResourceId;
-//        private int mSharedPrefResourceId;
 
         NightVisionViewHolder(View view) {
             super(view);
-
-            mNightVisionSwitch = view.findViewById(R.id.config_list_toggle);
-            view.setOnClickListener(this);
         }
 
-        public void setName(String name) {
-            mNightVisionSwitch.setText(name);
-        }
+        @Override
+        protected void setDefaultSwitchValue(Context context) {
+            String sharedPreferenceString = context.getString(R.string.saved_settings);
+            Settings settings = new Settings();
+            settings.setString(mSharedPref.getString(sharedPreferenceString, null));
+            boolean currentState = settings.toggleEnableNightVisionMode();
 
-        void setIcons(int enabledIconResourceId, int disabledIconResourceId) {
-
-            mEnabledIconResourceId = enabledIconResourceId;
-            mDisabledIconResourceId = disabledIconResourceId;
-
-            Context context = mNightVisionSwitch.getContext();
-
-            // Set default to enabled.
-            mNightVisionSwitch.setCompoundDrawablesWithIntrinsicBounds(
-                    context.getDrawable(mEnabledIconResourceId), null, null, null);
-
-            if (mNightVisionSwitch != null) {
-//            String sharedPreferenceString = context.getString(mSharedPrefResourceId);
-                String sharedPreferenceString = context.getString(R.string.saved_settings);
-                Settings settings = new Settings();
-                settings.setString(mSharedPref.getString(sharedPreferenceString, null));
-                boolean currentState = settings.toggleEnableNightVisionMode();
-
-                updateIcon(context, currentState);
-            }
-        }
-
-        private void updateIcon(Context context, Boolean currentState) {
-            int currentIconResourceId;
-
-            if (currentState) {
-                currentIconResourceId = mEnabledIconResourceId;
-            } else {
-                currentIconResourceId = mDisabledIconResourceId;
-            }
-
-            mNightVisionSwitch.setChecked(currentState);
-            mNightVisionSwitch.setCompoundDrawablesWithIntrinsicBounds(
-                    context.getDrawable(currentIconResourceId), null, null, null);
+            updateIcon(context, currentState);
         }
 
         @Override
         public void onClick(View view) {
-            int position = getAdapterPosition();
-            Log.d(TAG, "Complication onClick() position: " + position);
-
             Context context = view.getContext();
-//            String sharedPreferenceString = context.getString(mSharedPrefResourceId);
             String sharedPreferenceString = context.getString(R.string.saved_settings);
 
             // Since user clicked on a switch, new state should be opposite of current state.
-//            boolean newState = !mSharedPref.getBoolean(sharedPreferenceString, true);
             Settings settings = new Settings();
             settings.setString(mSharedPref.getString(sharedPreferenceString, null));
             boolean newState = settings.toggleEnableNightVisionMode();
@@ -1407,5 +1294,61 @@ public class ConfigRecyclerViewAdapter
 
             updateIcon(context, newState);
         }
+    }
+
+    /**
+     * Displays switch to indicate whether or not night vision is toggled on/off.
+     */
+    public abstract class ToggleViewHolder extends RecyclerView.ViewHolder
+            implements OnClickListener {
+        protected Switch mSwitch;
+        private int mEnabledIconResourceId;
+        private int mDisabledIconResourceId;
+
+        ToggleViewHolder(View view) {
+            super(view);
+
+            mSwitch = view.findViewById(R.id.config_list_toggle);
+            view.setOnClickListener(this);
+        }
+
+        public void setName(String name) {
+            mSwitch.setText(name);
+        }
+
+        void setIcons(int enabledIconResourceId, int disabledIconResourceId) {
+
+            mEnabledIconResourceId = enabledIconResourceId;
+            mDisabledIconResourceId = disabledIconResourceId;
+
+            Context context = mSwitch.getContext();
+
+            // Set default to enabled.
+            mSwitch.setCompoundDrawablesWithIntrinsicBounds(
+                    context.getDrawable(mEnabledIconResourceId), null, null, null);
+
+            if (mSwitch != null) {
+                setDefaultSwitchValue(context);
+            }
+        }
+
+        abstract protected void setDefaultSwitchValue(Context context);
+
+        protected void updateIcon(Context context, Boolean currentState) {
+            int currentIconResourceId;
+
+            if (currentState) {
+                currentIconResourceId = mEnabledIconResourceId;
+            } else {
+                currentIconResourceId = mDisabledIconResourceId;
+            }
+
+            mSwitch.setChecked(currentState);
+            mSwitch.setCompoundDrawablesWithIntrinsicBounds(
+                    context.getDrawable(currentIconResourceId), null, null, null);
+        }
+
+        @Override
+        abstract public void onClick(View view);
     }
 }
