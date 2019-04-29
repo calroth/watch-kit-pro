@@ -71,14 +71,6 @@ public class WatchFaceState {
     private GregorianCalendar mCalendar = new GregorianCalendar();
     private LocationCalculator mLocationCalculator = new LocationCalculator(mCalendar);
 
-    private static final int FOREGROUND_COMPLICATION_COUNT = 6;
-//    private static final int COMPLICATION_AMBIENT_WHITE =
-//            Color.argb(0xff, 0xff, 0xff, 0xff);
-//    private static final int COMPLICATION_AMBIENT_GREY =
-//            Color.argb(0xff, 0xaa, 0xaa, 0xaa);
-//
-//    private int currentComplicationWhite, currentComplicationGrey;
-
     @Override
     public int hashCode() {
         return Objects.hash(
@@ -222,7 +214,7 @@ public class WatchFaceState {
             mComplications.add(b);
         }
 
-        for (int i = 0; i < FOREGROUND_COMPLICATION_COUNT; i++) {
+        for (int i = 0; i < mSettings.getComplicationCount(); i++) {
             final ComplicationHolder f = new ComplicationHolder(context);
             f.isForeground = true;
             f.setDrawableCallback(invalidateCallback);
@@ -261,7 +253,7 @@ public class WatchFaceState {
         for (ComplicationHolder complication : mComplications) {
             if (complication.isForeground) {
                 // Foreground
-                float degrees = (float) ((i + 0.5f) * Math.PI * 2 / FOREGROUND_COMPLICATION_COUNT);
+                float degrees = (float) ((i + 0.5f) * Math.PI * 2 / mSettings.getComplicationCount());
 
                 float halfSize = sizeOfComplication / 2f;
                 float offset = midpointOfScreen / 2f;
