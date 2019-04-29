@@ -44,9 +44,11 @@ public class WatchFacePresetSelectionRecyclerViewAdapter extends
     private static final String TAG = WatchFacePresetSelectionRecyclerViewAdapter.class.getSimpleName();
 
     private String[] mWatchFacePresetStrings;
+    private String[] mSettingsStrings;
 
-    public WatchFacePresetSelectionRecyclerViewAdapter(String[] watchFacePresetStrings) {
+    public WatchFacePresetSelectionRecyclerViewAdapter(String[] watchFacePresetStrings, String[] settingsStrings) {
         mWatchFacePresetStrings = watchFacePresetStrings;
+        mSettingsStrings = settingsStrings;
     }
 
     @Override
@@ -63,8 +65,15 @@ public class WatchFacePresetSelectionRecyclerViewAdapter extends
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         Log.d(TAG, "Element " + position + " set.");
 
-        WatchFacePresetViewHolder watchFacePresetViewHolder = (WatchFacePresetViewHolder) viewHolder;
-        watchFacePresetViewHolder.setPreset(mWatchFacePresetStrings[position]);
+        String watchFacePresetString =
+                mWatchFacePresetStrings != null && mWatchFacePresetStrings.length < position ?
+                        mWatchFacePresetStrings[position] : null;
+        String settingsString =
+                mSettingsStrings != null && mSettingsStrings.length < position ?
+                        mSettingsStrings[position] : null;
+
+        WatchFacePresetViewHolder holder = (WatchFacePresetViewHolder) viewHolder;
+        holder.setPreset(watchFacePresetString, settingsString);
     }
 
     @Override
@@ -93,9 +102,14 @@ public class WatchFacePresetSelectionRecyclerViewAdapter extends
                             WatchFaceGlobalDrawable.PART_HANDS);
         }
 
-        public void setPreset(String watchFacePresetString) {
+        public void setPreset(String watchFacePresetString, String settingsString) {
             WatchFaceState w = mWatchFaceGlobalDrawable.getWatchFaceState();
-            w.getWatchFacePreset().setString(watchFacePresetString);
+            if (watchFacePresetString != null) {
+                w.getWatchFacePreset().setString(watchFacePresetString);
+            }
+            if (settingsString != null) {
+                w.getSettings().setString(settingsString);
+            }
             w.setNotifications(0, 0);
             w.setAmbient(false);
             mImageView.setImageDrawable(mWatchFaceGlobalDrawable);

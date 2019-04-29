@@ -44,6 +44,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.wear.widget.WearableRecyclerView;
+
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
@@ -57,6 +58,8 @@ public class WatchFacePresetSelectionActivity extends Activity {
 
     static final String EXTRA_SHARED_PREF =
             "pro.watchkit.wearable.watchface.config.extra.EXTRA_SHARED_PREF";
+    static final String EXTRA_SHARED_PREF_1 =
+            "pro.watchkit.wearable.watchface.config.extra.EXTRA_SHARED_PREF_1";
     private static final String TAG = WatchFacePresetSelectionActivity.class.getSimpleName();
 
     private WearableRecyclerView mWearableRecyclerView;
@@ -68,10 +71,11 @@ public class WatchFacePresetSelectionActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watch_face_preset_selection_config);
 
-        String[] strings = getIntent().getStringArrayExtra(EXTRA_SHARED_PREF);
+        String[] watchFacePresetStrings = getIntent().getStringArrayExtra(EXTRA_SHARED_PREF);
+        String[] settingsStrings = getIntent().getStringArrayExtra(EXTRA_SHARED_PREF_1);
 
         mWatchFacePresetSelectionRecyclerViewAdapter =
-                new WatchFacePresetSelectionRecyclerViewAdapter(strings);
+                new WatchFacePresetSelectionRecyclerViewAdapter(watchFacePresetStrings, settingsStrings);
 
         mWearableRecyclerView =
                 findViewById(R.id.wearable_recycler_view);
