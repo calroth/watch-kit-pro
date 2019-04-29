@@ -23,14 +23,14 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.support.wearable.complications.ComplicationData;
 
+import androidx.annotation.ColorInt;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 import java.util.TimeZone;
-
-import androidx.annotation.ColorInt;
 
 /**
  * The state class for our watch face.
@@ -62,6 +62,7 @@ import androidx.annotation.ColorInt;
  */
 public class WatchFaceState {
     private WatchFacePreset mWatchFacePreset = new WatchFacePreset();
+    private Settings mSettings = new Settings();
     private PaintBox mPaintBox;
     private Collection<ComplicationHolder> mComplications = new ArrayList<>();
     private int mUnreadNotifications = 0;
@@ -82,6 +83,7 @@ public class WatchFaceState {
     public int hashCode() {
         return Objects.hash(
                 mWatchFacePreset,
+                mSettings,
                 mComplications,
                 mUnreadNotifications,
                 mTotalNotifications);
@@ -331,6 +333,10 @@ public class WatchFaceState {
 
     public LocationCalculator getLocationCalculator() {
         return mLocationCalculator;
+    }
+
+    public Settings getSettings() {
+        return mSettings;
     }
 
     public WatchFacePreset getWatchFacePreset() {
