@@ -28,6 +28,16 @@ public class Settings {
     private boolean mShowUnreadNotifications;
     private boolean mEnableNightVisionMode;
 
+    private int mComplicationCount = 6;
+
+    public int getComplicationCount() {
+        return mComplicationCount;
+    }
+
+    public void setComplicationCount(int complicationCount) {
+        mComplicationCount = complicationCount;
+    }
+
     public String getString() {
         packVersion0();
         return bytePacker.getStringFast();
