@@ -28,7 +28,7 @@ public class Settings {
     private boolean mShowUnreadNotifications;
     private boolean mEnableNightVisionMode;
 
-    private int mComplicationCount = 6;
+    private int mComplicationCount = 5;
 
     public int getComplicationCount() {
         return mComplicationCount;
@@ -62,6 +62,7 @@ public class Settings {
 
         bytePacker.put(mShowUnreadNotifications);
         bytePacker.put(mEnableNightVisionMode);
+        bytePacker.put(mComplicationCount, 3); // 3-bit complication count
 
         bytePacker.finish();
     }
@@ -75,6 +76,7 @@ public class Settings {
             default: {
                 mShowUnreadNotifications = bytePacker.getBoolean();
                 mEnableNightVisionMode = bytePacker.getBoolean();
+                mComplicationCount = bytePacker.get(3); // 3-bit complication count
                 break;
             }
         }
