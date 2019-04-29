@@ -30,6 +30,10 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.SystemClock;
 
 import androidx.annotation.NonNull;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
@@ -41,6 +45,26 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
     private WatchFaceState mWatchFaceState;
     private Drawable[] mWatchPartDrawables;
     private Path mExclusionPath = new Path();
+
+    public static final int PART_BACKGROUND = 1;
+    public static final int PART_NOTIFICATIONS = 2;
+    public static final int PART_RINGS = 4;
+    public static final int PART_TICKS_FOUR = 8;
+    public static final int PART_TICKS_TWELVE = 16;
+    public static final int PART_TICKS_SIXTY = 32;
+    public static final int PART_TICKS = PART_TICKS_FOUR | PART_TICKS_TWELVE | PART_TICKS_SIXTY;
+    public static final int PART_COMPLICATIONS = 64;
+    public static final int PART_HANDS_HOUR = 128;
+    public static final int PART_HANDS_MINUTE = 256;
+    public static final int PART_HANDS_SECOND = 512;
+    public static final int PART_HANDS = PART_HANDS_HOUR | PART_HANDS_MINUTE | PART_HANDS_SECOND;
+    public static final int PART_STATS = 1024;
+
+    public WatchFaceGlobalDrawable(@NonNull Context context, int flags) {
+        this(buildDrawables(null, flags));
+
+        setWatchFaceState(context);
+    }
 
     private WatchFaceGlobalDrawable(@NonNull Drawable[] watchPartDrawables) {
         super(watchPartDrawables);
@@ -62,26 +86,55 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
         // Stats end
     }
 
-    WatchFaceGlobalDrawable(
-            @NonNull Context context, @NonNull Drawable[] watchPartDrawables) {
-        this(watchPartDrawables);
+    public WatchFaceGlobalDrawable(@NonNull Context context, WatchFaceGlobalCacheDrawable cache, int flags) {
+        this(buildDrawables(cache, flags));
 
         setWatchFaceState(context);
     }
 
-    public WatchFaceGlobalDrawable(@NonNull Context context) {
-        this(new WatchPartDrawable[]{
-                new WatchPartBackgroundDrawable(),
-                new WatchPartTicksFourDrawable(),
-                new WatchPartTicksTwelveDrawable(),
-                new WatchPartTicksSixtyDrawable(),
-                new WatchPartHandsHourDrawable(),
-                new WatchPartHandsMinuteDrawable(),
-                new WatchPartHandsSecondDrawable()});
+    static Drawable[] buildDrawables(Drawable cache, int flags) {
+        List<Drawable> d = new ArrayList<>();
 
-        setWatchFaceState(context);
+        if (cache != null) {
+            d.add(cache);
+        }
+
+        if ((flags & PART_BACKGROUND) > 0) {
+            d.add(new WatchPartBackgroundDrawable());
+        }
+        if ((flags & PART_NOTIFICATIONS) > 0) {
+            d.add(new WatchPartNotificationsDrawable());
+        }
+        if ((flags & PART_RINGS) > 0) {
+            d.add(new WatchPartRingsDrawable());
+        }
+        if ((flags & PART_TICKS_FOUR) > 0) {
+            d.add(new WatchPartTicksFourDrawable());
+        }
+        if ((flags & PART_TICKS_TWELVE) > 0) {
+            d.add(new WatchPartTicksTwelveDrawable());
+        }
+        if ((flags & PART_TICKS_SIXTY) > 0) {
+            d.add(new WatchPartTicksSixtyDrawable());
+        }
+        if ((flags & PART_COMPLICATIONS) > 0) {
+            d.add(new WatchPartComplicationsDrawable());
+        }
+        if ((flags & PART_HANDS_HOUR) > 0) {
+            d.add(new WatchPartHandsHourDrawable());
+        }
+        if ((flags & PART_HANDS_MINUTE) > 0) {
+            d.add(new WatchPartHandsMinuteDrawable());
+        }
+        if ((flags & PART_HANDS_SECOND) > 0) {
+            d.add(new WatchPartHandsSecondDrawable());
+        }
+        if ((flags & PART_STATS) > 0) {
+            d.add(new WatchPartStatsDrawable());
+        }
+
+        return d.toArray(new Drawable[0]);
     }
-
     private void setWatchFaceState(@NonNull Context context) {
         mWatchFaceState = new WatchFaceState(context);
 

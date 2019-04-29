@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
@@ -86,7 +87,10 @@ public class WatchFacePresetSelectionRecyclerViewAdapter extends
             super(view);
             mImageView = view.findViewById(R.id.watch_face_preset);
             view.setOnClickListener(this);
-            mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(view.getContext());
+            mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(view.getContext(),
+                    WatchFaceGlobalDrawable.PART_BACKGROUND |
+                            WatchFaceGlobalDrawable.PART_TICKS |
+                            WatchFaceGlobalDrawable.PART_HANDS);
         }
 
         public void setPreset(String watchFacePresetString) {

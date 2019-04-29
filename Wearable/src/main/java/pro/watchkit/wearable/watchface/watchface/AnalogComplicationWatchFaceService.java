@@ -42,7 +42,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -188,20 +187,14 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                             .build());
 
             mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(context,
-                    new Drawable[]{
-                            new WatchFaceGlobalCacheDrawable(
-                                    new Drawable[]{
-                                            new WatchPartBackgroundDrawable(),
-                                            new WatchPartNotificationsDrawable(),
-                                            new WatchPartRingsDrawable(),
-                                            new WatchPartTicksFourDrawable(),
-                                            new WatchPartTicksTwelveDrawable(),
-                                            new WatchPartTicksSixtyDrawable()}),
-                            new WatchPartComplicationsDrawable(),
-                            new WatchPartHandsHourDrawable(),
-                            new WatchPartHandsMinuteDrawable(),
-                            new WatchPartHandsSecondDrawable(),
-                            new WatchPartStatsDrawable()});
+                    new WatchFaceGlobalCacheDrawable(
+                            WatchFaceGlobalDrawable.PART_BACKGROUND |
+                                    WatchFaceGlobalDrawable.PART_NOTIFICATIONS |
+                                    WatchFaceGlobalDrawable.PART_RINGS |
+                                    WatchFaceGlobalDrawable.PART_TICKS),
+                    WatchFaceGlobalDrawable.PART_COMPLICATIONS |
+                            WatchFaceGlobalDrawable.PART_HANDS |
+                            WatchFaceGlobalDrawable.PART_STATS);
 
             loadSavedPreferences();
             initializeComplications();

@@ -9,9 +9,10 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
+
 import java.util.Objects;
 
-import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 class WatchFaceGlobalCacheDrawable extends LayerDrawable {
@@ -27,7 +28,11 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable {
     private Path mExclusionPath;
     private Path mCacheExclusionPath = new Path();
 
-    WatchFaceGlobalCacheDrawable(@NonNull Drawable[] watchPartDrawables) {
+    WatchFaceGlobalCacheDrawable(int flags) {
+        this(WatchFaceGlobalDrawable.buildDrawables(null, flags));
+    }
+
+    private WatchFaceGlobalCacheDrawable(@NonNull Drawable[] watchPartDrawables) {
         super(watchPartDrawables);
 
         mWatchPartDrawables = watchPartDrawables;
