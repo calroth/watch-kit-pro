@@ -103,12 +103,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         return currentPreset.getFourTickShape();
                     }
                 },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isFourTicksVisible();
-                    }
-                }));
+                WatchFacePreset::isFourTicksVisible));
 
         // Data for four tick length in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
@@ -127,12 +122,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         return currentPreset.getFourTickLength();
                     }
                 },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isFourTicksVisible();
-                    }
-                }));
+                WatchFacePreset::isFourTicksVisible));
 
         // Data for four tick thickness in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
@@ -151,12 +141,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         return currentPreset.getFourTickThickness();
                     }
                 },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isFourTicksVisible();
-                    }
-                }));
+                WatchFacePreset::isFourTicksVisible));
 
         // Data for four tick radius position in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
@@ -175,12 +160,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         return currentPreset.getFourTickRadiusPosition();
                     }
                 },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isFourTicksVisible();
-                    }
-                }));
+                WatchFacePreset::isFourTicksVisible));
 
         // Data for four tick style in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
@@ -199,12 +179,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         return currentPreset.getFourTickStyle();
                     }
                 },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isFourTicksVisible();
-                    }
-                }));
+                WatchFacePreset::isFourTicksVisible));
 
         // Data for twelve tick override in settings Activity.
         settingsConfigData.add(new WatchFacePresetToggleConfigItem(
@@ -244,13 +219,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         return currentPreset.getTwelveTickShape();
                     }
                 },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isTwelveTicksVisible() &&
-                                currentPreset.isTwelveTickOverridden();
-                    }
-                }));
+                WatchFacePreset::isTwelveTicksOverridden));
 
         // Data for twelve tick length in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
@@ -269,13 +238,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         return currentPreset.getTwelveTickLength();
                     }
                 },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isTwelveTicksVisible() &&
-                                currentPreset.isTwelveTickOverridden();
-                    }
-                }));
+                WatchFacePreset::isTwelveTicksOverridden));
 
         // Data for twelve tick thickness in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
@@ -294,13 +257,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         return currentPreset.getTwelveTickThickness();
                     }
                 },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isTwelveTicksVisible() &&
-                                currentPreset.isTwelveTickOverridden();
-                    }
-                }));
+                WatchFacePreset::isTwelveTicksOverridden));
 
         // Data for twelve tick radius position in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
@@ -319,13 +276,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         return currentPreset.getTwelveTickRadiusPosition();
                     }
                 },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isTwelveTicksVisible() &&
-                                currentPreset.isTwelveTickOverridden();
-                    }
-                }));
+                WatchFacePreset::isTwelveTicksOverridden));
 
         // Data for twelve tick style in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
@@ -344,13 +295,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         return currentPreset.getTwelveTickStyle();
                     }
                 },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isTwelveTicksVisible() &&
-                                currentPreset.isTwelveTickOverridden();
-                    }
-                }));
+                WatchFacePreset::isTwelveTicksOverridden));
 
         // Data for sixty tick override in settings Activity.
         settingsConfigData.add(new WatchFacePresetToggleConfigItem(
@@ -390,13 +335,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         return currentPreset.getSixtyTickShape();
                     }
                 },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isSixtyTicksVisible() &&
-                                currentPreset.isSixtyTickOverridden();
-                    }
-                }));
+                WatchFacePreset::isSixtyTicksOverridden));
 
         // Data for sixty tick length in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
@@ -415,13 +354,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         return currentPreset.getSixtyTickLength();
                     }
                 },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isSixtyTicksVisible() &&
-                                currentPreset.isSixtyTickOverridden();
-                    }
-                }));
+                WatchFacePreset::isSixtyTicksOverridden));
 
         // Data for sixty tick thickness in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
@@ -440,13 +373,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         return currentPreset.getSixtyTickThickness();
                     }
                 },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isSixtyTicksVisible() &&
-                                currentPreset.isSixtyTickOverridden();
-                    }
-                }));
+                WatchFacePreset::isSixtyTicksOverridden));
 
         // Data for sixty tick radius position in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
@@ -465,13 +392,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         return currentPreset.getSixtyTickRadiusPosition();
                     }
                 },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isSixtyTicksVisible() &&
-                                currentPreset.isSixtyTickOverridden();
-                    }
-                }));
+                WatchFacePreset::isSixtyTicksOverridden));
 
         // Data for sixty tick style in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
@@ -490,13 +411,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         return currentPreset.getSixtyTickStyle();
                     }
                 },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isSixtyTicksVisible() &&
-                                currentPreset.isSixtyTickOverridden();
-                    }
-                }));
+                WatchFacePreset::isSixtyTicksOverridden));
 
         return settingsConfigData;
     }
