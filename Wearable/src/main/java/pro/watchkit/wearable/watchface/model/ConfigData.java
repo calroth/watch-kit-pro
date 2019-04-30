@@ -4,6 +4,8 @@ import android.content.Context;
 import android.text.Html;
 
 import java.util.ArrayList;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 import androidx.recyclerview.widget.RecyclerView;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
@@ -198,10 +200,12 @@ abstract public class ConfigData {
     protected static class WatchFacePresetMutatorGeneric2<E extends Enum>
             implements WatchFacePresetMutator {
         private E[] mValues;
-        private Setter<E> mSetter;
-        private Getter<E> mGetter;
+        private BiConsumer<WatchFacePreset, E> mSetter;
+        private Function<WatchFacePreset, E> mGetter;
 
-        WatchFacePresetMutatorGeneric2(E[] values, Setter<E> setter, Getter<E> getter) {
+        WatchFacePresetMutatorGeneric2(E[] values,
+                                       BiConsumer<WatchFacePreset, E> setter,
+                                       Function<WatchFacePreset, E> getter) {
             mValues = values;
             mSetter = setter;
             mGetter = getter;
@@ -218,31 +222,21 @@ abstract public class ConfigData {
             String[] result = new String[mValues.length];
             int i = 0;
             for (E h : mValues) {
-                mSetter.permuteOne(permutation, h);
+                mSetter.accept(permutation, h);
                 result[i++] = permutation.getString();
             }
             return result;
         }
 
-        @FunctionalInterface
-        interface Setter<E extends Enum> {
-            void permuteOne(WatchFacePreset permutation, E h);
-        }
-
+        /**
+         * For the given WatchFacePreset (which is our current preference) return the current
+         * value.
+         *
+         * @param currentPreset WatchFacePreset of our current preference
+         * @return Value that it's currently set to
+         */
         public E getCurrentValue(WatchFacePreset currentPreset) {
-            return mGetter.getCurrentValue(currentPreset);
-        }
-
-        @FunctionalInterface
-        interface Getter<E extends Enum> {
-            /**
-             * For the given WatchFacePreset (which is our current preference) return the current
-             * value.
-             *
-             * @param currentPreset WatchFacePreset of our current preference
-             * @return Value that it's currently set to
-             */
-            E getCurrentValue(WatchFacePreset currentPreset);
+            return mGetter.apply(currentPreset);
         }
     }
 
