@@ -164,7 +164,7 @@ public final class WatchFacePreset {
     }
 
     public void setString(String s) {
-        if (s == null || s == "") return;
+        if (s == null || s.length() == 0) return;
         try {
             bytePacker.setStringFast(s);
             unpack();
@@ -327,16 +327,16 @@ public final class WatchFacePreset {
         this.twelveTickOverride = twelveTickOverride;
     }
 
-    boolean isTwelveTickOverridden() {
-        return twelveTickOverride;
+    boolean isTwelveTicksOverridden() {
+        return isTwelveTicksVisible() && twelveTickOverride;
     }
 
     void setSixtyTickOverride(boolean sixtyTickOverride) {
         this.sixtyTickOverride = sixtyTickOverride;
     }
 
-    boolean isSixtyTickOverridden() {
-        return sixtyTickOverride;
+    boolean isSixtyTicksOverridden() {
+        return isSixtyTicksVisible() && sixtyTickOverride;
     }
 
     public Style getBackgroundStyle() {
