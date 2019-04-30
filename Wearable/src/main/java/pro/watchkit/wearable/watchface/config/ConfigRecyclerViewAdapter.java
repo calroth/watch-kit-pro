@@ -64,15 +64,16 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Executors;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
@@ -92,8 +93,9 @@ import pro.watchkit.wearable.watchface.model.Settings;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
-import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.EXTRA_SHARED_PREF;
+import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
 import static pro.watchkit.wearable.watchface.config.ConfigActivity.CONFIG_DATA;
+import static pro.watchkit.wearable.watchface.config.WatchFacePresetSelectionActivity.INTENT_EXTRA_PRESETS;
 
 /**
  * Displays different layouts for configuring watch face's complications and appearance settings
@@ -956,8 +958,8 @@ public class ConfigRecyclerViewAdapter
                 Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
 
                 // Pass shared preference name to save color value to.
-//                launchIntent.putExtra(EXTRA_SHARED_PREF, mSharedPrefResourceString);
-                launchIntent.putExtra(EXTRA_SHARED_PREF, mColorType.name());
+//                launchIntent.putExtra(INTENT_EXTRA_PRESETS, mSharedPrefResourceString);
+                launchIntent.putExtra(INTENT_EXTRA_COLOR, mColorType.name());
 
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(
@@ -1085,7 +1087,7 @@ public class ConfigRecyclerViewAdapter
                 Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
 
                 // Pass shared preference name to save color value to.
-                launchIntent.putExtra(EXTRA_SHARED_PREF, permutations);
+                launchIntent.putExtra(INTENT_EXTRA_PRESETS, permutations);
 
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(

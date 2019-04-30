@@ -55,6 +55,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
@@ -66,8 +67,8 @@ import pro.watchkit.wearable.watchface.model.WatchFacePreset;
  */
 public class ColorSelectionActivity extends Activity {
 
-    static final String EXTRA_SHARED_PREF =
-            "pro.watchkit.wearable.watchface.config.extra.EXTRA_SHARED_PREF";
+    static final String INTENT_EXTRA_COLOR =
+            "pro.watchkit.wearable.watchface.config.extra.INTENT_EXTRA_COLOR";
     private static final String TAG = ColorSelectionActivity.class.getSimpleName();
 
     private int[][] mRows;
@@ -84,7 +85,7 @@ public class ColorSelectionActivity extends Activity {
         setContentView(R.layout.activity_color_selection_config);
 
         // Assigns SharedPreference String used to save color selected.
-//        String sharedPrefString = getIntent().getStringExtra(EXTRA_SHARED_PREF);
+//        String sharedPrefString = getIntent().getStringExtra(INTENT_EXTRA_COLOR);
 //        WatchFacePreset.ColorType type =
 //                WatchFacePreset.ColorType.valueOf(sharedPrefString);
 
@@ -206,7 +207,7 @@ public class ColorSelectionActivity extends Activity {
             public void draw(@NonNull Canvas canvas) {
                 @ColorInt int currentColor;
                 {
-                    String sharedPrefString = getIntent().getStringExtra(EXTRA_SHARED_PREF);
+                    String sharedPrefString = getIntent().getStringExtra(INTENT_EXTRA_COLOR);
                     WatchFacePreset.ColorType colorType =
                             WatchFacePreset.ColorType.valueOf(sharedPrefString);
 
@@ -373,7 +374,7 @@ public class ColorSelectionActivity extends Activity {
 
     /**
      * Save the given color to preferences. We extract the WatchFacePreset held in preferences,
-     * then change the color type pre-stored in EXTRA_SHARED_PREF, then save the WatchFacePreset
+     * then change the color type pre-stored in INTENT_EXTRA_COLOR, then save the WatchFacePreset
      * back to preferences.
      *
      * @param sixBitColor New 6-bit color to set (between 0 and 63)
@@ -385,7 +386,7 @@ public class ColorSelectionActivity extends Activity {
                 getString(R.string.analog_complication_preference_file_key),
                 Context.MODE_PRIVATE);
 
-        String sharedPrefString = getIntent().getStringExtra(EXTRA_SHARED_PREF);
+        String sharedPrefString = getIntent().getStringExtra(INTENT_EXTRA_COLOR);
         WatchFacePreset.ColorType colorType = WatchFacePreset.ColorType.valueOf(sharedPrefString);
         String toastText;
 
