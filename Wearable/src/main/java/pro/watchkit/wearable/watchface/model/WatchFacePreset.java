@@ -164,7 +164,7 @@ public final class WatchFacePreset {
     }
 
     public void setString(String s) {
-        if (s == null || s == "") return;
+        if (s == null || s.length() == 0) return;
         try {
             bytePacker.setStringFast(s);
             unpack();
