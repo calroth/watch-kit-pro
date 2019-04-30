@@ -259,14 +259,14 @@ abstract public class ConfigData {
         }
     }
 
-    public static class WatchFacePresetPickerConfigItem implements ConfigItemType {
+    public static class WatchFacePickerConfigItem implements ConfigItemType {
         private String mName;
         private int mIconResourceId;
         private Class<WatchFacePresetSelectionActivity> mActivityToChoosePreference;
         private WatchFacePresetMutator mMutator;
         private ConfigItemVisibilityCalculator mConfigItemVisibilityCalculator;
 
-        WatchFacePresetPickerConfigItem(
+        WatchFacePickerConfigItem(
                 String name,
                 int iconResourceId,
                 Class<WatchFacePresetSelectionActivity> activity,
@@ -274,7 +274,7 @@ abstract public class ConfigData {
             this(name, iconResourceId, activity, mutator, null);
         }
 
-        WatchFacePresetPickerConfigItem(
+        WatchFacePickerConfigItem(
                 String name,
                 int iconResourceId,
                 Class<WatchFacePresetSelectionActivity> activity,

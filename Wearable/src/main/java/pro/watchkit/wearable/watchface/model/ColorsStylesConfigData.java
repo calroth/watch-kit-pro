@@ -103,7 +103,7 @@ public class ColorsStylesConfigData extends ConfigData {
                 ColorSelectionActivity.class));
 
         // Data for fill highlight style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_fill_highlight_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -113,7 +113,7 @@ public class ColorsStylesConfigData extends ConfigData {
                         WatchFacePreset::getFillHighlightStyle)));
 
         // Data for accent fill style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_accent_fill_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -123,7 +123,7 @@ public class ColorsStylesConfigData extends ConfigData {
                         WatchFacePreset::getAccentFillStyle)));
 
         // Data for accent highlight style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_accent_highlight_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -133,7 +133,7 @@ public class ColorsStylesConfigData extends ConfigData {
                         WatchFacePreset::getAccentHighlightStyle)));
 
         // Data for base accent style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_base_accent_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,

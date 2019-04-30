@@ -75,7 +75,6 @@ import java.util.List;
 import java.util.concurrent.Executors;
 
 import pro.watchkit.wearable.watchface.R;
-import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.ConfigData;
 import pro.watchkit.wearable.watchface.model.ConfigData.BackgroundComplicationConfigItem;
@@ -86,7 +85,7 @@ import pro.watchkit.wearable.watchface.model.ConfigData.MoreOptionsConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.NightVisionConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.PreviewAndComplicationsConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.UnreadNotificationConfigItem;
-import pro.watchkit.wearable.watchface.model.ConfigData.WatchFacePresetPickerConfigItem;
+import pro.watchkit.wearable.watchface.model.ConfigData.WatchFacePickerConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFacePresetToggleConfigItem;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.Settings;
@@ -398,9 +397,9 @@ public class ConfigRecyclerViewAdapter
             case TYPE_WATCH_FACE_PRESET_PICKER_CONFIG: {
                 WatchFacePresetPickerViewHolder watchFacePresetPickerViewHolder =
                         (WatchFacePresetPickerViewHolder) viewHolder;
-                WatchFacePresetPickerConfigItem watchFacePresetPickerConfigItem =
-                        (AnalogComplicationConfigData.WatchFacePresetPickerConfigItem) configItemType;
-                watchFacePresetPickerViewHolder.bind(watchFacePresetPickerConfigItem);
+                WatchFacePickerConfigItem watchFacePickerConfigItem =
+                        (WatchFacePickerConfigItem) configItemType;
+                watchFacePresetPickerViewHolder.bind(watchFacePickerConfigItem);
                 break;
             }
 
@@ -1018,7 +1017,7 @@ public class ConfigRecyclerViewAdapter
         private Button mButton;
 
         private Class<WatchFacePresetSelectionActivity> mLaunchActivity;
-        private WatchFacePresetPickerConfigItem mConfigItem;
+        private WatchFacePickerConfigItem mConfigItem;
 
         private int mVisibleLayoutHeight, mVisibleLayoutWidth;
 
@@ -1032,7 +1031,7 @@ public class ConfigRecyclerViewAdapter
             mVisibleLayoutWidth = itemView.getLayoutParams().width;
         }
 
-        void bind(WatchFacePresetPickerConfigItem configItem) {
+        void bind(WatchFacePickerConfigItem configItem) {
             mConfigItem = configItem;
             mLaunchActivity = configItem.getActivityToChoosePreference();
 

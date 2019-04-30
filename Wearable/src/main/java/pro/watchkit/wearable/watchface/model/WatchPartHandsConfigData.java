@@ -70,7 +70,7 @@ public class WatchPartHandsConfigData extends ConfigData {
         ArrayList<ConfigItemType> settingsConfigData = new ArrayList<>();
 
         // Data for hour hand shape in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_hour_hand_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -80,7 +80,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFacePreset::getHourHandShape)));
 
         // Data for hour hand length in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_hour_hand_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -90,7 +90,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFacePreset::getHourHandLength)));
 
         // Data for hour hand thickness in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_hour_hand_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -100,7 +100,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFacePreset::getHourHandThickness)));
 
         // Data for hour hand stalk in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_hour_hand_stalk),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -110,7 +110,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFacePreset::getHourHandStalk)));
 
         // Data for hour hand cutout in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_hour_hand_cutout),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -120,7 +120,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFacePreset::getHourHandCutout)));
 
         // Data for hour hand style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_hour_hand_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -151,7 +151,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                 }));
 
         // Data for minute hand shape in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_minute_hand_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -161,7 +161,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFacePreset::getMinuteHandShape)));
 
         // Data for minute hand length in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_minute_hand_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -172,7 +172,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                 WatchFacePreset::isMinuteHandOverridden));
 
         // Data for minute hand thickness in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_minute_hand_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -183,7 +183,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                 WatchFacePreset::isMinuteHandOverridden));
 
         // Data for minute hand stalk in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_minute_hand_stalk),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -194,7 +194,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                 WatchFacePreset::isMinuteHandOverridden));
 
         // Data for minute hand cutout in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_minute_hand_cutout),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -205,7 +205,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                 WatchFacePreset::isMinuteHandOverridden));
 
         // Data for minute hand style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_minute_hand_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -237,7 +237,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                 }));
 
         // Data for second hand shape in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_second_hand_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -248,7 +248,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                 WatchFacePreset::isSecondHandOverridden));
 
         // Data for second hand length in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_second_hand_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -260,7 +260,7 @@ public class WatchPartHandsConfigData extends ConfigData {
 
 
         // Data for second hand thickness in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_second_hand_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -271,7 +271,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                 WatchFacePreset::isSecondHandOverridden));
 
         // Data for second hand style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_second_hand_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,

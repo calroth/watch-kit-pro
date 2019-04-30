@@ -70,7 +70,7 @@ public class WatchPartTicksConfigData extends ConfigData {
         ArrayList<ConfigItemType> settingsConfigData = new ArrayList<>();
 
         // Data for ticks display in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_ticks_display),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -80,7 +80,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFacePreset::getTicksDisplay)));
 
         // Data for four tick shape in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_four_tick_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -91,7 +91,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                 WatchFacePreset::isFourTicksVisible));
 
         // Data for four tick length in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_four_tick_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -102,7 +102,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                 WatchFacePreset::isFourTicksVisible));
 
         // Data for four tick thickness in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_four_tick_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -113,7 +113,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                 WatchFacePreset::isFourTicksVisible));
 
         // Data for four tick radius position in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_four_tick_radius_position),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -124,7 +124,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                 WatchFacePreset::isFourTicksVisible));
 
         // Data for four tick style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_four_tick_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -156,7 +156,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                 }));
 
         // Data for twelve tick shape in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_twelve_tick_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -167,7 +167,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                 WatchFacePreset::isTwelveTicksOverridden));
 
         // Data for twelve tick length in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_twelve_tick_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -178,7 +178,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                 WatchFacePreset::isTwelveTicksOverridden));
 
         // Data for twelve tick thickness in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_twelve_tick_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -189,7 +189,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                 WatchFacePreset::isTwelveTicksOverridden));
 
         // Data for twelve tick radius position in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_twelve_tick_radius_position),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -200,7 +200,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                 WatchFacePreset::isTwelveTicksOverridden));
 
         // Data for twelve tick style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_twelve_tick_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -232,7 +232,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                 }));
 
         // Data for sixty tick shape in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_sixty_tick_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -243,7 +243,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                 WatchFacePreset::isSixtyTicksOverridden));
 
         // Data for sixty tick length in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_sixty_tick_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -254,7 +254,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                 WatchFacePreset::isSixtyTicksOverridden));
 
         // Data for sixty tick thickness in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_sixty_tick_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -265,7 +265,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                 WatchFacePreset::isSixtyTicksOverridden));
 
         // Data for sixty tick radius position in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_sixty_tick_radius_position),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
@@ -276,7 +276,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                 WatchFacePreset::isSixtyTicksOverridden));
 
         // Data for sixty tick style in settings Activity.
-        settingsConfigData.add(new WatchFacePresetPickerConfigItem(
+        settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_sixty_tick_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
