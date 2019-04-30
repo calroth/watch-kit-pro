@@ -94,7 +94,7 @@ import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceServ
 
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
 import static pro.watchkit.wearable.watchface.config.ConfigActivity.CONFIG_DATA;
-import static pro.watchkit.wearable.watchface.config.WatchFacePresetSelectionActivity.INTENT_EXTRA_PRESETS;
+import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_PRESETS;
 
 /**
  * Displays different layouts for configuring watch face's complications and appearance settings
@@ -1016,7 +1016,7 @@ public class ConfigRecyclerViewAdapter
 
         private Button mButton;
 
-        private Class<WatchFacePresetSelectionActivity> mLaunchActivity;
+        private Class<WatchFaceSelectionActivity> mLaunchActivity;
         private WatchFacePickerConfigItem mConfigItem;
 
         private int mVisibleLayoutHeight, mVisibleLayoutWidth;

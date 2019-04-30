@@ -21,7 +21,7 @@
     android:background="@color/dark_grey"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    tools:context="pro.watchkit.wearable.watchface.config.WatchFacePresetSelectionActivity">
+    tools:context="pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity">
 
     <androidx.wear.widget.WearableRecyclerView
         android:id="@+id/wearable_recycler_view"

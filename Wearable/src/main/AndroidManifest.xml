@@ -104,6 +104,6 @@
 
         <activity android:name=".config.ColorSelectionActivity"/>
 
-        <activity android:name=".config.WatchFacePresetSelectionActivity" />
+        <activity android:name=".config.WatchFaceSelectionActivity" />
     </application>
 </manifest>

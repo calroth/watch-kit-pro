@@ -34,7 +34,7 @@ import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 /**
  * Provides a binding from WatchFacePreset selection data set to views that are displayed within
- * {@link WatchFacePresetSelectionActivity}.
+ * {@link WatchFaceSelectionActivity}.
  * WatchFacePreset options change appearance for the item specified on the watch face. Value is saved to a
  * {@link SharedPreferences} value passed to the class.
  */

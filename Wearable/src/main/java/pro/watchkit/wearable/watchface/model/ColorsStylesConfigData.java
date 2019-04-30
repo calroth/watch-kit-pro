@@ -44,7 +44,7 @@ import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
 import pro.watchkit.wearable.watchface.config.ConfigRecyclerViewAdapter;
-import pro.watchkit.wearable.watchface.config.WatchFacePresetSelectionActivity;
+import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
 /**
@@ -106,7 +106,7 @@ public class ColorsStylesConfigData extends ConfigData {
         settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_fill_highlight_style),
                 R.drawable.icn_styles,
-                WatchFacePresetSelectionActivity.class,
+                WatchFaceSelectionActivity.class,
                 new WatchFacePresetMutatorImpl<>(
                         WatchFacePreset.GradientStyle.values(),
                         WatchFacePreset::setFillHighlightStyle,
@@ -116,7 +116,7 @@ public class ColorsStylesConfigData extends ConfigData {
         settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_accent_fill_style),
                 R.drawable.icn_styles,
-                WatchFacePresetSelectionActivity.class,
+                WatchFaceSelectionActivity.class,
                 new WatchFacePresetMutatorImpl<>(
                         WatchFacePreset.GradientStyle.values(),
                         WatchFacePreset::setAccentFillStyle,
@@ -126,7 +126,7 @@ public class ColorsStylesConfigData extends ConfigData {
         settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_accent_highlight_style),
                 R.drawable.icn_styles,
-                WatchFacePresetSelectionActivity.class,
+                WatchFaceSelectionActivity.class,
                 new WatchFacePresetMutatorImpl<>(
                         WatchFacePreset.GradientStyle.values(),
                         WatchFacePreset::setAccentHighlightStyle,
@@ -136,7 +136,7 @@ public class ColorsStylesConfigData extends ConfigData {
         settingsConfigData.add(new WatchFacePickerConfigItem(
                 context.getString(R.string.config_preset_base_accent_style),
                 R.drawable.icn_styles,
-                WatchFacePresetSelectionActivity.class,
+                WatchFaceSelectionActivity.class,
                 new WatchFacePresetMutatorImpl<>(
                         WatchFacePreset.GradientStyle.values(),
                         WatchFacePreset::setBaseAccentStyle,

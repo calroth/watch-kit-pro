@@ -12,7 +12,7 @@ import java.util.function.Function;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
 import pro.watchkit.wearable.watchface.config.ConfigRecyclerViewAdapter;
-import pro.watchkit.wearable.watchface.config.WatchFacePresetSelectionActivity;
+import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
 
 abstract public class ConfigData {
 
@@ -262,14 +262,14 @@ abstract public class ConfigData {
     public static class WatchFacePickerConfigItem implements ConfigItemType {
         private String mName;
         private int mIconResourceId;
-        private Class<WatchFacePresetSelectionActivity> mActivityToChoosePreference;
+        private Class<WatchFaceSelectionActivity> mActivityToChoosePreference;
         private WatchFacePresetMutator mMutator;
         private ConfigItemVisibilityCalculator mConfigItemVisibilityCalculator;
 
         WatchFacePickerConfigItem(
                 String name,
                 int iconResourceId,
-                Class<WatchFacePresetSelectionActivity> activity,
+                Class<WatchFaceSelectionActivity> activity,
                 WatchFacePresetMutator mutator) {
             this(name, iconResourceId, activity, mutator, null);
         }
@@ -277,7 +277,7 @@ abstract public class ConfigData {
         WatchFacePickerConfigItem(
                 String name,
                 int iconResourceId,
-                Class<WatchFacePresetSelectionActivity> activity,
+                Class<WatchFaceSelectionActivity> activity,
                 WatchFacePresetMutator mutator,
                 ConfigItemVisibilityCalculator configItemVisibilityCalculator) {
             mMutator = mutator;
@@ -308,7 +308,7 @@ abstract public class ConfigData {
             return mIconResourceId;
         }
 
-        public Class<WatchFacePresetSelectionActivity> getActivityToChoosePreference() {
+        public Class<WatchFaceSelectionActivity> getActivityToChoosePreference() {
             return mActivityToChoosePreference;
         }
 

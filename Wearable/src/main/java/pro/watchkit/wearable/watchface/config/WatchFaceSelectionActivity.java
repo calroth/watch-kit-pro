@@ -54,13 +54,13 @@ import pro.watchkit.wearable.watchface.model.WatchFacePreset;
  * saves it to {@link android.content.SharedPreferences} in
  * {@link RecyclerView.Adapter}.
  */
-public class WatchFacePresetSelectionActivity extends Activity {
+public class WatchFaceSelectionActivity extends Activity {
 
     static final String INTENT_EXTRA_PRESETS =
             "pro.watchkit.wearable.watchface.config.extra.INTENT_EXTRA_PRESETS";
     static final String INTENT_EXTRA_SETTINGS =
             "pro.watchkit.wearable.watchface.config.extra.INTENT_EXTRA_SETTINGS";
-    private static final String TAG = WatchFacePresetSelectionActivity.class.getSimpleName();
+    private static final String TAG = WatchFaceSelectionActivity.class.getSimpleName();
 
     private WearableRecyclerView mWearableRecyclerView;
 
