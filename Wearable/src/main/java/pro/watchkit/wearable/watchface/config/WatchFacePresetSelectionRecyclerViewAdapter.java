@@ -66,10 +66,10 @@ public class WatchFacePresetSelectionRecyclerViewAdapter extends
         Log.d(TAG, "Element " + position + " set.");
 
         String watchFacePresetString =
-                mWatchFacePresetStrings != null && mWatchFacePresetStrings.length < position ?
+                mWatchFacePresetStrings != null && mWatchFacePresetStrings.length > position ?
                         mWatchFacePresetStrings[position] : null;
         String settingsString =
-                mSettingsStrings != null && mSettingsStrings.length < position ?
+                mSettingsStrings != null && mSettingsStrings.length > position ?
                         mSettingsStrings[position] : null;
 
         WatchFacePresetViewHolder holder = (WatchFacePresetViewHolder) viewHolder;
