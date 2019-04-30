@@ -195,6 +195,57 @@ abstract public class ConfigData {
         }
     }
 
+    protected static class WatchFacePresetMutatorGeneric2<E extends Enum>
+            implements WatchFacePresetMutator {
+        private E[] mValues;
+        private Setter<E> mSetter;
+        private Getter<E> mGetter;
+
+        WatchFacePresetMutatorGeneric2(E[] values, Setter<E> setter, Getter<E> getter) {
+            mValues = values;
+            mSetter = setter;
+            mGetter = getter;
+        }
+
+        /**
+         * For the given WatchFacePreset (which must be a clone, since we'll modify it in the
+         * process) return a String array with each permutation.
+         *
+         * @param permutation WatchFacePreset, which must be a clone, since we'll modify it
+         * @return String array with each permutation
+         */
+        public String[] permute(WatchFacePreset permutation) {
+            String[] result = new String[mValues.length];
+            int i = 0;
+            for (E h : mValues) {
+                mSetter.permuteOne(permutation, h);
+                result[i++] = permutation.getString();
+            }
+            return result;
+        }
+
+        @FunctionalInterface
+        interface Setter<E extends Enum> {
+            void permuteOne(WatchFacePreset permutation, E h);
+        }
+
+        public E getCurrentValue(WatchFacePreset currentPreset) {
+            return mGetter.getCurrentValue(currentPreset);
+        }
+
+        @FunctionalInterface
+        interface Getter<E extends Enum> {
+            /**
+             * For the given WatchFacePreset (which is our current preference) return the current
+             * value.
+             *
+             * @param currentPreset WatchFacePreset of our current preference
+             * @return Value that it's currently set to
+             */
+            E getCurrentValue(WatchFacePreset currentPreset);
+        }
+    }
+
     protected abstract static class WatchFacePresetMutatorGeneric<E extends Enum>
             implements WatchFacePresetMutator {
         private E[] mValues;

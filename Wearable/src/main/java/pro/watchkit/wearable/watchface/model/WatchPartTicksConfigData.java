@@ -73,36 +73,20 @@ public class WatchPartTicksConfigData extends ConfigData {
                 context.getString(R.string.config_preset_ticks_display),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TicksDisplay>(WatchFacePreset.TicksDisplay.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.TicksDisplay h) {
-                        permutation.setTicksDisplay(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.TicksDisplay getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getTicksDisplay();
-                    }
-                }));
+                new WatchFacePresetMutatorGeneric2<>(
+                        WatchFacePreset.TicksDisplay.values(),
+                        WatchFacePreset::setTicksDisplay,
+                        WatchFacePreset::getTicksDisplay)));
 
         // Data for four tick shape in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_four_tick_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickShape>(WatchFacePreset.TickShape.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickShape h) {
-                        permutation.setFourTickShape(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.TickShape getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getFourTickShape();
-                    }
-                },
+                new WatchFacePresetMutatorGeneric2<>(
+                        WatchFacePreset.TickShape.values(),
+                        WatchFacePreset::setFourTickShape,
+                        WatchFacePreset::getFourTickShape),
                 WatchFacePreset::isFourTicksVisible));
 
         // Data for four tick length in settings Activity.
@@ -110,18 +94,10 @@ public class WatchPartTicksConfigData extends ConfigData {
                 context.getString(R.string.config_preset_four_tick_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickLength>(WatchFacePreset.TickLength.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickLength h) {
-                        permutation.setFourTickLength(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.TickLength getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getFourTickLength();
-                    }
-                },
+                new WatchFacePresetMutatorGeneric2<>(
+                        WatchFacePreset.TickLength.values(),
+                        WatchFacePreset::setFourTickLength,
+                        WatchFacePreset::getFourTickLength),
                 WatchFacePreset::isFourTicksVisible));
 
         // Data for four tick thickness in settings Activity.
@@ -129,18 +105,10 @@ public class WatchPartTicksConfigData extends ConfigData {
                 context.getString(R.string.config_preset_four_tick_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickThickness>(WatchFacePreset.TickThickness.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickThickness h) {
-                        permutation.setFourTickThickness(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.TickThickness getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getFourTickThickness();
-                    }
-                },
+                new WatchFacePresetMutatorGeneric2<>(
+                        WatchFacePreset.TickThickness.values(),
+                        WatchFacePreset::setFourTickThickness,
+                        WatchFacePreset::getFourTickThickness),
                 WatchFacePreset::isFourTicksVisible));
 
         // Data for four tick radius position in settings Activity.
@@ -148,18 +116,10 @@ public class WatchPartTicksConfigData extends ConfigData {
                 context.getString(R.string.config_preset_four_tick_radius_position),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickRadiusPosition>(WatchFacePreset.TickRadiusPosition.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickRadiusPosition h) {
-                        permutation.setFourTickRadiusPosition(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.TickRadiusPosition getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getFourTickRadiusPosition();
-                    }
-                },
+                new WatchFacePresetMutatorGeneric2<>(
+                        WatchFacePreset.TickRadiusPosition.values(),
+                        WatchFacePreset::setFourTickRadiusPosition,
+                        WatchFacePreset::getFourTickRadiusPosition),
                 WatchFacePreset::isFourTicksVisible));
 
         // Data for four tick style in settings Activity.
@@ -167,18 +127,10 @@ public class WatchPartTicksConfigData extends ConfigData {
                 context.getString(R.string.config_preset_four_tick_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.Style>(WatchFacePreset.Style.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.Style h) {
-                        permutation.setFourTickStyle(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.Style getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getFourTickStyle();
-                    }
-                },
+                new WatchFacePresetMutatorGeneric2<>(
+                        WatchFacePreset.Style.values(),
+                        WatchFacePreset::setFourTickStyle,
+                        WatchFacePreset::getFourTickStyle),
                 WatchFacePreset::isFourTicksVisible));
 
         // Data for twelve tick override in settings Activity.
@@ -207,18 +159,10 @@ public class WatchPartTicksConfigData extends ConfigData {
                 context.getString(R.string.config_preset_twelve_tick_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickShape>(WatchFacePreset.TickShape.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickShape h) {
-                        permutation.setTwelveTickShape(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.TickShape getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getTwelveTickShape();
-                    }
-                },
+                new WatchFacePresetMutatorGeneric2<>(
+                                  WatchFacePreset.TickShape.values(),
+                        WatchFacePreset::setTwelveTickShape,
+                        WatchFacePreset::getTwelveTickShape),
                 WatchFacePreset::isTwelveTicksOverridden));
 
         // Data for twelve tick length in settings Activity.
@@ -226,18 +170,10 @@ public class WatchPartTicksConfigData extends ConfigData {
                 context.getString(R.string.config_preset_twelve_tick_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickLength>(WatchFacePreset.TickLength.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickLength h) {
-                        permutation.setTwelveTickLength(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.TickLength getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getTwelveTickLength();
-                    }
-                },
+                new WatchFacePresetMutatorGeneric2<>(
+                        WatchFacePreset.TickLength.values(),
+                        WatchFacePreset::setTwelveTickLength,
+                        WatchFacePreset::getTwelveTickLength),
                 WatchFacePreset::isTwelveTicksOverridden));
 
         // Data for twelve tick thickness in settings Activity.
@@ -245,18 +181,10 @@ public class WatchPartTicksConfigData extends ConfigData {
                 context.getString(R.string.config_preset_twelve_tick_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickThickness>(WatchFacePreset.TickThickness.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickThickness h) {
-                        permutation.setTwelveTickThickness(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.TickThickness getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getTwelveTickThickness();
-                    }
-                },
+                new WatchFacePresetMutatorGeneric2<>(
+                        WatchFacePreset.TickThickness.values(),
+                        WatchFacePreset::setTwelveTickThickness,
+                        WatchFacePreset::getTwelveTickThickness),
                 WatchFacePreset::isTwelveTicksOverridden));
 
         // Data for twelve tick radius position in settings Activity.
@@ -264,18 +192,10 @@ public class WatchPartTicksConfigData extends ConfigData {
                 context.getString(R.string.config_preset_twelve_tick_radius_position),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickRadiusPosition>(WatchFacePreset.TickRadiusPosition.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickRadiusPosition h) {
-                        permutation.setTwelveTickRadiusPosition(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.TickRadiusPosition getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getTwelveTickRadiusPosition();
-                    }
-                },
+                new WatchFacePresetMutatorGeneric2<>(
+                        WatchFacePreset.TickRadiusPosition.values(),
+                        WatchFacePreset::setTwelveTickRadiusPosition,
+                        WatchFacePreset::getTwelveTickRadiusPosition),
                 WatchFacePreset::isTwelveTicksOverridden));
 
         // Data for twelve tick style in settings Activity.
@@ -283,18 +203,10 @@ public class WatchPartTicksConfigData extends ConfigData {
                 context.getString(R.string.config_preset_twelve_tick_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.Style>(WatchFacePreset.Style.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.Style h) {
-                        permutation.setTwelveTickStyle(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.Style getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getTwelveTickStyle();
-                    }
-                },
+                new WatchFacePresetMutatorGeneric2<>(
+                        WatchFacePreset.Style.values(),
+                        WatchFacePreset::setTwelveTickStyle,
+                        WatchFacePreset::getTwelveTickStyle),
                 WatchFacePreset::isTwelveTicksOverridden));
 
         // Data for sixty tick override in settings Activity.
@@ -323,18 +235,10 @@ public class WatchPartTicksConfigData extends ConfigData {
                 context.getString(R.string.config_preset_sixty_tick_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickShape>(WatchFacePreset.TickShape.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickShape h) {
-                        permutation.setSixtyTickShape(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.TickShape getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getSixtyTickShape();
-                    }
-                },
+                new WatchFacePresetMutatorGeneric2<>(
+                        WatchFacePreset.TickShape.values(),
+                        WatchFacePreset::setSixtyTickShape,
+                        WatchFacePreset::getSixtyTickShape),
                 WatchFacePreset::isSixtyTicksOverridden));
 
         // Data for sixty tick length in settings Activity.
@@ -342,18 +246,10 @@ public class WatchPartTicksConfigData extends ConfigData {
                 context.getString(R.string.config_preset_sixty_tick_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickLength>(WatchFacePreset.TickLength.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickLength h) {
-                        permutation.setSixtyTickLength(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.TickLength getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getSixtyTickLength();
-                    }
-                },
+                new WatchFacePresetMutatorGeneric2<>(
+                        WatchFacePreset.TickLength.values(),
+                        WatchFacePreset::setSixtyTickLength,
+                        WatchFacePreset::getSixtyTickLength),
                 WatchFacePreset::isSixtyTicksOverridden));
 
         // Data for sixty tick thickness in settings Activity.
@@ -361,18 +257,10 @@ public class WatchPartTicksConfigData extends ConfigData {
                 context.getString(R.string.config_preset_sixty_tick_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickThickness>(WatchFacePreset.TickThickness.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickThickness h) {
-                        permutation.setSixtyTickThickness(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.TickThickness getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getSixtyTickThickness();
-                    }
-                },
+                new WatchFacePresetMutatorGeneric2<>(
+                        WatchFacePreset.TickThickness.values(),
+                        WatchFacePreset::setSixtyTickThickness,
+                        WatchFacePreset::getSixtyTickThickness),
                 WatchFacePreset::isSixtyTicksOverridden));
 
         // Data for sixty tick radius position in settings Activity.
@@ -380,18 +268,10 @@ public class WatchPartTicksConfigData extends ConfigData {
                 context.getString(R.string.config_preset_sixty_tick_radius_position),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.TickRadiusPosition>(WatchFacePreset.TickRadiusPosition.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.TickRadiusPosition h) {
-                        permutation.setSixtyTickRadiusPosition(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.TickRadiusPosition getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getSixtyTickRadiusPosition();
-                    }
-                },
+                new WatchFacePresetMutatorGeneric2<>(
+                        WatchFacePreset.TickRadiusPosition.values(),
+                        WatchFacePreset::setSixtyTickRadiusPosition,
+                        WatchFacePreset::getSixtyTickRadiusPosition),
                 WatchFacePreset::isSixtyTicksOverridden));
 
         // Data for sixty tick style in settings Activity.
@@ -399,18 +279,10 @@ public class WatchPartTicksConfigData extends ConfigData {
                 context.getString(R.string.config_preset_sixty_tick_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.Style>(WatchFacePreset.Style.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.Style h) {
-                        permutation.setSixtyTickStyle(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.Style getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getSixtyTickStyle();
-                    }
-                },
+                new WatchFacePresetMutatorGeneric2<>(
+                        WatchFacePreset.Style.values(),
+                        WatchFacePreset::setSixtyTickStyle,
+                        WatchFacePreset::getSixtyTickStyle),
                 WatchFacePreset::isSixtyTicksOverridden));
 
         return settingsConfigData;
