@@ -36,9 +36,10 @@ package pro.watchkit.wearable.watchface.model;
 
 import android.content.Context;
 
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
+
 import java.util.ArrayList;
 
-import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
 import pro.watchkit.wearable.watchface.config.ConfigRecyclerViewAdapter;
@@ -73,108 +74,60 @@ public class WatchPartHandsConfigData extends ConfigData {
                 context.getString(R.string.config_preset_hour_hand_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandShape>(WatchFacePreset.HandShape.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandShape h) {
-                        permutation.setHourHandShape(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.HandShape getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getHourHandShape();
-                    }
-                }));
+                new WatchFacePresetMutatorImpl<>(
+                        WatchFacePreset.HandShape.values(),
+                        WatchFacePreset::setHourHandShape,
+                        WatchFacePreset::getHourHandShape)));
 
         // Data for hour hand length in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_hour_hand_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandLength>(WatchFacePreset.HandLength.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandLength h) {
-                        permutation.setHourHandLength(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.HandLength getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getHourHandLength();
-                    }
-                }));
+                new WatchFacePresetMutatorImpl<>(
+                        WatchFacePreset.HandLength.values(),
+                        WatchFacePreset::setHourHandLength,
+                        WatchFacePreset::getHourHandLength)));
 
         // Data for hour hand thickness in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_hour_hand_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandThickness>(WatchFacePreset.HandThickness.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandThickness h) {
-                        permutation.setHourHandThickness(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.HandThickness getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getHourHandThickness();
-                    }
-                }));
+                new WatchFacePresetMutatorImpl<>(
+                        WatchFacePreset.HandThickness.values(),
+                        WatchFacePreset::setHourHandThickness,
+                        WatchFacePreset::getHourHandThickness)));
 
         // Data for hour hand stalk in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_hour_hand_stalk),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandStalk>(WatchFacePreset.HandStalk.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandStalk h) {
-                        permutation.setHourHandStalk(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.HandStalk getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getHourHandStalk();
-                    }
-                }));
+                new WatchFacePresetMutatorImpl<>(
+                        WatchFacePreset.HandStalk.values(),
+                        WatchFacePreset::setHourHandStalk,
+                        WatchFacePreset::getHourHandStalk)));
 
         // Data for hour hand cutout in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_hour_hand_cutout),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandCutout>(WatchFacePreset.HandCutout.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandCutout h) {
-                        permutation.setHourHandCutout(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.HandCutout getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getHourHandCutout();
-                    }
-                }));
+                new WatchFacePresetMutatorImpl<>(
+                        WatchFacePreset.HandCutout.values(),
+                        WatchFacePreset::setHourHandCutout,
+                        WatchFacePreset::getHourHandCutout)));
 
         // Data for hour hand style in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_hour_hand_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.Style>(WatchFacePreset.Style.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.Style h) {
-                        permutation.setHourHandStyle(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.Style getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getHourHandStyle();
-                    }
-                }));
+                new WatchFacePresetMutatorImpl<>(
+                        WatchFacePreset.Style.values(),
+                        WatchFacePreset::setHourHandStyle,
+                        WatchFacePreset::getHourHandStyle)));
 
         // Data for minute hand override in settings Activity.
         settingsConfigData.add(new WatchFacePresetToggleConfigItem(
@@ -202,144 +155,65 @@ public class WatchPartHandsConfigData extends ConfigData {
                 context.getString(R.string.config_preset_minute_hand_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandShape>(WatchFacePreset.HandShape.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandShape h) {
-                        permutation.setMinuteHandShape(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.HandShape getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getMinuteHandShape();
-                    }
-                },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isMinuteHandOverridden();
-                    }
-                }));
+                new WatchFacePresetMutatorImpl<>(
+                        WatchFacePreset.HandShape.values(),
+                        WatchFacePreset::setMinuteHandShape,
+                        WatchFacePreset::getMinuteHandShape)));
 
         // Data for minute hand length in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_minute_hand_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandLength>(WatchFacePreset.HandLength.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandLength h) {
-                        permutation.setMinuteHandLength(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.HandLength getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getMinuteHandLength();
-                    }
-                },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isMinuteHandOverridden();
-                    }
-                }));
+                new WatchFacePresetMutatorImpl<>(
+                        WatchFacePreset.HandShape.values(),
+                        WatchFacePreset::setMinuteHandShape,
+                        WatchFacePreset::getMinuteHandShape),
+                WatchFacePreset::isMinuteHandOverridden));
 
         // Data for minute hand thickness in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_minute_hand_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandThickness>(WatchFacePreset.HandThickness.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandThickness h) {
-                        permutation.setMinuteHandThickness(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.HandThickness getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getMinuteHandThickness();
-                    }
-                },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isMinuteHandOverridden();
-                    }
-                }));
+                new WatchFacePresetMutatorImpl<>(
+                        WatchFacePreset.HandThickness.values(),
+                        WatchFacePreset::setMinuteHandThickness,
+                        WatchFacePreset::getMinuteHandThickness),
+                WatchFacePreset::isMinuteHandOverridden));
 
         // Data for minute hand stalk in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_minute_hand_stalk),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandStalk>(WatchFacePreset.HandStalk.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandStalk h) {
-                        permutation.setMinuteHandStalk(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.HandStalk getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getMinuteHandStalk();
-                    }
-                },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isMinuteHandOverridden();
-                    }
-                }));
+                new WatchFacePresetMutatorImpl<>(
+                        WatchFacePreset.HandStalk.values(),
+                        WatchFacePreset::setMinuteHandStalk,
+                        WatchFacePreset::getMinuteHandStalk),
+                WatchFacePreset::isMinuteHandOverridden));
 
         // Data for minute hand cutout in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_minute_hand_cutout),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandCutout>(WatchFacePreset.HandCutout.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandCutout h) {
-                        permutation.setMinuteHandCutout(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.HandCutout getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getMinuteHandCutout();
-                    }
-                },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isMinuteHandOverridden();
-                    }
-                }));
+                new WatchFacePresetMutatorImpl<>(
+                        WatchFacePreset.HandCutout.values(),
+                        WatchFacePreset::setMinuteHandCutout,
+                        WatchFacePreset::getMinuteHandCutout),
+                WatchFacePreset::isMinuteHandOverridden));
 
         // Data for minute hand style in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_minute_hand_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.Style>(WatchFacePreset.Style.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.Style h) {
-                        permutation.setMinuteHandStyle(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.Style getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getMinuteHandStyle();
-                    }
-                },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isMinuteHandOverridden();
-                    }
-                }));
+                new WatchFacePresetMutatorImpl<>(
+                        WatchFacePreset.Style.values(),
+                        WatchFacePreset::setMinuteHandStyle,
+                        WatchFacePreset::getMinuteHandStyle),
+                WatchFacePreset::isMinuteHandOverridden));
 
         // Data for second hand override in settings Activity.
         settingsConfigData.add(new WatchFacePresetToggleConfigItem(
@@ -367,96 +241,45 @@ public class WatchPartHandsConfigData extends ConfigData {
                 context.getString(R.string.config_preset_second_hand_shape),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandShape>(WatchFacePreset.HandShape.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandShape h) {
-                        permutation.setSecondHandShape(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.HandShape getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getSecondHandShape();
-                    }
-                },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isSecondHandOverridden();
-                    }
-                }));
+                new WatchFacePresetMutatorImpl<>(
+                        WatchFacePreset.HandShape.values(),
+                        WatchFacePreset::setSecondHandShape,
+                        WatchFacePreset::getSecondHandShape),
+                WatchFacePreset::isSecondHandOverridden));
 
         // Data for second hand length in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_second_hand_length),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandLength>(WatchFacePreset.HandLength.values()) {
+                new WatchFacePresetMutatorImpl<>(
+                        WatchFacePreset.HandLength.values(),
+                        WatchFacePreset::setSecondHandLength,
+                        WatchFacePreset::getSecondHandLength),
+                WatchFacePreset::isSecondHandOverridden));
 
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandLength h) {
-                        permutation.setSecondHandLength(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.HandLength getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getSecondHandLength();
-                    }
-                },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isSecondHandOverridden();
-                    }
-                }));
 
         // Data for second hand thickness in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_second_hand_thickness),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.HandThickness>(WatchFacePreset.HandThickness.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.HandThickness h) {
-                        permutation.setSecondHandThickness(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.HandThickness getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getSecondHandThickness();
-                    }
-                },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isSecondHandOverridden();
-                    }
-                }));
+                new WatchFacePresetMutatorImpl<>(
+                        WatchFacePreset.HandThickness.values(),
+                        WatchFacePreset::setSecondHandThickness,
+                        WatchFacePreset::getSecondHandThickness),
+                WatchFacePreset::isSecondHandOverridden));
 
         // Data for second hand style in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_second_hand_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.Style>(WatchFacePreset.Style.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.Style h) {
-                        permutation.setSecondHandStyle(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.Style getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getSecondHandStyle();
-                    }
-                },
-                new ConfigItemVisibilityCalculator() {
-                    @Override
-                    public boolean isVisible(WatchFacePreset currentPreset) {
-                        return currentPreset.isSecondHandOverridden();
-                    }
-                }));
+                new WatchFacePresetMutatorImpl<>(
+                        WatchFacePreset.Style.values(),
+                        WatchFacePreset::setSecondHandStyle,
+                        WatchFacePreset::getSecondHandStyle),
+                WatchFacePreset::isSecondHandOverridden));
 
         return settingsConfigData;
     }

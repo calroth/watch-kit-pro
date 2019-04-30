@@ -3,11 +3,12 @@ package pro.watchkit.wearable.watchface.model;
 import android.content.Context;
 import android.text.Html;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-import androidx.recyclerview.widget.RecyclerView;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
 import pro.watchkit.wearable.watchface.config.ConfigRecyclerViewAdapter;
@@ -197,15 +198,33 @@ abstract public class ConfigData {
         }
     }
 
-    protected static class WatchFacePresetMutatorGeneric2<E extends Enum>
+    protected static class WatchFacePresetMutatorImpl<E extends Enum>
             implements WatchFacePresetMutator {
+        /**
+         * All the possible Enum values of E.
+         */
         private E[] mValues;
+
+        /**
+         * A lambda which sets (or applies) setting E to the given WatchFacePreset.
+         */
         private BiConsumer<WatchFacePreset, E> mSetter;
+
+        /**
+         * A lambda which gets and returns setting E from the given WatchFacePreset.
+         */
         private Function<WatchFacePreset, E> mGetter;
 
-        WatchFacePresetMutatorGeneric2(E[] values,
-                                       BiConsumer<WatchFacePreset, E> setter,
-                                       Function<WatchFacePreset, E> getter) {
+        /**
+         * Create the given WatchFacePresetMutatorImpl for the E of type Enum.
+         *
+         * @param values all possible enumeration values of E
+         * @param setter a lambda which sets (or applies) setting E to the given WatchFacePreset
+         * @param getter a lambda which gets and returns setting E from the given WatchFacePreset
+         */
+        WatchFacePresetMutatorImpl(E[] values,
+                                   BiConsumer<WatchFacePreset, E> setter,
+                                   Function<WatchFacePreset, E> getter) {
             mValues = values;
             mSetter = setter;
             mGetter = getter;
@@ -238,43 +257,6 @@ abstract public class ConfigData {
         public E getCurrentValue(WatchFacePreset currentPreset) {
             return mGetter.apply(currentPreset);
         }
-    }
-
-    protected abstract static class WatchFacePresetMutatorGeneric<E extends Enum>
-            implements WatchFacePresetMutator {
-        private E[] mValues;
-
-        WatchFacePresetMutatorGeneric(E[] values) {
-            mValues = values;
-        }
-
-        /**
-         * For the given WatchFacePreset (which must be a clone, since we'll modify it in the
-         * process) return a String array with each permutation.
-         *
-         * @param permutation WatchFacePreset, which must be a clone, since we'll modify it
-         * @return String array with each permutation
-         */
-        public String[] permute(WatchFacePreset permutation) {
-            String[] result = new String[mValues.length];
-            int i = 0;
-            for (E h : mValues) {
-                permuteOne(permutation, h);
-                result[i++] = permutation.getString();
-            }
-            return result;
-        }
-
-        abstract void permuteOne(WatchFacePreset permutation, E h);
-
-        /**
-         * For the given WatchFacePreset (which is our current preference) return the current
-         * value.
-         *
-         * @param currentPreset WatchFacePreset of our current preference
-         * @return Value that it's currently set to
-         */
-        public abstract E getCurrentValue(WatchFacePreset currentPreset);
     }
 
     public static class WatchFacePresetPickerConfigItem implements ConfigItemType {

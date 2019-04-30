@@ -36,9 +36,10 @@ package pro.watchkit.wearable.watchface.model;
 
 import android.content.Context;
 
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
+
 import java.util.ArrayList;
 
-import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
@@ -106,72 +107,40 @@ public class ColorsStylesConfigData extends ConfigData {
                 context.getString(R.string.config_preset_fill_highlight_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.GradientStyle>(WatchFacePreset.GradientStyle.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.GradientStyle h) {
-                        permutation.setFillHighlightStyle(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.GradientStyle getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getFillHighlightStyle();
-                    }
-                }));
+                new WatchFacePresetMutatorImpl<>(
+                        WatchFacePreset.GradientStyle.values(),
+                        WatchFacePreset::setFillHighlightStyle,
+                        WatchFacePreset::getFillHighlightStyle)));
 
         // Data for accent fill style in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_accent_fill_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.GradientStyle>(WatchFacePreset.GradientStyle.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.GradientStyle h) {
-                        permutation.setAccentFillStyle(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.GradientStyle getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getAccentFillStyle();
-                    }
-                }));
+                new WatchFacePresetMutatorImpl<>(
+                        WatchFacePreset.GradientStyle.values(),
+                        WatchFacePreset::setAccentFillStyle,
+                        WatchFacePreset::getAccentFillStyle)));
 
         // Data for accent highlight style in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_accent_highlight_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.GradientStyle>(WatchFacePreset.GradientStyle.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.GradientStyle h) {
-                        permutation.setAccentHighlightStyle(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.GradientStyle getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getAccentHighlightStyle();
-                    }
-                }));
+                new WatchFacePresetMutatorImpl<>(
+                        WatchFacePreset.GradientStyle.values(),
+                        WatchFacePreset::setAccentHighlightStyle,
+                        WatchFacePreset::getAccentHighlightStyle)));
 
         // Data for base accent style in settings Activity.
         settingsConfigData.add(new WatchFacePresetPickerConfigItem(
                 context.getString(R.string.config_preset_base_accent_style),
                 R.drawable.icn_styles,
                 WatchFacePresetSelectionActivity.class,
-                new WatchFacePresetMutatorGeneric<WatchFacePreset.GradientStyle>(WatchFacePreset.GradientStyle.values()) {
-
-                    @Override
-                    void permuteOne(WatchFacePreset permutation, WatchFacePreset.GradientStyle h) {
-                        permutation.setBaseAccentStyle(h);
-                    }
-
-                    @Override
-                    public WatchFacePreset.GradientStyle getCurrentValue(WatchFacePreset currentPreset) {
-                        return currentPreset.getBaseAccentStyle();
-                    }
-                }));
+                new WatchFacePresetMutatorImpl<>(
+                        WatchFacePreset.GradientStyle.values(),
+                        WatchFacePreset::setBaseAccentStyle,
+                        WatchFacePreset::getBaseAccentStyle)));
 
         return settingsConfigData;
     }
