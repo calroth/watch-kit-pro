@@ -64,7 +64,7 @@ public class WatchFaceSelectionActivity extends Activity {
 
     private WearableRecyclerView mWearableRecyclerView;
 
-    private WatchFacePresetSelectionRecyclerViewAdapter mWatchFacePresetSelectionRecyclerViewAdapter;
+    private WatchFaceSelectionRecyclerViewAdapter mWatchFaceSelectionRecyclerViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +74,8 @@ public class WatchFaceSelectionActivity extends Activity {
         String[] watchFacePresetStrings = getIntent().getStringArrayExtra(INTENT_EXTRA_PRESETS);
         String[] settingsStrings = getIntent().getStringArrayExtra(INTENT_EXTRA_SETTINGS);
 
-        mWatchFacePresetSelectionRecyclerViewAdapter =
-                new WatchFacePresetSelectionRecyclerViewAdapter(watchFacePresetStrings, settingsStrings);
+        mWatchFaceSelectionRecyclerViewAdapter =
+                new WatchFaceSelectionRecyclerViewAdapter(watchFacePresetStrings, settingsStrings);
 
         mWearableRecyclerView =
                 findViewById(R.id.wearable_recycler_view);
@@ -89,7 +89,7 @@ public class WatchFaceSelectionActivity extends Activity {
         // the RecyclerView.
         mWearableRecyclerView.setHasFixedSize(true);
 
-        mWearableRecyclerView.setAdapter(mWatchFacePresetSelectionRecyclerViewAdapter);
+        mWearableRecyclerView.setAdapter(mWatchFaceSelectionRecyclerViewAdapter);
     }
 
     /**

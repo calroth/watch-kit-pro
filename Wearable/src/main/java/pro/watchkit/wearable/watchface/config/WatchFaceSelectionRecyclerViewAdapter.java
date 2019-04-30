@@ -39,14 +39,14 @@ import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
  * {@link SharedPreferences} value passed to the class.
  */
 
-public class WatchFacePresetSelectionRecyclerViewAdapter extends
+public class WatchFaceSelectionRecyclerViewAdapter extends
         RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private static final String TAG = WatchFacePresetSelectionRecyclerViewAdapter.class.getSimpleName();
+    private static final String TAG = WatchFaceSelectionRecyclerViewAdapter.class.getSimpleName();
 
     private String[] mWatchFacePresetStrings;
     private String[] mSettingsStrings;
 
-    public WatchFacePresetSelectionRecyclerViewAdapter(String[] watchFacePresetStrings, String[] settingsStrings) {
+    public WatchFaceSelectionRecyclerViewAdapter(String[] watchFacePresetStrings, String[] settingsStrings) {
         mWatchFacePresetStrings = watchFacePresetStrings;
         mSettingsStrings = settingsStrings;
     }
