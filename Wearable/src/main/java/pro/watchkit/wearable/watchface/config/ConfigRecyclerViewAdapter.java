@@ -1265,7 +1265,7 @@ public class ConfigRecyclerViewAdapter
             String sharedPreferenceString = context.getString(R.string.saved_settings);
             Settings settings = new Settings();
             settings.setString(mSharedPref.getString(sharedPreferenceString, null));
-            boolean currentState = settings.toggleEnableNightVisionMode();
+            boolean currentState = settings.toggleNightVisionModeEnabled();
 
             updateIcon(context, currentState);
         }
@@ -1278,7 +1278,7 @@ public class ConfigRecyclerViewAdapter
             // Since user clicked on a switch, new state should be opposite of current state.
             Settings settings = new Settings();
             settings.setString(mSharedPref.getString(sharedPreferenceString, null));
-            boolean newState = settings.toggleEnableNightVisionMode();
+            boolean newState = settings.toggleNightVisionModeEnabled();
 
             if (newState && context.checkSelfPermission(
                     android.Manifest.permission.ACCESS_COARSE_LOCATION)

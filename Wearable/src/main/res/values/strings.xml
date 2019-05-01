@@ -216,6 +216,13 @@
         <item>Radial + Brushed</item>
     </string-array>
 
+    <string-array name="Settings_ComplicationRotation">
+        <item>Offset +0.00</item>
+        <item>Offset +0.25</item>
+        <item>Offset +0.50</item>
+        <item>Offset +0.75</item>
+    </string-array>
+
     <string-array name="color_array">
         <item>@string/color_black</item>
         <item>@string/color_blue</item>

@@ -246,10 +246,31 @@ public class WatchFaceState {
          */
 
         // For most Wear devices, width and height are the same, so we just chose one (width).
-        int sizeOfComplication = width / 4;
-        int midpointOfScreen = width / 2;
+        float sizeOfComplication = width / 4f;
+        float midpointOfScreen = width / 2f;
 
-        int i = 0;
+        // Start "i" off with our complication rotation, between 0 and 0.75 of a circle width.
+        float i;
+        switch (mSettings.getComplicationRotation()) {
+            default:
+            case ROTATE_00: {
+                i = 0.0f;
+                break;
+            }
+            case ROTATE_25: {
+                i = 0.25f;
+                break;
+            }
+            case ROTATE_50: {
+                i = 0.50f;
+                break;
+            }
+            case ROTATE_75: {
+                i = 0.75f;
+                break;
+            }
+        }
+
         for (ComplicationHolder complication : mComplications) {
             if (complication.isForeground) {
                 // Foreground
