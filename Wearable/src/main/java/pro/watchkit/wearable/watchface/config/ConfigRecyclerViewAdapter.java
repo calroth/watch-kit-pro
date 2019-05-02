@@ -471,8 +471,7 @@ public class ConfigRecyclerViewAdapter
 
     @Override
     public int getItemViewType(int position) {
-        ConfigItemType configItemType = mSettingsDataSet.get(position);
-        return configItemType.getConfigType();
+        return mSettingsDataSet.get(position).getConfigType();
     }
 
     @Override
@@ -492,7 +491,6 @@ public class ConfigRecyclerViewAdapter
 //        if (mPreviewAndComplicationsViewHolder != null && mSelectedComplicationId >= 0) {
             mPreviewAndComplicationsViewHolder.updateComplicationViews(
                     mSelectedComplication, complicationProviderInfo);
-//                    mSelectedComplicationId, complicationProviderInfo);
         }
     }
 
@@ -527,15 +525,6 @@ public class ConfigRecyclerViewAdapter
 
         private View mWatchFaceArmsAndTicksView;
         private View mWatchFaceHighlightPreviewView;
-//        private ImageView mWatchFaceBackgroundPreviewImageView;
-//
-//        private ImageView mLeftComplicationBackground;
-//        private ImageView mBottomComplicationBackground;
-//        private ImageView mRightComplicationBackground;
-//
-//        private ImageButton mLeftComplication;
-//        private ImageButton mBottomComplication;
-//        private ImageButton mRightComplication;
 
         private Drawable mDefaultComplicationDrawable;
 
@@ -547,8 +536,6 @@ public class ConfigRecyclerViewAdapter
             backgroundComplication = new ComplicationHolder(null);
             backgroundComplication.background = view.findViewById(R.id.watch_face_background);
             complications.add(backgroundComplication);
-//            mWatchFaceBackgroundPreviewImageView =
-//                    (ImageView) view.findViewById(R.id.watch_face_background);
             mWatchFaceArmsAndTicksView = view.findViewById(R.id.watch_face_arms_and_ticks);
 
             // In our case, just the second arm.
@@ -584,24 +571,6 @@ public class ConfigRecyclerViewAdapter
                 f.imageButton.setOnClickListener(this);
                 complications.add(f);
             }
-
-//            // Sets up left complication preview.
-//            mLeftComplicationBackground =
-//                    (ImageView) view.findViewById(R.id.left_complication_background);
-//            mLeftComplication = (ImageButton) view.findViewById(R.id.left_complication);
-//            mLeftComplication.setOnClickListener(this);
-//
-//            // Sets up bottom complication preview.
-//            mBottomComplicationBackground =
-//                    (ImageView) view.findViewById(R.id.bottom_complication_background);
-//            mBottomComplication = (ImageButton) view.findViewById(R.id.bottom_complication);
-//            mBottomComplication.setOnClickListener(this);
-//
-//            // Sets up right complication preview.
-//            mRightComplicationBackground =
-//                    (ImageView) view.findViewById(R.id.right_complication_background);
-//            mRightComplication = (ImageButton) view.findViewById(R.id.right_complication);
-//            mRightComplication.setOnClickListener(this);
         }
 
         @Override
@@ -612,24 +581,6 @@ public class ConfigRecyclerViewAdapter
                     launchComplicationHelperActivity(currentActivity, complication);
                 }
             }
-//            if (view.equals(mLeftComplication)) {
-//                Log.d(TAG, "Left Complication click()");
-//
-//                Activity currentActivity = (Activity) view.getContext();
-//                launchComplicationHelperActivity(currentActivity, ComplicationLocation.LEFT);
-//
-//            } else if (view.equals(mBottomComplication)) {
-//                Log.d(TAG, "Bottom Complication click()");
-//
-//                Activity currentActivity = (Activity) view.getContext();
-//                launchComplicationHelperActivity(currentActivity, ComplicationLocation.BOTTOM);
-//
-//            } else if (view.equals(mRightComplication)) {
-//                Log.d(TAG, "Right Complication click()");
-//
-//                Activity currentActivity = (Activity) view.getContext();
-//                launchComplicationHelperActivity(currentActivity, ComplicationLocation.RIGHT);
-//            }
         }
 
         void updateWatchFaceColors() {
@@ -647,9 +598,6 @@ public class ConfigRecyclerViewAdapter
 
                 backgroundComplication.background.getBackground()
                         .setColorFilter(backgroundColorFilter);
-//                mWatchFaceBackgroundPreviewImageView
-//                        .getBackground()
-//                        .setColorFilter(backgroundColorFilter);
 
             } else {
                 // Inform user that they need to disable background image for color to work.
@@ -677,16 +625,10 @@ public class ConfigRecyclerViewAdapter
                 Activity currentActivity, ComplicationHolder complication) {
 
             mSelectedComplication = complication;
-//                    AnalogComplicationWatchFaceService.getComplicationId(complicationLocation);
 
             mBackgroundComplicationEnabled = false;
 
             if (mSelectedComplication != null) {
-//            if (mSelectedComplicationId >= 0) {
-
-//                int[] supportedTypes = complication.getSupportedComplicationTypes();
-//                        AnalogComplicationWatchFaceService.getSupportedComplicationTypes(
-//                                complicationLocation);
 
                 ComponentName watchFace =
                         new ComponentName(
@@ -715,15 +657,6 @@ public class ConfigRecyclerViewAdapter
                     complication.background.setVisibility(View.INVISIBLE);
                 }
             }
-
-//            mLeftComplication.setImageDrawable(mDefaultComplicationDrawable);
-//            mLeftComplicationBackground.setVisibility(View.INVISIBLE);
-//
-//            mBottomComplication.setImageDrawable(mDefaultComplicationDrawable);
-//            mBottomComplicationBackground.setVisibility(View.INVISIBLE);
-//
-//            mRightComplication.setImageDrawable(mDefaultComplicationDrawable);
-//            mRightComplicationBackground.setVisibility(View.INVISIBLE);
         }
 
         void updateComplicationViews(
@@ -744,20 +677,14 @@ public class ConfigRecyclerViewAdapter
 
                     complication.background.getBackground()
                             .setColorFilter(backgroundColorFilter);
-//                    mWatchFaceBackgroundPreviewImageView
-//                            .getBackground()
-//                            .setColorFilter(backgroundColorFilter);
                     complication.background.setImageIcon(
                             complicationProviderInfo.providerIcon);
-//                    mWatchFaceBackgroundPreviewImageView.setImageIcon(
-//                            complicationProviderInfo.providerIcon);
 
                 } else {
                     mBackgroundComplicationEnabled = false;
 
                     // Clears icon for background if it was present before.
                     backgroundComplication.background.setImageResource(
-//                    mWatchFaceBackgroundPreviewImageView.setImageResource(
                             android.R.color.transparent);
                     String backgroundSharedPrefString =
                             mContext.getString(R.string.saved_background_color);
@@ -769,7 +696,6 @@ public class ConfigRecyclerViewAdapter
                                     currentBackgroundColor, PorterDuff.Mode.SRC_ATOP);
 
                     backgroundComplication.background
-//                    mWatchFaceBackgroundPreviewImageView
                             .getBackground()
                             .setColorFilter(backgroundColorFilter);
                 }
@@ -777,16 +703,6 @@ public class ConfigRecyclerViewAdapter
                 updateComplicationView(complicationProviderInfo, complication.imageButton,
                         complication.background);
             }
-//            } else if (watchFaceComplicationId == mLeftComplicationId) {
-//                updateComplicationView(complicationProviderInfo, mLeftComplication,
-//                    mLeftComplicationBackground);
-//            } else if (watchFaceComplicationId == mBottomComplicationId) {
-//                updateComplicationView(complicationProviderInfo, mBottomComplication,
-//                    mBottomComplicationBackground);
-//            } else if (watchFaceComplicationId == mRightComplicationId) {
-//                updateComplicationView(complicationProviderInfo, mRightComplication,
-//                    mRightComplicationBackground);
-//            }
         }
 
         private void updateComplicationView(ComplicationProviderInfo complicationProviderInfo,
