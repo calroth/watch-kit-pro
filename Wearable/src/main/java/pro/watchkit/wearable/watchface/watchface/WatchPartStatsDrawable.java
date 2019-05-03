@@ -23,9 +23,11 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
+
+import java.util.Locale;
+
 import pro.watchkit.wearable.watchface.BuildConfig;
 
-@Deprecated
 final class WatchPartStatsDrawable extends WatchPartDrawable {
     static final String INVALID_COMPLICATION = "Complication";
     static final String INVALID_TIME_TICK = "Time Tick";
@@ -37,11 +39,8 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
     static final String INVALID_SURFACE = "Surface Change";
     static final String INVALID_NOTIFICATION = "Notification Change";
     static final String INVALID_WTF = "WTF?";
-    @Deprecated
     static long total;
-    @Deprecated
     static int invalid = 0;
-    @Deprecated
     Drawable[] mWatchPartDrawables, mWatchPartDrawables2;
     static String mInvalidTrigger = "";
 
@@ -80,15 +79,18 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
         }
 
         canvas.drawText(invalid
-                + String.format(" Alt: %.2f° / ", mWatchFaceState.getLocationCalculator().getSunAltitude())
+                + String.format(Locale.getDefault(),
+                " Alt: %.2f° / ", mWatchFaceState.getLocationCalculator().getSunAltitude())
 //                + Objects.hashCode(mWatchFaceState)
-                + String.format("%.2f", (double) (total) / 1000000d)
+                + String.format(Locale.getDefault(),
+                "%.2f", (double) (total) / 1000000d)
                 + (canvas.isHardwareAccelerated() ? " (hw)" : " (sw)"), x, y, textPaint);
     }
 
     private float drawStats(
             WatchPartDrawable d, @NonNull Canvas canvas, Paint textPaint, float x, float y) {
-        canvas.drawText(String.format("%s: %.2f", d.getStatsName(),
+        canvas.drawText(String.format(Locale.getDefault(),
+                "%s: %.2f", d.getStatsName(),
                     (double) (d.mLastStatsTime) / 1000000d), x, y, textPaint);
             y += 3f * pc;
         return y;
