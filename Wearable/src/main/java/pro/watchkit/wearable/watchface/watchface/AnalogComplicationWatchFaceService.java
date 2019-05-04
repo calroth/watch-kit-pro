@@ -53,15 +53,11 @@ import android.support.wearable.watchface.WatchFaceStyle;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-import androidx.annotation.NonNull;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
 import java.lang.ref.WeakReference;
 import java.util.concurrent.TimeUnit;
@@ -106,21 +102,23 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
         }
     }
 
-    private class Engine extends HardwareAcceleratedCanvasWatchFaceService.Engine implements ComplicationHolder.InvalidateCallback {
+    private class Engine extends HardwareAcceleratedCanvasWatchFaceService.Engine
+            implements ComplicationHolder.InvalidateCallback {
 
         private static final int MSG_UPDATE_TIME = 0;
         // Handler to update the time once a second in interactive mode.
         private final Handler mUpdateTimeHandler = new UpdateTimeHandler(this);
 
-        private final BroadcastReceiver mTimeZoneReceiver =
-                new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        getWatchFaceState().setDefaultTimeZone();
-                        WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_TIMEZONE;
-                        invalidate();
-                    }
-                };
+        private final BroadcastReceiver mTimeZoneReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                getWatchFaceState().setDefaultTimeZone();
+                WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_TIMEZONE;
+                invalidate();
+            }
+        };
+        private final IntentFilter mActionTimezoneChangedIntentFilter =
+                new IntentFilter(Intent.ACTION_TIMEZONE_CHANGED);
         private WatchFaceGlobalDrawable mWatchFaceGlobalDrawable;
         // Used to pull user's preferences for background color, highlight color, and visual
         // indicating there are unread notifications.
@@ -168,8 +166,6 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
         @Override
         public void onCreate(SurfaceHolder holder) {
-            Log.d(TAG, "onCreate");
-
             super.onCreate(holder);
 
             // Used throughout watch face to pull user's preferences.
@@ -197,7 +193,9 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                             WatchFaceGlobalDrawable.PART_STATS);
 
             loadSavedPreferences();
-            initializeComplications();
+
+            // Initialise complications
+            setActiveComplications(getWatchFaceState().initializeComplications(context, this));
 
             final FusedLocationProviderClient locationClient =
                     LocationServices.getFusedLocationProviderClient(context);
@@ -224,12 +222,8 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
                 // Get the last location right away.
                 locationClient.getLastLocation().addOnCompleteListener(
-                        new OnCompleteListener<Location>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Location> task) {
-                                updateLocation(task.getResult());
-                            }
-                        });
+                        task -> updateLocation(task.getResult())
+                );
 
                 // Sign up for ongoing location reports.
                 locationClient.requestLocationUpdates(req, new LocationCallback() {
@@ -242,30 +236,27 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                                 }
                             }
                         },
-                        null).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if (task.isSuccessful()) {
-                            // Task completed successfully
-                            Log.d(TAG, "requestLocationUpdates onComplete isSuccessful: " + task.getResult());
-                        } else {
-                            // Task failed with an exception
-                            Log.d(TAG, "requestLocationUpdates onComplete exception: ", task.getException());
-                        }
-
-                    }
-                });
+                        null).addOnCompleteListener(
+                        task -> {
+                            if (task.isSuccessful()) {
+                                // Task completed successfully
+                                Log.d(TAG, "requestLocationUpdates onComplete isSuccessful: " + task.getResult());
+                            } else {
+                                // Task failed with an exception
+                                Log.d(TAG, "requestLocationUpdates onComplete exception: ", task.getException());
+                            }
+                        });
             }
         }
 
         private void updateLocation(Location location) {
+            // Update UI with location data
+            // ...
+            // Note: can be null in rare situations; handle accordingly.
+            Log.w(TAG, "onLocationResult: Got last location! It's " +
+                    (location == null ? "null..." : location.getLatitude() + " / " +
+                            location.getLongitude() + " / " + location.getAltitude()));
             if (location != null) {
-                // Update UI with location data
-                // ...
-                Log.w(TAG, "onLocationResult: Got last location! It's " +
-                        (location == null ? "null..." : location.getLatitude() + " / " +
-                                location.getLongitude() + " / " + location.getAltitude()));
-                // Note: can be null in rare situations; handle accordingly.
                 getWatchFaceState().getLocationCalculator().setLocation(location);
                 WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_LOCATION;
                 postInvalidate();
@@ -282,18 +273,9 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                     getApplicationContext().getString(R.string.saved_settings), null));
         }
 
-        private void initializeComplications() {
-            Log.d(TAG, "initializeComplications()");
-
-            Context context = getApplicationContext();
-            int[] complicationIds = getWatchFaceState().initializeComplications(context, this);
-            setActiveComplications(complicationIds);
-        }
-
         @Override
         public void onPropertiesChanged(Bundle properties) {
             super.onPropertiesChanged(properties);
-            //Log.d(TAG, "onPropertiesChanged: low-bit ambient = " + mLowBitAmbient);
 
             boolean lowBitAmbient = properties.getBoolean(PROPERTY_LOW_BIT_AMBIENT, false);
             boolean burnInProtection = properties.getBoolean(PROPERTY_BURN_IN_PROTECTION, false);
@@ -314,7 +296,6 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
         @Override
         public void onComplicationDataUpdate(
                 int complicationId, ComplicationData complicationData) {
-//            Log.d(TAG, "onComplicationDataUpdate() id: " + complicationId + " / " + complicationData.getType());
 
             // Adds/updates active complication data in the array.
             getWatchFaceState().onComplicationDataUpdate(complicationId, complicationData);
@@ -325,14 +306,16 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
         @Override
         public void onTapCommand(int tapType, int x, int y, long eventTime) {
-//            Log.d(TAG, "OnTapCommand()");
-            switch (tapType) {
-                case TAP_TYPE_TAP:
-                    if (getWatchFaceState().onComplicationTap(x, y)) {
-                        return;
-                    }
-                    break;
+            if (tapType == TAP_TYPE_TAP) {
+                getWatchFaceState().onComplicationTap(x, y);
             }
+//            switch (tapType) {
+//                case TAP_TYPE_TAP:
+//                    if (getWatchFaceState().onComplicationTap(x, y)) {
+//                        return;
+//                    }
+//                    break;
+//            }
         }
 
         @Override
@@ -345,7 +328,6 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
         @Override
         public void onAmbientModeChanged(boolean inAmbientMode) {
             super.onAmbientModeChanged(inAmbientMode);
-//            Log.d(TAG, "onAmbientModeChanged: " + inAmbientMode);
 
             getWatchFaceState().onAmbientModeChanged(inAmbientMode);
 
@@ -399,28 +381,14 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             int unreadNotifications = getWatchFaceState().getSettings().isShowUnreadNotifications() ? getUnreadCount() : 0;
             int totalNotifications = getWatchFaceState().getSettings().isShowUnreadNotifications() ? getNotificationCount() : 0;
 
-//            if (isInAmbientMode()) {
-//                getWatchFaceState().preDrawAmbientCheck();
-//            }
             // Draw all our drawables.
             // First set all our state objects.
             getWatchFaceState().setCurrentTimeToNow();
             getWatchFaceState().setNotifications(unreadNotifications, totalNotifications);
-//          getWatchFaceState().preset = preset;
 
             // Propagate our size to our drawable. Turns out this isn't as slow as I imagined.
             mWatchFaceGlobalDrawable.setBounds(bounds);
             mWatchFaceGlobalDrawable.draw(canvas);
-//          int s = 0;
-//          long now0 = SystemClock.elapsedRealtimeNanos();
-//          for (WatchPartDrawable d : mWatchPartDrawables) {
-//              // For each of our drawables: draw it!
-//              d.draw(canvas);
-//              long now1 = SystemClock.elapsedRealtimeNanos();
-//              WatchPartStatsDrawable.now[s] = now1 - now0;
-//              now0 = now1;
-//              s++;
-//          }
 
             if (prevAmbient != getWatchFaceState().isAmbient()) {
                 WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_WTF;
@@ -443,13 +411,20 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                 // in and out of ambient mode.
                 getWatchFaceState().setComplicationColors();
 
-                registerReceiver();
+                // Register the time zone receiver.
+                if (!mRegisteredTimeZoneReceiver) {
+                    mRegisteredTimeZoneReceiver = true;
+                    registerReceiver(mTimeZoneReceiver, mActionTimezoneChangedIntentFilter);
+                }
+
                 // Update time zone in case it changed while we weren't visible.
                 getWatchFaceState().setDefaultTimeZone();
                 WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_TIMEZONE;
                 invalidate();
-            } else {
-                unregisterReceiver();
+            } else if (mRegisteredTimeZoneReceiver) {
+                // Unregister the time zone receiver.
+                mRegisteredTimeZoneReceiver = false;
+                unregisterReceiver(mTimeZoneReceiver);
             }
 
             /* Check and trigger whether or not timer should be running (only in active mode). */
@@ -458,8 +433,6 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
         @Override
         public void onNotificationCountChanged(int count) {
-            Log.d(TAG, "onNotificationCountChanged(): " + count);
-
             if (getWatchFaceState().getSettings().isShowUnreadNotifications()) {
                 WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_NOTIFICATION;
                 invalidate();
@@ -468,29 +441,10 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
         @Override
         public void onUnreadCountChanged(int count) {
-            Log.d(TAG, "onUnreadCountChanged(): " + count);
-
             if (getWatchFaceState().getSettings().isShowUnreadNotifications()) {
                 WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_NOTIFICATION;
                 invalidate();
             }
-        }
-
-        private void registerReceiver() {
-            if (mRegisteredTimeZoneReceiver) {
-                return;
-            }
-            mRegisteredTimeZoneReceiver = true;
-            IntentFilter filter = new IntentFilter(Intent.ACTION_TIMEZONE_CHANGED);
-            AnalogComplicationWatchFaceService.this.registerReceiver(mTimeZoneReceiver, filter);
-        }
-
-        private void unregisterReceiver() {
-            if (!mRegisteredTimeZoneReceiver) {
-                return;
-            }
-            mRegisteredTimeZoneReceiver = false;
-            AnalogComplicationWatchFaceService.this.unregisterReceiver(mTimeZoneReceiver);
         }
 
         /**
