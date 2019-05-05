@@ -26,15 +26,18 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.wearable.complications.ComplicationData;
+import android.support.wearable.complications.ComplicationProviderInfo;
 import android.support.wearable.complications.rendering.ComplicationDrawable;
 import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import java.util.Objects;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+
+import java.util.Objects;
 
 public final class ComplicationHolder implements Drawable.Callback {
 
@@ -44,7 +47,7 @@ public final class ComplicationHolder implements Drawable.Callback {
     private final Handler mHandler = new Handler();
     public boolean isForeground = false;
     public boolean isActive = false;
-    public ImageButton imageButton;
+    private ImageButton mImageButton;
     public ImageView background;
     private int id;
     private ComplicationDrawable drawable;
@@ -56,6 +59,27 @@ public final class ComplicationHolder implements Drawable.Callback {
     private boolean mActiveBitmapInvalidated = true;
     private Bitmap mAmbientBitmap;
     private Bitmap mActiveBitmap;
+
+    public void setImageButton(ImageButton imageButton, OnClickListener onClickListener) {
+        mImageButton = imageButton;
+        mImageButton.setOnClickListener(onClickListener);
+    }
+
+    public boolean isImageButtonMatch(View view) {
+        return view.equals(mImageButton);
+    }
+
+    public void setImageButtonIcon(ComplicationProviderInfo complicationProviderInfo) {
+        mImageButton.setImageIcon(complicationProviderInfo.providerIcon);
+    }
+
+    public void setImageButtonDrawable(Drawable drawable) {
+        mImageButton.setImageDrawable(drawable);
+    }
+
+    public void setImageButtonContentDescription(CharSequence contentDescription) {
+        mImageButton.setContentDescription(contentDescription);
+    }
 
     public ComplicationHolder(Context context) {
         id = BASE_ID;

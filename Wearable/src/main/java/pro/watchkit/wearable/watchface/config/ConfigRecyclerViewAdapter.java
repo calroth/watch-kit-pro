@@ -546,8 +546,7 @@ public class ConfigRecyclerViewAdapter
                 f.isForeground = true;
                 f.background =
                         view.findViewById(R.id.left_complication_background);
-                f.imageButton = view.findViewById(R.id.left_complication);
-                f.imageButton.setOnClickListener(this);
+                f.setImageButton(view.findViewById(R.id.left_complication), this);
                 complications.add(f);
             }
             // Sets up bottom complication preview.
@@ -556,8 +555,7 @@ public class ConfigRecyclerViewAdapter
                 f.isForeground = true;
                 f.background =
                         view.findViewById(R.id.bottom_complication_background);
-                f.imageButton = view.findViewById(R.id.bottom_complication);
-                f.imageButton.setOnClickListener(this);
+                f.setImageButton(view.findViewById(R.id.bottom_complication), this);
                 complications.add(f);
             }
             // Sets up right complication preview.
@@ -566,8 +564,7 @@ public class ConfigRecyclerViewAdapter
                 f.isForeground = true;
                 f.background =
                         view.findViewById(R.id.right_complication_background);
-                f.imageButton = view.findViewById(R.id.right_complication);
-                f.imageButton.setOnClickListener(this);
+                f.setImageButton(view.findViewById(R.id.right_complication), this);
                 complications.add(f);
             }
         }
@@ -575,7 +572,7 @@ public class ConfigRecyclerViewAdapter
         @Override
         public void onClick(View view) {
             for (ComplicationHolder complication : complications) {
-                if (view.equals(complication.imageButton)) {
+                if (complication.isImageButtonMatch(view)) {
                     Activity currentActivity = (Activity) view.getContext();
                     launchComplicationHelperActivity(currentActivity, complication);
                 }
@@ -652,7 +649,7 @@ public class ConfigRecyclerViewAdapter
 
             for (ComplicationHolder complication : complications) {
                 if (complication.isForeground) {
-                    complication.imageButton.setImageDrawable(mDefaultComplicationDrawable);
+                    complication.setImageButtonDrawable(mDefaultComplicationDrawable);
                     complication.background.setVisibility(View.INVISIBLE);
                 }
             }
@@ -699,15 +696,15 @@ public class ConfigRecyclerViewAdapter
             } else {
                 // Update complication view.
                 if (complicationProviderInfo != null) {
-                    complication.imageButton.setImageIcon(complicationProviderInfo.providerIcon);
-                    complication.imageButton.setContentDescription(
+                    complication.setImageButtonIcon(complicationProviderInfo);
+                    complication.setImageButtonContentDescription(
                             mContext.getString(R.string.edit_complication,
                                     complicationProviderInfo.appName + " " +
                                             complicationProviderInfo.providerName));
                     complication.background.setVisibility(View.VISIBLE);
                 } else {
-                    complication.imageButton.setImageDrawable(mDefaultComplicationDrawable);
-                    complication.imageButton.setContentDescription(
+                    complication.setImageButtonDrawable(mDefaultComplicationDrawable);
+                    complication.setImageButtonContentDescription(
                             mContext.getString(R.string.add_complication));
                     complication.background.setVisibility(View.INVISIBLE);
                 }
