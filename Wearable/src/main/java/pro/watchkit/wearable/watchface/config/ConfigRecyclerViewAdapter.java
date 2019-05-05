@@ -59,7 +59,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -661,12 +660,10 @@ public class ConfigRecyclerViewAdapter
 
         void updateComplicationViews(
                 ComplicationHolder complication, ComplicationProviderInfo complicationProviderInfo) {
-//                int watchFaceComplicationId, ComplicationProviderInfo complicationProviderInfo) {
             Log.d(TAG, "updateComplicationViews(): id: " + complication);
             Log.d(TAG, "\tinfo: " + complicationProviderInfo);
 
             if (!complication.isForeground) {
-//            if (watchFaceComplicationId == mBackgroundComplicationId) {
                 if (complicationProviderInfo != null) {
                     mBackgroundComplicationEnabled = true;
 
@@ -700,29 +697,24 @@ public class ConfigRecyclerViewAdapter
                             .setColorFilter(backgroundColorFilter);
                 }
             } else {
-                updateComplicationView(complicationProviderInfo, complication.imageButton,
-                        complication.background);
-            }
-        }
-
-        private void updateComplicationView(ComplicationProviderInfo complicationProviderInfo,
-                                            ImageButton button, ImageView background) {
-            if (complicationProviderInfo != null) {
-                button.setImageIcon(complicationProviderInfo.providerIcon);
-                button.setContentDescription(
-                        mContext.getString(R.string.edit_complication,
-                                complicationProviderInfo.appName + " " +
-                                        complicationProviderInfo.providerName));
-                background.setVisibility(View.VISIBLE);
-            } else {
-                button.setImageDrawable(mDefaultComplicationDrawable);
-                button.setContentDescription(mContext.getString(R.string.add_complication));
-                background.setVisibility(View.INVISIBLE);
+                // Update complication view.
+                if (complicationProviderInfo != null) {
+                    complication.imageButton.setImageIcon(complicationProviderInfo.providerIcon);
+                    complication.imageButton.setContentDescription(
+                            mContext.getString(R.string.edit_complication,
+                                    complicationProviderInfo.appName + " " +
+                                            complicationProviderInfo.providerName));
+                    complication.background.setVisibility(View.VISIBLE);
+                } else {
+                    complication.imageButton.setImageDrawable(mDefaultComplicationDrawable);
+                    complication.imageButton.setContentDescription(
+                            mContext.getString(R.string.add_complication));
+                    complication.background.setVisibility(View.INVISIBLE);
+                }
             }
         }
 
         void initializesColorsAndComplications() {
-
             // Initializes highlight color (just second arm and part of complications).
 //            String highlightSharedPrefString = mContext.getString(R.string.saved_marker_color);
             int currentHighlightColor = Color.RED;
