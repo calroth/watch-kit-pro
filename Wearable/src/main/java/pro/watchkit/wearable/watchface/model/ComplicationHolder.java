@@ -65,10 +65,6 @@ public final class ComplicationHolder implements Drawable.Callback {
         mImageButton.setOnClickListener(onClickListener);
     }
 
-    public boolean isImageButtonMatch(View view) {
-        return view.equals(mImageButton);
-    }
-
     public void setImageButtonIcon(ComplicationProviderInfo complicationProviderInfo) {
         mImageButton.setImageIcon(complicationProviderInfo.providerIcon);
     }

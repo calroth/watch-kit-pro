@@ -519,8 +519,7 @@ public class ConfigRecyclerViewAdapter
      * Displays watch face preview along with complication locations. Allows user to tap on the
      * complication they want to change and preview updates dynamically.
      */
-    public class PreviewAndComplicationsViewHolder extends RecyclerView.ViewHolder
-            implements OnClickListener {
+    public class PreviewAndComplicationsViewHolder extends RecyclerView.ViewHolder {
 
         private View mWatchFaceArmsAndTicksView;
         private View mWatchFaceHighlightPreviewView;
@@ -540,13 +539,15 @@ public class ConfigRecyclerViewAdapter
             // In our case, just the second arm.
             mWatchFaceHighlightPreviewView = view.findViewById(R.id.watch_face_highlight);
 
+            Activity currentActivity = (Activity) view.getContext();
             // Sets up left complication preview.
             {
                 ComplicationHolder f = new ComplicationHolder(null);
                 f.isForeground = true;
                 f.background =
                         view.findViewById(R.id.left_complication_background);
-                f.setImageButton(view.findViewById(R.id.left_complication), this);
+                f.setImageButton(view.findViewById(R.id.left_complication),
+                        v -> launchComplicationHelperActivity(currentActivity, f));
                 complications.add(f);
             }
             // Sets up bottom complication preview.
@@ -555,7 +556,8 @@ public class ConfigRecyclerViewAdapter
                 f.isForeground = true;
                 f.background =
                         view.findViewById(R.id.bottom_complication_background);
-                f.setImageButton(view.findViewById(R.id.bottom_complication), this);
+                f.setImageButton(view.findViewById(R.id.bottom_complication),
+                        v -> launchComplicationHelperActivity(currentActivity, f));
                 complications.add(f);
             }
             // Sets up right complication preview.
@@ -564,18 +566,9 @@ public class ConfigRecyclerViewAdapter
                 f.isForeground = true;
                 f.background =
                         view.findViewById(R.id.right_complication_background);
-                f.setImageButton(view.findViewById(R.id.right_complication), this);
+                f.setImageButton(view.findViewById(R.id.right_complication),
+                        v -> launchComplicationHelperActivity(currentActivity, f));
                 complications.add(f);
-            }
-        }
-
-        @Override
-        public void onClick(View view) {
-            for (ComplicationHolder complication : complications) {
-                if (complication.isImageButtonMatch(view)) {
-                    Activity currentActivity = (Activity) view.getContext();
-                    launchComplicationHelperActivity(currentActivity, complication);
-                }
             }
         }
 
