@@ -510,9 +510,7 @@ public class ConfigRecyclerViewAdapter
         }
 
         // Update our Ticklish objects.
-        for (Ticklish t : mTicklish) {
-            t.tickle();
-        }
+        mTicklish.forEach(Ticklish::tickle);
     }
 
     /**
@@ -640,12 +638,10 @@ public class ConfigRecyclerViewAdapter
             Context context = mWatchFaceArmsAndTicksView.getContext();
             mDefaultComplicationDrawable = context.getDrawable(resourceId);
 
-            for (ComplicationHolder complication : complications) {
-                if (complication.isForeground) {
-                    complication.setImageButtonDrawable(mDefaultComplicationDrawable);
-                    complication.background.setVisibility(View.INVISIBLE);
-                }
-            }
+            complications.stream().filter(c -> c.isForeground).forEach(c -> {
+                c.setImageButtonDrawable(mDefaultComplicationDrawable);
+                c.background.setVisibility(View.INVISIBLE);
+            });
         }
 
         void updateComplicationViews(
@@ -742,12 +738,9 @@ public class ConfigRecyclerViewAdapter
 
                             Log.d(TAG, "onProviderInfoReceived: " + complicationProviderInfo);
 
-                            for (ComplicationHolder complication : complications) {
-                                if (watchFaceComplicationId == complication.getId()) {
-                                    updateComplicationViews(
-                                            complication, complicationProviderInfo);
-                                }
-                            }
+                            complications.stream()
+                                    .filter(c -> c.getId() == watchFaceComplicationId)
+                                    .forEach(c -> updateComplicationViews(c, complicationProviderInfo));
                         }
                     },
                     mWatchFaceComponentName,
