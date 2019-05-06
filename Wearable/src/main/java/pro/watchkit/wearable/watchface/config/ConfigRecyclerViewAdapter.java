@@ -795,6 +795,8 @@ public class ConfigRecyclerViewAdapter
         private Class<ColorSelectionActivity> mLaunchActivity;
         private WatchFacePreset.ColorType mColorType;
         private Drawable mColorSwatchDrawable = new Drawable() {
+            private Paint mCirclePaint;
+
             @Override
             public void draw(@NonNull Canvas canvas) {
                 if (mColorType == null) return;
@@ -804,13 +806,16 @@ public class ConfigRecyclerViewAdapter
 
                 // Draw a circle that's 20px from right, top and left borders.
                 float radius = (canvas.getClipBounds().height() / 2f) - 20f;
-                Paint p = new Paint();
-                p.setColor(color);
-                p.setStyle(Paint.Style.FILL);
-                p.setAntiAlias(true);
+                if (mCirclePaint == null) {
+                    // Initialise on first use.
+                    mCirclePaint = new Paint();
+                    mCirclePaint.setColor(color);
+                    mCirclePaint.setStyle(Paint.Style.FILL);
+                    mCirclePaint.setAntiAlias(true);
+                }
                 android.graphics.Rect r = canvas.getClipBounds();
                 canvas.drawCircle(r.right - 20f - radius,
-                        (r.top + r.bottom) / 2f, radius, p);
+                        (r.top + r.bottom) / 2f, radius, mCirclePaint);
             }
 
             @Override
