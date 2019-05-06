@@ -45,7 +45,6 @@ import android.graphics.PixelFormat;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -68,8 +67,7 @@ import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 public class ColorSelectionActivity extends Activity {
 
     static final String INTENT_EXTRA_COLOR =
-            "pro.watchkit.wearable.watchface.config.extra.INTENT_EXTRA_COLOR";
-    private static final String TAG = ColorSelectionActivity.class.getSimpleName();
+            ColorSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_COLOR";
 
     private int[][] mRows;
     private RectF[][] mRectFs;
@@ -83,12 +81,6 @@ public class ColorSelectionActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_color_selection_config);
-
-        // Assigns SharedPreference String used to save color selected.
-//        String sharedPrefString = getIntent().getStringExtra(INTENT_EXTRA_COLOR);
-//        WatchFacePreset.ColorType type =
-//                WatchFacePreset.ColorType.valueOf(sharedPrefString);
-
         // Reload our current WatchFacePreset.
         // So we can get our currently selected color.
         SharedPreferences preferences = getSharedPreferences(
@@ -201,8 +193,8 @@ public class ColorSelectionActivity extends Activity {
                 new RectF[row6.length]
         };
 
-        ImageView mColorImageView = findViewById(R.id.color);
-        mColorImageView.setImageDrawable(new Drawable() {
+        ImageView colorImageView = findViewById(R.id.color);
+        colorImageView.setImageDrawable(new Drawable() {
             @Override
             public void draw(@NonNull Canvas canvas) {
                 @ColorInt int currentColor;
@@ -277,12 +269,10 @@ public class ColorSelectionActivity extends Activity {
 
             @Override
             public void setAlpha(int alpha) {
-
             }
 
             @Override
             public void setColorFilter(@Nullable ColorFilter colorFilter) {
-
             }
 
             @Override
@@ -291,7 +281,7 @@ public class ColorSelectionActivity extends Activity {
             }
         });
 
-        mColorImageView.setOnTouchListener(new View.OnTouchListener() {
+        colorImageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -302,72 +292,55 @@ public class ColorSelectionActivity extends Activity {
             }
         });
 
-        mColorImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Just do a linear search through all 64 colors.
-                // Not necessarily quick, but probably quick enough.
-                String s = "";
-                boolean foundPrimary = false, foundSecondary = false;
-                int iPrimary = -1, jPrimary = -1;
-                int iSecondary = -1, jSecondary = -1;
+        colorImageView.setOnClickListener(v -> {
+            // Just do a linear search through all 64 colors.
+            // Not necessarily quick, but probably quick enough.
+            boolean foundPrimary = false, foundSecondary = false;
+            int iPrimary = -1, jPrimary = -1;
+            int iSecondary = -1, jSecondary = -1;
 
-                // Loop through each rect, checking for a hit against each rect.
-                // Each click could potentially hit one or two mRectFs, so store
-                // hits in primary and secondary co-ordinates.
-                outerLoop:
-                for (int i = 0; i < mRectFs.length; i++) {
-                    for (int j = 0; j < mRectFs[i].length; j++) {
-                        if (mRectFs[i][j] != null && mRectFs[i][j].contains(mLastTouchX, mLastTouchY)) {
-                            if (!foundPrimary) {
-                                foundPrimary = true;
-                                iPrimary = i;
-                                jPrimary = j;
-                            } else {
-                                iSecondary = i;
-                                jSecondary = j;
-                                foundSecondary = true;
-                                break outerLoop;
-                            }
+            // Loop through each rect, checking for a hit against each rect.
+            // Each click could potentially hit one or two mRectFs, so store
+            // hits in primary and secondary co-ordinates.
+            outerLoop:
+            for (int i = 0; i < mRectFs.length; i++) {
+                for (int j = 0; j < mRectFs[i].length; j++) {
+                    if (mRectFs[i][j] != null && mRectFs[i][j].contains(mLastTouchX, mLastTouchY)) {
+                        if (!foundPrimary) {
+                            foundPrimary = true;
+                            iPrimary = i;
+                            jPrimary = j;
+                        } else {
+                            iSecondary = i;
+                            jSecondary = j;
+                            foundSecondary = true;
+                            break outerLoop;
                         }
                     }
                 }
-                if (foundPrimary) {
-                    s = "Primary: " + paintBox.getColorName(mRows[iPrimary][jPrimary]);
-                    if (foundSecondary) {
-                        s += ", ";
-                    }
-                }
-                if (foundSecondary) {
-                    s += "Secondary: " + paintBox.getColorName(mRows[iSecondary][jSecondary]);
-                }
-                if (s.length() == 0) {
-                    s = "nothing? x = " + mLastTouchX + ", y = " + mLastTouchY;
-                }
-                if (foundPrimary && foundSecondary) {
-                    // Find whether the touch is closer to primary or secondary.
-                    float primaryX = mRectFs[iPrimary][jPrimary].centerX();
-                    float primaryY = mRectFs[iPrimary][jPrimary].centerY();
-                    float secondaryX = mRectFs[iSecondary][jSecondary].centerX();
-                    float secondaryY = mRectFs[iSecondary][jSecondary].centerY();
+            }
 
-                    float primaryDistance = Math.abs(mLastTouchX - primaryX) +
-                            Math.abs(mLastTouchY - primaryY);
-                    float secondaryDistance = Math.abs(mLastTouchX - secondaryX) +
-                            Math.abs(mLastTouchY - secondaryY);
+            if (foundPrimary && foundSecondary) {
+                // Find whether the touch is closer to primary or secondary.
+                float primaryX = mRectFs[iPrimary][jPrimary].centerX();
+                float primaryY = mRectFs[iPrimary][jPrimary].centerY();
+                float secondaryX = mRectFs[iSecondary][jSecondary].centerX();
+                float secondaryY = mRectFs[iSecondary][jSecondary].centerY();
 
-                    s += " - choosing ";
-                    if (primaryDistance < secondaryDistance) {
-                        s += "Primary: " + paintBox.getColorName(mRows[iPrimary][jPrimary]);
-                        setSixBitColor(mRows[iPrimary][jPrimary], preset, paintBox);
-                    } else {
-                        s += "Secondary: " + paintBox.getColorName(mRows[iSecondary][jSecondary]);
-                        setSixBitColor(mRows[iSecondary][jSecondary], preset, paintBox);
-                    }
-                } else if (foundPrimary) {
+                float primaryDistance = Math.abs(mLastTouchX - primaryX) +
+                        Math.abs(mLastTouchY - primaryY);
+                float secondaryDistance = Math.abs(mLastTouchX - secondaryX) +
+                        Math.abs(mLastTouchY - secondaryY);
+
+                // So, which is closer? Set that.
+                if (primaryDistance < secondaryDistance) {
                     setSixBitColor(mRows[iPrimary][jPrimary], preset, paintBox);
+                } else {
+                    setSixBitColor(mRows[iSecondary][jSecondary], preset, paintBox);
                 }
-                Log.d(TAG, "Touched " + s);
+            } else if (foundPrimary) {
+                // No secondary. Hit right in the middle of the primary. Just set based on that.
+                setSixBitColor(mRows[iPrimary][jPrimary], preset, paintBox);
             }
         });
     }
@@ -410,11 +383,10 @@ public class ColorSelectionActivity extends Activity {
                 toastText = "???\nColor";
                 break;
         }
-        Log.d("AnalogWatchFace", "Write: " + preset.getString());
 
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(getString(R.string.saved_watch_face_preset), preset.getString());
-        editor.commit();
+        editor.apply();
 
         // Lets Complication Config Activity know there was an update to colors.
         setResult(Activity.RESULT_OK);

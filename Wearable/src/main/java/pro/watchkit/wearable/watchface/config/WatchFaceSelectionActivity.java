@@ -35,19 +35,13 @@
 package pro.watchkit.wearable.watchface.config;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.wear.widget.WearableRecyclerView;
 
 import pro.watchkit.wearable.watchface.R;
-import pro.watchkit.wearable.watchface.model.PaintBox;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 
 /**
  * Allows user to select a WatchFacePreset and
@@ -57,14 +51,9 @@ import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 public class WatchFaceSelectionActivity extends Activity {
 
     static final String INTENT_EXTRA_PRESETS =
-            "pro.watchkit.wearable.watchface.config.extra.INTENT_EXTRA_PRESETS";
+            WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_PRESETS";
     static final String INTENT_EXTRA_SETTINGS =
-            "pro.watchkit.wearable.watchface.config.extra.INTENT_EXTRA_SETTINGS";
-    private static final String TAG = WatchFaceSelectionActivity.class.getSimpleName();
-
-    private WearableRecyclerView mWearableRecyclerView;
-
-    private WatchFaceSelectionRecyclerViewAdapter mWatchFaceSelectionRecyclerViewAdapter;
+            WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_SETTINGS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,76 +63,20 @@ public class WatchFaceSelectionActivity extends Activity {
         String[] watchFacePresetStrings = getIntent().getStringArrayExtra(INTENT_EXTRA_PRESETS);
         String[] settingsStrings = getIntent().getStringArrayExtra(INTENT_EXTRA_SETTINGS);
 
-        mWatchFaceSelectionRecyclerViewAdapter =
+        WatchFaceSelectionRecyclerViewAdapter recyclerViewAdapter =
                 new WatchFaceSelectionRecyclerViewAdapter(watchFacePresetStrings, settingsStrings);
 
-        mWearableRecyclerView =
-                findViewById(R.id.wearable_recycler_view);
+        WearableRecyclerView view = findViewById(R.id.wearable_recycler_view);
 
         // Aligns the first and last items on the list vertically centered on the screen.
-        mWearableRecyclerView.setEdgeItemsCenteringEnabled(true);
+        view.setEdgeItemsCenteringEnabled(true);
 
-        mWearableRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        view.setLayoutManager(new LinearLayoutManager(this));
 
         // Improves performance because we know changes in content do not change the layout size of
         // the RecyclerView.
-        mWearableRecyclerView.setHasFixedSize(true);
+        view.setHasFixedSize(true);
 
-        mWearableRecyclerView.setAdapter(mWatchFaceSelectionRecyclerViewAdapter);
-    }
-
-    /**
-     * Save the given color to preferences. We extract the WatchFacePreset held in preferences,
-     * then change the color type pre-stored in INTENT_EXTRA_PRESETS, then save the WatchFacePreset
-     * back to preferences.
-     *
-     * @param sixBitColor New 6-bit color to set (between 0 and 63)
-     * @param preset      WatchFacePreset to modify and write
-     * @param paintBox    PaintBox to get the color names from, for display purposes
-     */
-    private void setSixBitColor(int sixBitColor, WatchFacePreset preset, PaintBox paintBox) {
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.analog_complication_preference_file_key),
-                Context.MODE_PRIVATE);
-
-        String sharedPrefString = getIntent().getStringExtra(INTENT_EXTRA_PRESETS);
-        WatchFacePreset.ColorType colorType = WatchFacePreset.ColorType.valueOf(sharedPrefString);
-        String toastText;
-
-        preset.setSixBitColor(colorType, sixBitColor);
-
-        switch (colorType) {
-            case FILL:
-                toastText = getString(R.string.config_fill_color_label);
-                break;
-            case ACCENT:
-                toastText = getString(R.string.config_accent_color_label);
-                break;
-            case HIGHLIGHT:
-                toastText = getString(R.string.config_marker_color_label);
-                break;
-            case BASE:
-                toastText = getString(R.string.config_base_color_label);
-                break;
-            default:
-                // Should never happen...
-                toastText = "???\nColor";
-                break;
-        }
-        Log.d("AnalogWatchFace", "Write: " + preset.getString());
-
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(getString(R.string.saved_watch_face_preset), preset.getString());
-        editor.commit();
-
-        // Lets Complication Config Activity know there was an update to colors.
-        setResult(Activity.RESULT_OK);
-
-        // Show a toast popup with the color we just selected.
-        toastText = toastText.replace('\n', ' ') +
-                ":\n" + paintBox.getColorName(sixBitColor);
-        Toast.makeText(this, toastText, Toast.LENGTH_LONG).show();
-
-        finish();
+        view.setAdapter(recyclerViewAdapter);
     }
 }
