@@ -277,17 +277,16 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
         public void onPropertiesChanged(Bundle properties) {
             super.onPropertiesChanged(properties);
 
+            // The properties that matter to us.
             boolean lowBitAmbient = properties.getBoolean(PROPERTY_LOW_BIT_AMBIENT, false);
             boolean burnInProtection = properties.getBoolean(PROPERTY_BURN_IN_PROTECTION, false);
 
-//            painter.setLowBitAmbientBurnInProtection(lowBitAmbient, burnInProtection);
+            // Set low-bit ambient on our ambient watch face paint as required.
             getWatchFaceState().getPaintBox().getAmbientPaint().setAntiAlias(!lowBitAmbient);
 
-            // Updates complications to properly render in ambient mode based on the
-            // screen's capabilities.
-            for (ComplicationHolder complication : getWatchFaceState().getComplications()) {
-                complication.setLowBitAmbientBurnInProtection(lowBitAmbient, burnInProtection);
-            }
+            // Set low-bit ambient and burn-in protection on our complications as required.
+            getWatchFaceState().getComplications().forEach(
+                    c -> c.setLowBitAmbientBurnInProtection(lowBitAmbient, burnInProtection));
         }
 
         /*
