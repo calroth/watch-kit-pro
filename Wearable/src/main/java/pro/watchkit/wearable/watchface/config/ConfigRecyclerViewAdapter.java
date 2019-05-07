@@ -721,13 +721,8 @@ public class ConfigRecyclerViewAdapter
                     .getBackground()
                     .setColorFilter(backgroundColorFilter);
 
-            //final int[] complicationIds = AnalogComplicationWatchFaceService.getComplicationIds();
-            int[] complicationIds = new int[complications.size()];
-            int i = 0;
-            for (ComplicationHolder complication : complications) {
-                complicationIds[i] = complication.getId();
-                i++;
-            }
+            int[] complicationIds =
+                    complications.stream().mapToInt(ComplicationHolder::getId).toArray();
 
             mProviderInfoRetriever.retrieveProviderInfo(
                     new OnProviderInfoReceivedCallback() {
