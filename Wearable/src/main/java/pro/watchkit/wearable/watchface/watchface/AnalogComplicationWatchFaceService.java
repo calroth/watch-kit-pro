@@ -305,8 +305,9 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
         @Override
         public void onTapCommand(int tapType, int x, int y, long eventTime) {
+            boolean handled = false;
             if (tapType == TAP_TYPE_TAP) {
-                getWatchFaceState().onComplicationTap(x, y);
+                handled = getWatchFaceState().onComplicationTap(x, y);
             }
 //            switch (tapType) {
 //                case TAP_TYPE_TAP:
@@ -315,6 +316,9 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 //                    }
 //                    break;
 //            }
+            if (!handled) {
+                super.onTapCommand(tapType, x, y, eventTime);
+            }
         }
 
         @Override
