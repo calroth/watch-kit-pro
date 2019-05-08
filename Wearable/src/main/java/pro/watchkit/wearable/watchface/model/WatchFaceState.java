@@ -143,29 +143,28 @@ public class WatchFaceState {
         // Update drawable complications' ambient state.
         // Note: ComplicationDrawable handles switching between active/ambient colors, we just
         // have to inform it to enter ambient mode.
-        for (ComplicationHolder complication : mComplications) {
-            complication.setAmbientMode(inAmbientMode);
-        }
+        mComplications.forEach(c -> c.setAmbientMode(inAmbientMode));
     }
 
     public void onComplicationDataUpdate(
             int complicationId, ComplicationData complicationData) {
         // Updates correct ComplicationDrawable with updated data.
-        for (ComplicationHolder complication : mComplications) {
-            if (complication.getId() == complicationId) {
-                switch (complicationData.getType()) {
-                    case ComplicationData.TYPE_EMPTY:
-                    case ComplicationData.TYPE_NO_DATA:
-                    case ComplicationData.TYPE_NOT_CONFIGURED:
-                    case ComplicationData.TYPE_NO_PERMISSION:
-                        complication.isActive = false;
-                        break;
-                    default:
-                        complication.isActive = true;
+        mComplications.stream().filter(c -> c.getId() == complicationId).forEach(c -> {
+            switch (complicationData.getType()) {
+                case ComplicationData.TYPE_EMPTY:
+                case ComplicationData.TYPE_NO_DATA:
+                case ComplicationData.TYPE_NOT_CONFIGURED:
+                case ComplicationData.TYPE_NO_PERMISSION: {
+                    c.isActive = false;
+                    break;
                 }
-                complication.setComplicationData(complicationData);
+                default: {
+                    c.isActive = true;
+                    break;
+                }
             }
-        }
+            c.setComplicationData(complicationData);
+        });
     }
 
     public boolean onComplicationTap(int x, int y) {
@@ -225,14 +224,7 @@ public class WatchFaceState {
         // properties for all complications, i.e., iterate over them all.
         setComplicationColors();
 
-        int[] complicationIds = new int[mComplications.size()];
-        int i = 0;
-        for (ComplicationHolder complication : mComplications) {
-            complicationIds[i] = complication.getId();
-            i++;
-        }
-
-        return complicationIds;
+        return mComplications.stream().mapToInt(ComplicationHolder::getId).toArray();
     }
 
     public void onSurfaceChanged(int width, int height) {
@@ -313,36 +305,8 @@ public class WatchFaceState {
         @ColorInt int ambientColor = Color.WHITE;
         // TODO: hook that up to the night vision tint when after dark
 
-        for (ComplicationHolder complication : mComplications) {
-            complication.setColors(activeColor, ambientColor);
-        }
+        mComplications.forEach(c -> c.setColors(activeColor, ambientColor));
     }
-
-    /**
-     * Run this method if we're in ambient mode. Re-calculate our complication colors in ambient
-     * mode and update them if they've changed.
-     */
-//    public void preDrawAmbientCheck() {
-//        int newComplicationWhite = mLocationCalculator.getDuskDawnColor(COMPLICATION_AMBIENT_WHITE);
-//        int newComplicationGrey = mLocationCalculator.getDuskDawnColor(COMPLICATION_AMBIENT_GREY);
-//
-//        if (currentComplicationWhite != newComplicationWhite
-//                || currentComplicationGrey != newComplicationGrey) {
-//            for (ComplicationHolder complication : mComplications) {
-//                complication.setAmbientColors(
-//                        newComplicationWhite, newComplicationGrey, newComplicationGrey);
-//            }
-//
-//            // Why go to the trouble of tracking current and new complication colors,
-//            // and only updating when it's changed?
-//
-//            // Optimisation. We assume that setting colors on ComplicationDrawable is a
-//            // heinously slow operation (it probably isn't though) and so we avoid it...
-//
-//            currentComplicationWhite = newComplicationWhite;
-//            currentComplicationGrey = newComplicationGrey;
-//        }
-//    }
 
     public LocationCalculator getLocationCalculator() {
         return mLocationCalculator;
