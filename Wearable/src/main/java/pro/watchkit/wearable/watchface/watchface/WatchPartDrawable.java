@@ -34,11 +34,11 @@ import android.os.SystemClock;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 abstract class WatchPartDrawable extends Drawable {
     WatchFaceState mWatchFaceState;
-    int height = 0, width = 0;
     float pc = 0f; // percent, set to 0.01f * height, all units are based on percent
     float mCenterX, mCenterY;
 
@@ -74,7 +74,7 @@ abstract class WatchPartDrawable extends Drawable {
      *
      * @return Our current direction, which is flipped from the last call to this method
      */
-    protected Path.Direction getDirection() {
+    Path.Direction getDirection() {
         mDirection = mDirection == Path.Direction.CCW ? Path.Direction.CW : Path.Direction.CCW;
         return mDirection;
     }
@@ -268,8 +268,8 @@ abstract class WatchPartDrawable extends Drawable {
     protected void onBoundsChange(Rect bounds) {
         super.onBoundsChange(bounds);
 
-        width = bounds.width();
-        height = bounds.height();
+        int width = bounds.width();
+        int height = bounds.height();
         pc = 0.01f * Math.min(height, width);
         /*
          * Find the coordinates of the center point on the screen, and ignore the window
