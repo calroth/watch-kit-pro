@@ -186,7 +186,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                     new WatchFaceGlobalCacheDrawable(
                             WatchFaceGlobalDrawable.PART_BACKGROUND |
                                     WatchFaceGlobalDrawable.PART_NOTIFICATIONS |
-                                    WatchFaceGlobalDrawable.PART_RINGS |
+                                    WatchFaceGlobalDrawable.PART_RINGS_ACTIVE |
                                     WatchFaceGlobalDrawable.PART_TICKS),
                     WatchFaceGlobalDrawable.PART_COMPLICATIONS |
                             WatchFaceGlobalDrawable.PART_HANDS |
