@@ -23,15 +23,22 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 
+import androidx.annotation.NonNull;
+
 import java.util.Collection;
 
-import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 
 final class WatchPartRingsDrawable extends WatchPartDrawable {
     private Path p = new Path();
     private Path rings = new Path();
     private Path holes = new Path();
+
+    private boolean mDrawAllRings = false;
+
+    void setDrawAllRings(boolean drawAllRings) {
+        mDrawAllRings = drawAllRings;
+    }
 
     @Override
     String getStatsName() {
@@ -51,15 +58,14 @@ final class WatchPartRingsDrawable extends WatchPartDrawable {
         holes.reset();
 
         // Calculate our rings and holes!
-        for (ComplicationHolder complication : complications) {
-            if (complication.isForeground && complication.isActive) {
-                Rect r = complication.getBounds();
-                rings.addCircle(r.exactCenterX(), r.exactCenterY(),
-                        1.05f * r.width() / 2f, getDirection());
-                holes.addCircle(r.exactCenterX(), r.exactCenterY(),
-                        1.01f * r.width() / 2f, getDirection());
-            }
-        }
+        complications.stream().filter(c -> c.isForeground && (c.isActive || mDrawAllRings))
+                .forEach(c -> {
+                    Rect r = c.getBounds();
+                    rings.addCircle(r.exactCenterX(), r.exactCenterY(),
+                            1.05f * r.width() / 2f, getDirection());
+                    holes.addCircle(r.exactCenterX(), r.exactCenterY(),
+                            1.01f * r.width() / 2f, getDirection());
+                });
 
         // If not ambient, actually draw our complication rings.
         if (!mWatchFaceState.isAmbient()) {
