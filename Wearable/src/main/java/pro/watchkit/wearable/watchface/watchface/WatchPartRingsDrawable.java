@@ -36,7 +36,12 @@ final class WatchPartRingsDrawable extends WatchPartDrawable {
 
     private boolean mDrawAllRings = false;
 
-    void setDrawAllRings(boolean drawAllRings) {
+    WatchPartRingsDrawable() {
+        super();
+    }
+
+    WatchPartRingsDrawable(boolean drawAllRings) {
+        super();
         mDrawAllRings = drawAllRings;
     }
 

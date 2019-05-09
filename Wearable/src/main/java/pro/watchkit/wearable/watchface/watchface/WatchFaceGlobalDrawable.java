@@ -109,9 +109,7 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
         if ((flags & PART_RINGS_ACTIVE) > 0) {
             d.add(new WatchPartRingsDrawable());
         } else if ((flags & PART_RINGS_ALL) > 0) {
-            WatchPartRingsDrawable w = new WatchPartRingsDrawable();
-            w.setDrawAllRings(true);
-            d.add(w);
+            d.add(new WatchPartRingsDrawable(true));
         }
         if ((flags & PART_TICKS_FOUR) > 0) {
             d.add(new WatchPartTicksFourDrawable());
