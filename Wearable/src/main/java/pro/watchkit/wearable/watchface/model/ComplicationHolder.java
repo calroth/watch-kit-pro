@@ -29,7 +29,6 @@ import android.support.wearable.complications.ComplicationData;
 import android.support.wearable.complications.ComplicationProviderInfo;
 import android.support.wearable.complications.rendering.ComplicationDrawable;
 import android.util.Log;
-import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -59,27 +58,19 @@ public final class ComplicationHolder implements Drawable.Callback {
     private boolean mActiveBitmapInvalidated = true;
     private Bitmap mAmbientBitmap;
     private Bitmap mActiveBitmap;
+    private Drawable mProviderIconDrawable;
+    private Context mContext;
 
     public void setImageButton(ImageButton imageButton, OnClickListener onClickListener) {
         mImageButton = imageButton;
         mImageButton.setOnClickListener(onClickListener);
     }
 
-    public void setImageButtonIcon(ComplicationProviderInfo complicationProviderInfo) {
-        mImageButton.setImageIcon(complicationProviderInfo.providerIcon);
-    }
-
-    public void setImageButtonDrawable(Drawable drawable) {
-        mImageButton.setImageDrawable(drawable);
-    }
-
-    public void setImageButtonContentDescription(CharSequence contentDescription) {
-        mImageButton.setContentDescription(contentDescription);
-    }
-
     public ComplicationHolder(Context context) {
         id = BASE_ID;
         BASE_ID++;
+
+        mContext = context;
 
         if (context != null) {
             drawable = new ComplicationDrawable(context);
@@ -100,6 +91,26 @@ public final class ComplicationHolder implements Drawable.Callback {
 //            drawable.setTitleTypefaceActive(d);
 //            drawable.setTitleTypefaceAmbient(d);
 //        }
+    }
+
+    public void setImageButtonDrawable(Drawable drawable) {
+        mImageButton.setImageDrawable(drawable);
+    }
+
+    public void setImageButtonContentDescription(CharSequence contentDescription) {
+        mImageButton.setContentDescription(contentDescription);
+    }
+
+    public void setImageButtonIcon(ComplicationProviderInfo complicationProviderInfo) {
+        if (complicationProviderInfo != null && complicationProviderInfo.providerIcon != null) {
+            if (mImageButton != null) {
+                mImageButton.setImageIcon(complicationProviderInfo.providerIcon);
+            }
+            mProviderIconDrawable = complicationProviderInfo.providerIcon.loadDrawable(mContext);
+            if (mBounds != null) {
+                mProviderIconDrawable.setBounds(mBounds);
+            }
+        }
     }
 
     public static void resetBaseId() {
@@ -159,6 +170,9 @@ public final class ComplicationHolder implements Drawable.Callback {
                         Bitmap.Config.ARGB_8888);
             } else {
                 drawable.setBounds(mBounds);
+                if (mProviderIconDrawable != null) {
+                    mProviderIconDrawable.setBounds(mBounds);
+                }
             }
             invalidate();
         }
@@ -284,6 +298,8 @@ public final class ComplicationHolder implements Drawable.Callback {
     public void draw(Canvas canvas, long currentTimeMillis) {
         if (cacheImages) {
             canvas.drawBitmap(mIsInAmbientMode ? getAmbientBitmap(currentTimeMillis) : getActiveBitmap(currentTimeMillis), mBounds.left, mBounds.top, null);
+        } else if (mProviderIconDrawable != null) {
+            mProviderIconDrawable.draw(canvas);
         } else {
 //            Drawable.Callback obj = drawable.getCallback();
 //            Log.d("AnalogWatchFace", "Complication draw (id=" + getId()
