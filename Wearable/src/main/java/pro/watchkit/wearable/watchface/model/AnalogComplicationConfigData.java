@@ -36,9 +36,10 @@ package pro.watchkit.wearable.watchface.model;
 
 import android.content.Context;
 
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
+
 import java.util.ArrayList;
 
-import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
 import pro.watchkit.wearable.watchface.config.ConfigRecyclerViewAdapter;
@@ -50,14 +51,6 @@ import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceServ
  * via {@link ConfigActivity}.
  */
 public class AnalogComplicationConfigData extends ConfigData {
-    /**
-     * Returns Watch Face Service class associated with configuration Activity.
-     */
-    @Override
-    public Class getWatchFaceServiceClass() {
-        return AnalogComplicationWatchFaceService.class;
-    }
-
     /**
      * Includes all data to populate each of the 5 different custom
      * {@link ViewHolder} types in {@link ConfigRecyclerViewAdapter}.

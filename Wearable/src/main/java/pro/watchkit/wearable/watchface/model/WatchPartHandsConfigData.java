@@ -53,14 +53,6 @@ import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceServ
  */
 public class WatchPartHandsConfigData extends ConfigData {
     /**
-     * Returns Watch Face Service class associated with configuration Activity.
-     */
-    @Override
-    public Class getWatchFaceServiceClass() {
-        return WatchPartHandsConfigData.class;
-    }
-
-    /**
      * Includes all data to populate each of the 5 different custom
      * {@link ViewHolder} types in {@link ConfigRecyclerViewAdapter}.
      */

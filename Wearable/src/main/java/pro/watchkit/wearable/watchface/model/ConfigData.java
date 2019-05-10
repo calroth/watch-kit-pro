@@ -13,10 +13,15 @@ import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
 import pro.watchkit.wearable.watchface.config.ConfigRecyclerViewAdapter;
 import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
+import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
 abstract public class ConfigData {
-
-    abstract public Class getWatchFaceServiceClass();
+    /**
+     * Returns Watch Face Service class associated with configuration Activity.
+     */
+    final public Class getWatchFaceServiceClass() {
+        return AnalogComplicationWatchFaceService.class;
+    }
 
     /**
      * Includes all data to populate each of the 5 different custom
