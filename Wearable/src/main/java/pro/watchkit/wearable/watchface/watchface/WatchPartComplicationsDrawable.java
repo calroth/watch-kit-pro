@@ -21,7 +21,6 @@ package pro.watchkit.wearable.watchface.watchface;
 import android.graphics.Canvas;
 
 import androidx.annotation.NonNull;
-import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 
 final class WatchPartComplicationsDrawable extends WatchPartDrawable {
     @Override
@@ -31,8 +30,7 @@ final class WatchPartComplicationsDrawable extends WatchPartDrawable {
 
     @Override
     public void draw2(@NonNull Canvas canvas) {
-        for (ComplicationHolder complication : mWatchFaceState.getComplications()) {
-            complication.draw(canvas, mWatchFaceState.getTimeInMillis());
-        }
+        mWatchFaceState.getComplications()
+                .forEach(c -> c.draw(canvas, mWatchFaceState.getTimeInMillis()));
     }
 }
