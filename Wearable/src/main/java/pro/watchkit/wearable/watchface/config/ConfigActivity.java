@@ -45,6 +45,7 @@ import android.util.Log;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.wear.widget.WearableRecyclerView;
 import androidx.wear.widget.drawer.WearableNavigationDrawerView;
+
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData;
 import pro.watchkit.wearable.watchface.model.ColorsStylesConfigData;
@@ -116,25 +117,21 @@ public class ConfigActivity extends Activity {
                 findViewById(R.id.top_navigation_drawer);
         mWearableNavigationDrawer.setAdapter(new NavigationAdapter(this));
         mWearableNavigationDrawer.setCurrentItem(mCurrentSubActivity.ordinal(), false);
-        mWearableNavigationDrawer.addOnItemSelectedListener(
-                new WearableNavigationDrawerView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(int pos) {
-                        String configData = ConfigSubActivity.values()[pos].mClassName;
+        mWearableNavigationDrawer.addOnItemSelectedListener(pos -> {
+            String configData = ConfigSubActivity.values()[pos].mClassName;
 
-                        Intent launchIntent =
-                                new Intent(mWearableNavigationDrawer.getContext(), ConfigActivity.class);
+            Intent launchIntent =
+                    new Intent(mWearableNavigationDrawer.getContext(), ConfigActivity.class);
 
-                        // Add an intent to the launch to point it towards our sub-activity.
-                        if (configData != null) {
-                            launchIntent.putExtra(CONFIG_DATA, configData);
-                        }
+            // Add an intent to the launch to point it towards our sub-activity.
+            if (configData != null) {
+                launchIntent.putExtra(CONFIG_DATA, configData);
+            }
 
-                        Activity activity = (Activity) mWearableNavigationDrawer.getContext();
-                        activity.startActivity(launchIntent);
-                        finish(); // Remove this from the "back" stack, so it's a direct switch.
-                    }
-                });
+            Activity activity = (Activity) mWearableNavigationDrawer.getContext();
+            activity.startActivity(launchIntent);
+            finish(); // Remove this from the "back" stack, so it's a direct switch.
+        });
 
         // Give a hint it's there.
         mWearableNavigationDrawer.getController().peekDrawer();
