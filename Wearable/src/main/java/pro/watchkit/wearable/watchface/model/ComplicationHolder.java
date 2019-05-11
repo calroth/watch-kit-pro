@@ -51,7 +51,7 @@ public final class ComplicationHolder implements Drawable.Callback {
     private int id;
     private ComplicationDrawable drawable;
     private boolean mIsInAmbientMode = false;
-    private Rect mBounds;
+    private Rect mBounds, mInsetBounds;
     private long itWasMe = 0;
     private InvalidateCallback mInvalidateCallback;
     private boolean mAmbientBitmapInvalidated = true;
@@ -107,8 +107,8 @@ public final class ComplicationHolder implements Drawable.Callback {
                 mImageButton.setImageIcon(complicationProviderInfo.providerIcon);
             }
             mProviderIconDrawable = complicationProviderInfo.providerIcon.loadDrawable(mContext);
-            if (mBounds != null) {
-                mProviderIconDrawable.setBounds(mBounds);
+            if (mInsetBounds != null) {
+                mProviderIconDrawable.setBounds(mInsetBounds);
             }
         }
     }
@@ -160,6 +160,15 @@ public final class ComplicationHolder implements Drawable.Callback {
                     && mBounds.height() == bounds.height();
         }
         mBounds = bounds;
+        if (mInsetBounds == null) {
+            mInsetBounds = new Rect();
+        }
+        // Inset the bounds by 1 - (root 2 / 2).
+        // This effectively gives us a square inside the circle that we draw our icon into.
+        mInsetBounds.set(mBounds);
+        int insetX = (int) ((double) mBounds.width() * (1d - Math.sqrt(0.5d)) / 2d);
+        int insetY = (int) ((double) mBounds.height() * (1d - Math.sqrt(0.5d)) / 2d);
+        mInsetBounds.inset(insetX, insetY);
 
         if (dimensionsChanged) {
             if (cacheImages) {
