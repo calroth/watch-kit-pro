@@ -6,6 +6,7 @@ import android.text.Html;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -243,13 +244,10 @@ abstract public class ConfigData {
          * @return String array with each permutation
          */
         public String[] permute(WatchFacePreset permutation) {
-            String[] result = new String[mValues.length];
-            int i = 0;
-            for (E h : mValues) {
+            return Arrays.stream(mValues).map(h -> {
                 mSetter.accept(permutation, h);
-                result[i++] = permutation.getString();
-            }
-            return result;
+                return permutation.getString();
+            }).toArray(String[]::new);
         }
 
         /**
