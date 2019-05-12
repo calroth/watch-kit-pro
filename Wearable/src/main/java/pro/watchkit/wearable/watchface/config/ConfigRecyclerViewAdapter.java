@@ -69,6 +69,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -84,12 +85,15 @@ import pro.watchkit.wearable.watchface.model.ConfigData.MoreOptionsConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.NightVisionConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.PreviewAndComplicationsConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.UnreadNotificationConfigItem;
+import pro.watchkit.wearable.watchface.model.ConfigData.WatchFaceDrawableConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFacePickerConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFacePresetToggleConfigItem;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.Settings;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
+import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
+import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
 import static pro.watchkit.wearable.watchface.config.ConfigActivity.CONFIG_DATA;
@@ -136,9 +140,10 @@ public class ConfigRecyclerViewAdapter
     public static final int TYPE_UNREAD_NOTIFICATION_CONFIG = 3;
     public static final int TYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG = 4;
     public static final int TYPE_NIGHT_VISION_CONFIG = 5;
-    public static final int TYPE_WATCH_FACE_PRESET_PICKER_CONFIG = 6;
-    public static final int TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG = 7;
-    public static final int TYPE_CONFIG_ACTIVITY_CONFIG = 8;
+    public static final int TYPE_WATCH_FACE_DRAWABLE_CONFIG = 6;
+    public static final int TYPE_WATCH_FACE_PRESET_PICKER_CONFIG = 7;
+    public static final int TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG = 8;
+    public static final int TYPE_CONFIG_ACTIVITY_CONFIG = 9;
     private static final String TAG = "CompConfigAdapter";
     private SharedPreferences mSharedPref;
     private Collection<ComplicationHolder> complications;
@@ -281,6 +286,15 @@ public class ConfigRecyclerViewAdapter
                 break;
             }
 
+            case TYPE_WATCH_FACE_DRAWABLE_CONFIG: {
+                viewHolder =
+                        new WatchFaceDrawableViewHolder(
+                                LayoutInflater.from(parent.getContext())
+                                        .inflate(R.layout.watch_face_preset_config_list_item, parent, false));
+                mTicklish.add((Ticklish) viewHolder);
+                break;
+            }
+
             case TYPE_WATCH_FACE_PRESET_PICKER_CONFIG: {
                 viewHolder =
                         new WatchFacePresetPickerViewHolder(
@@ -390,6 +404,15 @@ public class ConfigRecyclerViewAdapter
                 ConfigActivityViewHolder configActivityViewHolder = (ConfigActivityViewHolder) viewHolder;
                 ConfigActivityConfigItem configActivityConfigItem = (ConfigActivityConfigItem) configItemType;
                 configActivityViewHolder.bind(configActivityConfigItem);
+                break;
+            }
+
+            case TYPE_WATCH_FACE_DRAWABLE_CONFIG: {
+                WatchFaceDrawableViewHolder watchFaceDrawableViewHolder =
+                        (WatchFaceDrawableViewHolder) viewHolder;
+                WatchFaceDrawableConfigItem watchFaceDrawableConfigItem =
+                        (WatchFaceDrawableConfigItem) configItemType;
+                watchFaceDrawableViewHolder.bind(watchFaceDrawableConfigItem);
                 break;
             }
 
@@ -752,6 +775,73 @@ public class ConfigRecyclerViewAdapter
          * Invalidate this object.
          */
         void tickle();
+    }
+
+    /**
+     * TODO: we really have to see if we can generalise it, it's the same code as in
+     * WatchFaceSElectionRecyclerViewAdapter
+     */
+    public class WatchFaceDrawableViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, Ticklish {
+
+        private ImageView mImageView;
+
+        private WatchFaceGlobalDrawable mWatchFaceGlobalDrawable;
+
+        private WatchFaceDrawableConfigItem mConfigItem;
+
+        private Context mContext;
+
+        WatchFaceDrawableViewHolder(final View view) {
+            super(view);
+            mImageView = view.findViewById(R.id.watch_face_preset);
+            view.setOnClickListener(this);
+            mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(view.getContext(),
+                    WatchFaceGlobalDrawable.PART_BACKGROUND |
+                            WatchFaceGlobalDrawable.PART_RINGS_ALL |
+                            WatchFaceGlobalDrawable.PART_COMPLICATIONS);
+            mContext = view.getContext();
+        }
+
+        void bind(WatchFaceDrawableConfigItem configItem) {
+            mConfigItem = configItem;
+//            mLaunchActivity = configItem.getActivityToChoosePreference();
+//
+//            setTextAndVisibility();
+
+            // TODO: the below code is duplicated approx. 1 billion times, refactor it already!
+            String sharedPreferenceString = mContext.getString(R.string.saved_settings);
+            Settings settings = new Settings();
+            settings.setString(mSharedPref.getString(sharedPreferenceString, null));
+            String s = mSharedPref.getString(sharedPreferenceString, null);
+
+            setPreset(regenerateCurrentWatchFacePreset(mContext).getString(), s);
+        }
+
+        void setPreset(String watchFacePresetString, String settingsString) {
+            WatchFaceState w = mWatchFaceGlobalDrawable.getWatchFaceState();
+            if (watchFacePresetString != null) {
+                w.getWatchFacePreset().setString(watchFacePresetString);
+            }
+            if (settingsString != null) {
+                w.getSettings().setString(settingsString);
+            }
+            w.setNotifications(0, 0);
+            w.setAmbient(false);
+            int[] complicationIds = w.initializeComplications(mContext, this::tickle);
+            Arrays.stream(complicationIds).forEach(i -> Log.d("WatchFaceDrawableViewHolder", "ComplicationID " + i));
+            Log.d("WatchFaceDrawableViewHolder",
+                    "mImageView " + mImageView.getWidth() + "/" + mImageView.getHeight());
+            mImageView.setImageDrawable(mWatchFaceGlobalDrawable);
+        }
+
+        @Override
+        public void onClick(View view) {
+        }
+
+        public void tickle() {
+            itemView.invalidate();
+        }
     }
 
     /**

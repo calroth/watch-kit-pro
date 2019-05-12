@@ -89,6 +89,19 @@ abstract public class ConfigData {
     }
 
     /**
+     * Data for Watch Face Preview with Complications Preview item in RecyclerView.
+     */
+    public static class WatchFaceDrawableConfigItem implements ConfigItemType {
+        WatchFaceDrawableConfigItem() {
+        }
+
+        @Override
+        public int getConfigType() {
+            return ConfigRecyclerViewAdapter.TYPE_WATCH_FACE_DRAWABLE_CONFIG;
+        }
+    }
+
+    /**
      * Data for "more options" item in RecyclerView.
      */
     public static class MoreOptionsConfigItem implements ConfigItemType {
