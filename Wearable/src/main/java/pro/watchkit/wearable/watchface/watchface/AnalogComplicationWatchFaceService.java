@@ -370,8 +370,6 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
              * better readability.
              */
 
-            getWatchFaceState().onSurfaceChanged(width, height);
-
             WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_SURFACE;
             invalidate();
         }

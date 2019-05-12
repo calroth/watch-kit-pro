@@ -24,6 +24,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.Xfermode;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -49,8 +50,8 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
     public static final int PART_BACKGROUND = 1;
     static final int PART_NOTIFICATIONS = 2;
     static final int PART_RINGS_ACTIVE = 4;
-    static final int PART_RINGS_ALL = 8;
-    static final int PART_COMPLICATIONS = 16;
+    public static final int PART_RINGS_ALL = 8;
+    public static final int PART_COMPLICATIONS = 16;
     static final int PART_STATS = 32;
     private static final int PART_TICKS_FOUR = 64;
     private static final int PART_TICKS_TWELVE = 128;
@@ -148,6 +149,12 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
                 ((WatchFaceGlobalCacheDrawable) d).setWatchFaceState(mWatchFaceState, mExclusionPath);
             }
         }
+    }
+
+    @Override
+    protected void onBoundsChange(Rect bounds) {
+        super.onBoundsChange(bounds);
+        mWatchFaceState.recalculateComplicationBounds(bounds.width(), bounds.height());
     }
 
     @NonNull

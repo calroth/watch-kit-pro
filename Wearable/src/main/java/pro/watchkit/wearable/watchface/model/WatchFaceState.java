@@ -258,17 +258,15 @@ public class WatchFaceState {
         return mComplications.stream().mapToInt(ComplicationHolder::getId).toArray();
     }
 
-    public void onSurfaceChanged(int width, int height) {
-        /*
-         * Calculates location bounds for right and left circular complications. Please note,
-         * we are not demonstrating a long text complication in this watch face.
-         *
-         * We suggest using at least 1/4 of the screen width for circular (or squared)
-         * complications and 2/3 of the screen width for wide rectangular complications for
-         * better readability.
-         */
-
-        // For most Wear devices, width and height are the same, so we just chose one (width).
+    /**
+     * Recalculates the location bounds for our circular complications (both foreground and
+     * background). Call this if the size of our drawable changes with our overall height and
+     * width, and we'll put the complications somewhere within these bounds.
+     *
+     * @param width  Overall width of drawable
+     * @param height Overall height of drawable
+     */
+    public void recalculateComplicationBounds(int width, int height) {
         float sizeOfComplication = width / 4f;
         float midpointOfScreen = width / 2f;
 
