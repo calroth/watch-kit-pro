@@ -63,7 +63,8 @@ final class WatchPartRingsDrawable extends WatchPartDrawable {
         holes.reset();
 
         // Calculate our rings and holes!
-        complications.stream().filter(c -> c.isForeground && (c.isActive || mDrawAllRings))
+        complications.stream()
+                .filter(c -> c.isForeground && c.getBounds() != null && (c.isActive || mDrawAllRings))
                 .forEach(c -> {
                     Rect r = c.getBounds();
                     rings.addCircle(r.exactCenterX(), r.exactCenterY(),
