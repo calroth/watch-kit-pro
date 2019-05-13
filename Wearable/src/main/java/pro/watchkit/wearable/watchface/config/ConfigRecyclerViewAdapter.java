@@ -411,6 +411,12 @@ public class ConfigRecyclerViewAdapter
                         (WatchFaceDrawableViewHolder) viewHolder;
                 WatchFaceDrawableConfigItem watchFaceDrawableConfigItem =
                         (WatchFaceDrawableConfigItem) configItemType;
+
+                int defaultComplicationResourceId =
+                        watchFaceDrawableConfigItem.getDefaultComplicationResourceId();
+                watchFaceDrawableViewHolder.setDefaultComplicationDrawable(
+                        defaultComplicationResourceId);
+
                 watchFaceDrawableViewHolder.bind(watchFaceDrawableConfigItem);
                 break;
             }
@@ -787,6 +793,8 @@ public class ConfigRecyclerViewAdapter
 
         private WatchFaceGlobalDrawable mWatchFaceGlobalDrawable;
 
+        private Drawable mDefaultComplicationDrawable;
+
         private WatchFaceDrawableConfigItem mConfigItem;
 
         private Context mContext;
@@ -802,6 +810,10 @@ public class ConfigRecyclerViewAdapter
             mContext = view.getContext();
         }
 
+        void setDefaultComplicationDrawable(int resourceId) {
+            mDefaultComplicationDrawable = mContext.getDrawable(resourceId);
+        }
+
         void bind(WatchFaceDrawableConfigItem configItem) {
             mConfigItem = configItem;
 //            mLaunchActivity = configItem.getActivityToChoosePreference();
@@ -812,12 +824,13 @@ public class ConfigRecyclerViewAdapter
             String sharedPreferenceString = mContext.getString(R.string.saved_settings);
             Settings settings = new Settings();
             settings.setString(mSharedPref.getString(sharedPreferenceString, null));
-            String s = mSharedPref.getString(sharedPreferenceString, null);
+            String settingsString = mSharedPref.getString(sharedPreferenceString, null);
+            String watchFacePresetString = regenerateCurrentWatchFacePreset(mContext).getString();
 
-            setPreset(regenerateCurrentWatchFacePreset(mContext).getString(), s);
-        }
-
-        void setPreset(String watchFacePresetString, String settingsString) {
+//            setPreset(watchFacePresetString, settingsString);
+//        }
+//
+//        void setPreset(String watchFacePresetString, String settingsString) {
             WatchFaceState w = mWatchFaceGlobalDrawable.getWatchFaceState();
             if (watchFacePresetString != null) {
                 w.getWatchFacePreset().setString(watchFacePresetString);
@@ -828,6 +841,13 @@ public class ConfigRecyclerViewAdapter
             w.setNotifications(0, 0);
             w.setAmbient(false);
             int[] complicationIds = w.initializeComplications(mContext, this::tickle);
+
+            if (mDefaultComplicationDrawable != null) {
+                w.getComplications().stream().filter(c -> c.isForeground).forEach(c -> {
+                    c.setImageButtonDrawable(mDefaultComplicationDrawable);
+//                    c.background.setVisibility(View.INVISIBLE);
+                });
+            }
 
             mImageView.setImageDrawable(mWatchFaceGlobalDrawable);
 

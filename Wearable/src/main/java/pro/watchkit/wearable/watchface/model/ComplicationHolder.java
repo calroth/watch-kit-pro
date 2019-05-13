@@ -94,7 +94,11 @@ public final class ComplicationHolder implements Drawable.Callback {
     }
 
     public void setImageButtonDrawable(Drawable drawable) {
-        mImageButton.setImageDrawable(drawable);
+        if (mImageButton != null) {
+            mImageButton.setImageDrawable(drawable);
+        } else {
+            mProviderIconDrawable = drawable;
+        }
     }
 
     public void setImageButtonContentDescription(CharSequence contentDescription) {

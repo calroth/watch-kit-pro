@@ -61,7 +61,7 @@ public class AnalogComplicationConfigData extends ConfigData {
         ArrayList<ConfigItemType> settingsConfigData = new ArrayList<>();
 
         // Complication picker from watch face drawable.
-        settingsConfigData.add(new WatchFaceDrawableConfigItem());
+        settingsConfigData.add(new WatchFaceDrawableConfigItem(R.drawable.add_complication));
 
         // Data for Configure Colors and Styles sub-activity in settings Activity.
         settingsConfigData.add(new ConfigActivityConfigItem(
