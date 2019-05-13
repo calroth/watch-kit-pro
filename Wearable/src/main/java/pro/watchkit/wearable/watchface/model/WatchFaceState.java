@@ -267,8 +267,7 @@ public class WatchFaceState {
      * @param height Overall height of drawable
      */
     public void recalculateComplicationBounds(int width, int height) {
-        float sizeOfComplication = width / 4f;
-        float midpointOfScreen = width / 2f;
+        float sizeOfComplication = Math.min(width, height) / 4f;
 
         // Start "i" off with our complication rotation, between 0 and 0.75 of a circle width.
         float i;
@@ -298,10 +297,10 @@ public class WatchFaceState {
                 float degrees = (float) ((i + 0.5f) * Math.PI * 2 / mSettings.getComplicationCount());
 
                 float halfSize = sizeOfComplication / 2f;
-                float offset = midpointOfScreen / 2f;
+                float offset = sizeOfComplication;
 
-                float innerX = midpointOfScreen + (float) Math.sin(degrees) * offset;
-                float innerY = midpointOfScreen - (float) Math.cos(degrees) * offset;
+                float innerX = (width / 2f) + (float) Math.sin(degrees) * offset;
+                float innerY = (height / 2f) - (float) Math.cos(degrees) * offset;
 
                 Rect bounds =
                         // Left, Top, Right, Bottom
