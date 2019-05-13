@@ -267,7 +267,7 @@ public class WatchFaceState {
      * @param height Overall height of drawable
      */
     public void recalculateComplicationBounds(int width, int height) {
-        float sizeOfComplication = Math.min(width, height) / 4f;
+        float size = Math.min(width, height) / 4f;
 
         // Start "i" off with our complication rotation, between 0 and 0.75 of a circle width.
         float i;
@@ -296,27 +296,20 @@ public class WatchFaceState {
                 // Foreground
                 float degrees = (float) ((i + 0.5f) * Math.PI * 2 / mSettings.getComplicationCount());
 
-                float halfSize = sizeOfComplication / 2f;
-                float offset = sizeOfComplication;
+                float halfSize = size / 2f;
 
-                float innerX = (width / 2f) + (float) Math.sin(degrees) * offset;
-                float innerY = (height / 2f) - (float) Math.cos(degrees) * offset;
+                float innerX = (width / 2f) + (float) Math.sin(degrees) * size;
+                float innerY = (height / 2f) - (float) Math.cos(degrees) * size;
 
-                Rect bounds =
-                        // Left, Top, Right, Bottom
-                        new Rect((int) (innerX - halfSize),
-                                (int) (innerY - halfSize),
-                                (int) (innerX + halfSize),
-                                (int) (innerY + halfSize));
+                Rect bounds = new Rect((int) (innerX - halfSize), (int) (innerY - halfSize),
+                        (int) (innerX + halfSize), (int) (innerY + halfSize));
 
                 complication.setBounds(bounds);
                 i++;
             } else {
                 // Background
-                Rect screenForBackgroundBound =
-                        // Left, Top, Right, Bottom
-                        new Rect(0, 0, width, height);
-                complication.setBounds(screenForBackgroundBound);
+                Rect bounds = new Rect(0, 0, width, height);
+                complication.setBounds(bounds);
             }
         }
     }
