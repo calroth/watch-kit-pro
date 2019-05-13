@@ -69,7 +69,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -829,10 +828,22 @@ public class ConfigRecyclerViewAdapter
             w.setNotifications(0, 0);
             w.setAmbient(false);
             int[] complicationIds = w.initializeComplications(mContext, this::tickle);
-            Arrays.stream(complicationIds).forEach(i -> Log.d("WatchFaceDrawableViewHolder", "ComplicationID " + i));
-            Log.d("WatchFaceDrawableViewHolder",
-                    "mImageView " + mImageView.getWidth() + "/" + mImageView.getHeight());
+
             mImageView.setImageDrawable(mWatchFaceGlobalDrawable);
+
+            mProviderInfoRetriever.retrieveProviderInfo(
+                    new OnProviderInfoReceivedCallback() {
+                        @Override
+                        public void onProviderInfoReceived(
+                                int id,
+                                @Nullable ComplicationProviderInfo providerInfo) {
+                            w.getComplications().stream()
+                                    .filter(c -> c.getId() == id)
+                                    .forEach(c -> updateComplicationViews2(c, providerInfo));
+                        }
+                    },
+                    mWatchFaceComponentName,
+                    complicationIds);
         }
 
         @Override
@@ -841,6 +852,63 @@ public class ConfigRecyclerViewAdapter
 
         public void tickle() {
             itemView.invalidate();
+        }
+
+        void updateComplicationViews2(
+                ComplicationHolder complication, ComplicationProviderInfo complicationProviderInfo) {
+            Log.d(TAG, "updateComplicationViews(): id: " + complication);
+            Log.d(TAG, "\tinfo: " + complicationProviderInfo);
+
+            if (!complication.isForeground) {
+//                if (complicationProviderInfo != null) {
+//                    mBackgroundComplicationEnabled = true;
+//
+//                    // Since we can't get the background complication image outside of the
+//                    // watch face, we set the icon for that provider instead with a gray background.
+//                    PorterDuffColorFilter backgroundColorFilter =
+//                            new PorterDuffColorFilter(Color.GRAY, PorterDuff.Mode.SRC_ATOP);
+//
+//                    complication.background.getBackground()
+//                            .setColorFilter(backgroundColorFilter);
+//                    complication.background.setImageIcon(
+//                            complicationProviderInfo.providerIcon);
+//
+//                } else {
+//                    mBackgroundComplicationEnabled = false;
+//
+//                    // Clears icon for background if it was present before.
+//                    backgroundComplication.background.setImageResource(
+//                            android.R.color.transparent);
+//                    String backgroundSharedPrefString =
+//                            mContext.getString(R.string.saved_background_color);
+//                    int currentBackgroundColor =
+//                            mSharedPref.getInt(backgroundSharedPrefString, Color.BLACK);
+//
+//                    PorterDuffColorFilter backgroundColorFilter =
+//                            new PorterDuffColorFilter(
+//                                    currentBackgroundColor, PorterDuff.Mode.SRC_ATOP);
+//
+//                    backgroundComplication.background
+//                            .getBackground()
+//                            .setColorFilter(backgroundColorFilter);
+//                }
+            } else {
+                // Update complication view.
+                if (complicationProviderInfo != null) {
+                    complication.setImageButtonIcon(complicationProviderInfo);
+                    tickle();
+//                    complication.setImageButtonContentDescription(
+//                            mContext.getString(R.string.edit_complication,
+//                                    complicationProviderInfo.appName + " " +
+//                                            complicationProviderInfo.providerName));
+//                    complication.background.setVisibility(View.VISIBLE);
+//                } else {
+//                    complication.setImageButtonDrawable(mDefaultComplicationDrawable);
+//                    complication.setImageButtonContentDescription(
+//                            mContext.getString(R.string.add_complication));
+//                    complication.background.setVisibility(View.INVISIBLE);
+                }
+            }
         }
     }
 
