@@ -778,7 +778,7 @@ public class ConfigRecyclerViewAdapter
 
     /**
      * TODO: we really have to see if we can generalise it, it's the same code as in
-     * WatchFaceSElectionRecyclerViewAdapter
+     * WatchFaceSelectionRecyclerViewAdapter
      */
     public class WatchFaceDrawableViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, Ticklish {
