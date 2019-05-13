@@ -18,16 +18,12 @@
 
 package pro.watchkit.wearable.watchface.model;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.support.wearable.complications.ComplicationData;
-import android.support.wearable.complications.ComplicationProviderInfo;
-import android.support.wearable.complications.ProviderInfoRetriever;
 
 import androidx.annotation.ColorInt;
-import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,9 +31,6 @@ import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Objects;
 import java.util.TimeZone;
-import java.util.concurrent.Executors;
-
-import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
 /**
  * The state class for our watch face.
@@ -230,30 +223,6 @@ public class WatchFaceState {
         // Adds new complications to a SparseArray to simplify setting styles and ambient
         // properties for all complications, i.e., iterate over them all.
         setComplicationColors();
-
-        ProviderInfoRetriever mProviderInfoRetriever =
-                new ProviderInfoRetriever(context, Executors.newCachedThreadPool());
-        mProviderInfoRetriever.init();
-
-        int[] complicationIds =
-                mComplications.stream().mapToInt(ComplicationHolder::getId).toArray();
-        ComponentName mWatchFaceComponentName =
-                new ComponentName(context, AnalogComplicationWatchFaceService.class);
-
-        mProviderInfoRetriever.retrieveProviderInfo(
-                new ProviderInfoRetriever.OnProviderInfoReceivedCallback() {
-                    @Override
-                    public void onProviderInfoReceived(
-                            int watchFaceComplicationId,
-                            @Nullable ComplicationProviderInfo complicationProviderInfo) {
-                        mComplications.stream()
-                                .filter(c -> c.getId() == watchFaceComplicationId)
-                                .forEach(c -> c.setImageButtonIcon(complicationProviderInfo));
-//                        mProviderInfoRetriever.release();
-                    }
-                },
-                mWatchFaceComponentName,
-                complicationIds);
 
         return mComplications.stream().mapToInt(ComplicationHolder::getId).toArray();
     }
