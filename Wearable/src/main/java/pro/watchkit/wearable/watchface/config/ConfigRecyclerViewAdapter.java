@@ -55,6 +55,7 @@ import android.support.wearable.complications.ProviderInfoRetriever.OnProviderIn
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -70,7 +71,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Executors;
 
 import pro.watchkit.wearable.watchface.R;
@@ -787,7 +790,7 @@ public class ConfigRecyclerViewAdapter
      * WatchFaceSelectionRecyclerViewAdapter
      */
     public class WatchFaceDrawableViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener, Ticklish {
+            implements /*OnClickListener,*/ Ticklish {
 
         private ImageView mImageView;
 
@@ -799,75 +802,31 @@ public class ConfigRecyclerViewAdapter
 
         private Context mContext;
 
-        WatchFaceDrawableViewHolder(final View view) {
-            super(view);
-            mImageView = view.findViewById(R.id.watch_face_preset);
-            view.setOnClickListener(this);
-            mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(view.getContext(),
-                    WatchFaceGlobalDrawable.PART_BACKGROUND |
-                            WatchFaceGlobalDrawable.PART_RINGS_ALL |
-                            WatchFaceGlobalDrawable.PART_COMPLICATIONS);
-            mContext = view.getContext();
-        }
+        private float mLastTouchX = -1f, mLastTouchY = -1f;
+        private Activity mCurrentActivity;
 
         void setDefaultComplicationDrawable(int resourceId) {
             mDefaultComplicationDrawable = mContext.getDrawable(resourceId);
         }
 
-        void bind(WatchFaceDrawableConfigItem configItem) {
-            mConfigItem = configItem;
-//            mLaunchActivity = configItem.getActivityToChoosePreference();
-//
-//            setTextAndVisibility();
+        WatchFaceDrawableViewHolder(final View view) {
+            super(view);
+            mImageView = view.findViewById(R.id.watch_face_preset);
+//            view.setOnClickListener(this);
+            mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(view.getContext(),
+                    WatchFaceGlobalDrawable.PART_BACKGROUND |
+                            WatchFaceGlobalDrawable.PART_RINGS_ALL |
+                            WatchFaceGlobalDrawable.PART_COMPLICATIONS);
+            mContext = view.getContext();
+            mCurrentActivity = (Activity) view.getContext();
 
-            // TODO: the below code is duplicated approx. 1 billion times, refactor it already!
-            String sharedPreferenceString = mContext.getString(R.string.saved_settings);
-            Settings settings = new Settings();
-            settings.setString(mSharedPref.getString(sharedPreferenceString, null));
-            String settingsString = mSharedPref.getString(sharedPreferenceString, null);
-            String watchFacePresetString = regenerateCurrentWatchFacePreset(mContext).getString();
-
-//            setPreset(watchFacePresetString, settingsString);
-//        }
-//
-//        void setPreset(String watchFacePresetString, String settingsString) {
-            WatchFaceState w = mWatchFaceGlobalDrawable.getWatchFaceState();
-            if (watchFacePresetString != null) {
-                w.getWatchFacePreset().setString(watchFacePresetString);
-            }
-            if (settingsString != null) {
-                w.getSettings().setString(settingsString);
-            }
-            w.setNotifications(0, 0);
-            w.setAmbient(false);
-            int[] complicationIds = w.initializeComplications(mContext, this::tickle);
-
-            if (mDefaultComplicationDrawable != null) {
-                w.getComplications().stream().filter(c -> c.isForeground).forEach(c -> {
-                    c.setImageButtonDrawable(mDefaultComplicationDrawable);
-//                    c.background.setVisibility(View.INVISIBLE);
-                });
-            }
-
-            mImageView.setImageDrawable(mWatchFaceGlobalDrawable);
-
-            mProviderInfoRetriever.retrieveProviderInfo(
-                    new OnProviderInfoReceivedCallback() {
-                        @Override
-                        public void onProviderInfoReceived(
-                                int id,
-                                @Nullable ComplicationProviderInfo providerInfo) {
-                            w.getComplications().stream()
-                                    .filter(c -> c.getId() == id)
-                                    .forEach(c -> updateComplicationViews2(c, providerInfo));
-                        }
-                    },
-                    mWatchFaceComponentName,
-                    complicationIds);
-        }
-
-        @Override
-        public void onClick(View view) {
+            mImageView.setOnTouchListener((v, event) -> {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    mLastTouchX = event.getX();
+                    mLastTouchY = event.getY();
+                }
+                return false;
+            });
         }
 
         public void tickle() {
@@ -928,6 +887,97 @@ public class ConfigRecyclerViewAdapter
 //                            mContext.getString(R.string.add_complication));
 //                    complication.background.setVisibility(View.INVISIBLE);
                 }
+            }
+        }
+
+        void bind(WatchFaceDrawableConfigItem configItem) {
+            mConfigItem = configItem;
+//            mLaunchActivity = configItem.getActivityToChoosePreference();
+//
+//            setTextAndVisibility();
+
+            // TODO: the below code is duplicated approx. 1 billion times, refactor it already!
+            String sharedPreferenceString = mContext.getString(R.string.saved_settings);
+            Settings settings = new Settings();
+            settings.setString(mSharedPref.getString(sharedPreferenceString, null));
+            String settingsString = mSharedPref.getString(sharedPreferenceString, null);
+            String watchFacePresetString = regenerateCurrentWatchFacePreset(mContext).getString();
+
+//            setPreset(watchFacePresetString, settingsString);
+//        }
+//
+//        void setPreset(String watchFacePresetString, String settingsString) {
+            WatchFaceState w = mWatchFaceGlobalDrawable.getWatchFaceState();
+            if (watchFacePresetString != null) {
+                w.getWatchFacePreset().setString(watchFacePresetString);
+            }
+            if (settingsString != null) {
+                w.getSettings().setString(settingsString);
+            }
+            w.setNotifications(0, 0);
+            w.setAmbient(false);
+            int[] complicationIds = w.initializeComplications(mContext, this::tickle);
+
+            if (mDefaultComplicationDrawable != null) {
+                w.getComplications().stream().filter(c -> c.isForeground).forEach(c -> {
+                    c.setImageButtonDrawable(mDefaultComplicationDrawable);
+//                    c.background.setVisibility(View.INVISIBLE);
+                });
+            }
+
+            mImageView.setOnClickListener(v -> {
+                // Find out which thing got clicked!
+                if (mLastTouchX != -1f || mLastTouchY != -1f) {
+                    Optional<ComplicationHolder> nearest = w.getComplications().stream()
+                            .filter(c -> c.isForeground)
+                            .min(Comparator.comparing(c -> c.distanceFrom(mLastTouchX, mLastTouchY)));
+                    if (nearest.isPresent()) {
+                        launchComplicationHelperActivity(nearest.get());
+                    }
+                }
+            });
+
+            mImageView.setImageDrawable(mWatchFaceGlobalDrawable);
+
+            mProviderInfoRetriever.retrieveProviderInfo(
+                    new OnProviderInfoReceivedCallback() {
+                        @Override
+                        public void onProviderInfoReceived(
+                                int id,
+                                @Nullable ComplicationProviderInfo providerInfo) {
+                            w.getComplications().stream()
+                                    .filter(c -> c.getId() == id)
+                                    .forEach(c -> updateComplicationViews2(c, providerInfo));
+                        }
+                    },
+                    mWatchFaceComponentName,
+                    complicationIds);
+        }
+
+        // Verifies the watch face supports the complication location, then launches the helper
+        // class, so user can choose their complication data provider.
+        private void launchComplicationHelperActivity(ComplicationHolder complication) {
+            Log.d("Complication", "Launching for id " + complication.getId());
+
+            mSelectedComplication = complication;
+
+//            mBackgroundComplicationEnabled = false;
+
+            if (mSelectedComplication != null) {
+
+                ComponentName watchFace = new ComponentName(
+                        mCurrentActivity, AnalogComplicationWatchFaceService.class);
+
+                mCurrentActivity.startActivityForResult(
+                        ComplicationHelperActivity.createProviderChooserHelperIntent(
+                                mCurrentActivity,
+                                watchFace,
+                                mSelectedComplication.getId(),
+                                mSelectedComplication.getSupportedComplicationTypes()),
+                        ConfigActivity.COMPLICATION_CONFIG_REQUEST_CODE);
+
+            } else {
+                Log.d(TAG, "Complication not supported by watch face.");
             }
         }
     }
