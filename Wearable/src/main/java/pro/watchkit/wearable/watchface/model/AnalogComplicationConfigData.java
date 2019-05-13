@@ -60,16 +60,6 @@ public class AnalogComplicationConfigData extends ConfigData {
 
         ArrayList<ConfigItemType> settingsConfigData = new ArrayList<>();
 
-        // Data for watch face preview and complications UX in settings Activity.
-        ConfigItemType complicationConfigItem =
-                new PreviewAndComplicationsConfigItem(R.drawable.add_complication);
-        settingsConfigData.add(complicationConfigItem);
-
-        // Data for "more options" UX in settings Activity.
-        ConfigItemType moreOptionsConfigItem =
-                new MoreOptionsConfigItem(R.drawable.ic_expand_more_white_18dp);
-        settingsConfigData.add(moreOptionsConfigItem);
-
         // Complication picker from watch face drawable.
         settingsConfigData.add(new WatchFaceDrawableConfigItem());
 
