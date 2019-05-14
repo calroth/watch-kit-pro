@@ -67,26 +67,26 @@ abstract public class ConfigData {
         boolean isVisible(WatchFacePreset currentPreset);
     }
 
-    /**
-     * Data for Watch Face Preview with Complications Preview item in RecyclerView.
-     */
-    public static class PreviewAndComplicationsConfigItem implements ConfigItemType {
-
-        private int defaultComplicationResourceId;
-
-        PreviewAndComplicationsConfigItem(int defaultComplicationResourceId) {
-            this.defaultComplicationResourceId = defaultComplicationResourceId;
-        }
-
-        public int getDefaultComplicationResourceId() {
-            return defaultComplicationResourceId;
-        }
-
-        @Override
-        public int getConfigType() {
-            return ConfigRecyclerViewAdapter.TYPE_PREVIEW_AND_COMPLICATIONS_CONFIG;
-        }
-    }
+//    /**
+//     * Data for Watch Face Preview with Complications Preview item in RecyclerView.
+//     */
+//    public static class PreviewAndComplicationsConfigItem implements ConfigItemType {
+//
+//        private int defaultComplicationResourceId;
+//
+//        PreviewAndComplicationsConfigItem(int defaultComplicationResourceId) {
+//            this.defaultComplicationResourceId = defaultComplicationResourceId;
+//        }
+//
+//        public int getDefaultComplicationResourceId() {
+//            return defaultComplicationResourceId;
+//        }
+//
+//        @Override
+//        public int getConfigType() {
+//            return ConfigRecyclerViewAdapter.TYPE_PREVIEW_AND_COMPLICATIONS_CONFIG;
+//        }
+//    }
 
     /**
      * Data for Watch Face Preview with Complications Preview item in RecyclerView.

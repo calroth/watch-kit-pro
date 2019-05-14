@@ -26,11 +26,8 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.wearable.complications.ComplicationData;
-import android.support.wearable.complications.ComplicationProviderInfo;
 import android.support.wearable.complications.rendering.ComplicationDrawable;
 import android.util.Log;
-import android.view.View.OnClickListener;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.ColorInt;
@@ -46,7 +43,7 @@ public final class ComplicationHolder implements Drawable.Callback {
     private final Handler mHandler = new Handler();
     public boolean isForeground = false;
     public boolean isActive = false;
-    private ImageButton mImageButton;
+    //    private ImageButton mImageButton;
     public ImageView background;
     private int id;
     private ComplicationDrawable drawable;
@@ -59,18 +56,18 @@ public final class ComplicationHolder implements Drawable.Callback {
     private Bitmap mAmbientBitmap;
     private Bitmap mActiveBitmap;
     private Drawable mProviderIconDrawable;
-    private Context mContext;
+//    private Context mContext;
 
-    public void setImageButton(ImageButton imageButton, OnClickListener onClickListener) {
-        mImageButton = imageButton;
-        mImageButton.setOnClickListener(onClickListener);
-    }
+//    public void setImageButton(ImageButton imageButton, OnClickListener onClickListener) {
+//        mImageButton = imageButton;
+//        mImageButton.setOnClickListener(onClickListener);
+//    }
 
-    public ComplicationHolder(Context context) {
+    ComplicationHolder(Context context) {
         id = BASE_ID;
         BASE_ID++;
 
-        mContext = context;
+//        mContext = context;
 
         if (context != null) {
             drawable = new ComplicationDrawable(context);
@@ -93,29 +90,36 @@ public final class ComplicationHolder implements Drawable.Callback {
 //        }
     }
 
-    public void setImageButtonDrawable(Drawable drawable) {
-        if (mImageButton != null) {
-            mImageButton.setImageDrawable(drawable);
-        } else {
-            mProviderIconDrawable = drawable;
+//    public void setImageButtonDrawable(Drawable drawable) {
+//        if (mImageButton != null) {
+//            mImageButton.setImageDrawable(drawable);
+//        } else {
+//            mProviderIconDrawable = drawable;
+//        }
+//    }
+
+    public void setProviderIconDrawable(@NonNull Drawable drawable) {
+        mProviderIconDrawable = drawable;
+        if (mInsetBounds != null) {
+            mProviderIconDrawable.setBounds(mInsetBounds);
         }
     }
 
-    public void setImageButtonContentDescription(CharSequence contentDescription) {
-        mImageButton.setContentDescription(contentDescription);
-    }
-
-    public void setImageButtonIcon(ComplicationProviderInfo complicationProviderInfo) {
-        if (complicationProviderInfo != null && complicationProviderInfo.providerIcon != null) {
-            if (mImageButton != null) {
-                mImageButton.setImageIcon(complicationProviderInfo.providerIcon);
-            }
-            mProviderIconDrawable = complicationProviderInfo.providerIcon.loadDrawable(mContext);
-            if (mInsetBounds != null) {
-                mProviderIconDrawable.setBounds(mInsetBounds);
-            }
-        }
-    }
+//    public void setImageButtonContentDescription(CharSequence contentDescription) {
+//        mImageButton.setContentDescription(contentDescription);
+//    }
+//
+//    public void setImageButtonIcon(ComplicationProviderInfo complicationProviderInfo) {
+//        if (complicationProviderInfo != null && complicationProviderInfo.providerIcon != null) {
+//            if (mImageButton != null) {
+//                mImageButton.setImageIcon(complicationProviderInfo.providerIcon);
+//            }
+//            mProviderIconDrawable = complicationProviderInfo.providerIcon.loadDrawable(mContext);
+//            if (mInsetBounds != null) {
+//                mProviderIconDrawable.setBounds(mInsetBounds);
+//            }
+//        }
+//    }
 
     public static void resetBaseId() {
         BASE_ID = 99;
