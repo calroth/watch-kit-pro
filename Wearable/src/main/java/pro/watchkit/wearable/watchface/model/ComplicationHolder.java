@@ -159,8 +159,11 @@ public final class ComplicationHolder implements Drawable.Callback {
         mIsInAmbientMode = inAmbientMode;
     }
 
-    public float distanceFrom(float x, float y) {
-        return Math.abs(x - mBounds.exactCenterX()) + Math.abs(y - mBounds.exactCenterY());
+    public double distanceFrom(float x, float y) {
+        // Return Pythagoras distance (x² + y²).
+        // Don't bother with sqrt as we're just comparing relative values.
+        return Math.pow((double) (x - mBounds.exactCenterX()), 2d) +
+                Math.pow((double) (y - mBounds.exactCenterY()), 2d);
     }
 
     public Rect getBounds() {
