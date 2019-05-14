@@ -61,6 +61,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
@@ -795,7 +796,7 @@ public class ConfigRecyclerViewAdapter
          */
         void onComplicationProviderInfo(
                 @NonNull ComplicationHolder complication,
-                @NonNull ComplicationProviderInfo complicationProviderInfo);
+                ComplicationProviderInfo complicationProviderInfo);
     }
 
 
@@ -810,7 +811,8 @@ public class ConfigRecyclerViewAdapter
 
         private WatchFaceGlobalDrawable mWatchFaceGlobalDrawable;
 
-        private Drawable mDefaultComplicationDrawable;
+        private @DrawableRes
+        int mDefaultComplicationDrawableId;
 
         private WatchFaceDrawableConfigItem mConfigItem;
 
@@ -819,8 +821,8 @@ public class ConfigRecyclerViewAdapter
         private float mLastTouchX = -1f, mLastTouchY = -1f;
         private Activity mCurrentActivity;
 
-        void setDefaultComplicationDrawable(int resourceId) {
-            mDefaultComplicationDrawable = mContext.getDrawable(resourceId);
+        void setDefaultComplicationDrawable(@DrawableRes int resourceId) {
+            mDefaultComplicationDrawableId = resourceId;
         }
 
         WatchFaceDrawableViewHolder(final View view) {
@@ -850,7 +852,7 @@ public class ConfigRecyclerViewAdapter
         @Override
         public void onComplicationProviderInfo(
                 @NonNull ComplicationHolder complication,
-                @NonNull ComplicationProviderInfo complicationProviderInfo) {
+                ComplicationProviderInfo complicationProviderInfo) {
             Log.d(TAG, "updateComplicationViews(): id: " + complication);
             Log.d(TAG, "\tinfo: " + complicationProviderInfo);
 
@@ -892,7 +894,8 @@ public class ConfigRecyclerViewAdapter
                 if (complicationProviderInfo != null &&
                         complicationProviderInfo.providerIcon != null) {
                     complication.setProviderIconDrawable(
-                            complicationProviderInfo.providerIcon.loadDrawable(mContext));
+                            complicationProviderInfo.providerIcon.loadDrawable(mContext),
+                            true);
                     // TODO: make that async
 
                     tickle();
@@ -906,6 +909,12 @@ public class ConfigRecyclerViewAdapter
 //                    complication.setImageButtonContentDescription(
 //                            mContext.getString(R.string.add_complication));
 //                    complication.background.setVisibility(View.INVISIBLE);
+                } else {
+                    Drawable drawable = mContext.getDrawable(mDefaultComplicationDrawableId);
+                    if (drawable != null) {
+                        complication.setProviderIconDrawable(drawable, false);
+                        tickle();
+                    }
                 }
             }
         }
@@ -937,13 +946,6 @@ public class ConfigRecyclerViewAdapter
             w.setNotifications(0, 0);
             w.setAmbient(false);
             int[] complicationIds = w.initializeComplications(mContext, this::tickle);
-
-            if (mDefaultComplicationDrawable != null) {
-                w.getComplications().stream().filter(c -> c.isForeground).forEach(c -> {
-                    c.setProviderIconDrawable(mDefaultComplicationDrawable);
-//                    c.background.setVisibility(View.INVISIBLE);
-                });
-            }
 
             mImageView.setOnClickListener(v -> {
                 // Find out which thing got clicked!

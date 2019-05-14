@@ -98,10 +98,12 @@ public final class ComplicationHolder implements Drawable.Callback {
 //        }
 //    }
 
-    public void setProviderIconDrawable(@NonNull Drawable drawable) {
+    public void setProviderIconDrawable(@NonNull Drawable drawable, boolean inset) {
         mProviderIconDrawable = drawable;
-        if (mInsetBounds != null) {
+        if (mInsetBounds != null && inset) {
             mProviderIconDrawable.setBounds(mInsetBounds);
+        } else {
+            mProviderIconDrawable.setBounds(mBounds);
         }
     }
 
