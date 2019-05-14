@@ -838,8 +838,8 @@ public class ConfigRecyclerViewAdapter
 
             mImageView.setOnTouchListener((v, event) -> {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    mLastTouchX = event.getX();
-                    mLastTouchY = event.getY();
+                    mLastTouchX = event.getX() - (float) mImageView.getPaddingLeft();
+                    mLastTouchY = event.getY() - (float) mImageView.getPaddingTop();
                 }
                 return false;
             });
