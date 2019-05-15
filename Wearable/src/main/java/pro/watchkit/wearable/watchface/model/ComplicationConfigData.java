@@ -50,7 +50,7 @@ import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceServ
  * {@link AnalogComplicationWatchFaceService} watch face's appearance and complications
  * via {@link ConfigActivity}.
  */
-public class AnalogComplicationConfigData extends ConfigData {
+public class ComplicationConfigData extends ConfigData {
     /**
      * Includes all data to populate each of the 5 different custom
      * {@link ViewHolder} types in {@link ConfigRecyclerViewAdapter}.

@@ -47,8 +47,8 @@ import androidx.wear.widget.WearableRecyclerView;
 import androidx.wear.widget.drawer.WearableNavigationDrawerView;
 
 import pro.watchkit.wearable.watchface.R;
-import pro.watchkit.wearable.watchface.model.AnalogComplicationConfigData;
 import pro.watchkit.wearable.watchface.model.ColorsStylesConfigData;
+import pro.watchkit.wearable.watchface.model.ComplicationConfigData;
 import pro.watchkit.wearable.watchface.model.ConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartHandsConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartTicksConfigData;
@@ -138,7 +138,7 @@ public class ConfigActivity extends Activity {
     }
 
     private enum ConfigSubActivity {
-        Settings(AnalogComplicationConfigData.class, R.string.config_configure_settings, R.drawable.ic_notifications_white_24dp),
+        Settings(ComplicationConfigData.class, R.string.config_configure_settings, R.drawable.ic_notifications_white_24dp),
         ColorsStyles(ColorsStylesConfigData.class, R.string.config_configure_colors_styles, R.drawable.ic_lock_open_white_24dp),
         WatchPartHands(WatchPartHandsConfigData.class, R.string.config_configure_hands, R.drawable.ic_add_white_24dp),
         WatchPartTicks(WatchPartTicksConfigData.class, R.string.config_configure_ticks, R.drawable.ic_more_horiz_24dp_wht);
