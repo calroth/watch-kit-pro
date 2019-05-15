@@ -93,14 +93,6 @@ public class AnalogComplicationConfigData extends ConfigData {
                         R.string.saved_unread_notifications_pref*/);
         settingsConfigData.add(unreadNotificationsConfigItem);
 
-        // Data for background complications UX in settings Activity.
-        ConfigItemType backgroundImageComplicationConfigItem =
-                // TODO (jewalker): Revised in another CL to support background complication.
-                new BackgroundComplicationConfigItem(
-                        context.getString(R.string.config_background_image_complication_label),
-                        R.drawable.ic_landscape_white);
-        settingsConfigData.add(backgroundImageComplicationConfigItem);
-
         // Data for 'Night Vision' UX (toggle) in settings Activity.
         ConfigItemType nightVisionConfigItem =
                 new NightVisionConfigItem(

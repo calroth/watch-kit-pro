@@ -67,27 +67,6 @@ abstract public class ConfigData {
         boolean isVisible(WatchFacePreset currentPreset);
     }
 
-//    /**
-//     * Data for Watch Face Preview with Complications Preview item in RecyclerView.
-//     */
-//    public static class PreviewAndComplicationsConfigItem implements ConfigItemType {
-//
-//        private int defaultComplicationResourceId;
-//
-//        PreviewAndComplicationsConfigItem(int defaultComplicationResourceId) {
-//            this.defaultComplicationResourceId = defaultComplicationResourceId;
-//        }
-//
-//        public int getDefaultComplicationResourceId() {
-//            return defaultComplicationResourceId;
-//        }
-//
-//        @Override
-//        public int getConfigType() {
-//            return ConfigRecyclerViewAdapter.TYPE_PREVIEW_AND_COMPLICATIONS_CONFIG;
-//        }
-//    }
-
     /**
      * Data for Watch Face Preview with Complications Preview item in RecyclerView.
      */
@@ -106,27 +85,6 @@ abstract public class ConfigData {
         @Override
         public int getConfigType() {
             return ConfigRecyclerViewAdapter.TYPE_WATCH_FACE_DRAWABLE_CONFIG;
-        }
-    }
-
-    /**
-     * Data for "more options" item in RecyclerView.
-     */
-    public static class MoreOptionsConfigItem implements ConfigItemType {
-
-        private int iconResourceId;
-
-        MoreOptionsConfigItem(int iconResourceId) {
-            this.iconResourceId = iconResourceId;
-        }
-
-        public int getIconResourceId() {
-            return iconResourceId;
-        }
-
-        @Override
-        public int getConfigType() {
-            return ConfigRecyclerViewAdapter.TYPE_MORE_OPTIONS;
         }
     }
 
@@ -434,36 +392,6 @@ abstract public class ConfigData {
         @Override
         public int getConfigType() {
             return ConfigRecyclerViewAdapter.TYPE_UNREAD_NOTIFICATION_CONFIG;
-        }
-    }
-
-    /**
-     * Data for background image complication picker item in RecyclerView.
-     */
-    public static class BackgroundComplicationConfigItem implements ConfigItemType {
-
-        private String name;
-        private int iconResourceId;
-
-        BackgroundComplicationConfigItem(
-                String name,
-                int iconResourceId) {
-
-            this.name = name;
-            this.iconResourceId = iconResourceId;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public int getIconResourceId() {
-            return iconResourceId;
-        }
-
-        @Override
-        public int getConfigType() {
-            return ConfigRecyclerViewAdapter.TYPE_BACKGROUND_COMPLICATION_IMAGE_CONFIG;
         }
     }
 
