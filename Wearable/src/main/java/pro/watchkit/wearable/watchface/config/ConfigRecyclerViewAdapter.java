@@ -148,10 +148,13 @@ public class ConfigRecyclerViewAdapter
      */
     private PaintBox mCurrentPaintBox;
 
+    private Context mContext;
+
     ConfigRecyclerViewAdapter(
-            Context context,
-            Class watchFaceServiceClass,
-            ArrayList<ConfigItemType> settingsDataSet) {
+            @NonNull Context context,
+            @NonNull Class watchFaceServiceClass,
+            @NonNull ArrayList<ConfigItemType> settingsDataSet) {
+        mContext = context;
         mWatchFaceComponentName = new ComponentName(context, watchFaceServiceClass);
         mSettingsDataSet = settingsDataSet;
 
@@ -168,26 +171,21 @@ public class ConfigRecyclerViewAdapter
                 new ProviderInfoRetriever(context, Executors.newCachedThreadPool());
         mProviderInfoRetriever.init();
 
-        mCurrentPaintBox = new PaintBox(context, regenerateCurrentWatchFacePreset(context));
+        regenerateCurrentWatchFacePreset();
+        mCurrentPaintBox = new PaintBox(context, mCurrentWatchFacePreset);
     }
 
     /**
      * Regenerates the current WatchFacePreset with what's currently stored in preferences.
      * Call this if you suspect that preferences are changed, before accessing
      * mCurrentWatchFacePreset.
-     *
-     * @param context Current application context, to get preferences from
-     * @return mCurrentWatchFacePreset, for convenience
      */
-    private WatchFacePreset regenerateCurrentWatchFacePreset(Context context) {
-        SharedPreferences preferences =
-                context.getSharedPreferences(
-                        context.getString(R.string.analog_complication_preference_file_key),
-                        Context.MODE_PRIVATE);
+    private void regenerateCurrentWatchFacePreset() {
+        SharedPreferences preferences = mContext.getSharedPreferences(
+                mContext.getString(R.string.analog_complication_preference_file_key),
+                Context.MODE_PRIVATE);
         mCurrentWatchFacePreset.setString(preferences.getString(
-                context.getString(R.string.saved_watch_face_preset), null));
-
-        return mCurrentWatchFacePreset;
+                mContext.getString(R.string.saved_watch_face_preset), null));
     }
 
     @Override
@@ -386,7 +384,8 @@ public class ConfigRecyclerViewAdapter
         mProviderInfoRetriever.release();
     }
 
-    void updatePreviewColors() {
+    void onWatchFacePresetChanged() {
+        regenerateCurrentWatchFacePreset();
         // Update our Ticklish objects.
         mTicklish.forEach(Ticklish::tickle);
     }
@@ -500,7 +499,7 @@ public class ConfigRecyclerViewAdapter
             Settings settings = new Settings();
             settings.setString(mSharedPref.getString(sharedPreferenceString, null));
             String settingsString = mSharedPref.getString(sharedPreferenceString, null);
-            String watchFacePresetString = regenerateCurrentWatchFacePreset(mContext).getString();
+            String watchFacePresetString = mCurrentWatchFacePreset.getString();
 
             WatchFaceState w = mWatchFaceGlobalDrawable.getWatchFaceState();
             if (watchFacePresetString != null) {
@@ -585,7 +584,6 @@ public class ConfigRecyclerViewAdapter
             public void draw(@NonNull Canvas canvas) {
                 if (mColorType == null) return;
 
-                regenerateCurrentWatchFacePreset(mButton.getContext());
                 @ColorInt int color = mCurrentPaintBox.getColor(mColorType);
 
                 // Draw a circle that's 20px from right, top and left borders.
@@ -767,8 +765,7 @@ public class ConfigRecyclerViewAdapter
 
             if (mLaunchActivity != null) {
                 // Regenerate and grab our current permutations. Just in time!
-                String[] permutations =
-                        mConfigItem.permute(regenerateCurrentWatchFacePreset(mButton.getContext()));
+                String[] permutations = mConfigItem.permute(mCurrentWatchFacePreset);
 
                 Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
 
@@ -811,8 +808,7 @@ public class ConfigRecyclerViewAdapter
 
         public void tickle() {
             // Regenerate and grab our current permutations. Just in time!
-            String[] permutations =
-                    mConfigItem.permute(regenerateCurrentWatchFacePreset(mSwitch.getContext()));
+            String[] permutations = mConfigItem.permute(mCurrentWatchFacePreset);
             mSwitch.setChecked(mCurrentWatchFacePreset.getString().equals(permutations[1]));
             itemView.invalidate();
         }
@@ -820,8 +816,7 @@ public class ConfigRecyclerViewAdapter
         @Override
         public void onClick(View view) {
             // Regenerate and grab our current permutations. Just in time!
-            String[] permutations =
-                    mConfigItem.permute(regenerateCurrentWatchFacePreset(mSwitch.getContext()));
+            String[] permutations = mConfigItem.permute(mCurrentWatchFacePreset);
 
             Boolean newState = mSwitch.isChecked();
             Context context = view.getContext();
@@ -832,7 +827,7 @@ public class ConfigRecyclerViewAdapter
 
             updateIcon(context, newState);
 
-            updatePreviewColors();
+            onWatchFacePresetChanged();
         }
     }
 

@@ -185,7 +185,7 @@ public class ConfigActivity extends Activity {
                 && resultCode == RESULT_OK) {
 
             // Updates highlight and background colors based on the user preference.
-            mAdapter.updatePreviewColors();
+            mAdapter.onWatchFacePresetChanged();
         }
     }
 
