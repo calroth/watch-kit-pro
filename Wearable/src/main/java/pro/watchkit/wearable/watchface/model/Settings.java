@@ -49,6 +49,11 @@ public class Settings {
 
     private void setComplicationCount(int complicationCount) {
         mComplicationCount = complicationCount;
+        if (mComplicationCount < 5) {
+            mComplicationCount = 5;
+        } else if (mComplicationCount > 8) {
+            mComplicationCount = 8;
+        }
     }
 
     public String getString() {
@@ -107,9 +112,9 @@ public class Settings {
         return mShowUnreadNotifications;
     }
 
-//    public boolean isNightVisionModeEnabled() {
-//        return mNightVisionModeEnabled;
-//    }
+    public boolean isNightVisionModeEnabled() {
+        return mNightVisionModeEnabled;
+    }
 
     public boolean toggleNightVisionModeEnabled() {
         mNightVisionModeEnabled = !mNightVisionModeEnabled;
