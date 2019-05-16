@@ -135,7 +135,7 @@ public class ConfigRecyclerViewAdapter
     // Required to retrieve complication data from watch face for preview.
     private ProviderInfoRetriever mProviderInfoRetriever;
 
-    private List<Ticklish> mTicklish = new ArrayList<>();
+    private List<WatchFacePresetListener> mWatchFacePresetListeners = new ArrayList<>();
     private List<ComplicationProviderInfoListener> mComplicationProviderInfoListeners =
             new ArrayList<>();
 
@@ -201,7 +201,7 @@ public class ConfigRecyclerViewAdapter
                         new ColorPickerViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.config_list_color_item, parent, false));
-                mTicklish.add((Ticklish) viewHolder);
+                mWatchFacePresetListeners.add((WatchFacePresetListener) viewHolder);
                 break;
             }
 
@@ -218,7 +218,7 @@ public class ConfigRecyclerViewAdapter
                         new WatchFaceDrawableViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.watch_face_preset_config_list_item, parent, false));
-                mTicklish.add((Ticklish) viewHolder);
+                mWatchFacePresetListeners.add((WatchFacePresetListener) viewHolder);
                 break;
             }
 
@@ -227,7 +227,7 @@ public class ConfigRecyclerViewAdapter
                         new WatchFacePresetPickerViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.config_list_watch_face_preset_item, parent, false));
-                mTicklish.add((Ticklish) viewHolder);
+                mWatchFacePresetListeners.add((WatchFacePresetListener) viewHolder);
                 break;
             }
 
@@ -236,7 +236,7 @@ public class ConfigRecyclerViewAdapter
                         new WatchFacePresetToggleViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.config_list_toggle, parent, false));
-                mTicklish.add((Ticklish) viewHolder);
+                mWatchFacePresetListeners.add((WatchFacePresetListener) viewHolder);
                 break;
             }
 
@@ -387,18 +387,19 @@ public class ConfigRecyclerViewAdapter
     void onWatchFacePresetChanged() {
         regenerateCurrentWatchFacePreset();
         // Update our Ticklish objects.
-        mTicklish.forEach(Ticklish::tickle);
+        mWatchFacePresetListeners.forEach(WatchFacePresetListener::onWatchFacePresetChanged);
     }
 
     /**
-     * An object is ticklish if it can be tickled. When tickled, an object invalidates and
-     * redraws itself.
+     * A object implementing WatchFacePresetListener is interested in receiving a notification
+     * every time we change the WatchFacePreset (due to setting new options, etc.)
+     * On notification, an object invalidates and redraws itself.
      */
-    private interface Ticklish {
+    private interface WatchFacePresetListener {
         /**
          * Invalidate this object.
          */
-        void tickle();
+        void onWatchFacePresetChanged();
     }
 
     /**
@@ -420,7 +421,7 @@ public class ConfigRecyclerViewAdapter
      * WatchFaceSelectionRecyclerViewAdapter
      */
     public class WatchFaceDrawableViewHolder extends RecyclerView.ViewHolder
-            implements ComplicationProviderInfoListener, Ticklish {
+            implements ComplicationProviderInfoListener, WatchFacePresetListener {
 
         private ImageView mImageView;
 
@@ -460,7 +461,7 @@ public class ConfigRecyclerViewAdapter
             });
         }
 
-        public void tickle() {
+        public void onWatchFacePresetChanged() {
             itemView.invalidate();
         }
 
@@ -480,12 +481,12 @@ public class ConfigRecyclerViewAdapter
                             true);
                     // TODO: make that async
 
-                    tickle();
+                    onWatchFacePresetChanged();
                 } else {
                     Drawable drawable = mContext.getDrawable(mDefaultComplicationDrawableId);
                     if (drawable != null) {
                         complication.setProviderIconDrawable(drawable, false);
-                        tickle();
+                        onWatchFacePresetChanged();
                     }
                 }
             }
@@ -510,7 +511,7 @@ public class ConfigRecyclerViewAdapter
             }
             w.setNotifications(0, 0);
             w.setAmbient(false);
-            int[] complicationIds = w.initializeComplications(mContext, this::tickle);
+            int[] complicationIds = w.initializeComplications(mContext, this::onWatchFacePresetChanged);
 
             mImageView.setOnClickListener(v -> {
                 // Find out which thing got clicked!
@@ -572,7 +573,7 @@ public class ConfigRecyclerViewAdapter
      * background color, etc.
      */
     public class ColorPickerViewHolder
-            extends RecyclerView.ViewHolder implements OnClickListener, Ticklish {
+            extends RecyclerView.ViewHolder implements OnClickListener, WatchFacePresetListener {
 
         private Button mButton;
         private Class<ColorSelectionActivity> mLaunchActivity;
@@ -632,7 +633,7 @@ public class ConfigRecyclerViewAdapter
             mLaunchActivity = configItem.getActivityToChoosePreference();
         }
 
-        public void tickle() {
+        public void onWatchFacePresetChanged() {
             itemView.invalidate();
         }
 
@@ -697,7 +698,7 @@ public class ConfigRecyclerViewAdapter
      * background color, etc.
      */
     public class WatchFacePresetPickerViewHolder
-            extends RecyclerView.ViewHolder implements OnClickListener, Ticklish {
+            extends RecyclerView.ViewHolder implements OnClickListener, WatchFacePresetListener {
 
         private Button mButton;
 
@@ -739,7 +740,7 @@ public class ConfigRecyclerViewAdapter
             itemView.setLayoutParams(param);
         }
 
-        public void tickle() {
+        public void onWatchFacePresetChanged() {
             String oldText = mButton.getText().toString();
             int oldVisibility = itemView.getVisibility();
 
@@ -783,7 +784,7 @@ public class ConfigRecyclerViewAdapter
     /**
      * Displays switch to indicate whether or not the given WatchFacePreset flag is toggled on/off.
      */
-    public class WatchFacePresetToggleViewHolder extends ToggleViewHolder implements Ticklish {
+    public class WatchFacePresetToggleViewHolder extends ToggleViewHolder implements WatchFacePresetListener {
 
         WatchFacePresetToggleViewHolder(View view) {
             super(view);
@@ -798,15 +799,15 @@ public class ConfigRecyclerViewAdapter
             setIcons(configItem.getIconEnabledResourceId(),
                     configItem.getIconDisabledResourceId());
 
-            tickle();
+            onWatchFacePresetChanged();
         }
 
         @Override
         void setDefaultSwitchValue(Context context) {
-            tickle();
+            onWatchFacePresetChanged();
         }
 
-        public void tickle() {
+        public void onWatchFacePresetChanged() {
             // Regenerate and grab our current permutations. Just in time!
             String[] permutations = mConfigItem.permute(mCurrentWatchFacePreset);
             mSwitch.setChecked(mCurrentWatchFacePreset.getString().equals(permutations[1]));
@@ -827,7 +828,7 @@ public class ConfigRecyclerViewAdapter
 
             updateIcon(context, newState);
 
-            onWatchFacePresetChanged();
+            this.onWatchFacePresetChanged();
         }
     }
 
