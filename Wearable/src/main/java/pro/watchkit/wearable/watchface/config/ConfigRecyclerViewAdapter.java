@@ -591,10 +591,10 @@ public class ConfigRecyclerViewAdapter
                 if (mCirclePaint == null) {
                     // Initialise on first use.
                     mCirclePaint = new Paint();
-                    mCirclePaint.setColor(color);
                     mCirclePaint.setStyle(Paint.Style.FILL);
                     mCirclePaint.setAntiAlias(true);
                 }
+                mCirclePaint.setColor(color);
                 android.graphics.Rect r = canvas.getClipBounds();
                 canvas.drawCircle(r.right - 20f - radius,
                         (r.top + r.bottom) / 2f, radius, mCirclePaint);
