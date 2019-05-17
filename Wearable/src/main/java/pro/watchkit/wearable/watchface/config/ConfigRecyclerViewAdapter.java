@@ -45,31 +45,24 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
-import android.support.wearable.complications.ComplicationHelperActivity;
 import android.support.wearable.complications.ComplicationProviderInfo;
 import android.support.wearable.complications.ProviderInfoRetriever;
-import android.support.wearable.complications.ProviderInfoRetriever.OnProviderInfoReceivedCallback;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.Executors;
 
 import pro.watchkit.wearable.watchface.R;
@@ -84,11 +77,7 @@ import pro.watchkit.wearable.watchface.model.ConfigData.WatchFaceDrawableConfigI
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFacePickerConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFacePresetToggleConfigItem;
 import pro.watchkit.wearable.watchface.model.PaintBox;
-import pro.watchkit.wearable.watchface.model.Settings;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset;
-import pro.watchkit.wearable.watchface.model.WatchFaceState;
-import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
-import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
 import static pro.watchkit.wearable.watchface.config.ConfigActivity.CONFIG_DATA;
@@ -113,8 +102,7 @@ import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.
  *
  * <p>Background image complication configuration for changing background image of watch face.
  */
-public class ConfigRecyclerViewAdapter
-        extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
 
     public static final int TYPE_COLOR_PICKER_CONFIG = 2;
     public static final int TYPE_UNREAD_NOTIFICATION_CONFIG = 3;
@@ -125,31 +113,16 @@ public class ConfigRecyclerViewAdapter
     public static final int TYPE_CONFIG_ACTIVITY_CONFIG = 9;
     private static final String TAG = "CompConfigAdapter";
     private SharedPreferences mSharedPref;
-    // ComponentName associated with watch face service (service that renders watch face). Used
-    // to retrieve complication information.
-    private ComponentName mWatchFaceComponentName;
     private ArrayList<ConfigItemType> mSettingsDataSet;
-    // Selected complication id by user.
-    private ComplicationHolder mSelectedComplication;
-
-    // Required to retrieve complication data from watch face for preview.
-    private ProviderInfoRetriever mProviderInfoRetriever;
 
     private List<WatchFacePresetListener> mWatchFacePresetListeners = new ArrayList<>();
     private List<SettingsListener> mSettingsListeners = new ArrayList<>();
     private List<ComplicationProviderInfoListener> mComplicationProviderInfoListeners =
             new ArrayList<>();
-
-    /**
-     * The current user-selected WatchFacePreset with what's currently stored in preferences.
-     */
-    private WatchFacePreset mCurrentWatchFacePreset = new WatchFacePreset();
     /**
      * A PaintBox with the current user-selected WatchFacePreset.
      */
     private PaintBox mCurrentPaintBox;
-
-    private Settings mCurrentSettings = new Settings();
 
     private Context mContext;
 
@@ -225,7 +198,7 @@ public class ConfigRecyclerViewAdapter
 
             case TYPE_WATCH_FACE_DRAWABLE_CONFIG: {
                 viewHolder =
-                        new WatchFaceDrawableViewHolder(
+                        new WatchFaceDrawableComplicationViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.watch_face_preset_config_list_item, parent, false));
                 break;
@@ -307,16 +280,16 @@ public class ConfigRecyclerViewAdapter
             }
 
             case TYPE_WATCH_FACE_DRAWABLE_CONFIG: {
-                WatchFaceDrawableViewHolder watchFaceDrawableViewHolder =
-                        (WatchFaceDrawableViewHolder) viewHolder;
+                WatchFaceDrawableComplicationViewHolder watchFaceDrawableComplicationViewHolder =
+                        (WatchFaceDrawableComplicationViewHolder) viewHolder;
                 WatchFaceDrawableConfigItem watchFaceDrawableConfigItem =
                         (WatchFaceDrawableConfigItem) configItemType;
 
                 int defaultComplicationResourceId =
                         watchFaceDrawableConfigItem.getDefaultComplicationResourceId();
-                watchFaceDrawableViewHolder.setDefaultComplicationDrawable(
+                watchFaceDrawableComplicationViewHolder.setDefaultComplicationDrawable(
                         defaultComplicationResourceId);
-                watchFaceDrawableViewHolder.bind(watchFaceDrawableConfigItem);
+                watchFaceDrawableComplicationViewHolder.bind(watchFaceDrawableConfigItem);
                 break;
             }
 
@@ -411,191 +384,6 @@ public class ConfigRecyclerViewAdapter
         regenerateCurrentSettings();
         // Update our SettingsListener objects.
         mSettingsListeners.forEach(SettingsListener::onSettingsChanged);
-    }
-
-    /**
-     * A object implementing WatchFacePresetListener is interested in receiving a notification
-     * every time we change the WatchFacePreset (due to setting new options, etc.)
-     * On notification, an object invalidates and redraws itself.
-     */
-    private interface WatchFacePresetListener {
-        /**
-         * Invalidate this object.
-         */
-        void onWatchFacePresetChanged();
-    }
-
-    /**
-     * A object implementing SettingsListener is interested in receiving a notification
-     * every time we change the Settings (due to setting new options, etc.)
-     * On notification, an object invalidates and redraws itself.
-     */
-    private interface SettingsListener {
-        /**
-         * Invalidate this object.
-         */
-        void onSettingsChanged();
-    }
-
-    /**
-     * A object implementing ComplicationProviderInfoListener is interested in receiving a
-     * ComplicationProviderInfo when a new or updated one is available.
-     */
-    private interface ComplicationProviderInfoListener {
-        /**
-         * Invalidate this object.
-         */
-        void onComplicationProviderInfo(
-                @NonNull ComplicationHolder complication,
-                ComplicationProviderInfo complicationProviderInfo);
-    }
-
-    /**
-     * TODO: we really have to see if we can generalise it, it's the same code as in
-     * WatchFaceSelectionRecyclerViewAdapter
-     */
-    public class WatchFaceDrawableViewHolder extends RecyclerView.ViewHolder
-            implements ComplicationProviderInfoListener, WatchFacePresetListener, SettingsListener {
-
-        private ImageView mImageView;
-
-        private WatchFaceGlobalDrawable mWatchFaceGlobalDrawable;
-
-        private @DrawableRes
-        int mDefaultComplicationDrawableId;
-
-        private WatchFaceDrawableConfigItem mConfigItem;
-
-        private Context mContext;
-
-        private float mLastTouchX = -1f, mLastTouchY = -1f;
-        private Activity mCurrentActivity;
-
-        void setDefaultComplicationDrawable(@DrawableRes int resourceId) {
-            mDefaultComplicationDrawableId = resourceId;
-        }
-
-        WatchFaceDrawableViewHolder(final View view) {
-            super(view);
-            mImageView = view.findViewById(R.id.watch_face_preset);
-//            view.setOnClickListener(this);
-            mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(view.getContext(),
-                    WatchFaceGlobalDrawable.PART_BACKGROUND |
-                            WatchFaceGlobalDrawable.PART_RINGS_ALL |
-                            WatchFaceGlobalDrawable.PART_COMPLICATIONS);
-            mContext = view.getContext();
-            mCurrentActivity = (Activity) view.getContext();
-
-            mImageView.setOnTouchListener((v, event) -> {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    mLastTouchX = event.getX() - (float) mImageView.getPaddingLeft();
-                    mLastTouchY = event.getY() - (float) mImageView.getPaddingTop();
-                }
-                return false;
-            });
-        }
-
-        public void onWatchFacePresetChanged() {
-            itemView.invalidate();
-        }
-
-        public void onSettingsChanged() {
-            itemView.invalidate();
-        }
-
-        @Override
-        public void onComplicationProviderInfo(
-                @NonNull ComplicationHolder complication,
-                ComplicationProviderInfo complicationProviderInfo) {
-            Log.d(TAG, "updateComplicationViews(): id: " + complication);
-            Log.d(TAG, "\tinfo: " + complicationProviderInfo);
-
-            if (complication.isForeground) {
-                // Update complication view.
-                if (complicationProviderInfo != null &&
-                        complicationProviderInfo.providerIcon != null) {
-                    complication.setProviderIconDrawable(
-                            complicationProviderInfo.providerIcon.loadDrawable(mContext),
-                            true);
-                    // TODO: make that async
-
-                    onWatchFacePresetChanged();
-                } else {
-                    Drawable drawable = mContext.getDrawable(mDefaultComplicationDrawableId);
-                    if (drawable != null) {
-                        complication.setProviderIconDrawable(drawable, false);
-                        onWatchFacePresetChanged();
-                    }
-                }
-            }
-        }
-
-        void bind(WatchFaceDrawableConfigItem configItem) {
-            mConfigItem = configItem;
-
-            String settingsString = mCurrentSettings.getString();
-            String watchFacePresetString = mCurrentWatchFacePreset.getString();
-
-            WatchFaceState w = mWatchFaceGlobalDrawable.getWatchFaceState();
-            w.getWatchFacePreset().setString(watchFacePresetString);
-            w.getSettings().setString(settingsString);
-            w.setNotifications(0, 0);
-            w.setAmbient(false);
-            int[] complicationIds = w.initializeComplications(mContext, this::onWatchFacePresetChanged);
-
-            mImageView.setOnClickListener(v -> {
-                // Find out which thing got clicked!
-                if (mLastTouchX != -1f || mLastTouchY != -1f) {
-                    Optional<ComplicationHolder> nearest = w.getComplications().stream()
-                            .filter(c -> c.isForeground)
-                            .min(Comparator.comparing(c -> c.distanceFrom(mLastTouchX, mLastTouchY)));
-                    if (nearest.isPresent()) {
-                        launchComplicationHelperActivity(nearest.get());
-                    }
-                }
-            });
-
-            mImageView.setImageDrawable(mWatchFaceGlobalDrawable);
-
-            mProviderInfoRetriever.retrieveProviderInfo(
-                    new OnProviderInfoReceivedCallback() {
-                        @Override
-                        public void onProviderInfoReceived(
-                                int id,
-                                @Nullable ComplicationProviderInfo providerInfo) {
-                            w.getComplications().stream()
-                                    .filter(c -> c.getId() == id)
-                                    .forEach(c -> onComplicationProviderInfo(c, providerInfo));
-                        }
-                    },
-                    mWatchFaceComponentName,
-                    complicationIds);
-        }
-
-        // Verifies the watch face supports the complication location, then launches the helper
-        // class, so user can choose their complication data provider.
-        private void launchComplicationHelperActivity(ComplicationHolder complication) {
-            Log.d("Complication", "Launching for id " + complication.getId());
-
-            mSelectedComplication = complication;
-
-            if (mSelectedComplication != null) {
-
-                ComponentName watchFace = new ComponentName(
-                        mCurrentActivity, AnalogComplicationWatchFaceService.class);
-
-                mCurrentActivity.startActivityForResult(
-                        ComplicationHelperActivity.createProviderChooserHelperIntent(
-                                mCurrentActivity,
-                                watchFace,
-                                mSelectedComplication.getId(),
-                                mSelectedComplication.getSupportedComplicationTypes()),
-                        ConfigActivity.COMPLICATION_CONFIG_REQUEST_CODE);
-
-            } else {
-                Log.d(TAG, "Complication not supported by watch face.");
-            }
-        }
     }
 
     /**
