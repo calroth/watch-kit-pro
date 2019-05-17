@@ -136,6 +136,7 @@ public class ConfigRecyclerViewAdapter
     private ProviderInfoRetriever mProviderInfoRetriever;
 
     private List<WatchFacePresetListener> mWatchFacePresetListeners = new ArrayList<>();
+    private List<SettingsListener> mSettingsListeners = new ArrayList<>();
     private List<ComplicationProviderInfoListener> mComplicationProviderInfoListeners =
             new ArrayList<>();
 
@@ -147,6 +148,8 @@ public class ConfigRecyclerViewAdapter
      * A PaintBox with the current user-selected WatchFacePreset.
      */
     private PaintBox mCurrentPaintBox;
+
+    private Settings mCurrentSettings = new Settings();
 
     private Context mContext;
 
@@ -172,6 +175,7 @@ public class ConfigRecyclerViewAdapter
         mProviderInfoRetriever.init();
 
         regenerateCurrentWatchFacePreset();
+        regenerateCurrentSettings();
         mCurrentPaintBox = new PaintBox(context, mCurrentWatchFacePreset);
     }
 
@@ -181,11 +185,18 @@ public class ConfigRecyclerViewAdapter
      * mCurrentWatchFacePreset.
      */
     private void regenerateCurrentWatchFacePreset() {
-        SharedPreferences preferences = mContext.getSharedPreferences(
-                mContext.getString(R.string.analog_complication_preference_file_key),
-                Context.MODE_PRIVATE);
-        mCurrentWatchFacePreset.setString(preferences.getString(
+        mCurrentWatchFacePreset.setString(mSharedPref.getString(
                 mContext.getString(R.string.saved_watch_face_preset), null));
+    }
+
+    /**
+     * Regenerates the current Settings with what's currently stored in preferences.
+     * Call this if you suspect that preferences are changed, before accessing
+     * mCurrentSettings.
+     */
+    private void regenerateCurrentSettings() {
+        mCurrentSettings.setString(mSharedPref.getString(
+                mContext.getString(R.string.saved_settings), null));
     }
 
     @Override
@@ -201,7 +212,6 @@ public class ConfigRecyclerViewAdapter
                         new ColorPickerViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.config_list_color_item, parent, false));
-                mWatchFacePresetListeners.add((WatchFacePresetListener) viewHolder);
                 break;
             }
 
@@ -218,7 +228,6 @@ public class ConfigRecyclerViewAdapter
                         new WatchFaceDrawableViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.watch_face_preset_config_list_item, parent, false));
-                mWatchFacePresetListeners.add((WatchFacePresetListener) viewHolder);
                 break;
             }
 
@@ -227,7 +236,6 @@ public class ConfigRecyclerViewAdapter
                         new WatchFacePresetPickerViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.config_list_watch_face_preset_item, parent, false));
-                mWatchFacePresetListeners.add((WatchFacePresetListener) viewHolder);
                 break;
             }
 
@@ -236,7 +244,6 @@ public class ConfigRecyclerViewAdapter
                         new WatchFacePresetToggleViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.config_list_toggle, parent, false));
-                mWatchFacePresetListeners.add((WatchFacePresetListener) viewHolder);
                 break;
             }
 
@@ -262,6 +269,18 @@ public class ConfigRecyclerViewAdapter
                                                 false));
                 break;
             }
+        }
+
+        if (viewHolder instanceof WatchFacePresetListener) {
+            mWatchFacePresetListeners.add((WatchFacePresetListener) viewHolder);
+        }
+
+        if (viewHolder instanceof SettingsListener) {
+            mSettingsListeners.add((SettingsListener) viewHolder);
+        }
+
+        if (viewHolder instanceof ComplicationProviderInfoListener) {
+            mComplicationProviderInfoListeners.add((ComplicationProviderInfoListener) viewHolder);
         }
 
         return viewHolder;
@@ -297,9 +316,7 @@ public class ConfigRecyclerViewAdapter
                         watchFaceDrawableConfigItem.getDefaultComplicationResourceId();
                 watchFaceDrawableViewHolder.setDefaultComplicationDrawable(
                         defaultComplicationResourceId);
-
                 watchFaceDrawableViewHolder.bind(watchFaceDrawableConfigItem);
-                mComplicationProviderInfoListeners.add(watchFaceDrawableViewHolder);
                 break;
             }
 
@@ -386,8 +403,14 @@ public class ConfigRecyclerViewAdapter
 
     void onWatchFacePresetChanged() {
         regenerateCurrentWatchFacePreset();
-        // Update our Ticklish objects.
+        // Update our WatchFacePresetListener objects.
         mWatchFacePresetListeners.forEach(WatchFacePresetListener::onWatchFacePresetChanged);
+    }
+
+    void onSettingsChanged() {
+        regenerateCurrentSettings();
+        // Update our SettingsListener objects.
+        mSettingsListeners.forEach(SettingsListener::onSettingsChanged);
     }
 
     /**
@@ -403,6 +426,18 @@ public class ConfigRecyclerViewAdapter
     }
 
     /**
+     * A object implementing SettingsListener is interested in receiving a notification
+     * every time we change the Settings (due to setting new options, etc.)
+     * On notification, an object invalidates and redraws itself.
+     */
+    private interface SettingsListener {
+        /**
+         * Invalidate this object.
+         */
+        void onSettingsChanged();
+    }
+
+    /**
      * A object implementing ComplicationProviderInfoListener is interested in receiving a
      * ComplicationProviderInfo when a new or updated one is available.
      */
@@ -415,13 +450,12 @@ public class ConfigRecyclerViewAdapter
                 ComplicationProviderInfo complicationProviderInfo);
     }
 
-
     /**
      * TODO: we really have to see if we can generalise it, it's the same code as in
      * WatchFaceSelectionRecyclerViewAdapter
      */
     public class WatchFaceDrawableViewHolder extends RecyclerView.ViewHolder
-            implements ComplicationProviderInfoListener, WatchFacePresetListener {
+            implements ComplicationProviderInfoListener, WatchFacePresetListener, SettingsListener {
 
         private ImageView mImageView;
 
@@ -465,6 +499,10 @@ public class ConfigRecyclerViewAdapter
             itemView.invalidate();
         }
 
+        public void onSettingsChanged() {
+            itemView.invalidate();
+        }
+
         @Override
         public void onComplicationProviderInfo(
                 @NonNull ComplicationHolder complication,
@@ -495,20 +533,12 @@ public class ConfigRecyclerViewAdapter
         void bind(WatchFaceDrawableConfigItem configItem) {
             mConfigItem = configItem;
 
-            // TODO: the below code is duplicated approx. 1 billion times, refactor it already!
-            String sharedPreferenceString = mContext.getString(R.string.saved_settings);
-            Settings settings = new Settings();
-            settings.setString(mSharedPref.getString(sharedPreferenceString, null));
-            String settingsString = mSharedPref.getString(sharedPreferenceString, null);
+            String settingsString = mCurrentSettings.getString();
             String watchFacePresetString = mCurrentWatchFacePreset.getString();
 
             WatchFaceState w = mWatchFaceGlobalDrawable.getWatchFaceState();
-            if (watchFacePresetString != null) {
-                w.getWatchFacePreset().setString(watchFacePresetString);
-            }
-            if (settingsString != null) {
-                w.getSettings().setString(settingsString);
-            }
+            w.getWatchFacePreset().setString(watchFacePresetString);
+            w.getSettings().setString(settingsString);
             w.setNotifications(0, 0);
             w.setAmbient(false);
             int[] complicationIds = w.initializeComplications(mContext, this::onWatchFacePresetChanged);
@@ -784,7 +814,8 @@ public class ConfigRecyclerViewAdapter
     /**
      * Displays switch to indicate whether or not the given WatchFacePreset flag is toggled on/off.
      */
-    public class WatchFacePresetToggleViewHolder extends ToggleViewHolder implements WatchFacePresetListener {
+    public class WatchFacePresetToggleViewHolder extends ToggleViewHolder
+            implements WatchFacePresetListener {
 
         WatchFacePresetToggleViewHolder(View view) {
             super(view);
@@ -799,19 +830,18 @@ public class ConfigRecyclerViewAdapter
             setIcons(configItem.getIconEnabledResourceId(),
                     configItem.getIconDisabledResourceId());
 
-            onWatchFacePresetChanged();
+            setDefaultSwitchValue();
         }
 
         @Override
-        void setDefaultSwitchValue(Context context) {
-            onWatchFacePresetChanged();
+        void setDefaultSwitchValue() {
+            // Regenerate and grab our current permutations. Just in time!
+            String[] permutations = mConfigItem.permute(mCurrentWatchFacePreset);
+            setChecked(mCurrentWatchFacePreset.getString().equals(permutations[1]));
         }
 
         public void onWatchFacePresetChanged() {
-            // Regenerate and grab our current permutations. Just in time!
-            String[] permutations = mConfigItem.permute(mCurrentWatchFacePreset);
-            mSwitch.setChecked(mCurrentWatchFacePreset.getString().equals(permutations[1]));
-            itemView.invalidate();
+            setDefaultSwitchValue();
         }
 
         @Override
@@ -819,16 +849,16 @@ public class ConfigRecyclerViewAdapter
             // Regenerate and grab our current permutations. Just in time!
             String[] permutations = mConfigItem.permute(mCurrentWatchFacePreset);
 
-            Boolean newState = mSwitch.isChecked();
+            Boolean newState = isChecked();
             Context context = view.getContext();
             SharedPreferences.Editor editor = mSharedPref.edit();
             editor.putString(context.getString(R.string.saved_watch_face_preset),
                     newState ? permutations[1] : permutations[0]);
             editor.apply();
 
-            updateIcon(context, newState);
+            setChecked(newState);
 
-            this.onWatchFacePresetChanged();
+            ConfigRecyclerViewAdapter.this.onWatchFacePresetChanged();
         }
     }
 
@@ -836,20 +866,15 @@ public class ConfigRecyclerViewAdapter
      * Displays switch to indicate whether or not icon appears for unread notifications. User can
      * toggle on/off.
      */
-    public class UnreadNotificationViewHolder extends ToggleViewHolder {
+    public class UnreadNotificationViewHolder extends ToggleViewHolder
+            implements SettingsListener {
         UnreadNotificationViewHolder(View view) {
             super(view);
         }
 
         @Override
-        void setDefaultSwitchValue(Context context) {
-            String sharedPreferenceString = context.getString(R.string.saved_settings);
-
-            Settings settings = new Settings();
-            settings.setString(mSharedPref.getString(sharedPreferenceString, null));
-            boolean currentState = settings.isShowUnreadNotifications();
-
-            updateIcon(context, currentState);
+        void setDefaultSwitchValue() {
+            setChecked(mCurrentSettings.isShowUnreadNotifications());
         }
 
         @Override
@@ -858,22 +883,26 @@ public class ConfigRecyclerViewAdapter
             String sharedPreferenceString = context.getString(R.string.saved_settings);
 
             // Since user clicked on a switch, new state should be opposite of current state.
-            Settings settings = new Settings();
-            settings.setString(mSharedPref.getString(sharedPreferenceString, null));
-            boolean newState = settings.toggleShowUnreadNotifications();
+            mCurrentSettings.toggleShowUnreadNotifications();
 
             SharedPreferences.Editor editor = mSharedPref.edit();
-            editor.putString(sharedPreferenceString, settings.getString());
+            editor.putString(sharedPreferenceString, mCurrentSettings.getString());
             editor.apply();
 
-            updateIcon(context, newState);
+            ConfigRecyclerViewAdapter.this.onSettingsChanged();
+        }
+
+        @Override
+        public void onSettingsChanged() {
+            setDefaultSwitchValue();
         }
     }
 
     /**
      * Displays switch to indicate whether or not night vision is toggled on/off.
      */
-    public class NightVisionViewHolder extends ToggleViewHolder {
+    public class NightVisionViewHolder extends ToggleViewHolder
+            implements SettingsListener {
         final private int MY_PERMISSION_ACCESS_COURSE_LOCATION = 1;
 
         NightVisionViewHolder(View view) {
@@ -881,13 +910,8 @@ public class ConfigRecyclerViewAdapter
         }
 
         @Override
-        void setDefaultSwitchValue(Context context) {
-            String sharedPreferenceString = context.getString(R.string.saved_settings);
-            Settings settings = new Settings();
-            settings.setString(mSharedPref.getString(sharedPreferenceString, null));
-            boolean currentState = settings.toggleNightVisionModeEnabled();
-
-            updateIcon(context, currentState);
+        void setDefaultSwitchValue() {
+            setChecked(mCurrentSettings.isNightVisionModeEnabled());
         }
 
         @Override
@@ -896,9 +920,7 @@ public class ConfigRecyclerViewAdapter
             String sharedPreferenceString = context.getString(R.string.saved_settings);
 
             // Since user clicked on a switch, new state should be opposite of current state.
-            Settings settings = new Settings();
-            settings.setString(mSharedPref.getString(sharedPreferenceString, null));
-            boolean newState = settings.toggleNightVisionModeEnabled();
+            boolean newState = mCurrentSettings.toggleNightVisionModeEnabled();
 
             if (newState && context.checkSelfPermission(
                     android.Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -910,10 +932,15 @@ public class ConfigRecyclerViewAdapter
             }
 
             SharedPreferences.Editor editor = mSharedPref.edit();
-            editor.putString(sharedPreferenceString, settings.toString());
+            editor.putString(sharedPreferenceString, mCurrentSettings.getString());
             editor.apply();
 
-            updateIcon(context, newState);
+            ConfigRecyclerViewAdapter.this.onSettingsChanged();
+        }
+
+        @Override
+        public void onSettingsChanged() {
+            setDefaultSwitchValue();
         }
     }
 
@@ -922,7 +949,7 @@ public class ConfigRecyclerViewAdapter
      */
     public abstract class ToggleViewHolder extends RecyclerView.ViewHolder
             implements OnClickListener {
-        Switch mSwitch;
+        private Switch mSwitch;
         private int mEnabledIconResourceId;
         private int mDisabledIconResourceId;
 
@@ -942,31 +969,27 @@ public class ConfigRecyclerViewAdapter
             mEnabledIconResourceId = enabledIconResourceId;
             mDisabledIconResourceId = disabledIconResourceId;
 
-            Context context = mSwitch.getContext();
-
-            // Set default to enabled.
-            mSwitch.setCompoundDrawablesWithIntrinsicBounds(
-                    context.getDrawable(mEnabledIconResourceId), null, null, null);
-
-            if (mSwitch != null) {
-                setDefaultSwitchValue(context);
-            }
+            setDefaultSwitchValue();
         }
 
-        abstract void setDefaultSwitchValue(Context context);
+        abstract void setDefaultSwitchValue();
 
-        void updateIcon(Context context, Boolean currentState) {
+        boolean isChecked() {
+            return mSwitch.isChecked();
+        }
+
+        void setChecked(Boolean checked) {
             int currentIconResourceId;
 
-            if (currentState) {
+            if (checked) {
                 currentIconResourceId = mEnabledIconResourceId;
             } else {
                 currentIconResourceId = mDisabledIconResourceId;
             }
 
-            mSwitch.setChecked(currentState);
+            mSwitch.setChecked(checked);
             mSwitch.setCompoundDrawablesWithIntrinsicBounds(
-                    context.getDrawable(currentIconResourceId), null, null, null);
+                    mSwitch.getContext().getDrawable(currentIconResourceId), null, null, null);
         }
 
         @Override
