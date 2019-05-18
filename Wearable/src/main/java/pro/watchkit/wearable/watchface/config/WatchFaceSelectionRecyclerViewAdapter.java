@@ -46,7 +46,7 @@ public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapt
     @Override
     @NonNull
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new WatchFacePresetViewHolder(LayoutInflater.from(parent.getContext())
+        return new WatchFacePresetSelectionViewHolder(LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.watch_face_preset_config_list_item, parent, false));
     }
 
@@ -59,7 +59,7 @@ public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapt
                 mSettingsStrings != null && mSettingsStrings.length > position ?
                         mSettingsStrings[position] : null;
 
-        WatchFacePresetViewHolder holder = (WatchFacePresetViewHolder) viewHolder;
+        WatchFacePresetSelectionViewHolder holder = (WatchFacePresetSelectionViewHolder) viewHolder;
         holder.setPreset(watchFacePresetString, settingsString);
     }
 

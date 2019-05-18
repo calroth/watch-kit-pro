@@ -198,7 +198,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
 
             case TYPE_WATCH_FACE_DRAWABLE_CONFIG: {
                 viewHolder =
-                        new WatchFaceDrawableComplicationViewHolder(
+                        new ComplicationViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.watch_face_preset_config_list_item, parent, false));
                 break;
@@ -280,16 +280,16 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
             }
 
             case TYPE_WATCH_FACE_DRAWABLE_CONFIG: {
-                WatchFaceDrawableComplicationViewHolder watchFaceDrawableComplicationViewHolder =
-                        (WatchFaceDrawableComplicationViewHolder) viewHolder;
+                ComplicationViewHolder complicationViewHolder =
+                        (ComplicationViewHolder) viewHolder;
                 WatchFaceDrawableConfigItem watchFaceDrawableConfigItem =
                         (WatchFaceDrawableConfigItem) configItemType;
 
                 int defaultComplicationResourceId =
                         watchFaceDrawableConfigItem.getDefaultComplicationResourceId();
-                watchFaceDrawableComplicationViewHolder.setDefaultComplicationDrawable(
+                complicationViewHolder.setDefaultComplicationDrawable(
                         defaultComplicationResourceId);
-                watchFaceDrawableComplicationViewHolder.bind(watchFaceDrawableConfigItem);
+                complicationViewHolder.bind(watchFaceDrawableConfigItem);
                 break;
             }
 

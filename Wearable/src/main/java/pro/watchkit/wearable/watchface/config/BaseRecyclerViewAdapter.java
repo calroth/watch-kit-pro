@@ -136,9 +136,10 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
      * Displays color options for an item on the watch face and saves value to the
      * SharedPreference associated with it.
      */
-    public class WatchFacePresetViewHolder extends BaseWatchFaceDrawableViewHolder implements View.OnClickListener {
+    public class WatchFacePresetSelectionViewHolder extends WatchFaceDrawableViewHolder
+            implements View.OnClickListener {
 
-        WatchFacePresetViewHolder(final View view) {
+        WatchFacePresetSelectionViewHolder(final View view) {
             super(view, WatchFaceGlobalDrawable.PART_BACKGROUND |
                     WatchFaceGlobalDrawable.PART_TICKS |
                     WatchFaceGlobalDrawable.PART_HANDS);
@@ -152,12 +153,14 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
             Activity activity = (Activity) view.getContext();
 
+            // TODO: the below code is duplicated, just have one SharedPreferences.
             SharedPreferences preferences = activity.getSharedPreferences(
                     activity.getString(R.string.analog_complication_preference_file_key),
                     Context.MODE_PRIVATE);
 
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putString(activity.getString(R.string.saved_watch_face_preset), watchFacePresetString);
+            editor.putString(activity.getString(R.string.saved_watch_face_preset),
+                    watchFacePresetString);
             editor.apply();
 
             // Lets Complication Config Activity know there was an update to colors.
@@ -172,13 +175,13 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
     }
 
-    class BaseWatchFaceDrawableViewHolder extends RecyclerView.ViewHolder {
+    class WatchFaceDrawableViewHolder extends RecyclerView.ViewHolder {
 
         ImageView mImageView;
 
         WatchFaceGlobalDrawable mWatchFaceGlobalDrawable;
 
-        BaseWatchFaceDrawableViewHolder(View view, int flags) {
+        WatchFaceDrawableViewHolder(View view, int flags) {
             super(view);
             mImageView = view.findViewById(R.id.watch_face_preset);
             mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(view.getContext(), flags);
@@ -198,7 +201,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
     }
 
-    public class WatchFaceDrawableComplicationViewHolder extends BaseWatchFaceDrawableViewHolder
+    public class ComplicationViewHolder extends WatchFaceDrawableViewHolder
             implements WatchFacePresetListener, SettingsListener, ComplicationProviderInfoListener {
 
         private @DrawableRes
@@ -211,7 +214,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         private float mLastTouchX = -1f, mLastTouchY = -1f;
         private Activity mCurrentActivity;
 
-        WatchFaceDrawableComplicationViewHolder(final View view) {
+        ComplicationViewHolder(final View view) {
             super(view, WatchFaceGlobalDrawable.PART_BACKGROUND |
                     WatchFaceGlobalDrawable.PART_RINGS_ALL |
                     WatchFaceGlobalDrawable.PART_COMPLICATIONS);
