@@ -136,33 +136,13 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
      * Displays color options for an item on the watch face and saves value to the
      * SharedPreference associated with it.
      */
-    public class WatchFacePresetViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        private ImageView mImageView;
-
-        private WatchFaceGlobalDrawable mWatchFaceGlobalDrawable;
+    public class WatchFacePresetViewHolder extends BaseWatchFaceDrawableViewHolder implements View.OnClickListener {
 
         WatchFacePresetViewHolder(final View view) {
-            super(view);
-            mImageView = view.findViewById(R.id.watch_face_preset);
+            super(view, WatchFaceGlobalDrawable.PART_BACKGROUND |
+                    WatchFaceGlobalDrawable.PART_TICKS |
+                    WatchFaceGlobalDrawable.PART_HANDS);
             view.setOnClickListener(this);
-            mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(view.getContext(),
-                    WatchFaceGlobalDrawable.PART_BACKGROUND |
-                            WatchFaceGlobalDrawable.PART_TICKS |
-                            WatchFaceGlobalDrawable.PART_HANDS);
-        }
-
-        void setPreset(String watchFacePresetString, String settingsString) {
-            WatchFaceState w = mWatchFaceGlobalDrawable.getWatchFaceState();
-            if (watchFacePresetString != null) {
-                w.getWatchFacePreset().setString(watchFacePresetString);
-            }
-            if (settingsString != null) {
-                w.getSettings().setString(settingsString);
-            }
-            w.setNotifications(0, 0);
-            w.setAmbient(false);
-            mImageView.setImageDrawable(mWatchFaceGlobalDrawable);
         }
 
         @Override
@@ -192,16 +172,34 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
     }
 
-    /**
-     * TODO: we really have to see if we can generalise it, it's the same code as in
-     * WatchFaceSelectionRecyclerViewAdapter
-     */
-    public class WatchFaceDrawableComplicationViewHolder extends RecyclerView.ViewHolder
-            implements ComplicationProviderInfoListener, WatchFacePresetListener, SettingsListener {
+    class BaseWatchFaceDrawableViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView mImageView;
+        ImageView mImageView;
 
-        private WatchFaceGlobalDrawable mWatchFaceGlobalDrawable;
+        WatchFaceGlobalDrawable mWatchFaceGlobalDrawable;
+
+        BaseWatchFaceDrawableViewHolder(View view, int flags) {
+            super(view);
+            mImageView = view.findViewById(R.id.watch_face_preset);
+            mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(view.getContext(), flags);
+        }
+
+        void setPreset(String watchFacePresetString, String settingsString) {
+            WatchFaceState w = mWatchFaceGlobalDrawable.getWatchFaceState();
+            if (watchFacePresetString != null) {
+                w.getWatchFacePreset().setString(watchFacePresetString);
+            }
+            if (settingsString != null) {
+                w.getSettings().setString(settingsString);
+            }
+            w.setNotifications(0, 0);
+            w.setAmbient(false);
+            mImageView.setImageDrawable(mWatchFaceGlobalDrawable);
+        }
+    }
+
+    public class WatchFaceDrawableComplicationViewHolder extends BaseWatchFaceDrawableViewHolder
+            implements WatchFacePresetListener, SettingsListener, ComplicationProviderInfoListener {
 
         private @DrawableRes
         int mDefaultComplicationDrawableId;
@@ -214,13 +212,9 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         private Activity mCurrentActivity;
 
         WatchFaceDrawableComplicationViewHolder(final View view) {
-            super(view);
-            mImageView = view.findViewById(R.id.watch_face_preset);
-//            view.setOnClickListener(this);
-            mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(view.getContext(),
-                    WatchFaceGlobalDrawable.PART_BACKGROUND |
-                            WatchFaceGlobalDrawable.PART_RINGS_ALL |
-                            WatchFaceGlobalDrawable.PART_COMPLICATIONS);
+            super(view, WatchFaceGlobalDrawable.PART_BACKGROUND |
+                    WatchFaceGlobalDrawable.PART_RINGS_ALL |
+                    WatchFaceGlobalDrawable.PART_COMPLICATIONS);
             mContext = view.getContext();
             mCurrentActivity = (Activity) view.getContext();
 
@@ -233,16 +227,24 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             });
         }
 
-        void setDefaultComplicationDrawable(@DrawableRes int resourceId) {
-            mDefaultComplicationDrawableId = resourceId;
-        }
-
         public void onWatchFacePresetChanged() {
+            String settingsString = mCurrentSettings.getString();
+            String watchFacePresetString = mCurrentWatchFacePreset.getString();
+
+            setPreset(watchFacePresetString, settingsString);
             itemView.invalidate();
         }
 
         public void onSettingsChanged() {
+            String settingsString = mCurrentSettings.getString();
+            String watchFacePresetString = mCurrentWatchFacePreset.getString();
+
+            setPreset(watchFacePresetString, settingsString);
             itemView.invalidate();
+        }
+
+        void setDefaultComplicationDrawable(@DrawableRes int resourceId) {
+            mDefaultComplicationDrawableId = resourceId;
         }
 
         @Override
@@ -275,14 +277,15 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         void bind(ConfigData.WatchFaceDrawableConfigItem configItem) {
             mConfigItem = configItem;
 
+            // Set the preset based on current settings.
             String settingsString = mCurrentSettings.getString();
             String watchFacePresetString = mCurrentWatchFacePreset.getString();
 
+            setPreset(watchFacePresetString, settingsString);
+
+            // Set complications.
+
             WatchFaceState w = mWatchFaceGlobalDrawable.getWatchFaceState();
-            w.getWatchFacePreset().setString(watchFacePresetString);
-            w.getSettings().setString(settingsString);
-            w.setNotifications(0, 0);
-            w.setAmbient(false);
             int[] complicationIds = w.initializeComplications(mContext, this::onWatchFacePresetChanged);
 
             mImageView.setOnClickListener(v -> {
@@ -296,8 +299,6 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                     }
                 }
             });
-
-            mImageView.setImageDrawable(mWatchFaceGlobalDrawable);
 
             mProviderInfoRetriever.retrieveProviderInfo(
                     new ProviderInfoRetriever.OnProviderInfoReceivedCallback() {
