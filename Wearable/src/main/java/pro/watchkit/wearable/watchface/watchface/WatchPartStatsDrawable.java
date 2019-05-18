@@ -24,7 +24,7 @@ import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
 
-import java.util.Locale;
+import java.util.Formatter;
 
 import pro.watchkit.wearable.watchface.BuildConfig;
 
@@ -43,6 +43,8 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
     static int invalid = 0;
     Drawable[] mWatchPartDrawables, mWatchPartDrawables2;
     static String mInvalidTrigger = "";
+    private StringBuffer mStringBuilder = new StringBuffer();
+    private Formatter mFormatter = new Formatter(mStringBuilder);
 
     @Override
     String getStatsName() {
@@ -78,21 +80,35 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
             }
         }
 
-        canvas.drawText(invalid
-                + String.format(Locale.getDefault(),
-                " Alt: %.2f° / ", mWatchFaceState.getLocationCalculator().getSunAltitude())
-//                + Objects.hashCode(mWatchFaceState)
-                + String.format(Locale.getDefault(),
-                "%.2f", (double) (total) / 1000000d)
-                + (canvas.isHardwareAccelerated() ? " (hw)" : " (sw)"), x, y, textPaint);
+        mStringBuilder.setLength(0);
+        mStringBuilder.append(invalid).append(" Alt: ");
+        mFormatter.format("%.2f", mWatchFaceState.getLocationCalculator().getSunAltitude());
+        mStringBuilder.append("° / ");
+        mFormatter.format("%.2f", (double) (total) / 1000000d);
+        mStringBuilder.append(canvas.isHardwareAccelerated() ? " (hw)" : " (sw)");
+        canvas.drawText(mStringBuilder.toString(), x, y, textPaint);
+
+//        canvas.drawText(invalid
+//                + String.format(Locale.getDefault(),
+//                " Alt: %.2f° / ", mWatchFaceState.getLocationCalculator().getSunAltitude())
+////                + Objects.hashCode(mWatchFaceState)
+//                + String.format(Locale.getDefault(),
+//                "%.2f", (double) (total) / 1000000d)
+//                + (canvas.isHardwareAccelerated() ? " (hw)" : " (sw)"), x, y, textPaint);
     }
 
     private float drawStats(
             WatchPartDrawable d, @NonNull Canvas canvas, Paint textPaint, float x, float y) {
-        canvas.drawText(String.format(Locale.getDefault(),
-                "%s: %.2f", d.getStatsName(),
-                    (double) (d.mLastStatsTime) / 1000000d), x, y, textPaint);
-            y += 3f * pc;
+
+        mStringBuilder.setLength(0);
+        mStringBuilder.append(d.getStatsName()).append(": ");
+        mFormatter.format("%.2f", (double) (d.mLastStatsTime) / 1000000d);
+        canvas.drawText(mStringBuilder.toString(), x, y, textPaint);
+
+//        canvas.drawText(String.format(Locale.getDefault(),
+//                "%s: %.2f", d.getStatsName(),
+//                    (double) (d.mLastStatsTime) / 1000000d), x, y, textPaint);
+        y += 3f * pc;
         return y;
     }
 }
