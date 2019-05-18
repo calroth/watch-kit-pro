@@ -297,9 +297,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                     Optional<ComplicationHolder> nearest = w.getComplications().stream()
                             .filter(c -> c.isForeground)
                             .min(Comparator.comparing(c -> c.distanceFrom(mLastTouchX, mLastTouchY)));
-                    if (nearest.isPresent()) {
-                        launchComplicationHelperActivity(nearest.get());
-                    }
+                    nearest.ifPresent(this::launchComplicationHelperActivity);
                 }
             });
 
@@ -321,26 +319,18 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         // Verifies the watch face supports the complication location, then launches the helper
         // class, so user can choose their complication data provider.
         private void launchComplicationHelperActivity(ComplicationHolder complication) {
-            Log.d("Complication", "Launching for id " + complication.getId());
-
             mSelectedComplication = complication;
 
-            if (mSelectedComplication != null) {
+            ComponentName watchFace =
+                    new ComponentName(mCurrentActivity, AnalogComplicationWatchFaceService.class);
 
-                ComponentName watchFace = new ComponentName(
-                        mCurrentActivity, AnalogComplicationWatchFaceService.class);
-
-                mCurrentActivity.startActivityForResult(
-                        ComplicationHelperActivity.createProviderChooserHelperIntent(
-                                mCurrentActivity,
-                                watchFace,
-                                mSelectedComplication.getId(),
-                                mSelectedComplication.getSupportedComplicationTypes()),
-                        ConfigActivity.COMPLICATION_CONFIG_REQUEST_CODE);
-
-            } else {
-                Log.d(TAG, "Complication not supported by watch face.");
-            }
+            mCurrentActivity.startActivityForResult(
+                    ComplicationHelperActivity.createProviderChooserHelperIntent(
+                            mCurrentActivity,
+                            watchFace,
+                            mSelectedComplication.getId(),
+                            mSelectedComplication.getSupportedComplicationTypes()),
+                    ConfigActivity.COMPLICATION_CONFIG_REQUEST_CODE);
         }
     }
 }
