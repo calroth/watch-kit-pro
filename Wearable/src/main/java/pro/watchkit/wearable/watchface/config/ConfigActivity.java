@@ -138,10 +138,10 @@ public class ConfigActivity extends Activity {
     }
 
     private enum ConfigSubActivity {
-        Settings(ComplicationConfigData.class, R.string.config_configure_settings, R.drawable.ic_notifications_white_24dp),
+        Settings(ComplicationConfigData.class, R.string.config_configure_settings, R.drawable.ic_complications),
         ColorsStyles(ColorsStylesConfigData.class, R.string.config_configure_colors_styles, R.drawable.ic_lock_open_white_24dp),
-        WatchPartHands(WatchPartHandsConfigData.class, R.string.config_configure_hands, R.drawable.ic_add_white_24dp),
-        WatchPartTicks(WatchPartTicksConfigData.class, R.string.config_configure_ticks, R.drawable.ic_more_horiz_24dp_wht);
+        WatchPartHands(WatchPartHandsConfigData.class, R.string.config_configure_hands, R.drawable.ic_hands),
+        WatchPartTicks(WatchPartTicksConfigData.class, R.string.config_configure_ticks, R.drawable.ic_ticks);
 
         final String mClassName;
         final Class<? extends ConfigData> mClass;
