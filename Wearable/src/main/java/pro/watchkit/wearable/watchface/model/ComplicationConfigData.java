@@ -73,14 +73,14 @@ public class ComplicationConfigData extends ConfigData {
         // Data for Configure Hands sub-activity in settings Activity.
         settingsConfigData.add(new ConfigActivityConfigItem(
                 context.getString(R.string.config_configure_hands),
-                R.drawable.icn_styles,
+                R.drawable.ic_hands,
                 WatchPartHandsConfigData.class,
                 ConfigActivity.class));
 
         // Data for Configure Ticks sub-activity in settings Activity.
         settingsConfigData.add(new ConfigActivityConfigItem(
                 context.getString(R.string.config_configure_ticks),
-                R.drawable.icn_styles,
+                R.drawable.ic_ticks,
                 WatchPartTicksConfigData.class,
                 ConfigActivity.class));
 
