@@ -63,6 +63,8 @@
     <string name="config_night_vision_label">Night\nVision</string>
 
     <string name="config_configure_settings">Configure Settings</string>
+    <string name="config_configure_complications">Configure Complications</string>
+    <string name="config_configure_watch_face_preset">Configure Watch Face Preset</string>
     <string name="config_configure_colors_styles">Configure Colors and Styles</string>
     <string name="config_configure_hands">Configure Hands</string>
     <string name="config_configure_ticks">Configure Ticks</string>

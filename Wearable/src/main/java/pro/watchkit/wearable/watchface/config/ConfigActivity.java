@@ -50,6 +50,8 @@ import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.ColorsStylesConfigData;
 import pro.watchkit.wearable.watchface.model.ComplicationConfigData;
 import pro.watchkit.wearable.watchface.model.ConfigData;
+import pro.watchkit.wearable.watchface.model.SettingsConfigData;
+import pro.watchkit.wearable.watchface.model.WatchFacePresetConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartHandsConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartTicksConfigData;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
@@ -113,8 +115,7 @@ public class ConfigActivity extends Activity {
         mWearableRecyclerView.setAdapter(mAdapter);
 
         // Set up our navigation drawer at the top of the view.
-        mWearableNavigationDrawer =
-                findViewById(R.id.top_navigation_drawer);
+        mWearableNavigationDrawer = findViewById(R.id.top_navigation_drawer);
         mWearableNavigationDrawer.setAdapter(new NavigationAdapter(this));
         mWearableNavigationDrawer.setCurrentItem(mCurrentSubActivity.ordinal(), false);
         mWearableNavigationDrawer.addOnItemSelectedListener(pos -> {
@@ -138,8 +139,10 @@ public class ConfigActivity extends Activity {
     }
 
     private enum ConfigSubActivity {
-        Settings(ComplicationConfigData.class, R.string.config_configure_settings, R.drawable.ic_complications),
-        ColorsStyles(ColorsStylesConfigData.class, R.string.config_configure_colors_styles, R.drawable.ic_lock_open_white_24dp),
+        Settings(SettingsConfigData.class, R.string.config_configure_settings, R.drawable.ic_settings),
+        Complications(ComplicationConfigData.class, R.string.config_configure_complications, R.drawable.ic_complications),
+        WatchFacePresets(WatchFacePresetConfigData.class, R.string.config_configure_watch_face_preset, R.drawable.ic_hands_ticks),
+        ColorsStyles(ColorsStylesConfigData.class, R.string.config_configure_colors_styles, R.drawable.ic_settings),
         WatchPartHands(WatchPartHandsConfigData.class, R.string.config_configure_hands, R.drawable.ic_hands),
         WatchPartTicks(WatchPartTicksConfigData.class, R.string.config_configure_ticks, R.drawable.ic_ticks);
 
