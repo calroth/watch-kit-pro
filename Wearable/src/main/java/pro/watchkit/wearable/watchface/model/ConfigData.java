@@ -5,8 +5,8 @@ import android.text.Html;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -28,7 +28,7 @@ abstract public class ConfigData {
      * Includes all data to populate each of the 5 different custom
      * {@link RecyclerView.ViewHolder} types in {@link ConfigRecyclerViewAdapter}.
      */
-    abstract public ArrayList<ConfigItemType> getDataToPopulateAdapter(Context context);
+    abstract public List<ConfigItemType> getDataToPopulateAdapter(Context context);
 
     /**
      * Interface all ConfigItems must implement so the {@link RecyclerView}'s Adapter associated

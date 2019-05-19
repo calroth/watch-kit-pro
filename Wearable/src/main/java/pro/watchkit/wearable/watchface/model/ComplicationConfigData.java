@@ -36,51 +36,29 @@ package pro.watchkit.wearable.watchface.model;
 
 import android.content.Context;
 
-import androidx.recyclerview.widget.RecyclerView.ViewHolder;
-
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import pro.watchkit.wearable.watchface.R;
-import pro.watchkit.wearable.watchface.config.ConfigActivity;
-import pro.watchkit.wearable.watchface.config.ConfigRecyclerViewAdapter;
-import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
-/**
- * Data represents different views for configuring the
- * {@link AnalogComplicationWatchFaceService} watch face's appearance and complications
- * via {@link ConfigActivity}.
- */
 public class ComplicationConfigData extends ConfigData {
-    /**
-     * Includes all data to populate each of the 5 different custom
-     * {@link ViewHolder} types in {@link ConfigRecyclerViewAdapter}.
-     */
     @Override
-    public ArrayList<ConfigItemType> getDataToPopulateAdapter(Context context) {
+    public List<ConfigItemType> getDataToPopulateAdapter(Context context) {
+        return Arrays.asList(
+                // Complication picker from watch face drawable.
+                new WatchFaceDrawableConfigItem(R.drawable.add_complication),
 
-        ArrayList<ConfigItemType> settingsConfigData = new ArrayList<>();
-
-        // Complication picker from watch face drawable.
-        settingsConfigData.add(new WatchFaceDrawableConfigItem(R.drawable.add_complication));
-
-        // Data for 'Unread Notifications' UX (toggle) in settings Activity.
-        ConfigItemType unreadNotificationsConfigItem =
+                // Data for 'Unread Notifications' UX (toggle) in settings Activity.
                 new UnreadNotificationConfigItem(
                         context.getString(R.string.config_unread_notifications_label),
                         R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp/*,
-                        R.string.saved_unread_notifications_pref*/);
-        settingsConfigData.add(unreadNotificationsConfigItem);
+                        R.drawable.ic_notifications_off_white_24dp),
 
-        // Data for 'Night Vision' UX (toggle) in settings Activity.
-        ConfigItemType nightVisionConfigItem =
+                // Data for 'Night Vision' UX (toggle) in settings Activity.
                 new NightVisionConfigItem(
                         context.getString(R.string.config_night_vision_label),
                         R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp/*,
-                        R.string.saved_night_vision_pref*/);
-        settingsConfigData.add(nightVisionConfigItem);
-
-        return settingsConfigData;
+                        R.drawable.ic_notifications_off_white_24dp)
+        );
     }
 }

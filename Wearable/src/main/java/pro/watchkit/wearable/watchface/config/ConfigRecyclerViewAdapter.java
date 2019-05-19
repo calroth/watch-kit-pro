@@ -113,7 +113,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
     public static final int TYPE_CONFIG_ACTIVITY_CONFIG = 9;
     private static final String TAG = "CompConfigAdapter";
     private SharedPreferences mSharedPref;
-    private ArrayList<ConfigItemType> mSettingsDataSet;
+    private List<ConfigItemType> mSettingsDataSet;
 
     private List<WatchFacePresetListener> mWatchFacePresetListeners = new ArrayList<>();
     private List<SettingsListener> mSettingsListeners = new ArrayList<>();
@@ -129,7 +129,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
     ConfigRecyclerViewAdapter(
             @NonNull Context context,
             @NonNull Class watchFaceServiceClass,
-            @NonNull ArrayList<ConfigItemType> settingsDataSet) {
+            @NonNull List<ConfigItemType> settingsDataSet) {
         mContext = context;
         mWatchFaceComponentName = new ComponentName(context, watchFaceServiceClass);
         mSettingsDataSet = settingsDataSet;
