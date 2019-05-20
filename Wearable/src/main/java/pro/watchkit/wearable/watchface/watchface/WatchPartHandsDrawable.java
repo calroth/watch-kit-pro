@@ -23,11 +23,12 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 
+import androidx.annotation.NonNull;
+
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 
-import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandCutout;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandLength;
 import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandShape;
@@ -54,6 +55,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     private Path mStalk = new Path();
     private Path mHandCutout = new Path();
     private Path mStalkCutout = new Path();
+    private Path mExtraHandStalkCutout = new Path();
 
     WatchPartHandsDrawable() {
         super();
@@ -245,6 +247,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         mStalk.reset();
         mHandCutout.reset();
         mStalkCutout.reset();
+        mExtraHandStalkCutout.reset();
 
         switch (handStalk) {
             case NEGATIVE: {
@@ -273,6 +276,12 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 drawRoundRect(mStalkCutout,
                         mCenterX - stalkThickness, stalkTop,
                         mCenterX + stalkThickness, stalkBottom, roundRectRadius, 0.5f);
+
+                // For both hand and stalk cutout, make the stalk cutout a little longer.
+                // That way it merges with the hand cutout.
+                drawRoundRect(mExtraHandStalkCutout,
+                        mCenterX - stalkThickness, top,
+                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 0.5f);
                 break;
             }
             case MEDIUM: {
@@ -292,6 +301,12 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 // Draw a cutout.
                 drawRoundRect(mStalkCutout,
                         mCenterX - stalkThickness, stalkTop,
+                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 0.5f);
+
+                // For both hand and stalk cutout, make the stalk cutout a little longer.
+                // That way it merges with the hand cutout.
+                drawRoundRect(mExtraHandStalkCutout,
+                        mCenterX - stalkThickness, top,
                         mCenterX + stalkThickness, stalkBottom, roundRectRadius, 0.5f);
                 break;
             }
@@ -362,6 +377,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 p.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
                 p.op(mStalkCutout, Path.Op.DIFFERENCE); // Remove the stalk cutout.
                 p.op(mHandCutout, Path.Op.DIFFERENCE); // Remove the hand cutout.
+                p.op(mExtraHandStalkCutout, Path.Op.DIFFERENCE); // Remove the extra cutout.
                 break;
             }
         }
