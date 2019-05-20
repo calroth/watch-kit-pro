@@ -69,11 +69,11 @@ import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.ConfigData;
 import pro.watchkit.wearable.watchface.model.ConfigData.ColorPickerConfigItem;
+import pro.watchkit.wearable.watchface.model.ConfigData.ComplicationConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ConfigActivityConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ConfigItemType;
 import pro.watchkit.wearable.watchface.model.ConfigData.NightVisionConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.UnreadNotificationConfigItem;
-import pro.watchkit.wearable.watchface.model.ConfigData.WatchFaceDrawableConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFacePickerConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFacePresetToggleConfigItem;
 import pro.watchkit.wearable.watchface.model.PaintBox;
@@ -282,14 +282,14 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
             case TYPE_WATCH_FACE_DRAWABLE_CONFIG: {
                 ComplicationViewHolder complicationViewHolder =
                         (ComplicationViewHolder) viewHolder;
-                WatchFaceDrawableConfigItem watchFaceDrawableConfigItem =
-                        (WatchFaceDrawableConfigItem) configItemType;
+                ComplicationConfigItem complicationConfigItem =
+                        (ComplicationConfigItem) configItemType;
 
                 int defaultComplicationResourceId =
-                        watchFaceDrawableConfigItem.getDefaultComplicationResourceId();
+                        complicationConfigItem.getDefaultComplicationResourceId();
                 complicationViewHolder.setDefaultComplicationDrawable(
                         defaultComplicationResourceId);
-                complicationViewHolder.bind(watchFaceDrawableConfigItem);
+                complicationViewHolder.bind(complicationConfigItem);
                 break;
             }
 

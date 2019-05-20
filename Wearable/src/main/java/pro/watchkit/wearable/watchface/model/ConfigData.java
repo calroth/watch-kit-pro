@@ -70,11 +70,11 @@ abstract public class ConfigData {
     /**
      * Data for Watch Face Preview with Complications Preview item in RecyclerView.
      */
-    public static class WatchFaceDrawableConfigItem implements ConfigItemType {
+    public static class ComplicationConfigItem implements ConfigItemType {
 
         private int defaultComplicationResourceId;
 
-        WatchFaceDrawableConfigItem(int defaultComplicationResourceId) {
+        ComplicationConfigItem(int defaultComplicationResourceId) {
             this.defaultComplicationResourceId = defaultComplicationResourceId;
         }
 

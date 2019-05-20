@@ -29,7 +29,7 @@ public class ComplicationConfigData extends ConfigData {
     public List<ConfigItemType> getDataToPopulateAdapter(Context context) {
         return Arrays.asList(
                 // Complication picker from watch face drawable.
-                new WatchFaceDrawableConfigItem(R.drawable.add_complication)
+                new ComplicationConfigItem(R.drawable.add_complication)
         );
     }
 }

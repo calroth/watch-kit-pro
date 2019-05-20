@@ -29,6 +29,9 @@ public class WatchPartHandsConfigData extends ConfigData {
     @Override
     public List<ConfigItemType> getDataToPopulateAdapter(Context context) {
         return Arrays.asList(
+                // Complication picker from watch face drawable.
+                new ComplicationConfigItem(R.drawable.add_complication),
+
                 // Data for hour hand shape in settings Activity.
                 new WatchFacePickerConfigItem(
                         context.getString(R.string.config_preset_hour_hand_shape),

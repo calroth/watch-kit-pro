@@ -207,7 +207,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         private @DrawableRes
         int mDefaultComplicationDrawableId;
 
-        private ConfigData.WatchFaceDrawableConfigItem mConfigItem;
+        private ConfigData.ComplicationConfigItem mConfigItem;
 
         private Context mContext;
 
@@ -277,7 +277,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             }
         }
 
-        void bind(ConfigData.WatchFaceDrawableConfigItem configItem) {
+        void bind(ConfigData.ComplicationConfigItem configItem) {
             mConfigItem = configItem;
 
             // Set the preset based on current settings.
