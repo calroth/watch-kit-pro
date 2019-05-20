@@ -24,11 +24,17 @@ import java.util.List;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
+import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 public class WatchFacePresetConfigData extends ConfigData {
     @Override
     public List<ConfigItemType> getDataToPopulateAdapter(Context context) {
         return Arrays.asList(
+                // A preview of the current watch face.
+                new WatchFaceDrawableConfigItem(WatchFaceGlobalDrawable.PART_BACKGROUND |
+                        WatchFaceGlobalDrawable.PART_TICKS |
+                        WatchFaceGlobalDrawable.PART_HANDS),
+
                 // Data for Configure Colors and Styles sub-activity in settings Activity.
                 new ConfigActivityConfigItem(
                         context.getString(R.string.config_configure_colors_styles),

@@ -24,11 +24,16 @@ import java.util.List;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
+import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 public class WatchPartTicksConfigData extends ConfigData {
     @Override
     public List<ConfigItemType> getDataToPopulateAdapter(Context context) {
         return Arrays.asList(
+                // A preview of the current watch face.
+                new WatchFaceDrawableConfigItem(WatchFaceGlobalDrawable.PART_BACKGROUND |
+                        WatchFaceGlobalDrawable.PART_TICKS),
+
                 // Data for ticks display in settings Activity.
                 new WatchFacePickerConfigItem(
                         context.getString(R.string.config_preset_ticks_display),

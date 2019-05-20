@@ -74,6 +74,7 @@ import pro.watchkit.wearable.watchface.model.ConfigData.ConfigActivityConfigItem
 import pro.watchkit.wearable.watchface.model.ConfigData.ConfigItemType;
 import pro.watchkit.wearable.watchface.model.ConfigData.NightVisionConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.UnreadNotificationConfigItem;
+import pro.watchkit.wearable.watchface.model.ConfigData.WatchFaceDrawableConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFacePickerConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFacePresetToggleConfigItem;
 import pro.watchkit.wearable.watchface.model.PaintBox;
@@ -104,13 +105,14 @@ import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.
  */
 public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
 
-    public static final int TYPE_COLOR_PICKER_CONFIG = 2;
-    public static final int TYPE_UNREAD_NOTIFICATION_CONFIG = 3;
-    public static final int TYPE_NIGHT_VISION_CONFIG = 5;
-    public static final int TYPE_WATCH_FACE_DRAWABLE_CONFIG = 6;
-    public static final int TYPE_WATCH_FACE_PRESET_PICKER_CONFIG = 7;
-    public static final int TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG = 8;
-    public static final int TYPE_CONFIG_ACTIVITY_CONFIG = 9;
+    public static final int TYPE_COLOR_PICKER_CONFIG = 0;
+    public static final int TYPE_UNREAD_NOTIFICATION_CONFIG = 1;
+    public static final int TYPE_NIGHT_VISION_CONFIG = 2;
+    public static final int TYPE_WATCH_FACE_DRAWABLE_CONFIG = 3;
+    public static final int TYPE_COMPLICATION_CONFIG = 4;
+    public static final int TYPE_WATCH_FACE_PRESET_PICKER_CONFIG = 5;
+    public static final int TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG = 6;
+    public static final int TYPE_CONFIG_ACTIVITY_CONFIG = 7;
     private static final String TAG = "CompConfigAdapter";
     private SharedPreferences mSharedPref;
     private List<ConfigItemType> mSettingsDataSet;
@@ -198,6 +200,14 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
 
             case TYPE_WATCH_FACE_DRAWABLE_CONFIG: {
                 viewHolder =
+                        new WatchFaceDrawableViewHolder(
+                                LayoutInflater.from(parent.getContext())
+                                        .inflate(R.layout.watch_face_preset_config_list_item, parent, false));
+                break;
+            }
+
+            case TYPE_COMPLICATION_CONFIG: {
+                viewHolder =
                         new ComplicationViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.watch_face_preset_config_list_item, parent, false));
@@ -280,6 +290,16 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
             }
 
             case TYPE_WATCH_FACE_DRAWABLE_CONFIG: {
+                WatchFaceDrawableViewHolder watchFaceDrawableViewHolder =
+                        (WatchFaceDrawableViewHolder) viewHolder;
+                WatchFaceDrawableConfigItem watchFaceDrawableConfigItem =
+                        (WatchFaceDrawableConfigItem) configItemType;
+                watchFaceDrawableViewHolder.setFlags(watchFaceDrawableConfigItem.getFlags());
+                watchFaceDrawableViewHolder.onSettingsChanged();
+                break;
+            }
+
+            case TYPE_COMPLICATION_CONFIG: {
                 ComplicationViewHolder complicationViewHolder =
                         (ComplicationViewHolder) viewHolder;
                 ComplicationConfigItem complicationConfigItem =

@@ -140,10 +140,11 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             implements View.OnClickListener {
 
         WatchFacePresetSelectionViewHolder(final View view) {
-            super(view, WatchFaceGlobalDrawable.PART_BACKGROUND |
+            super(view);
+            view.setOnClickListener(this);
+            setFlags(WatchFaceGlobalDrawable.PART_BACKGROUND |
                     WatchFaceGlobalDrawable.PART_TICKS |
                     WatchFaceGlobalDrawable.PART_HANDS);
-            view.setOnClickListener(this);
         }
 
         @Override
@@ -175,19 +176,29 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
     }
 
-    class WatchFaceDrawableViewHolder extends RecyclerView.ViewHolder {
+    class WatchFaceDrawableViewHolder extends RecyclerView.ViewHolder
+            implements WatchFacePresetListener, SettingsListener {
 
         ImageView mImageView;
 
         WatchFaceGlobalDrawable mWatchFaceGlobalDrawable;
 
-        WatchFaceDrawableViewHolder(View view, int flags) {
+        private int mFlags = WatchFaceGlobalDrawable.PART_BACKGROUND; // Default flags.
+
+        WatchFaceDrawableViewHolder(View view) {
             super(view);
             mImageView = view.findViewById(R.id.watch_face_preset);
-            mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(view.getContext(), flags);
+        }
+
+        void setFlags(int flags) {
+            mFlags = flags;
         }
 
         void setPreset(String watchFacePresetString, String settingsString) {
+            if (mWatchFaceGlobalDrawable == null) {
+                mWatchFaceGlobalDrawable =
+                        new WatchFaceGlobalDrawable(mImageView.getContext(), mFlags);
+            }
             WatchFaceState w = mWatchFaceGlobalDrawable.getWatchFaceState();
             if (watchFacePresetString != null) {
                 w.getWatchFacePreset().setString(watchFacePresetString);
@@ -198,36 +209,6 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             w.setNotifications(0, 0);
             w.setAmbient(false);
             mImageView.setImageDrawable(mWatchFaceGlobalDrawable);
-        }
-    }
-
-    public class ComplicationViewHolder extends WatchFaceDrawableViewHolder
-            implements WatchFacePresetListener, SettingsListener, ComplicationProviderInfoListener {
-
-        private @DrawableRes
-        int mDefaultComplicationDrawableId;
-
-        private ConfigData.ComplicationConfigItem mConfigItem;
-
-        private Context mContext;
-
-        private float mLastTouchX = -1f, mLastTouchY = -1f;
-        private Activity mCurrentActivity;
-
-        ComplicationViewHolder(final View view) {
-            super(view, WatchFaceGlobalDrawable.PART_BACKGROUND |
-                    WatchFaceGlobalDrawable.PART_RINGS_ALL |
-                    WatchFaceGlobalDrawable.PART_COMPLICATIONS);
-            mContext = view.getContext();
-            mCurrentActivity = (Activity) view.getContext();
-
-            mImageView.setOnTouchListener((v, event) -> {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    mLastTouchX = event.getX() - (float) mImageView.getPaddingLeft();
-                    mLastTouchY = event.getY() - (float) mImageView.getPaddingTop();
-                }
-                return false;
-            });
         }
 
         public void onWatchFacePresetChanged() {
@@ -244,6 +225,38 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
             setPreset(watchFacePresetString, settingsString);
             itemView.invalidate();
+        }
+    }
+
+    public class ComplicationViewHolder extends WatchFaceDrawableViewHolder
+            implements ComplicationProviderInfoListener {
+
+        private @DrawableRes
+        int mDefaultComplicationDrawableId;
+
+        private ConfigData.ComplicationConfigItem mConfigItem;
+
+        private Context mContext;
+
+        private float mLastTouchX = -1f, mLastTouchY = -1f;
+        private Activity mCurrentActivity;
+
+        ComplicationViewHolder(final View view) {
+            super(view);
+            mContext = view.getContext();
+            mCurrentActivity = (Activity) view.getContext();
+
+            setFlags(WatchFaceGlobalDrawable.PART_BACKGROUND |
+                    WatchFaceGlobalDrawable.PART_RINGS_ALL |
+                    WatchFaceGlobalDrawable.PART_COMPLICATIONS);
+
+            mImageView.setOnTouchListener((v, event) -> {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    mLastTouchX = event.getX() - (float) mImageView.getPaddingLeft();
+                    mLastTouchY = event.getY() - (float) mImageView.getPaddingTop();
+                }
+                return false;
+            });
         }
 
         void setDefaultComplicationDrawable(@DrawableRes int resourceId) {

@@ -68,6 +68,27 @@ abstract public class ConfigData {
     }
 
     /**
+     * Data for Watch Face Preview item in RecyclerView.
+     */
+    public static class WatchFaceDrawableConfigItem implements ConfigItemType {
+
+        private int mFlags;
+
+        WatchFaceDrawableConfigItem(int flags) {
+            mFlags = flags;
+        }
+
+        @Override
+        public int getConfigType() {
+            return ConfigRecyclerViewAdapter.TYPE_WATCH_FACE_DRAWABLE_CONFIG;
+        }
+
+        public int getFlags() {
+            return mFlags;
+        }
+    }
+
+    /**
      * Data for Watch Face Preview with Complications Preview item in RecyclerView.
      */
     public static class ComplicationConfigItem implements ConfigItemType {
@@ -84,7 +105,7 @@ abstract public class ConfigData {
 
         @Override
         public int getConfigType() {
-            return ConfigRecyclerViewAdapter.TYPE_WATCH_FACE_DRAWABLE_CONFIG;
+            return ConfigRecyclerViewAdapter.TYPE_COMPLICATION_CONFIG;
         }
     }
 

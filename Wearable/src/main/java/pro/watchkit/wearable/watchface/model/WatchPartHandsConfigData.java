@@ -24,13 +24,15 @@ import java.util.List;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
+import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 public class WatchPartHandsConfigData extends ConfigData {
     @Override
     public List<ConfigItemType> getDataToPopulateAdapter(Context context) {
         return Arrays.asList(
-                // Complication picker from watch face drawable.
-                new ComplicationConfigItem(R.drawable.add_complication),
+                // A preview of the current watch face.
+                new WatchFaceDrawableConfigItem(WatchFaceGlobalDrawable.PART_BACKGROUND |
+                        WatchFaceGlobalDrawable.PART_HANDS),
 
                 // Data for hour hand shape in settings Activity.
                 new WatchFacePickerConfigItem(
