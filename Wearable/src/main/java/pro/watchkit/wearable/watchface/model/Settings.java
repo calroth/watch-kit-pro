@@ -22,18 +22,41 @@ import android.util.Log;
 
 import androidx.annotation.ArrayRes;
 
+import java.util.Objects;
+
 import pro.watchkit.wearable.watchface.R;
 
 /**
  * Check yuor settings.
  */
-public class Settings {
+public class Settings implements Cloneable {
     private BytePacker bytePacker = new BytePacker();
     private boolean mShowUnreadNotifications;
     private boolean mNightVisionModeEnabled;
 
     private int mComplicationCount = 5;
     private ComplicationRotation mComplicationRotation = ComplicationRotation.ROTATE_25;
+
+    public Settings clone() {
+        Settings result;
+        try {
+            result = (Settings) super.clone();
+        } catch (CloneNotSupportedException e) {
+            result = new Settings();
+            result.setString(getString());
+        }
+        return result;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                super.hashCode(),
+                mShowUnreadNotifications,
+                mNightVisionModeEnabled,
+                mComplicationCount,
+                mComplicationRotation);
+    }
 
     ComplicationRotation getComplicationRotation() {
         return mComplicationRotation;
