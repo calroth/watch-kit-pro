@@ -83,6 +83,7 @@ import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
 import static pro.watchkit.wearable.watchface.config.ConfigActivity.CONFIG_DATA;
 import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_PRESETS;
+import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_SETTINGS;
 
 /**
  * Displays different layouts for configuring watch face's complications and appearance settings
@@ -563,10 +564,11 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
         }
 
         private void setTextAndVisibility() {
-            mButton.setText(mConfigItem.getName(mCurrentWatchFacePreset, mButton.getContext()));
+            mButton.setText(mConfigItem.getName(
+                    mCurrentWatchFacePreset, mCurrentSettings, mButton.getContext()));
 
             ViewGroup.LayoutParams param = itemView.getLayoutParams();
-            if (mConfigItem.isVisible(mCurrentWatchFacePreset)) {
+            if (mConfigItem.isVisible(mCurrentWatchFacePreset, mCurrentSettings)) {
                 param.height = mVisibleLayoutHeight;
                 param.width = mVisibleLayoutWidth;
                 itemView.setVisibility(View.VISIBLE);
@@ -604,12 +606,14 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
 
             if (mLaunchActivity != null) {
                 // Regenerate and grab our current permutations. Just in time!
-                String[] permutations = mConfigItem.permute(mCurrentWatchFacePreset);
+                String[] permutations0 = mConfigItem.permute(mCurrentWatchFacePreset);
+                String[] permutations1 = mConfigItem.permute(mCurrentSettings);
 
                 Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
 
                 // Pass shared preference name to save color value to.
-                launchIntent.putExtra(INTENT_EXTRA_PRESETS, permutations);
+                launchIntent.putExtra(INTENT_EXTRA_PRESETS, permutations0);
+                launchIntent.putExtra(INTENT_EXTRA_SETTINGS, permutations1);
 
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(

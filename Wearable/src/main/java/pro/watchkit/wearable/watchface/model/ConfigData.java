@@ -58,6 +58,26 @@ abstract public class ConfigData {
         Enum getCurrentValue(WatchFacePreset currentPreset);
     }
 
+    protected interface SettingsMutator {
+        /**
+         * For the given Settings (which must be a clone, since we'll modify it in the
+         * process) return a String array with each permutation.
+         *
+         * @param permutation Settings, which must be a clone, since we'll modify it
+         * @return String array with each permutation
+         */
+        String[] permute(Settings permutation);
+
+        /**
+         * For the given Settings (which is our current preference) return the current
+         * value.
+         *
+         * @param currentPreset Settings of our current preference
+         * @return Value that it's currently set to
+         */
+        Enum getCurrentValue(Settings currentPreset);
+    }
+
     /**
      * Objects inherit this interface to determine the visibility of a ConfigItem.
      * That is, implement this interface and put in some custom logic that determines
@@ -266,7 +286,8 @@ abstract public class ConfigData {
         private String mName;
         private int mIconResourceId;
         private Class<WatchFaceSelectionActivity> mActivityToChoosePreference;
-        private WatchFacePresetMutator mMutator;
+        private WatchFacePresetMutator mWatchFacePresetMutator;
+        private SettingsMutator mSettingsMutator;
         private ConfigItemVisibilityCalculator mConfigItemVisibilityCalculator;
 
         WatchFacePickerConfigItem(
@@ -281,17 +302,49 @@ abstract public class ConfigData {
                 String name,
                 int iconResourceId,
                 Class<WatchFaceSelectionActivity> activity,
+                SettingsMutator mutator) {
+            this(name, iconResourceId, activity, mutator, null);
+        }
+
+        WatchFacePickerConfigItem(
+                String name,
+                int iconResourceId,
+                Class<WatchFaceSelectionActivity> activity,
                 WatchFacePresetMutator mutator,
                 ConfigItemVisibilityCalculator configItemVisibilityCalculator) {
-            mMutator = mutator;
+            this(name, iconResourceId, activity, configItemVisibilityCalculator);
+            mWatchFacePresetMutator = mutator;
+        }
+
+        WatchFacePickerConfigItem(
+                String name,
+                int iconResourceId,
+                Class<WatchFaceSelectionActivity> activity,
+                SettingsMutator mutator,
+                ConfigItemVisibilityCalculator configItemVisibilityCalculator) {
+            this(name, iconResourceId, activity, configItemVisibilityCalculator);
+            mSettingsMutator = mutator;
+        }
+
+        private WatchFacePickerConfigItem(
+                String name,
+                int iconResourceId,
+                Class<WatchFaceSelectionActivity> activity,
+                ConfigItemVisibilityCalculator configItemVisibilityCalculator) {
             mName = name;
             mIconResourceId = iconResourceId;
             mActivityToChoosePreference = activity;
             mConfigItemVisibilityCalculator = configItemVisibilityCalculator;
         }
 
-        public CharSequence getName(WatchFacePreset watchFacePreset, Context context) {
-            Enum e = mMutator.getCurrentValue(watchFacePreset);
+        public CharSequence getName(
+                WatchFacePreset watchFacePreset, Settings settings, Context context) {
+            Enum e;
+            if (mWatchFacePresetMutator != null) {
+                e = mWatchFacePresetMutator.getCurrentValue(watchFacePreset);
+            } else {
+                e = mSettingsMutator.getCurrentValue(settings);
+            }
 
             if (e == null) {
                 return mName;
@@ -321,10 +374,23 @@ abstract public class ConfigData {
         }
 
         public String[] permute(WatchFacePreset watchFacePreset) {
-            return mMutator.permute(watchFacePreset.clone());
+            if (mWatchFacePresetMutator != null) {
+                return mWatchFacePresetMutator.permute(watchFacePreset.clone());
+            } else {
+                return null;
+            }
+
         }
 
-        public boolean isVisible(WatchFacePreset watchFacePreset) {
+        public String[] permute(Settings settings) {
+            if (mSettingsMutator != null) {
+                return mSettingsMutator.permute(settings.clone());
+            } else {
+                return null;
+            }
+        }
+
+        public boolean isVisible(WatchFacePreset watchFacePreset, Settings settings) {
             return mConfigItemVisibilityCalculator == null ||
                     mConfigItemVisibilityCalculator.isVisible(watchFacePreset);
         }
