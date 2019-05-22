@@ -609,6 +609,19 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                 String[] permutations0 = mConfigItem.permute(mCurrentWatchFacePreset);
                 String[] permutations1 = mConfigItem.permute(mCurrentSettings);
 
+                // If either permutations0 or 1 is null, fill with the current settings.
+                if (permutations0 == null && permutations1 != null) {
+                    permutations0 = new String[permutations1.length];
+                    for (int i = 0; i < permutations1.length; i++) {
+                        permutations0[i] = mCurrentWatchFacePreset.getString();
+                    }
+                } else if (permutations1 == null && permutations0 != null) {
+                    permutations1 = new String[permutations0.length];
+                    for (int i = 0; i < permutations0.length; i++) {
+                        permutations1[i] = mCurrentSettings.getString();
+                    }
+                }
+
                 Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
 
                 // Pass shared preference name to save color value to.
