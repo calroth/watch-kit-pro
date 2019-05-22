@@ -65,6 +65,7 @@ public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapt
 
     @Override
     public int getItemCount() {
-        return mWatchFacePresetStrings.length;
+        return mWatchFacePresetStrings != null ? mWatchFacePresetStrings.length :
+                mSettingsStrings != null ? mSettingsStrings.length : 0;
     }
 }

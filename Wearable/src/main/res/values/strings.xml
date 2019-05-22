@@ -69,6 +69,8 @@
     <string name="config_configure_hands">Configure Hands</string>
     <string name="config_configure_ticks">Configure Ticks</string>
 
+    <string name="config_complication_rotation">Complication Position</string>
+
     <string name="config_preset_hour_hand_shape">Hour Hand Shape</string>
     <string name="config_preset_hour_hand_length">Hour Hand Length</string>
     <string name="config_preset_hour_hand_thickness">Hour Hand Thickness</string>

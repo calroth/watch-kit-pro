@@ -62,7 +62,7 @@ public class Settings implements Cloneable {
         return mComplicationRotation;
     }
 
-    private void setComplicationRotation(ComplicationRotation complicationRotation) {
+    void setComplicationRotation(ComplicationRotation complicationRotation) {
         mComplicationRotation = complicationRotation;
     }
 

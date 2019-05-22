@@ -23,13 +23,24 @@ import java.util.Arrays;
 import java.util.List;
 
 import pro.watchkit.wearable.watchface.R;
+import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
 
 public class ComplicationConfigData extends ConfigData {
     @Override
     public List<ConfigItemType> getDataToPopulateAdapter(Context context) {
         return Arrays.asList(
                 // Complication picker from watch face drawable.
-                new ComplicationConfigItem(R.drawable.add_complication)
+                new ComplicationConfigItem(R.drawable.add_complication),
+
+                // Data for complication rotation in settings Activity.
+                new WatchFacePickerConfigItem(
+                        context.getString(R.string.config_preset_hour_hand_style),
+                        R.drawable.icn_styles,
+                        WatchFaceSelectionActivity.class,
+                        new SettingsMutatorImpl<>(
+                                Settings.ComplicationRotation.values(),
+                                Settings::setComplicationRotation,
+                                Settings::getComplicationRotation))
         );
     }
 }

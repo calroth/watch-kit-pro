@@ -224,6 +224,64 @@ abstract public class ConfigData {
         }
     }
 
+    protected static class SettingsMutatorImpl<E extends Enum>
+            implements SettingsMutator {
+        /**
+         * All the possible Enum values of E.
+         */
+        private E[] mValues;
+
+        /**
+         * A lambda which sets (or applies) setting E to the given Settings.
+         */
+        private BiConsumer<Settings, E> mSetter;
+
+        /**
+         * A lambda which gets and returns setting E from the given Settings.
+         */
+        private Function<Settings, E> mGetter;
+
+        /**
+         * Create the given SettingsMutatorImpl for the E of type Enum.
+         *
+         * @param values all possible enumeration values of E
+         * @param setter a lambda which sets (or applies) setting E to the given Settings
+         * @param getter a lambda which gets and returns setting E from the given Settings
+         */
+        SettingsMutatorImpl(E[] values,
+                            BiConsumer<Settings, E> setter,
+                            Function<Settings, E> getter) {
+            mValues = values;
+            mSetter = setter;
+            mGetter = getter;
+        }
+
+        /**
+         * For the given Settings (which must be a clone, since we'll modify it in the
+         * process) return a String array with each permutation.
+         *
+         * @param permutation Settings, which must be a clone, since we'll modify it
+         * @return String array with each permutation
+         */
+        public String[] permute(Settings permutation) {
+            return Arrays.stream(mValues).map(h -> {
+                mSetter.accept(permutation, h);
+                return permutation.getString();
+            }).toArray(String[]::new);
+        }
+
+        /**
+         * For the given Settings (which is our current preference) return the current
+         * value.
+         *
+         * @param currentPreset Settings of our current preference
+         * @return Value that it's currently set to
+         */
+        public E getCurrentValue(Settings currentPreset) {
+            return mGetter.apply(currentPreset);
+        }
+    }
+
     protected static class WatchFacePresetMutatorImpl<E extends Enum>
             implements WatchFacePresetMutator {
         /**
