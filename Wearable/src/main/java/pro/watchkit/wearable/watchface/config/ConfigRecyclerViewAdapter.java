@@ -82,6 +82,7 @@ import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
 import static pro.watchkit.wearable.watchface.config.ConfigActivity.CONFIG_DATA;
+import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_FLAGS;
 import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_PRESETS;
 import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_SETTINGS;
 
@@ -295,7 +296,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                         (WatchFaceDrawableViewHolder) viewHolder;
                 WatchFaceDrawableConfigItem watchFaceDrawableConfigItem =
                         (WatchFaceDrawableConfigItem) configItemType;
-                watchFaceDrawableViewHolder.setFlags(watchFaceDrawableConfigItem.getFlags());
+                watchFaceDrawableViewHolder.setWatchFaceGlobalDrawableFlags(watchFaceDrawableConfigItem.getFlags());
                 watchFaceDrawableViewHolder.onSettingsChanged();
                 break;
             }
@@ -543,6 +544,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
 
         private Class<WatchFaceSelectionActivity> mLaunchActivity;
         private WatchFacePickerConfigItem mConfigItem;
+        private int mFlags;
 
         private int mVisibleLayoutHeight, mVisibleLayoutWidth;
 
@@ -559,6 +561,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
         void bind(WatchFacePickerConfigItem configItem) {
             mConfigItem = configItem;
             mLaunchActivity = configItem.getActivityToChoosePreference();
+            mFlags = configItem.getWatchFaceGlobalDrawableFlags();
 
             setTextAndVisibility();
         }
@@ -627,6 +630,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                 // Pass shared preference name to save color value to.
                 launchIntent.putExtra(INTENT_EXTRA_PRESETS, permutations0);
                 launchIntent.putExtra(INTENT_EXTRA_SETTINGS, permutations1);
+                launchIntent.putExtra(INTENT_EXTRA_FLAGS, mFlags);
 
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(

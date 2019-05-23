@@ -142,7 +142,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         WatchFacePresetSelectionViewHolder(final View view) {
             super(view);
             view.setOnClickListener(this);
-            setFlags(WatchFaceGlobalDrawable.PART_BACKGROUND |
+            setWatchFaceGlobalDrawableFlags(WatchFaceGlobalDrawable.PART_BACKGROUND |
                     WatchFaceGlobalDrawable.PART_TICKS |
                     WatchFaceGlobalDrawable.PART_HANDS);
         }
@@ -174,6 +174,14 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
             activity.finish();
         }
+
+        void setPreset(String watchFacePresetString, String settingsString) {
+            super.setPreset(watchFacePresetString, settingsString);
+
+            // Initialise complications, just enough to be able to draw rings.
+            WatchFaceState w = mWatchFaceGlobalDrawable.getWatchFaceState();
+            w.initializeComplications(mImageView.getContext(), this::onWatchFacePresetChanged);
+        }
     }
 
     class WatchFaceDrawableViewHolder extends RecyclerView.ViewHolder
@@ -183,21 +191,23 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         WatchFaceGlobalDrawable mWatchFaceGlobalDrawable;
 
-        private int mFlags = WatchFaceGlobalDrawable.PART_BACKGROUND; // Default flags.
+        private int mWatchFaceGlobalDrawableFlags =
+                WatchFaceGlobalDrawable.PART_BACKGROUND; // Default flags.
 
         WatchFaceDrawableViewHolder(View view) {
             super(view);
             mImageView = view.findViewById(R.id.watch_face_preset);
         }
 
-        void setFlags(int flags) {
-            mFlags = flags;
+        void setWatchFaceGlobalDrawableFlags(int WatchFaceGlobalDrawableFlags) {
+            mWatchFaceGlobalDrawableFlags = WatchFaceGlobalDrawableFlags;
         }
 
         void setPreset(String watchFacePresetString, String settingsString) {
             if (mWatchFaceGlobalDrawable == null) {
                 mWatchFaceGlobalDrawable =
-                        new WatchFaceGlobalDrawable(mImageView.getContext(), mFlags);
+                        new WatchFaceGlobalDrawable(mImageView.getContext(), mWatchFaceGlobalDrawableFlags);
+                mImageView.setImageDrawable(mWatchFaceGlobalDrawable);
             }
             WatchFaceState w = mWatchFaceGlobalDrawable.getWatchFaceState();
             if (watchFacePresetString != null) {
@@ -208,7 +218,6 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             }
             w.setNotifications(0, 0);
             w.setAmbient(false);
-            mImageView.setImageDrawable(mWatchFaceGlobalDrawable);
         }
 
         public void onWatchFacePresetChanged() {
@@ -246,7 +255,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             mContext = view.getContext();
             mCurrentActivity = (Activity) view.getContext();
 
-            setFlags(WatchFaceGlobalDrawable.PART_BACKGROUND |
+            setWatchFaceGlobalDrawableFlags(WatchFaceGlobalDrawable.PART_BACKGROUND |
                     WatchFaceGlobalDrawable.PART_RINGS_ALL |
                     WatchFaceGlobalDrawable.PART_COMPLICATIONS);
 

@@ -42,6 +42,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.wear.widget.WearableRecyclerView;
 
 import pro.watchkit.wearable.watchface.R;
+import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 /**
  * Allows user to select a WatchFacePreset and
@@ -54,6 +55,9 @@ public class WatchFaceSelectionActivity extends Activity {
             WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_PRESETS";
     static final String INTENT_EXTRA_SETTINGS =
             WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_SETTINGS";
+    static final String INTENT_EXTRA_FLAGS =
+            WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_FLAGS";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +66,12 @@ public class WatchFaceSelectionActivity extends Activity {
 
         String[] watchFacePresetStrings = getIntent().getStringArrayExtra(INTENT_EXTRA_PRESETS);
         String[] settingsStrings = getIntent().getStringArrayExtra(INTENT_EXTRA_SETTINGS);
+        int flags = getIntent().getIntExtra(
+                INTENT_EXTRA_FLAGS, WatchFaceGlobalDrawable.PART_BACKGROUND);
 
         WatchFaceSelectionRecyclerViewAdapter recyclerViewAdapter =
-                new WatchFaceSelectionRecyclerViewAdapter(watchFacePresetStrings, settingsStrings);
+                new WatchFaceSelectionRecyclerViewAdapter(
+                        watchFacePresetStrings, settingsStrings, flags);
 
         WearableRecyclerView view = findViewById(R.id.wearable_recycler_view);
 

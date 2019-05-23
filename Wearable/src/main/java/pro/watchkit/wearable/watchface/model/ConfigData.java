@@ -15,6 +15,7 @@ import pro.watchkit.wearable.watchface.config.ConfigActivity;
 import pro.watchkit.wearable.watchface.config.ConfigRecyclerViewAdapter;
 import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
+import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 abstract public class ConfigData {
     /**
@@ -347,6 +348,7 @@ abstract public class ConfigData {
         private WatchFacePresetMutator mWatchFacePresetMutator;
         private SettingsMutator mSettingsMutator;
         private ConfigItemVisibilityCalculator mConfigItemVisibilityCalculator;
+        private int mWatchFaceGlobalDrawableFlags = WatchFaceGlobalDrawable.PART_BACKGROUND;
 
         WatchFacePickerConfigItem(
                 String name,
@@ -359,9 +361,11 @@ abstract public class ConfigData {
         WatchFacePickerConfigItem(
                 String name,
                 int iconResourceId,
+                int watchFaceGlobalDrawableFlags,
                 Class<WatchFaceSelectionActivity> activity,
                 SettingsMutator mutator) {
             this(name, iconResourceId, activity, mutator, null);
+            mWatchFaceGlobalDrawableFlags = watchFaceGlobalDrawableFlags;
         }
 
         WatchFacePickerConfigItem(
@@ -416,6 +420,10 @@ abstract public class ConfigData {
                         e.getClass().getSimpleName() + " ~ " + e.name() +
                         "</small>", Html.FROM_HTML_MODE_LEGACY);
             }
+        }
+
+        public int getWatchFaceGlobalDrawableFlags() {
+            return mWatchFaceGlobalDrawableFlags;
         }
 
         public int getIconResourceId() {

@@ -24,6 +24,7 @@ import java.util.List;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
+import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 public class ComplicationConfigData extends ConfigData {
     @Override
@@ -36,6 +37,9 @@ public class ComplicationConfigData extends ConfigData {
                 new WatchFacePickerConfigItem(
                         context.getString(R.string.config_preset_hour_hand_style),
                         R.drawable.icn_styles,
+                        WatchFaceGlobalDrawable.PART_BACKGROUND |
+                                WatchFaceGlobalDrawable.PART_HANDS |
+                                WatchFaceGlobalDrawable.PART_RINGS_ALL,
                         WatchFaceSelectionActivity.class,
                         new SettingsMutatorImpl<>(
                                 Settings.ComplicationRotation.values(),

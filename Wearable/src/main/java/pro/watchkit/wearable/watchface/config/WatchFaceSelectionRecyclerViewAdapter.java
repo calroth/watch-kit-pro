@@ -36,11 +36,13 @@ import pro.watchkit.wearable.watchface.R;
 public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapter {
     private String[] mWatchFacePresetStrings;
     private String[] mSettingsStrings;
+    private int mFlags;
 
     WatchFaceSelectionRecyclerViewAdapter(
-            String[] watchFacePresetStrings, String[] settingsStrings) {
+            String[] watchFacePresetStrings, String[] settingsStrings, int flags) {
         mWatchFacePresetStrings = watchFacePresetStrings;
         mSettingsStrings = settingsStrings;
+        mFlags = flags;
     }
 
     @Override
@@ -60,6 +62,7 @@ public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapt
                         mSettingsStrings[position] : null;
 
         WatchFacePresetSelectionViewHolder holder = (WatchFacePresetSelectionViewHolder) viewHolder;
+        holder.setWatchFaceGlobalDrawableFlags(mFlags);
         holder.setPreset(watchFacePresetString, settingsString);
     }
 
