@@ -103,7 +103,7 @@ public class Settings implements Cloneable {
 
         bytePacker.put(mShowUnreadNotifications);
         bytePacker.put(mNightVisionModeEnabled);
-        bytePacker.put(mComplicationCount, 3); // 3-bit complication count
+        bytePacker.put(3, mComplicationCount); // 3-bit complication count
         mComplicationRotation.pack(bytePacker);
 
         bytePacker.finish();
