@@ -35,7 +35,7 @@ public class ComplicationConfigData extends ConfigData {
 
                 // Data for complication rotation in settings Activity.
                 new WatchFacePickerConfigItem(
-                        context.getString(R.string.config_preset_hour_hand_style),
+                        context.getString(R.string.config_complication_rotation),
                         R.drawable.icn_styles,
                         WatchFaceGlobalDrawable.PART_BACKGROUND |
                                 WatchFaceGlobalDrawable.PART_HANDS |
