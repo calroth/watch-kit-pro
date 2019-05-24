@@ -15,7 +15,6 @@ import pro.watchkit.wearable.watchface.config.ConfigActivity;
 import pro.watchkit.wearable.watchface.config.ConfigRecyclerViewAdapter;
 import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
-import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 abstract public class ConfigData {
     /**
@@ -348,14 +347,15 @@ abstract public class ConfigData {
         private WatchFacePresetMutator mWatchFacePresetMutator;
         private SettingsMutator mSettingsMutator;
         private ConfigItemVisibilityCalculator mConfigItemVisibilityCalculator;
-        private int mWatchFaceGlobalDrawableFlags = WatchFaceGlobalDrawable.PART_BACKGROUND;
+        private int mWatchFaceGlobalDrawableFlags;
 
         WatchFacePickerConfigItem(
                 String name,
                 int iconResourceId,
+                int watchFaceGlobalDrawableFlags,
                 Class<WatchFaceSelectionActivity> activity,
                 WatchFacePresetMutator mutator) {
-            this(name, iconResourceId, activity, mutator, null);
+            this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, mutator, null);
         }
 
         WatchFacePickerConfigItem(
@@ -364,39 +364,43 @@ abstract public class ConfigData {
                 int watchFaceGlobalDrawableFlags,
                 Class<WatchFaceSelectionActivity> activity,
                 SettingsMutator mutator) {
-            this(name, iconResourceId, activity, mutator, null);
+            this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, mutator, null);
             mWatchFaceGlobalDrawableFlags = watchFaceGlobalDrawableFlags;
         }
 
         WatchFacePickerConfigItem(
                 String name,
                 int iconResourceId,
+                int watchFaceGlobalDrawableFlags,
                 Class<WatchFaceSelectionActivity> activity,
                 WatchFacePresetMutator mutator,
                 ConfigItemVisibilityCalculator configItemVisibilityCalculator) {
-            this(name, iconResourceId, activity, configItemVisibilityCalculator);
+            this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, configItemVisibilityCalculator);
             mWatchFacePresetMutator = mutator;
         }
 
         WatchFacePickerConfigItem(
                 String name,
                 int iconResourceId,
+                int watchFaceGlobalDrawableFlags,
                 Class<WatchFaceSelectionActivity> activity,
                 SettingsMutator mutator,
                 ConfigItemVisibilityCalculator configItemVisibilityCalculator) {
-            this(name, iconResourceId, activity, configItemVisibilityCalculator);
+            this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, configItemVisibilityCalculator);
             mSettingsMutator = mutator;
         }
 
         private WatchFacePickerConfigItem(
                 String name,
                 int iconResourceId,
+                int watchFaceGlobalDrawableFlags,
                 Class<WatchFaceSelectionActivity> activity,
                 ConfigItemVisibilityCalculator configItemVisibilityCalculator) {
             mName = name;
             mIconResourceId = iconResourceId;
             mActivityToChoosePreference = activity;
             mConfigItemVisibilityCalculator = configItemVisibilityCalculator;
+            mWatchFaceGlobalDrawableFlags = watchFaceGlobalDrawableFlags;
         }
 
         public CharSequence getName(

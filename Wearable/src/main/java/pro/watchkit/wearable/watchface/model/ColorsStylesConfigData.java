@@ -25,11 +25,19 @@ import java.util.List;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
 import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
+import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 public class ColorsStylesConfigData extends ConfigData {
     @Override
     public List<ConfigItemType> getDataToPopulateAdapter(Context context) {
+        int watchFaceGlobalDrawableFlags = WatchFaceGlobalDrawable.PART_BACKGROUND |
+                WatchFaceGlobalDrawable.PART_TICKS |
+                WatchFaceGlobalDrawable.PART_RINGS_ALL |
+                WatchFaceGlobalDrawable.PART_HANDS;
         return Arrays.asList(
+                // A preview of the current watch face.
+                new WatchFaceDrawableConfigItem(watchFaceGlobalDrawableFlags),
+
                 // Data for fill color UX in settings Activity.
                 new ColorPickerConfigItem(
                         context.getString(R.string.config_fill_color_label),
@@ -62,6 +70,7 @@ public class ColorsStylesConfigData extends ConfigData {
                 new WatchFacePickerConfigItem(
                         context.getString(R.string.config_preset_fill_highlight_style),
                         R.drawable.icn_styles,
+                        watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new WatchFacePresetMutatorImpl<>(
                                 WatchFacePreset.GradientStyle.values(),
@@ -72,6 +81,7 @@ public class ColorsStylesConfigData extends ConfigData {
                 new WatchFacePickerConfigItem(
                         context.getString(R.string.config_preset_accent_fill_style),
                         R.drawable.icn_styles,
+                        watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new WatchFacePresetMutatorImpl<>(
                                 WatchFacePreset.GradientStyle.values(),
@@ -82,6 +92,7 @@ public class ColorsStylesConfigData extends ConfigData {
                 new WatchFacePickerConfigItem(
                         context.getString(R.string.config_preset_accent_highlight_style),
                         R.drawable.icn_styles,
+                        watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new WatchFacePresetMutatorImpl<>(
                                 WatchFacePreset.GradientStyle.values(),
@@ -92,6 +103,7 @@ public class ColorsStylesConfigData extends ConfigData {
                 new WatchFacePickerConfigItem(
                         context.getString(R.string.config_preset_base_accent_style),
                         R.drawable.icn_styles,
+                        watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new WatchFacePresetMutatorImpl<>(
                                 WatchFacePreset.GradientStyle.values(),
