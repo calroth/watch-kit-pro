@@ -131,7 +131,8 @@ public class WatchPartHandsConfigData extends ConfigData {
                         new WatchFacePresetMutatorImpl<>(
                                 WatchFacePreset.HandShape.values(),
                                 WatchFacePreset::setMinuteHandShape,
-                                WatchFacePreset::getMinuteHandShape)),
+                                WatchFacePreset::getMinuteHandShape),
+                        WatchFacePreset::isMinuteHandOverridden),
 
                 // Data for minute hand length in settings Activity.
                 new WatchFacePickerConfigItem(
