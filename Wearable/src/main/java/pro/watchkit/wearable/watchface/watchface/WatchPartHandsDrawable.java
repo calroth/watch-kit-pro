@@ -383,6 +383,44 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         }
     }
 
+    /**
+     * Better implementation of drawRect. Draws a rectangle in the specified bounds (or extending
+     * past them). Notionally the area of this rectangle is 0.5 of the area of the bounds. Plus it
+     * has a property that the inset is equal on all sides.
+     * <p>
+     * For example, pass in bounds of 6x4 (24 area) and it will calculate a rectangle of 4x2 (12
+     * area) with an inset of 1 on all sides.
+     * <p>
+     * If offsetTop or offsetBottom is 1.0, then it uses the calculations as specified. If it's
+     * greater than 1.0, the top or bottom is moved outwards. If less than 1.0, inwards.
+     * @param path Path to draw into
+     * @param left Left boundary
+     * @param top Top boundary
+     * @param right Right boundary
+     * @param bottom Bottom boundary
+     * @param offsetTop Factor to move the top border, 1.0f is no change
+     * @param offsetBottom Factor to move the bottom border, 1.0f is no change.
+     */
+    private void drawRectInsetBetter(
+            Path path, float left, float top, float right, float bottom,
+            float offsetTop, float offsetBottom) {
+        // Inset calculation:
+        //   xy = (x - n)(y - n) * 2
+        //   n = (x + y ± sqrt(x² + y²)) / 2
+        // And then...
+        ///  offset = n / 2
+        float x = (right - left);
+        float y = (bottom - top);
+        float n = (x + y + (float)Math.sqrt(x * x + y * y)) / 2f;
+        float offset = n / 2f;
+
+        float newTop = bottom - (y * offsetTop);
+        float newBottom = top + (y * offsetBottom);
+
+        path.addRect(left + offset, newTop + offset,
+                right - offset, newBottom - offset, getDirection());
+    }
+
     private void drawRect(
             Path path, float left, float top, float right, float bottom, float scale) {
         float x0 = (right - left) * 0.5f * scale;
