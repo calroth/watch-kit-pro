@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.Hashtable;
+import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
 
@@ -65,6 +67,7 @@ public class WatchFaceState {
     private Settings mSettings = new Settings();
     private PaintBox mPaintBox;
     private Collection<ComplicationHolder> mComplications = new ArrayList<>();
+    private Map<Integer, ComplicationHolder> mComplicationMap = new Hashtable<>();
     private int mUnreadNotifications = 0;
     private int mTotalNotifications = 0;
     private boolean mAmbient = false;
@@ -149,7 +152,8 @@ public class WatchFaceState {
     public void onComplicationDataUpdate(
             int complicationId, ComplicationData complicationData) {
         // Updates correct ComplicationDrawable with updated data.
-        mComplications.stream().filter(c -> c.getId() == complicationId).forEach(c -> {
+        ComplicationHolder c = getComplicationWithId(complicationId);
+        if (c != null) {
             switch (complicationData.getType()) {
                 case ComplicationData.TYPE_EMPTY:
                 case ComplicationData.TYPE_NO_DATA:
@@ -164,7 +168,7 @@ public class WatchFaceState {
                 }
             }
             c.setComplicationData(complicationData);
-        });
+        }
     }
 
     public boolean onComplicationTap(int x, int y) {
@@ -205,12 +209,14 @@ public class WatchFaceState {
         ComplicationHolder.resetBaseId();
 
         mComplications.clear();
+        mComplicationMap.clear();
         {
             final ComplicationHolder b = new ComplicationHolder(context);
             b.isForeground = false;
             b.isActive = false;
             b.setDrawableCallback(invalidateCallback);
             mComplications.add(b);
+            mComplicationMap.put(b.getId(), b);
         }
 
         for (int i = 0; i < mSettings.getComplicationCount(); i++) {
@@ -218,6 +224,7 @@ public class WatchFaceState {
             f.isForeground = true;
             f.setDrawableCallback(invalidateCallback);
             mComplications.add(f);
+            mComplicationMap.put(f.getId(), f);
         }
 
         // Adds new complications to a SparseArray to simplify setting styles and ambient
@@ -225,6 +232,10 @@ public class WatchFaceState {
         setComplicationColors();
 
         return mComplications.stream().mapToInt(ComplicationHolder::getId).toArray();
+    }
+
+    public ComplicationHolder getComplicationWithId(int id) {
+        return mComplicationMap.get(id);
     }
 
     /**
