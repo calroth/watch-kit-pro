@@ -53,9 +53,10 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     private Path mHandAmbientPath = new Path();
     private int mPreviousSerial = -1;
     private Path mStalk = new Path();
-    private Path mHandCutout = new Path();
     private Path mStalkCutout = new Path();
-    private Path mExtraHandStalkCutout = new Path();
+    private Path mHandFullCutout = new Path();
+    private Path mHandTopCutout = new Path();
+    private Path mHandBottomCutout = new Path();
 
     WatchPartHandsDrawable() {
         super();
@@ -245,9 +246,10 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 mHandThicknessDimensions.get(HandShape.STRAIGHT).get(handThickness) * pc * 0.5f;
 
         mStalk.reset();
-        mHandCutout.reset();
         mStalkCutout.reset();
-        mExtraHandStalkCutout.reset();
+        mHandFullCutout.reset();
+        mHandTopCutout.reset();
+        mHandBottomCutout.reset();
 
         switch (handStalk) {
             case NEGATIVE: {
@@ -273,15 +275,9 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                         mCenterX + stalkThickness, stalkBottom, roundRectRadius, 0f);
 
                 // Draw a cutout.
-                drawRoundRect(mStalkCutout,
+                drawRoundRectInset(mStalkCutout,
                         mCenterX - stalkThickness, stalkTop,
-                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 0.5f);
-
-                // For both hand and stalk cutout, make the stalk cutout a little longer.
-                // That way it merges with the hand cutout.
-                drawRoundRect(mExtraHandStalkCutout,
-                        mCenterX - stalkThickness, top,
-                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 0.5f);
+                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 1.0f, 1.0f);
                 break;
             }
             case MEDIUM: {
@@ -299,15 +295,9 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                         mCenterX + stalkThickness, stalkBottom, roundRectRadius, 0f);
 
                 // Draw a cutout.
-                drawRoundRect(mStalkCutout,
+                drawRoundRectInset(mStalkCutout,
                         mCenterX - stalkThickness, stalkTop,
-                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 0.5f);
-
-                // For both hand and stalk cutout, make the stalk cutout a little longer.
-                // That way it merges with the hand cutout.
-                drawRoundRect(mExtraHandStalkCutout,
-                        mCenterX - stalkThickness, top,
-                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 0.5f);
+                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 1.0f, 1.0f);
                 break;
             }
             default: {
@@ -327,7 +317,9 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 drawRect(p, left, top, right, bottom, 0f);
 
                 // Draw a cutout.
-                drawRect(mHandCutout, left, top, right, bottom, 0.5f);
+                drawRectInset(mHandFullCutout, left, top, right, bottom, 1.0f, 1.0f);
+                drawRectInset(mHandTopCutout, left, top, right, bottom, 1.0f, 0.5f);
+                drawRectInset(mHandBottomCutout, left, top, right, bottom, 0.5f, 1.0f);
                 break;
             }
             case DIAMOND: {
@@ -335,7 +327,9 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 drawDiamond(p, left, top, right, bottom, 0f);
 
                 // Draw a cutout.
-                drawDiamond(mHandCutout, left, top, right, bottom, 0.5f);
+                drawDiamond(mHandFullCutout, left, top, right, bottom, 1f - (float) Math.sqrt(0.5d));
+                drawDiamond(mHandTopCutout, left, top, right, bottom, 1f - (float) Math.sqrt(0.5d), true, false);
+                drawDiamond(mHandBottomCutout, left, top, right, bottom, 1f - (float) Math.sqrt(0.5d), false, true);
                 break;
             }
             case ROUNDED: {
@@ -343,7 +337,9 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 drawRoundRect(p, left, top, right, bottom, roundRectRadius, 0f);
 
                 // Draw a cutout.
-                drawRoundRect(mHandCutout, left, top, right, bottom, roundRectRadius, 0.5f);
+                drawRoundRectInset(mHandFullCutout, left, top, right, bottom, roundRectRadius, 1.0f, 1.0f);
+                drawRoundRectInset(mHandTopCutout, left, top, right, bottom, roundRectRadius, 1.0f, 0.5f);
+                drawRoundRectInset(mHandBottomCutout, left, top, right, bottom, roundRectRadius, 0.5f, 1.0f);
                 break;
             }
             case UNKNOWN1: {
@@ -352,33 +348,56 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                         roundRectRadius * 2f, 0f);
 
                 // Draw a cutout.
-                drawRoundRect(mHandCutout, left, top, right, bottom,
-                        roundRectRadius * 2f, 0.5f);
+                drawRoundRectInset(mHandFullCutout, left, top, right, bottom,
+                        roundRectRadius * 2f, 1.0f, 1.0f);
+                drawRoundRectInset(mHandTopCutout, left, top, right, bottom,
+                        roundRectRadius * 2f, 1.0f, 0.5f);
+                drawRoundRectInset(mHandBottomCutout, left, top, right, bottom,
+                        roundRectRadius * 2f, 0.5f, 1.0f);
                 break;
             }
         }
 
-        switch (handCutout) {
-            case NONE: {
-                p.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
-                break;
+        if (handStalk == HandStalk.SHORT || handStalk == HandStalk.MEDIUM) {
+            switch (handCutout) {
+                case NONE: {
+                    p.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
+                    break;
+                }
+                case HAND: {
+                    p.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
+                    p.op(mHandFullCutout, Path.Op.DIFFERENCE); // Remove the hand cutout.
+                    break;
+                }
+                case STALK: {
+                    mStalk.op(mStalkCutout, Path.Op.DIFFERENCE); // Remove the stalk cutout.
+                    p.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
+                    break;
+                }
+                case HAND_STALK: {
+                    p.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
+                    p.op(mStalkCutout, Path.Op.DIFFERENCE); // Remove the stalk cutout.
+                    p.op(mHandFullCutout, Path.Op.DIFFERENCE); // Remove the hand cutout.
+                    break;
+                }
             }
-            case HAND: {
-                p.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
-                p.op(mHandCutout, Path.Op.DIFFERENCE); // Remove the hand cutout.
-                break;
-            }
-            case STALK: {
-                mStalk.op(mStalkCutout, Path.Op.DIFFERENCE); // Remove the stalk cutout.
-                p.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
-                break;
-            }
-            case HAND_STALK: {
-                p.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
-                p.op(mStalkCutout, Path.Op.DIFFERENCE); // Remove the stalk cutout.
-                p.op(mHandCutout, Path.Op.DIFFERENCE); // Remove the hand cutout.
-                p.op(mExtraHandStalkCutout, Path.Op.DIFFERENCE); // Remove the extra cutout.
-                break;
+        } else if (handStalk == HandStalk.NONE || handStalk == HandStalk.NEGATIVE) {
+            switch (handCutout) {
+                case NONE: {
+                    break;
+                }
+                case HAND: {
+                    p.op(mHandTopCutout, Path.Op.DIFFERENCE); // Remove the top hand cutout.
+                    break;
+                }
+                case STALK: {
+                    p.op(mHandBottomCutout, Path.Op.DIFFERENCE); // Remove the bottom hand cutout.
+                    break;
+                }
+                case HAND_STALK: {
+                    p.op(mHandFullCutout, Path.Op.DIFFERENCE); // Remove the full hand cutout.
+                    break;
+                }
             }
         }
     }
@@ -401,7 +420,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
      * @param offsetTop Factor to move the top border, 1.0f is no change
      * @param offsetBottom Factor to move the bottom border, 1.0f is no change.
      */
-    private void drawRectInsetBetter(
+    private void drawRectInset(
             Path path, float left, float top, float right, float bottom,
             float offsetTop, float offsetBottom) {
         // Inset calculation:
@@ -411,7 +430,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         ///  offset = n / 2
         float x = (right - left);
         float y = (bottom - top);
-        float n = (x + y + (float)Math.sqrt(x * x + y * y)) / 2f;
+        float n = (x + y - (float) Math.sqrt(x * x + y * y)) / 2f;
         float offset = n / 2f;
 
         float newTop = bottom - (y * offsetTop);
@@ -419,6 +438,49 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
         path.addRect(left + offset, newTop + offset,
                 right - offset, newBottom - offset, getDirection());
+    }
+
+    /**
+     * Better implementation of drawRect. Draws a rectangle in the specified bounds (or extending
+     * past them). Notionally the area of this rectangle is 0.5 of the area of the bounds. Plus it
+     * has a property that the inset is equal on all sides.
+     * <p>
+     * For example, pass in bounds of 6x4 (24 area) and it will calculate a rectangle of 4x2 (12
+     * area) with an inset of 1 on all sides.
+     * <p>
+     * If offsetTop or offsetBottom is 1.0, then it uses the calculations as specified. If it's
+     * greater than 1.0, the top or bottom is moved outwards. If less than 1.0, inwards.
+     *
+     * @param path         Path to draw into
+     * @param left         Left boundary
+     * @param top          Top boundary
+     * @param right        Right boundary
+     * @param bottom       Bottom boundary
+     * @param cornerRadius Corner radius of round rectangle
+     * @param offsetTop    Factor to move the top border, 1.0f is no change
+     * @param offsetBottom Factor to move the bottom border, 1.0f is no change.
+     */
+    private void drawRoundRectInset(
+            Path path, float left, float top, float right, float bottom, float cornerRadius,
+            float offsetTop, float offsetBottom) {
+        // Inset calculation:
+        //   xy = (x - n)(y - n) * 2
+        //   n = (x + y ± sqrt(x² + y²)) / 2
+        // And then...
+        ///  offset = n / 2
+        float x = (right - left);
+        float y = (bottom - top);
+        float n = (x + y - (float) Math.sqrt(x * x + y * y)) / 2f;
+        float offset = n / 2f;
+
+        float newTop = bottom - (y * offsetTop);
+        float newBottom = top + (y * offsetBottom);
+
+        float v = cornerRadius - n;
+        v = v < 0 ? 0 : v; // Cap minimum at 0.
+
+        path.addRoundRect(left + offset, newTop + offset,
+                right - offset, newBottom - offset, v, v, getDirection());
     }
 
     private void drawRect(
@@ -442,7 +504,8 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     }
 
     private void drawDiamond(
-            Path path, float left, float top, float right, float bottom, float scale) {
+            Path path, float left, float top, float right, float bottom, float scale,
+            boolean drawTopHalf, boolean drawBottomHalf) {
         // Add extra extension to the diamond top and bottom
         // because the diamond shape tapers to a point
         float diamondTop = top - (HUB_RADIUS_PERCENT * pc * 0.5f);
@@ -455,16 +518,30 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         float y1 = (diamondMidpoint - diamondTop) * scale;
         float y2 = (diamondBottom - diamondMidpoint) * scale;
 
-        path.moveTo(mCenterX, diamondBottom - y2); // Extend past the hub
         if (getDirection() == Path.Direction.CW) {
-            path.lineTo(left + x0, diamondMidpoint); // Left
-            path.lineTo(mCenterX, diamondTop + y1); // Top
+            path.moveTo(left + x0, diamondMidpoint); // Left
+            if (drawTopHalf) {
+                path.lineTo(mCenterX, diamondTop + y1); // Top
+            }
             path.lineTo(right - x0, diamondMidpoint); // Right
+            if (drawBottomHalf) {
+                path.lineTo(mCenterX, diamondBottom - y2); // Bottom: extend past the hub
+            }
         } else {
-            path.lineTo(right - x0, diamondMidpoint); // Right
-            path.lineTo(mCenterX, diamondTop + y1); // Top
+            path.moveTo(right - x0, diamondMidpoint); // Right
+            if (drawTopHalf) {
+                path.lineTo(mCenterX, diamondTop + y1); // Top
+            }
             path.lineTo(left + x0, diamondMidpoint); // Left
+            if (drawBottomHalf) {
+                path.lineTo(mCenterX, diamondBottom - y2); // Bottom: extend past the hub
+            }
         }
         path.close();
+    }
+
+    private void drawDiamond(
+            Path path, float left, float top, float right, float bottom, float scale) {
+        drawDiamond(path, left, top, right, bottom, scale, true, true);
     }
 }
