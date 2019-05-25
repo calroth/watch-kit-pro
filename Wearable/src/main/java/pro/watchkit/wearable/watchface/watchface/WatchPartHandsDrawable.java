@@ -326,10 +326,13 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 // Draw a diamond.
                 drawDiamond(p, left, top, right, bottom, 0f);
 
+                // Golden ratio scale = 1 / sqrt(golden ratio)
+                float scale = 1f - (float) (Math.sqrt(1d / 1.61803398875d / 1.61803398875d));
+
                 // Draw a cutout.
-                drawDiamond(mHandFullCutout, left, top, right, bottom, 1f - (float) Math.sqrt(0.5d));
-                drawDiamond(mHandTopCutout, left, top, right, bottom, 1f - (float) Math.sqrt(0.5d), true, false);
-                drawDiamond(mHandBottomCutout, left, top, right, bottom, 1f - (float) Math.sqrt(0.5d), false, true);
+                drawDiamond(mHandFullCutout, left, top, right, bottom, scale);
+                drawDiamond(mHandTopCutout, left, top, right, bottom, scale, true, false);
+                drawDiamond(mHandBottomCutout, left, top, right, bottom, scale, false, true);
                 break;
             }
             case ROUNDED: {
@@ -404,8 +407,10 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
     /**
      * Better implementation of drawRect. Draws a rectangle in the specified bounds (or extending
-     * past them). Notionally the area of this rectangle is 0.5 of the area of the bounds. Plus it
+     * past them). Notionally the area of this rectangle is k of the area of the bounds. Plus it
      * has a property that the inset is equal on all sides.
+     * <p>
+     * Where "k" is the golden ratio 2nd term ≈ 0.38196601125...
      * <p>
      * For example, pass in bounds of 6x4 (24 area) and it will calculate a rectangle of 4x2 (12
      * area) with an inset of 1 on all sides.
@@ -424,13 +429,16 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
             Path path, float left, float top, float right, float bottom,
             float offsetTop, float offsetBottom) {
         // Inset calculation:
-        //   xy = (x - n)(y - n) * 2
-        //   n = (x + y ± sqrt(x² + y²)) / 2
+        //   k = golden ratio 2nd term
+        //     = (3 − √5) / 2
+        //     ≈ 0.38196601125...
+        //  xy = ((x - n)(y - n)) / k
+        //   n = (x + y − √( x² + y² + (4 − 2√5)xy)) / 2
         // And then...
-        ///  offset = n / 2
+        //   offset = n / 2
         float x = (right - left);
         float y = (bottom - top);
-        float n = (x + y - (float) Math.sqrt(x * x + y * y)) / 2f;
+        float n = (x + y - (float) Math.sqrt(x * x + y * y + (4f - 2f * Math.sqrt(5d)) * x * y)) * 0.5f;
         float offset = n / 2f;
 
         float newTop = bottom - (y * offsetTop);
@@ -441,9 +449,11 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     }
 
     /**
-     * Better implementation of drawRect. Draws a rectangle in the specified bounds (or extending
-     * past them). Notionally the area of this rectangle is 0.5 of the area of the bounds. Plus it
-     * has a property that the inset is equal on all sides.
+     * Better implementation of drawRoundRect. Draws a round rectangle in the specified bounds (or
+     * extending past them). Notionally the area of this round rectangle is k of the area of the
+     * bounds. Plus it has a property that the inset is equal on all sides.
+     * <p>
+     * Where "k" is the golden ratio 2nd term ≈ 0.38196601125...
      * <p>
      * For example, pass in bounds of 6x4 (24 area) and it will calculate a rectangle of 4x2 (12
      * area) with an inset of 1 on all sides.
@@ -464,13 +474,16 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
             Path path, float left, float top, float right, float bottom, float cornerRadius,
             float offsetTop, float offsetBottom) {
         // Inset calculation:
-        //   xy = (x - n)(y - n) * 2
-        //   n = (x + y ± sqrt(x² + y²)) / 2
+        //   k = golden ratio 2nd term
+        //     = (3 − √5) / 2
+        //     ≈ 0.38196601125...
+        //  xy = ((x - n)(y - n)) / k
+        //   n = (x + y − √( x² + y² + (4 − 2√5)xy)) / 2
         // And then...
-        ///  offset = n / 2
+        //   offset = n / 2
         float x = (right - left);
         float y = (bottom - top);
-        float n = (x + y - (float) Math.sqrt(x * x + y * y)) / 2f;
+        float n = (x + y - (float) Math.sqrt(x * x + y * y + (4f - 2f * Math.sqrt(5d)) * x * y)) * 0.5f;
         float offset = n / 2f;
 
         float newTop = bottom - (y * offsetTop);
