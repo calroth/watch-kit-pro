@@ -33,10 +33,11 @@ import android.graphics.SweepGradient;
 import android.os.Build;
 import android.util.Log;
 
-import java.util.Objects;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+
+import java.util.Objects;
+
 import pro.watchkit.wearable.watchface.R;
 
 public final class PaintBox {
@@ -3084,7 +3085,7 @@ public final class PaintBox {
         result.setStrokeJoin(Paint.Join.ROUND);
         result.setStrokeCap(Paint.Cap.ROUND);
         result.setAntiAlias(true);
-//        result.setPathEffect(new CornerPathEffect(3.2f));
+        result.setTextAlign(Paint.Align.CENTER);
         return result;
     }
 
@@ -3560,7 +3561,7 @@ public final class PaintBox {
             this.setStrokeJoin(Paint.Join.ROUND);
             this.setStrokeCap(Paint.Cap.ROUND);
             this.setAntiAlias(true);
-//            this.setPathEffect(new CornerPathEffect(3.2f));
+            this.setTextAlign(Paint.Align.CENTER);
         }
 
         @Override
