@@ -3676,8 +3676,9 @@ public final class PaintBox {
             circlePaint.setAntiAlias(true);
 
             // Spun metal circles?
+            Path p = new Path();
             for (int max = 50, i = max; i > 0; i--) {
-                Path p = new Path();
+                p.reset();
                 p.addCircle(mCenterX, mCenterY, mCenter * i / max, Path.Direction.CW);
 
                 p.offset(-offset, -offset);
