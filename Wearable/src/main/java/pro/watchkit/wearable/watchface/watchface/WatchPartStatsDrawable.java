@@ -20,6 +20,7 @@ package pro.watchkit.wearable.watchface.watchface;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.drawable.Drawable;
 
 import androidx.annotation.NonNull;
@@ -45,6 +46,7 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
     static String mInvalidTrigger = "";
     private StringBuffer mStringBuilder = new StringBuffer();
     private Formatter mFormatter = new Formatter(mStringBuilder);
+    private Path mTextPath;
 
     @Override
     String getStatsName() {
@@ -58,9 +60,10 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
 
         float x = 12f * pc;
         float y = 35f * pc;
+        mStringBuilder.setLength(0);
 
         if (!mWatchFaceState.isAmbient() && BuildConfig.DEBUG) {
-            canvas.drawText(mInvalidTrigger, x, y, textPaint);
+//            canvas.drawText(mInvalidTrigger, x, y, textPaint);
             y += 3f * pc;
 
             if (mWatchPartDrawables2 != null) {
@@ -80,13 +83,13 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
             }
         }
 
-        mStringBuilder.setLength(0);
+//        mStringBuilder.setLength(0);
         mStringBuilder.append(invalid).append(" Alt: ");
         mFormatter.format("%.2f", mWatchFaceState.getLocationCalculator().getSunAltitude());
         mStringBuilder.append("° / ");
         mFormatter.format("%.2f", (double) (total) / 1000000d);
         mStringBuilder.append(canvas.isHardwareAccelerated() ? " (hw)" : " (sw)");
-        canvas.drawText(mStringBuilder.toString(), x, y, textPaint);
+//        canvas.drawText(mStringBuilder.toString(), x, y, textPaint);
 
 //        canvas.drawText(invalid
 //                + String.format(Locale.getDefault(),
@@ -95,15 +98,23 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
 //                + String.format(Locale.getDefault(),
 //                "%.2f", (double) (total) / 1000000d)
 //                + (canvas.isHardwareAccelerated() ? " (hw)" : " (sw)"), x, y, textPaint);
+
+        if (mTextPath == null) {
+            mTextPath = new Path();
+            mTextPath.addArc(15f * pc, 15f * pc, 85f * pc, 85f * pc, 5f + 45f, 350f);
+        }
+
+        canvas.drawTextOnPath(mStringBuilder.toString(), mTextPath, 0, 0, textPaint);
     }
 
     private float drawStats(
             WatchPartDrawable d, @NonNull Canvas canvas, Paint textPaint, float x, float y) {
 
-        mStringBuilder.setLength(0);
+//        mStringBuilder.setLength(0);
         mStringBuilder.append(d.getStatsName()).append(": ");
         mFormatter.format("%.2f", (double) (d.mLastStatsTime) / 1000000d);
-        canvas.drawText(mStringBuilder.toString(), x, y, textPaint);
+        mStringBuilder.append(" - ");
+//        canvas.drawText(mStringBuilder.toString(), x, y, textPaint);
 
 //        canvas.drawText(String.format(Locale.getDefault(),
 //                "%s: %.2f", d.getStatsName(),
