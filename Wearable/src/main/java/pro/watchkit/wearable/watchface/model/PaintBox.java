@@ -36,6 +36,9 @@ import android.util.Log;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import pro.watchkit.wearable.watchface.R;
@@ -3551,10 +3554,15 @@ public final class PaintBox {
         Log.d("AnalogWatchFace", "Generated!");
     }
 
+    private static Map<Integer, WeakReference<Bitmap>> mBitmapCache = new HashMap<>();
+
     private class GradientPaint extends Paint {
         private int mCustomHashCode = -1;
 
-        public GradientPaint() {
+        Paint mBrushedEffectPaint = new Paint();
+        Path mBrushedEffectPath = new Path();
+
+        GradientPaint() {
             super();
 
             // From "newDefaultPaint".
@@ -3562,40 +3570,6 @@ public final class PaintBox {
             this.setStrokeCap(Paint.Cap.ROUND);
             this.setAntiAlias(true);
             this.setTextAlign(Paint.Align.CENTER);
-        }
-
-        @Override
-        public int hashCode() {
-            return super.hashCode() + mCustomHashCode;
-        }
-
-        public void setColors(WatchFacePreset.ColorType colorTypeA,
-                              WatchFacePreset.ColorType colorTypeB,
-                              WatchFacePreset.GradientStyle gradientStyle) {
-            @ColorInt int colorA = PaintBox.this.getColor(colorTypeA);
-            @ColorInt int colorB = PaintBox.this.getColor(colorTypeB);
-
-            switch (gradientStyle) {
-                case SWEEP:
-                    addSweepGradient(colorA, colorB);
-                    break;
-                case RADIAL:
-                    addRadialGradient(colorA, colorB);
-                    break;
-                case SWEEP_BRUSHED:
-                    addSweepGradient(colorA, colorB);
-                    addBrushedEffect();
-                    break;
-                case RADIAL_BRUSHED:
-                    addRadialGradient(colorA, colorB);
-                    addBrushedEffect();
-                    break;
-                default:
-                    // Should never hit this.
-                    break;
-            }
-
-            mCustomHashCode = Objects.hash(colorA, colorB, gradientStyle);
         }
 
         private void addSweepGradient(int colorA, int colorB) {
@@ -3660,43 +3634,95 @@ public final class PaintBox {
                     Shader.TileMode.CLAMP));
         }
 
+        @Override
+        public int hashCode() {
+            return Objects.hash(super.hashCode(), mCustomHashCode);
+        }
+
+        void setColors(WatchFacePreset.ColorType colorTypeA,
+                       WatchFacePreset.ColorType colorTypeB,
+                       WatchFacePreset.GradientStyle gradientStyle) {
+            @ColorInt int colorA = PaintBox.this.getColor(colorTypeA);
+            @ColorInt int colorB = PaintBox.this.getColor(colorTypeB);
+
+            mCustomHashCode = Objects.hash(colorA, colorB, gradientStyle, height, width);
+
+            switch (gradientStyle) {
+                case SWEEP:
+                    addSweepGradient(colorA, colorB);
+                    break;
+                case RADIAL:
+                    addRadialGradient(colorA, colorB);
+                    break;
+                case SWEEP_BRUSHED:
+                    addSweepGradient(colorA, colorB);
+                    addBrushedEffect();
+                    break;
+                case RADIAL_BRUSHED:
+                    addRadialGradient(colorA, colorB);
+                    addBrushedEffect();
+                    break;
+                default:
+                    // Should never hit this.
+                    break;
+            }
+        }
+
         private void addBrushedEffect() {
-            Bitmap mAccentBasePaintBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(mAccentBasePaintBitmap);
+            Bitmap brushedEffectBitmap = generateBrushedEffect();
+
+            setShader(new BitmapShader(brushedEffectBitmap,
+                    Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+        }
+
+        private Bitmap generateBrushedEffect() {
+            // Attempt to return an existing bitmap from the cache if we have one.
+            WeakReference<Bitmap> cache = mBitmapCache.get(mCustomHashCode);
+            if (cache != null) {
+                // Well, we have an existing bitmap, but it may have been garbage collected...
+                Bitmap result = cache.get();
+                if (result != null) {
+                    // It wasn't garbage collected! Return it.
+                    return result;
+                }
+            }
+
+            // Generate a new bitmap.
+            Bitmap brushedEffectBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Canvas brushedEffectCanvas = new Canvas(brushedEffectBitmap);
+
+            // Cache it for next time's use.
+            mBitmapCache.put(mCustomHashCode, new WeakReference<>(brushedEffectBitmap));
 
             float percent = mCenterX / 50f;
             float offset = 0.5f * percent;
             int alpha = 50;
             float mCenter = Math.min(mCenterX, mCenterY);
 
-            Paint circlePaint = new Paint();
-            circlePaint.setStyle(Paint.Style.STROKE);
-            circlePaint.setStrokeWidth(offset);
-            circlePaint.setStrokeJoin(Paint.Join.ROUND);
-            circlePaint.setAntiAlias(true);
+            mBrushedEffectPaint.setStyle(Style.STROKE);
+            mBrushedEffectPaint.setStrokeWidth(offset);
+            mBrushedEffectPaint.setStrokeJoin(Join.ROUND);
+            mBrushedEffectPaint.setAntiAlias(true);
 
             // Spun metal circles?
-            Path p = new Path();
             for (int max = 50, i = max; i > 0; i--) {
-                p.reset();
-                p.addCircle(mCenterX, mCenterY, mCenter * i / max, Path.Direction.CW);
+                mBrushedEffectPath.reset();
+                mBrushedEffectPath.addCircle(mCenterX, mCenterY, mCenter * i / max, Path.Direction.CW);
 
-                p.offset(-offset, -offset);
-                circlePaint.setColor(Color.WHITE);
-                circlePaint.setAlpha(alpha);
-                canvas.drawPath(p, circlePaint);
+                mBrushedEffectPath.offset(-offset, -offset);
+                mBrushedEffectPaint.setColor(Color.WHITE);
+                mBrushedEffectPaint.setAlpha(alpha);
+                brushedEffectCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
 
-                p.offset(2f * offset, 2f * offset);
-                circlePaint.setColor(Color.BLACK);
-                circlePaint.setAlpha(alpha);
-                canvas.drawPath(p, circlePaint);
+                mBrushedEffectPath.offset(2f * offset, 2f * offset);
+                mBrushedEffectPaint.setColor(Color.BLACK);
+                mBrushedEffectPaint.setAlpha(alpha);
+                brushedEffectCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
 
-                p.offset(-offset, -offset);
-                canvas.drawPath(p, this);
+                mBrushedEffectPath.offset(-offset, -offset);
+                brushedEffectCanvas.drawPath(mBrushedEffectPath, this);
             }
-
-            setShader(new BitmapShader(mAccentBasePaintBitmap,
-                    Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+            return brushedEffectBitmap;
         }
     }
 
