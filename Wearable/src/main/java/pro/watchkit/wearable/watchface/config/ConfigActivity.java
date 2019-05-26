@@ -189,6 +189,7 @@ public class ConfigActivity extends Activity {
 
             // Updates highlight and background colors based on the user preference.
             mAdapter.onWatchFacePresetChanged();
+            mAdapter.onSettingsChanged();
         }
     }
 
