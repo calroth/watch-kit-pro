@@ -231,6 +231,13 @@ public class WatchFaceState {
         // properties for all complications, i.e., iterate over them all.
         setComplicationColors();
 
+        return getComplicationIds();
+    }
+
+    /**
+     * @return Array of complication IDs
+     */
+    public int[] getComplicationIds() {
         return mComplications.stream().mapToInt(ComplicationHolder::getId).toArray();
     }
 
