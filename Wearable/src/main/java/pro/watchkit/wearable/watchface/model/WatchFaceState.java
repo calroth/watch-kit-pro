@@ -22,6 +22,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.support.wearable.complications.ComplicationData;
+import android.util.Log;
 
 import androidx.annotation.ColorInt;
 
@@ -247,13 +248,19 @@ public class WatchFaceState {
 
     /**
      * Recalculates the location bounds for our circular complications (both foreground and
-     * background). Call this if the size of our drawable changes with our overall height and
-     * width, and we'll put the complications somewhere within these bounds.
+     * background). Call this if the size of our drawable changes with our bounds, and we'll put
+     * the complications somewhere within these bounds.
      *
-     * @param width  Overall width of drawable
-     * @param height Overall height of drawable
+     * @param bounds Bounds of drawable
      */
-    public void recalculateComplicationBounds(int width, int height) {
+    public void recalculateComplicationBounds(Rect bounds) {
+        int width = bounds.width(), height = bounds.height();
+        Log.d(WatchFaceState.class.getSimpleName(), "recalculateComplicationBounds ("
+                + width + "," + height + ")");
+        if (width == 0 || height == 0) {
+            return;
+        }
+
         float size = Math.min(width, height) / 4f;
 
         // Start "i" off with our complication rotation, between 0 and 0.75 of a circle width.
@@ -288,15 +295,15 @@ public class WatchFaceState {
                 float innerX = (width / 2f) + (float) Math.sin(degrees) * size;
                 float innerY = (height / 2f) - (float) Math.cos(degrees) * size;
 
-                Rect bounds = new Rect((int) (innerX - halfSize), (int) (innerY - halfSize),
+                Rect b1 = new Rect((int) (innerX - halfSize), (int) (innerY - halfSize),
                         (int) (innerX + halfSize), (int) (innerY + halfSize));
 
-                complication.setBounds(bounds);
+                complication.setBounds(b1);
                 i++;
             } else {
                 // Background
-                Rect bounds = new Rect(0, 0, width, height);
-                complication.setBounds(bounds);
+                Rect b1 = new Rect(0, 0, width, height);
+                complication.setBounds(b1);
             }
         }
     }

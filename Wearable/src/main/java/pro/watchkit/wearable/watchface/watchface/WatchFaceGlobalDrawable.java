@@ -154,7 +154,7 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
     @Override
     protected void onBoundsChange(Rect bounds) {
         super.onBoundsChange(bounds);
-        mWatchFaceState.recalculateComplicationBounds(bounds.width(), bounds.height());
+        mWatchFaceState.recalculateComplicationBounds(bounds);
     }
 
     @NonNull
