@@ -50,6 +50,7 @@
     <string name="analog_complication_preference_file_key">pro.watchkit.wearable.watchface.ANALOG_COMPLICATION_PREFERENCE_FILE_KEY</string>
     <string name="saved_watch_face_preset">saved_watch_face_preset</string>
     <string name="saved_settings">saved_settings</string>
+    <string name="saved_most_recent_config_page">saved_most_recent_config_page</string>
     <string name="saved_background_color">saved_background_color</string>
 
     <!-- Use of "\n" is to conserve horizontal space in config menu. -->

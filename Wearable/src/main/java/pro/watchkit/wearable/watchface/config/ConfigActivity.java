@@ -36,6 +36,7 @@ package pro.watchkit.wearable.watchface.config;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.wearable.complications.ComplicationProviderInfo;
@@ -45,6 +46,8 @@ import android.util.Log;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.wear.widget.WearableRecyclerView;
 import androidx.wear.widget.drawer.WearableNavigationDrawerView;
+
+import java.util.Arrays;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.ColorsStylesConfigData;
@@ -78,16 +81,41 @@ public class ConfigActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Context context = getApplicationContext();
+
+        SharedPreferences sharedPref = context.getSharedPreferences(
+                context.getString(R.string.analog_complication_preference_file_key),
+                Context.MODE_PRIVATE);
+
+        // Try to get mCurrentSubActivity from our activity intent.
+        if (mCurrentSubActivity == null) {
+            String configDataString = getIntent().getStringExtra(CONFIG_DATA);
+            Arrays.stream(ConfigSubActivity.values())
+                    .filter(c -> c.mClassName.equals(configDataString))
+                    .findFirst()
+                    .ifPresent(c -> mCurrentSubActivity = c);
+        }
+
+        // If we couldn't get mCurrentSubActivity, try to get it from preferences.
+        if (mCurrentSubActivity == null) {
+            String configDataString = sharedPref.getString(
+                    context.getString(R.string.saved_most_recent_config_page), null);
+            Arrays.stream(ConfigSubActivity.values())
+                    .filter(c -> c.mClassName.equals(configDataString))
+                    .findFirst()
+                    .ifPresent(c -> mCurrentSubActivity = c);
+        }
+
+        // Well, if we don't have mCurrentSubActivity by now, set it to default...
         if (mCurrentSubActivity == null) {
             mCurrentSubActivity = ConfigSubActivity.Settings;
-            String configDataString = getIntent().getStringExtra(CONFIG_DATA);
-            for (ConfigSubActivity c : ConfigSubActivity.values()) {
-                if (c.mClassName.equals(configDataString)) {
-                    mCurrentSubActivity = c;
-                    break;
-                }
-            }
         }
+
+        // Save out our most recent selected config page, for next time.
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(context.getString(R.string.saved_most_recent_config_page),
+                mCurrentSubActivity.mClassName);
+        editor.apply();
 
         if (mConfigData == null) {
             mConfigData = mCurrentSubActivity.getNewInstance();
@@ -95,8 +123,7 @@ public class ConfigActivity extends Activity {
 
         setContentView(R.layout.activity_analog_complication_config);
 
-        mAdapter = new ConfigRecyclerViewAdapter(
-                getApplicationContext(),
+        mAdapter = new ConfigRecyclerViewAdapter(context,
                 mConfigData.getWatchFaceServiceClass(),
                 mConfigData.getDataToPopulateAdapter(this));
 
