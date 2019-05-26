@@ -537,8 +537,8 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
      * Displays color options for the an item on the watch face. These could include marker color,
      * background color, etc.
      */
-    public class WatchFacePresetPickerViewHolder
-            extends RecyclerView.ViewHolder implements OnClickListener, WatchFacePresetListener {
+    public class WatchFacePresetPickerViewHolder extends RecyclerView.ViewHolder
+            implements OnClickListener, WatchFacePresetListener, SettingsListener {
 
         private Button mButton;
 
@@ -581,6 +581,10 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                 itemView.setVisibility(View.GONE);
             }
             itemView.setLayoutParams(param);
+        }
+
+        public void onSettingsChanged() {
+            onWatchFacePresetChanged();
         }
 
         public void onWatchFacePresetChanged() {
