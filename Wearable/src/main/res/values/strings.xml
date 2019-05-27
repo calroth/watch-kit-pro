@@ -70,6 +70,7 @@
     <string name="config_configure_hands">Configure Hands</string>
     <string name="config_configure_ticks">Configure Ticks</string>
 
+    <string name="config_complication_count">Complication Count</string>
     <string name="config_complication_rotation">Complication Position</string>
 
     <string name="config_preset_hour_hand_shape">Hour Hand Shape</string>
@@ -226,6 +227,13 @@
         <item>Offset +0.25</item>
         <item>Offset +0.50</item>
         <item>Offset +0.75</item>
+    </string-array>
+
+    <string-array name="Settings_ComplicationCount">
+        <item>5 Complications</item>
+        <item>6 Complications</item>
+        <item>7 Complications</item>
+        <item>8 Complications</item>
     </string-array>
 
     <string-array name="color_array">

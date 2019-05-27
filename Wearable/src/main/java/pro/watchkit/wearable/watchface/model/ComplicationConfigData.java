@@ -29,17 +29,30 @@ import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 public class ComplicationConfigData extends ConfigData {
     @Override
     public List<ConfigItemType> getDataToPopulateAdapter(Context context) {
+        int watchFaceGlobalDrawableFlags = WatchFaceGlobalDrawable.PART_BACKGROUND |
+                WatchFaceGlobalDrawable.PART_HANDS |
+                WatchFaceGlobalDrawable.PART_RINGS_ALL;
+
         return Arrays.asList(
                 // Complication picker from watch face drawable.
                 new ComplicationConfigItem(R.drawable.add_complication),
+
+                // Data for complication count in settings Activity.
+                new WatchFacePickerConfigItem(
+                        context.getString(R.string.config_complication_count),
+                        R.drawable.icn_styles,
+                        watchFaceGlobalDrawableFlags,
+                        WatchFaceSelectionActivity.class,
+                        new SettingsMutatorImpl<>(
+                                Settings.ComplicationCount.values(),
+                                Settings::setComplicationCountEnum,
+                                Settings::getComplicationCountEnum)),
 
                 // Data for complication rotation in settings Activity.
                 new WatchFacePickerConfigItem(
                         context.getString(R.string.config_complication_rotation),
                         R.drawable.icn_styles,
-                        WatchFaceGlobalDrawable.PART_BACKGROUND |
-                                WatchFaceGlobalDrawable.PART_HANDS |
-                                WatchFaceGlobalDrawable.PART_RINGS_ALL,
+                        watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new SettingsMutatorImpl<>(
                                 Settings.ComplicationRotation.values(),

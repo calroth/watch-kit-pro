@@ -66,6 +66,48 @@ public class Settings implements Cloneable {
         mComplicationRotation = complicationRotation;
     }
 
+    ComplicationCount getComplicationCountEnum() {
+        switch (getComplicationCount()) {
+            case 5: {
+                return ComplicationCount.COUNT_5;
+            }
+            case 6: {
+                return ComplicationCount.COUNT_6;
+            }
+            case 7: {
+                return ComplicationCount.COUNT_7;
+            }
+            case 8: {
+                return ComplicationCount.COUNT_8;
+            }
+            default: {
+                // 6 by default?
+                return ComplicationCount.COUNT_6;
+            }
+        }
+    }
+
+    void setComplicationCountEnum(ComplicationCount c) {
+        switch (c) {
+            case COUNT_5: {
+                setComplicationCount(5);
+                break;
+            }
+            case COUNT_6: {
+                setComplicationCount(6);
+                break;
+            }
+            case COUNT_7: {
+                setComplicationCount(7);
+                break;
+            }
+            case COUNT_8: {
+                setComplicationCount(8);
+                break;
+            }
+        }
+    }
+
     int getComplicationCount() {
         return mComplicationCount;
     }
@@ -117,7 +159,7 @@ public class Settings implements Cloneable {
 //        switch (version) {
 //            case 0:
 //            default: {
-                mShowUnreadNotifications = bytePacker.getBoolean();
+        mShowUnreadNotifications = bytePacker.getBoolean();
         mNightVisionModeEnabled = bytePacker.getBoolean();
         setComplicationCount(bytePacker.get(3)); // 3-bit complication count
         setComplicationRotation(ComplicationRotation.unpack(bytePacker));
@@ -161,6 +203,16 @@ public class Settings implements Cloneable {
         @ArrayRes
         public int getNameResourceId() {
             return R.array.Settings_ComplicationRotation;
+        }
+    }
+
+    public enum ComplicationCount implements WatchFacePreset.EnumResourceId {
+        COUNT_5, COUNT_6, COUNT_7, COUNT_8;
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.Settings_ComplicationCount;
         }
     }
 }
