@@ -173,8 +173,7 @@ public final class ComplicationHolder implements Drawable.Callback {
     void setBounds(Rect bounds) {
         boolean dimensionsChanged = true;
         if (mBounds != null) {
-            dimensionsChanged = mBounds.width() == bounds.width()
-                    && mBounds.height() == bounds.height();
+            dimensionsChanged = !mBounds.equals(bounds);
         }
         mBounds = bounds;
         if (mInsetBounds == null) {
