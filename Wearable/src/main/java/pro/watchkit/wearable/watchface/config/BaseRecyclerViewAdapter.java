@@ -53,7 +53,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Comparator;
-import java.util.Optional;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
@@ -306,10 +305,10 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             mImageView.setOnClickListener(v -> {
                 // Find out which thing got clicked!
                 if (mLastTouchX != -1f || mLastTouchY != -1f) {
-                    Optional<ComplicationHolder> nearest = w.getComplications().stream()
+                    w.getComplications().stream()
                             .filter(c -> c.isForeground)
-                            .min(Comparator.comparing(c -> c.distanceFrom(mLastTouchX, mLastTouchY)));
-                    nearest.ifPresent(this::launchComplicationHelperActivity);
+                            .min(Comparator.comparing(c -> c.distanceFrom(mLastTouchX, mLastTouchY)))
+                            .ifPresent(this::launchComplicationHelperActivity);
                 }
             });
 
