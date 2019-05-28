@@ -52,7 +52,8 @@ final class WatchPartRingsDrawable extends WatchPartDrawable {
 
     @Override
     public void draw2(@NonNull Canvas canvas) {
-        Collection<ComplicationHolder> complications = mWatchFaceState.getComplications();
+        Collection<ComplicationHolder> complications =
+                mWatchFaceState.getComplicationsForDrawing(getBounds());
 
         if (complications == null || complications.size() == 0) {
             // Early finish if we don't actually have any complications.

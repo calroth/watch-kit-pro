@@ -30,7 +30,7 @@ final class WatchPartComplicationsDrawable extends WatchPartDrawable {
 
     @Override
     public void draw2(@NonNull Canvas canvas) {
-        mWatchFaceState.getComplications()
+        mWatchFaceState.getComplicationsForDrawing(getBounds())
                 .forEach(c -> c.draw(canvas, mWatchFaceState.getTimeInMillis()));
     }
 }

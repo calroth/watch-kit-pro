@@ -216,9 +216,6 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
             // Initialise complications, just enough to be able to draw rings.
             w.initializeComplications(mImageView.getContext(), this::onWatchFacePresetChanged);
-            // As the settings for complication number, rotation etc. may have changed, recalculate
-            // our complication bounds.
-            w.recalculateComplicationBounds(mWatchFaceGlobalDrawable.getBounds());
         }
 
         public void onWatchFacePresetChanged() {

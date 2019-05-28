@@ -246,6 +246,8 @@ public class WatchFaceState {
         return mComplicationMap.get(id);
     }
 
+    private int mPreviousBoundsSerial = -1;
+
     /**
      * Recalculates the location bounds for our circular complications (both foreground and
      * background). Call this if the size of our drawable changes with our bounds, and we'll put
@@ -253,13 +255,16 @@ public class WatchFaceState {
      *
      * @param bounds Bounds of drawable
      */
-    public void recalculateComplicationBounds(Rect bounds) {
+    private void recalculateComplicationBounds(Rect bounds) {
         int width = bounds.width(), height = bounds.height();
-        Log.d(WatchFaceState.class.getSimpleName(), "recalculateComplicationBounds ("
-                + width + "," + height + ")");
-        if (width == 0 || height == 0) {
+        int currentBoundsSerial = Objects.hash(width, height, mSettings);
+        if (width == 0 || height == 0 || mPreviousBoundsSerial == currentBoundsSerial) {
             return;
         }
+        Log.d(WatchFaceState.class.getSimpleName(), "recalculateComplicationBounds ("
+                + width + "," + height + ")");
+        // Only take this code path if something has changed.
+        mPreviousBoundsSerial = currentBoundsSerial;
 
         float size = Math.min(width, height) / 4f;
 
@@ -339,7 +344,26 @@ public class WatchFaceState {
         return mPaintBox;
     }
 
+    /**
+     * Get a list of our ComplicationHolder objects. Don't call this one if you intend to draw
+     * them, but if you just want to iterate over them for their properties, that's OK!
+     *
+     * @return List of our ComplicationHolder objects
+     */
     public Collection<ComplicationHolder> getComplications() {
+        return mComplications;
+    }
+
+    /**
+     * Get a list of our ComplicationHolder objects, ready for drawing. This method has some extra
+     * logic to re-position each object if our bounds have changed. You can also use the result to
+     * iterate over for their properties too, if you want.
+     *
+     * @param bounds Bounds of the drawable to which we intend to draw
+     * @return List of our ComplicationHolder objects
+     */
+    public Collection<ComplicationHolder> getComplicationsForDrawing(Rect bounds) {
+        recalculateComplicationBounds(bounds);
         return mComplications;
     }
 
