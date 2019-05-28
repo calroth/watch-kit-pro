@@ -122,7 +122,7 @@ public class Settings implements Cloneable {
     }
 
     public String getString() {
-        packVersion0();
+        packVersion1();
         return bytePacker.getStringFast();
     }
 
@@ -151,21 +151,41 @@ public class Settings implements Cloneable {
         bytePacker.finish();
     }
 
+    private void packVersion1() {
+        bytePacker.rewind();
+
+        // Version. 3-bits. Current version is v1.
+        bytePacker.put(3, 1);
+
+        bytePacker.put(mShowUnreadNotifications);
+        bytePacker.put(mNightVisionModeEnabled);
+        getComplicationCountEnum().pack(bytePacker);
+        mComplicationRotation.pack(bytePacker);
+
+        bytePacker.finish();
+    }
+
     private void unpack() {
         bytePacker.rewind();
 
-        /*int version = */
-        bytePacker.get(3);
-//        switch (version) {
-//            case 0:
-//            default: {
-        mShowUnreadNotifications = bytePacker.getBoolean();
-        mNightVisionModeEnabled = bytePacker.getBoolean();
-        setComplicationCount(bytePacker.get(3)); // 3-bit complication count
-        setComplicationRotation(ComplicationRotation.unpack(bytePacker));
-//                break;
-//            }
-//        }
+        int version = bytePacker.get(3);
+        switch (version) {
+            case 0: {
+                mShowUnreadNotifications = bytePacker.getBoolean();
+                mNightVisionModeEnabled = bytePacker.getBoolean();
+                setComplicationCount(bytePacker.get(3)); // 3-bit complication count
+                setComplicationRotation(ComplicationRotation.unpack(bytePacker));
+                break;
+            }
+            case 1:
+            default: {
+                mShowUnreadNotifications = bytePacker.getBoolean();
+                mNightVisionModeEnabled = bytePacker.getBoolean();
+                setComplicationCountEnum(ComplicationCount.unpack(bytePacker));
+                setComplicationRotation(ComplicationRotation.unpack(bytePacker));
+                break;
+            }
+        }
     }
 
     public boolean isShowUnreadNotifications() {
@@ -208,6 +228,16 @@ public class Settings implements Cloneable {
 
     public enum ComplicationCount implements WatchFacePreset.EnumResourceId {
         COUNT_5, COUNT_6, COUNT_7, COUNT_8;
+
+        private static final int bits = 2;
+
+        static ComplicationCount unpack(BytePacker bytePacker) {
+            return values()[bytePacker.get(bits)];
+        }
+
+        void pack(BytePacker bytePacker) {
+            bytePacker.put(bits, values(), this);
+        }
 
         @Override
         @ArrayRes
