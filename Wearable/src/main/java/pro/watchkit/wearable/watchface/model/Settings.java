@@ -36,6 +36,8 @@ public class Settings implements Cloneable {
 
     private int mComplicationCount = 5;
     private ComplicationRotation mComplicationRotation = ComplicationRotation.ROTATE_25;
+    private int mAmbientDaySixBitColor;
+    private int mAmbientNightSixBitColor;
 
     public Settings clone() {
         Settings result;
@@ -55,7 +57,9 @@ public class Settings implements Cloneable {
                 mShowUnreadNotifications,
                 mNightVisionModeEnabled,
                 mComplicationCount,
-                mComplicationRotation);
+                mComplicationRotation,
+                mAmbientDaySixBitColor,
+                mAmbientNightSixBitColor);
     }
 
     ComplicationRotation getComplicationRotation() {
@@ -161,6 +165,8 @@ public class Settings implements Cloneable {
         bytePacker.put(mNightVisionModeEnabled);
         getComplicationCountEnum().pack(bytePacker);
         mComplicationRotation.pack(bytePacker);
+        bytePacker.put(6, getSixBitColor(ColorType.AMBIENT_DAY));
+        bytePacker.put(6, getSixBitColor(ColorType.AMBIENT_NIGHT));
 
         bytePacker.finish();
     }
@@ -183,6 +189,8 @@ public class Settings implements Cloneable {
                 mNightVisionModeEnabled = bytePacker.getBoolean();
                 setComplicationCountEnum(ComplicationCount.unpack(bytePacker));
                 setComplicationRotation(ComplicationRotation.unpack(bytePacker));
+                setSixBitColor(ColorType.AMBIENT_DAY, bytePacker.get(6));
+                setSixBitColor(ColorType.AMBIENT_NIGHT, bytePacker.get(6));
                 break;
             }
         }
@@ -205,6 +213,33 @@ public class Settings implements Cloneable {
         mNightVisionModeEnabled = !mNightVisionModeEnabled;
         return mNightVisionModeEnabled;
     }
+
+    int getSixBitColor(ColorType colorType) {
+        switch (colorType) {
+            case AMBIENT_DAY: {
+                return mAmbientDaySixBitColor;
+            }
+            case AMBIENT_NIGHT: {
+                return mAmbientNightSixBitColor;
+            }
+        }
+        return mAmbientNightSixBitColor;
+    }
+
+    public void setSixBitColor(ColorType colorType, int sixBitColor) {
+        switch (colorType) {
+            case AMBIENT_DAY: {
+                mAmbientDaySixBitColor = sixBitColor;
+                break;
+            }
+            case AMBIENT_NIGHT: {
+                mAmbientNightSixBitColor = sixBitColor;
+                break;
+            }
+        }
+    }
+
+    public enum ColorType {AMBIENT_DAY, AMBIENT_NIGHT}
 
     public enum ComplicationRotation implements WatchFacePreset.EnumResourceId {
         ROTATE_00, ROTATE_25, ROTATE_50, ROTATE_75;

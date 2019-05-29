@@ -40,6 +40,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import pro.watchkit.wearable.watchface.R;
+import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
 
 public class SettingsConfigData extends ConfigData {
     @Override
@@ -55,7 +56,22 @@ public class SettingsConfigData extends ConfigData {
                 new NightVisionConfigItem(
                         context.getString(R.string.config_night_vision_label),
                         R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp)
+                        R.drawable.ic_notifications_off_white_24dp),
+
+
+                // Data for base color UX in settings Activity.
+                new ColorPickerConfigItem(
+                        context.getString(R.string.config_ambient_day_color_label),
+                        R.drawable.icn_styles,
+                        Settings.ColorType.AMBIENT_DAY,
+                        ColorSelectionActivity.class),
+
+                // Data for base color UX in settings Activity.
+                new ColorPickerConfigItem(
+                        context.getString(R.string.config_ambient_night_color_label),
+                        R.drawable.icn_styles,
+                        Settings.ColorType.AMBIENT_NIGHT,
+                        ColorSelectionActivity.class)
         );
     }
 }

@@ -62,6 +62,8 @@
     <string name="config_unread_notifications_label">Unread\nNotifications</string>
     <string name="config_background_image_complication_label">Background\nImage</string>
     <string name="config_night_vision_label">Night\nVision</string>
+    <string name="config_ambient_day_color_label">Ambient Day Color</string>
+    <string name="config_ambient_night_color_label">Ambient Night Color</string>
 
     <string name="config_configure_settings">Configure Settings</string>
     <string name="config_configure_complications">Configure Complications</string>

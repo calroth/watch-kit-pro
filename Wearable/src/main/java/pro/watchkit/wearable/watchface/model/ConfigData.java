@@ -136,7 +136,8 @@ abstract public class ConfigData {
 
         private String name;
         private int iconResourceId;
-        private WatchFacePreset.ColorType mColorType;
+        private WatchFacePreset.ColorType mWatchFacePresetColorType;
+        private Settings.ColorType mSettingsColorType;
         private Class<ColorSelectionActivity> activityToChoosePreference;
 
         ColorPickerConfigItem(
@@ -146,12 +147,23 @@ abstract public class ConfigData {
                 Class<ColorSelectionActivity> activity) {
             this.name = name;
             this.iconResourceId = iconResourceId;
-            this.mColorType = colorType;
+            this.mWatchFacePresetColorType = colorType;
+            this.activityToChoosePreference = activity;
+        }
+
+        ColorPickerConfigItem(
+                String name,
+                int iconResourceId,
+                Settings.ColorType colorType,
+                Class<ColorSelectionActivity> activity) {
+            this.name = name;
+            this.iconResourceId = iconResourceId;
+            this.mSettingsColorType = colorType;
             this.activityToChoosePreference = activity;
         }
 
         public WatchFacePreset.ColorType getType() {
-            return mColorType;
+            return mWatchFacePresetColorType;
         }
 
         public String getName() {
@@ -183,7 +195,7 @@ abstract public class ConfigData {
 
         private String name;
         private int iconResourceId;
-        //        private WatchFacePreset.ColorType mColorType;
+        //        private WatchFacePreset.ColorType mWatchFacePresetColorType;
         private Class<? extends ConfigData> mConfigDataClass;
         private Class<ConfigActivity> activityToChoosePreference;
 
