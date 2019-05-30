@@ -34,7 +34,6 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 /**
@@ -156,7 +155,7 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
     }
 
     private Paint mTint = new Paint();
-    private Xfermode mTintXfermode;
+    private Xfermode mTintXfermode = new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY);
 
     @Override
     public void draw(@NonNull Canvas canvas) {
@@ -175,18 +174,12 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
 
         super.draw(canvas);
 
-        // If we're ambient and it's night...
-        if (mWatchFaceState.isAmbient() &&
-                mWatchFaceState.getLocationCalculator().getDuskDawnMultiplier() > 0d) {
-            // Set a night vision tint!
-            mTint.setColor(mWatchFaceState.getLocationCalculator().getDuskDawnColor(
-                    PaintBox.AMBIENT_WHITE));
-            if (mTintXfermode == null) {
-                // Set the transfer mode on first use.
-                mTintXfermode = new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY);
-                mTint.setXfermode(mTintXfermode);
-            }
-
+        // If we're ambient
+        if (mWatchFaceState.isAmbient()) {
+            // By default we draw ambient in white, then tint it to the user's selected color.
+            mTint.setColor(mWatchFaceState.getAmbientTint());
+            mTint.setXfermode(mTintXfermode);
+            // Draw the tint all over the canvas.
             canvas.drawPaint(mTint);
         }
 

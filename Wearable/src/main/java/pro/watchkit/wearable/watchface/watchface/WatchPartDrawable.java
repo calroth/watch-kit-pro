@@ -256,7 +256,7 @@ abstract class WatchPartDrawable extends Drawable {
             Paint ambientPaint = mWatchFaceState.getPaintBox().getAmbientPaint();
 
 //            int currentNightVisionTint =
-//                    mWatchFaceState.getLocationCalculator().getDuskDawnColor(PaintBox.AMBIENT_WHITE);
+//                    mWatchFaceState.getLocationCalculator().getAmbientTint(PaintBox.AMBIENT_WHITE);
 //
 //            ambientPaint.setColorFilter(currentNightVisionTint != PaintBox.AMBIENT_WHITE
 //                    ? new LightingColorFilter(currentNightVisionTint, 0) : null);

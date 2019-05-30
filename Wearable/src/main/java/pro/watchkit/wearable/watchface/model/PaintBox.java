@@ -44,9 +44,6 @@ import java.util.Objects;
 import pro.watchkit.wearable.watchface.R;
 
 public final class PaintBox {
-    public static final int AMBIENT_WHITE =
-            Color.argb(0xff, 0xff, 0xff, 0xff);
-
     private static final float AMBIENT_PAINT_STROKE_WIDTH_PERCENT = 0.333f; // 0.333%
     private static final float PAINT_STROKE_WIDTH_PERCENT = 0.5f; // 0.5%
     private static String[] wikipediaNames = {
@@ -3072,7 +3069,7 @@ public final class PaintBox {
 
         mAmbientPaint = newDefaultPaint();
         mAmbientPaint.setStyle(Paint.Style.STROKE);
-        mAmbientPaint.setColor(AMBIENT_WHITE);
+        mAmbientPaint.setColor(Color.WHITE); // Ambient is always white, we'll tint it in post.
 //        mAmbientPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mBaseColor);
 
         mShadowPaint = newDefaultPaint();
@@ -3199,7 +3196,8 @@ public final class PaintBox {
      * @param d      The distance from colorB, between 0.0 and 1.0
      * @return A color between colorA and colorB
      */
-    static int getIntermediateColor(int colorA, int colorB, double d) {
+    @ColorInt
+    static int getIntermediateColor(@ColorInt int colorA, @ColorInt int colorB, double d) {
         // Clamp to [0, 1]
         if (d < 0) d = 0;
         else if (d > 1) d = 1;

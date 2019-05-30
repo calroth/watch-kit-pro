@@ -332,6 +332,23 @@ public class WatchFaceState {
         return mLocationCalculator;
     }
 
+    /**
+     * Get the current ambient tint color. This depends on what the user has set, plus the time of
+     * day.
+     * <p>
+     * The way we draw ambient is: all ambient drawing is done in Color.WHITE, then we tint it
+     * using a transfer mode paint to whatever this color is.
+     *
+     * @return Current ambient tint color
+     */
+    @ColorInt
+    public int getAmbientTint() {
+        return PaintBox.getIntermediateColor(
+                getPaintBox().getColor(PaintBox.ColorType.AMBIENT_NIGHT),
+                getPaintBox().getColor(PaintBox.ColorType.AMBIENT_DAY),
+                getLocationCalculator().getDuskDawnMultiplier());
+    }
+
     public Settings getSettings() {
         return mSettings;
     }

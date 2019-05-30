@@ -18,7 +18,6 @@
 
 package pro.watchkit.wearable.watchface.model;
 
-import android.graphics.Color;
 import android.location.Location;
 
 import net.e175.klaus.solarpositioning.DeltaT;
@@ -27,9 +26,6 @@ import net.e175.klaus.solarpositioning.SPA;
 import java.util.GregorianCalendar;
 
 public final class LocationCalculator {
-    private static final int AMBIENT_WHITE_R =
-            Color.argb(0xff, 0x99, 0x00, 0x00);
-
     private GregorianCalendar mCalendar;
     private Location mLocation = null;
     private long previousSunAltitudeTime = 0;
@@ -89,7 +85,7 @@ public final class LocationCalculator {
      *
      * @return Night vision tint multiplier
      */
-    public double getDuskDawnMultiplier() {
+    double getDuskDawnMultiplier() {
         double altitude = getSunAltitude();
         if (altitude < -12d) {
             // Night
@@ -101,9 +97,5 @@ public final class LocationCalculator {
             // Day
             return 0d;
         }
-    }
-
-    public int getDuskDawnColor(int original) {
-        return PaintBox.getIntermediateColor(AMBIENT_WHITE_R, original, getDuskDawnMultiplier());
     }
 }
