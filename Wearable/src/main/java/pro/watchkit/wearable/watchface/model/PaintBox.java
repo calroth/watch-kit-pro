@@ -32,13 +32,12 @@ import android.graphics.Shader;
 import android.graphics.SweepGradient;
 import android.os.Build;
 import android.util.Log;
+import android.util.SparseArray;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
 import java.lang.ref.WeakReference;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 import pro.watchkit.wearable.watchface.R;
@@ -3591,7 +3590,7 @@ public final class PaintBox {
         Log.d("AnalogWatchFace", "Generated!");
     }
 
-    private static Map<Integer, WeakReference<Bitmap>> mBitmapCache = new HashMap<>();
+    private static SparseArray<WeakReference<Bitmap>> mBitmapCache = new SparseArray<>();
 
     public enum ColorType {FILL, ACCENT, HIGHLIGHT, BASE, AMBIENT_DAY, AMBIENT_NIGHT}
 
