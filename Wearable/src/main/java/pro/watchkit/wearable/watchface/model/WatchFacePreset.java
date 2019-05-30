@@ -20,9 +20,10 @@ package pro.watchkit.wearable.watchface.model;
 
 import android.util.Log;
 
+import androidx.annotation.ArrayRes;
+
 import java.util.Objects;
 
-import androidx.annotation.ArrayRes;
 import pro.watchkit.wearable.watchface.R;
 
 public final class WatchFacePreset {
@@ -58,10 +59,10 @@ public final class WatchFacePreset {
 //        bytePacker.setString("2a4c845ec530d34bffa86609f82f6407");
 //        unpack();
 
-        setSixBitColor(ColorType.FILL, 16);
-        setSixBitColor(ColorType.ACCENT, 24);
-        setSixBitColor(ColorType.HIGHLIGHT, 32);
-        setSixBitColor(ColorType.BASE, 40);
+        setSixBitColor(PaintBox.ColorType.FILL, 16);
+        setSixBitColor(PaintBox.ColorType.ACCENT, 24);
+        setSixBitColor(PaintBox.ColorType.HIGHLIGHT, 32);
+        setSixBitColor(PaintBox.ColorType.BASE, 40);
 
         setBackgroundStyle(Style.ACCENT_BASE);
 
@@ -672,39 +673,47 @@ public final class WatchFacePreset {
         this.minuteHandCutout = minuteHandCutout;
     }
 
-    int getSixBitColor(ColorType colorType) {
+    int getSixBitColor(PaintBox.ColorType colorType) {
         switch (colorType) {
-            case FILL:
+            case FILL: {
                 return mFillSixBitColor;
-            case ACCENT:
+            }
+            case ACCENT: {
                 return mAccentSixBitColor;
-            case HIGHLIGHT:
+            }
+            case HIGHLIGHT: {
                 return mHighlightSixBitColor;
+            }
             case BASE:
-            default:
+            default: {
                 return mBaseSixBitColor;
+            }
         }
     }
 
-    public void setSixBitColor(ColorType colorType, int sixBitColor) {
+    void setSixBitColor(PaintBox.ColorType colorType, int sixBitColor) {
         switch (colorType) {
-            case FILL:
+            case FILL: {
                 this.mFillSixBitColor = sixBitColor;
                 break;
-            case ACCENT:
+            }
+            case ACCENT: {
                 this.mAccentSixBitColor = sixBitColor;
                 break;
-            case HIGHLIGHT:
+            }
+            case HIGHLIGHT: {
                 this.mHighlightSixBitColor = sixBitColor;
                 break;
-            case BASE:
-            default:
+            }
+            case BASE: {
                 this.mBaseSixBitColor = sixBitColor;
                 break;
+            }
+            default: {
+                break;
+            }
         }
     }
-
-    public enum ColorType {FILL, ACCENT, HIGHLIGHT, BASE}
 
     public enum HandShape implements EnumResourceId {
         STRAIGHT, ROUNDED, DIAMOND, UNKNOWN1;

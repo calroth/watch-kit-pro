@@ -86,7 +86,7 @@ public class WatchFaceState {
     }
 
     public WatchFaceState(Context context) {
-        mPaintBox = new PaintBox(context, mWatchFacePreset);
+        mPaintBox = new PaintBox(context, mWatchFacePreset, mSettings);
     }
 
     /**
@@ -321,7 +321,7 @@ public class WatchFaceState {
      * again if the user changes the highlight color via ConfigActivity.
      */
     public void setComplicationColors() {
-        @ColorInt int activeColor = mPaintBox.getColor(WatchFacePreset.ColorType.HIGHLIGHT);
+        @ColorInt int activeColor = mPaintBox.getColor(PaintBox.ColorType.HIGHLIGHT);
         @ColorInt int ambientColor = Color.WHITE;
         // TODO: hook that up to the night vision tint when after dark
 

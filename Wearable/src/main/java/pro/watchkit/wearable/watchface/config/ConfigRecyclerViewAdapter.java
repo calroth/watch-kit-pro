@@ -78,7 +78,6 @@ import pro.watchkit.wearable.watchface.model.ConfigData.WatchFaceDrawableConfigI
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFacePickerConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFacePresetToggleConfigItem;
 import pro.watchkit.wearable.watchface.model.PaintBox;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
 import static pro.watchkit.wearable.watchface.config.ConfigActivity.CONFIG_DATA;
@@ -153,7 +152,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
 
         regenerateCurrentWatchFacePreset();
         regenerateCurrentSettings();
-        mCurrentPaintBox = new PaintBox(context, mCurrentWatchFacePreset);
+        mCurrentPaintBox = new PaintBox(context, mCurrentWatchFacePreset, mCurrentSettings);
     }
 
     /**
@@ -417,7 +416,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
 
         private Button mButton;
         private Class<ColorSelectionActivity> mLaunchActivity;
-        private WatchFacePreset.ColorType mColorType;
+        private PaintBox.ColorType mColorType;
         private Drawable mColorSwatchDrawable = new Drawable() {
             private Paint mCirclePaint;
 

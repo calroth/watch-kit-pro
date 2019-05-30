@@ -63,14 +63,14 @@ public class SettingsConfigData extends ConfigData {
                 new ColorPickerConfigItem(
                         context.getString(R.string.config_ambient_day_color_label),
                         R.drawable.icn_styles,
-                        Settings.ColorType.AMBIENT_DAY,
+                        PaintBox.ColorType.AMBIENT_DAY,
                         ColorSelectionActivity.class),
 
                 // Data for base color UX in settings Activity.
                 new ColorPickerConfigItem(
                         context.getString(R.string.config_ambient_night_color_label),
                         R.drawable.icn_styles,
-                        Settings.ColorType.AMBIENT_NIGHT,
+                        PaintBox.ColorType.AMBIENT_NIGHT,
                         ColorSelectionActivity.class)
         );
     }

@@ -42,28 +42,28 @@ public class ColorsStylesConfigData extends ConfigData {
                 new ColorPickerConfigItem(
                         context.getString(R.string.config_fill_color_label),
                         R.drawable.icn_styles,
-                        WatchFacePreset.ColorType.FILL,
+                        PaintBox.ColorType.FILL,
                         ColorSelectionActivity.class),
 
                 // Data for accent color UX in settings Activity.
                 new ColorPickerConfigItem(
                         context.getString(R.string.config_accent_color_label),
                         R.drawable.icn_styles,
-                        WatchFacePreset.ColorType.ACCENT,
+                        PaintBox.ColorType.ACCENT,
                         ColorSelectionActivity.class),
 
                 // Data for highlight/marker (second hand) color UX in settings Activity.
                 new ColorPickerConfigItem(
                         context.getString(R.string.config_marker_color_label),
                         R.drawable.icn_styles,
-                        WatchFacePreset.ColorType.HIGHLIGHT,
+                        PaintBox.ColorType.HIGHLIGHT,
                         ColorSelectionActivity.class),
 
                 // Data for base color UX in settings Activity.
                 new ColorPickerConfigItem(
                         context.getString(R.string.config_base_color_label),
                         R.drawable.icn_styles,
-                        WatchFacePreset.ColorType.BASE,
+                        PaintBox.ColorType.BASE,
                         ColorSelectionActivity.class),
 
                 // Data for fill highlight style in settings Activity.
