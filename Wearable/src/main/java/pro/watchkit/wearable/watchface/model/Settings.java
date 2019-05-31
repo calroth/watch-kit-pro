@@ -214,20 +214,20 @@ public class Settings implements Cloneable {
         return mNightVisionModeEnabled;
     }
 
-    public int getAmbientDaySixBitColor() {
+    int getAmbientDaySixBitColor() {
         return mAmbientDaySixBitColor;
     }
 
-    public void setAmbientDaySixBitColor(int AmbientDaySixBitColor) {
-        mAmbientDaySixBitColor = AmbientDaySixBitColor;
+    void setAmbientDaySixBitColor(int ambientDaySixBitColor) {
+        mAmbientDaySixBitColor = ambientDaySixBitColor;
     }
 
-    public int getAmbientNightSixBitColor() {
+    int getAmbientNightSixBitColor() {
         return mAmbientNightSixBitColor;
     }
 
-    public void setAmbientNightSixBitColor(int AmbientNightSixBitColor) {
-        mAmbientNightSixBitColor = AmbientNightSixBitColor;
+    void setAmbientNightSixBitColor(int ambientNightSixBitColor) {
+        mAmbientNightSixBitColor = ambientNightSixBitColor;
     }
 
     public enum ComplicationRotation implements WatchFacePreset.EnumResourceId {

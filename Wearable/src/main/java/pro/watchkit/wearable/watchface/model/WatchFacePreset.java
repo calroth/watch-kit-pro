@@ -59,10 +59,10 @@ public final class WatchFacePreset {
 //        bytePacker.setString("2a4c845ec530d34bffa86609f82f6407");
 //        unpack();
 
-        setSixBitColor(PaintBox.ColorType.FILL, 16);
-        setSixBitColor(PaintBox.ColorType.ACCENT, 24);
-        setSixBitColor(PaintBox.ColorType.HIGHLIGHT, 32);
-        setSixBitColor(PaintBox.ColorType.BASE, 40);
+        setFillSixBitColor(16);
+        setAccentSixBitColor(24);
+        setHighlightSixBitColor(32);
+        setBaseSixBitColor(40);
 
         setBackgroundStyle(Style.ACCENT_BASE);
 
@@ -186,7 +186,6 @@ public final class WatchFacePreset {
         hourHandStalk.pack(bytePacker);
         hourHandStyle.pack(bytePacker);
 
-        // TODO: Fix minuteHandOverride and secondHandOverride
         bytePacker.put(minuteHandOverride);
         minuteHandShape.pack(bytePacker);
         minuteHandLength.pack(bytePacker);
@@ -300,14 +299,6 @@ public final class WatchFacePreset {
         minuteHandCutout = HandCutout.unpack(bytePacker);
     }
 
-//    void setPalette(
-//            int fillColor, int accentColor, int highlightColor, int baseColor) {
-//        setFillSixBitColor(fillColor);
-//        setAccentSixBitColor(accentColor);
-//        setHighlightSixBitColor(highlightColor);
-//        setBaseSixBitColor(baseColor);
-//    }
-
     void setMinuteHandOverride(boolean minuteHandOverride) {
         this.minuteHandOverride = minuteHandOverride;
     }
@@ -344,7 +335,7 @@ public final class WatchFacePreset {
         return backgroundStyle;
     }
 
-    void setBackgroundStyle(Style backgroundStyle) {
+    private void setBackgroundStyle(Style backgroundStyle) {
         this.backgroundStyle = backgroundStyle;
     }
 
@@ -385,7 +376,7 @@ public final class WatchFacePreset {
         return minuteHandOverride ? minuteHandLength : hourHandLength;
     }
 
-    void setMinuteHandLength(HandLength minuteHandLength) {
+    private void setMinuteHandLength(HandLength minuteHandLength) {
         this.minuteHandLength = minuteHandLength;
     }
 
@@ -673,46 +664,36 @@ public final class WatchFacePreset {
         this.minuteHandCutout = minuteHandCutout;
     }
 
-    int getSixBitColor(PaintBox.ColorType colorType) {
-        switch (colorType) {
-            case FILL: {
-                return mFillSixBitColor;
-            }
-            case ACCENT: {
-                return mAccentSixBitColor;
-            }
-            case HIGHLIGHT: {
-                return mHighlightSixBitColor;
-            }
-            case BASE:
-            default: {
-                return mBaseSixBitColor;
-            }
-        }
+    int getFillSixBitColor() {
+        return mFillSixBitColor;
     }
 
-    void setSixBitColor(PaintBox.ColorType colorType, int sixBitColor) {
-        switch (colorType) {
-            case FILL: {
-                this.mFillSixBitColor = sixBitColor;
-                break;
-            }
-            case ACCENT: {
-                this.mAccentSixBitColor = sixBitColor;
-                break;
-            }
-            case HIGHLIGHT: {
-                this.mHighlightSixBitColor = sixBitColor;
-                break;
-            }
-            case BASE: {
-                this.mBaseSixBitColor = sixBitColor;
-                break;
-            }
-            default: {
-                break;
-            }
-        }
+    void setFillSixBitColor(int fillSixBitColor) {
+        mFillSixBitColor = fillSixBitColor;
+    }
+
+    int getAccentSixBitColor() {
+        return mAccentSixBitColor;
+    }
+
+    void setAccentSixBitColor(int accentSixBitColor) {
+        mAccentSixBitColor = accentSixBitColor;
+    }
+
+    int getHighlightSixBitColor() {
+        return mHighlightSixBitColor;
+    }
+
+    void setHighlightSixBitColor(int highlightSixBitColor) {
+        mHighlightSixBitColor = highlightSixBitColor;
+    }
+
+    int getBaseSixBitColor() {
+        return mBaseSixBitColor;
+    }
+
+    void setBaseSixBitColor(int baseSixBitColor) {
+        mBaseSixBitColor = baseSixBitColor;
     }
 
     public enum HandShape implements EnumResourceId {

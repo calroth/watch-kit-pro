@@ -3339,11 +3339,17 @@ public final class PaintBox {
     @ColorInt
     public int getColor(ColorType colorType) {
         switch (colorType) {
-            case FILL:
-            case ACCENT:
-            case HIGHLIGHT:
+            case FILL: {
+                return getColor(mWatchFacePreset.getFillSixBitColor());
+            }
+            case ACCENT: {
+                return getColor(mWatchFacePreset.getAccentSixBitColor());
+            }
+            case HIGHLIGHT: {
+                return getColor(mWatchFacePreset.getHighlightSixBitColor());
+            }
             case BASE: {
-                return getColor(mWatchFacePreset.getSixBitColor(colorType));
+                return getColor(mWatchFacePreset.getBaseSixBitColor());
             }
             case AMBIENT_DAY: {
                 return getColor(mSettings.getAmbientDaySixBitColor());
@@ -3357,11 +3363,20 @@ public final class PaintBox {
 
     public void setSixBitColor(ColorType colorType, @ColorInt int sixBitColor) {
         switch (colorType) {
-            case FILL:
-            case ACCENT:
-            case HIGHLIGHT:
+            case FILL: {
+                mWatchFacePreset.setFillSixBitColor(sixBitColor);
+                break;
+            }
+            case ACCENT: {
+                mWatchFacePreset.setAccentSixBitColor(sixBitColor);
+                break;
+            }
+            case HIGHLIGHT: {
+                mWatchFacePreset.setHighlightSixBitColor(sixBitColor);
+                break;
+            }
             case BASE: {
-                mWatchFacePreset.setSixBitColor(colorType, sixBitColor);
+                mWatchFacePreset.setBaseSixBitColor(sixBitColor);
                 break;
             }
             case AMBIENT_DAY: {
@@ -3389,12 +3404,14 @@ public final class PaintBox {
     }
 
     private void regeneratePaints2() {
-        // Invalidate if our mWatchFacePreset has changed.
+        // Invalidate if any of our colors or styles have changed.
         int currentSerial = Objects.hash(
-                mWatchFacePreset.getSixBitColor(ColorType.FILL),
-                mWatchFacePreset.getSixBitColor(ColorType.ACCENT),
-                mWatchFacePreset.getSixBitColor(ColorType.HIGHLIGHT),
-                mWatchFacePreset.getSixBitColor(ColorType.BASE),
+                getColor(ColorType.FILL),
+                getColor(ColorType.ACCENT),
+                getColor(ColorType.HIGHLIGHT),
+                getColor(ColorType.BASE),
+                getColor(ColorType.AMBIENT_DAY),
+                getColor(ColorType.AMBIENT_NIGHT),
                 mWatchFacePreset.getFillHighlightStyle(),
                 mWatchFacePreset.getAccentFillStyle(),
                 mWatchFacePreset.getAccentHighlightStyle(),
@@ -3411,12 +3428,17 @@ public final class PaintBox {
         mHighlightPaint.setColor(getColor(ColorType.HIGHLIGHT));
         mBasePaint.setColor(getColor(ColorType.BASE));
 
-        mFillHighlightPaint.setColors(ColorType.FILL, ColorType.HIGHLIGHT, mWatchFacePreset.getFillHighlightStyle());
-        mAccentFillPaint.setColors(ColorType.ACCENT, ColorType.FILL, mWatchFacePreset.getAccentFillStyle());
+        mFillHighlightPaint.setColors(
+                ColorType.FILL, ColorType.HIGHLIGHT, mWatchFacePreset.getFillHighlightStyle());
+        mAccentFillPaint.setColors(
+                ColorType.ACCENT, ColorType.FILL, mWatchFacePreset.getAccentFillStyle());
         mBezelPaint1 = mAccentFillPaint;
-        mBezelPaint2.setColors(ColorType.FILL, ColorType.ACCENT, mWatchFacePreset.getAccentFillStyle());
-        mAccentHighlightPaint.setColors(ColorType.ACCENT, ColorType.HIGHLIGHT, mWatchFacePreset.getAccentHighlightStyle());
-        mBaseAccentPaint.setColors(ColorType.BASE, ColorType.ACCENT, mWatchFacePreset.getBaseAccentStyle());
+        mBezelPaint2.setColors(
+                ColorType.FILL, ColorType.ACCENT, mWatchFacePreset.getAccentFillStyle());
+        mAccentHighlightPaint.setColors(
+                ColorType.ACCENT, ColorType.HIGHLIGHT, mWatchFacePreset.getAccentHighlightStyle());
+        mBaseAccentPaint.setColors(
+                ColorType.BASE, ColorType.ACCENT, mWatchFacePreset.getBaseAccentStyle());
 
         mShadowPaint.setColor(getColor(ColorType.BASE));
 
