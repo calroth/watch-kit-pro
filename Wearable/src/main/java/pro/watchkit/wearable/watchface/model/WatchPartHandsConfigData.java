@@ -141,9 +141,9 @@ public class WatchPartHandsConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new WatchFacePresetMutatorImpl<>(
-                                WatchFacePreset.HandShape.values(),
-                                WatchFacePreset::setMinuteHandShape,
-                                WatchFacePreset::getMinuteHandShape),
+                                WatchFacePreset.HandLength.values(),
+                                WatchFacePreset::setMinuteHandLength,
+                                WatchFacePreset::getMinuteHandLength),
                         WatchFacePreset::isMinuteHandOverridden),
 
                 // Data for minute hand thickness in settings Activity.
