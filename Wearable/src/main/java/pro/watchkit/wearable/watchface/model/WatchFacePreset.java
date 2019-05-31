@@ -27,36 +27,37 @@ import java.util.Objects;
 import pro.watchkit.wearable.watchface.R;
 
 public final class WatchFacePreset {
-    private BytePacker bytePacker = new BytePacker();
-    private Style backgroundStyle;
-    private boolean minuteHandOverride;
-    private boolean secondHandOverride;
-    private HandShape hourHandShape, minuteHandShape, secondHandShape;
-    private HandLength hourHandLength, minuteHandLength, secondHandLength;
-    private HandThickness hourHandThickness, minuteHandThickness, secondHandThickness;
-    private HandStalk hourHandStalk, minuteHandStalk;
-    private HandCutout hourHandCutout, minuteHandCutout;
-    private Style hourHandStyle, minuteHandStyle, secondHandStyle;
-    private TicksDisplay ticksDisplay;
-    private boolean twelveTickOverride, sixtyTickOverride;
-    private TickShape fourTickShape, twelveTickShape, sixtyTickShape;
-    private TickLength fourTickLength, twelveTickLength, sixtyTickLength;
-    private TickThickness fourTickThickness, twelveTickThickness, sixtyTickThickness;
-    private TickRadiusPosition fourTickRadiusPosition, twelveTickRadiusPosition, sixtyTickRadiusPosition;
-    private Style fourTickStyle;
-    private Style twelveTickStyle;
-    private Style sixtyTickStyle;
+    private BytePacker mBytePacker = new BytePacker();
+    private Style mBackgroundStyle;
+    private boolean mMinuteHandOverride;
+    private boolean mSecondHandOverride;
+    private HandShape mHourHandShape, mMinuteHandShape, mSecondHandShape;
+    private HandLength mHourHandLength, mMinuteHandLength, mSecondHandLength;
+    private HandThickness mHourHandThickness, mMinuteHandThickness, mSecondHandThickness;
+    private HandStalk mHourHandStalk, mMinuteHandStalk;
+    private HandCutout mHourHandCutout, mMinuteHandCutout;
+    private Style mHourHandStyle, mMinuteHandStyle, mSecondHandStyle;
+    private TicksDisplay mTicksDisplay;
+    private boolean mTwelveTickOverride, mSixtyTickOverride;
+    private TickShape mFourTickShape, mTwelveTickShape, mSixtyTickShape;
+    private TickLength mFourTickLength, mTwelveTickLength, mSixtyTickLength;
+    private TickThickness mFourTickThickness, mTwelveTickThickness, mSixtyTickThickness;
+    private TickRadiusPosition
+            mFourTickRadiusPosition, mTwelveTickRadiusPosition, mSixtyTickRadiusPosition;
+    private Style mFourTickStyle;
+    private Style mTwelveTickStyle;
+    private Style mSixtyTickStyle;
     private int mFillSixBitColor;
     private int mAccentSixBitColor;
     private int mHighlightSixBitColor;
     private int mBaseSixBitColor;
-    private GradientStyle fillHighlightStyle;
-    private GradientStyle accentFillStyle;
-    private GradientStyle accentHighlightStyle;
-    private GradientStyle baseAccentStyle;
+    private GradientStyle mFillHighlightStyle;
+    private GradientStyle mAccentFillStyle;
+    private GradientStyle mAccentHighlightStyle;
+    private GradientStyle mBaseAccentStyle;
 
     public WatchFacePreset() {
-//        bytePacker.setString("2a4c845ec530d34bffa86609f82f6407");
+//        mBytePacker.setString("2a4c845ec530d34bffa86609f82f6407");
 //        unpack();
 
         setFillSixBitColor(16);
@@ -114,7 +115,7 @@ public final class WatchFacePreset {
         setAccentHighlightStyle(GradientStyle.SWEEP);
         setBaseAccentStyle(GradientStyle.SWEEP_BRUSHED);
 
-//        bytePacker.unitTest();
+//        mBytePacker.unitTest();
 
         pack();
     }
@@ -123,51 +124,54 @@ public final class WatchFacePreset {
     public int hashCode() {
         return Objects.hash(
                 super.hashCode(),
-                backgroundStyle,
-                minuteHandOverride,
-                secondHandOverride,
-                hourHandShape, minuteHandShape, secondHandShape,
-                hourHandLength, minuteHandLength, secondHandLength,
-                hourHandThickness, minuteHandThickness, secondHandThickness,
-                hourHandStalk, minuteHandStalk,
-                hourHandCutout, minuteHandCutout,
-                hourHandStyle, minuteHandStyle, secondHandStyle,
-                ticksDisplay,
-                twelveTickOverride, sixtyTickOverride,
-                fourTickShape, twelveTickShape, sixtyTickShape,
-                fourTickLength, twelveTickLength, sixtyTickLength,
-                fourTickThickness, twelveTickThickness, sixtyTickThickness,
-                fourTickRadiusPosition, twelveTickRadiusPosition, sixtyTickRadiusPosition,
-                fourTickStyle,
-                twelveTickStyle,
-                sixtyTickStyle,
+                mBackgroundStyle,
+                mMinuteHandOverride,
+                mSecondHandOverride,
+                mHourHandShape, mMinuteHandShape, mSecondHandShape,
+                mHourHandLength, mMinuteHandLength, mSecondHandLength,
+                mHourHandThickness, mMinuteHandThickness, mSecondHandThickness,
+                mHourHandStalk, mMinuteHandStalk,
+                mHourHandCutout, mMinuteHandCutout,
+                mHourHandStyle, mMinuteHandStyle, mSecondHandStyle,
+                mTicksDisplay,
+                mTwelveTickOverride, mSixtyTickOverride,
+                mFourTickShape, mTwelveTickShape, mSixtyTickShape,
+                mFourTickLength, mTwelveTickLength, mSixtyTickLength,
+                mFourTickThickness, mTwelveTickThickness, mSixtyTickThickness,
+                mFourTickRadiusPosition, mTwelveTickRadiusPosition, mSixtyTickRadiusPosition,
+                mFourTickStyle,
+                mTwelveTickStyle,
+                mSixtyTickStyle,
                 mFillSixBitColor,
                 mAccentSixBitColor,
                 mHighlightSixBitColor,
                 mBaseSixBitColor,
-                fillHighlightStyle,
-                accentFillStyle,
-                accentHighlightStyle,
-                baseAccentStyle);
+                mFillHighlightStyle,
+                mAccentFillStyle,
+                mAccentHighlightStyle,
+                mBaseAccentStyle);
     }
 
     public WatchFacePreset clone() {
-        // Clone this object by getting its string, creating
-        // a new object, and setting its string to this one's.
-        WatchFacePreset result = new WatchFacePreset();
-        result.setString(getString());
+        WatchFacePreset result;
+        try {
+            result = (WatchFacePreset) super.clone();
+        } catch (CloneNotSupportedException e) {
+            result = new WatchFacePreset();
+            result.setString(getString());
+        }
         return result;
     }
 
     public String getString() {
         pack();
-        return bytePacker.getStringFast();
+        return mBytePacker.getStringFast();
     }
 
     public void setString(String s) {
         if (s == null || s.length() == 0) return;
         try {
-            bytePacker.setStringFast(s);
+            mBytePacker.setStringFast(s);
             unpack();
         } catch (java.lang.StringIndexOutOfBoundsException e) {
             Log.d("AnalogWatchFace", "It failed: " + s);
@@ -176,288 +180,288 @@ public final class WatchFacePreset {
     }
 
     private void pack() {
-        bytePacker.rewind();
+        mBytePacker.rewind();
 
-        backgroundStyle.pack(bytePacker);
+        getBackgroundStyle().pack(mBytePacker);
 
-        hourHandShape.pack(bytePacker);
-        hourHandLength.pack(bytePacker);
-        hourHandThickness.pack(bytePacker);
-        hourHandStalk.pack(bytePacker);
-        hourHandStyle.pack(bytePacker);
+        getHourHandShape().pack(mBytePacker);
+        getHourHandLength().pack(mBytePacker);
+        getHourHandThickness().pack(mBytePacker);
+        getHourHandStalk().pack(mBytePacker);
+        getHourHandStyle().pack(mBytePacker);
 
-        bytePacker.put(minuteHandOverride);
-        minuteHandShape.pack(bytePacker);
-        minuteHandLength.pack(bytePacker);
-        minuteHandThickness.pack(bytePacker);
-        minuteHandStalk.pack(bytePacker);
-        minuteHandStyle.pack(bytePacker);
+        mBytePacker.put(mMinuteHandOverride);
+        getMinuteHandShape().pack(mBytePacker);
+        getMinuteHandLength().pack(mBytePacker);
+        getMinuteHandThickness().pack(mBytePacker);
+        getMinuteHandStalk().pack(mBytePacker);
+        getMinuteHandStyle().pack(mBytePacker);
 
-        bytePacker.put(secondHandOverride);
-        secondHandShape.pack(bytePacker);
-        secondHandLength.pack(bytePacker);
-        secondHandThickness.pack(bytePacker);
-        secondHandStyle.pack(bytePacker);
+        mBytePacker.put(mSecondHandOverride);
+        getSecondHandShape().pack(mBytePacker);
+        getSecondHandLength().pack(mBytePacker);
+        getSecondHandThickness().pack(mBytePacker);
+        getSecondHandStyle().pack(mBytePacker);
 
-        ticksDisplay.pack(bytePacker);
+        getTicksDisplay().pack(mBytePacker);
 
-        fourTickShape.pack(bytePacker);
-        fourTickLength.pack(bytePacker);
-        fourTickThickness.pack(bytePacker);
-        fourTickRadiusPosition.pack(bytePacker);
-        fourTickStyle.pack(bytePacker);
+        getFourTickShape().pack(mBytePacker);
+        getFourTickLength().pack(mBytePacker);
+        getFourTickThickness().pack(mBytePacker);
+        getFourTickRadiusPosition().pack(mBytePacker);
+        getFourTickStyle().pack(mBytePacker);
 
-        bytePacker.put(twelveTickOverride);
-        twelveTickShape.pack(bytePacker);
-        twelveTickLength.pack(bytePacker);
-        twelveTickThickness.pack(bytePacker);
-        twelveTickRadiusPosition.pack(bytePacker);
-        twelveTickStyle.pack(bytePacker);
+        mBytePacker.put(mTwelveTickOverride);
+        getTwelveTickShape().pack(mBytePacker);
+        getTwelveTickLength().pack(mBytePacker);
+        getTwelveTickThickness().pack(mBytePacker);
+        getTwelveTickRadiusPosition().pack(mBytePacker);
+        getTwelveTickStyle().pack(mBytePacker);
 
-        bytePacker.put(sixtyTickOverride);
-        sixtyTickShape.pack(bytePacker);
-        sixtyTickLength.pack(bytePacker);
-        sixtyTickThickness.pack(bytePacker);
-        sixtyTickRadiusPosition.pack(bytePacker);
-        sixtyTickStyle.pack(bytePacker);
+        mBytePacker.put(mSixtyTickOverride);
+        getSixtyTickShape().pack(mBytePacker);
+        getSixtyTickLength().pack(mBytePacker);
+        getSixtyTickThickness().pack(mBytePacker);
+        getSixtyTickRadiusPosition().pack(mBytePacker);
+        getSixtyTickStyle().pack(mBytePacker);
 
-        fillHighlightStyle.pack(bytePacker);
-        accentFillStyle.pack(bytePacker);
-        accentHighlightStyle.pack(bytePacker);
-        baseAccentStyle.pack(bytePacker);
+        getFillHighlightStyle().pack(mBytePacker);
+        getAccentFillStyle().pack(mBytePacker);
+        getAccentHighlightStyle().pack(mBytePacker);
+        getBaseAccentStyle().pack(mBytePacker);
 
-        bytePacker.putSixBitColor(mFillSixBitColor);
-        bytePacker.putSixBitColor(mHighlightSixBitColor);
-        bytePacker.putSixBitColor(mAccentSixBitColor);
-        bytePacker.putSixBitColor(mBaseSixBitColor);
+        mBytePacker.putSixBitColor(getFillSixBitColor());
+        mBytePacker.putSixBitColor(getHighlightSixBitColor());
+        mBytePacker.putSixBitColor(getAccentSixBitColor());
+        mBytePacker.putSixBitColor(getBaseSixBitColor());
 
         // TODO: rearrange these into their right place
-        hourHandCutout.pack(bytePacker);
-        minuteHandCutout.pack(bytePacker);
+        getHourHandCutout().pack(mBytePacker);
+        getMinuteHandCutout().pack(mBytePacker);
 
-        bytePacker.finish();
+        mBytePacker.finish();
     }
 
     private void unpack() {
-        bytePacker.rewind();
+        mBytePacker.rewind();
 
-        backgroundStyle = Style.unpack(bytePacker);
+        setBackgroundStyle(Style.unpack(mBytePacker));
 
-        hourHandShape = HandShape.unpack(bytePacker);
-        hourHandLength = HandLength.unpack(bytePacker);
-        hourHandThickness = HandThickness.unpack(bytePacker);
-        hourHandStalk = HandStalk.unpack(bytePacker);
-        hourHandStyle = Style.unpack(bytePacker);
+        setHourHandShape(HandShape.unpack(mBytePacker));
+        setHourHandLength(HandLength.unpack(mBytePacker));
+        setHourHandThickness(HandThickness.unpack(mBytePacker));
+        setHourHandStalk(HandStalk.unpack(mBytePacker));
+        setHourHandStyle(Style.unpack(mBytePacker));
 
-        minuteHandOverride = bytePacker.getBoolean();
-        minuteHandShape = HandShape.unpack(bytePacker);
-        minuteHandLength = HandLength.unpack(bytePacker);
-        minuteHandThickness = HandThickness.unpack(bytePacker);
-        minuteHandStalk = HandStalk.unpack(bytePacker);
-        minuteHandStyle = Style.unpack(bytePacker);
+        setMinuteHandOverride(mBytePacker.getBoolean());
+        setMinuteHandShape(HandShape.unpack(mBytePacker));
+        setMinuteHandLength(HandLength.unpack(mBytePacker));
+        setMinuteHandThickness(HandThickness.unpack(mBytePacker));
+        setMinuteHandStalk(HandStalk.unpack(mBytePacker));
+        setMinuteHandStyle(Style.unpack(mBytePacker));
 
-        secondHandOverride = bytePacker.getBoolean();
-        secondHandShape = HandShape.unpack(bytePacker);
-        secondHandLength = HandLength.unpack(bytePacker);
-        secondHandThickness = HandThickness.unpack(bytePacker);
-        secondHandStyle = Style.unpack(bytePacker);
+        setSecondHandOverride(mBytePacker.getBoolean());
+        setSecondHandShape(HandShape.unpack(mBytePacker));
+        setSecondHandLength(HandLength.unpack(mBytePacker));
+        setSecondHandThickness(HandThickness.unpack(mBytePacker));
+        setSecondHandStyle(Style.unpack(mBytePacker));
 
-        ticksDisplay = TicksDisplay.unpack(bytePacker);
+        setTicksDisplay(TicksDisplay.unpack(mBytePacker));
 
-        fourTickShape = TickShape.unpack(bytePacker);
-        fourTickLength = TickLength.unpack(bytePacker);
-        fourTickThickness = TickThickness.unpack(bytePacker);
-        fourTickRadiusPosition = TickRadiusPosition.unpack(bytePacker);
-        fourTickStyle = Style.unpack(bytePacker);
+        setFourTickShape(TickShape.unpack(mBytePacker));
+        setFourTickLength(TickLength.unpack(mBytePacker));
+        setFourTickThickness(TickThickness.unpack(mBytePacker));
+        setFourTickRadiusPosition(TickRadiusPosition.unpack(mBytePacker));
+        setFourTickStyle(Style.unpack(mBytePacker));
 
-        twelveTickOverride = bytePacker.getBoolean();
-        twelveTickShape = TickShape.unpack(bytePacker);
-        twelveTickLength = TickLength.unpack(bytePacker);
-        twelveTickThickness = TickThickness.unpack(bytePacker);
-        twelveTickRadiusPosition = TickRadiusPosition.unpack(bytePacker);
-        twelveTickStyle = Style.unpack(bytePacker);
+        setTwelveTickOverride(mBytePacker.getBoolean());
+        setTwelveTickShape(TickShape.unpack(mBytePacker));
+        setTwelveTickLength(TickLength.unpack(mBytePacker));
+        setTwelveTickThickness(TickThickness.unpack(mBytePacker));
+        setTwelveTickRadiusPosition(TickRadiusPosition.unpack(mBytePacker));
+        setTwelveTickStyle(Style.unpack(mBytePacker));
 
-        sixtyTickOverride = bytePacker.getBoolean();
-        sixtyTickShape = TickShape.unpack(bytePacker);
-        sixtyTickLength = TickLength.unpack(bytePacker);
-        sixtyTickThickness = TickThickness.unpack(bytePacker);
-        sixtyTickRadiusPosition = TickRadiusPosition.unpack(bytePacker);
-        sixtyTickStyle = Style.unpack(bytePacker);
+        setSixtyTickOverride(mBytePacker.getBoolean());
+        setSixtyTickShape(TickShape.unpack(mBytePacker));
+        setSixtyTickLength(TickLength.unpack(mBytePacker));
+        setSixtyTickThickness(TickThickness.unpack(mBytePacker));
+        setSixtyTickRadiusPosition(TickRadiusPosition.unpack(mBytePacker));
+        setSixtyTickStyle(Style.unpack(mBytePacker));
 
-        fillHighlightStyle = GradientStyle.unpack(bytePacker);
-        accentFillStyle = GradientStyle.unpack(bytePacker);
-        accentHighlightStyle = GradientStyle.unpack(bytePacker);
-        baseAccentStyle = GradientStyle.unpack(bytePacker);
+        setFillHighlightStyle(GradientStyle.unpack(mBytePacker));
+        setAccentFillStyle(GradientStyle.unpack(mBytePacker));
+        setAccentHighlightStyle(GradientStyle.unpack(mBytePacker));
+        setBaseAccentStyle(GradientStyle.unpack(mBytePacker));
 
-        mFillSixBitColor = bytePacker.getSixBitColor();
-        mHighlightSixBitColor = bytePacker.getSixBitColor();
-        mAccentSixBitColor = bytePacker.getSixBitColor();
-        mBaseSixBitColor = bytePacker.getSixBitColor();
+        setFillSixBitColor(mBytePacker.getSixBitColor());
+        setHighlightSixBitColor(mBytePacker.getSixBitColor());
+        setAccentSixBitColor(mBytePacker.getSixBitColor());
+        setBaseSixBitColor(mBytePacker.getSixBitColor());
 
         // TODO: rearrange these into their right place
-        hourHandCutout = HandCutout.unpack(bytePacker);
-        minuteHandCutout = HandCutout.unpack(bytePacker);
+        setHourHandCutout(HandCutout.unpack(mBytePacker));
+        setMinuteHandCutout(HandCutout.unpack(mBytePacker));
     }
 
     void setMinuteHandOverride(boolean minuteHandOverride) {
-        this.minuteHandOverride = minuteHandOverride;
+        mMinuteHandOverride = minuteHandOverride;
     }
 
     boolean isMinuteHandOverridden() {
-        return minuteHandOverride;
+        return mMinuteHandOverride;
     }
 
     void setSecondHandOverride(boolean secondHandOverride) {
-        this.secondHandOverride = secondHandOverride;
+        mSecondHandOverride = secondHandOverride;
     }
 
     boolean isSecondHandOverridden() {
-        return secondHandOverride;
+        return mSecondHandOverride;
     }
 
     void setTwelveTickOverride(boolean twelveTickOverride) {
-        this.twelveTickOverride = twelveTickOverride;
+        mTwelveTickOverride = twelveTickOverride;
     }
 
     boolean isTwelveTicksOverridden() {
-        return isTwelveTicksVisible() && twelveTickOverride;
+        return isTwelveTicksVisible() && mTwelveTickOverride;
     }
 
     void setSixtyTickOverride(boolean sixtyTickOverride) {
-        this.sixtyTickOverride = sixtyTickOverride;
+        mSixtyTickOverride = sixtyTickOverride;
     }
 
     boolean isSixtyTicksOverridden() {
-        return isSixtyTicksVisible() && sixtyTickOverride;
+        return isSixtyTicksVisible() && mSixtyTickOverride;
     }
 
     public Style getBackgroundStyle() {
-        return backgroundStyle;
+        return mBackgroundStyle;
     }
 
     void setBackgroundStyle(Style backgroundStyle) {
-        this.backgroundStyle = backgroundStyle;
+        mBackgroundStyle = backgroundStyle;
     }
 
     public HandShape getHourHandShape() {
-        return hourHandShape;
+        return mHourHandShape;
     }
 
     void setHourHandShape(HandShape hourHandShape) {
-        this.hourHandShape = hourHandShape;
+        mHourHandShape = hourHandShape;
     }
 
     public HandShape getMinuteHandShape() {
-        return minuteHandOverride ? minuteHandShape : hourHandShape;
+        return mMinuteHandOverride ? mMinuteHandShape : mHourHandShape;
     }
 
     void setMinuteHandShape(HandShape minuteHandShape) {
-        this.minuteHandShape = minuteHandShape;
+        mMinuteHandShape = minuteHandShape;
     }
 
     public HandShape getSecondHandShape() {
         // If not overridden, the default is just a plain and regular second hand.
-        return secondHandOverride ? secondHandShape : HandShape.STRAIGHT;
+        return mSecondHandOverride ? mSecondHandShape : HandShape.STRAIGHT;
     }
 
     void setSecondHandShape(HandShape secondHandShape) {
-        this.secondHandShape = secondHandShape;
+        mSecondHandShape = secondHandShape;
     }
 
     public HandLength getHourHandLength() {
-        return hourHandLength;
+        return mHourHandLength;
     }
 
     void setHourHandLength(HandLength hourHandLength) {
-        this.hourHandLength = hourHandLength;
+        mHourHandLength = hourHandLength;
     }
 
     public HandLength getMinuteHandLength() {
-        return minuteHandOverride ? minuteHandLength : hourHandLength;
+        return mMinuteHandOverride ? mMinuteHandLength : mHourHandLength;
     }
 
-    private void setMinuteHandLength(HandLength minuteHandLength) {
-        this.minuteHandLength = minuteHandLength;
+    void setMinuteHandLength(HandLength minuteHandLength) {
+        mMinuteHandLength = minuteHandLength;
     }
 
     public HandLength getSecondHandLength() {
         // If not overridden, the default is just a plain and regular second hand.
-        return secondHandOverride ? secondHandLength : HandLength.LONG;
+        return mSecondHandOverride ? mSecondHandLength : HandLength.LONG;
     }
 
     void setSecondHandLength(HandLength secondHandLength) {
-        this.secondHandLength = secondHandLength;
+        mSecondHandLength = secondHandLength;
     }
 
     public HandThickness getHourHandThickness() {
-        return hourHandThickness;
+        return mHourHandThickness;
     }
 
     void setHourHandThickness(HandThickness hourHandThickness) {
-        this.hourHandThickness = hourHandThickness;
+        mHourHandThickness = hourHandThickness;
     }
 
     public HandThickness getMinuteHandThickness() {
-        return minuteHandOverride ? minuteHandThickness : hourHandThickness;
+        return mMinuteHandOverride ? mMinuteHandThickness : mHourHandThickness;
     }
 
     void setMinuteHandThickness(HandThickness minuteHandThickness) {
-        this.minuteHandThickness = minuteHandThickness;
+        mMinuteHandThickness = minuteHandThickness;
     }
 
     public HandThickness getSecondHandThickness() {
         // If not overridden, the default is just a plain and regular second hand.
-        return secondHandOverride ? secondHandThickness : HandThickness.THIN;
+        return mSecondHandOverride ? mSecondHandThickness : HandThickness.THIN;
     }
 
     void setSecondHandThickness(HandThickness secondHandThickness) {
-        this.secondHandThickness = secondHandThickness;
+        mSecondHandThickness = secondHandThickness;
     }
 
     public Style getHourHandStyle() {
-        return hourHandStyle;
+        return mHourHandStyle;
     }
 
     void setHourHandStyle(Style hourHandStyle) {
-        this.hourHandStyle = hourHandStyle;
+        mHourHandStyle = hourHandStyle;
     }
 
     public Style getMinuteHandStyle() {
-        return minuteHandOverride ? minuteHandStyle : hourHandStyle;
+        return mMinuteHandOverride ? mMinuteHandStyle : mHourHandStyle;
     }
 
     void setMinuteHandStyle(Style minuteHandStyle) {
-        this.minuteHandStyle = minuteHandStyle;
+        mMinuteHandStyle = minuteHandStyle;
     }
 
     public Style getSecondHandStyle() {
         // If not overridden, the default is just a plain and regular second hand.
-        return secondHandOverride ? secondHandStyle : Style.HIGHLIGHT;
+        return mSecondHandOverride ? mSecondHandStyle : Style.HIGHLIGHT;
     }
 
     void setSecondHandStyle(Style secondHandStyle) {
-        this.secondHandStyle = secondHandStyle;
-    }
-
-    void setTicksDisplay(TicksDisplay ticksDisplay) {
-        this.ticksDisplay = ticksDisplay;
+        mSecondHandStyle = secondHandStyle;
     }
 
     TicksDisplay getTicksDisplay() {
-        return this.ticksDisplay;
+        return mTicksDisplay;
+    }
+
+    void setTicksDisplay(TicksDisplay ticksDisplay) {
+        mTicksDisplay = ticksDisplay;
     }
 
     public boolean isFourTicksVisible() {
-        return this.ticksDisplay != TicksDisplay.NONE;
+        return mTicksDisplay != TicksDisplay.NONE;
     }
 
     public boolean isTwelveTicksVisible() {
-        return this.ticksDisplay == TicksDisplay.FOUR_TWELVE ||
-                this.ticksDisplay == TicksDisplay.FOUR_TWELVE_60;
+        return mTicksDisplay == TicksDisplay.FOUR_TWELVE ||
+                mTicksDisplay == TicksDisplay.FOUR_TWELVE_60;
     }
 
     public boolean isSixtyTicksVisible() {
-        return this.ticksDisplay == TicksDisplay.FOUR_TWELVE_60;
+        return mTicksDisplay == TicksDisplay.FOUR_TWELVE_60;
     }
 
     public enum TicksDisplay implements EnumResourceId {
@@ -481,187 +485,187 @@ public final class WatchFacePreset {
     }
 
     public TickShape getFourTickShape() {
-        return fourTickShape;
+        return mFourTickShape;
     }
 
     void setFourTickShape(TickShape fourTickShape) {
-        this.fourTickShape = fourTickShape;
+        mFourTickShape = fourTickShape;
     }
 
     public TickShape getTwelveTickShape() {
-        return twelveTickOverride ? twelveTickShape : fourTickShape;
+        return mTwelveTickOverride ? mTwelveTickShape : mFourTickShape;
     }
 
     void setTwelveTickShape(TickShape twelveTickShape) {
-        this.twelveTickShape = twelveTickShape;
+        mTwelveTickShape = twelveTickShape;
     }
 
     public TickShape getSixtyTickShape() {
-        return sixtyTickOverride ? sixtyTickShape : fourTickShape;
+        return mSixtyTickOverride ? mSixtyTickShape : mFourTickShape;
     }
 
     void setSixtyTickShape(TickShape sixtyTickShape) {
-        this.sixtyTickShape = sixtyTickShape;
+        mSixtyTickShape = sixtyTickShape;
     }
 
     public TickLength getFourTickLength() {
-        return fourTickLength;
+        return mFourTickLength;
     }
 
     void setFourTickLength(TickLength fourTickLength) {
-        this.fourTickLength = fourTickLength;
+        mFourTickLength = fourTickLength;
     }
 
     public TickLength getTwelveTickLength() {
-        return twelveTickOverride ? twelveTickLength : fourTickLength;
+        return mTwelveTickOverride ? mTwelveTickLength : mFourTickLength;
     }
 
     void setTwelveTickLength(TickLength twelveTickLength) {
-        this.twelveTickLength = twelveTickLength;
+        mTwelveTickLength = twelveTickLength;
     }
 
     public TickLength getSixtyTickLength() {
-        return sixtyTickOverride ? sixtyTickLength : fourTickLength;
+        return mSixtyTickOverride ? mSixtyTickLength : mFourTickLength;
     }
 
     void setSixtyTickLength(TickLength sixtyTickLength) {
-        this.sixtyTickLength = sixtyTickLength;
+        mSixtyTickLength = sixtyTickLength;
     }
 
     public TickThickness getFourTickThickness() {
-        return fourTickThickness;
+        return mFourTickThickness;
     }
 
     void setFourTickThickness(TickThickness fourTickThickness) {
-        this.fourTickThickness = fourTickThickness;
+        mFourTickThickness = fourTickThickness;
     }
 
     public TickThickness getTwelveTickThickness() {
-        return twelveTickOverride ? twelveTickThickness : fourTickThickness;
+        return mTwelveTickOverride ? mTwelveTickThickness : mFourTickThickness;
     }
 
     void setTwelveTickThickness(TickThickness twelveTickThickness) {
-        this.twelveTickThickness = twelveTickThickness;
+        mTwelveTickThickness = twelveTickThickness;
     }
 
     public TickThickness getSixtyTickThickness() {
-        return sixtyTickOverride ? sixtyTickThickness : fourTickThickness;
+        return mSixtyTickOverride ? mSixtyTickThickness : mFourTickThickness;
     }
 
     void setSixtyTickThickness(TickThickness sixtyTickThickness) {
-        this.sixtyTickThickness = sixtyTickThickness;
+        mSixtyTickThickness = sixtyTickThickness;
     }
 
     public TickRadiusPosition getFourTickRadiusPosition() {
-        return fourTickRadiusPosition;
+        return mFourTickRadiusPosition;
     }
 
     void setFourTickRadiusPosition(TickRadiusPosition fourTickRadiusPosition) {
-        this.fourTickRadiusPosition = fourTickRadiusPosition;
+        mFourTickRadiusPosition = fourTickRadiusPosition;
     }
 
     public TickRadiusPosition getTwelveTickRadiusPosition() {
-        return twelveTickOverride ? twelveTickRadiusPosition : fourTickRadiusPosition;
+        return mTwelveTickOverride ? mTwelveTickRadiusPosition : mFourTickRadiusPosition;
     }
 
     void setTwelveTickRadiusPosition(TickRadiusPosition twelveTickRadiusPosition) {
-        this.twelveTickRadiusPosition = twelveTickRadiusPosition;
+        mTwelveTickRadiusPosition = twelveTickRadiusPosition;
     }
 
     public TickRadiusPosition getSixtyTickRadiusPosition() {
-        return sixtyTickOverride ? sixtyTickRadiusPosition : fourTickRadiusPosition;
+        return mSixtyTickOverride ? mSixtyTickRadiusPosition : mFourTickRadiusPosition;
     }
 
     void setSixtyTickRadiusPosition(TickRadiusPosition sixtyTickRadiusPosition) {
-        this.sixtyTickRadiusPosition = sixtyTickRadiusPosition;
+        mSixtyTickRadiusPosition = sixtyTickRadiusPosition;
     }
 
     public Style getFourTickStyle() {
-        return fourTickStyle;
+        return mFourTickStyle;
     }
 
     void setFourTickStyle(Style fourTickStyle) {
-        this.fourTickStyle = fourTickStyle;
+        mFourTickStyle = fourTickStyle;
     }
 
     public Style getTwelveTickStyle() {
-        return twelveTickOverride ? twelveTickStyle : fourTickStyle;
+        return mTwelveTickOverride ? mTwelveTickStyle : mFourTickStyle;
     }
 
     void setTwelveTickStyle(Style twelveTickStyle) {
-        this.twelveTickStyle = twelveTickStyle;
+        mTwelveTickStyle = twelveTickStyle;
     }
 
     public Style getSixtyTickStyle() {
-        return sixtyTickOverride ? sixtyTickStyle : fourTickStyle;
+        return mSixtyTickOverride ? mSixtyTickStyle : mFourTickStyle;
     }
 
     void setSixtyTickStyle(Style sixtyTickStyle) {
-        this.sixtyTickStyle = sixtyTickStyle;
+        mSixtyTickStyle = sixtyTickStyle;
     }
 
     GradientStyle getFillHighlightStyle() {
-        return fillHighlightStyle;
+        return mFillHighlightStyle;
     }
 
     void setFillHighlightStyle(GradientStyle fillHighlightStyle) {
-        this.fillHighlightStyle = fillHighlightStyle;
+        mFillHighlightStyle = fillHighlightStyle;
     }
 
     GradientStyle getAccentFillStyle() {
-        return accentFillStyle;
+        return mAccentFillStyle;
     }
 
     void setAccentFillStyle(GradientStyle accentFillStyle) {
-        this.accentFillStyle = accentFillStyle;
+        mAccentFillStyle = accentFillStyle;
     }
 
     GradientStyle getAccentHighlightStyle() {
-        return accentHighlightStyle;
+        return mAccentHighlightStyle;
     }
 
     void setAccentHighlightStyle(GradientStyle accentHighlightStyle) {
-        this.accentHighlightStyle = accentHighlightStyle;
+        mAccentHighlightStyle = accentHighlightStyle;
     }
 
     GradientStyle getBaseAccentStyle() {
-        return baseAccentStyle;
+        return mBaseAccentStyle;
     }
 
     void setBaseAccentStyle(GradientStyle baseAccentStyle) {
-        this.baseAccentStyle = baseAccentStyle;
+        mBaseAccentStyle = baseAccentStyle;
     }
 
     public HandStalk getHourHandStalk() {
-        return hourHandStalk;
+        return mHourHandStalk;
     }
 
     void setHourHandStalk(HandStalk hourHandStalk) {
-        this.hourHandStalk = hourHandStalk;
+        mHourHandStalk = hourHandStalk;
     }
 
     public HandStalk getMinuteHandStalk() {
-        return minuteHandOverride ? minuteHandStalk : hourHandStalk;
+        return mMinuteHandOverride ? mMinuteHandStalk : mHourHandStalk;
     }
 
     void setMinuteHandStalk(HandStalk minuteHandStalk) {
-        this.minuteHandStalk = minuteHandStalk;
+        mMinuteHandStalk = minuteHandStalk;
     }
 
     public HandCutout getHourHandCutout() {
-        return hourHandCutout;
+        return mHourHandCutout;
     }
 
     void setHourHandCutout(HandCutout hourHandCutout) {
-        this.hourHandCutout = hourHandCutout;
+        mHourHandCutout = hourHandCutout;
     }
 
     public HandCutout getMinuteHandCutout() {
-        return minuteHandOverride ? minuteHandCutout : hourHandCutout;
+        return mMinuteHandOverride ? mMinuteHandCutout : mHourHandCutout;
     }
 
     void setMinuteHandCutout(HandCutout minuteHandCutout) {
-        this.minuteHandCutout = minuteHandCutout;
+        mMinuteHandCutout = minuteHandCutout;
     }
 
     int getFillSixBitColor() {
