@@ -335,7 +335,7 @@ public final class WatchFacePreset {
         return backgroundStyle;
     }
 
-    private void setBackgroundStyle(Style backgroundStyle) {
+    void setBackgroundStyle(Style backgroundStyle) {
         this.backgroundStyle = backgroundStyle;
     }
 

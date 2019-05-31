@@ -266,7 +266,18 @@ public class WatchPartTicksConfigData extends ConfigData {
                                 WatchFacePreset.Style.values(),
                                 WatchFacePreset::setSixtyTickStyle,
                                 WatchFacePreset::getSixtyTickStyle),
-                        WatchFacePreset::isSixtyTicksOverridden)
+                        WatchFacePreset::isSixtyTicksOverridden),
+
+                // Data for background style in settings Activity.
+                new WatchFacePickerConfigItem(
+                        context.getString(R.string.config_preset_background_style),
+                        R.drawable.icn_styles,
+                        watchFaceGlobalDrawableFlags,
+                        WatchFaceSelectionActivity.class,
+                        new WatchFacePresetMutatorImpl<>(
+                                WatchFacePreset.Style.values(),
+                                WatchFacePreset::setBackgroundStyle,
+                                WatchFacePreset::getBackgroundStyle))
         );
     }
 }
