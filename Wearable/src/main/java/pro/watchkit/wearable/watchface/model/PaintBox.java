@@ -27,9 +27,12 @@ import android.graphics.Color;
 import android.graphics.ColorSpace;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
 import android.graphics.SweepGradient;
+import android.graphics.Xfermode;
 import android.os.Build;
 import android.util.Log;
 import android.util.SparseArray;
@@ -3729,7 +3732,7 @@ public final class PaintBox {
         }
 
         private void addBrushedEffect() {
-            Bitmap brushedEffectBitmap = generateBrushedEffect();
+            Bitmap brushedEffectBitmap = generateWeaveEffect();
 
             setShader(new BitmapShader(brushedEffectBitmap,
                     Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
@@ -3764,8 +3767,10 @@ public final class PaintBox {
             mBrushedEffectPaint.setStrokeJoin(Join.ROUND);
             mBrushedEffectPaint.setAntiAlias(true);
 
+//            brushedEffectCanvas.drawPaint(this);
+
             // Spun metal circles?
-            for (int max = 50, i = max; i > 0; i--) {
+            for (float max = 50f, i = max; i > 0f; i--) {
                 mBrushedEffectPath.reset();
                 mBrushedEffectPath.addCircle(mCenterX, mCenterY, mCenter * i / max, Path.Direction.CW);
 
@@ -3782,6 +3787,158 @@ public final class PaintBox {
                 mBrushedEffectPath.offset(-offset, -offset);
                 brushedEffectCanvas.drawPath(mBrushedEffectPath, this);
             }
+            return brushedEffectBitmap;
+        }
+
+
+        private Bitmap generateWeaveEffect() {
+            // Attempt to return an existing bitmap from the cache if we have one.
+            WeakReference<Bitmap> cache = mBitmapCache.get(mCustomHashCode);
+            if (cache != null) {
+                // Well, we have an existing bitmap, but it may have been garbage collected...
+                Bitmap result = cache.get();
+                if (result != null) {
+                    // It wasn't garbage collected! Return it.
+                    return result;
+                }
+            }
+
+            // Generate a new bitmap.
+            Bitmap brushedEffectBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Canvas brushedEffectCanvas = new Canvas(brushedEffectBitmap);
+
+            // Cache it for next time's use.
+            mBitmapCache.put(mCustomHashCode, new WeakReference<>(brushedEffectBitmap));
+
+            float percent = mCenterX / 50f;
+            float offset = 0.25f * percent;
+            int alpha = 25;
+            float mCenter = Math.min(mCenterX, mCenterY);
+
+            mBrushedEffectPaint.setStyle(Style.STROKE);
+            mBrushedEffectPaint.setStrokeWidth(offset);
+            mBrushedEffectPaint.setStrokeJoin(Join.ROUND);
+            mBrushedEffectPaint.setAntiAlias(true);
+
+//            brushedEffectCanvas.drawPaint(this);
+            int prevAlpha = getAlpha();
+            setAlpha(alpha);
+
+            int weaves = 10, fibres = 5;
+
+            // Horizontal
+            for (int i = 0; i < weaves; i += 1) {
+                float heightI = height / (float) weaves;
+                float center = ((float) i + 0.5f) * heightI;
+
+                for (int j = fibres; j > 0; j--) {
+                    // Height = 100
+                    // Fibres = 5;
+
+                    // j = 5, 4, 3, 2, 1
+                    // Heights = 100, 80, 60, 40, 20
+
+                    float heightJ = (float) j * heightI / (float) fibres;
+
+                    float h = heightJ / 2f;
+                    mBrushedEffectPaint.setStyle(Style.STROKE);
+
+                    mBrushedEffectPath.reset();
+                    mBrushedEffectPath.addRect(
+                            0, center - h, width, center + h, Path.Direction.CW);
+
+                    mBrushedEffectPath.offset(-offset, -offset);
+                    mBrushedEffectPaint.setColor(Color.WHITE);
+                    mBrushedEffectPaint.setAlpha(alpha);
+                    brushedEffectCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
+
+                    mBrushedEffectPath.offset(2f * offset, 2f * offset);
+                    mBrushedEffectPaint.setColor(Color.BLACK);
+                    mBrushedEffectPaint.setAlpha(alpha);
+                    brushedEffectCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
+
+                    mBrushedEffectPath.offset(-offset, -offset);
+                    mBrushedEffectPaint.setColor(Color.RED);
+                    mBrushedEffectPaint.setAlpha(alpha);
+                    mBrushedEffectPaint.setStyle(Style.FILL_AND_STROKE);
+//                    brushedEffectCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
+                    brushedEffectCanvas.drawPath(mBrushedEffectPath, this);
+                }
+            }
+
+            // Erase every 2nd square of the bitmap, and apply a transfer mode.
+            Xfermode clearMode = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
+            mBrushedEffectPaint.setColor(Color.BLACK);
+            mBrushedEffectPaint.setStyle(Style.FILL);
+            mBrushedEffectPaint.setXfermode(clearMode);
+            for (int i = 0; i < weaves; i++) {
+                float heightI = height / (float) weaves;
+                float centerI = ((float) i + 0.5f) * heightI;
+                float top = centerI - (heightI / 2f);
+                float bottom = centerI + (heightI / 2f);
+
+                for (int j = 0; j < weaves; j++) {
+                    float widthJ = width / (float) weaves;
+                    float centerJ = ((float) j + 0.5f) * widthJ;
+                    float left = centerJ - (widthJ / 2f);
+                    float right = centerJ + (widthJ / 2f);
+
+                    if (i % 2 == j % 2) {
+                        Log.d("Erasing", "(" + i + "," + j + ")");
+                        // Only every 2nd square
+                        brushedEffectCanvas.drawRect(left, top, right, bottom, mBrushedEffectPaint);
+                    }
+                }
+            }
+
+            // Apply a destination atop transfer mode to only draw into transparent bits.
+            Xfermode dstMode = new PorterDuffXfermode(PorterDuff.Mode.DST_OVER);
+            mBrushedEffectPaint.setXfermode(dstMode);
+            mBrushedEffectPaint.setColor(Color.GREEN);
+//            brushedEffectCanvas.drawPaint(mBrushedEffectPaint);
+
+            // Vertical
+            for (int i = 0; i < weaves; i += 1) {
+                float widthI = width / (float) weaves;
+                float center = ((float) i + 0.5f) * widthI;
+
+                for (int j = fibres; j > 0; j--) {
+                    // Height = 100
+                    // Fibres = 5;
+
+                    // j = 5, 4, 3, 2, 1
+                    // Heights = 100, 80, 60, 40, 20
+
+                    float widthJ = (float) j * widthI / (float) fibres;
+
+                    float w = widthJ / 2f;
+                    mBrushedEffectPaint.setStyle(Style.STROKE);
+
+                    mBrushedEffectPath.reset();
+                    mBrushedEffectPath.addRect(
+                            center - w, 0, center + w, height, Path.Direction.CW);
+
+                    mBrushedEffectPath.offset(-offset, -offset);
+                    mBrushedEffectPaint.setColor(Color.WHITE);
+                    mBrushedEffectPaint.setAlpha(alpha);
+                    brushedEffectCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
+
+                    mBrushedEffectPath.offset(2f * offset, 2f * offset);
+                    mBrushedEffectPaint.setColor(Color.BLACK);
+                    mBrushedEffectPaint.setAlpha(alpha);
+                    brushedEffectCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
+
+                    mBrushedEffectPath.offset(-offset, -offset);
+                    mBrushedEffectPaint.setColor(Color.RED);
+                    mBrushedEffectPaint.setAlpha(alpha);
+                    mBrushedEffectPaint.setStyle(Style.FILL_AND_STROKE);
+//                    brushedEffectCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
+                    brushedEffectCanvas.drawPath(mBrushedEffectPath, this);
+                }
+            }
+
+            setAlpha(prevAlpha);
+
             return brushedEffectBitmap;
         }
     }
