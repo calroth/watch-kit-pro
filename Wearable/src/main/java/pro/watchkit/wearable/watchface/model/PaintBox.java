@@ -3617,6 +3617,9 @@ public final class PaintBox {
 
     private static SparseArray<WeakReference<Bitmap>> mBitmapCache = new SparseArray<>();
 
+    private static Bitmap mTempBitmap;
+    private static Canvas mTempCanvas;
+
     public enum ColorType {FILL, ACCENT, HIGHLIGHT, BASE, AMBIENT_DAY, AMBIENT_NIGHT}
 
     private class GradientPaint extends Paint {
@@ -3810,17 +3813,28 @@ public final class PaintBox {
             // Cache it for next time's use.
             mBitmapCache.put(mCustomHashCode, new WeakReference<>(brushedEffectBitmap));
 
+            // Temp bitmap?
+            if (mTempBitmap == null ||
+                    (mTempBitmap.getWidth() != width && mTempBitmap.getHeight() != height)) {
+                mTempBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+                mTempCanvas = new Canvas(mTempBitmap);
+            } else {
+                // Zero out the canvas.
+                mTempCanvas.drawColor(Color.TRANSPARENT);
+            }
+
             float percent = mCenterX / 50f;
             float offset = 0.25f * percent;
             int alpha = 25;
-            float mCenter = Math.min(mCenterX, mCenterY);
+//            float mCenter = Math.min(mCenterX, mCenterY);
 
             mBrushedEffectPaint.setStyle(Style.STROKE);
             mBrushedEffectPaint.setStrokeWidth(offset);
             mBrushedEffectPaint.setStrokeJoin(Join.ROUND);
             mBrushedEffectPaint.setAntiAlias(true);
 
-//            brushedEffectCanvas.drawPaint(this);
+            brushedEffectCanvas.drawPaint(this);
+
             int prevAlpha = getAlpha();
             setAlpha(alpha);
 
@@ -3831,14 +3845,13 @@ public final class PaintBox {
                 float heightI = height / (float) weaves;
                 float center = ((float) i + 0.5f) * heightI;
 
-                for (int j = fibres; j > 0; j--) {
+                for (int j = fibres * 2 - 1; j > 0; j -= 2) {
                     // Height = 100
                     // Fibres = 5;
 
-                    // j = 5, 4, 3, 2, 1
-                    // Heights = 100, 80, 60, 40, 20
-
-                    float heightJ = (float) j * heightI / (float) fibres;
+                    // j = 9, 7, 5, 3, 1
+                    // Heights = 100, 77, 55, 33, 11
+                    float heightJ = (float) j * heightI / ((float) fibres * 2f - 1f);
 
                     float h = heightJ / 2f;
                     mBrushedEffectPaint.setStyle(Style.STROKE);
@@ -3850,19 +3863,19 @@ public final class PaintBox {
                     mBrushedEffectPath.offset(-offset, -offset);
                     mBrushedEffectPaint.setColor(Color.WHITE);
                     mBrushedEffectPaint.setAlpha(alpha);
-                    brushedEffectCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
+                    mTempCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
 
                     mBrushedEffectPath.offset(2f * offset, 2f * offset);
                     mBrushedEffectPaint.setColor(Color.BLACK);
                     mBrushedEffectPaint.setAlpha(alpha);
-                    brushedEffectCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
+                    mTempCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
 
                     mBrushedEffectPath.offset(-offset, -offset);
-                    mBrushedEffectPaint.setColor(Color.RED);
-                    mBrushedEffectPaint.setAlpha(alpha);
-                    mBrushedEffectPaint.setStyle(Style.FILL_AND_STROKE);
-//                    brushedEffectCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
-                    brushedEffectCanvas.drawPath(mBrushedEffectPath, this);
+//                    mBrushedEffectPaint.setColor(Color.RED);
+//                    mBrushedEffectPaint.setAlpha(alpha);
+//                    mBrushedEffectPaint.setStyle(Style.FILL_AND_STROKE);
+//                    mTempCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
+                    mTempCanvas.drawPath(mBrushedEffectPath, this);
                 }
             }
 
@@ -3884,32 +3897,38 @@ public final class PaintBox {
                     float right = centerJ + (widthJ / 2f);
 
                     if (i % 2 == j % 2) {
-                        Log.d("Erasing", "(" + i + "," + j + ")");
+//                        Log.d("Erasing", "(" + i + "," + j + ")");
                         // Only every 2nd square
-                        brushedEffectCanvas.drawRect(left, top, right, bottom, mBrushedEffectPaint);
+                        mTempCanvas.drawRect(left, top, right, bottom, mBrushedEffectPaint);
                     }
                 }
             }
+            mBrushedEffectPaint.setXfermode(null);
+
+            // OK, transfer the horizontal stripes in "mTempCanvas" to "brushedEffectCanvas".
+            brushedEffectCanvas.drawBitmap(mTempBitmap, 0f, 0f, null);
 
             // Apply a destination atop transfer mode to only draw into transparent bits.
-            Xfermode dstMode = new PorterDuffXfermode(PorterDuff.Mode.DST_OVER);
-            mBrushedEffectPaint.setXfermode(dstMode);
-            mBrushedEffectPaint.setColor(Color.GREEN);
+//            Xfermode dstMode = new PorterDuffXfermode(PorterDuff.Mode.DST_OVER);
+//            mBrushedEffectPaint.setXfermode(dstMode);
+//            mBrushedEffectPaint.setColor(Color.GREEN);
 //            brushedEffectCanvas.drawPaint(mBrushedEffectPaint);
+
+            // Zero out the temp canvas in preparation for next.
+            mTempCanvas.drawColor(Color.TRANSPARENT);
 
             // Vertical
             for (int i = 0; i < weaves; i += 1) {
                 float widthI = width / (float) weaves;
                 float center = ((float) i + 0.5f) * widthI;
 
-                for (int j = fibres; j > 0; j--) {
+                for (int j = fibres * 2 - 1; j > 0; j -= 2) {
                     // Height = 100
                     // Fibres = 5;
 
-                    // j = 5, 4, 3, 2, 1
-                    // Heights = 100, 80, 60, 40, 20
-
-                    float widthJ = (float) j * widthI / (float) fibres;
+                    // j = 9, 7, 5, 3, 1
+                    // Heights = 100, 77, 55, 33, 11
+                    float widthJ = (float) j * widthI / ((float) fibres * 2f - 1f);
 
                     float w = widthJ / 2f;
                     mBrushedEffectPaint.setStyle(Style.STROKE);
@@ -3921,21 +3940,49 @@ public final class PaintBox {
                     mBrushedEffectPath.offset(-offset, -offset);
                     mBrushedEffectPaint.setColor(Color.WHITE);
                     mBrushedEffectPaint.setAlpha(alpha);
-                    brushedEffectCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
+                    mTempCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
 
                     mBrushedEffectPath.offset(2f * offset, 2f * offset);
                     mBrushedEffectPaint.setColor(Color.BLACK);
                     mBrushedEffectPaint.setAlpha(alpha);
-                    brushedEffectCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
+                    mTempCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
 
                     mBrushedEffectPath.offset(-offset, -offset);
-                    mBrushedEffectPaint.setColor(Color.RED);
-                    mBrushedEffectPaint.setAlpha(alpha);
-                    mBrushedEffectPaint.setStyle(Style.FILL_AND_STROKE);
-//                    brushedEffectCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
-                    brushedEffectCanvas.drawPath(mBrushedEffectPath, this);
+//                    mBrushedEffectPaint.setColor(Color.RED);
+//                    mBrushedEffectPaint.setAlpha(alpha);
+//                    mBrushedEffectPaint.setStyle(Style.FILL_AND_STROKE);
+//                    mTempCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
+                    mTempCanvas.drawPath(mBrushedEffectPath, this);
                 }
             }
+
+            // Erase every OTHER other 2nd square.
+            mBrushedEffectPaint.setColor(Color.BLACK);
+            mBrushedEffectPaint.setStyle(Style.FILL);
+            mBrushedEffectPaint.setXfermode(clearMode);
+            for (int i = 0; i < weaves; i++) {
+                float heightI = height / (float) weaves;
+                float centerI = ((float) i + 0.5f) * heightI;
+                float top = centerI - (heightI / 2f);
+                float bottom = centerI + (heightI / 2f);
+
+                for (int j = 0; j < weaves; j++) {
+                    float widthJ = width / (float) weaves;
+                    float centerJ = ((float) j + 0.5f) * widthJ;
+                    float left = centerJ - (widthJ / 2f);
+                    float right = centerJ + (widthJ / 2f);
+
+                    if (i % 2 != j % 2) { // Other!
+                        Log.d("Erasing", "(" + i + "," + j + ")");
+                        // Only every 2nd square
+                        mTempCanvas.drawRect(left, top, right, bottom, mBrushedEffectPaint);
+                    }
+                }
+            }
+            mBrushedEffectPaint.setXfermode(null);
+
+            // OK, transfer the vertical stripes in "mTempCanvas" to "brushedEffectCanvas".
+            brushedEffectCanvas.drawBitmap(mTempBitmap, 0f, 0f, null);
 
             setAlpha(prevAlpha);
 
