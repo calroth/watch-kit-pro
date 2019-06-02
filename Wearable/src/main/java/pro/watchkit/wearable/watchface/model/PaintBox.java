@@ -3825,7 +3825,8 @@ public final class PaintBox {
 
             float percent = mCenterX / 50f;
             float offset = 0.25f * percent;
-            int alpha = 25;
+            float alphaMax = 50f;
+            float alphaExtra = 40f;
 //            float mCenter = Math.min(mCenterX, mCenterY);
 
             mBrushedEffectPaint.setStyle(Style.STROKE);
@@ -3836,7 +3837,6 @@ public final class PaintBox {
             brushedEffectCanvas.drawPaint(this);
 
             int prevAlpha = getAlpha();
-            setAlpha(alpha);
 
             int weaves = 10, fibres = 5;
 
@@ -3851,7 +3851,9 @@ public final class PaintBox {
 
                     // j = 9, 7, 5, 3, 1
                     // Heights = 100, 77, 55, 33, 11
-                    float heightJ = (float) j * heightI / ((float) fibres * 2f - 1f);
+                    float weightJ = (float) j / ((float) fibres * 2f - 1f);
+                    float heightJ = weightJ * heightI;
+                    int alpha = (int) (alphaMax - alphaExtra * weightJ);
 
                     float h = heightJ / 2f;
                     mBrushedEffectPaint.setStyle(Style.STROKE);
@@ -3871,10 +3873,7 @@ public final class PaintBox {
                     mTempCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
 
                     mBrushedEffectPath.offset(-offset, -offset);
-//                    mBrushedEffectPaint.setColor(Color.RED);
-//                    mBrushedEffectPaint.setAlpha(alpha);
-//                    mBrushedEffectPaint.setStyle(Style.FILL_AND_STROKE);
-//                    mTempCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
+                    setAlpha(alpha);
                     mTempCanvas.drawPath(mBrushedEffectPath, this);
                 }
             }
@@ -3928,7 +3927,9 @@ public final class PaintBox {
 
                     // j = 9, 7, 5, 3, 1
                     // Heights = 100, 77, 55, 33, 11
-                    float widthJ = (float) j * widthI / ((float) fibres * 2f - 1f);
+                    float weightJ = (float) j / ((float) fibres * 2f - 1f);
+                    float widthJ = weightJ * widthI;
+                    int alpha = (int) (alphaMax - alphaExtra * weightJ);
 
                     float w = widthJ / 2f;
                     mBrushedEffectPaint.setStyle(Style.STROKE);
@@ -3948,10 +3949,7 @@ public final class PaintBox {
                     mTempCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
 
                     mBrushedEffectPath.offset(-offset, -offset);
-//                    mBrushedEffectPaint.setColor(Color.RED);
-//                    mBrushedEffectPaint.setAlpha(alpha);
-//                    mBrushedEffectPaint.setStyle(Style.FILL_AND_STROKE);
-//                    mTempCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
+                    setAlpha(alpha);
                     mTempCanvas.drawPath(mBrushedEffectPath, this);
                 }
             }
