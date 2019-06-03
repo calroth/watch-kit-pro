@@ -3837,7 +3837,7 @@ public final class PaintBox {
             Shader vignette = new RadialGradient(
                     mCenterX, mCenterY, mCenterY,
                     new int[]{Color.BLACK, Color.BLACK, Color.TRANSPARENT},
-                    new float[]{0f, 0.85f, 0.95f}, Shader.TileMode.CLAMP);
+                    new float[]{0f, 0.75f, 0.95f}, Shader.TileMode.CLAMP);
 
             Xfermode gradientTransferMode = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
 
@@ -3847,7 +3847,7 @@ public final class PaintBox {
                     new LinearGradient(
                             width * 0.3f, 0f, width * 0.7f, height,
                             new int[]{Color.TRANSPARENT, Color.BLACK, Color.TRANSPARENT},
-                            new float[]{0.2f, 0.5f, 0.8f}, Shader.TileMode.CLAMP),
+                            new float[]{0.1f, 0.5f, 0.9f}, Shader.TileMode.CLAMP),
                     PorterDuff.Mode.SRC_IN));
             gradientH.setXfermode(gradientTransferMode);
 
@@ -3857,20 +3857,20 @@ public final class PaintBox {
                     new LinearGradient(
                             0f, height * 0.7f, width, height * 0.3f,
                             new int[]{Color.TRANSPARENT, Color.BLACK, Color.TRANSPARENT},
-                            new float[]{0.2f, 0.5f, 0.8f}, Shader.TileMode.CLAMP),
+                            new float[]{0.1f, 0.5f, 0.9f}, Shader.TileMode.CLAMP),
                     PorterDuff.Mode.SRC_IN));
             gradientV.setXfermode(gradientTransferMode);
 
             Paint ribH = new Paint();
             ribH.setShader(new LinearGradient(
                     0f, 0f, 0f, (float) height / (float) weaves,
-                    new int[]{0x3FBFBFBF, 0x3F3F3F3F, 0x3FBFBFBF},
+                    new int[]{0x3F555555, 0x3FAAAAAA, 0x3F555555},
                     new float[]{0f, 0.5f, 1f}, Shader.TileMode.REPEAT));
 
             Paint ribV = new Paint();
             ribV.setShader(new LinearGradient(
                     0f, 0f, (float) height / (float) weaves, 0f,
-                    new int[]{0x3FBFBFBF, 0x3F3F3F3F, 0x3FBFBFBF},
+                    new int[]{0x3F555555, 0x3FAAAAAA, 0x3F555555},
                     new float[]{0f, 0.5f, 1f}, Shader.TileMode.REPEAT));
 
             mBrushedEffectPaint.setStyle(Style.STROKE);
