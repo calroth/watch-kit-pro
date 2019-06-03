@@ -25,6 +25,8 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorSpace;
+import android.graphics.ComposeShader;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
@@ -3829,6 +3831,33 @@ public final class PaintBox {
             float alphaExtra = 40f;
 //            float mCenter = Math.min(mCenterX, mCenterY);
 
+            Shader vignette = new RadialGradient(
+                    mCenterX, mCenterY, mCenterY,
+                    new int[]{Color.BLACK, Color.BLACK, Color.TRANSPARENT},
+                    new float[]{0f, 0.85f, 0.95f}, Shader.TileMode.CLAMP);
+
+            Xfermode gradientTransferMode = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
+
+            Paint gradientH = new Paint();
+            gradientH.setShader(new ComposeShader(
+                    vignette,
+                    new LinearGradient(
+                            width * 0.3f, 0f, width * 0.7f, height,
+                            new int[]{Color.TRANSPARENT, Color.BLACK, Color.TRANSPARENT},
+                            new float[]{0.3f, 0.5f, 0.7f}, Shader.TileMode.CLAMP),
+                    PorterDuff.Mode.SRC_IN));
+            gradientH.setXfermode(gradientTransferMode);
+
+            Paint gradientV = new Paint();
+            gradientV.setShader(new ComposeShader(
+                    vignette,
+                    new LinearGradient(
+                            0f, height * 0.7f, width, height * 0.3f,
+                            new int[]{Color.TRANSPARENT, Color.BLACK, Color.TRANSPARENT},
+                            new float[]{0.3f, 0.5f, 0.7f}, Shader.TileMode.CLAMP),
+                    PorterDuff.Mode.SRC_IN));
+            gradientV.setXfermode(gradientTransferMode);
+
             mBrushedEffectPaint.setStyle(Style.STROKE);
             mBrushedEffectPaint.setStrokeWidth(offset);
             mBrushedEffectPaint.setStrokeJoin(Join.ROUND);
@@ -3877,6 +3906,9 @@ public final class PaintBox {
                     mTempCanvas.drawPath(mBrushedEffectPath, this);
                 }
             }
+
+            // Apply a gradient transfer mode.
+            mTempCanvas.drawPaint(gradientH);
 
             // Erase every 2nd square of the bitmap, and apply a transfer mode.
             Xfermode clearMode = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
@@ -3953,6 +3985,9 @@ public final class PaintBox {
                     mTempCanvas.drawPath(mBrushedEffectPath, this);
                 }
             }
+
+            // Apply a gradient transfer mode.
+            mTempCanvas.drawPaint(gradientV);
 
             // Erase every OTHER other 2nd square.
             mBrushedEffectPaint.setColor(Color.BLACK);
