@@ -3831,6 +3831,9 @@ public final class PaintBox {
             float alphaExtra = 40f;
 //            float mCenter = Math.min(mCenterX, mCenterY);
 
+            int prevAlpha = getAlpha();
+            int weaves = 10, fibres = 5;
+
             Shader vignette = new RadialGradient(
                     mCenterX, mCenterY, mCenterY,
                     new int[]{Color.BLACK, Color.BLACK, Color.TRANSPARENT},
@@ -3844,7 +3847,7 @@ public final class PaintBox {
                     new LinearGradient(
                             width * 0.3f, 0f, width * 0.7f, height,
                             new int[]{Color.TRANSPARENT, Color.BLACK, Color.TRANSPARENT},
-                            new float[]{0.3f, 0.5f, 0.7f}, Shader.TileMode.CLAMP),
+                            new float[]{0.2f, 0.5f, 0.8f}, Shader.TileMode.CLAMP),
                     PorterDuff.Mode.SRC_IN));
             gradientH.setXfermode(gradientTransferMode);
 
@@ -3854,9 +3857,21 @@ public final class PaintBox {
                     new LinearGradient(
                             0f, height * 0.7f, width, height * 0.3f,
                             new int[]{Color.TRANSPARENT, Color.BLACK, Color.TRANSPARENT},
-                            new float[]{0.3f, 0.5f, 0.7f}, Shader.TileMode.CLAMP),
+                            new float[]{0.2f, 0.5f, 0.8f}, Shader.TileMode.CLAMP),
                     PorterDuff.Mode.SRC_IN));
             gradientV.setXfermode(gradientTransferMode);
+
+            Paint ribH = new Paint();
+            ribH.setShader(new LinearGradient(
+                    0f, 0f, 0f, (float) height / (float) weaves,
+                    new int[]{0x3FBFBFBF, 0x3F3F3F3F, 0x3FBFBFBF},
+                    new float[]{0f, 0.5f, 1f}, Shader.TileMode.REPEAT));
+
+            Paint ribV = new Paint();
+            ribV.setShader(new LinearGradient(
+                    0f, 0f, (float) height / (float) weaves, 0f,
+                    new int[]{0x3FBFBFBF, 0x3F3F3F3F, 0x3FBFBFBF},
+                    new float[]{0f, 0.5f, 1f}, Shader.TileMode.REPEAT));
 
             mBrushedEffectPaint.setStyle(Style.STROKE);
             mBrushedEffectPaint.setStrokeWidth(offset);
@@ -3864,10 +3879,6 @@ public final class PaintBox {
             mBrushedEffectPaint.setAntiAlias(true);
 
             brushedEffectCanvas.drawPaint(this);
-
-            int prevAlpha = getAlpha();
-
-            int weaves = 10, fibres = 5;
 
             // Horizontal
             for (int i = 0; i < weaves; i += 1) {
@@ -3906,6 +3917,9 @@ public final class PaintBox {
                     mTempCanvas.drawPath(mBrushedEffectPath, this);
                 }
             }
+
+            // Apply ribs.
+            mTempCanvas.drawPaint(ribH);
 
             // Apply a gradient transfer mode.
             mTempCanvas.drawPaint(gradientH);
@@ -3985,6 +3999,9 @@ public final class PaintBox {
                     mTempCanvas.drawPath(mBrushedEffectPath, this);
                 }
             }
+
+            // Apply ribs.
+            mTempCanvas.drawPaint(ribV);
 
             // Apply a gradient transfer mode.
             mTempCanvas.drawPaint(gradientV);
