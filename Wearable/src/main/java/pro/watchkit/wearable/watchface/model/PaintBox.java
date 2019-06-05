@@ -3873,6 +3873,30 @@ public final class PaintBox {
                     new int[]{0x1F000000, 0x1FFFFFFF, 0x1F000000},
                     new float[]{0f, 0.5f, 1f}, Shader.TileMode.REPEAT));
 
+            Paint shadowLight = new Paint();
+            shadowLight.setShader(new ComposeShader(
+                    new LinearGradient(
+                            0f, 0f, 0f, (float) height / (float) weaves,
+                            new int[]{Color.BLACK, Color.TRANSPARENT, Color.TRANSPARENT, Color.BLACK},
+                            new float[]{0f, 0.2f, 0.8f, 1f}, Shader.TileMode.REPEAT),
+                    new LinearGradient(
+                            0f, 0f, (float) width / (float) weaves, 0f,
+                            new int[]{Color.WHITE, Color.TRANSPARENT, Color.TRANSPARENT, Color.WHITE},
+                            new float[]{0f, 0.2f, 0.8f, 1f}, Shader.TileMode.REPEAT),
+                    PorterDuff.Mode.XOR));
+
+            Paint lightShadow = new Paint();
+            lightShadow.setShader(new ComposeShader(
+                    new LinearGradient(
+                            0f, 0f, 0f, (float) height / (float) weaves,
+                            new int[]{Color.WHITE, Color.TRANSPARENT, Color.TRANSPARENT, Color.WHITE},
+                            new float[]{0f, 0.2f, 0.8f, 1f}, Shader.TileMode.REPEAT),
+                    new LinearGradient(
+                            0f, 0f, (float) width / (float) weaves, 0f,
+                            new int[]{Color.BLACK, Color.TRANSPARENT, Color.TRANSPARENT, Color.BLACK},
+                            new float[]{0f, 0.2f, 0.8f, 1f}, Shader.TileMode.REPEAT),
+                    PorterDuff.Mode.XOR));
+
             mBrushedEffectPaint.setStyle(Style.STROKE);
             mBrushedEffectPaint.setStrokeWidth(offset);
             mBrushedEffectPaint.setStrokeJoin(Join.ROUND);
@@ -3919,7 +3943,7 @@ public final class PaintBox {
             }
 
             // Apply ribs.
-            mTempCanvas.drawPaint(ribH);
+            mTempCanvas.drawPaint(shadowLight);
 
             // Apply a gradient transfer mode.
             mTempCanvas.drawPaint(gradientH);
@@ -4001,7 +4025,7 @@ public final class PaintBox {
             }
 
             // Apply ribs.
-            mTempCanvas.drawPaint(ribV);
+            mTempCanvas.drawPaint(lightShadow);
 
             // Apply a gradient transfer mode.
             mTempCanvas.drawPaint(gradientV);
