@@ -3834,10 +3834,12 @@ public final class PaintBox {
             int prevAlpha = getAlpha();
             int weaves = 10, fibres = 5;
 
+            float weaveSize = (float) width / (float) weaves;
+
             Shader vignette = new RadialGradient(
                     mCenterX, mCenterY, mCenterY,
                     new int[]{Color.BLACK, Color.BLACK, Color.TRANSPARENT},
-                    new float[]{0f, 0.75f, 0.95f}, Shader.TileMode.CLAMP);
+                    new float[]{0f, 0.8f, 0.95f}, Shader.TileMode.CLAMP);
 
             Xfermode gradientTransferMode = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
 
@@ -3847,7 +3849,7 @@ public final class PaintBox {
                     new LinearGradient(
                             width * 0.3f, 0f, width * 0.7f, height,
                             new int[]{Color.TRANSPARENT, Color.BLACK, Color.TRANSPARENT},
-                            new float[]{0.25f, 0.5f, 0.75f}, Shader.TileMode.CLAMP),
+                            new float[]{0.2f, 0.5f, 0.8f}, Shader.TileMode.CLAMP),
                     PorterDuff.Mode.SRC_IN));
             gradientH.setXfermode(gradientTransferMode);
 
@@ -3857,44 +3859,45 @@ public final class PaintBox {
                     new LinearGradient(
                             0f, height * 0.7f, width, height * 0.3f,
                             new int[]{Color.TRANSPARENT, Color.BLACK, Color.TRANSPARENT},
-                            new float[]{0.25f, 0.5f, 0.75f}, Shader.TileMode.CLAMP),
+                            new float[]{0.2f, 0.5f, 0.8f}, Shader.TileMode.CLAMP),
                     PorterDuff.Mode.SRC_IN));
             gradientV.setXfermode(gradientTransferMode);
 
-            Paint ribH = new Paint();
-            ribH.setShader(new LinearGradient(
-                    0f, 0f, 0f, (float) height / (float) weaves,
-                    new int[]{0x1F000000, 0x1FFFFFFF, 0x1F000000},
-                    new float[]{0f, 0.5f, 1f}, Shader.TileMode.REPEAT));
+//            Paint ribH = new Paint();
+//            ribH.setShader(new LinearGradient(
+//                    mCenterX, mCenterY, mCenterX, mCenterY + weaveSize,
+//                    new int[]{0x1F000000, 0x1FFFFFFF, 0x1F000000},
+//                    new float[]{0f, 0.5f, 1f}, Shader.TileMode.REPEAT));
+//
+//            Paint ribV = new Paint();
+//            ribV.setShader(new LinearGradient(
+//                    mCenterX, mCenterY, mCenterX + weaveSize, mCenterY,
+//                    new int[]{0x1F000000, 0x1FFFFFFF, 0x1F000000},
+//                    new float[]{0f, 0.5f, 1f}, Shader.TileMode.REPEAT));
 
-            Paint ribV = new Paint();
-            ribV.setShader(new LinearGradient(
-                    0f, 0f, (float) height / (float) weaves, 0f,
-                    new int[]{0x1F000000, 0x1FFFFFFF, 0x1F000000},
-                    new float[]{0f, 0.5f, 1f}, Shader.TileMode.REPEAT));
+            int cBlack = 0x33000000, cWhite = 0x33ffffff, cTrans = Color.TRANSPARENT;
+            int[] shadow = new int[]{cBlack, cTrans, cTrans, cBlack};
+            int[] light = new int[]{cWhite, cTrans, cTrans, cWhite};
+            float[] stops = new float[]{0f, 0.2f, 0.8f, 1f};
 
             Paint shadowLight = new Paint();
             shadowLight.setShader(new ComposeShader(
                     new LinearGradient(
-                            0f, 0f, 0f, (float) height / (float) weaves,
-                            new int[]{Color.BLACK, Color.TRANSPARENT, Color.TRANSPARENT, Color.BLACK},
-                            new float[]{0f, 0.2f, 0.8f, 1f}, Shader.TileMode.REPEAT),
+                            mCenterX, mCenterY, mCenterX, mCenterY + weaveSize,
+                            shadow, stops, Shader.TileMode.REPEAT),
                     new LinearGradient(
-                            0f, 0f, (float) width / (float) weaves, 0f,
-                            new int[]{Color.WHITE, Color.TRANSPARENT, Color.TRANSPARENT, Color.WHITE},
-                            new float[]{0f, 0.2f, 0.8f, 1f}, Shader.TileMode.REPEAT),
+                            mCenterX, mCenterY, mCenterX + weaveSize, mCenterY,
+                            light, stops, Shader.TileMode.REPEAT),
                     PorterDuff.Mode.XOR));
 
             Paint lightShadow = new Paint();
             lightShadow.setShader(new ComposeShader(
                     new LinearGradient(
-                            0f, 0f, 0f, (float) height / (float) weaves,
-                            new int[]{Color.WHITE, Color.TRANSPARENT, Color.TRANSPARENT, Color.WHITE},
-                            new float[]{0f, 0.2f, 0.8f, 1f}, Shader.TileMode.REPEAT),
+                            mCenterX, mCenterY, mCenterX, mCenterY + weaveSize,
+                            light, stops, Shader.TileMode.REPEAT),
                     new LinearGradient(
-                            0f, 0f, (float) width / (float) weaves, 0f,
-                            new int[]{Color.BLACK, Color.TRANSPARENT, Color.TRANSPARENT, Color.BLACK},
-                            new float[]{0f, 0.2f, 0.8f, 1f}, Shader.TileMode.REPEAT),
+                            mCenterX, mCenterY, mCenterX + weaveSize, mCenterY,
+                            shadow, stops, Shader.TileMode.REPEAT),
                     PorterDuff.Mode.XOR));
 
             mBrushedEffectPaint.setStyle(Style.STROKE);
@@ -3943,7 +3946,7 @@ public final class PaintBox {
             }
 
             // Apply ribs.
-            mTempCanvas.drawPaint(shadowLight);
+            mTempCanvas.drawPaint(lightShadow);
 
             // Apply a gradient transfer mode.
             mTempCanvas.drawPaint(gradientH);
@@ -4025,7 +4028,7 @@ public final class PaintBox {
             }
 
             // Apply ribs.
-            mTempCanvas.drawPaint(lightShadow);
+            mTempCanvas.drawPaint(shadowLight);
 
             // Apply a gradient transfer mode.
             mTempCanvas.drawPaint(gradientV);
