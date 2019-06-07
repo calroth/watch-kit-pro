@@ -30,10 +30,10 @@ import java.util.Collection;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 
 final class WatchPartRingsDrawable extends WatchPartDrawable {
-    private Path p = new Path();
-    private Path rings = new Path();
-    private Path holes = new Path();
-    private Path background = new Path();
+    private Path mPath = new Path();
+    private Path mRings = new Path();
+    private Path mHoles = new Path();
+    private Path mBackground = new Path();
 
     private boolean mDrawAllRings = false;
 
@@ -61,43 +61,55 @@ final class WatchPartRingsDrawable extends WatchPartDrawable {
             return;
         }
 
-        rings.reset();
-        holes.reset();
-        background.reset();
+        mRings.reset();
+        mHoles.reset();
+        mBackground.reset();
 
-        // Calculate our rings and holes!
+        // Calculate our mRings and mHoles!
         complications.stream()
                 .filter(c -> c.isForeground && c.getBounds() != null && (c.isActive || mDrawAllRings))
                 .forEach(c -> {
                     Rect r = c.getBounds();
-                    rings.addCircle(r.exactCenterX(), r.exactCenterY(),
+                    mRings.addCircle(r.exactCenterX(), r.exactCenterY(),
                             1.05f * r.width() / 2f, getDirection());
-                    holes.addCircle(r.exactCenterX(), r.exactCenterY(),
+                    mHoles.addCircle(r.exactCenterX(), r.exactCenterY(),
                             1.01f * r.width() / 2f, getDirection());
-                    p.reset(); // Using "p" as a temporary variable here...
-                    p.addCircle(r.exactCenterX(), r.exactCenterY(),
+                    mPath.reset(); // Using "mPath" as a temporary variable here...
+                    mPath.addCircle(r.exactCenterX(), r.exactCenterY(),
                             1.03f * r.width() / 2f, getDirection());
-                    background.op(p, Path.Op.UNION);
+                    mBackground.op(mPath, Path.Op.UNION);
                 });
 
-        // If not ambient, actually draw our complication rings.
+        // If not ambient, actually draw our complication mRings.
         if (!mWatchFaceState.isAmbient()) {
-            // Paint the background...
-            Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(
+            Paint watchFacePaint = mWatchFaceState.getPaintBox().getPaintFromPreset(
+                    mWatchFaceState.getWatchFacePreset().getBackgroundStyle());
+            Paint backgroundPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(
                     mWatchFaceState.getSettings().getComplicationBackgroundStyle());
-            drawPath(canvas, background, paint);
-
-            // Paint with our complication ring style.
-            paint = mWatchFaceState.getPaintBox().getPaintFromPreset(
+            Paint ringPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(
                     mWatchFaceState.getSettings().getComplicationRingStyle());
 
-            p.reset();
-            p.op(rings, Path.Op.UNION);
-            p.op(holes, Path.Op.DIFFERENCE);
-            drawPath(canvas, p, paint);
+            // Some optimisations.
+            if (ringPaint.equals(backgroundPaint) || ringPaint.equals(watchFacePaint)) {
+                // If the ring and complication mBackground paints are equal,
+                // or the ring and watch face mBackground paints are equal,
+                // draw the mRings but skip the mHoles.
+                drawPath(canvas, mBackground, backgroundPaint);
+            } else {
+                // Paint the mBackground if it's different.
+                if (!backgroundPaint.equals(watchFacePaint)) {
+                    drawPath(canvas, mBackground, backgroundPaint);
+                }
+
+                // Paint with our complication ring style.
+                mPath.reset();
+                mPath.op(mRings, Path.Op.UNION);
+                mPath.op(mHoles, Path.Op.DIFFERENCE);
+                drawPath(canvas, mPath, ringPaint);
+            }
         }
 
-        // Add the rings to our exclusion path.
-        addExclusionPath(rings, Path.Op.DIFFERENCE);
+        // Add the mRings to our exclusion path.
+        addExclusionPath(mRings, Path.Op.DIFFERENCE);
     }
 }
