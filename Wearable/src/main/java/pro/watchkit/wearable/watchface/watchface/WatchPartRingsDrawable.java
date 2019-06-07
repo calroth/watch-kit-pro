@@ -33,6 +33,7 @@ final class WatchPartRingsDrawable extends WatchPartDrawable {
     private Path p = new Path();
     private Path rings = new Path();
     private Path holes = new Path();
+    private Path background = new Path();
 
     private boolean mDrawAllRings = false;
 
@@ -62,6 +63,7 @@ final class WatchPartRingsDrawable extends WatchPartDrawable {
 
         rings.reset();
         holes.reset();
+        background.reset();
 
         // Calculate our rings and holes!
         complications.stream()
@@ -72,14 +74,22 @@ final class WatchPartRingsDrawable extends WatchPartDrawable {
                             1.05f * r.width() / 2f, getDirection());
                     holes.addCircle(r.exactCenterX(), r.exactCenterY(),
                             1.01f * r.width() / 2f, getDirection());
+                    p.reset(); // Using "p" as a temporary variable here...
+                    p.addCircle(r.exactCenterX(), r.exactCenterY(),
+                            1.03f * r.width() / 2f, getDirection());
+                    background.op(p, Path.Op.UNION);
                 });
 
         // If not ambient, actually draw our complication rings.
         if (!mWatchFaceState.isAmbient()) {
-            // Draw with our four tick style.
-            // Maybe in the future, allow this to be customised.
+            // Paint the background...
             Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(
-                    mWatchFaceState.getWatchFacePreset().getFourTickStyle());
+                    mWatchFaceState.getSettings().getComplicationBackgroundStyle());
+            drawPath(canvas, background, paint);
+
+            // Paint with our complication ring style.
+            paint = mWatchFaceState.getPaintBox().getPaintFromPreset(
+                    mWatchFaceState.getSettings().getComplicationRingStyle());
 
             p.reset();
             p.op(rings, Path.Op.UNION);

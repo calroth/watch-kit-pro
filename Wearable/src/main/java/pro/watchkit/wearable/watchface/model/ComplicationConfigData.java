@@ -57,7 +57,29 @@ public class ComplicationConfigData extends ConfigData {
                         new SettingsMutatorImpl<>(
                                 Settings.ComplicationRotation.values(),
                                 Settings::setComplicationRotation,
-                                Settings::getComplicationRotation))
+                                Settings::getComplicationRotation)),
+
+                // Data for complication ring style in settings Activity.
+                new WatchFacePickerConfigItem(
+                        context.getString(R.string.config_complication_ring_style),
+                        R.drawable.icn_styles,
+                        watchFaceGlobalDrawableFlags,
+                        WatchFaceSelectionActivity.class,
+                        new SettingsMutatorImpl<>(
+                                WatchFacePreset.Style.values(),
+                                Settings::setComplicationRingStyle,
+                                Settings::getComplicationRingStyle)),
+
+                // Data for complication background style in settings Activity.
+                new WatchFacePickerConfigItem(
+                        context.getString(R.string.config_complication_background_style),
+                        R.drawable.icn_styles,
+                        watchFaceGlobalDrawableFlags,
+                        WatchFaceSelectionActivity.class,
+                        new SettingsMutatorImpl<>(
+                                WatchFacePreset.Style.values(),
+                                Settings::setComplicationBackgroundStyle,
+                                Settings::getComplicationBackgroundStyle))
         );
     }
 }

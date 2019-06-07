@@ -25,6 +25,7 @@ import androidx.annotation.ArrayRes;
 import java.util.Objects;
 
 import pro.watchkit.wearable.watchface.R;
+import pro.watchkit.wearable.watchface.model.WatchFacePreset.Style;
 
 /**
  * Check yuor settings.
@@ -38,6 +39,8 @@ public class Settings implements Cloneable {
     private ComplicationRotation mComplicationRotation = ComplicationRotation.ROTATE_25;
     private int mAmbientDaySixBitColor;
     private int mAmbientNightSixBitColor;
+    private Style mComplicationRingStyle;
+    private Style mComplicationBackgroundStyle;
 
     public Settings clone() {
         Settings result;
@@ -59,7 +62,9 @@ public class Settings implements Cloneable {
                 mComplicationCount,
                 mComplicationRotation,
                 mAmbientDaySixBitColor,
-                mAmbientNightSixBitColor);
+                mAmbientNightSixBitColor,
+                mComplicationRingStyle,
+                mComplicationBackgroundStyle);
     }
 
     ComplicationRotation getComplicationRotation() {
@@ -167,6 +172,8 @@ public class Settings implements Cloneable {
         mComplicationRotation.pack(bytePacker);
         bytePacker.put(6, getAmbientDaySixBitColor());
         bytePacker.put(6, getAmbientNightSixBitColor());
+        mComplicationRingStyle.pack(bytePacker);
+        mComplicationBackgroundStyle.pack(bytePacker);
 
         bytePacker.finish();
     }
@@ -191,6 +198,8 @@ public class Settings implements Cloneable {
                 setComplicationRotation(ComplicationRotation.unpack(bytePacker));
                 setAmbientDaySixBitColor(bytePacker.get(6));
                 setAmbientNightSixBitColor(bytePacker.get(6));
+                setComplicationRingStyle(Style.unpack(bytePacker));
+                setComplicationBackgroundStyle(Style.unpack(bytePacker));
                 break;
             }
         }
@@ -228,6 +237,22 @@ public class Settings implements Cloneable {
 
     void setAmbientNightSixBitColor(int ambientNightSixBitColor) {
         mAmbientNightSixBitColor = ambientNightSixBitColor;
+    }
+
+    public Style getComplicationRingStyle() {
+        return mComplicationRingStyle;
+    }
+
+    public void setComplicationRingStyle(Style complicationRingStyle) {
+        this.mComplicationRingStyle = complicationRingStyle;
+    }
+
+    public Style getComplicationBackgroundStyle() {
+        return mComplicationBackgroundStyle;
+    }
+
+    public void setComplicationBackgroundStyle(Style complicationBackgroundStyle) {
+        this.mComplicationBackgroundStyle = complicationBackgroundStyle;
     }
 
     public enum ComplicationRotation implements WatchFacePreset.EnumResourceId {
