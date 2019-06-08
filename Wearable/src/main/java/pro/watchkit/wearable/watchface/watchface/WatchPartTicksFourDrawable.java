@@ -1,10 +1,10 @@
 package pro.watchkit.wearable.watchface.watchface;
 
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.Style;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickLength;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickRadiusPosition;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickShape;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickThickness;
+import pro.watchkit.wearable.watchface.model.BytePackable.Style;
+import pro.watchkit.wearable.watchface.model.BytePackable.TickLength;
+import pro.watchkit.wearable.watchface.model.BytePackable.TickRadiusPosition;
+import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
+import pro.watchkit.wearable.watchface.model.BytePackable.TickThickness;
 
 final class WatchPartTicksFourDrawable extends WatchPartTicksDrawable {
     @Override

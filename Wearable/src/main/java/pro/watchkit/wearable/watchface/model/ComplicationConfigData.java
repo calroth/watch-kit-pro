@@ -44,7 +44,7 @@ public class ComplicationConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new SettingsMutatorImpl<>(
-                                Settings.ComplicationCount.values(),
+                                BytePackable.ComplicationCount.values(),
                                 Settings::setComplicationCountEnum,
                                 Settings::getComplicationCountEnum)),
 
@@ -55,7 +55,7 @@ public class ComplicationConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new SettingsMutatorImpl<>(
-                                Settings.ComplicationRotation.values(),
+                                BytePackable.ComplicationRotation.values(),
                                 Settings::setComplicationRotation,
                                 Settings::getComplicationRotation)),
 
@@ -66,7 +66,7 @@ public class ComplicationConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new SettingsMutatorImpl<>(
-                                WatchFacePreset.Style.values(),
+                                BytePackable.Style.values(),
                                 Settings::setComplicationRingStyle,
                                 Settings::getComplicationRingStyle)),
 
@@ -77,7 +77,7 @@ public class ComplicationConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new SettingsMutatorImpl<>(
-                                WatchFacePreset.Style.values(),
+                                BytePackable.Style.values(),
                                 Settings::setComplicationBackgroundStyle,
                                 Settings::getComplicationBackgroundStyle))
         );

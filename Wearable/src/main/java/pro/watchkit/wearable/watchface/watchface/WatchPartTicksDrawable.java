@@ -39,16 +39,18 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 
+import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
+
 import java.util.Hashtable;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-import androidx.core.util.Pair;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.Style;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickLength;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickRadiusPosition;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickShape;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.TickThickness;
+import pro.watchkit.wearable.watchface.model.BytePackable;
+import pro.watchkit.wearable.watchface.model.BytePackable.Style;
+import pro.watchkit.wearable.watchface.model.BytePackable.TickLength;
+import pro.watchkit.wearable.watchface.model.BytePackable.TickRadiusPosition;
+import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
+import pro.watchkit.wearable.watchface.model.BytePackable.TickThickness;
 
 abstract class WatchPartTicksDrawable extends WatchPartDrawable {
     private Map<Pair<TickShape, TickThickness>, Float> mTickThicknessDimens = new Hashtable<>();
@@ -90,69 +92,69 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
         float triangleScale = 2f / (float) Math.sqrt(Math.sqrt(3d));
         float diamondScale = (float) Math.sqrt(2d);
 
-        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.THIN), barThicknessScale * 0.125f);
-        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.REGULAR), barThicknessScale * 0.25f);
-        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.THICK), barThicknessScale * 0.5f);
-        mTickThicknessDimens.put(Pair.create(TickShape.BAR, TickThickness.X_THICK), barThicknessScale * 1.0f);
+        mTickThicknessDimens.put(Pair.create(BytePackable.TickShape.BAR, BytePackable.TickThickness.THIN), barThicknessScale * 0.125f);
+        mTickThicknessDimens.put(Pair.create(BytePackable.TickShape.BAR, BytePackable.TickThickness.REGULAR), barThicknessScale * 0.25f);
+        mTickThicknessDimens.put(Pair.create(BytePackable.TickShape.BAR, BytePackable.TickThickness.THICK), barThicknessScale * 0.5f);
+        mTickThicknessDimens.put(Pair.create(BytePackable.TickShape.BAR, BytePackable.TickThickness.X_THICK), barThicknessScale * 1.0f);
 
-        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.THIN), dotScale * f0);
-        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.REGULAR), dotScale * f1);
-        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.THICK), dotScale * f2);
-        mTickThicknessDimens.put(Pair.create(TickShape.DOT, TickThickness.X_THICK), dotScale * f3);
+        mTickThicknessDimens.put(Pair.create(BytePackable.TickShape.DOT, BytePackable.TickThickness.THIN), dotScale * f0);
+        mTickThicknessDimens.put(Pair.create(BytePackable.TickShape.DOT, BytePackable.TickThickness.REGULAR), dotScale * f1);
+        mTickThicknessDimens.put(Pair.create(BytePackable.TickShape.DOT, BytePackable.TickThickness.THICK), dotScale * f2);
+        mTickThicknessDimens.put(Pair.create(BytePackable.TickShape.DOT, BytePackable.TickThickness.X_THICK), dotScale * f3);
 
-        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.THIN), triangleScale * f0);
-        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.REGULAR), triangleScale * f1);
-        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.THICK), triangleScale * f2);
-        mTickThicknessDimens.put(Pair.create(TickShape.TRIANGLE, TickThickness.X_THICK), triangleScale * f3);
+        mTickThicknessDimens.put(Pair.create(BytePackable.TickShape.TRIANGLE, BytePackable.TickThickness.THIN), triangleScale * f0);
+        mTickThicknessDimens.put(Pair.create(BytePackable.TickShape.TRIANGLE, BytePackable.TickThickness.REGULAR), triangleScale * f1);
+        mTickThicknessDimens.put(Pair.create(BytePackable.TickShape.TRIANGLE, BytePackable.TickThickness.THICK), triangleScale * f2);
+        mTickThicknessDimens.put(Pair.create(BytePackable.TickShape.TRIANGLE, BytePackable.TickThickness.X_THICK), triangleScale * f3);
 
-        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.THIN), diamondScale * f0);
-        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.REGULAR), diamondScale * f1);
-        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.THICK), diamondScale * f2);
-        mTickThicknessDimens.put(Pair.create(TickShape.DIAMOND, TickThickness.X_THICK), diamondScale * f3);
+        mTickThicknessDimens.put(Pair.create(BytePackable.TickShape.DIAMOND, BytePackable.TickThickness.THIN), diamondScale * f0);
+        mTickThicknessDimens.put(Pair.create(BytePackable.TickShape.DIAMOND, BytePackable.TickThickness.REGULAR), diamondScale * f1);
+        mTickThicknessDimens.put(Pair.create(BytePackable.TickShape.DIAMOND, BytePackable.TickThickness.THICK), diamondScale * f2);
+        mTickThicknessDimens.put(Pair.create(BytePackable.TickShape.DIAMOND, BytePackable.TickThickness.X_THICK), diamondScale * f3);
 
-        mTickLengthDimens.put(Pair.create(TickShape.BAR, TickLength.SHORT), barLengthScale * f0);
-        mTickLengthDimens.put(Pair.create(TickShape.BAR, TickLength.MEDIUM), barLengthScale * f1);
-        mTickLengthDimens.put(Pair.create(TickShape.BAR, TickLength.LONG), barLengthScale * f2);
-        mTickLengthDimens.put(Pair.create(TickShape.BAR, TickLength.X_LONG), barLengthScale * f3);
+        mTickLengthDimens.put(Pair.create(BytePackable.TickShape.BAR, BytePackable.TickLength.SHORT), barLengthScale * f0);
+        mTickLengthDimens.put(Pair.create(BytePackable.TickShape.BAR, BytePackable.TickLength.MEDIUM), barLengthScale * f1);
+        mTickLengthDimens.put(Pair.create(BytePackable.TickShape.BAR, BytePackable.TickLength.LONG), barLengthScale * f2);
+        mTickLengthDimens.put(Pair.create(BytePackable.TickShape.BAR, BytePackable.TickLength.X_LONG), barLengthScale * f3);
 
-        mTickLengthDimens.put(Pair.create(TickShape.DOT, TickLength.SHORT), dotScale * f0);
-        mTickLengthDimens.put(Pair.create(TickShape.DOT, TickLength.MEDIUM), dotScale * f1);
-        mTickLengthDimens.put(Pair.create(TickShape.DOT, TickLength.LONG), dotScale * f2);
-        mTickLengthDimens.put(Pair.create(TickShape.DOT, TickLength.X_LONG), dotScale * f3);
+        mTickLengthDimens.put(Pair.create(BytePackable.TickShape.DOT, BytePackable.TickLength.SHORT), dotScale * f0);
+        mTickLengthDimens.put(Pair.create(BytePackable.TickShape.DOT, BytePackable.TickLength.MEDIUM), dotScale * f1);
+        mTickLengthDimens.put(Pair.create(BytePackable.TickShape.DOT, BytePackable.TickLength.LONG), dotScale * f2);
+        mTickLengthDimens.put(Pair.create(BytePackable.TickShape.DOT, BytePackable.TickLength.X_LONG), dotScale * f3);
 
-        mTickLengthDimens.put(Pair.create(TickShape.TRIANGLE, TickLength.SHORT), triangleFactor * triangleScale * f0);
-        mTickLengthDimens.put(Pair.create(TickShape.TRIANGLE, TickLength.MEDIUM), triangleFactor * triangleScale * f1);
-        mTickLengthDimens.put(Pair.create(TickShape.TRIANGLE, TickLength.LONG), triangleFactor * triangleScale * f2);
-        mTickLengthDimens.put(Pair.create(TickShape.TRIANGLE, TickLength.X_LONG), triangleFactor * triangleScale * f3);
+        mTickLengthDimens.put(Pair.create(BytePackable.TickShape.TRIANGLE, BytePackable.TickLength.SHORT), triangleFactor * triangleScale * f0);
+        mTickLengthDimens.put(Pair.create(BytePackable.TickShape.TRIANGLE, BytePackable.TickLength.MEDIUM), triangleFactor * triangleScale * f1);
+        mTickLengthDimens.put(Pair.create(BytePackable.TickShape.TRIANGLE, BytePackable.TickLength.LONG), triangleFactor * triangleScale * f2);
+        mTickLengthDimens.put(Pair.create(BytePackable.TickShape.TRIANGLE, BytePackable.TickLength.X_LONG), triangleFactor * triangleScale * f3);
 
-        mTickLengthDimens.put(Pair.create(TickShape.DIAMOND, TickLength.SHORT), diamondScale * f0);
-        mTickLengthDimens.put(Pair.create(TickShape.DIAMOND, TickLength.MEDIUM), diamondScale * f1);
-        mTickLengthDimens.put(Pair.create(TickShape.DIAMOND, TickLength.LONG), diamondScale * f2);
-        mTickLengthDimens.put(Pair.create(TickShape.DIAMOND, TickLength.X_LONG), diamondScale * f3);
+        mTickLengthDimens.put(Pair.create(BytePackable.TickShape.DIAMOND, BytePackable.TickLength.SHORT), diamondScale * f0);
+        mTickLengthDimens.put(Pair.create(BytePackable.TickShape.DIAMOND, BytePackable.TickLength.MEDIUM), diamondScale * f1);
+        mTickLengthDimens.put(Pair.create(BytePackable.TickShape.DIAMOND, BytePackable.TickLength.LONG), diamondScale * f2);
+        mTickLengthDimens.put(Pair.create(BytePackable.TickShape.DIAMOND, BytePackable.TickLength.X_LONG), diamondScale * f3);
 
         // TODO: Make sure that (dot, triangle, diamond) are normalised, so if we select...
         // THIN/SHORT or X_THICK/X_LONG for (dot, triangle, diamond), their AREA is the same.
         // Simple geometry.
 
-        mTickRadiusPositionDimens.put(Pair.create(TickShape.BAR, TickRadiusPosition.SHORT), 0f);
-        mTickRadiusPositionDimens.put(Pair.create(TickShape.BAR, TickRadiusPosition.MEDIUM), 3f);
-        mTickRadiusPositionDimens.put(Pair.create(TickShape.BAR, TickRadiusPosition.LONG), 6f);
-        mTickRadiusPositionDimens.put(Pair.create(TickShape.BAR, TickRadiusPosition.X_LONG), 9f);
+        mTickRadiusPositionDimens.put(Pair.create(BytePackable.TickShape.BAR, BytePackable.TickRadiusPosition.SHORT), 0f);
+        mTickRadiusPositionDimens.put(Pair.create(BytePackable.TickShape.BAR, BytePackable.TickRadiusPosition.MEDIUM), 3f);
+        mTickRadiusPositionDimens.put(Pair.create(BytePackable.TickShape.BAR, BytePackable.TickRadiusPosition.LONG), 6f);
+        mTickRadiusPositionDimens.put(Pair.create(BytePackable.TickShape.BAR, BytePackable.TickRadiusPosition.X_LONG), 9f);
 
-        mTickRadiusPositionDimens.put(Pair.create(TickShape.DOT, TickRadiusPosition.SHORT), 0f);
-        mTickRadiusPositionDimens.put(Pair.create(TickShape.DOT, TickRadiusPosition.MEDIUM), 3f);
-        mTickRadiusPositionDimens.put(Pair.create(TickShape.DOT, TickRadiusPosition.LONG), 6f);
-        mTickRadiusPositionDimens.put(Pair.create(TickShape.DOT, TickRadiusPosition.X_LONG), 9f);
+        mTickRadiusPositionDimens.put(Pair.create(BytePackable.TickShape.DOT, BytePackable.TickRadiusPosition.SHORT), 0f);
+        mTickRadiusPositionDimens.put(Pair.create(BytePackable.TickShape.DOT, BytePackable.TickRadiusPosition.MEDIUM), 3f);
+        mTickRadiusPositionDimens.put(Pair.create(BytePackable.TickShape.DOT, BytePackable.TickRadiusPosition.LONG), 6f);
+        mTickRadiusPositionDimens.put(Pair.create(BytePackable.TickShape.DOT, BytePackable.TickRadiusPosition.X_LONG), 9f);
 
-        mTickRadiusPositionDimens.put(Pair.create(TickShape.TRIANGLE, TickRadiusPosition.SHORT), 0f);
-        mTickRadiusPositionDimens.put(Pair.create(TickShape.TRIANGLE, TickRadiusPosition.MEDIUM), 3f);
-        mTickRadiusPositionDimens.put(Pair.create(TickShape.TRIANGLE, TickRadiusPosition.LONG), 6f);
-        mTickRadiusPositionDimens.put(Pair.create(TickShape.TRIANGLE, TickRadiusPosition.X_LONG), 9f);
+        mTickRadiusPositionDimens.put(Pair.create(BytePackable.TickShape.TRIANGLE, BytePackable.TickRadiusPosition.SHORT), 0f);
+        mTickRadiusPositionDimens.put(Pair.create(BytePackable.TickShape.TRIANGLE, BytePackable.TickRadiusPosition.MEDIUM), 3f);
+        mTickRadiusPositionDimens.put(Pair.create(BytePackable.TickShape.TRIANGLE, BytePackable.TickRadiusPosition.LONG), 6f);
+        mTickRadiusPositionDimens.put(Pair.create(BytePackable.TickShape.TRIANGLE, BytePackable.TickRadiusPosition.X_LONG), 9f);
 
-        mTickRadiusPositionDimens.put(Pair.create(TickShape.DIAMOND, TickRadiusPosition.SHORT), 0f);
-        mTickRadiusPositionDimens.put(Pair.create(TickShape.DIAMOND, TickRadiusPosition.MEDIUM), 3f);
-        mTickRadiusPositionDimens.put(Pair.create(TickShape.DIAMOND, TickRadiusPosition.LONG), 6f);
-        mTickRadiusPositionDimens.put(Pair.create(TickShape.DIAMOND, TickRadiusPosition.X_LONG), 9f);
+        mTickRadiusPositionDimens.put(Pair.create(BytePackable.TickShape.DIAMOND, BytePackable.TickRadiusPosition.SHORT), 0f);
+        mTickRadiusPositionDimens.put(Pair.create(BytePackable.TickShape.DIAMOND, BytePackable.TickRadiusPosition.MEDIUM), 3f);
+        mTickRadiusPositionDimens.put(Pair.create(BytePackable.TickShape.DIAMOND, BytePackable.TickRadiusPosition.LONG), 6f);
+        mTickRadiusPositionDimens.put(Pair.create(BytePackable.TickShape.DIAMOND, BytePackable.TickRadiusPosition.X_LONG), 9f);
     }
 
     private Path p = new Path();

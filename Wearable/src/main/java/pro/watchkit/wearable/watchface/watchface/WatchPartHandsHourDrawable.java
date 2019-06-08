@@ -2,12 +2,12 @@ package pro.watchkit.wearable.watchface.watchface;
 
 import android.graphics.Path;
 
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandCutout;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandLength;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandShape;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandStalk;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandThickness;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.Style;
+import pro.watchkit.wearable.watchface.model.BytePackable.HandCutout;
+import pro.watchkit.wearable.watchface.model.BytePackable.HandLength;
+import pro.watchkit.wearable.watchface.model.BytePackable.HandShape;
+import pro.watchkit.wearable.watchface.model.BytePackable.HandStalk;
+import pro.watchkit.wearable.watchface.model.BytePackable.HandThickness;
+import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 
 final class WatchPartHandsHourDrawable extends WatchPartHandsDrawable {
     @Override

@@ -29,12 +29,13 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
 
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandCutout;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandLength;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandShape;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandStalk;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandThickness;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.Style;
+import pro.watchkit.wearable.watchface.model.BytePackable;
+import pro.watchkit.wearable.watchface.model.BytePackable.HandCutout;
+import pro.watchkit.wearable.watchface.model.BytePackable.HandLength;
+import pro.watchkit.wearable.watchface.model.BytePackable.HandShape;
+import pro.watchkit.wearable.watchface.model.BytePackable.HandStalk;
+import pro.watchkit.wearable.watchface.model.BytePackable.HandThickness;
+import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 
 abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     private static final float HUB_RADIUS_PERCENT = 3f; // 3% // 1.5f; // 1.5%
@@ -72,63 +73,63 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         // Diamonds are drawn slightly thicker to account for the fact they taper at the ends.
         final float DIAMOND_HAND_ASPECT_RATIO = f2;
 
-        mHandThicknessDimensions.put(HandShape.STRAIGHT,
+        mHandThicknessDimensions.put(BytePackable.HandShape.STRAIGHT,
                 new EnumMap<HandThickness, Float>(HandThickness.class));
-        mHandThicknessDimensions.put(HandShape.ROUNDED,
+        mHandThicknessDimensions.put(BytePackable.HandShape.ROUNDED,
                 new EnumMap<HandThickness, Float>(HandThickness.class));
-        mHandThicknessDimensions.put(HandShape.DIAMOND,
+        mHandThicknessDimensions.put(BytePackable.HandShape.DIAMOND,
                 new EnumMap<HandThickness, Float>(HandThickness.class));
-        mHandThicknessDimensions.put(HandShape.UNKNOWN1,
+        mHandThicknessDimensions.put(BytePackable.HandShape.UNKNOWN1,
                 new EnumMap<HandThickness, Float>(HandThickness.class));
 
-        mHandThicknessDimensions.get(HandShape.STRAIGHT).put(HandThickness.THIN, f0);
-        mHandThicknessDimensions.get(HandShape.STRAIGHT).put(HandThickness.REGULAR, f1);
-        mHandThicknessDimensions.get(HandShape.STRAIGHT).put(HandThickness.THICK, f2);
-        mHandThicknessDimensions.get(HandShape.STRAIGHT).put(HandThickness.X_THICK, f3);
+        mHandThicknessDimensions.get(BytePackable.HandShape.STRAIGHT).put(BytePackable.HandThickness.THIN, f0);
+        mHandThicknessDimensions.get(BytePackable.HandShape.STRAIGHT).put(BytePackable.HandThickness.REGULAR, f1);
+        mHandThicknessDimensions.get(BytePackable.HandShape.STRAIGHT).put(BytePackable.HandThickness.THICK, f2);
+        mHandThicknessDimensions.get(BytePackable.HandShape.STRAIGHT).put(BytePackable.HandThickness.X_THICK, f3);
 
-        mHandThicknessDimensions.get(HandShape.ROUNDED).put(HandThickness.THIN, f0);
-        mHandThicknessDimensions.get(HandShape.ROUNDED).put(HandThickness.REGULAR, f1);
-        mHandThicknessDimensions.get(HandShape.ROUNDED).put(HandThickness.THICK, f2);
-        mHandThicknessDimensions.get(HandShape.ROUNDED).put(HandThickness.X_THICK, f3);
+        mHandThicknessDimensions.get(BytePackable.HandShape.ROUNDED).put(BytePackable.HandThickness.THIN, f0);
+        mHandThicknessDimensions.get(BytePackable.HandShape.ROUNDED).put(BytePackable.HandThickness.REGULAR, f1);
+        mHandThicknessDimensions.get(BytePackable.HandShape.ROUNDED).put(BytePackable.HandThickness.THICK, f2);
+        mHandThicknessDimensions.get(BytePackable.HandShape.ROUNDED).put(BytePackable.HandThickness.X_THICK, f3);
 
-        mHandThicknessDimensions.get(HandShape.DIAMOND).put(HandThickness.THIN, f0 * DIAMOND_HAND_ASPECT_RATIO);
-        mHandThicknessDimensions.get(HandShape.DIAMOND).put(HandThickness.REGULAR, f1 * DIAMOND_HAND_ASPECT_RATIO);
-        mHandThicknessDimensions.get(HandShape.DIAMOND).put(HandThickness.THICK, f2 * DIAMOND_HAND_ASPECT_RATIO);
-        mHandThicknessDimensions.get(HandShape.DIAMOND).put(HandThickness.X_THICK, f3 * DIAMOND_HAND_ASPECT_RATIO);
+        mHandThicknessDimensions.get(BytePackable.HandShape.DIAMOND).put(BytePackable.HandThickness.THIN, f0 * DIAMOND_HAND_ASPECT_RATIO);
+        mHandThicknessDimensions.get(BytePackable.HandShape.DIAMOND).put(BytePackable.HandThickness.REGULAR, f1 * DIAMOND_HAND_ASPECT_RATIO);
+        mHandThicknessDimensions.get(BytePackable.HandShape.DIAMOND).put(BytePackable.HandThickness.THICK, f2 * DIAMOND_HAND_ASPECT_RATIO);
+        mHandThicknessDimensions.get(BytePackable.HandShape.DIAMOND).put(BytePackable.HandThickness.X_THICK, f3 * DIAMOND_HAND_ASPECT_RATIO);
 
-        mHandThicknessDimensions.get(HandShape.UNKNOWN1).put(HandThickness.THIN, f0);
-        mHandThicknessDimensions.get(HandShape.UNKNOWN1).put(HandThickness.REGULAR, f1);
-        mHandThicknessDimensions.get(HandShape.UNKNOWN1).put(HandThickness.THICK, f2);
-        mHandThicknessDimensions.get(HandShape.UNKNOWN1).put(HandThickness.X_THICK, f3);
+        mHandThicknessDimensions.get(BytePackable.HandShape.UNKNOWN1).put(BytePackable.HandThickness.THIN, f0);
+        mHandThicknessDimensions.get(BytePackable.HandShape.UNKNOWN1).put(BytePackable.HandThickness.REGULAR, f1);
+        mHandThicknessDimensions.get(BytePackable.HandShape.UNKNOWN1).put(BytePackable.HandThickness.THICK, f2);
+        mHandThicknessDimensions.get(BytePackable.HandShape.UNKNOWN1).put(BytePackable.HandThickness.X_THICK, f3);
 
-        mHandLengthDimensions.put(HandShape.STRAIGHT,
+        mHandLengthDimensions.put(BytePackable.HandShape.STRAIGHT,
                 new EnumMap<HandLength, Float>(HandLength.class));
-        mHandLengthDimensions.put(HandShape.ROUNDED,
+        mHandLengthDimensions.put(BytePackable.HandShape.ROUNDED,
                 new EnumMap<HandLength, Float>(HandLength.class));
-        mHandLengthDimensions.put(HandShape.DIAMOND,
+        mHandLengthDimensions.put(BytePackable.HandShape.DIAMOND,
                 new EnumMap<HandLength, Float>(HandLength.class));
-        mHandLengthDimensions.put(HandShape.UNKNOWN1,
+        mHandLengthDimensions.put(BytePackable.HandShape.UNKNOWN1,
                 new EnumMap<HandLength, Float>(HandLength.class));
 
-        mHandLengthDimensions.get(HandShape.STRAIGHT).put(HandLength.SHORT, 2f + f0);
-        mHandLengthDimensions.get(HandShape.STRAIGHT).put(HandLength.MEDIUM, 2f + f1);
-        mHandLengthDimensions.get(HandShape.STRAIGHT).put(HandLength.LONG, 2f + f2);
-        mHandLengthDimensions.get(HandShape.STRAIGHT).put(HandLength.X_LONG, 2f + f3);
+        mHandLengthDimensions.get(BytePackable.HandShape.STRAIGHT).put(BytePackable.HandLength.SHORT, 2f + f0);
+        mHandLengthDimensions.get(BytePackable.HandShape.STRAIGHT).put(BytePackable.HandLength.MEDIUM, 2f + f1);
+        mHandLengthDimensions.get(BytePackable.HandShape.STRAIGHT).put(BytePackable.HandLength.LONG, 2f + f2);
+        mHandLengthDimensions.get(BytePackable.HandShape.STRAIGHT).put(BytePackable.HandLength.X_LONG, 2f + f3);
 
-        mHandLengthDimensions.get(HandShape.ROUNDED).put(HandLength.SHORT, 2f + f0);
-        mHandLengthDimensions.get(HandShape.ROUNDED).put(HandLength.MEDIUM, 2f + f1);
-        mHandLengthDimensions.get(HandShape.ROUNDED).put(HandLength.LONG, 2f + f2);
-        mHandLengthDimensions.get(HandShape.ROUNDED).put(HandLength.X_LONG, 2f + f3);
+        mHandLengthDimensions.get(BytePackable.HandShape.ROUNDED).put(BytePackable.HandLength.SHORT, 2f + f0);
+        mHandLengthDimensions.get(BytePackable.HandShape.ROUNDED).put(BytePackable.HandLength.MEDIUM, 2f + f1);
+        mHandLengthDimensions.get(BytePackable.HandShape.ROUNDED).put(BytePackable.HandLength.LONG, 2f + f2);
+        mHandLengthDimensions.get(BytePackable.HandShape.ROUNDED).put(BytePackable.HandLength.X_LONG, 2f + f3);
 
-        mHandLengthDimensions.get(HandShape.DIAMOND).put(HandLength.SHORT, 2f + f0);
-        mHandLengthDimensions.get(HandShape.DIAMOND).put(HandLength.MEDIUM, 2f + f1);
-        mHandLengthDimensions.get(HandShape.DIAMOND).put(HandLength.LONG, 2f + f2);
-        mHandLengthDimensions.get(HandShape.DIAMOND).put(HandLength.X_LONG, 2f + f3);
+        mHandLengthDimensions.get(BytePackable.HandShape.DIAMOND).put(BytePackable.HandLength.SHORT, 2f + f0);
+        mHandLengthDimensions.get(BytePackable.HandShape.DIAMOND).put(BytePackable.HandLength.MEDIUM, 2f + f1);
+        mHandLengthDimensions.get(BytePackable.HandShape.DIAMOND).put(BytePackable.HandLength.LONG, 2f + f2);
+        mHandLengthDimensions.get(BytePackable.HandShape.DIAMOND).put(BytePackable.HandLength.X_LONG, 2f + f3);
 
-        mHandLengthDimensions.get(HandShape.UNKNOWN1).put(HandLength.SHORT, 2f + f0);
-        mHandLengthDimensions.get(HandShape.UNKNOWN1).put(HandLength.MEDIUM, 2f + f1);
-        mHandLengthDimensions.get(HandShape.UNKNOWN1).put(HandLength.LONG, 2f + f2);
-        mHandLengthDimensions.get(HandShape.UNKNOWN1).put(HandLength.X_LONG, 2f + f3);
+        mHandLengthDimensions.get(BytePackable.HandShape.UNKNOWN1).put(BytePackable.HandLength.SHORT, 2f + f0);
+        mHandLengthDimensions.get(BytePackable.HandShape.UNKNOWN1).put(BytePackable.HandLength.MEDIUM, 2f + f1);
+        mHandLengthDimensions.get(BytePackable.HandShape.UNKNOWN1).put(BytePackable.HandLength.LONG, 2f + f2);
+        mHandLengthDimensions.get(BytePackable.HandShape.UNKNOWN1).put(BytePackable.HandLength.X_LONG, 2f + f3);
     }
 
     private float mLastDegrees = -360f;
@@ -243,7 +244,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         // in order that the union works OK without gaps.
         // For the stalk thickness, use the width of the Straight hand shape, but only half.
         float stalkThickness =
-                mHandThicknessDimensions.get(HandShape.STRAIGHT).get(handThickness) * pc * 0.5f;
+                mHandThicknessDimensions.get(BytePackable.HandShape.STRAIGHT).get(handThickness) * pc * 0.5f;
 
         mStalk.reset();
         mStalkCutout.reset();
@@ -361,7 +362,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
             }
         }
 
-        if (handStalk == HandStalk.SHORT || handStalk == HandStalk.MEDIUM) {
+        if (handStalk == BytePackable.HandStalk.SHORT || handStalk == BytePackable.HandStalk.MEDIUM) {
             switch (handCutout) {
                 case NONE: {
                     p.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
@@ -384,7 +385,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                     break;
                 }
             }
-        } else if (handStalk == HandStalk.NONE || handStalk == HandStalk.NEGATIVE) {
+        } else if (handStalk == BytePackable.HandStalk.NONE || handStalk == BytePackable.HandStalk.NEGATIVE) {
             switch (handCutout) {
                 case NONE: {
                     break;

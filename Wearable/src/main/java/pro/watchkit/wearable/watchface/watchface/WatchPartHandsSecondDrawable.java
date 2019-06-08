@@ -4,12 +4,14 @@ import android.graphics.Canvas;
 import android.graphics.Path;
 
 import androidx.annotation.NonNull;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandCutout;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandLength;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandShape;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandStalk;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.HandThickness;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset.Style;
+
+import pro.watchkit.wearable.watchface.model.BytePackable;
+import pro.watchkit.wearable.watchface.model.BytePackable.HandCutout;
+import pro.watchkit.wearable.watchface.model.BytePackable.HandLength;
+import pro.watchkit.wearable.watchface.model.BytePackable.HandShape;
+import pro.watchkit.wearable.watchface.model.BytePackable.HandStalk;
+import pro.watchkit.wearable.watchface.model.BytePackable.HandThickness;
+import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 
 final class WatchPartHandsSecondDrawable extends WatchPartHandsDrawable {
     @Override
@@ -34,12 +36,12 @@ final class WatchPartHandsSecondDrawable extends WatchPartHandsDrawable {
 
     @Override
     HandStalk getHandStalk() {
-        return HandStalk.NONE; // Don't have this for the seconds hand.
+        return BytePackable.HandStalk.NONE; // Don't have this for the seconds hand.
     }
 
     @Override
     HandCutout getHandCutout() {
-        return HandCutout.NONE; // Don't have this for the seconds hand either.
+        return BytePackable.HandCutout.NONE; // Don't have this for the seconds hand either.
     }
 
     @Override

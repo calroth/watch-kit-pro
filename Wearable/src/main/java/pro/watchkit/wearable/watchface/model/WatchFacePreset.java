@@ -18,16 +18,9 @@
 
 package pro.watchkit.wearable.watchface.model;
 
-import android.util.Log;
-
-import androidx.annotation.ArrayRes;
-
 import java.util.Objects;
 
-import pro.watchkit.wearable.watchface.R;
-
-public final class WatchFacePreset {
-    private BytePacker mBytePacker = new BytePacker();
+public final class WatchFacePreset extends BytePackable implements Cloneable {
     private Style mBackgroundStyle;
     private boolean mMinuteHandOverride;
     private boolean mSecondHandOverride;
@@ -163,23 +156,8 @@ public final class WatchFacePreset {
         return result;
     }
 
-    public String getString() {
-        pack();
-        return mBytePacker.getStringFast();
-    }
-
-    public void setString(String s) {
-        if (s == null || s.length() == 0) return;
-        try {
-            mBytePacker.setStringFast(s);
-            unpack();
-        } catch (java.lang.StringIndexOutOfBoundsException e) {
-            Log.d("AnalogWatchFace", "It failed: " + s);
-            Log.d("AnalogWatchFace", "It failed: " + e.toString());
-        }
-    }
-
-    private void pack() {
+    @Override
+    void pack() {
         mBytePacker.rewind();
 
         mBackgroundStyle.pack(mBytePacker);
@@ -242,7 +220,8 @@ public final class WatchFacePreset {
         mBytePacker.finish();
     }
 
-    private void unpack() {
+    @Override
+    void unpack() {
         mBytePacker.rewind();
 
         mBackgroundStyle = Style.unpack(mBytePacker);
@@ -464,26 +443,6 @@ public final class WatchFacePreset {
         return mTicksDisplay == TicksDisplay.FOUR_TWELVE_60;
     }
 
-    public enum TicksDisplay implements EnumResourceId {
-        NONE, FOUR, FOUR_TWELVE, FOUR_TWELVE_60;
-
-        private static final int bits = 2;
-
-        static TicksDisplay unpack(BytePacker bytePacker) {
-            return values()[bytePacker.get(bits)];
-        }
-
-        void pack(BytePacker bytePacker) {
-            bytePacker.put(bits, values(), this);
-        }
-
-        @Override
-        @ArrayRes
-        public int getNameResourceId() {
-            return R.array.WatchFacePreset_TicksDisplay;
-        }
-    }
-
     public TickShape getFourTickShape() {
         return mFourTickShape;
     }
@@ -700,228 +659,4 @@ public final class WatchFacePreset {
         mBaseSixBitColor = baseSixBitColor;
     }
 
-    public enum HandShape implements EnumResourceId {
-        STRAIGHT, ROUNDED, DIAMOND, UNKNOWN1;
-
-        private static final int bits = 2;
-
-        static HandShape unpack(BytePacker bytePacker) {
-            return values()[bytePacker.get(bits)];
-        }
-
-        void pack(BytePacker bytePacker) {
-            bytePacker.put(bits, values(), this);
-        }
-
-        @Override
-        @ArrayRes
-        public int getNameResourceId() {
-            return R.array.WatchFacePreset_HandShape;
-        }
-    }
-
-    public enum HandLength implements EnumResourceId {
-        SHORT, MEDIUM, LONG, X_LONG;
-
-        private static final int bits = 2;
-
-        static HandLength unpack(BytePacker bytePacker) {
-            return values()[bytePacker.get(bits)];
-        }
-
-        void pack(BytePacker bytePacker) {
-            bytePacker.put(bits, values(), this);
-        }
-
-        @Override
-        @ArrayRes
-        public int getNameResourceId() {
-            return R.array.WatchFacePreset_HandLength;
-        }
-    }
-
-    public enum HandThickness implements EnumResourceId {
-        THIN, REGULAR, THICK, X_THICK;
-
-        private static final int bits = 2;
-
-        static HandThickness unpack(BytePacker bytePacker) {
-            return values()[bytePacker.get(bits)];
-        }
-
-        void pack(BytePacker bytePacker) {
-            bytePacker.put(bits, values(), this);
-        }
-
-        @Override
-        @ArrayRes
-        public int getNameResourceId() {
-            return R.array.WatchFacePreset_HandThickness;
-        }
-    }
-
-    public enum HandStalk implements EnumResourceId {
-        NEGATIVE, NONE, SHORT, MEDIUM;
-
-        private static final int bits = 2;
-
-        static HandStalk unpack(BytePacker bytePacker) {
-            return values()[bytePacker.get(bits)];
-        }
-
-        void pack(BytePacker bytePacker) {
-            bytePacker.put(bits, values(), this);
-        }
-
-        @Override
-        @ArrayRes
-        public int getNameResourceId() {
-            return R.array.WatchFacePreset_HandStalk;
-        }
-    }
-
-    public enum HandCutout implements EnumResourceId {
-        NONE, HAND, STALK, HAND_STALK;
-
-        private static final int bits = 2;
-
-        static HandCutout unpack(BytePacker bytePacker) {
-            return values()[bytePacker.get(bits)];
-        }
-
-        void pack(BytePacker bytePacker) {
-            bytePacker.put(bits, values(), this);
-        }
-
-        @Override
-        @ArrayRes
-        public int getNameResourceId() {
-            return R.array.WatchFacePreset_HandCutout;
-        }
-    }
-
-    public enum TickShape implements EnumResourceId {
-        BAR, DOT, TRIANGLE, DIAMOND;
-
-        private static final int bits = 2;
-
-        static TickShape unpack(BytePacker bytePacker) {
-            return values()[bytePacker.get(bits)];
-        }
-
-        void pack(BytePacker bytePacker) {
-            bytePacker.put(bits, values(), this);
-        }
-
-        @Override
-        @ArrayRes
-        public int getNameResourceId() {
-            return R.array.WatchFacePreset_TickShape;
-        }
-    }
-
-    public enum TickLength implements EnumResourceId {
-        SHORT, MEDIUM, LONG, X_LONG;
-
-        private static final int bits = 2;
-
-        static TickLength unpack(BytePacker bytePacker) {
-            return values()[bytePacker.get(bits)];
-        }
-
-        void pack(BytePacker bytePacker) {
-            bytePacker.put(bits, values(), this);
-        }
-
-        @Override
-        @ArrayRes
-        public int getNameResourceId() {
-            return R.array.WatchFacePreset_TickLength;
-        }
-    }
-
-    public enum TickThickness implements EnumResourceId {
-        THIN, REGULAR, THICK, X_THICK;
-
-        private static final int bits = 2;
-
-        static TickThickness unpack(BytePacker bytePacker) {
-            return values()[bytePacker.get(bits)];
-        }
-
-        void pack(BytePacker bytePacker) {
-            bytePacker.put(bits, values(), this);
-        }
-
-        @Override
-        @ArrayRes
-        public int getNameResourceId() {
-            return R.array.WatchFacePreset_TickThickness;
-        }
-    }
-
-    public enum TickRadiusPosition implements EnumResourceId {
-        SHORT, MEDIUM, LONG, X_LONG;
-
-        private static final int bits = 2;
-
-        static TickRadiusPosition unpack(BytePacker bytePacker) {
-            return values()[bytePacker.get(bits)];
-        }
-
-        void pack(BytePacker bytePacker) {
-            bytePacker.put(bits, values(), this);
-        }
-
-        @Override
-        @ArrayRes
-        public int getNameResourceId() {
-            return R.array.WatchFacePreset_TickRadiusPosition;
-        }
-    }
-
-    public enum Style implements EnumResourceId {
-        FILL, ACCENT, HIGHLIGHT, BASE, FILL_HIGHLIGHT, ACCENT_FILL, ACCENT_HIGHLIGHT, ACCENT_BASE;
-
-        private static final int bits = 3;
-
-        static Style unpack(BytePacker bytePacker) {
-            return values()[bytePacker.get(bits)];
-        }
-
-        void pack(BytePacker bytePacker) {
-            bytePacker.put(bits, values(), this);
-        }
-
-        @Override
-        @ArrayRes
-        public int getNameResourceId() {
-            return R.array.WatchFacePreset_Style;
-        }
-    }
-
-    public enum GradientStyle implements EnumResourceId {
-        SWEEP, SWEEP_BRUSHED, RADIAL, RADIAL_BRUSHED;
-
-        private static final int bits = 2;
-
-        static GradientStyle unpack(BytePacker bytePacker) {
-            return values()[bytePacker.get(bits)];
-        }
-
-        void pack(BytePacker bytePacker) {
-            bytePacker.put(bits, values(), this);
-        }
-
-        @Override
-        @ArrayRes
-        public int getNameResourceId() {
-            return R.array.WatchFacePreset_GradientStyle;
-        }
-    }
-
-    public interface EnumResourceId {
-        @ArrayRes
-        int getNameResourceId();
-    }
 }
