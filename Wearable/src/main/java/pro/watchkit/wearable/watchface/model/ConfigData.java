@@ -38,27 +38,7 @@ abstract public class ConfigData {
         int getConfigType();
     }
 
-    protected interface WatchFacePresetMutator {
-        /**
-         * For the given WatchFacePreset (which must be a clone, since we'll modify it in the
-         * process) return a String array with each permutation.
-         *
-         * @param permutation WatchFacePreset, which must be a clone, since we'll modify it
-         * @return String array with each permutation
-         */
-        String[] permute(WatchFacePreset permutation);
-
-        /**
-         * For the given WatchFacePreset (which is our current preference) return the current
-         * value.
-         *
-         * @param currentPreset WatchFacePreset of our current preference
-         * @return Value that it's currently set to
-         */
-        Enum getCurrentValue(WatchFacePreset currentPreset);
-    }
-
-    protected interface SettingsMutator {
+    protected interface Mutator<B extends BytePackable> {
         /**
          * For the given Settings (which must be a clone, since we'll modify it in the
          * process) return a String array with each permutation.
@@ -66,7 +46,7 @@ abstract public class ConfigData {
          * @param permutation Settings, which must be a clone, since we'll modify it
          * @return String array with each permutation
          */
-        String[] permute(Settings permutation);
+        String[] permute(B permutation);
 
         /**
          * For the given Settings (which is our current preference) return the current
@@ -75,7 +55,7 @@ abstract public class ConfigData {
          * @param currentPreset Settings of our current preference
          * @return Value that it's currently set to
          */
-        Enum getCurrentValue(Settings currentPreset);
+        Enum getCurrentValue(B currentPreset);
     }
 
     /**
@@ -225,7 +205,7 @@ abstract public class ConfigData {
     }
 
     protected static class SettingsMutatorImpl<E extends Enum>
-            implements SettingsMutator {
+            implements Mutator<Settings> {
         /**
          * All the possible Enum values of E.
          */
@@ -283,7 +263,7 @@ abstract public class ConfigData {
     }
 
     protected static class WatchFacePresetMutatorImpl<E extends Enum>
-            implements WatchFacePresetMutator {
+            implements Mutator<WatchFacePreset> {
         /**
          * All the possible Enum values of E.
          */
@@ -344,8 +324,8 @@ abstract public class ConfigData {
         private String mName;
         private int mIconResourceId;
         private Class<WatchFaceSelectionActivity> mActivityToChoosePreference;
-        private WatchFacePresetMutator mWatchFacePresetMutator;
-        private SettingsMutator mSettingsMutator;
+        private Mutator<WatchFacePreset> mWatchFacePresetMutator;
+        private Mutator<Settings> mSettingsMutator;
         private ConfigItemVisibilityCalculator mConfigItemVisibilityCalculator;
         private int mWatchFaceGlobalDrawableFlags;
 
@@ -354,7 +334,7 @@ abstract public class ConfigData {
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
                 Class<WatchFaceSelectionActivity> activity,
-                WatchFacePresetMutator mutator) {
+                Mutator<WatchFacePreset> mutator) {
             this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, mutator, null);
         }
 
@@ -363,8 +343,9 @@ abstract public class ConfigData {
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
                 Class<WatchFaceSelectionActivity> activity,
-                SettingsMutator mutator) {
-            this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, mutator, null);
+                Mutator<Settings> mutator,
+                int dummyToAvoidMethodsHaveTheSameErasureErrors) {
+            this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, mutator, null, dummyToAvoidMethodsHaveTheSameErasureErrors);
             mWatchFaceGlobalDrawableFlags = watchFaceGlobalDrawableFlags;
         }
 
@@ -373,7 +354,7 @@ abstract public class ConfigData {
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
                 Class<WatchFaceSelectionActivity> activity,
-                WatchFacePresetMutator mutator,
+                Mutator<WatchFacePreset> mutator,
                 ConfigItemVisibilityCalculator configItemVisibilityCalculator) {
             this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, configItemVisibilityCalculator);
             mWatchFacePresetMutator = mutator;
@@ -384,8 +365,9 @@ abstract public class ConfigData {
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
                 Class<WatchFaceSelectionActivity> activity,
-                SettingsMutator mutator,
-                ConfigItemVisibilityCalculator configItemVisibilityCalculator) {
+                Mutator<Settings> mutator,
+                ConfigItemVisibilityCalculator configItemVisibilityCalculator,
+                int dummyToAvoidMethodsHaveTheSameErasureErrors) {
             this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, configItemVisibilityCalculator);
             mSettingsMutator = mutator;
         }
@@ -474,13 +456,13 @@ abstract public class ConfigData {
         private String name;
         private int iconEnabledResourceId;
         private int iconDisabledResourceId;
-        private WatchFacePresetMutator mMutator;
+        private Mutator<WatchFacePreset> mMutator;
 
         WatchFacePresetToggleConfigItem(
                 String name,
                 int iconEnabledResourceId,
                 int iconDisabledResourceId,
-                WatchFacePresetMutator mutator) {
+                Mutator<WatchFacePreset> mutator) {
             this.name = name;
             this.iconEnabledResourceId = iconEnabledResourceId;
             this.iconDisabledResourceId = iconDisabledResourceId;

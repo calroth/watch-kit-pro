@@ -106,7 +106,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         context.getString(R.string.config_preset_minute_hand_override),
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
-                        new WatchFacePresetMutator() {
+                        new Mutator<WatchFacePreset>() {
                             @Override
                             public String[] permute(WatchFacePreset permutation) {
                                 String[] result = new String[2];
@@ -199,7 +199,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         context.getString(R.string.config_preset_second_hand_override),
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
-                        new WatchFacePresetMutator() {
+                        new Mutator<WatchFacePreset>() {
                             @Override
                             public String[] permute(WatchFacePreset permutation) {
                                 String[] result = new String[2];

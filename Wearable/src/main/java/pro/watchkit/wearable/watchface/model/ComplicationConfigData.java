@@ -46,7 +46,7 @@ public class ComplicationConfigData extends ConfigData {
                         new SettingsMutatorImpl<>(
                                 BytePackable.ComplicationCount.values(),
                                 Settings::setComplicationCountEnum,
-                                Settings::getComplicationCountEnum)),
+                                Settings::getComplicationCountEnum), 0),
 
                 // Data for complication rotation in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -57,7 +57,7 @@ public class ComplicationConfigData extends ConfigData {
                         new SettingsMutatorImpl<>(
                                 BytePackable.ComplicationRotation.values(),
                                 Settings::setComplicationRotation,
-                                Settings::getComplicationRotation)),
+                                Settings::getComplicationRotation), 0),
 
                 // Data for complication ring style in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -68,7 +68,7 @@ public class ComplicationConfigData extends ConfigData {
                         new SettingsMutatorImpl<>(
                                 BytePackable.Style.values(),
                                 Settings::setComplicationRingStyle,
-                                Settings::getComplicationRingStyle)),
+                                Settings::getComplicationRingStyle), 0),
 
                 // Data for complication background style in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -79,7 +79,7 @@ public class ComplicationConfigData extends ConfigData {
                         new SettingsMutatorImpl<>(
                                 BytePackable.Style.values(),
                                 Settings::setComplicationBackgroundStyle,
-                                Settings::getComplicationBackgroundStyle))
+                                Settings::getComplicationBackgroundStyle), 0)
         );
     }
 }
