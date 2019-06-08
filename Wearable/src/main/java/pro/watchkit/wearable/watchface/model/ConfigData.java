@@ -336,8 +336,8 @@ abstract public class ConfigData {
 
             if (e == null) {
                 return mName;
-            } else if (e instanceof WatchFacePreset.EnumResourceId) {
-                WatchFacePreset.EnumResourceId f = (WatchFacePreset.EnumResourceId) e;
+            } else if (e instanceof BytePackable.EnumResourceId) {
+                BytePackable.EnumResourceId f = (BytePackable.EnumResourceId) e;
                 return Html.fromHtml(mName + "<br/><small>" +
                         context.getResources().getStringArray(f.getNameResourceId())[e.ordinal()] +
                         "</small>", Html.FROM_HTML_MODE_LEGACY);
