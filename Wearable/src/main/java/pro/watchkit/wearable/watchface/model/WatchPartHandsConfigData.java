@@ -41,7 +41,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new WatchFacePresetMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.HandShape.values(),
                                 WatchFacePreset::setHourHandShape,
                                 WatchFacePreset::getHourHandShape)),
@@ -52,7 +52,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new WatchFacePresetMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.HandLength.values(),
                                 WatchFacePreset::setHourHandLength,
                                 WatchFacePreset::getHourHandLength)),
@@ -63,7 +63,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new WatchFacePresetMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.HandThickness.values(),
                                 WatchFacePreset::setHourHandThickness,
                                 WatchFacePreset::getHourHandThickness)),
@@ -74,7 +74,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new WatchFacePresetMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.HandStalk.values(),
                                 WatchFacePreset::setHourHandStalk,
                                 WatchFacePreset::getHourHandStalk)),
@@ -85,7 +85,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new WatchFacePresetMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.HandCutout.values(),
                                 WatchFacePreset::setHourHandCutout,
                                 WatchFacePreset::getHourHandCutout)),
@@ -96,7 +96,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new WatchFacePresetMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.Style.values(),
                                 WatchFacePreset::setHourHandStyle,
                                 WatchFacePreset::getHourHandStyle)),
@@ -128,7 +128,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new WatchFacePresetMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.HandShape.values(),
                                 WatchFacePreset::setMinuteHandShape,
                                 WatchFacePreset::getMinuteHandShape),
@@ -140,7 +140,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new WatchFacePresetMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.HandLength.values(),
                                 WatchFacePreset::setMinuteHandLength,
                                 WatchFacePreset::getMinuteHandLength),
@@ -152,7 +152,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new WatchFacePresetMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.HandThickness.values(),
                                 WatchFacePreset::setMinuteHandThickness,
                                 WatchFacePreset::getMinuteHandThickness),
@@ -164,7 +164,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new WatchFacePresetMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.HandStalk.values(),
                                 WatchFacePreset::setMinuteHandStalk,
                                 WatchFacePreset::getMinuteHandStalk),
@@ -176,7 +176,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new WatchFacePresetMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.HandCutout.values(),
                                 WatchFacePreset::setMinuteHandCutout,
                                 WatchFacePreset::getMinuteHandCutout),
@@ -188,7 +188,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new WatchFacePresetMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.Style.values(),
                                 WatchFacePreset::setMinuteHandStyle,
                                 WatchFacePreset::getMinuteHandStyle),
@@ -221,7 +221,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new WatchFacePresetMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.HandShape.values(),
                                 WatchFacePreset::setSecondHandShape,
                                 WatchFacePreset::getSecondHandShape),
@@ -233,7 +233,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new WatchFacePresetMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.HandLength.values(),
                                 WatchFacePreset::setSecondHandLength,
                                 WatchFacePreset::getSecondHandLength),
@@ -246,7 +246,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new WatchFacePresetMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.HandThickness.values(),
                                 WatchFacePreset::setSecondHandThickness,
                                 WatchFacePreset::getSecondHandThickness),
@@ -258,7 +258,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new WatchFacePresetMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.Style.values(),
                                 WatchFacePreset::setSecondHandStyle,
                                 WatchFacePreset::getSecondHandStyle),

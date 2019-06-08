@@ -204,22 +204,22 @@ abstract public class ConfigData {
         }
     }
 
-    protected static class SettingsMutatorImpl<E extends Enum>
-            implements Mutator<Settings> {
+    protected static class MutatorImpl<E extends Enum, B extends BytePackable>
+            implements Mutator<B> {
         /**
          * All the possible Enum values of E.
          */
         private E[] mValues;
 
         /**
-         * A lambda which sets (or applies) setting E to the given Settings.
+         * A lambda which sets (or applies) setting E to the given BytePackable.
          */
-        private BiConsumer<Settings, E> mSetter;
+        private BiConsumer<B, E> mSetter;
 
         /**
-         * A lambda which gets and returns setting E from the given Settings.
+         * A lambda which gets and returns setting E from the given BytePackable.
          */
-        private Function<Settings, E> mGetter;
+        private Function<B, E> mGetter;
 
         /**
          * Create the given SettingsMutatorImpl for the E of type Enum.
@@ -228,22 +228,20 @@ abstract public class ConfigData {
          * @param setter a lambda which sets (or applies) setting E to the given Settings
          * @param getter a lambda which gets and returns setting E from the given Settings
          */
-        SettingsMutatorImpl(E[] values,
-                            BiConsumer<Settings, E> setter,
-                            Function<Settings, E> getter) {
+        MutatorImpl(E[] values, BiConsumer<B, E> setter, Function<B, E> getter) {
             mValues = values;
             mSetter = setter;
             mGetter = getter;
         }
 
         /**
-         * For the given Settings (which must be a clone, since we'll modify it in the
+         * For the given BytePackable (which must be a clone, since we'll modify it in the
          * process) return a String array with each permutation.
          *
-         * @param permutation Settings, which must be a clone, since we'll modify it
+         * @param permutation BytePackable, which must be a clone, since we'll modify it
          * @return String array with each permutation
          */
-        public String[] permute(Settings permutation) {
+        public String[] permute(B permutation) {
             return Arrays.stream(mValues).map(h -> {
                 mSetter.accept(permutation, h);
                 return permutation.getString();
@@ -251,71 +249,13 @@ abstract public class ConfigData {
         }
 
         /**
-         * For the given Settings (which is our current preference) return the current
+         * For the given BytePackable (which is our current preference) return the current
          * value.
          *
-         * @param currentPreset Settings of our current preference
+         * @param currentPreset BytePackable of our current preference
          * @return Value that it's currently set to
          */
-        public E getCurrentValue(Settings currentPreset) {
-            return mGetter.apply(currentPreset);
-        }
-    }
-
-    protected static class WatchFacePresetMutatorImpl<E extends Enum>
-            implements Mutator<WatchFacePreset> {
-        /**
-         * All the possible Enum values of E.
-         */
-        private E[] mValues;
-
-        /**
-         * A lambda which sets (or applies) setting E to the given WatchFacePreset.
-         */
-        private BiConsumer<WatchFacePreset, E> mSetter;
-
-        /**
-         * A lambda which gets and returns setting E from the given WatchFacePreset.
-         */
-        private Function<WatchFacePreset, E> mGetter;
-
-        /**
-         * Create the given WatchFacePresetMutatorImpl for the E of type Enum.
-         *
-         * @param values all possible enumeration values of E
-         * @param setter a lambda which sets (or applies) setting E to the given WatchFacePreset
-         * @param getter a lambda which gets and returns setting E from the given WatchFacePreset
-         */
-        WatchFacePresetMutatorImpl(E[] values,
-                                   BiConsumer<WatchFacePreset, E> setter,
-                                   Function<WatchFacePreset, E> getter) {
-            mValues = values;
-            mSetter = setter;
-            mGetter = getter;
-        }
-
-        /**
-         * For the given WatchFacePreset (which must be a clone, since we'll modify it in the
-         * process) return a String array with each permutation.
-         *
-         * @param permutation WatchFacePreset, which must be a clone, since we'll modify it
-         * @return String array with each permutation
-         */
-        public String[] permute(WatchFacePreset permutation) {
-            return Arrays.stream(mValues).map(h -> {
-                mSetter.accept(permutation, h);
-                return permutation.getString();
-            }).toArray(String[]::new);
-        }
-
-        /**
-         * For the given WatchFacePreset (which is our current preference) return the current
-         * value.
-         *
-         * @param currentPreset WatchFacePreset of our current preference
-         * @return Value that it's currently set to
-         */
-        public E getCurrentValue(WatchFacePreset currentPreset) {
+        public E getCurrentValue(B currentPreset) {
             return mGetter.apply(currentPreset);
         }
     }

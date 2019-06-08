@@ -43,7 +43,7 @@ public class ComplicationConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new SettingsMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.ComplicationCount.values(),
                                 Settings::setComplicationCountEnum,
                                 Settings::getComplicationCountEnum), 0),
@@ -54,7 +54,7 @@ public class ComplicationConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new SettingsMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.ComplicationRotation.values(),
                                 Settings::setComplicationRotation,
                                 Settings::getComplicationRotation), 0),
@@ -65,7 +65,7 @@ public class ComplicationConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new SettingsMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.Style.values(),
                                 Settings::setComplicationRingStyle,
                                 Settings::getComplicationRingStyle), 0),
@@ -76,7 +76,7 @@ public class ComplicationConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new SettingsMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.Style.values(),
                                 Settings::setComplicationBackgroundStyle,
                                 Settings::getComplicationBackgroundStyle), 0)

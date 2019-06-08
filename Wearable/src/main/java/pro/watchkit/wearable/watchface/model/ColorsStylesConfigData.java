@@ -72,7 +72,7 @@ public class ColorsStylesConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new WatchFacePresetMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.GradientStyle.values(),
                                 WatchFacePreset::setFillHighlightStyle,
                                 WatchFacePreset::getFillHighlightStyle)),
@@ -83,7 +83,7 @@ public class ColorsStylesConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new WatchFacePresetMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.GradientStyle.values(),
                                 WatchFacePreset::setAccentFillStyle,
                                 WatchFacePreset::getAccentFillStyle)),
@@ -94,7 +94,7 @@ public class ColorsStylesConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new WatchFacePresetMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.GradientStyle.values(),
                                 WatchFacePreset::setAccentHighlightStyle,
                                 WatchFacePreset::getAccentHighlightStyle)),
@@ -105,7 +105,7 @@ public class ColorsStylesConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new WatchFacePresetMutatorImpl<>(
+                        new MutatorImpl<>(
                                 BytePackable.GradientStyle.values(),
                                 WatchFacePreset::setBaseAccentStyle,
                                 WatchFacePreset::getBaseAccentStyle))
