@@ -26,13 +26,15 @@ import java.util.Objects;
 public class Settings extends BytePackable implements Cloneable {
     private boolean mShowUnreadNotifications;
     private boolean mNightVisionModeEnabled;
-
     private int mComplicationCount = 5;
     private ComplicationRotation mComplicationRotation = ComplicationRotation.ROTATE_25;
     private int mAmbientDaySixBitColor;
     private int mAmbientNightSixBitColor;
     private Style mComplicationRingStyle;
     private Style mComplicationBackgroundStyle;
+    private boolean mDeveloperMode;
+    private boolean mStats;
+    private boolean mStatsDetail;
 
     @Override
     public int hashCode() {
@@ -45,7 +47,10 @@ public class Settings extends BytePackable implements Cloneable {
                 mAmbientDaySixBitColor,
                 mAmbientNightSixBitColor,
                 mComplicationRingStyle,
-                mComplicationBackgroundStyle);
+                mComplicationBackgroundStyle,
+                mDeveloperMode,
+                mStats,
+                mStatsDetail);
     }
 
     public Settings clone() {
@@ -93,6 +98,9 @@ public class Settings extends BytePackable implements Cloneable {
         mBytePacker.put(6, getAmbientNightSixBitColor());
         mComplicationRingStyle.pack(mBytePacker);
         mComplicationBackgroundStyle.pack(mBytePacker);
+        mBytePacker.put(mDeveloperMode);
+        mBytePacker.put(mStats);
+        mBytePacker.put(mStatsDetail);
 
         mBytePacker.finish();
     }
@@ -120,6 +128,9 @@ public class Settings extends BytePackable implements Cloneable {
                 setAmbientNightSixBitColor(mBytePacker.get(6));
                 setComplicationRingStyle(Style.unpack(mBytePacker));
                 setComplicationBackgroundStyle(Style.unpack(mBytePacker));
+                mDeveloperMode = mBytePacker.getBoolean();
+                mStats = mBytePacker.getBoolean();
+                mStatsDetail = mBytePacker.getBoolean();
                 break;
             }
         }
@@ -237,4 +248,28 @@ public class Settings extends BytePackable implements Cloneable {
         this.mComplicationBackgroundStyle = complicationBackgroundStyle;
     }
 
+
+    public boolean isDeveloperMode() {
+        return mDeveloperMode;
+    }
+
+    public void setDeveloperMode(boolean developerMode) {
+        mDeveloperMode = developerMode;
+    }
+
+    public boolean isStats() {
+        return mStats;
+    }
+
+    public void setStats(boolean stats) {
+        mStats = stats;
+    }
+
+    public boolean isStatsDetail() {
+        return mStatsDetail;
+    }
+
+    public void setStatsDetail(boolean statsDetail) {
+        mStatsDetail = statsDetail;
+    }
 }
