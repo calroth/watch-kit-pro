@@ -66,6 +66,7 @@ import java.util.List;
 import java.util.concurrent.Executors;
 
 import pro.watchkit.wearable.watchface.R;
+import pro.watchkit.wearable.watchface.model.BytePackable;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.ConfigData;
 import pro.watchkit.wearable.watchface.model.ConfigData.ColorPickerConfigItem;
@@ -73,10 +74,10 @@ import pro.watchkit.wearable.watchface.model.ConfigData.ComplicationConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ConfigActivityConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ConfigItemType;
 import pro.watchkit.wearable.watchface.model.ConfigData.NightVisionConfigItem;
+import pro.watchkit.wearable.watchface.model.ConfigData.PickerConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ToggleConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.UnreadNotificationConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFaceDrawableConfigItem;
-import pro.watchkit.wearable.watchface.model.ConfigData.WatchFacePickerConfigItem;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
@@ -111,7 +112,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
     public static final int TYPE_NIGHT_VISION_CONFIG = 2;
     public static final int TYPE_WATCH_FACE_DRAWABLE_CONFIG = 3;
     public static final int TYPE_COMPLICATION_CONFIG = 4;
-    public static final int TYPE_WATCH_FACE_PRESET_PICKER_CONFIG = 5;
+    public static final int TYPE_PICKER_CONFIG = 5;
     public static final int TYPE_TOGGLE_CONFIG = 6;
     public static final int TYPE_CONFIG_ACTIVITY_CONFIG = 7;
     private static final String TAG = "CompConfigAdapter";
@@ -215,7 +216,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                 break;
             }
 
-            case TYPE_WATCH_FACE_PRESET_PICKER_CONFIG: {
+            case TYPE_PICKER_CONFIG: {
                 viewHolder =
                         new WatchFacePresetPickerViewHolder(
                                 LayoutInflater.from(parent.getContext())
@@ -314,21 +315,21 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                 break;
             }
 
-            case TYPE_WATCH_FACE_PRESET_PICKER_CONFIG: {
+            case TYPE_PICKER_CONFIG: {
                 WatchFacePresetPickerViewHolder watchFacePresetPickerViewHolder =
                         (WatchFacePresetPickerViewHolder) viewHolder;
-                WatchFacePickerConfigItem watchFacePickerConfigItem =
-                        (WatchFacePickerConfigItem) configItemType;
-                watchFacePresetPickerViewHolder.bind(watchFacePickerConfigItem);
+                PickerConfigItem<BytePackable> pickerConfigItem =
+                        (PickerConfigItem<BytePackable>) configItemType;
+                watchFacePresetPickerViewHolder.bind(pickerConfigItem);
                 break;
             }
 
             case TYPE_TOGGLE_CONFIG: {
                 WatchFacePresetToggleViewHolder watchFacePresetToggleViewHolder =
                         (WatchFacePresetToggleViewHolder) viewHolder;
-                ToggleConfigItem watchFacePresetToggleConfigItem =
-                        (ToggleConfigItem) configItemType;
-                watchFacePresetToggleViewHolder.bind(watchFacePresetToggleConfigItem);
+                ToggleConfigItem<BytePackable> toggleConfigItem =
+                        (ToggleConfigItem<BytePackable>) configItemType;
+                watchFacePresetToggleViewHolder.bind(toggleConfigItem);
                 break;
             }
 
@@ -542,7 +543,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
         private Button mButton;
 
         private Class<WatchFaceSelectionActivity> mLaunchActivity;
-        private WatchFacePickerConfigItem mConfigItem;
+        private PickerConfigItem<BytePackable> mConfigItem;
         private int mFlags;
 
         private int mVisibleLayoutHeight, mVisibleLayoutWidth;
@@ -557,7 +558,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
             mVisibleLayoutWidth = itemView.getLayoutParams().width;
         }
 
-        void bind(WatchFacePickerConfigItem configItem) {
+        void bind(PickerConfigItem<BytePackable> configItem) {
             mConfigItem = configItem;
             mLaunchActivity = configItem.getActivityToChoosePreference();
             mFlags = configItem.getWatchFaceGlobalDrawableFlags();
@@ -566,8 +567,14 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
         }
 
         private void setTextAndVisibility() {
-            mButton.setText(mConfigItem.getName(
-                    mCurrentWatchFacePreset, mCurrentSettings, mButton.getContext()));
+            try {
+                mButton.setText(mConfigItem.getName(
+                        mCurrentWatchFacePreset, mButton.getContext()));
+            } catch (ClassCastException e) {
+                // TODO: This is about the most unsatisfying thing ever.
+                mButton.setText(mConfigItem.getName(
+                        mCurrentSettings, mButton.getContext()));
+            }
 
             ViewGroup.LayoutParams param = itemView.getLayoutParams();
             if (mConfigItem.isVisible(mCurrentWatchFacePreset, mCurrentSettings)) {

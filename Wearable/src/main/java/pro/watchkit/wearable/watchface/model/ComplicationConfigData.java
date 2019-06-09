@@ -38,7 +38,7 @@ public class ComplicationConfigData extends ConfigData {
                 new ComplicationConfigItem(R.drawable.add_complication),
 
                 // Data for complication count in settings Activity.
-                new WatchFacePickerConfigItem(
+                new PickerConfigItem<>(
                         context.getString(R.string.config_complication_count),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
@@ -46,10 +46,10 @@ public class ComplicationConfigData extends ConfigData {
                         new MutatorImpl<>(
                                 BytePackable.ComplicationCount.values(),
                                 Settings::setComplicationCountEnum,
-                                Settings::getComplicationCountEnum), 0),
+                                Settings::getComplicationCountEnum)),
 
                 // Data for complication rotation in settings Activity.
-                new WatchFacePickerConfigItem(
+                new PickerConfigItem<>(
                         context.getString(R.string.config_complication_rotation),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
@@ -57,10 +57,10 @@ public class ComplicationConfigData extends ConfigData {
                         new MutatorImpl<>(
                                 BytePackable.ComplicationRotation.values(),
                                 Settings::setComplicationRotation,
-                                Settings::getComplicationRotation), 0),
+                                Settings::getComplicationRotation)),
 
                 // Data for complication ring style in settings Activity.
-                new WatchFacePickerConfigItem(
+                new PickerConfigItem<>(
                         context.getString(R.string.config_complication_ring_style),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
@@ -68,10 +68,10 @@ public class ComplicationConfigData extends ConfigData {
                         new MutatorImpl<>(
                                 BytePackable.Style.values(),
                                 Settings::setComplicationRingStyle,
-                                Settings::getComplicationRingStyle), 0),
+                                Settings::getComplicationRingStyle)),
 
                 // Data for complication background style in settings Activity.
-                new WatchFacePickerConfigItem(
+                new PickerConfigItem<>(
                         context.getString(R.string.config_complication_background_style),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
@@ -79,7 +79,7 @@ public class ComplicationConfigData extends ConfigData {
                         new MutatorImpl<>(
                                 BytePackable.Style.values(),
                                 Settings::setComplicationBackgroundStyle,
-                                Settings::getComplicationBackgroundStyle), 0)
+                                Settings::getComplicationBackgroundStyle))
         );
     }
 }
