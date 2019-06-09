@@ -148,7 +148,7 @@ public final class WatchFacePreset extends BytePackable implements Cloneable {
     public WatchFacePreset clone() {
         WatchFacePreset result;
         try {
-            result = (WatchFacePreset) super.clone();
+            result = (WatchFacePreset) cloneInternal();
         } catch (CloneNotSupportedException e) {
             result = new WatchFacePreset();
             result.setString(getString());

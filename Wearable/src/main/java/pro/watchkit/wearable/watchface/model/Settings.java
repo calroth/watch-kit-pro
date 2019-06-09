@@ -56,7 +56,7 @@ public class Settings extends BytePackable implements Cloneable {
     public Settings clone() {
         Settings result;
         try {
-            result = (Settings) super.clone();
+            result = (Settings) cloneInternal();
         } catch (CloneNotSupportedException e) {
             result = new Settings();
             result.setString(getString());

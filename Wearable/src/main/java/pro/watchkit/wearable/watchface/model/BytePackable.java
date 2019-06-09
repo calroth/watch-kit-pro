@@ -36,7 +36,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import pro.watchkit.wearable.watchface.R;
 
-public abstract class BytePackable {
+public abstract class BytePackable implements Cloneable {
     BytePacker mBytePacker = new BytePacker();
 
     abstract void pack();
@@ -58,6 +58,12 @@ public abstract class BytePackable {
             Log.d(getClass().getSimpleName(), "setString failed: " + e.toString());
         }
     }
+
+    Object cloneInternal() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    public abstract Object clone();
 
     public enum TicksDisplay implements EnumResourceId {
         NONE, FOUR, FOUR_TWELVE, FOUR_TWELVE_60;
