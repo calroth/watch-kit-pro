@@ -260,35 +260,59 @@ abstract public class ConfigData {
         }
     }
 
-    public static class PickerConfigItem<B extends BytePackable> implements ConfigItemType {
+    public static class WatchFacePickerConfigItem implements ConfigItemType {
         private String mName;
         private int mIconResourceId;
         private Class<WatchFaceSelectionActivity> mActivityToChoosePreference;
-        private Mutator<B> mMutator;
+        private Mutator<WatchFacePreset> mWatchFacePresetMutator;
+        private Mutator<Settings> mSettingsMutator;
         private ConfigItemVisibilityCalculator mConfigItemVisibilityCalculator;
         private int mWatchFaceGlobalDrawableFlags;
 
-        PickerConfigItem(
+        WatchFacePickerConfigItem(
                 String name,
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
                 Class<WatchFaceSelectionActivity> activity,
-                Mutator<B> mutator) {
+                Mutator<WatchFacePreset> mutator) {
             this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, mutator, null);
         }
 
-        PickerConfigItem(
+        WatchFacePickerConfigItem(
                 String name,
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
                 Class<WatchFaceSelectionActivity> activity,
-                Mutator<B> mutator,
-                ConfigItemVisibilityCalculator configItemVisibilityCalculator) {
-            this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, configItemVisibilityCalculator);
-            mMutator = mutator;
+                Mutator<Settings> mutator,
+                int dummyToAvoidMethodsHaveTheSameErasureErrors) {
+            this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, mutator, null, dummyToAvoidMethodsHaveTheSameErasureErrors);
+            mWatchFaceGlobalDrawableFlags = watchFaceGlobalDrawableFlags;
         }
 
-        private PickerConfigItem(
+        WatchFacePickerConfigItem(
+                String name,
+                int iconResourceId,
+                int watchFaceGlobalDrawableFlags,
+                Class<WatchFaceSelectionActivity> activity,
+                Mutator<WatchFacePreset> mutator,
+                ConfigItemVisibilityCalculator configItemVisibilityCalculator) {
+            this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, configItemVisibilityCalculator);
+            mWatchFacePresetMutator = mutator;
+        }
+
+        WatchFacePickerConfigItem(
+                String name,
+                int iconResourceId,
+                int watchFaceGlobalDrawableFlags,
+                Class<WatchFaceSelectionActivity> activity,
+                Mutator<Settings> mutator,
+                ConfigItemVisibilityCalculator configItemVisibilityCalculator,
+                int dummyToAvoidMethodsHaveTheSameErasureErrors) {
+            this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, configItemVisibilityCalculator);
+            mSettingsMutator = mutator;
+        }
+
+        private WatchFacePickerConfigItem(
                 String name,
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
@@ -301,11 +325,15 @@ abstract public class ConfigData {
             mWatchFaceGlobalDrawableFlags = watchFaceGlobalDrawableFlags;
         }
 
-        public CharSequence getName(B watchFacePreset, Context context) {
-            Enum e = null;
-            if (mMutator != null) {
-                e = mMutator.getCurrentValue(watchFacePreset);
+        public CharSequence getName(
+                WatchFacePreset watchFacePreset, Settings settings, Context context) {
+            Enum e;
+            if (mWatchFacePresetMutator != null) {
+                e = mWatchFacePresetMutator.getCurrentValue(watchFacePreset);
+            } else {
+                e = mSettingsMutator.getCurrentValue(settings);
             }
+
             if (e == null) {
                 return mName;
             } else if (e instanceof BytePackable.EnumResourceId) {
@@ -334,12 +362,21 @@ abstract public class ConfigData {
 
         @Override
         public int getConfigType() {
-            return ConfigRecyclerViewAdapter.TYPE_PICKER_CONFIG;
+            return ConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_PICKER_CONFIG;
         }
 
-        public String[] permute(B watchFacePreset) {
-            if (mMutator != null) {
-                return mMutator.permute((B) watchFacePreset.clone());
+        public String[] permute(WatchFacePreset watchFacePreset) {
+            if (mWatchFacePresetMutator != null) {
+                return mWatchFacePresetMutator.permute(watchFacePreset.clone());
+            } else {
+                return null;
+            }
+
+        }
+
+        public String[] permute(Settings settings) {
+            if (mSettingsMutator != null) {
+                return mSettingsMutator.permute(settings.clone());
             } else {
                 return null;
             }
@@ -354,18 +391,18 @@ abstract public class ConfigData {
     /**
      * Data for Night Vision preference picker item in RecyclerView.
      */
-    public static class ToggleConfigItem<B extends BytePackable> implements ConfigItemType {
+    public static class WatchFacePresetToggleConfigItem implements ConfigItemType {
 
         private String name;
         private int iconEnabledResourceId;
         private int iconDisabledResourceId;
-        private Mutator<B> mMutator;
+        private Mutator<WatchFacePreset> mMutator;
 
-        ToggleConfigItem(
+        WatchFacePresetToggleConfigItem(
                 String name,
                 int iconEnabledResourceId,
                 int iconDisabledResourceId,
-                Mutator<B> mutator) {
+                Mutator<WatchFacePreset> mutator) {
             this.name = name;
             this.iconEnabledResourceId = iconEnabledResourceId;
             this.iconDisabledResourceId = iconDisabledResourceId;
@@ -386,12 +423,11 @@ abstract public class ConfigData {
 
         @Override
         public int getConfigType() {
-            return ConfigRecyclerViewAdapter.TYPE_TOGGLE_CONFIG;
+            return ConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG;
         }
 
-        @SuppressWarnings("unchecked")
-        public String[] permute(B bytePackable) {
-            return mMutator.permute((B) bytePackable.clone());
+        public String[] permute(WatchFacePreset watchFacePreset) {
+            return mMutator.permute(watchFacePreset.clone());
         }
     }
 

@@ -58,6 +58,7 @@ public class SettingsConfigData extends ConfigData {
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp),
 
+
                 // Data for base color UX in settings Activity.
                 new ColorPickerConfigItem(
                         context.getString(R.string.config_ambient_day_color_label),
@@ -70,70 +71,7 @@ public class SettingsConfigData extends ConfigData {
                         context.getString(R.string.config_ambient_night_color_label),
                         R.drawable.icn_styles,
                         PaintBox.ColorType.AMBIENT_NIGHT,
-                        ColorSelectionActivity.class),
-
-                // Data for developer mode in settings Activity.
-                new ToggleConfigItem<>(
-                        context.getString(R.string.config_developer_mode_label),
-                        R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp,
-                        new Mutator<Settings>() {
-                            @Override
-                            public String[] permute(Settings permutation) {
-                                String[] result = new String[2];
-                                permutation.setDeveloperMode(false);
-                                result[0] = permutation.getString();
-                                permutation.setDeveloperMode(true);
-                                result[1] = permutation.getString();
-                                return result;
-                            }
-
-                            public Enum getCurrentValue(Settings currentPreset) {
-                                return null;
-                            }
-                        }),
-
-                // Data for stats mode in settings Activity.
-                new ToggleConfigItem<>(
-                        context.getString(R.string.config_stats_label),
-                        R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp,
-                        new Mutator<Settings>() {
-                            @Override
-                            public String[] permute(Settings permutation) {
-                                String[] result = new String[2];
-                                permutation.setStats(false);
-                                result[0] = permutation.getString();
-                                permutation.setStats(true);
-                                result[1] = permutation.getString();
-                                return result;
-                            }
-
-                            public Enum getCurrentValue(Settings currentPreset) {
-                                return null;
-                            }
-                        }),
-
-                // Data for stats detail mode in settings Activity.
-                new ToggleConfigItem<>(
-                        context.getString(R.string.config_stats_detail_label),
-                        R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp,
-                        new Mutator<Settings>() {
-                            @Override
-                            public String[] permute(Settings permutation) {
-                                String[] result = new String[2];
-                                permutation.setStatsDetail(false);
-                                result[0] = permutation.getString();
-                                permutation.setStatsDetail(true);
-                                result[1] = permutation.getString();
-                                return result;
-                            }
-
-                            public Enum getCurrentValue(Settings currentPreset) {
-                                return null;
-                            }
-                        })
+                        ColorSelectionActivity.class)
         );
     }
 }
