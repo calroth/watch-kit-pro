@@ -73,10 +73,10 @@ import pro.watchkit.wearable.watchface.model.ConfigData.ComplicationConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ConfigActivityConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ConfigItemType;
 import pro.watchkit.wearable.watchface.model.ConfigData.NightVisionConfigItem;
+import pro.watchkit.wearable.watchface.model.ConfigData.ToggleConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.UnreadNotificationConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFaceDrawableConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFacePickerConfigItem;
-import pro.watchkit.wearable.watchface.model.ConfigData.WatchFacePresetToggleConfigItem;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
@@ -112,7 +112,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
     public static final int TYPE_WATCH_FACE_DRAWABLE_CONFIG = 3;
     public static final int TYPE_COMPLICATION_CONFIG = 4;
     public static final int TYPE_WATCH_FACE_PRESET_PICKER_CONFIG = 5;
-    public static final int TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG = 6;
+    public static final int TYPE_TOGGLE_CONFIG = 6;
     public static final int TYPE_CONFIG_ACTIVITY_CONFIG = 7;
     private static final String TAG = "CompConfigAdapter";
     private SharedPreferences mSharedPref;
@@ -223,7 +223,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                 break;
             }
 
-            case TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG: {
+            case TYPE_TOGGLE_CONFIG: {
                 viewHolder =
                         new WatchFacePresetToggleViewHolder(
                                 LayoutInflater.from(parent.getContext())
@@ -323,11 +323,11 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                 break;
             }
 
-            case TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG: {
+            case TYPE_TOGGLE_CONFIG: {
                 WatchFacePresetToggleViewHolder watchFacePresetToggleViewHolder =
                         (WatchFacePresetToggleViewHolder) viewHolder;
-                WatchFacePresetToggleConfigItem watchFacePresetToggleConfigItem =
-                        (WatchFacePresetToggleConfigItem) configItemType;
+                ToggleConfigItem watchFacePresetToggleConfigItem =
+                        (ToggleConfigItem) configItemType;
                 watchFacePresetToggleViewHolder.bind(watchFacePresetToggleConfigItem);
                 break;
             }
@@ -653,9 +653,9 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
             super(view);
         }
 
-        private WatchFacePresetToggleConfigItem mConfigItem;
+        private ToggleConfigItem mConfigItem;
 
-        void bind(WatchFacePresetToggleConfigItem configItem) {
+        void bind(ToggleConfigItem configItem) {
             mConfigItem = configItem;
 
             setName(configItem.getName());

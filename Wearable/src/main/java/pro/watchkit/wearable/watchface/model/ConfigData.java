@@ -391,18 +391,18 @@ abstract public class ConfigData {
     /**
      * Data for Night Vision preference picker item in RecyclerView.
      */
-    public static class WatchFacePresetToggleConfigItem implements ConfigItemType {
+    public static class ToggleConfigItem<B extends BytePackable> implements ConfigItemType {
 
         private String name;
         private int iconEnabledResourceId;
         private int iconDisabledResourceId;
-        private Mutator<WatchFacePreset> mMutator;
+        private Mutator<B> mMutator;
 
-        WatchFacePresetToggleConfigItem(
+        ToggleConfigItem(
                 String name,
                 int iconEnabledResourceId,
                 int iconDisabledResourceId,
-                Mutator<WatchFacePreset> mutator) {
+                Mutator<B> mutator) {
             this.name = name;
             this.iconEnabledResourceId = iconEnabledResourceId;
             this.iconDisabledResourceId = iconDisabledResourceId;
@@ -423,11 +423,12 @@ abstract public class ConfigData {
 
         @Override
         public int getConfigType() {
-            return ConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG;
+            return ConfigRecyclerViewAdapter.TYPE_TOGGLE_CONFIG;
         }
 
-        public String[] permute(WatchFacePreset watchFacePreset) {
-            return mMutator.permute(watchFacePreset.clone());
+        @SuppressWarnings("unchecked")
+        public String[] permute(B bytePackable) {
+            return mMutator.permute((B) bytePackable.clone());
         }
     }
 

@@ -102,7 +102,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                                 WatchFacePreset::getHourHandStyle)),
 
                 // Data for minute hand override in settings Activity.
-                new WatchFacePresetToggleConfigItem(
+                new ToggleConfigItem<>(
                         context.getString(R.string.config_preset_minute_hand_override),
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
@@ -195,7 +195,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFacePreset::isMinuteHandOverridden),
 
                 // Data for second hand override in settings Activity.
-                new WatchFacePresetToggleConfigItem(
+                new ToggleConfigItem<>(
                         context.getString(R.string.config_preset_second_hand_override),
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
