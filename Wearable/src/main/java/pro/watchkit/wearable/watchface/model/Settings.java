@@ -94,8 +94,8 @@ public class Settings extends BytePackable implements Cloneable {
         mBytePacker.put(mNightVisionModeEnabled);
         mComplicationCount.pack(mBytePacker);
         mComplicationRotation.pack(mBytePacker);
-        mBytePacker.put(6, getAmbientDaySixBitColor());
-        mBytePacker.put(6, getAmbientNightSixBitColor());
+        mBytePacker.put(6, mAmbientDaySixBitColor);
+        mBytePacker.put(6, mAmbientNightSixBitColor);
         mComplicationRingStyle.pack(mBytePacker);
         mComplicationBackgroundStyle.pack(mBytePacker);
         mBytePacker.put(mDeveloperMode);
@@ -122,12 +122,12 @@ public class Settings extends BytePackable implements Cloneable {
             default: {
                 mShowUnreadNotifications = mBytePacker.getBoolean();
                 mNightVisionModeEnabled = mBytePacker.getBoolean();
-                setComplicationCount(ComplicationCount.unpack(mBytePacker));
-                setComplicationRotation(ComplicationRotation.unpack(mBytePacker));
-                setAmbientDaySixBitColor(mBytePacker.get(6));
-                setAmbientNightSixBitColor(mBytePacker.get(6));
-                setComplicationRingStyle(Style.unpack(mBytePacker));
-                setComplicationBackgroundStyle(Style.unpack(mBytePacker));
+                mComplicationCount = ComplicationCount.unpack(mBytePacker);
+                mComplicationRotation = ComplicationRotation.unpack(mBytePacker);
+                mAmbientDaySixBitColor = mBytePacker.get(6);
+                mAmbientNightSixBitColor = mBytePacker.get(6);
+                mComplicationRingStyle = Style.unpack(mBytePacker);
+                mComplicationBackgroundStyle = Style.unpack(mBytePacker);
                 mDeveloperMode = mBytePacker.getBoolean();
                 mStats = mBytePacker.getBoolean();
                 mStatsDetail = mBytePacker.getBoolean();
