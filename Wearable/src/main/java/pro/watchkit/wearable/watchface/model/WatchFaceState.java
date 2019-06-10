@@ -220,7 +220,7 @@ public class WatchFaceState {
             mComplicationMap.put(b.getId(), b);
         }
 
-        for (int i = 0; i < mSettings.getComplicationCount(); i++) {
+        for (int i = 0; i < mSettings.getComplicationCountInt(); i++) {
             final ComplicationHolder f = new ComplicationHolder(context);
             f.isForeground = true;
             f.setDrawableCallback(invalidateCallback);
@@ -293,7 +293,8 @@ public class WatchFaceState {
         for (ComplicationHolder complication : mComplications) {
             if (complication.isForeground) {
                 // Foreground
-                float degrees = (float) ((i + 0.5f) * Math.PI * 2 / mSettings.getComplicationCount());
+                float degrees = (float) ((i + 0.5f) * Math.PI * 2 /
+                        mSettings.getComplicationCountInt());
 
                 float halfSize = size / 2f;
 

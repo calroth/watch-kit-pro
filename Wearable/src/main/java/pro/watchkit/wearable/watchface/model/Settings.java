@@ -26,7 +26,7 @@ import java.util.Objects;
 public class Settings extends BytePackable implements Cloneable {
     private boolean mShowUnreadNotifications;
     private boolean mNightVisionModeEnabled;
-    private int mComplicationCount = 5;
+    private ComplicationCount mComplicationCount;
     private ComplicationRotation mComplicationRotation = ComplicationRotation.ROTATE_25;
     private int mAmbientDaySixBitColor;
     private int mAmbientNightSixBitColor;
@@ -74,12 +74,12 @@ public class Settings extends BytePackable implements Cloneable {
         mBytePacker.rewind();
 
         // Version. 3-bits. Current version is v0.
-        mBytePacker.put(3, 0);
-
-        mBytePacker.put(mShowUnreadNotifications);
-        mBytePacker.put(mNightVisionModeEnabled);
-        mBytePacker.put(3, mComplicationCount); // 3-bit complication count
-        mComplicationRotation.pack(mBytePacker);
+//        mBytePacker.put(3, 0);
+//
+//        mBytePacker.put(mShowUnreadNotifications);
+//        mBytePacker.put(mNightVisionModeEnabled);
+//        mBytePacker.put(3, mComplicationCount); // 3-bit complication count
+//        mComplicationRotation.pack(mBytePacker);
 
         mBytePacker.finish();
     }
@@ -92,7 +92,7 @@ public class Settings extends BytePackable implements Cloneable {
 
         mBytePacker.put(mShowUnreadNotifications);
         mBytePacker.put(mNightVisionModeEnabled);
-        getComplicationCountEnum().pack(mBytePacker);
+        mComplicationCount.pack(mBytePacker);
         mComplicationRotation.pack(mBytePacker);
         mBytePacker.put(6, getAmbientDaySixBitColor());
         mBytePacker.put(6, getAmbientNightSixBitColor());
@@ -112,17 +112,17 @@ public class Settings extends BytePackable implements Cloneable {
         int version = mBytePacker.get(3);
         switch (version) {
             case 0: {
-                mShowUnreadNotifications = mBytePacker.getBoolean();
-                mNightVisionModeEnabled = mBytePacker.getBoolean();
-                setComplicationCount(mBytePacker.get(3)); // 3-bit complication count
-                setComplicationRotation(ComplicationRotation.unpack(mBytePacker));
+//                mShowUnreadNotifications = mBytePacker.getBoolean();
+//                mNightVisionModeEnabled = mBytePacker.getBoolean();
+//                mComplicationCount = mBytePacker.get(3); // 3-bit complication count
+//                mComplicationRotation = ComplicationRotation.unpack(mBytePacker);
                 break;
             }
             case 1:
             default: {
                 mShowUnreadNotifications = mBytePacker.getBoolean();
                 mNightVisionModeEnabled = mBytePacker.getBoolean();
-                setComplicationCountEnum(ComplicationCount.unpack(mBytePacker));
+                setComplicationCount(ComplicationCount.unpack(mBytePacker));
                 setComplicationRotation(ComplicationRotation.unpack(mBytePacker));
                 setAmbientDaySixBitColor(mBytePacker.get(6));
                 setAmbientNightSixBitColor(mBytePacker.get(6));
@@ -144,59 +144,30 @@ public class Settings extends BytePackable implements Cloneable {
         mComplicationRotation = complicationRotation;
     }
 
-    ComplicationCount getComplicationCountEnum() {
+    int getComplicationCountInt() {
         switch (getComplicationCount()) {
-            case 5: {
-                return ComplicationCount.COUNT_5;
-            }
-            case 6: {
-                return ComplicationCount.COUNT_6;
-            }
-            case 7: {
-                return ComplicationCount.COUNT_7;
-            }
-            case 8: {
-                return ComplicationCount.COUNT_8;
-            }
-            default: {
-                // 6 by default?
-                return ComplicationCount.COUNT_6;
-            }
-        }
-    }
-
-    void setComplicationCountEnum(ComplicationCount c) {
-        switch (c) {
             case COUNT_5: {
-                setComplicationCount(5);
-                break;
+                return 5;
             }
             case COUNT_6: {
-                setComplicationCount(6);
-                break;
+                return 6;
             }
             case COUNT_7: {
-                setComplicationCount(7);
-                break;
+                return 7;
             }
+            default:
             case COUNT_8: {
-                setComplicationCount(8);
-                break;
+                return 8;
             }
         }
     }
 
-    int getComplicationCount() {
+    ComplicationCount getComplicationCount() {
         return mComplicationCount;
     }
 
-    private void setComplicationCount(int complicationCount) {
+    void setComplicationCount(ComplicationCount complicationCount) {
         mComplicationCount = complicationCount;
-        if (mComplicationCount < 5) {
-            mComplicationCount = 5;
-        } else if (mComplicationCount > 8) {
-            mComplicationCount = 8;
-        }
     }
 
     public boolean isShowUnreadNotifications() {
@@ -247,7 +218,6 @@ public class Settings extends BytePackable implements Cloneable {
     void setComplicationBackgroundStyle(Style complicationBackgroundStyle) {
         this.mComplicationBackgroundStyle = complicationBackgroundStyle;
     }
-
 
     public boolean isDeveloperMode() {
         return mDeveloperMode;

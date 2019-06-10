@@ -45,8 +45,8 @@ public class ComplicationConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.ComplicationCount.values(),
-                                Settings::setComplicationCountEnum,
-                                Settings::getComplicationCountEnum), 0),
+                                Settings::setComplicationCount,
+                                Settings::getComplicationCount), 0),
 
                 // Data for complication rotation in settings Activity.
                 new WatchFacePickerConfigItem(
