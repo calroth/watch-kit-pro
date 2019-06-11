@@ -74,8 +74,8 @@ public class ColorsStylesConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.GradientStyle.values(),
-                                WatchFacePreset::setFillHighlightStyle,
-                                WatchFacePreset::getFillHighlightStyle)),
+                                WatchFaceState::setFillHighlightStyle,
+                                WatchFaceState::getFillHighlightStyle)),
 
                 // Data for accent fill style in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -85,8 +85,8 @@ public class ColorsStylesConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.GradientStyle.values(),
-                                WatchFacePreset::setAccentFillStyle,
-                                WatchFacePreset::getAccentFillStyle)),
+                                WatchFaceState::setAccentFillStyle,
+                                WatchFaceState::getAccentFillStyle)),
 
                 // Data for accent highlight style in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -96,8 +96,8 @@ public class ColorsStylesConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.GradientStyle.values(),
-                                WatchFacePreset::setAccentHighlightStyle,
-                                WatchFacePreset::getAccentHighlightStyle)),
+                                WatchFaceState::setAccentHighlightStyle,
+                                WatchFaceState::getAccentHighlightStyle)),
 
                 // Data for base accent style in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -107,8 +107,8 @@ public class ColorsStylesConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.GradientStyle.values(),
-                                WatchFacePreset::setBaseAccentStyle,
-                                WatchFacePreset::getBaseAccentStyle))
+                                WatchFaceState::setBaseAccentStyle,
+                                WatchFaceState::getBaseAccentStyle))
         );
     }
 }

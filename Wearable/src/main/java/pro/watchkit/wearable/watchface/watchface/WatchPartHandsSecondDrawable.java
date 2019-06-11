@@ -21,17 +21,17 @@ final class WatchPartHandsSecondDrawable extends WatchPartHandsDrawable {
 
     @Override
     HandShape getHandShape() {
-        return mWatchFaceState.getWatchFacePreset().getSecondHandShape();
+        return mWatchFaceState.getSecondHandShape();
     }
 
     @Override
     HandLength getHandLength() {
-        return mWatchFaceState.getWatchFacePreset().getSecondHandLength();
+        return mWatchFaceState.getSecondHandLength();
     }
 
     @Override
     HandThickness getHandThickness() {
-        return mWatchFaceState.getWatchFacePreset().getSecondHandThickness();
+        return mWatchFaceState.getSecondHandThickness();
     }
 
     @Override
@@ -46,7 +46,7 @@ final class WatchPartHandsSecondDrawable extends WatchPartHandsDrawable {
 
     @Override
     Style getStyle() {
-        return mWatchFaceState.getWatchFacePreset().getSecondHandStyle();
+        return mWatchFaceState.getSecondHandStyle();
     }
 
     @Override

@@ -45,8 +45,8 @@ public class ComplicationConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.ComplicationCount.values(),
-                                Settings::setComplicationCount,
-                                Settings::getComplicationCount), 0),
+                                WatchFaceState::setComplicationCount,
+                                WatchFaceState::getComplicationCount)),
 
                 // Data for complication rotation in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -56,8 +56,8 @@ public class ComplicationConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.ComplicationRotation.values(),
-                                Settings::setComplicationRotation,
-                                Settings::getComplicationRotation), 0),
+                                WatchFaceState::setComplicationRotation,
+                                WatchFaceState::getComplicationRotation)),
 
                 // Data for complication ring style in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -67,8 +67,8 @@ public class ComplicationConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.Style.values(),
-                                Settings::setComplicationRingStyle,
-                                Settings::getComplicationRingStyle), 0),
+                                WatchFaceState::setComplicationRingStyle,
+                                WatchFaceState::getComplicationRingStyle)),
 
                 // Data for complication background style in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -78,8 +78,8 @@ public class ComplicationConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.Style.values(),
-                                Settings::setComplicationBackgroundStyle,
-                                Settings::getComplicationBackgroundStyle), 0)
+                                WatchFaceState::setComplicationBackgroundStyle,
+                                WatchFaceState::getComplicationBackgroundStyle))
         );
     }
 }

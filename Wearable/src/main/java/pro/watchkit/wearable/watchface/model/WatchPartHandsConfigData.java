@@ -43,8 +43,8 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.HandShape.values(),
-                                WatchFacePreset::setHourHandShape,
-                                WatchFacePreset::getHourHandShape)),
+                                WatchFaceState::setHourHandShape,
+                                WatchFaceState::getHourHandShape)),
 
                 // Data for hour hand length in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -54,8 +54,8 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.HandLength.values(),
-                                WatchFacePreset::setHourHandLength,
-                                WatchFacePreset::getHourHandLength)),
+                                WatchFaceState::setHourHandLength,
+                                WatchFaceState::getHourHandLength)),
 
                 // Data for hour hand thickness in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -65,8 +65,8 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.HandThickness.values(),
-                                WatchFacePreset::setHourHandThickness,
-                                WatchFacePreset::getHourHandThickness)),
+                                WatchFaceState::setHourHandThickness,
+                                WatchFaceState::getHourHandThickness)),
 
                 // Data for hour hand stalk in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -76,8 +76,8 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.HandStalk.values(),
-                                WatchFacePreset::setHourHandStalk,
-                                WatchFacePreset::getHourHandStalk)),
+                                WatchFaceState::setHourHandStalk,
+                                WatchFaceState::getHourHandStalk)),
 
                 // Data for hour hand cutout in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -87,8 +87,8 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.HandCutout.values(),
-                                WatchFacePreset::setHourHandCutout,
-                                WatchFacePreset::getHourHandCutout)),
+                                WatchFaceState::setHourHandCutout,
+                                WatchFaceState::getHourHandCutout)),
 
                 // Data for hour hand style in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -98,17 +98,17 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.Style.values(),
-                                WatchFacePreset::setHourHandStyle,
-                                WatchFacePreset::getHourHandStyle)),
+                                WatchFaceState::setHourHandStyle,
+                                WatchFaceState::getHourHandStyle)),
 
                 // Data for minute hand override in settings Activity.
                 new WatchFacePresetToggleConfigItem(
                         context.getString(R.string.config_preset_minute_hand_override),
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
-                        new Mutator<WatchFacePreset>() {
+                        new Mutator<WatchFaceState>() {
                             @Override
-                            public String[] permute(WatchFacePreset permutation) {
+                            public String[] permute(WatchFaceState permutation) {
                                 String[] result = new String[2];
                                 permutation.setMinuteHandOverride(false);
                                 result[0] = permutation.getString();
@@ -117,7 +117,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                                 return result;
                             }
 
-                            public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                            public Enum getCurrentValue(WatchFaceState currentPreset) {
                                 return null;
                             }
                         }),
@@ -130,9 +130,9 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.HandShape.values(),
-                                WatchFacePreset::setMinuteHandShape,
-                                WatchFacePreset::getMinuteHandShape),
-                        WatchFacePreset::isMinuteHandOverridden),
+                                WatchFaceState::setMinuteHandShape,
+                                WatchFaceState::getMinuteHandShape),
+                        WatchFaceState::isMinuteHandOverridden),
 
                 // Data for minute hand length in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -142,9 +142,9 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.HandLength.values(),
-                                WatchFacePreset::setMinuteHandLength,
-                                WatchFacePreset::getMinuteHandLength),
-                        WatchFacePreset::isMinuteHandOverridden),
+                                WatchFaceState::setMinuteHandLength,
+                                WatchFaceState::getMinuteHandLength),
+                        WatchFaceState::isMinuteHandOverridden),
 
                 // Data for minute hand thickness in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -154,9 +154,9 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.HandThickness.values(),
-                                WatchFacePreset::setMinuteHandThickness,
-                                WatchFacePreset::getMinuteHandThickness),
-                        WatchFacePreset::isMinuteHandOverridden),
+                                WatchFaceState::setMinuteHandThickness,
+                                WatchFaceState::getMinuteHandThickness),
+                        WatchFaceState::isMinuteHandOverridden),
 
                 // Data for minute hand stalk in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -166,9 +166,9 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.HandStalk.values(),
-                                WatchFacePreset::setMinuteHandStalk,
-                                WatchFacePreset::getMinuteHandStalk),
-                        WatchFacePreset::isMinuteHandOverridden),
+                                WatchFaceState::setMinuteHandStalk,
+                                WatchFaceState::getMinuteHandStalk),
+                        WatchFaceState::isMinuteHandOverridden),
 
                 // Data for minute hand cutout in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -178,9 +178,9 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.HandCutout.values(),
-                                WatchFacePreset::setMinuteHandCutout,
-                                WatchFacePreset::getMinuteHandCutout),
-                        WatchFacePreset::isMinuteHandOverridden),
+                                WatchFaceState::setMinuteHandCutout,
+                                WatchFaceState::getMinuteHandCutout),
+                        WatchFaceState::isMinuteHandOverridden),
 
                 // Data for minute hand style in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -190,18 +190,18 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.Style.values(),
-                                WatchFacePreset::setMinuteHandStyle,
-                                WatchFacePreset::getMinuteHandStyle),
-                        WatchFacePreset::isMinuteHandOverridden),
+                                WatchFaceState::setMinuteHandStyle,
+                                WatchFaceState::getMinuteHandStyle),
+                        WatchFaceState::isMinuteHandOverridden),
 
                 // Data for second hand override in settings Activity.
                 new WatchFacePresetToggleConfigItem(
                         context.getString(R.string.config_preset_second_hand_override),
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
-                        new Mutator<WatchFacePreset>() {
+                        new Mutator<WatchFaceState>() {
                             @Override
-                            public String[] permute(WatchFacePreset permutation) {
+                            public String[] permute(WatchFaceState permutation) {
                                 String[] result = new String[2];
                                 permutation.setSecondHandOverride(false);
                                 result[0] = permutation.getString();
@@ -210,7 +210,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                                 return result;
                             }
 
-                            public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                            public Enum getCurrentValue(WatchFaceState currentPreset) {
                                 return null;
                             }
                         }),
@@ -223,9 +223,9 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.HandShape.values(),
-                                WatchFacePreset::setSecondHandShape,
-                                WatchFacePreset::getSecondHandShape),
-                        WatchFacePreset::isSecondHandOverridden),
+                                WatchFaceState::setSecondHandShape,
+                                WatchFaceState::getSecondHandShape),
+                        WatchFaceState::isSecondHandOverridden),
 
                 // Data for second hand length in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -235,9 +235,9 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.HandLength.values(),
-                                WatchFacePreset::setSecondHandLength,
-                                WatchFacePreset::getSecondHandLength),
-                        WatchFacePreset::isSecondHandOverridden),
+                                WatchFaceState::setSecondHandLength,
+                                WatchFaceState::getSecondHandLength),
+                        WatchFaceState::isSecondHandOverridden),
 
 
                 // Data for second hand thickness in settings Activity.
@@ -248,9 +248,9 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.HandThickness.values(),
-                                WatchFacePreset::setSecondHandThickness,
-                                WatchFacePreset::getSecondHandThickness),
-                        WatchFacePreset::isSecondHandOverridden),
+                                WatchFaceState::setSecondHandThickness,
+                                WatchFaceState::getSecondHandThickness),
+                        WatchFaceState::isSecondHandOverridden),
 
                 // Data for second hand style in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -260,9 +260,9 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.Style.values(),
-                                WatchFacePreset::setSecondHandStyle,
-                                WatchFacePreset::getSecondHandStyle),
-                        WatchFacePreset::isSecondHandOverridden)
+                                WatchFaceState::setSecondHandStyle,
+                                WatchFaceState::getSecondHandStyle),
+                        WatchFaceState::isSecondHandOverridden)
         );
     }
 }

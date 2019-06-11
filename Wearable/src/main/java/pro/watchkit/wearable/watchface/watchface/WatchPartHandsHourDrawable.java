@@ -17,32 +17,32 @@ final class WatchPartHandsHourDrawable extends WatchPartHandsDrawable {
 
     @Override
     HandShape getHandShape() {
-        return mWatchFaceState.getWatchFacePreset().getHourHandShape();
+        return mWatchFaceState.getHourHandShape();
     }
 
     @Override
     HandLength getHandLength() {
-        return mWatchFaceState.getWatchFacePreset().getHourHandLength();
+        return mWatchFaceState.getHourHandLength();
     }
 
     @Override
     HandThickness getHandThickness() {
-        return mWatchFaceState.getWatchFacePreset().getHourHandThickness();
+        return mWatchFaceState.getHourHandThickness();
     }
 
     @Override
     HandStalk getHandStalk() {
-        return mWatchFaceState.getWatchFacePreset().getHourHandStalk();
+        return mWatchFaceState.getHourHandStalk();
     }
 
     @Override
     HandCutout getHandCutout() {
-        return mWatchFaceState.getWatchFacePreset().getHourHandCutout();
+        return mWatchFaceState.getHourHandCutout();
     }
 
     @Override
     Style getStyle() {
-        return mWatchFaceState.getWatchFacePreset().getHourHandStyle();
+        return mWatchFaceState.getHourHandStyle();
     }
 
     @Override

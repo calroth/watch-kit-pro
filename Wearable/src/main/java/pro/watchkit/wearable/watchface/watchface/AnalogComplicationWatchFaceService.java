@@ -265,12 +265,28 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
         // Pulls all user's preferences for watch face appearance.
         private void loadSavedPreferences() {
-            getWatchFaceState().getWatchFacePreset().setString(mSharedPref.getString(
-                    getApplicationContext().getString(R.string.saved_watch_face_preset),
-                    null));
+//            getWatchFaceState().getWatchFacePreset().setString(mSharedPref.getString(
+//                    getApplicationContext().getString(R.string.saved_watch_face_preset),
+//                    null));
+//
+//            getWatchFaceState().getSettings().setString(mSharedPref.getString(
+//                    getApplicationContext().getString(R.string.saved_settings), null));
 
-            getWatchFaceState().getSettings().setString(mSharedPref.getString(
-                    getApplicationContext().getString(R.string.saved_settings), null));
+            // TODO: get rid of this transition code
+            String s0 = mSharedPref.getString(
+                    getApplicationContext().getString(R.string.saved_watch_face_preset_1), null);
+            String s1 = mSharedPref.getString(
+                    getApplicationContext().getString(R.string.saved_settings_1), null);
+            String s2 = mSharedPref.getString(
+                    getApplicationContext().getString(R.string.saved_watch_face_state), null);
+
+            if (s2 == null && s0 != null && s1 != null) {
+                getWatchFaceState().setString(s0 + "~" + s1);
+                return;
+            }
+
+            getWatchFaceState().setString(mSharedPref.getString(
+                    getApplicationContext().getString(R.string.saved_watch_face_state), null));
         }
 
         @Override
@@ -379,8 +395,8 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             boolean prevAmbient = getWatchFaceState().isAmbient();
             super.onDraw(canvas, bounds);
 
-            int unreadNotifications = getWatchFaceState().getSettings().isShowUnreadNotifications() ? getUnreadCount() : 0;
-            int totalNotifications = getWatchFaceState().getSettings().isShowUnreadNotifications() ? getNotificationCount() : 0;
+            int unreadNotifications = getWatchFaceState().isShowUnreadNotifications() ? getUnreadCount() : 0;
+            int totalNotifications = getWatchFaceState().isShowUnreadNotifications() ? getNotificationCount() : 0;
 
             // Draw all our drawables.
             // First set all our state objects.
@@ -434,7 +450,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
         @Override
         public void onNotificationCountChanged(int count) {
-            if (getWatchFaceState().getSettings().isShowUnreadNotifications()) {
+            if (getWatchFaceState().isShowUnreadNotifications()) {
                 WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_NOTIFICATION;
                 invalidate();
             }
@@ -442,7 +458,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
         @Override
         public void onUnreadCountChanged(int count) {
-            if (getWatchFaceState().getSettings().isShowUnreadNotifications()) {
+            if (getWatchFaceState().isShowUnreadNotifications()) {
                 WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_NOTIFICATION;
                 invalidate();
             }

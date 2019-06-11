@@ -57,24 +57,21 @@ import java.util.Comparator;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.ConfigData;
-import pro.watchkit.wearable.watchface.model.Settings;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    /**
+     * The current user-selected WatchFaceState with what's currently stored in preferences
+     */
+    final WatchFaceState mCurrentWatchFaceState;
     private static final String TAG = BaseRecyclerViewAdapter.class.getSimpleName();
 
-    /**
-     * The current user-selected Settings with what's currently stored in preferences
-     */
-    Settings mCurrentSettings = new Settings();
-
-    /**
-     * The current user-selected WatchFacePreset with what's currently stored in preferences.
-     */
-    WatchFacePreset mCurrentWatchFacePreset = new WatchFacePreset();
+    BaseRecyclerViewAdapter(@NonNull Context context) {
+        super();
+        mCurrentWatchFaceState = new WatchFaceState(context);
+    }
 
     /**
      * When the user selects a complication to launch the choose-a-complication-provider Activity,
@@ -95,27 +92,15 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     ComponentName mWatchFaceComponentName;
 
     /**
-     * A object implementing WatchFacePresetListener is interested in receiving a notification
-     * every time we change the WatchFacePreset (due to setting new options, etc.)
+     * A object implementing WatchFaceStateListener is interested in receiving a notification
+     * every time we change the WatchFaceState (due to setting new options, etc.)
      * On notification, an object invalidates and redraws itself.
      */
-    interface WatchFacePresetListener {
+    interface WatchFaceStateListener {
         /**
          * Invalidate this object.
          */
-        void onWatchFacePresetChanged();
-    }
-
-    /**
-     * A object implementing SettingsListener is interested in receiving a notification
-     * every time we change the Settings (due to setting new options, etc.)
-     * On notification, an object invalidates and redraws itself.
-     */
-    interface SettingsListener {
-        /**
-         * Invalidate this object.
-         */
-        void onSettingsChanged();
+        void onWatchFaceStateChanged();
     }
 
     /**
@@ -148,10 +133,8 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         @Override
         public void onClick(View view) {
-            String watchFacePresetString =
-                    mWatchFaceGlobalDrawable.getWatchFaceState().getWatchFacePreset().getString();
-            String settingsString =
-                    mWatchFaceGlobalDrawable.getWatchFaceState().getSettings().getString();
+            String watchFaceStateString =
+                    mWatchFaceGlobalDrawable.getWatchFaceState().getString();
 
             Activity activity = (Activity) view.getContext();
 
@@ -161,9 +144,8 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                     Context.MODE_PRIVATE);
 
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putString(activity.getString(R.string.saved_watch_face_preset),
-                    watchFacePresetString);
-            editor.putString(activity.getString(R.string.saved_settings), settingsString);
+            editor.putString(
+                    activity.getString(R.string.saved_watch_face_state), watchFaceStateString);
             editor.apply();
 
             // Lets Complication Config Activity know there was an update to colors.
@@ -179,7 +161,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     class WatchFaceDrawableViewHolder extends RecyclerView.ViewHolder
-            implements WatchFacePresetListener, SettingsListener {
+            implements WatchFaceStateListener {
 
         ImageView mImageView;
 
@@ -197,39 +179,25 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             mWatchFaceGlobalDrawableFlags = WatchFaceGlobalDrawableFlags;
         }
 
-        void setPreset(String watchFacePresetString, String settingsString) {
+        void setPreset(String watchFaceStateString) {
             if (mWatchFaceGlobalDrawable == null) {
                 mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(
                         mImageView.getContext(), mWatchFaceGlobalDrawableFlags);
                 mImageView.setImageDrawable(mWatchFaceGlobalDrawable);
             }
             WatchFaceState w = mWatchFaceGlobalDrawable.getWatchFaceState();
-            if (watchFacePresetString != null) {
-                w.getWatchFacePreset().setString(watchFacePresetString);
-            }
-            if (settingsString != null) {
-                w.getSettings().setString(settingsString);
+            if (watchFaceStateString != null) {
+                w.setString(watchFaceStateString);
             }
             w.setNotifications(0, 0);
             w.setAmbient(false);
 
             // Initialise complications, just enough to be able to draw rings.
-            w.initializeComplications(mImageView.getContext(), this::onWatchFacePresetChanged);
+            w.initializeComplications(mImageView.getContext(), this::onWatchFaceStateChanged);
         }
 
-        public void onWatchFacePresetChanged() {
-            String settingsString = mCurrentSettings.getString();
-            String watchFacePresetString = mCurrentWatchFacePreset.getString();
-
-            setPreset(watchFacePresetString, settingsString);
-            itemView.invalidate();
-        }
-
-        public void onSettingsChanged() {
-            String settingsString = mCurrentSettings.getString();
-            String watchFacePresetString = mCurrentWatchFacePreset.getString();
-
-            setPreset(watchFacePresetString, settingsString);
+        public void onWatchFaceStateChanged() {
+            setPreset(mCurrentWatchFaceState.getString());
             itemView.invalidate();
         }
     }
@@ -296,8 +264,8 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             }
         }
 
-        void setPreset(String watchFacePresetString, String settingsString) {
-            super.setPreset(watchFacePresetString, settingsString);
+        void setPreset(String watchFaceStateString) {
+            super.setPreset(watchFaceStateString);
 
             // Initialise complications, completely.
             WatchFaceState w = mWatchFaceGlobalDrawable.getWatchFaceState();
@@ -332,10 +300,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             mConfigItem = configItem;
 
             // Set the preset based on current settings.
-            String settingsString = mCurrentSettings.getString();
-            String watchFacePresetString = mCurrentWatchFacePreset.getString();
-
-            setPreset(watchFacePresetString, settingsString);
+            setPreset(mCurrentWatchFaceState.getString());
         }
 
         // Verifies the watch face supports the complication location, then launches the helper

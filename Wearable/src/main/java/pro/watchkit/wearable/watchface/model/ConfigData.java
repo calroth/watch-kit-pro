@@ -38,7 +38,7 @@ abstract public class ConfigData {
         int getConfigType();
     }
 
-    protected interface Mutator<B extends BytePackable> {
+    protected interface Mutator<B> {
         /**
          * For the given Settings (which must be a clone, since we'll modify it in the
          * process) return a String array with each permutation.
@@ -64,7 +64,7 @@ abstract public class ConfigData {
      * whether an item is visible or not.
      */
     protected interface ConfigItemVisibilityCalculator {
-        boolean isVisible(WatchFacePreset currentPreset);
+        boolean isVisible(WatchFaceState watchFaceState);
     }
 
     /**
@@ -204,7 +204,7 @@ abstract public class ConfigData {
         }
     }
 
-    protected static class MutatorImpl<E extends Enum, B extends BytePackable>
+    protected static class MutatorImpl<E extends Enum, B extends WatchFaceState>
             implements Mutator<B> {
         /**
          * All the possible Enum values of E.
@@ -264,8 +264,7 @@ abstract public class ConfigData {
         private String mName;
         private int mIconResourceId;
         private Class<WatchFaceSelectionActivity> mActivityToChoosePreference;
-        private Mutator<WatchFacePreset> mWatchFacePresetMutator;
-        private Mutator<Settings> mSettingsMutator;
+        private Mutator<WatchFaceState> mWatchFaceStateMutator;
         private ConfigItemVisibilityCalculator mConfigItemVisibilityCalculator;
         private int mWatchFaceGlobalDrawableFlags;
 
@@ -274,7 +273,7 @@ abstract public class ConfigData {
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
                 Class<WatchFaceSelectionActivity> activity,
-                Mutator<WatchFacePreset> mutator) {
+                Mutator<WatchFaceState> mutator) {
             this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, mutator, null);
         }
 
@@ -283,33 +282,10 @@ abstract public class ConfigData {
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
                 Class<WatchFaceSelectionActivity> activity,
-                Mutator<Settings> mutator,
-                int dummyToAvoidMethodsHaveTheSameErasureErrors) {
-            this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, mutator, null, dummyToAvoidMethodsHaveTheSameErasureErrors);
-            mWatchFaceGlobalDrawableFlags = watchFaceGlobalDrawableFlags;
-        }
-
-        WatchFacePickerConfigItem(
-                String name,
-                int iconResourceId,
-                int watchFaceGlobalDrawableFlags,
-                Class<WatchFaceSelectionActivity> activity,
-                Mutator<WatchFacePreset> mutator,
+                Mutator<WatchFaceState> mutator,
                 ConfigItemVisibilityCalculator configItemVisibilityCalculator) {
             this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, configItemVisibilityCalculator);
-            mWatchFacePresetMutator = mutator;
-        }
-
-        WatchFacePickerConfigItem(
-                String name,
-                int iconResourceId,
-                int watchFaceGlobalDrawableFlags,
-                Class<WatchFaceSelectionActivity> activity,
-                Mutator<Settings> mutator,
-                ConfigItemVisibilityCalculator configItemVisibilityCalculator,
-                int dummyToAvoidMethodsHaveTheSameErasureErrors) {
-            this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, configItemVisibilityCalculator);
-            mSettingsMutator = mutator;
+            mWatchFaceStateMutator = mutator;
         }
 
         private WatchFacePickerConfigItem(
@@ -326,12 +302,10 @@ abstract public class ConfigData {
         }
 
         public CharSequence getName(
-                WatchFacePreset watchFacePreset, Settings settings, Context context) {
-            Enum e;
-            if (mWatchFacePresetMutator != null) {
-                e = mWatchFacePresetMutator.getCurrentValue(watchFacePreset);
-            } else {
-                e = mSettingsMutator.getCurrentValue(settings);
+                WatchFaceState watchFaceState, Context context) {
+            Enum e = null;
+            if (mWatchFaceStateMutator != null) {
+                e = mWatchFaceStateMutator.getCurrentValue(watchFaceState);
             }
 
             if (e == null) {
@@ -365,26 +339,17 @@ abstract public class ConfigData {
             return ConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_PICKER_CONFIG;
         }
 
-        public String[] permute(WatchFacePreset watchFacePreset) {
-            if (mWatchFacePresetMutator != null) {
-                return mWatchFacePresetMutator.permute(watchFacePreset.clone());
-            } else {
-                return null;
-            }
-
-        }
-
-        public String[] permute(Settings settings) {
-            if (mSettingsMutator != null) {
-                return mSettingsMutator.permute(settings.clone());
+        public String[] permute(WatchFaceState watchFaceState) {
+            if (mWatchFaceStateMutator != null) {
+                return mWatchFaceStateMutator.permute(watchFaceState.clone());
             } else {
                 return null;
             }
         }
 
-        public boolean isVisible(WatchFacePreset watchFacePreset, Settings settings) {
+        public boolean isVisible(WatchFaceState watchFaceState) {
             return mConfigItemVisibilityCalculator == null ||
-                    mConfigItemVisibilityCalculator.isVisible(watchFacePreset);
+                    mConfigItemVisibilityCalculator.isVisible(watchFaceState);
         }
     }
 
@@ -396,13 +361,13 @@ abstract public class ConfigData {
         private String name;
         private int iconEnabledResourceId;
         private int iconDisabledResourceId;
-        private Mutator<WatchFacePreset> mMutator;
+        private Mutator<WatchFaceState> mMutator;
 
         WatchFacePresetToggleConfigItem(
                 String name,
                 int iconEnabledResourceId,
                 int iconDisabledResourceId,
-                Mutator<WatchFacePreset> mutator) {
+                Mutator<WatchFaceState> mutator) {
             this.name = name;
             this.iconEnabledResourceId = iconEnabledResourceId;
             this.iconDisabledResourceId = iconDisabledResourceId;
@@ -426,8 +391,8 @@ abstract public class ConfigData {
             return ConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG;
         }
 
-        public String[] permute(WatchFacePreset watchFacePreset) {
-            return mMutator.permute(watchFacePreset.clone());
+        public String[] permute(WatchFaceState watchFaceState) {
+            return mMutator.permute(watchFaceState.clone());
         }
     }
 

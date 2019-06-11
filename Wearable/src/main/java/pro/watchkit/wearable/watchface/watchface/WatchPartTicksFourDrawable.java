@@ -15,7 +15,7 @@ final class WatchPartTicksFourDrawable extends WatchPartTicksDrawable {
     @Override
     protected boolean isVisible(int tickIndex) {
         if (tickIndex % 15 == 0)
-            return mWatchFaceState.getWatchFacePreset().isFourTicksVisible();
+            return mWatchFaceState.isFourTicksVisible();
         else
             return false;
     }
@@ -27,26 +27,26 @@ final class WatchPartTicksFourDrawable extends WatchPartTicksDrawable {
 
     @Override
     protected TickShape getTickShape() {
-        return mWatchFaceState.getWatchFacePreset().getFourTickShape();
+        return mWatchFaceState.getFourTickShape();
     }
 
     @Override
     protected TickLength getTickLength() {
-        return mWatchFaceState.getWatchFacePreset().getFourTickLength();
+        return mWatchFaceState.getFourTickLength();
     }
 
     @Override
     protected TickThickness getTickThickness() {
-        return mWatchFaceState.getWatchFacePreset().getFourTickThickness();
+        return mWatchFaceState.getFourTickThickness();
     }
 
     @Override
     protected TickRadiusPosition getTickRadiusPosition() {
-        return mWatchFaceState.getWatchFacePreset().getFourTickRadiusPosition();
+        return mWatchFaceState.getFourTickRadiusPosition();
     }
 
     @Override
     protected Style getTickStyle() {
-        return mWatchFaceState.getWatchFacePreset().getFourTickStyle();
+        return mWatchFaceState.getFourTickStyle();
     }
 }

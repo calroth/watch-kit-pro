@@ -24,17 +24,17 @@ import java.util.Objects;
  * Check yuor settings.
  */
 public class Settings extends BytePackable implements Cloneable {
-    private boolean mShowUnreadNotifications;
-    private boolean mNightVisionModeEnabled;
-    private ComplicationCount mComplicationCount;
-    private ComplicationRotation mComplicationRotation = ComplicationRotation.ROTATE_25;
-    private int mAmbientDaySixBitColor;
-    private int mAmbientNightSixBitColor;
-    private Style mComplicationRingStyle;
-    private Style mComplicationBackgroundStyle;
-    private boolean mDeveloperMode;
-    private boolean mStats;
-    private boolean mStatsDetail;
+    boolean mShowUnreadNotifications;
+    boolean mNightVisionModeEnabled;
+    ComplicationCount mComplicationCount;
+    ComplicationRotation mComplicationRotation = ComplicationRotation.ROTATE_25;
+    int mAmbientDaySixBitColor;
+    int mAmbientNightSixBitColor;
+    Style mComplicationRingStyle;
+    Style mComplicationBackgroundStyle;
+    boolean mDeveloperMode;
+    boolean mStats;
+    boolean mStatsDetail;
 
     @Override
     public int hashCode() {
@@ -134,112 +134,5 @@ public class Settings extends BytePackable implements Cloneable {
                 break;
             }
         }
-    }
-
-    ComplicationRotation getComplicationRotation() {
-        return mComplicationRotation;
-    }
-
-    void setComplicationRotation(ComplicationRotation complicationRotation) {
-        mComplicationRotation = complicationRotation;
-    }
-
-    int getComplicationCountInt() {
-        switch (getComplicationCount()) {
-            case COUNT_5: {
-                return 5;
-            }
-            case COUNT_6: {
-                return 6;
-            }
-            case COUNT_7: {
-                return 7;
-            }
-            default:
-            case COUNT_8: {
-                return 8;
-            }
-        }
-    }
-
-    ComplicationCount getComplicationCount() {
-        return mComplicationCount;
-    }
-
-    void setComplicationCount(ComplicationCount complicationCount) {
-        mComplicationCount = complicationCount;
-    }
-
-    public boolean isShowUnreadNotifications() {
-        return mShowUnreadNotifications;
-    }
-
-    public void toggleShowUnreadNotifications() {
-        mShowUnreadNotifications = !mShowUnreadNotifications;
-    }
-
-    public boolean isNightVisionModeEnabled() {
-        return mNightVisionModeEnabled;
-    }
-
-    public boolean toggleNightVisionModeEnabled() {
-        mNightVisionModeEnabled = !mNightVisionModeEnabled;
-        return mNightVisionModeEnabled;
-    }
-
-    int getAmbientDaySixBitColor() {
-        return mAmbientDaySixBitColor;
-    }
-
-    void setAmbientDaySixBitColor(int ambientDaySixBitColor) {
-        mAmbientDaySixBitColor = ambientDaySixBitColor;
-    }
-
-    int getAmbientNightSixBitColor() {
-        return mAmbientNightSixBitColor;
-    }
-
-    void setAmbientNightSixBitColor(int ambientNightSixBitColor) {
-        mAmbientNightSixBitColor = ambientNightSixBitColor;
-    }
-
-    public Style getComplicationRingStyle() {
-        return mComplicationRingStyle;
-    }
-
-    void setComplicationRingStyle(Style complicationRingStyle) {
-        this.mComplicationRingStyle = complicationRingStyle;
-    }
-
-    public Style getComplicationBackgroundStyle() {
-        return mComplicationBackgroundStyle;
-    }
-
-    void setComplicationBackgroundStyle(Style complicationBackgroundStyle) {
-        this.mComplicationBackgroundStyle = complicationBackgroundStyle;
-    }
-
-    public boolean isDeveloperMode() {
-        return mDeveloperMode;
-    }
-
-    public void setDeveloperMode(boolean developerMode) {
-        mDeveloperMode = developerMode;
-    }
-
-    public boolean isStats() {
-        return mStats;
-    }
-
-    public void setStats(boolean stats) {
-        mStats = stats;
-    }
-
-    public boolean isStatsDetail() {
-        return mStatsDetail;
-    }
-
-    public void setStatsDetail(boolean statsDetail) {
-        mStatsDetail = statsDetail;
     }
 }

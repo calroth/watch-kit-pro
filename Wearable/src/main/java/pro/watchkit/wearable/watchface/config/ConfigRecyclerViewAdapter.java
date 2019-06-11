@@ -82,8 +82,7 @@ import pro.watchkit.wearable.watchface.model.PaintBox;
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
 import static pro.watchkit.wearable.watchface.config.ConfigActivity.CONFIG_DATA;
 import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_FLAGS;
-import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_PRESETS;
-import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_SETTINGS;
+import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_STATES;
 
 /**
  * Displays different layouts for configuring watch face's complications and appearance settings
@@ -118,14 +117,9 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
     private SharedPreferences mSharedPref;
     private List<ConfigItemType> mSettingsDataSet;
 
-    private List<WatchFacePresetListener> mWatchFacePresetListeners = new ArrayList<>();
-    private List<SettingsListener> mSettingsListeners = new ArrayList<>();
-    private List<ComplicationProviderInfoListener> mComplicationProviderInfoListeners =
+    final private List<WatchFaceStateListener> mWatchFaceStateListeners = new ArrayList<>();
+    final private List<ComplicationProviderInfoListener> mComplicationProviderInfoListeners =
             new ArrayList<>();
-    /**
-     * A PaintBox with the current user-selected WatchFacePreset.
-     */
-    private PaintBox mCurrentPaintBox;
 
     private Context mContext;
 
@@ -133,6 +127,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
             @NonNull Context context,
             @NonNull Class watchFaceServiceClass,
             @NonNull List<ConfigItemType> settingsDataSet) {
+        super(context);
         mContext = context;
         mWatchFaceComponentName = new ComponentName(context, watchFaceServiceClass);
         mSettingsDataSet = settingsDataSet;
@@ -150,29 +145,17 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                 new ProviderInfoRetriever(context, Executors.newCachedThreadPool());
         mProviderInfoRetriever.init();
 
-        regenerateCurrentWatchFacePreset();
-        regenerateCurrentSettings();
-        mCurrentPaintBox = new PaintBox(context, mCurrentWatchFacePreset, mCurrentSettings);
+        regenerateCurrentWatchFaceState();
     }
 
     /**
-     * Regenerates the current WatchFacePreset with what's currently stored in preferences.
+     * Regenerates the current WatchFaceState with what's currently stored in preferences.
      * Call this if you suspect that preferences are changed, before accessing
-     * mCurrentWatchFacePreset.
+     * mCurrentWatchFaceState.
      */
-    private void regenerateCurrentWatchFacePreset() {
-        mCurrentWatchFacePreset.setString(mSharedPref.getString(
-                mContext.getString(R.string.saved_watch_face_preset), null));
-    }
-
-    /**
-     * Regenerates the current Settings with what's currently stored in preferences.
-     * Call this if you suspect that preferences are changed, before accessing
-     * mCurrentSettings.
-     */
-    private void regenerateCurrentSettings() {
-        mCurrentSettings.setString(mSharedPref.getString(
-                mContext.getString(R.string.saved_settings), null));
+    private void regenerateCurrentWatchFaceState() {
+        mCurrentWatchFaceState.setString(mSharedPref.getString(
+                mContext.getString(R.string.saved_watch_face_state), null));
     }
 
     @Override
@@ -255,12 +238,8 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
             }
         }
 
-        if (viewHolder instanceof WatchFacePresetListener) {
-            mWatchFacePresetListeners.add((WatchFacePresetListener) viewHolder);
-        }
-
-        if (viewHolder instanceof SettingsListener) {
-            mSettingsListeners.add((SettingsListener) viewHolder);
+        if (viewHolder instanceof WatchFaceStateListener) {
+            mWatchFaceStateListeners.add((WatchFaceStateListener) viewHolder);
         }
 
         if (viewHolder instanceof ComplicationProviderInfoListener) {
@@ -296,7 +275,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                 WatchFaceDrawableConfigItem watchFaceDrawableConfigItem =
                         (WatchFaceDrawableConfigItem) configItemType;
                 watchFaceDrawableViewHolder.setWatchFaceGlobalDrawableFlags(watchFaceDrawableConfigItem.getFlags());
-                watchFaceDrawableViewHolder.onSettingsChanged();
+                watchFaceDrawableViewHolder.onWatchFaceStateChanged();
                 break;
             }
 
@@ -395,16 +374,10 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
         mProviderInfoRetriever.release();
     }
 
-    void onWatchFacePresetChanged() {
-        regenerateCurrentWatchFacePreset();
-        // Update our WatchFacePresetListener objects.
-        mWatchFacePresetListeners.forEach(WatchFacePresetListener::onWatchFacePresetChanged);
-    }
-
-    void onSettingsChanged() {
-        regenerateCurrentSettings();
-        // Update our SettingsListener objects.
-        mSettingsListeners.forEach(SettingsListener::onSettingsChanged);
+    void onWatchFaceStateChanged() {
+        regenerateCurrentWatchFaceState();
+        // Update our WatchFaceStateListener objects.
+        mWatchFaceStateListeners.forEach(WatchFaceStateListener::onWatchFaceStateChanged);
     }
 
     /**
@@ -412,7 +385,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
      * background color, etc.
      */
     public class ColorPickerViewHolder
-            extends RecyclerView.ViewHolder implements OnClickListener, WatchFacePresetListener {
+            extends RecyclerView.ViewHolder implements OnClickListener, WatchFaceStateListener {
 
         private Button mButton;
         private Class<ColorSelectionActivity> mLaunchActivity;
@@ -424,7 +397,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
             public void draw(@NonNull Canvas canvas) {
                 if (mColorType == null) return;
 
-                @ColorInt int color = mCurrentPaintBox.getColor(mColorType);
+                @ColorInt int color = mCurrentWatchFaceState.getColor(mColorType);
 
                 // Draw a circle that's 20px from right, top and left borders.
                 float radius = (canvas.getClipBounds().height() / 2f) - 20f;
@@ -472,7 +445,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
             mLaunchActivity = configItem.getActivityToChoosePreference();
         }
 
-        public void onWatchFacePresetChanged() {
+        public void onWatchFaceStateChanged() {
             itemView.invalidate();
         }
 
@@ -482,7 +455,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                 Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
 
                 // Pass shared preference name to save color value to.
-//                launchIntent.putExtra(INTENT_EXTRA_PRESETS, mSharedPrefResourceString);
+//                launchIntent.putExtra(INTENT_EXTRA_STATES, mSharedPrefResourceString);
                 launchIntent.putExtra(INTENT_EXTRA_COLOR, mColorType.name());
 
                 Activity activity = (Activity) view.getContext();
@@ -537,7 +510,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
      * background color, etc.
      */
     public class WatchFacePresetPickerViewHolder extends RecyclerView.ViewHolder
-            implements OnClickListener, WatchFacePresetListener, SettingsListener {
+            implements OnClickListener, WatchFaceStateListener {
 
         private Button mButton;
 
@@ -567,10 +540,10 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
 
         private void setTextAndVisibility() {
             mButton.setText(mConfigItem.getName(
-                    mCurrentWatchFacePreset, mCurrentSettings, mButton.getContext()));
+                    mCurrentWatchFaceState, mButton.getContext()));
 
             ViewGroup.LayoutParams param = itemView.getLayoutParams();
-            if (mConfigItem.isVisible(mCurrentWatchFacePreset, mCurrentSettings)) {
+            if (mConfigItem.isVisible(mCurrentWatchFaceState)) {
                 param.height = mVisibleLayoutHeight;
                 param.width = mVisibleLayoutWidth;
                 itemView.setVisibility(View.VISIBLE);
@@ -582,11 +555,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
             itemView.setLayoutParams(param);
         }
 
-        public void onSettingsChanged() {
-            onWatchFacePresetChanged();
-        }
-
-        public void onWatchFacePresetChanged() {
+        public void onWatchFaceStateChanged() {
             String oldText = mButton.getText().toString();
             int oldVisibility = itemView.getVisibility();
 
@@ -612,27 +581,12 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
 
             if (mLaunchActivity != null) {
                 // Regenerate and grab our current permutations. Just in time!
-                String[] permutations0 = mConfigItem.permute(mCurrentWatchFacePreset);
-                String[] permutations1 = mConfigItem.permute(mCurrentSettings);
-
-                // If either permutations0 or 1 is null, fill with the current settings.
-                if (permutations0 == null && permutations1 != null) {
-                    permutations0 = new String[permutations1.length];
-                    for (int i = 0; i < permutations1.length; i++) {
-                        permutations0[i] = mCurrentWatchFacePreset.getString();
-                    }
-                } else if (permutations1 == null && permutations0 != null) {
-                    permutations1 = new String[permutations0.length];
-                    for (int i = 0; i < permutations0.length; i++) {
-                        permutations1[i] = mCurrentSettings.getString();
-                    }
-                }
+                String[] permutations = mConfigItem.permute(mCurrentWatchFaceState);
 
                 Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
 
                 // Pass shared preference name to save color value to.
-                launchIntent.putExtra(INTENT_EXTRA_PRESETS, permutations0);
-                launchIntent.putExtra(INTENT_EXTRA_SETTINGS, permutations1);
+                launchIntent.putExtra(INTENT_EXTRA_STATES, permutations);
                 launchIntent.putExtra(INTENT_EXTRA_FLAGS, mFlags);
 
                 Activity activity = (Activity) view.getContext();
@@ -647,7 +601,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
      * Displays switch to indicate whether or not the given WatchFacePreset flag is toggled on/off.
      */
     public class WatchFacePresetToggleViewHolder extends ToggleViewHolder
-            implements WatchFacePresetListener {
+            implements WatchFaceStateListener {
 
         WatchFacePresetToggleViewHolder(View view) {
             super(view);
@@ -668,29 +622,29 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
         @Override
         void setDefaultSwitchValue() {
             // Regenerate and grab our current permutations. Just in time!
-            String[] permutations = mConfigItem.permute(mCurrentWatchFacePreset);
-            setChecked(mCurrentWatchFacePreset.getString().equals(permutations[1]));
+            String[] permutations = mConfigItem.permute(mCurrentWatchFaceState);
+            setChecked(mCurrentWatchFaceState.getString().equals(permutations[1]));
         }
 
-        public void onWatchFacePresetChanged() {
+        public void onWatchFaceStateChanged() {
             setDefaultSwitchValue();
         }
 
         @Override
         public void onClick(View view) {
             // Regenerate and grab our current permutations. Just in time!
-            String[] permutations = mConfigItem.permute(mCurrentWatchFacePreset);
+            String[] permutations = mConfigItem.permute(mCurrentWatchFaceState);
 
             Boolean newState = isChecked();
             Context context = view.getContext();
             SharedPreferences.Editor editor = mSharedPref.edit();
-            editor.putString(context.getString(R.string.saved_watch_face_preset),
+            editor.putString(context.getString(R.string.saved_watch_face_state),
                     newState ? permutations[1] : permutations[0]);
             editor.apply();
 
-            setChecked(newState);
+//            mCurrentWatchFaceState.setString(newState ? permutations[1] : permutations[0]);
 
-            ConfigRecyclerViewAdapter.this.onWatchFacePresetChanged();
+            ConfigRecyclerViewAdapter.this.onWatchFaceStateChanged();
         }
     }
 
@@ -699,33 +653,33 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
      * toggle on/off.
      */
     public class UnreadNotificationViewHolder extends ToggleViewHolder
-            implements SettingsListener {
+            implements WatchFaceStateListener {
         UnreadNotificationViewHolder(View view) {
             super(view);
         }
 
         @Override
         void setDefaultSwitchValue() {
-            setChecked(mCurrentSettings.isShowUnreadNotifications());
+            setChecked(mCurrentWatchFaceState.isShowUnreadNotifications());
         }
 
         @Override
         public void onClick(View view) {
             Context context = view.getContext();
-            String sharedPreferenceString = context.getString(R.string.saved_settings);
+            String sharedPreferenceString = context.getString(R.string.saved_watch_face_state);
 
             // Since user clicked on a switch, new state should be opposite of current state.
-            mCurrentSettings.toggleShowUnreadNotifications();
+            mCurrentWatchFaceState.toggleShowUnreadNotifications();
 
             SharedPreferences.Editor editor = mSharedPref.edit();
-            editor.putString(sharedPreferenceString, mCurrentSettings.getString());
+            editor.putString(sharedPreferenceString, mCurrentWatchFaceState.getString());
             editor.apply();
 
-            ConfigRecyclerViewAdapter.this.onSettingsChanged();
+            ConfigRecyclerViewAdapter.this.onWatchFaceStateChanged();
         }
 
         @Override
-        public void onSettingsChanged() {
+        public void onWatchFaceStateChanged() {
             setDefaultSwitchValue();
         }
     }
@@ -734,7 +688,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
      * Displays switch to indicate whether or not night vision is toggled on/off.
      */
     public class NightVisionViewHolder extends ToggleViewHolder
-            implements SettingsListener {
+            implements WatchFaceStateListener {
         final private int MY_PERMISSION_ACCESS_COURSE_LOCATION = 1;
 
         NightVisionViewHolder(View view) {
@@ -743,16 +697,16 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
 
         @Override
         void setDefaultSwitchValue() {
-            setChecked(mCurrentSettings.isNightVisionModeEnabled());
+            setChecked(mCurrentWatchFaceState.isNightVisionModeEnabled());
         }
 
         @Override
         public void onClick(View view) {
             Context context = view.getContext();
-            String sharedPreferenceString = context.getString(R.string.saved_settings);
+            String sharedPreferenceString = context.getString(R.string.saved_watch_face_state);
 
             // Since user clicked on a switch, new state should be opposite of current state.
-            boolean newState = mCurrentSettings.toggleNightVisionModeEnabled();
+            boolean newState = mCurrentWatchFaceState.toggleNightVisionModeEnabled();
 
             if (newState && context.checkSelfPermission(
                     android.Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -764,14 +718,14 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
             }
 
             SharedPreferences.Editor editor = mSharedPref.edit();
-            editor.putString(sharedPreferenceString, mCurrentSettings.getString());
+            editor.putString(sharedPreferenceString, mCurrentWatchFaceState.getString());
             editor.apply();
 
-            ConfigRecyclerViewAdapter.this.onSettingsChanged();
+            ConfigRecyclerViewAdapter.this.onWatchFaceStateChanged();
         }
 
         @Override
-        public void onSettingsChanged() {
+        public void onWatchFaceStateChanged() {
             setDefaultSwitchValue();
         }
     }

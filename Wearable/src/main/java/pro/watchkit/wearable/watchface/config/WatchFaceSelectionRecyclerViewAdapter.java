@@ -17,6 +17,7 @@
 
 package pro.watchkit.wearable.watchface.config;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -34,14 +35,13 @@ import pro.watchkit.wearable.watchface.R;
  */
 
 public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapter {
-    private String[] mWatchFacePresetStrings;
-    private String[] mSettingsStrings;
+    private String[] mWatchFaceStateStrings;
     private int mFlags;
 
     WatchFaceSelectionRecyclerViewAdapter(
-            String[] watchFacePresetStrings, String[] settingsStrings, int flags) {
-        mWatchFacePresetStrings = watchFacePresetStrings;
-        mSettingsStrings = settingsStrings;
+            Context context, String[] watchFaceStateStrings, int flags) {
+        super(context);
+        mWatchFaceStateStrings = watchFaceStateStrings;
         mFlags = flags;
     }
 
@@ -54,21 +54,17 @@ public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapt
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
-        String watchFacePresetString =
-                mWatchFacePresetStrings != null && mWatchFacePresetStrings.length > position ?
-                        mWatchFacePresetStrings[position] : null;
-        String settingsString =
-                mSettingsStrings != null && mSettingsStrings.length > position ?
-                        mSettingsStrings[position] : null;
+        String watchFaceStateString =
+                mWatchFaceStateStrings != null && mWatchFaceStateStrings.length > position ?
+                        mWatchFaceStateStrings[position] : null;
 
         WatchFacePresetSelectionViewHolder holder = (WatchFacePresetSelectionViewHolder) viewHolder;
         holder.setWatchFaceGlobalDrawableFlags(mFlags);
-        holder.setPreset(watchFacePresetString, settingsString);
+        holder.setPreset(watchFaceStateString);
     }
 
     @Override
     public int getItemCount() {
-        return mWatchFacePresetStrings != null ? mWatchFacePresetStrings.length :
-                mSettingsStrings != null ? mSettingsStrings.length : 0;
+        return mWatchFaceStateStrings != null ? mWatchFaceStateStrings.length : 0;
     }
 }

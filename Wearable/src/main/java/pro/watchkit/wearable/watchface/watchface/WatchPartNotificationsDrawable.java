@@ -84,7 +84,7 @@ final class WatchPartNotificationsDrawable extends WatchPartDrawable {
         // Draw with our four tick style.
         // Maybe in the future, allow this to be customised.
         Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(
-                mWatchFaceState.getWatchFacePreset().getFourTickStyle());
+                mWatchFaceState.getFourTickStyle());
         drawPath(canvas, mPath, paint);
 
         // Add an exclusion zone of size 5%.

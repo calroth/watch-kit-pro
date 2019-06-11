@@ -17,7 +17,7 @@ final class WatchPartTicksTwelveDrawable extends WatchPartTicksDrawable {
         if (tickIndex % 15 == 0)
             return false;
         else if (tickIndex % 5 == 0)
-            return mWatchFaceState.getWatchFacePreset().isTwelveTicksVisible();
+            return mWatchFaceState.isTwelveTicksVisible();
         else
             return false;
     }
@@ -29,26 +29,26 @@ final class WatchPartTicksTwelveDrawable extends WatchPartTicksDrawable {
 
     @Override
     protected TickShape getTickShape() {
-        return mWatchFaceState.getWatchFacePreset().getTwelveTickShape();
+        return mWatchFaceState.getTwelveTickShape();
     }
 
     @Override
     protected TickLength getTickLength() {
-        return mWatchFaceState.getWatchFacePreset().getTwelveTickLength();
+        return mWatchFaceState.getTwelveTickLength();
     }
 
     @Override
     protected TickThickness getTickThickness() {
-        return mWatchFaceState.getWatchFacePreset().getTwelveTickThickness();
+        return mWatchFaceState.getTwelveTickThickness();
     }
 
     @Override
     protected TickRadiusPosition getTickRadiusPosition() {
-        return mWatchFaceState.getWatchFacePreset().getTwelveTickRadiusPosition();
+        return mWatchFaceState.getTwelveTickRadiusPosition();
     }
 
     @Override
     protected Style getTickStyle() {
-        return mWatchFaceState.getWatchFacePreset().getTwelveTickStyle();
+        return mWatchFaceState.getTwelveTickStyle();
     }
 }

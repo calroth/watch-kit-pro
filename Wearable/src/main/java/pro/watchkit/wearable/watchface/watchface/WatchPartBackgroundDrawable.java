@@ -39,7 +39,7 @@ final class WatchPartBackgroundDrawable extends WatchPartDrawable {
             canvas.drawColor(Color.BLACK);
         } else {
             Paint p = mWatchFaceState.getPaintBox().getPaintFromPreset(
-                    mWatchFaceState.getWatchFacePreset().getBackgroundStyle());
+                    mWatchFaceState.getBackgroundStyle());
             canvas.drawCircle(mCenterX, mCenterY, pc * 50f, p);
         }
     }

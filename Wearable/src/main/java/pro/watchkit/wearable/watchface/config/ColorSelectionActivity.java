@@ -57,8 +57,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.PaintBox;
-import pro.watchkit.wearable.watchface.model.Settings;
-import pro.watchkit.wearable.watchface.model.WatchFacePreset;
+import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 /**
  * Allows user to select color for something on the watch face (background, highlight,etc.) and
@@ -73,9 +72,7 @@ public class ColorSelectionActivity extends Activity {
     private int[][] mRows;
     private RectF[][] mRectFs;
     private float mLastTouchX = -1f, mLastTouchY = -1f;
-    private final WatchFacePreset mWatchFacePreset = new WatchFacePreset();
-    private final Settings mSettings = new Settings();
-    private final PaintBox mPaintBox = new PaintBox(this, mWatchFacePreset, mSettings);
+    private WatchFaceState mWatchFaceState;
 
     private int calc(int a, int b, int c) {
         return (a * 16) + (b * 4) + c;
@@ -85,16 +82,27 @@ public class ColorSelectionActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_color_selection_config);
+        mWatchFaceState = new WatchFaceState(this);
         // Reload our current WatchFacePreset.
         // So we can get our currently selected color.
-        SharedPreferences preferences = getSharedPreferences(
+        SharedPreferences mSharedPref = getSharedPreferences(
                 getString(R.string.analog_complication_preference_file_key),
                 Context.MODE_PRIVATE);
 
-        mWatchFacePreset.setString(preferences.getString(
-                getString(R.string.saved_watch_face_preset), null));
-        mSettings.setString(preferences.getString(
-                getString(R.string.saved_settings), null));
+        // TODO: get rid of this transition code
+        String s0 = mSharedPref.getString(
+                getApplicationContext().getString(R.string.saved_watch_face_preset_1), null);
+        String s1 = mSharedPref.getString(
+                getApplicationContext().getString(R.string.saved_settings_1), null);
+        String s2 = mSharedPref.getString(
+                getApplicationContext().getString(R.string.saved_watch_face_state), null);
+
+        if (s2 == null && s0 != null && s1 != null) {
+            mWatchFaceState.setString(s0 + "~" + s1);
+        } else {
+            mWatchFaceState.setString(mSharedPref.getString(
+                    getApplicationContext().getString(R.string.saved_watch_face_state), null));
+        }
 
         int[] row1 = new int[]{
                 -1,
@@ -206,7 +214,7 @@ public class ColorSelectionActivity extends Activity {
                     PaintBox.ColorType colorType =
                             PaintBox.ColorType.valueOf(sharedPrefString);
 
-                    currentColor = mPaintBox.getColor(colorType);
+                    currentColor = mWatchFaceState.getColor(colorType);
                 }
 
                 RectF bounds = new RectF(getBounds());
@@ -248,7 +256,7 @@ public class ColorSelectionActivity extends Activity {
 
                             // For our current selection, make our circle slightly larger.
                             float radius2 = radius;
-                            if (mPaintBox.getColor(mRows[i][j]) == currentColor) {
+                            if (mWatchFaceState.getPaintBox().getColor(mRows[i][j]) == currentColor) {
                                 radius2 *= 1.333333f;
                             }
 
@@ -262,7 +270,7 @@ public class ColorSelectionActivity extends Activity {
                             canvas.drawCircle(cx + 0.2f * pc, cy + 0.2f * pc, radius2, o);
 
                             // Now draw our swatch.
-                            p.setColor(mPaintBox.getColor(mRows[i][j]));
+                            p.setColor(mWatchFaceState.getPaintBox().getColor(mRows[i][j]));
                             canvas.drawCircle(cx, cy, radius2, p);
                         }
                         cy += span;
@@ -354,7 +362,6 @@ public class ColorSelectionActivity extends Activity {
      * back to preferences.
      *
      * @param sixBitColor New 6-bit color to set (between 0 and 63)
-     * @param paintBox    PaintBox to get the color names from, for display purposes
      */
     private void setSixBitColor(int sixBitColor) {
         SharedPreferences preferences = getSharedPreferences(
@@ -365,7 +372,7 @@ public class ColorSelectionActivity extends Activity {
         PaintBox.ColorType colorType = PaintBox.ColorType.valueOf(sharedPrefString);
         String toastText;
 
-        mPaintBox.setSixBitColor(colorType, sixBitColor);
+        mWatchFaceState.setSixBitColor(colorType, sixBitColor);
 
         switch (colorType) {
             case FILL: {
@@ -400,8 +407,7 @@ public class ColorSelectionActivity extends Activity {
         }
 
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(getString(R.string.saved_watch_face_preset), mWatchFacePreset.getString());
-        editor.putString(getString(R.string.saved_settings), mSettings.getString());
+        editor.putString(getString(R.string.saved_watch_face_state), mWatchFaceState.getString());
         editor.apply();
 
         // Lets Complication Config Activity know there was an update to colors.
@@ -409,7 +415,7 @@ public class ColorSelectionActivity extends Activity {
 
         // Show a toast popup with the color we just selected.
         toastText = toastText.replace('\n', ' ') +
-                ":\n" + mPaintBox.getColorName(sixBitColor);
+                ":\n" + mWatchFaceState.getPaintBox().getColorName(sixBitColor);
         Toast.makeText(this, toastText, Toast.LENGTH_LONG).show();
 
         finish();

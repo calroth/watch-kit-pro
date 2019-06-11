@@ -83,11 +83,11 @@ final class WatchPartRingsDrawable extends WatchPartDrawable {
         // If not ambient, actually draw our complication mRings.
         if (!mWatchFaceState.isAmbient()) {
             Paint watchFacePaint = mWatchFaceState.getPaintBox().getPaintFromPreset(
-                    mWatchFaceState.getWatchFacePreset().getBackgroundStyle());
+                    mWatchFaceState.getBackgroundStyle());
             Paint backgroundPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(
-                    mWatchFaceState.getSettings().getComplicationBackgroundStyle());
+                    mWatchFaceState.getComplicationBackgroundStyle());
             Paint ringPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(
-                    mWatchFaceState.getSettings().getComplicationRingStyle());
+                    mWatchFaceState.getComplicationRingStyle());
 
             // Some optimisations.
             if (ringPaint.equals(backgroundPaint) || ringPaint.equals(watchFacePaint)) {

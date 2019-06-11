@@ -51,10 +51,8 @@ import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
  */
 public class WatchFaceSelectionActivity extends Activity {
 
-    static final String INTENT_EXTRA_PRESETS =
-            WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_PRESETS";
-    static final String INTENT_EXTRA_SETTINGS =
-            WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_SETTINGS";
+    static final String INTENT_EXTRA_STATES =
+            WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_STATES";
     static final String INTENT_EXTRA_FLAGS =
             WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_FLAGS";
 
@@ -64,14 +62,12 @@ public class WatchFaceSelectionActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watch_face_preset_selection_config);
 
-        String[] watchFacePresetStrings = getIntent().getStringArrayExtra(INTENT_EXTRA_PRESETS);
-        String[] settingsStrings = getIntent().getStringArrayExtra(INTENT_EXTRA_SETTINGS);
+        String[] watchFaceStateStrings = getIntent().getStringArrayExtra(INTENT_EXTRA_STATES);
         int flags = getIntent().getIntExtra(
                 INTENT_EXTRA_FLAGS, WatchFaceGlobalDrawable.PART_BACKGROUND);
 
         WatchFaceSelectionRecyclerViewAdapter recyclerViewAdapter =
-                new WatchFaceSelectionRecyclerViewAdapter(
-                        watchFacePresetStrings, settingsStrings, flags);
+                new WatchFaceSelectionRecyclerViewAdapter(this, watchFaceStateStrings, flags);
 
         WearableRecyclerView view = findViewById(R.id.wearable_recycler_view);
 

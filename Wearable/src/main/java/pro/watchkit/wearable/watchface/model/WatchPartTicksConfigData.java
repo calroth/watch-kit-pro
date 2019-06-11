@@ -43,8 +43,8 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.TicksDisplay.values(),
-                                WatchFacePreset::setTicksDisplay,
-                                WatchFacePreset::getTicksDisplay)),
+                                WatchFaceState::setTicksDisplay,
+                                WatchFaceState::getTicksDisplay)),
 
                 // Data for four tick shape in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -54,9 +54,9 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.TickShape.values(),
-                                WatchFacePreset::setFourTickShape,
-                                WatchFacePreset::getFourTickShape),
-                        WatchFacePreset::isFourTicksVisible),
+                                WatchFaceState::setFourTickShape,
+                                WatchFaceState::getFourTickShape),
+                        WatchFaceState::isFourTicksVisible),
 
                 // Data for four tick length in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -66,9 +66,9 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.TickLength.values(),
-                                WatchFacePreset::setFourTickLength,
-                                WatchFacePreset::getFourTickLength),
-                        WatchFacePreset::isFourTicksVisible),
+                                WatchFaceState::setFourTickLength,
+                                WatchFaceState::getFourTickLength),
+                        WatchFaceState::isFourTicksVisible),
 
                 // Data for four tick thickness in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -78,9 +78,9 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.TickThickness.values(),
-                                WatchFacePreset::setFourTickThickness,
-                                WatchFacePreset::getFourTickThickness),
-                        WatchFacePreset::isFourTicksVisible),
+                                WatchFaceState::setFourTickThickness,
+                                WatchFaceState::getFourTickThickness),
+                        WatchFaceState::isFourTicksVisible),
 
                 // Data for four tick radius position in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -90,9 +90,9 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.TickRadiusPosition.values(),
-                                WatchFacePreset::setFourTickRadiusPosition,
-                                WatchFacePreset::getFourTickRadiusPosition),
-                        WatchFacePreset::isFourTicksVisible),
+                                WatchFaceState::setFourTickRadiusPosition,
+                                WatchFaceState::getFourTickRadiusPosition),
+                        WatchFaceState::isFourTicksVisible),
 
                 // Data for four tick style in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -102,18 +102,18 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.Style.values(),
-                                WatchFacePreset::setFourTickStyle,
-                                WatchFacePreset::getFourTickStyle),
-                        WatchFacePreset::isFourTicksVisible),
+                                WatchFaceState::setFourTickStyle,
+                                WatchFaceState::getFourTickStyle),
+                        WatchFaceState::isFourTicksVisible),
 
                 // Data for twelve tick override in settings Activity.
                 new WatchFacePresetToggleConfigItem(
                         context.getString(R.string.config_preset_twelve_tick_override),
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
-                        new Mutator<WatchFacePreset>() {
+                        new Mutator<WatchFaceState>() {
                             @Override
-                            public String[] permute(WatchFacePreset permutation) {
+                            public String[] permute(WatchFaceState permutation) {
                                 String[] result = new String[2];
                                 permutation.setTwelveTickOverride(false);
                                 result[0] = permutation.getString();
@@ -122,7 +122,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                                 return result;
                             }
 
-                            public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                            public Enum getCurrentValue(WatchFaceState currentPreset) {
                                 return null;
                             }
                         }),
@@ -135,9 +135,9 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.TickShape.values(),
-                                WatchFacePreset::setTwelveTickShape,
-                                WatchFacePreset::getTwelveTickShape),
-                        WatchFacePreset::isTwelveTicksOverridden),
+                                WatchFaceState::setTwelveTickShape,
+                                WatchFaceState::getTwelveTickShape),
+                        WatchFaceState::isTwelveTicksOverridden),
 
                 // Data for twelve tick length in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -147,9 +147,9 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.TickLength.values(),
-                                WatchFacePreset::setTwelveTickLength,
-                                WatchFacePreset::getTwelveTickLength),
-                        WatchFacePreset::isTwelveTicksOverridden),
+                                WatchFaceState::setTwelveTickLength,
+                                WatchFaceState::getTwelveTickLength),
+                        WatchFaceState::isTwelveTicksOverridden),
 
                 // Data for twelve tick thickness in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -159,9 +159,9 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.TickThickness.values(),
-                                WatchFacePreset::setTwelveTickThickness,
-                                WatchFacePreset::getTwelveTickThickness),
-                        WatchFacePreset::isTwelveTicksOverridden),
+                                WatchFaceState::setTwelveTickThickness,
+                                WatchFaceState::getTwelveTickThickness),
+                        WatchFaceState::isTwelveTicksOverridden),
 
                 // Data for twelve tick radius position in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -171,9 +171,9 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.TickRadiusPosition.values(),
-                                WatchFacePreset::setTwelveTickRadiusPosition,
-                                WatchFacePreset::getTwelveTickRadiusPosition),
-                        WatchFacePreset::isTwelveTicksOverridden),
+                                WatchFaceState::setTwelveTickRadiusPosition,
+                                WatchFaceState::getTwelveTickRadiusPosition),
+                        WatchFaceState::isTwelveTicksOverridden),
 
                 // Data for twelve tick style in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -183,18 +183,18 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.Style.values(),
-                                WatchFacePreset::setTwelveTickStyle,
-                                WatchFacePreset::getTwelveTickStyle),
-                        WatchFacePreset::isTwelveTicksOverridden),
+                                WatchFaceState::setTwelveTickStyle,
+                                WatchFaceState::getTwelveTickStyle),
+                        WatchFaceState::isTwelveTicksOverridden),
 
                 // Data for sixty tick override in settings Activity.
                 new WatchFacePresetToggleConfigItem(
                         context.getString(R.string.config_preset_sixty_tick_override),
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
-                        new Mutator<WatchFacePreset>() {
+                        new Mutator<WatchFaceState>() {
                             @Override
-                            public String[] permute(WatchFacePreset permutation) {
+                            public String[] permute(WatchFaceState permutation) {
                                 String[] result = new String[2];
                                 permutation.setSixtyTickOverride(false);
                                 result[0] = permutation.getString();
@@ -203,7 +203,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                                 return result;
                             }
 
-                            public Enum getCurrentValue(WatchFacePreset currentPreset) {
+                            public Enum getCurrentValue(WatchFaceState currentPreset) {
                                 return null;
                             }
                         }),
@@ -216,9 +216,9 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.TickShape.values(),
-                                WatchFacePreset::setSixtyTickShape,
-                                WatchFacePreset::getSixtyTickShape),
-                        WatchFacePreset::isSixtyTicksOverridden),
+                                WatchFaceState::setSixtyTickShape,
+                                WatchFaceState::getSixtyTickShape),
+                        WatchFaceState::isSixtyTicksOverridden),
 
                 // Data for sixty tick length in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -228,9 +228,9 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.TickLength.values(),
-                                WatchFacePreset::setSixtyTickLength,
-                                WatchFacePreset::getSixtyTickLength),
-                        WatchFacePreset::isSixtyTicksOverridden),
+                                WatchFaceState::setSixtyTickLength,
+                                WatchFaceState::getSixtyTickLength),
+                        WatchFaceState::isSixtyTicksOverridden),
 
                 // Data for sixty tick thickness in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -240,9 +240,9 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.TickThickness.values(),
-                                WatchFacePreset::setSixtyTickThickness,
-                                WatchFacePreset::getSixtyTickThickness),
-                        WatchFacePreset::isSixtyTicksOverridden),
+                                WatchFaceState::setSixtyTickThickness,
+                                WatchFaceState::getSixtyTickThickness),
+                        WatchFaceState::isSixtyTicksOverridden),
 
                 // Data for sixty tick radius position in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -252,9 +252,9 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.TickRadiusPosition.values(),
-                                WatchFacePreset::setSixtyTickRadiusPosition,
-                                WatchFacePreset::getSixtyTickRadiusPosition),
-                        WatchFacePreset::isSixtyTicksOverridden),
+                                WatchFaceState::setSixtyTickRadiusPosition,
+                                WatchFaceState::getSixtyTickRadiusPosition),
+                        WatchFaceState::isSixtyTicksOverridden),
 
                 // Data for sixty tick style in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -264,9 +264,9 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.Style.values(),
-                                WatchFacePreset::setSixtyTickStyle,
-                                WatchFacePreset::getSixtyTickStyle),
-                        WatchFacePreset::isSixtyTicksOverridden),
+                                WatchFaceState::setSixtyTickStyle,
+                                WatchFaceState::getSixtyTickStyle),
+                        WatchFaceState::isSixtyTicksOverridden),
 
                 // Data for background style in settings Activity.
                 new WatchFacePickerConfigItem(
@@ -276,8 +276,8 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorImpl<>(
                                 BytePackable.Style.values(),
-                                WatchFacePreset::setBackgroundStyle,
-                                WatchFacePreset::getBackgroundStyle))
+                                WatchFaceState::setBackgroundStyle,
+                                WatchFaceState::getBackgroundStyle))
         );
     }
 }
