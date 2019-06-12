@@ -106,7 +106,7 @@ public class WatchFaceState implements Cloneable {
 
     public WatchFaceState(Context context) {
         mContext = context;
-        mPaintBox = new PaintBox(context, mWatchFacePreset, mSettings);
+        mPaintBox = new PaintBox(context);
         // Hmm. Strictly temporary: how about a default setting?
         setString("fcd81c000c0100000006c06a60000001~3cda1cc0000000000000000000000001");
     }

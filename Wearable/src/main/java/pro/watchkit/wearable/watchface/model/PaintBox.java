@@ -66,12 +66,10 @@ public final class PaintBox {
             mBezelPaint2 = new GradientPaint();
     private GradientPaint mAccentHighlightPaint = new GradientPaint();
     private GradientPaint mBaseAccentPaint = new GradientPaint();
-    private WatchFacePreset mWatchFacePreset;
     private int mPreviousSerial = -1;
     private Context mContext;
 
-    public PaintBox(Context context, WatchFacePreset watchFacePreset, Settings settings) {
-        mWatchFacePreset = watchFacePreset;
+    PaintBox(Context context) {
         mContext = context;
         mFillPaint = newDefaultPaint();
         mAccentPaint = newDefaultPaint();
