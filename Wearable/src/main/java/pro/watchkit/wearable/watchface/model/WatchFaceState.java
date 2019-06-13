@@ -82,7 +82,6 @@ import pro.watchkit.wearable.watchface.model.PaintBox.ColorType;
 public class WatchFaceState {
     private final WatchFacePreset mWatchFacePreset = new WatchFacePreset();
     private final Settings mSettings = new Settings();
-    private final Context mContext;
     private final PaintBox mPaintBox;
     private final Collection<ComplicationHolder> mComplications = new ArrayList<>();
     private final Map<Integer, ComplicationHolder> mComplicationMap = new Hashtable<>();
@@ -105,7 +104,6 @@ public class WatchFaceState {
     private StringBuilder mStringBuilder = new StringBuilder();
 
     public WatchFaceState(Context context) {
-        mContext = context;
         mPaintBox = new PaintBox(context);
         // Hmm. Strictly temporary: how about a default setting?
         setString("fcd81c000c0100000006c06a60000001~3cda1cc0000000000000000000000001");
@@ -455,7 +453,7 @@ public class WatchFaceState {
         mSettings.mComplicationRotation = complicationRotation;
     }
 
-    int getComplicationCountInt() {
+    private int getComplicationCountInt() {
         switch (getComplicationCount()) {
             case COUNT_5: {
                 return 5;
@@ -489,7 +487,11 @@ public class WatchFaceState {
         mSettings.mShowUnreadNotifications = showUnreadNotifications;
     }
 
+    @SuppressWarnings("unused")
     public boolean isNightVisionModeEnabled() {
+        // I mean, technically this is unused. If we don't want night vision, just set the night
+        // vision color to the same as day. But we need to find a place to request the location
+        // permission. TODO...
         return mSettings.mNightVisionModeEnabled;
     }
 
@@ -497,20 +499,20 @@ public class WatchFaceState {
         mSettings.mNightVisionModeEnabled = nightVisionModeEnabled;
     }
 
-    int getAmbientDaySixBitColor() {
+    private int getAmbientDaySixBitColor() {
         return mSettings.mAmbientDaySixBitColor;
     }
 
-    void setAmbientDaySixBitColor(int ambientDaySixBitColor) {
+    private void setAmbientDaySixBitColor(int ambientDaySixBitColor) {
         mSettings.mAmbientDaySixBitColor = ambientDaySixBitColor;
         regeneratePaints();
     }
 
-    int getAmbientNightSixBitColor() {
+    private int getAmbientNightSixBitColor() {
         return mSettings.mAmbientNightSixBitColor;
     }
 
-    void setAmbientNightSixBitColor(int ambientNightSixBitColor) {
+    private void setAmbientNightSixBitColor(int ambientNightSixBitColor) {
         mSettings.mAmbientNightSixBitColor = ambientNightSixBitColor;
         regeneratePaints();
     }
@@ -535,7 +537,7 @@ public class WatchFaceState {
         return mSettings.mDeveloperMode;
     }
 
-    public void setDeveloperMode(boolean developerMode) {
+    void setDeveloperMode(boolean developerMode) {
         mSettings.mDeveloperMode = developerMode;
     }
 
@@ -543,7 +545,7 @@ public class WatchFaceState {
         return mSettings.mStats;
     }
 
-    public void setStats(boolean stats) {
+    void setStats(boolean stats) {
         mSettings.mStats = stats;
     }
 
@@ -551,7 +553,7 @@ public class WatchFaceState {
         return mSettings.mStatsDetail;
     }
 
-    public void setStatsDetail(boolean statsDetail) {
+    void setStatsDetail(boolean statsDetail) {
         mSettings.mStatsDetail = statsDetail;
     }
     // endregion
@@ -928,38 +930,38 @@ public class WatchFaceState {
         mWatchFacePreset.mMinuteHandCutout = minuteHandCutout;
     }
 
-    int getFillSixBitColor() {
+    private int getFillSixBitColor() {
         return mWatchFacePreset.mFillSixBitColor;
     }
 
-    void setFillSixBitColor(int fillSixBitColor) {
+    private void setFillSixBitColor(int fillSixBitColor) {
         mWatchFacePreset.mFillSixBitColor = fillSixBitColor;
         regeneratePaints();
     }
 
-    int getAccentSixBitColor() {
+    private int getAccentSixBitColor() {
         return mWatchFacePreset.mAccentSixBitColor;
     }
 
-    void setAccentSixBitColor(int accentSixBitColor) {
+    private void setAccentSixBitColor(int accentSixBitColor) {
         mWatchFacePreset.mAccentSixBitColor = accentSixBitColor;
         regeneratePaints();
     }
 
-    int getHighlightSixBitColor() {
+    private int getHighlightSixBitColor() {
         return mWatchFacePreset.mHighlightSixBitColor;
     }
 
-    void setHighlightSixBitColor(int highlightSixBitColor) {
+    private void setHighlightSixBitColor(int highlightSixBitColor) {
         mWatchFacePreset.mHighlightSixBitColor = highlightSixBitColor;
         regeneratePaints();
     }
 
-    int getBaseSixBitColor() {
+    private int getBaseSixBitColor() {
         return mWatchFacePreset.mBaseSixBitColor;
     }
 
-    void setBaseSixBitColor(int baseSixBitColor) {
+    private void setBaseSixBitColor(int baseSixBitColor) {
         mWatchFacePreset.mBaseSixBitColor = baseSixBitColor;
         regeneratePaints();
     }
