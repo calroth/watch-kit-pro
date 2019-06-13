@@ -28,13 +28,11 @@ public class Settings extends BytePackable {
     boolean mNightVisionModeEnabled;
     ComplicationCount mComplicationCount;
     ComplicationRotation mComplicationRotation = ComplicationRotation.ROTATE_25;
-    int mAmbientDaySixBitColor;
-    int mAmbientNightSixBitColor;
+    int mAmbientDaySixBitColor, mAmbientNightSixBitColor;
     Style mComplicationRingStyle;
     Style mComplicationBackgroundStyle;
     boolean mDeveloperMode;
-    boolean mStats;
-    boolean mStatsDetail;
+    boolean mStats, mStatsDetail;
 
     @Override
     public int hashCode() {
@@ -44,13 +42,11 @@ public class Settings extends BytePackable {
                 mNightVisionModeEnabled,
                 mComplicationCount,
                 mComplicationRotation,
-                mAmbientDaySixBitColor,
-                mAmbientNightSixBitColor,
+                mAmbientDaySixBitColor, mAmbientNightSixBitColor,
                 mComplicationRingStyle,
                 mComplicationBackgroundStyle,
                 mDeveloperMode,
-                mStats,
-                mStatsDetail);
+                mStats, mStatsDetail);
     }
 
     @Override

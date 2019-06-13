@@ -22,8 +22,7 @@ import java.util.Objects;
 
 public final class WatchFacePreset extends BytePackable {
     Style mBackgroundStyle;
-    boolean mMinuteHandOverride;
-    boolean mSecondHandOverride;
+    boolean mMinuteHandOverride, mSecondHandOverride;
     HandShape mHourHandShape, mMinuteHandShape, mSecondHandShape;
     HandLength mHourHandLength, mMinuteHandLength, mSecondHandLength;
     HandThickness mHourHandThickness, mMinuteHandThickness, mSecondHandThickness;
@@ -36,25 +35,16 @@ public final class WatchFacePreset extends BytePackable {
     TickLength mFourTickLength, mTwelveTickLength, mSixtyTickLength;
     TickThickness mFourTickThickness, mTwelveTickThickness, mSixtyTickThickness;
     TickRadiusPosition mFourTickRadiusPosition, mTwelveTickRadiusPosition, mSixtyTickRadiusPosition;
-    Style mFourTickStyle;
-    Style mTwelveTickStyle;
-    Style mSixtyTickStyle;
-    int mFillSixBitColor;
-    int mAccentSixBitColor;
-    int mHighlightSixBitColor;
-    int mBaseSixBitColor;
-    GradientStyle mFillHighlightStyle;
-    GradientStyle mAccentFillStyle;
-    GradientStyle mAccentHighlightStyle;
-    GradientStyle mBaseAccentStyle;
+    Style mFourTickStyle, mTwelveTickStyle, mSixtyTickStyle;
+    int mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor;
+    GradientStyle mFillHighlightStyle, mAccentFillStyle, mAccentHighlightStyle, mBaseAccentStyle;
 
     @Override
     public int hashCode() {
         return Objects.hash(
                 super.hashCode(),
                 mBackgroundStyle,
-                mMinuteHandOverride,
-                mSecondHandOverride,
+                mMinuteHandOverride, mSecondHandOverride,
                 mHourHandShape, mMinuteHandShape, mSecondHandShape,
                 mHourHandLength, mMinuteHandLength, mSecondHandLength,
                 mHourHandThickness, mMinuteHandThickness, mSecondHandThickness,
@@ -67,17 +57,9 @@ public final class WatchFacePreset extends BytePackable {
                 mFourTickLength, mTwelveTickLength, mSixtyTickLength,
                 mFourTickThickness, mTwelveTickThickness, mSixtyTickThickness,
                 mFourTickRadiusPosition, mTwelveTickRadiusPosition, mSixtyTickRadiusPosition,
-                mFourTickStyle,
-                mTwelveTickStyle,
-                mSixtyTickStyle,
-                mFillSixBitColor,
-                mAccentSixBitColor,
-                mHighlightSixBitColor,
-                mBaseSixBitColor,
-                mFillHighlightStyle,
-                mAccentFillStyle,
-                mAccentHighlightStyle,
-                mBaseAccentStyle);
+                mFourTickStyle, mTwelveTickStyle, mSixtyTickStyle,
+                mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor,
+                mFillHighlightStyle, mAccentFillStyle, mAccentHighlightStyle, mBaseAccentStyle);
     }
 
     @Override
