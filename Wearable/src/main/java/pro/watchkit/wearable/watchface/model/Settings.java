@@ -23,7 +23,7 @@ import java.util.Objects;
 /**
  * Check yuor settings.
  */
-public class Settings extends BytePackable implements Cloneable {
+public class Settings extends BytePackable {
     boolean mShowUnreadNotifications;
     boolean mNightVisionModeEnabled;
     ComplicationCount mComplicationCount;
@@ -51,17 +51,6 @@ public class Settings extends BytePackable implements Cloneable {
                 mDeveloperMode,
                 mStats,
                 mStatsDetail);
-    }
-
-    public Settings clone() {
-        Settings result;
-        try {
-            result = (Settings) cloneInternal();
-        } catch (CloneNotSupportedException e) {
-            result = new Settings();
-            result.setString(getString());
-        }
-        return result;
     }
 
     @Override

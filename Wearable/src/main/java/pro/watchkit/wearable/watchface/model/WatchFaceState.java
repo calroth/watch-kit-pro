@@ -79,7 +79,7 @@ import pro.watchkit.wearable.watchface.model.PaintBox.ColorType;
  * When creating a WatchFaceState object, you'll need to pass a Context. This is so we can get
  * the relevant resources out of the application (e.g. localised UI strings).
  */
-public class WatchFaceState implements Cloneable {
+public class WatchFaceState {
     private final WatchFacePreset mWatchFacePreset = new WatchFacePreset();
     private final Settings mSettings = new Settings();
     private final Context mContext;
@@ -217,17 +217,6 @@ public class WatchFaceState implements Cloneable {
         }
 
         return false;
-    }
-
-    public WatchFaceState clone() {
-        WatchFaceState result;
-        try {
-            result = (WatchFaceState) super.clone();
-        } catch (CloneNotSupportedException e) {
-            result = new WatchFaceState(mContext);
-            result.setString(getString());
-        }
-        return result;
     }
 
     /**

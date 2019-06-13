@@ -20,7 +20,7 @@ package pro.watchkit.wearable.watchface.model;
 
 import java.util.Objects;
 
-public final class WatchFacePreset extends BytePackable implements Cloneable {
+public final class WatchFacePreset extends BytePackable {
     Style mBackgroundStyle;
     boolean mMinuteHandOverride;
     boolean mSecondHandOverride;
@@ -78,17 +78,6 @@ public final class WatchFacePreset extends BytePackable implements Cloneable {
                 mAccentFillStyle,
                 mAccentHighlightStyle,
                 mBaseAccentStyle);
-    }
-
-    public WatchFacePreset clone() {
-        WatchFacePreset result;
-        try {
-            result = (WatchFacePreset) cloneInternal();
-        } catch (CloneNotSupportedException e) {
-            result = new WatchFacePreset();
-            result.setString(getString());
-        }
-        return result;
     }
 
     @Override
