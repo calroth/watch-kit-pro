@@ -38,24 +38,24 @@ abstract public class ConfigData {
         int getConfigType();
     }
 
-    protected interface Mutator<B> {
+    protected interface Mutator {
         /**
-         * For the given Settings (which must be a clone, since we'll modify it in the
+         * For the given WatchFaceState (which must be a clone, since we'll modify it in the
          * process) return a String array with each permutation.
          *
-         * @param permutation Settings, which must be a clone, since we'll modify it
+         * @param permutation WatchFaceState, which must be a clone, since we'll modify it
          * @return String array with each permutation
          */
-        String[] permute(B permutation);
+        String[] permute(WatchFaceState permutation);
 
         /**
-         * For the given Settings (which is our current preference) return the current
+         * For the given WatchFaceState (which is our current preference) return the current
          * value.
          *
-         * @param currentPreset Settings of our current preference
+         * @param currentPreset WatchFaceState of our current preference
          * @return Value that it's currently set to
          */
-        Enum getCurrentValue(B currentPreset);
+        Enum getCurrentValue(WatchFaceState currentPreset);
     }
 
     /**
@@ -204,44 +204,44 @@ abstract public class ConfigData {
         }
     }
 
-    protected static class MutatorImpl<E extends Enum, B extends WatchFaceState>
-            implements Mutator<B> {
+    protected static class MutatorImpl<E extends Enum> implements Mutator {
         /**
          * All the possible Enum values of E.
          */
         private E[] mValues;
 
         /**
-         * A lambda which sets (or applies) setting E to the given BytePackable.
+         * A lambda which sets (or applies) setting E to the given WatchFaceState.
          */
-        private BiConsumer<B, E> mSetter;
+        private BiConsumer<WatchFaceState, E> mSetter;
 
         /**
-         * A lambda which gets and returns setting E from the given BytePackable.
+         * A lambda which gets and returns setting E from the given WatchFaceState.
          */
-        private Function<B, E> mGetter;
+        private Function<WatchFaceState, E> mGetter;
 
         /**
-         * Create the given SettingsMutatorImpl for the E of type Enum.
+         * Create the given MutatorImpl for the E of type Enum.
          *
          * @param values all possible enumeration values of E
          * @param setter a lambda which sets (or applies) setting E to the given Settings
          * @param getter a lambda which gets and returns setting E from the given Settings
          */
-        MutatorImpl(E[] values, BiConsumer<B, E> setter, Function<B, E> getter) {
+        MutatorImpl(E[] values, BiConsumer<WatchFaceState, E> setter,
+                    Function<WatchFaceState, E> getter) {
             mValues = values;
             mSetter = setter;
             mGetter = getter;
         }
 
         /**
-         * For the given BytePackable (which must be a clone, since we'll modify it in the
+         * For the given WatchFaceState (which must be a clone, since we'll modify it in the
          * process) return a String array with each permutation.
          *
-         * @param permutation BytePackable, which must be a clone, since we'll modify it
+         * @param permutation WatchFaceState, which must be a clone, since we'll modify it
          * @return String array with each permutation
          */
-        public String[] permute(B permutation) {
+        public String[] permute(WatchFaceState permutation) {
             return Arrays.stream(mValues).map(h -> {
                 mSetter.accept(permutation, h);
                 return permutation.getString();
@@ -249,13 +249,13 @@ abstract public class ConfigData {
         }
 
         /**
-         * For the given BytePackable (which is our current preference) return the current
+         * For the given WatchFaceState (which is our current preference) return the current
          * value.
          *
-         * @param currentPreset BytePackable of our current preference
+         * @param currentPreset WatchFaceState of our current preference
          * @return Value that it's currently set to
          */
-        public E getCurrentValue(B currentPreset) {
+        public E getCurrentValue(WatchFaceState currentPreset) {
             return mGetter.apply(currentPreset);
         }
     }
@@ -264,7 +264,7 @@ abstract public class ConfigData {
         private String mName;
         private int mIconResourceId;
         private Class<WatchFaceSelectionActivity> mActivityToChoosePreference;
-        private Mutator<WatchFaceState> mWatchFaceStateMutator;
+        private Mutator mWatchFaceStateMutator;
         private ConfigItemVisibilityCalculator mConfigItemVisibilityCalculator;
         private int mWatchFaceGlobalDrawableFlags;
 
@@ -273,7 +273,7 @@ abstract public class ConfigData {
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
                 Class<WatchFaceSelectionActivity> activity,
-                Mutator<WatchFaceState> mutator) {
+                Mutator mutator) {
             this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, mutator, null);
         }
 
@@ -282,7 +282,7 @@ abstract public class ConfigData {
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
                 Class<WatchFaceSelectionActivity> activity,
-                Mutator<WatchFaceState> mutator,
+                Mutator mutator,
                 ConfigItemVisibilityCalculator configItemVisibilityCalculator) {
             this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, configItemVisibilityCalculator);
             mWatchFaceStateMutator = mutator;
@@ -364,13 +364,13 @@ abstract public class ConfigData {
         private String name;
         private int iconEnabledResourceId;
         private int iconDisabledResourceId;
-        private Mutator<WatchFaceState> mMutator;
+        private Mutator mMutator;
 
         WatchFacePresetToggleConfigItem(
                 String name,
                 int iconEnabledResourceId,
                 int iconDisabledResourceId,
-                Mutator<WatchFaceState> mutator) {
+                Mutator mutator) {
             this.name = name;
             this.iconEnabledResourceId = iconEnabledResourceId;
             this.iconDisabledResourceId = iconDisabledResourceId;

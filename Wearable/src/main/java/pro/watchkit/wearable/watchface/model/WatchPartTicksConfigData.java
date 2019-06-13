@@ -111,7 +111,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         context.getString(R.string.config_preset_twelve_tick_override),
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
-                        new Mutator<WatchFaceState>() {
+                        new Mutator() {
                             @Override
                             public String[] permute(WatchFaceState permutation) {
                                 String[] result = new String[2];
@@ -192,7 +192,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         context.getString(R.string.config_preset_sixty_tick_override),
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
-                        new Mutator<WatchFaceState>() {
+                        new Mutator() {
                             @Override
                             public String[] permute(WatchFaceState permutation) {
                                 String[] result = new String[2];
