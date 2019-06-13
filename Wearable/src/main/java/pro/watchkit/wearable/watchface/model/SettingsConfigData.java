@@ -47,17 +47,46 @@ public class SettingsConfigData extends ConfigData {
     public List<ConfigItemType> getDataToPopulateAdapter(Context context) {
         return Arrays.asList(
                 // Data for 'Unread Notifications' UX (toggle) in settings Activity.
-                new UnreadNotificationConfigItem(
+                new ToggleConfigItem(
                         context.getString(R.string.config_unread_notifications_label),
                         R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp),
+                        R.drawable.ic_notifications_off_white_24dp,
+                        new Mutator() {
+                            @Override
+                            public String[] permute(WatchFaceState permutation) {
+                                String[] result = new String[2];
+                                permutation.setShowUnreadNotifications(false);
+                                result[0] = permutation.getString();
+                                permutation.setShowUnreadNotifications(true);
+                                result[1] = permutation.getString();
+                                return result;
+                            }
+
+                            public Enum getCurrentValue(WatchFaceState currentPreset) {
+                                return null;
+                            }
+                        }),
 
                 // Data for 'Night Vision' UX (toggle) in settings Activity.
-                new NightVisionConfigItem(
+                new ToggleConfigItem(
                         context.getString(R.string.config_night_vision_label),
                         R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp),
+                        R.drawable.ic_notifications_off_white_24dp,
+                        new Mutator() {
+                            @Override
+                            public String[] permute(WatchFaceState permutation) {
+                                String[] result = new String[2];
+                                permutation.setNightVisionModeEnabled(false);
+                                result[0] = permutation.getString();
+                                permutation.setNightVisionModeEnabled(true);
+                                result[1] = permutation.getString();
+                                return result;
+                            }
 
+                            public Enum getCurrentValue(WatchFaceState currentPreset) {
+                                return null;
+                            }
+                        }),
 
                 // Data for base color UX in settings Activity.
                 new ColorPickerConfigItem(

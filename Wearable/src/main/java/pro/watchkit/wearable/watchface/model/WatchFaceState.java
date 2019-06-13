@@ -485,17 +485,16 @@ public class WatchFaceState {
         return mSettings.mShowUnreadNotifications;
     }
 
-    public void toggleShowUnreadNotifications() {
-        mSettings.mShowUnreadNotifications = !mSettings.mShowUnreadNotifications;
+    void setShowUnreadNotifications(boolean showUnreadNotifications) {
+        mSettings.mShowUnreadNotifications = showUnreadNotifications;
     }
 
     public boolean isNightVisionModeEnabled() {
         return mSettings.mNightVisionModeEnabled;
     }
 
-    public boolean toggleNightVisionModeEnabled() {
-        mSettings.mNightVisionModeEnabled = !mSettings.mNightVisionModeEnabled;
-        return mSettings.mNightVisionModeEnabled;
+    void setNightVisionModeEnabled(boolean nightVisionModeEnabled) {
+        mSettings.mNightVisionModeEnabled = nightVisionModeEnabled;
     }
 
     int getAmbientDaySixBitColor() {

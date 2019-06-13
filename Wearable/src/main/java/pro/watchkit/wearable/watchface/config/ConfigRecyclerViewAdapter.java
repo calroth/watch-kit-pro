@@ -39,7 +39,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
@@ -72,11 +71,9 @@ import pro.watchkit.wearable.watchface.model.ConfigData.ColorPickerConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ComplicationConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ConfigActivityConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ConfigItemType;
-import pro.watchkit.wearable.watchface.model.ConfigData.NightVisionConfigItem;
-import pro.watchkit.wearable.watchface.model.ConfigData.UnreadNotificationConfigItem;
+import pro.watchkit.wearable.watchface.model.ConfigData.ToggleConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFaceDrawableConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFacePickerConfigItem;
-import pro.watchkit.wearable.watchface.model.ConfigData.WatchFacePresetToggleConfigItem;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
@@ -106,13 +103,11 @@ import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.
 public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
 
     public static final int TYPE_COLOR_PICKER_CONFIG = 0;
-    public static final int TYPE_UNREAD_NOTIFICATION_CONFIG = 1;
-    public static final int TYPE_NIGHT_VISION_CONFIG = 2;
-    public static final int TYPE_WATCH_FACE_DRAWABLE_CONFIG = 3;
-    public static final int TYPE_COMPLICATION_CONFIG = 4;
-    public static final int TYPE_WATCH_FACE_PRESET_PICKER_CONFIG = 5;
-    public static final int TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG = 6;
-    public static final int TYPE_CONFIG_ACTIVITY_CONFIG = 7;
+    public static final int TYPE_WATCH_FACE_DRAWABLE_CONFIG = 1;
+    public static final int TYPE_COMPLICATION_CONFIG = 2;
+    public static final int TYPE_WATCH_FACE_PRESET_PICKER_CONFIG = 3;
+    public static final int TYPE_TOGGLE_CONFIG = 4;
+    public static final int TYPE_CONFIG_ACTIVITY_CONFIG = 5;
     private static final String TAG = "CompConfigAdapter";
     private SharedPreferences mSharedPref;
     private List<ConfigItemType> mSettingsDataSet;
@@ -218,34 +213,12 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                 break;
             }
 
-            case TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG: {
+            default: // Default case. Probably shouldn't happen.
+            case TYPE_TOGGLE_CONFIG: {
                 viewHolder =
-                        new WatchFacePresetToggleViewHolder(
+                        new ToggleViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.config_list_toggle, parent, false));
-                break;
-            }
-
-            case TYPE_UNREAD_NOTIFICATION_CONFIG: {
-                viewHolder =
-                        new UnreadNotificationViewHolder(
-                                LayoutInflater.from(parent.getContext())
-                                        .inflate(
-                                                R.layout.config_list_toggle,
-                                                parent,
-                                                false));
-                break;
-            }
-
-            default: // Default case. Probably shouldn't happen.
-            case TYPE_NIGHT_VISION_CONFIG: {
-                viewHolder =
-                        new NightVisionViewHolder(
-                                LayoutInflater.from(parent.getContext())
-                                        .inflate(
-                                                R.layout.config_list_toggle,
-                                                parent,
-                                                false));
                 break;
             }
         }
@@ -314,48 +287,10 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                 break;
             }
 
-            case TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG: {
-                WatchFacePresetToggleViewHolder watchFacePresetToggleViewHolder =
-                        (WatchFacePresetToggleViewHolder) viewHolder;
-                WatchFacePresetToggleConfigItem watchFacePresetToggleConfigItem =
-                        (WatchFacePresetToggleConfigItem) configItemType;
-                watchFacePresetToggleViewHolder.bind(watchFacePresetToggleConfigItem);
-                break;
-            }
-
-            case TYPE_UNREAD_NOTIFICATION_CONFIG: {
-                UnreadNotificationViewHolder unreadViewHolder =
-                        (UnreadNotificationViewHolder) viewHolder;
-
-                UnreadNotificationConfigItem unreadConfigItem =
-                        (UnreadNotificationConfigItem) configItemType;
-
-                int unreadEnabledIconResourceId = unreadConfigItem.getIconEnabledResourceId();
-                int unreadDisabledIconResourceId = unreadConfigItem.getIconDisabledResourceId();
-
-                String unreadName = unreadConfigItem.getName();
-
-                unreadViewHolder.setIcons(
-                        unreadEnabledIconResourceId, unreadDisabledIconResourceId);
-                unreadViewHolder.setName(unreadName);
-                break;
-            }
-
-            case TYPE_NIGHT_VISION_CONFIG: {
-                NightVisionViewHolder nightVisionViewHolder =
-                        (NightVisionViewHolder) viewHolder;
-
-                NightVisionConfigItem nightVisionConfigItem =
-                        (NightVisionConfigItem) configItemType;
-
-                int nightVisionEnabledIconResourceId = nightVisionConfigItem.getIconEnabledResourceId();
-                int nightVisionDisabledIconResourceId = nightVisionConfigItem.getIconDisabledResourceId();
-
-                String nightVisionName = nightVisionConfigItem.getName();
-
-                nightVisionViewHolder.setIcons(
-                        nightVisionEnabledIconResourceId, nightVisionDisabledIconResourceId);
-                nightVisionViewHolder.setName(nightVisionName);
+            case TYPE_TOGGLE_CONFIG: {
+                ToggleViewHolder toggleViewHolder = (ToggleViewHolder) viewHolder;
+                ToggleConfigItem toggleConfigItem = (ToggleConfigItem) configItemType;
+                toggleViewHolder.bind(toggleConfigItem);
                 break;
             }
         }
@@ -609,19 +544,35 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
         }
     }
 
-    /**
-     * Displays switch to indicate whether or not the given WatchFacePreset flag is toggled on/off.
-     */
-    public class WatchFacePresetToggleViewHolder extends ToggleViewHolder
-            implements WatchFaceStateListener {
+    // This code is left over from Night Vision and we need to put it somewhere.
+    // It gets location permissions for our Night Vision check.
+//            if (newState && context.checkSelfPermission(
+//                    android.Manifest.permission.ACCESS_COARSE_LOCATION)
+//                    != PackageManager.PERMISSION_GRANTED) {
+//                Activity a = (Activity) context;
+//                a.requestPermissions(new String[]{
+//                                android.Manifest.permission.ACCESS_COARSE_LOCATION},
+//                        MY_PERMISSION_ACCESS_COURSE_LOCATION);
+//            }
 
-        WatchFacePresetToggleViewHolder(View view) {
+    /**
+     * Displays switch to indicate whether or not a boolean value is toggled on/off.
+     */
+    public class ToggleViewHolder extends RecyclerView.ViewHolder
+            implements OnClickListener, WatchFaceStateListener {
+        private Switch mSwitch;
+        private int mEnabledIconResourceId;
+        private int mDisabledIconResourceId;
+        private ToggleConfigItem mConfigItem;
+
+        ToggleViewHolder(View view) {
             super(view);
+
+            mSwitch = view.findViewById(R.id.config_list_toggle);
+            view.setOnClickListener(this);
         }
 
-        private WatchFacePresetToggleConfigItem mConfigItem;
-
-        void bind(WatchFacePresetToggleConfigItem configItem) {
+        void bind(ToggleConfigItem configItem) {
             mConfigItem = configItem;
 
             setName(configItem.getName());
@@ -629,129 +580,6 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                     configItem.getIconDisabledResourceId());
 
             setDefaultSwitchValue();
-        }
-
-        @Override
-        void setDefaultSwitchValue() {
-            // Regenerate and grab our current permutations. Just in time!
-            String[] permutations = mConfigItem.permute(mCurrentWatchFaceState, mContext);
-            setChecked(mCurrentWatchFaceState.getString().equals(permutations[1]));
-        }
-
-        public void onWatchFaceStateChanged() {
-            setDefaultSwitchValue();
-        }
-
-        @Override
-        public void onClick(View view) {
-            // Regenerate and grab our current permutations. Just in time!
-            String[] permutations = mConfigItem.permute(mCurrentWatchFaceState, mContext);
-
-            SharedPreferences.Editor editor = mSharedPref.edit();
-            editor.putString(mContext.getString(R.string.saved_watch_face_state),
-                    isChecked() ? permutations[1] : permutations[0]);
-            editor.apply();
-
-            ConfigRecyclerViewAdapter.this.onWatchFaceStateChanged();
-        }
-    }
-
-    /**
-     * Displays switch to indicate whether or not icon appears for unread notifications. User can
-     * toggle on/off.
-     */
-    public class UnreadNotificationViewHolder extends ToggleViewHolder
-            implements WatchFaceStateListener {
-        UnreadNotificationViewHolder(View view) {
-            super(view);
-        }
-
-        @Override
-        void setDefaultSwitchValue() {
-            setChecked(mCurrentWatchFaceState.isShowUnreadNotifications());
-        }
-
-        @Override
-        public void onClick(View view) {
-            Context context = view.getContext();
-
-            // Since user clicked on a switch, new state should be opposite of current state.
-            mCurrentWatchFaceState.toggleShowUnreadNotifications();
-
-            SharedPreferences.Editor editor = mSharedPref.edit();
-            editor.putString(context.getString(R.string.saved_watch_face_state),
-                    mCurrentWatchFaceState.getString());
-            editor.apply();
-
-            ConfigRecyclerViewAdapter.this.onWatchFaceStateChanged();
-        }
-
-        @Override
-        public void onWatchFaceStateChanged() {
-            setDefaultSwitchValue();
-        }
-    }
-
-    /**
-     * Displays switch to indicate whether or not night vision is toggled on/off.
-     */
-    public class NightVisionViewHolder extends ToggleViewHolder
-            implements WatchFaceStateListener {
-        final private int MY_PERMISSION_ACCESS_COURSE_LOCATION = 1;
-
-        NightVisionViewHolder(View view) {
-            super(view);
-        }
-
-        @Override
-        void setDefaultSwitchValue() {
-            setChecked(mCurrentWatchFaceState.isNightVisionModeEnabled());
-        }
-
-        @Override
-        public void onClick(View view) {
-            Context context = view.getContext();
-
-            // Since user clicked on a switch, new state should be opposite of current state.
-            boolean newState = mCurrentWatchFaceState.toggleNightVisionModeEnabled();
-
-            if (newState && context.checkSelfPermission(
-                    android.Manifest.permission.ACCESS_COARSE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
-                Activity a = (Activity) context;
-                a.requestPermissions(new String[]{
-                                android.Manifest.permission.ACCESS_COARSE_LOCATION},
-                        MY_PERMISSION_ACCESS_COURSE_LOCATION);
-            }
-
-            SharedPreferences.Editor editor = mSharedPref.edit();
-            editor.putString(context.getString(R.string.saved_watch_face_state),
-                    mCurrentWatchFaceState.getString());
-            editor.apply();
-
-            ConfigRecyclerViewAdapter.this.onWatchFaceStateChanged();
-        }
-
-        @Override
-        public void onWatchFaceStateChanged() {
-            setDefaultSwitchValue();
-        }
-    }
-
-    /**
-     * Displays switch to indicate whether or not night vision is toggled on/off.
-     */
-    public abstract class ToggleViewHolder extends RecyclerView.ViewHolder
-            implements OnClickListener {
-        private Switch mSwitch;
-        private int mEnabledIconResourceId;
-        private int mDisabledIconResourceId;
-
-        ToggleViewHolder(View view) {
-            super(view);
-
-            mSwitch = view.findViewById(R.id.config_list_toggle);
-            view.setOnClickListener(this);
         }
 
         public void setName(String name) {
@@ -766,7 +594,11 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
             setDefaultSwitchValue();
         }
 
-        abstract void setDefaultSwitchValue();
+        void setDefaultSwitchValue() {
+            // Regenerate and grab our current permutations. Just in time!
+            String[] permutations = mConfigItem.permute(mCurrentWatchFaceState, mContext);
+            setChecked(mCurrentWatchFaceState.getString().equals(permutations[1]));
+        }
 
         boolean isChecked() {
             return mSwitch.isChecked();
@@ -787,6 +619,21 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
         }
 
         @Override
-        abstract public void onClick(View view);
+        public void onWatchFaceStateChanged() {
+            setDefaultSwitchValue();
+        }
+
+        @Override
+        public void onClick(View view) {
+            // Regenerate and grab our current permutations. Just in time!
+            String[] permutations = mConfigItem.permute(mCurrentWatchFaceState, mContext);
+
+            SharedPreferences.Editor editor = mSharedPref.edit();
+            editor.putString(mContext.getString(R.string.saved_watch_face_state),
+                    isChecked() ? permutations[1] : permutations[0]);
+            editor.apply();
+
+            ConfigRecyclerViewAdapter.this.onWatchFaceStateChanged();
+        }
     }
 }

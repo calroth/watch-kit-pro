@@ -357,16 +357,16 @@ abstract public class ConfigData {
     }
 
     /**
-     * Data for Night Vision preference picker item in RecyclerView.
+     * Data for toggle config item in RecyclerView.
      */
-    public static class WatchFacePresetToggleConfigItem implements ConfigItemType {
+    public static class ToggleConfigItem implements ConfigItemType {
 
         private String name;
         private int iconEnabledResourceId;
         private int iconDisabledResourceId;
         private Mutator mMutator;
 
-        WatchFacePresetToggleConfigItem(
+        ToggleConfigItem(
                 String name,
                 int iconEnabledResourceId,
                 int iconDisabledResourceId,
@@ -391,99 +391,13 @@ abstract public class ConfigData {
 
         @Override
         public int getConfigType() {
-            return ConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG;
+            return ConfigRecyclerViewAdapter.TYPE_TOGGLE_CONFIG;
         }
 
         public String[] permute(WatchFaceState watchFaceState, Context context) {
             WatchFaceState deepCopy = new WatchFaceState(context);
             deepCopy.setString(watchFaceState.getString());
             return mMutator.permute(deepCopy);
-        }
-    }
-
-    /**
-     * Data for Unread Notification preference picker item in RecyclerView.
-     */
-    public static class UnreadNotificationConfigItem implements ConfigItemType {
-
-        private String name;
-        private int iconEnabledResourceId;
-        private int iconDisabledResourceId;
-//        private int sharedPrefId;
-
-        UnreadNotificationConfigItem(
-                String name,
-                int iconEnabledResourceId,
-                int iconDisabledResourceId/*,
-                int sharedPrefId*/) {
-            this.name = name;
-            this.iconEnabledResourceId = iconEnabledResourceId;
-            this.iconDisabledResourceId = iconDisabledResourceId;
-//            this.sharedPrefId = sharedPrefId;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public int getIconEnabledResourceId() {
-            return iconEnabledResourceId;
-        }
-
-        public int getIconDisabledResourceId() {
-            return iconDisabledResourceId;
-        }
-
-//        public int getSharedPrefId() {
-//            return sharedPrefId;
-//        }
-
-        @Override
-        public int getConfigType() {
-            return ConfigRecyclerViewAdapter.TYPE_UNREAD_NOTIFICATION_CONFIG;
-        }
-    }
-
-    /**
-     * Data for Night Vision preference picker item in RecyclerView.
-     */
-    public static class NightVisionConfigItem implements ConfigItemType {
-
-        private String name;
-        private int iconEnabledResourceId;
-        private int iconDisabledResourceId;
-//        private int sharedPrefId;
-
-        NightVisionConfigItem(
-                String name,
-                int iconEnabledResourceId,
-                int iconDisabledResourceId/*,
-                int sharedPrefId*/) {
-            this.name = name;
-            this.iconEnabledResourceId = iconEnabledResourceId;
-            this.iconDisabledResourceId = iconDisabledResourceId;
-//            this.sharedPrefId = sharedPrefId;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public int getIconEnabledResourceId() {
-            return iconEnabledResourceId;
-        }
-
-        public int getIconDisabledResourceId() {
-            return iconDisabledResourceId;
-        }
-
-//        public int getSharedPrefId() {
-//            return sharedPrefId;
-//        }
-
-        @Override
-        public int getConfigType() {
-            return ConfigRecyclerViewAdapter.TYPE_NIGHT_VISION_CONFIG;
         }
     }
 }
