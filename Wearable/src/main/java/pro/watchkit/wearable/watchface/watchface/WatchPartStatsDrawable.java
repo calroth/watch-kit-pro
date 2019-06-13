@@ -27,7 +27,6 @@ import androidx.annotation.NonNull;
 
 import java.util.Formatter;
 
-import pro.watchkit.wearable.watchface.BuildConfig;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 
 final class WatchPartStatsDrawable extends WatchPartDrawable {
@@ -56,6 +55,9 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
 
     @Override
     public void draw2(@NonNull Canvas canvas) {
+        // Only draw stats in developer mode if selected. If not, return early.
+        if (!mWatchFaceState.isDeveloperMode() || !mWatchFaceState.isStats()) return;
+
         Paint textPaint = mWatchFaceState.isAmbient() ?
                 mWatchFaceState.getPaintBox().getAmbientPaint() :
                 mWatchFaceState.getPaintBox().getPaintFromPreset(Style.FILL_HIGHLIGHT);
@@ -64,7 +66,8 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
         float y = 35f * pc;
         mStringBuilder.setLength(0);
 
-        if (!mWatchFaceState.isAmbient() && BuildConfig.DEBUG) {
+        // Show detailed stats if selected. But not in ambient mode.
+        if (!mWatchFaceState.isAmbient() && mWatchFaceState.isStatsDetail()) {
 //            canvas.drawText(mInvalidTrigger, x, y, textPaint);
             y += 3f * pc;
 
