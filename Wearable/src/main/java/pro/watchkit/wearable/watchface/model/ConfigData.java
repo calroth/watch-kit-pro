@@ -339,9 +339,12 @@ abstract public class ConfigData {
             return ConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_PICKER_CONFIG;
         }
 
-        public String[] permute(WatchFaceState watchFaceState) {
+        public String[] permute(WatchFaceState watchFaceState, Context context) {
+            WatchFaceState deepCopy = new WatchFaceState(context);
+            deepCopy.setString(watchFaceState.getString());
+
             if (mWatchFaceStateMutator != null) {
-                return mWatchFaceStateMutator.permute(watchFaceState.clone());
+                return mWatchFaceStateMutator.permute(deepCopy);
             } else {
                 return null;
             }
@@ -391,8 +394,10 @@ abstract public class ConfigData {
             return ConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_TOGGLE_CONFIG;
         }
 
-        public String[] permute(WatchFaceState watchFaceState) {
-            return mMutator.permute(watchFaceState.clone());
+        public String[] permute(WatchFaceState watchFaceState, Context context) {
+            WatchFaceState deepCopy = new WatchFaceState(context);
+            deepCopy.setString(watchFaceState.getString());
+            return mMutator.permute(deepCopy);
         }
     }
 

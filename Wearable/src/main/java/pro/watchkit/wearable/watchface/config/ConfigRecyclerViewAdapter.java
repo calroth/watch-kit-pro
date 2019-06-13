@@ -154,8 +154,20 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
      * mCurrentWatchFaceState.
      */
     private void regenerateCurrentWatchFaceState() {
-        mCurrentWatchFaceState.setString(mSharedPref.getString(
-                mContext.getString(R.string.saved_watch_face_state), null));
+        // TODO: get rid of this transition code
+        String s0 = mSharedPref.getString(
+                mContext.getString(R.string.saved_watch_face_preset_1), null);
+        String s1 = mSharedPref.getString(
+                mContext.getString(R.string.saved_settings_1), null);
+        String s2 = mSharedPref.getString(
+                mContext.getString(R.string.saved_watch_face_state), null);
+
+        if (s2 == null && s0 != null && s1 != null) {
+            mCurrentWatchFaceState.setString(s0 + "~" + s1);
+        } else {
+            mCurrentWatchFaceState.setString(mSharedPref.getString(
+                    mContext.getString(R.string.saved_watch_face_state), null));
+        }
     }
 
     @Override
@@ -581,7 +593,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
 
             if (mLaunchActivity != null) {
                 // Regenerate and grab our current permutations. Just in time!
-                String[] permutations = mConfigItem.permute(mCurrentWatchFaceState);
+                String[] permutations = mConfigItem.permute(mCurrentWatchFaceState, mContext);
 
                 Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
 
@@ -622,7 +634,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
         @Override
         void setDefaultSwitchValue() {
             // Regenerate and grab our current permutations. Just in time!
-            String[] permutations = mConfigItem.permute(mCurrentWatchFaceState);
+            String[] permutations = mConfigItem.permute(mCurrentWatchFaceState, mContext);
             setChecked(mCurrentWatchFaceState.getString().equals(permutations[1]));
         }
 
@@ -633,16 +645,12 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
         @Override
         public void onClick(View view) {
             // Regenerate and grab our current permutations. Just in time!
-            String[] permutations = mConfigItem.permute(mCurrentWatchFaceState);
+            String[] permutations = mConfigItem.permute(mCurrentWatchFaceState, mContext);
 
-            Boolean newState = isChecked();
-            Context context = view.getContext();
             SharedPreferences.Editor editor = mSharedPref.edit();
-            editor.putString(context.getString(R.string.saved_watch_face_state),
-                    newState ? permutations[1] : permutations[0]);
+            editor.putString(mContext.getString(R.string.saved_watch_face_state),
+                    isChecked() ? permutations[1] : permutations[0]);
             editor.apply();
-
-//            mCurrentWatchFaceState.setString(newState ? permutations[1] : permutations[0]);
 
             ConfigRecyclerViewAdapter.this.onWatchFaceStateChanged();
         }
@@ -666,13 +674,13 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
         @Override
         public void onClick(View view) {
             Context context = view.getContext();
-            String sharedPreferenceString = context.getString(R.string.saved_watch_face_state);
 
             // Since user clicked on a switch, new state should be opposite of current state.
             mCurrentWatchFaceState.toggleShowUnreadNotifications();
 
             SharedPreferences.Editor editor = mSharedPref.edit();
-            editor.putString(sharedPreferenceString, mCurrentWatchFaceState.getString());
+            editor.putString(context.getString(R.string.saved_watch_face_state),
+                    mCurrentWatchFaceState.getString());
             editor.apply();
 
             ConfigRecyclerViewAdapter.this.onWatchFaceStateChanged();
@@ -703,7 +711,6 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
         @Override
         public void onClick(View view) {
             Context context = view.getContext();
-            String sharedPreferenceString = context.getString(R.string.saved_watch_face_state);
 
             // Since user clicked on a switch, new state should be opposite of current state.
             boolean newState = mCurrentWatchFaceState.toggleNightVisionModeEnabled();
@@ -718,7 +725,8 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
             }
 
             SharedPreferences.Editor editor = mSharedPref.edit();
-            editor.putString(sharedPreferenceString, mCurrentWatchFaceState.getString());
+            editor.putString(context.getString(R.string.saved_watch_face_state),
+                    mCurrentWatchFaceState.getString());
             editor.apply();
 
             ConfigRecyclerViewAdapter.this.onWatchFaceStateChanged();
