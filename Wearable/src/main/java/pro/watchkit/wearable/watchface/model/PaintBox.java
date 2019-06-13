@@ -690,7 +690,7 @@ public final class PaintBox {
                     float right = centerJ + (widthJ / 2f);
 
                     if (i % 2 != j % 2) { // Other!
-                        Log.d("Erasing", "(" + i + "," + j + ")");
+//                        Log.d("Erasing", "(" + i + "," + j + ")");
                         // Only every 2nd square
                         mTempCanvas.drawRect(left, top, right, bottom, mBrushedEffectPaint);
                     }
