@@ -100,7 +100,70 @@ public class SettingsConfigData extends ConfigData {
                         context.getString(R.string.config_ambient_night_color_label),
                         R.drawable.icn_styles,
                         PaintBox.ColorType.AMBIENT_NIGHT,
-                        ColorSelectionActivity.class)
+                        ColorSelectionActivity.class),
+
+                // Data for 'Developer Mode' UX (toggle) in settings Activity.
+                new ToggleConfigItem(
+                        context.getString(R.string.config_developer_mode_label),
+                        R.drawable.ic_notifications_white_24dp,
+                        R.drawable.ic_notifications_off_white_24dp,
+                        new Mutator() {
+                            @Override
+                            public String[] permute(WatchFaceState permutation) {
+                                String[] result = new String[2];
+                                permutation.setDeveloperMode(false);
+                                result[0] = permutation.getString();
+                                permutation.setDeveloperMode(true);
+                                result[1] = permutation.getString();
+                                return result;
+                            }
+
+                            public Enum getCurrentValue(WatchFaceState currentPreset) {
+                                return null;
+                            }
+                        }),
+
+                // Data for 'Stats' UX (toggle) in settings Activity.
+                new ToggleConfigItem(
+                        context.getString(R.string.config_stats_label),
+                        R.drawable.ic_notifications_white_24dp,
+                        R.drawable.ic_notifications_off_white_24dp,
+                        new Mutator() {
+                            @Override
+                            public String[] permute(WatchFaceState permutation) {
+                                String[] result = new String[2];
+                                permutation.setStats(false);
+                                result[0] = permutation.getString();
+                                permutation.setStats(true);
+                                result[1] = permutation.getString();
+                                return result;
+                            }
+
+                            public Enum getCurrentValue(WatchFaceState currentPreset) {
+                                return null;
+                            }
+                        }),
+
+                // Data for 'Stats (Detailed)' UX (toggle) in settings Activity.
+                new ToggleConfigItem(
+                        context.getString(R.string.config_stats_detail_label),
+                        R.drawable.ic_notifications_white_24dp,
+                        R.drawable.ic_notifications_off_white_24dp,
+                        new Mutator() {
+                            @Override
+                            public String[] permute(WatchFaceState permutation) {
+                                String[] result = new String[2];
+                                permutation.setStatsDetail(false);
+                                result[0] = permutation.getString();
+                                permutation.setStatsDetail(true);
+                                result[1] = permutation.getString();
+                                return result;
+                            }
+
+                            public Enum getCurrentValue(WatchFaceState currentPreset) {
+                                return null;
+                            }
+                        })
         );
     }
 }
