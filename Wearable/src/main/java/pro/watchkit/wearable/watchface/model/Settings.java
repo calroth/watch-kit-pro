@@ -23,7 +23,7 @@ import java.util.Objects;
 /**
  * Check yuor settings.
  */
-public class Settings extends BytePackable {
+final class Settings extends BytePackable {
     boolean mShowUnreadNotifications;
     boolean mNightVisionModeEnabled;
     ComplicationCount mComplicationCount;

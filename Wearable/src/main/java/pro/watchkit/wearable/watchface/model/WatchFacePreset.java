@@ -20,7 +20,7 @@ package pro.watchkit.wearable.watchface.model;
 
 import java.util.Objects;
 
-public final class WatchFacePreset extends BytePackable {
+final class WatchFacePreset extends BytePackable {
     Style mBackgroundStyle;
     boolean mMinuteHandOverride, mSecondHandOverride;
     HandShape mHourHandShape, mMinuteHandShape, mSecondHandShape;
