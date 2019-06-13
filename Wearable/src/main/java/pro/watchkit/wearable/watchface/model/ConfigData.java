@@ -260,7 +260,7 @@ abstract public class ConfigData {
         }
     }
 
-    public static class WatchFacePickerConfigItem implements ConfigItemType {
+    public static class PickerConfigItem implements ConfigItemType {
         private String mName;
         private int mIconResourceId;
         private Class<WatchFaceSelectionActivity> mActivityToChoosePreference;
@@ -268,7 +268,7 @@ abstract public class ConfigData {
         private ConfigItemVisibilityCalculator mConfigItemVisibilityCalculator;
         private int mWatchFaceGlobalDrawableFlags;
 
-        WatchFacePickerConfigItem(
+        PickerConfigItem(
                 String name,
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
@@ -277,7 +277,7 @@ abstract public class ConfigData {
             this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, mutator, null);
         }
 
-        WatchFacePickerConfigItem(
+        PickerConfigItem(
                 String name,
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
@@ -288,7 +288,7 @@ abstract public class ConfigData {
             mWatchFaceStateMutator = mutator;
         }
 
-        private WatchFacePickerConfigItem(
+        private PickerConfigItem(
                 String name,
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
@@ -336,7 +336,7 @@ abstract public class ConfigData {
 
         @Override
         public int getConfigType() {
-            return ConfigRecyclerViewAdapter.TYPE_WATCH_FACE_PRESET_PICKER_CONFIG;
+            return ConfigRecyclerViewAdapter.TYPE_PICKER_CONFIG;
         }
 
         public String[] permute(WatchFaceState watchFaceState, Context context) {

@@ -71,9 +71,9 @@ import pro.watchkit.wearable.watchface.model.ConfigData.ColorPickerConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ComplicationConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ConfigActivityConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ConfigItemType;
+import pro.watchkit.wearable.watchface.model.ConfigData.PickerConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ToggleConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFaceDrawableConfigItem;
-import pro.watchkit.wearable.watchface.model.ConfigData.WatchFacePickerConfigItem;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
@@ -105,7 +105,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
     public static final int TYPE_COLOR_PICKER_CONFIG = 0;
     public static final int TYPE_WATCH_FACE_DRAWABLE_CONFIG = 1;
     public static final int TYPE_COMPLICATION_CONFIG = 2;
-    public static final int TYPE_WATCH_FACE_PRESET_PICKER_CONFIG = 3;
+    public static final int TYPE_PICKER_CONFIG = 3;
     public static final int TYPE_TOGGLE_CONFIG = 4;
     public static final int TYPE_CONFIG_ACTIVITY_CONFIG = 5;
     private static final String TAG = "CompConfigAdapter";
@@ -205,9 +205,9 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                 break;
             }
 
-            case TYPE_WATCH_FACE_PRESET_PICKER_CONFIG: {
+            case TYPE_PICKER_CONFIG: {
                 viewHolder =
-                        new WatchFacePresetPickerViewHolder(
+                        new PickerViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.config_list_watch_face_preset_item, parent, false));
                 break;
@@ -278,12 +278,10 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                 break;
             }
 
-            case TYPE_WATCH_FACE_PRESET_PICKER_CONFIG: {
-                WatchFacePresetPickerViewHolder watchFacePresetPickerViewHolder =
-                        (WatchFacePresetPickerViewHolder) viewHolder;
-                WatchFacePickerConfigItem watchFacePickerConfigItem =
-                        (WatchFacePickerConfigItem) configItemType;
-                watchFacePresetPickerViewHolder.bind(watchFacePickerConfigItem);
+            case TYPE_PICKER_CONFIG: {
+                PickerViewHolder pickerViewHolder = (PickerViewHolder) viewHolder;
+                PickerConfigItem pickerConfigItem = (PickerConfigItem) configItemType;
+                pickerViewHolder.bind(pickerConfigItem);
                 break;
             }
 
@@ -456,18 +454,18 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
      * Displays color options for the an item on the watch face. These could include marker color,
      * background color, etc.
      */
-    public class WatchFacePresetPickerViewHolder extends RecyclerView.ViewHolder
+    public class PickerViewHolder extends RecyclerView.ViewHolder
             implements OnClickListener, WatchFaceStateListener {
 
         private Button mButton;
 
         private Class<WatchFaceSelectionActivity> mLaunchActivity;
-        private WatchFacePickerConfigItem mConfigItem;
+        private PickerConfigItem mConfigItem;
         private int mFlags;
 
         private int mVisibleLayoutHeight, mVisibleLayoutWidth;
 
-        WatchFacePresetPickerViewHolder(View view) {
+        PickerViewHolder(View view) {
             super(view);
 
             mButton = view.findViewById(R.id.watch_face_preset_picker_button);
@@ -477,7 +475,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
             mVisibleLayoutWidth = itemView.getLayoutParams().width;
         }
 
-        void bind(WatchFacePickerConfigItem configItem) {
+        void bind(PickerConfigItem configItem) {
             mConfigItem = configItem;
             mLaunchActivity = configItem.getActivityToChoosePreference();
             mFlags = configItem.getWatchFaceGlobalDrawableFlags();

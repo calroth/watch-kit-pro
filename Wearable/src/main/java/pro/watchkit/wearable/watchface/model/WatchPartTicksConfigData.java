@@ -36,7 +36,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                 new WatchFaceDrawableConfigItem(watchFaceGlobalDrawableFlags),
 
                 // Data for ticks display in settings Activity.
-                new WatchFacePickerConfigItem(
+                new PickerConfigItem(
                         context.getString(R.string.config_preset_ticks_display),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
@@ -47,7 +47,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                                 WatchFaceState::getTicksDisplay)),
 
                 // Data for four tick shape in settings Activity.
-                new WatchFacePickerConfigItem(
+                new PickerConfigItem(
                         context.getString(R.string.config_preset_four_tick_shape),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
@@ -59,7 +59,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceState::isFourTicksVisible),
 
                 // Data for four tick length in settings Activity.
-                new WatchFacePickerConfigItem(
+                new PickerConfigItem(
                         context.getString(R.string.config_preset_four_tick_length),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
@@ -71,7 +71,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceState::isFourTicksVisible),
 
                 // Data for four tick thickness in settings Activity.
-                new WatchFacePickerConfigItem(
+                new PickerConfigItem(
                         context.getString(R.string.config_preset_four_tick_thickness),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
@@ -83,7 +83,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceState::isFourTicksVisible),
 
                 // Data for four tick radius position in settings Activity.
-                new WatchFacePickerConfigItem(
+                new PickerConfigItem(
                         context.getString(R.string.config_preset_four_tick_radius_position),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
@@ -95,7 +95,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceState::isFourTicksVisible),
 
                 // Data for four tick style in settings Activity.
-                new WatchFacePickerConfigItem(
+                new PickerConfigItem(
                         context.getString(R.string.config_preset_four_tick_style),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
@@ -128,7 +128,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         }),
 
                 // Data for twelve tick shape in settings Activity.
-                new WatchFacePickerConfigItem(
+                new PickerConfigItem(
                         context.getString(R.string.config_preset_twelve_tick_shape),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
@@ -140,7 +140,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceState::isTwelveTicksOverridden),
 
                 // Data for twelve tick length in settings Activity.
-                new WatchFacePickerConfigItem(
+                new PickerConfigItem(
                         context.getString(R.string.config_preset_twelve_tick_length),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
@@ -152,7 +152,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceState::isTwelveTicksOverridden),
 
                 // Data for twelve tick thickness in settings Activity.
-                new WatchFacePickerConfigItem(
+                new PickerConfigItem(
                         context.getString(R.string.config_preset_twelve_tick_thickness),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
@@ -164,7 +164,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceState::isTwelveTicksOverridden),
 
                 // Data for twelve tick radius position in settings Activity.
-                new WatchFacePickerConfigItem(
+                new PickerConfigItem(
                         context.getString(R.string.config_preset_twelve_tick_radius_position),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
@@ -176,7 +176,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceState::isTwelveTicksOverridden),
 
                 // Data for twelve tick style in settings Activity.
-                new WatchFacePickerConfigItem(
+                new PickerConfigItem(
                         context.getString(R.string.config_preset_twelve_tick_style),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
@@ -209,7 +209,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         }),
 
                 // Data for sixty tick shape in settings Activity.
-                new WatchFacePickerConfigItem(
+                new PickerConfigItem(
                         context.getString(R.string.config_preset_sixty_tick_shape),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
@@ -221,7 +221,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceState::isSixtyTicksOverridden),
 
                 // Data for sixty tick length in settings Activity.
-                new WatchFacePickerConfigItem(
+                new PickerConfigItem(
                         context.getString(R.string.config_preset_sixty_tick_length),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
@@ -233,7 +233,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceState::isSixtyTicksOverridden),
 
                 // Data for sixty tick thickness in settings Activity.
-                new WatchFacePickerConfigItem(
+                new PickerConfigItem(
                         context.getString(R.string.config_preset_sixty_tick_thickness),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
@@ -245,7 +245,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceState::isSixtyTicksOverridden),
 
                 // Data for sixty tick radius position in settings Activity.
-                new WatchFacePickerConfigItem(
+                new PickerConfigItem(
                         context.getString(R.string.config_preset_sixty_tick_radius_position),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
@@ -257,7 +257,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceState::isSixtyTicksOverridden),
 
                 // Data for sixty tick style in settings Activity.
-                new WatchFacePickerConfigItem(
+                new PickerConfigItem(
                         context.getString(R.string.config_preset_sixty_tick_style),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
@@ -269,7 +269,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         WatchFaceState::isSixtyTicksOverridden),
 
                 // Data for background style in settings Activity.
-                new WatchFacePickerConfigItem(
+                new PickerConfigItem(
                         context.getString(R.string.config_preset_background_style),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
