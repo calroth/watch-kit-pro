@@ -142,7 +142,8 @@ public class SettingsConfigData extends ConfigData {
                             public Enum getCurrentValue(WatchFaceState currentPreset) {
                                 return null;
                             }
-                        }),
+                        },
+                        WatchFaceState::isDeveloperMode),
 
                 // Data for 'Stats (Detailed)' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
@@ -163,7 +164,8 @@ public class SettingsConfigData extends ConfigData {
                             public Enum getCurrentValue(WatchFaceState currentPreset) {
                                 return null;
                             }
-                        })
+                        },
+                        WatchFaceState::isDeveloperMode)
         );
     }
 }

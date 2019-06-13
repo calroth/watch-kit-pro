@@ -365,16 +365,27 @@ abstract public class ConfigData {
         private int iconEnabledResourceId;
         private int iconDisabledResourceId;
         private Mutator mMutator;
+        private ConfigItemVisibilityCalculator mConfigItemVisibilityCalculator;
 
         ToggleConfigItem(
                 String name,
                 int iconEnabledResourceId,
                 int iconDisabledResourceId,
                 Mutator mutator) {
+            this(name, iconEnabledResourceId, iconDisabledResourceId, mutator, null);
+        }
+
+        ToggleConfigItem(
+                String name,
+                int iconEnabledResourceId,
+                int iconDisabledResourceId,
+                Mutator mutator,
+                ConfigItemVisibilityCalculator configItemVisibilityCalculator) {
             this.name = name;
             this.iconEnabledResourceId = iconEnabledResourceId;
             this.iconDisabledResourceId = iconDisabledResourceId;
-            this.mMutator = mutator;
+            mMutator = mutator;
+            mConfigItemVisibilityCalculator = configItemVisibilityCalculator;
         }
 
         public String getName() {
@@ -398,6 +409,11 @@ abstract public class ConfigData {
             WatchFaceState deepCopy = new WatchFaceState(context);
             deepCopy.setString(watchFaceState.getString());
             return mMutator.permute(deepCopy);
+        }
+
+        public boolean isVisible(WatchFaceState watchFaceState) {
+            return mConfigItemVisibilityCalculator == null ||
+                    mConfigItemVisibilityCalculator.isVisible(watchFaceState);
         }
     }
 }

@@ -562,12 +562,16 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
         private int mEnabledIconResourceId;
         private int mDisabledIconResourceId;
         private ToggleConfigItem mConfigItem;
+        private int mVisibleLayoutHeight, mVisibleLayoutWidth;
 
         ToggleViewHolder(View view) {
             super(view);
 
             mSwitch = view.findViewById(R.id.config_list_toggle);
             view.setOnClickListener(this);
+
+            mVisibleLayoutHeight = itemView.getLayoutParams().height;
+            mVisibleLayoutWidth = itemView.getLayoutParams().width;
         }
 
         void bind(ToggleConfigItem configItem) {
@@ -585,7 +589,6 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
         }
 
         void setIcons(int enabledIconResourceId, int disabledIconResourceId) {
-
             mEnabledIconResourceId = enabledIconResourceId;
             mDisabledIconResourceId = disabledIconResourceId;
 
@@ -596,6 +599,19 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
             // Regenerate and grab our current permutations. Just in time!
             String[] permutations = mConfigItem.permute(mCurrentWatchFaceState, mContext);
             setChecked(mCurrentWatchFaceState.getString().equals(permutations[1]));
+
+            // Set visibility.
+            ViewGroup.LayoutParams param = itemView.getLayoutParams();
+            if (mConfigItem.isVisible(mCurrentWatchFaceState)) {
+                param.height = mVisibleLayoutHeight;
+                param.width = mVisibleLayoutWidth;
+                itemView.setVisibility(View.VISIBLE);
+            } else {
+                param.height = 0;
+                param.width = 0;
+                itemView.setVisibility(View.GONE);
+            }
+            itemView.setLayoutParams(param);
         }
 
         boolean isChecked() {
