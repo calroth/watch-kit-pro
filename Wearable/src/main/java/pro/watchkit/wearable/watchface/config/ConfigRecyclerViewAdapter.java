@@ -34,30 +34,15 @@
 
 package pro.watchkit.wearable.watchface.config;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.Paint;
-import android.graphics.PixelFormat;
-import android.graphics.drawable.Drawable;
 import android.support.wearable.complications.ComplicationProviderInfo;
 import android.support.wearable.complications.ProviderInfoRetriever;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Switch;
-import android.widget.Toast;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -66,7 +51,6 @@ import java.util.concurrent.Executors;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
-import pro.watchkit.wearable.watchface.model.ConfigData;
 import pro.watchkit.wearable.watchface.model.ConfigData.ColorPickerConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ComplicationConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ConfigActivityConfigItem;
@@ -74,12 +58,6 @@ import pro.watchkit.wearable.watchface.model.ConfigData.ConfigItemType;
 import pro.watchkit.wearable.watchface.model.ConfigData.PickerConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ToggleConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFaceDrawableConfigItem;
-import pro.watchkit.wearable.watchface.model.PaintBox;
-
-import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
-import static pro.watchkit.wearable.watchface.config.ConfigActivity.CONFIG_DATA;
-import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_FLAGS;
-import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_STATES;
 
 /**
  * Displays different layouts for configuring watch face's complications and appearance settings
@@ -109,31 +87,22 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
     public static final int TYPE_TOGGLE_CONFIG = 4;
     public static final int TYPE_CONFIG_ACTIVITY_CONFIG = 5;
     private static final String TAG = "CompConfigAdapter";
-    private SharedPreferences mSharedPref;
     private List<ConfigItemType> mSettingsDataSet;
 
     final private List<WatchFaceStateListener> mWatchFaceStateListeners = new ArrayList<>();
     final private List<ComplicationProviderInfoListener> mComplicationProviderInfoListeners =
             new ArrayList<>();
 
-    private Context mContext;
-
     ConfigRecyclerViewAdapter(
             @NonNull Context context,
             @NonNull Class watchFaceServiceClass,
             @NonNull List<ConfigItemType> settingsDataSet) {
         super(context);
-        mContext = context;
         mWatchFaceComponentName = new ComponentName(context, watchFaceServiceClass);
         mSettingsDataSet = settingsDataSet;
 
         // Default value is invalid (only changed when user taps to change complication).
         mSelectedComplication = null;
-
-        mSharedPref =
-                context.getSharedPreferences(
-                        context.getString(R.string.analog_complication_preference_file_key),
-                        Context.MODE_PRIVATE);
 
         // Initialization of code to retrieve active complication data for the watch face.
         mProviderInfoRetriever =
@@ -150,18 +119,15 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
      */
     private void regenerateCurrentWatchFaceState() {
         // TODO: get rid of this transition code
-        String s0 = mSharedPref.getString(
-                mContext.getString(R.string.saved_watch_face_preset_1), null);
-        String s1 = mSharedPref.getString(
-                mContext.getString(R.string.saved_settings_1), null);
-        String s2 = mSharedPref.getString(
-                mContext.getString(R.string.saved_watch_face_state), null);
+        String s0 = mSharedPref.getString(saved_watch_face_preset_1, null);
+        String s1 = mSharedPref.getString(saved_settings_1, null);
+        String s2 = mSharedPref.getString(saved_watch_face_state, null);
 
         if (s2 == null && s0 != null && s1 != null) {
             mCurrentWatchFaceState.setString(s0 + "~" + s1);
         } else {
-            mCurrentWatchFaceState.setString(mSharedPref.getString(
-                    mContext.getString(R.string.saved_watch_face_state), null));
+            mCurrentWatchFaceState.setString(
+                    mSharedPref.getString(saved_watch_face_state, null));
         }
     }
 
@@ -319,335 +285,10 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
         mProviderInfoRetriever.release();
     }
 
+    @Override
     void onWatchFaceStateChanged() {
         regenerateCurrentWatchFaceState();
         // Update our WatchFaceStateListener objects.
         mWatchFaceStateListeners.forEach(WatchFaceStateListener::onWatchFaceStateChanged);
-    }
-
-    /**
-     * Displays color options for the an item on the watch face. These could include marker color,
-     * background color, etc.
-     */
-    public class ColorPickerViewHolder
-            extends RecyclerView.ViewHolder implements OnClickListener, WatchFaceStateListener {
-
-        private Button mButton;
-        private Class<ColorSelectionActivity> mLaunchActivity;
-        private PaintBox.ColorType mColorType;
-        private Drawable mColorSwatchDrawable = new Drawable() {
-            private Paint mCirclePaint;
-
-            @Override
-            public void draw(@NonNull Canvas canvas) {
-                if (mColorType == null) return;
-
-                @ColorInt int color = mCurrentWatchFaceState.getColor(mColorType);
-
-                // Draw a circle that's 20px from right, top and left borders.
-                float radius = (canvas.getClipBounds().height() / 2f) - 20f;
-                if (mCirclePaint == null) {
-                    // Initialise on first use.
-                    mCirclePaint = new Paint();
-                    mCirclePaint.setStyle(Paint.Style.FILL);
-                    mCirclePaint.setAntiAlias(true);
-                }
-                mCirclePaint.setColor(color);
-                android.graphics.Rect r = canvas.getClipBounds();
-                canvas.drawCircle(r.right - 20f - radius,
-                        (r.top + r.bottom) / 2f, radius, mCirclePaint);
-            }
-
-            @Override
-            public void setAlpha(int alpha) {
-                // Unused
-            }
-
-            @Override
-            public void setColorFilter(@Nullable ColorFilter colorFilter) {
-                // Unused
-            }
-
-            @Override
-            public int getOpacity() {
-                return PixelFormat.OPAQUE;
-            }
-        };
-
-        ColorPickerViewHolder(View view) {
-            super(view);
-
-            mButton = view.findViewById(R.id.color_picker_button);
-            view.setOnClickListener(this);
-        }
-
-        void bind(ColorPickerConfigItem configItem) {
-            mButton.setText(configItem.getName());
-            mButton.setCompoundDrawablesWithIntrinsicBounds(
-                    mButton.getContext().getDrawable(configItem.getIconResourceId()),
-                    null, mColorSwatchDrawable, null);
-            mColorType = configItem.getType();
-            mLaunchActivity = configItem.getActivityToChoosePreference();
-        }
-
-        public void onWatchFaceStateChanged() {
-            itemView.invalidate();
-        }
-
-        @Override
-        public void onClick(View view) {
-            if (mLaunchActivity != null) {
-                Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
-
-                // Pass shared preference name to save color value to.
-//                launchIntent.putExtra(INTENT_EXTRA_STATES, mSharedPrefResourceString);
-                launchIntent.putExtra(INTENT_EXTRA_COLOR, mColorType.name());
-
-                Activity activity = (Activity) view.getContext();
-                activity.startActivityForResult(
-                        launchIntent,
-                        ConfigActivity.UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE);
-            }
-        }
-    }
-
-    public class ConfigActivityViewHolder
-            extends RecyclerView.ViewHolder implements OnClickListener {
-
-        private Button mButton;
-        private Class<? extends ConfigData> mConfigDataClass;
-        private Class<ConfigActivity> mLaunchActivity;
-
-        ConfigActivityViewHolder(View view) {
-            super(view);
-
-            mButton = view.findViewById(R.id.color_picker_button);
-            view.setOnClickListener(this);
-        }
-
-        void bind(ConfigActivityConfigItem configItem) {
-            mButton.setText(configItem.getName());
-            mButton.setCompoundDrawablesWithIntrinsicBounds(
-                    mButton.getContext().getDrawable(configItem.getIconResourceId()),
-                    null, null, null);
-            mConfigDataClass = configItem.getConfigDataClass();
-            mLaunchActivity = configItem.getActivityToChoosePreference();
-        }
-
-        @Override
-        public void onClick(View view) {
-            if (mLaunchActivity != null) {
-                Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
-
-                // Add an intent to the launch to point it towards our sub-activity.
-                launchIntent.putExtra(CONFIG_DATA, mConfigDataClass.getSimpleName());
-
-                Activity activity = (Activity) view.getContext();
-                activity.startActivityForResult(
-                        launchIntent,
-                        ConfigActivity.UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE);
-            }
-        }
-    }
-
-    /**
-     * Displays color options for the an item on the watch face. These could include marker color,
-     * background color, etc.
-     */
-    public class PickerViewHolder extends RecyclerView.ViewHolder
-            implements OnClickListener, WatchFaceStateListener {
-
-        private Button mButton;
-
-        private Class<WatchFaceSelectionActivity> mLaunchActivity;
-        private PickerConfigItem mConfigItem;
-        private int mFlags;
-
-        private int mVisibleLayoutHeight, mVisibleLayoutWidth;
-
-        PickerViewHolder(View view) {
-            super(view);
-
-            mButton = view.findViewById(R.id.watch_face_preset_picker_button);
-            view.setOnClickListener(this);
-
-            mVisibleLayoutHeight = itemView.getLayoutParams().height;
-            mVisibleLayoutWidth = itemView.getLayoutParams().width;
-        }
-
-        void bind(PickerConfigItem configItem) {
-            mConfigItem = configItem;
-            mLaunchActivity = configItem.getActivityToChoosePreference();
-            mFlags = configItem.getWatchFaceGlobalDrawableFlags();
-
-            setTextAndVisibility();
-        }
-
-        private void setTextAndVisibility() {
-            mButton.setText(mConfigItem.getName(
-                    mCurrentWatchFaceState, mButton.getContext()));
-
-            ViewGroup.LayoutParams param = itemView.getLayoutParams();
-            if (mConfigItem.isVisible(mCurrentWatchFaceState)) {
-                param.height = mVisibleLayoutHeight;
-                param.width = mVisibleLayoutWidth;
-                itemView.setVisibility(View.VISIBLE);
-            } else {
-                param.height = 0;
-                param.width = 0;
-                itemView.setVisibility(View.GONE);
-            }
-            itemView.setLayoutParams(param);
-        }
-
-        public void onWatchFaceStateChanged() {
-            String oldText = mButton.getText().toString();
-            int oldVisibility = itemView.getVisibility();
-
-            setTextAndVisibility();
-
-            String newText = mButton.getText().toString();
-            int newVisibility = itemView.getVisibility();
-            if (!oldText.equals(newText) &&
-                    oldVisibility == View.VISIBLE && newVisibility == View.VISIBLE) {
-                // Show a toast if our text has changed, which assumes this was the setting
-                // that changed.
-                // Don't show if we were previously invisible.
-                // Only show if we are visible.
-                Toast.makeText(mButton.getContext(), newText, Toast.LENGTH_LONG).show();
-            }
-            itemView.invalidate();
-        }
-
-        @Override
-        public void onClick(View view) {
-            int position = getAdapterPosition();
-            Log.d(TAG, "Complication onClick() position: " + position);
-
-            if (mLaunchActivity != null) {
-                // Regenerate and grab our current permutations. Just in time!
-                String[] permutations = mConfigItem.permute(mCurrentWatchFaceState, mContext);
-
-                Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
-
-                // Pass shared preference name to save color value to.
-                launchIntent.putExtra(INTENT_EXTRA_STATES, permutations);
-                launchIntent.putExtra(INTENT_EXTRA_FLAGS, mFlags);
-
-                Activity activity = (Activity) view.getContext();
-                activity.startActivityForResult(
-                        launchIntent,
-                        ConfigActivity.UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE);
-            }
-        }
-    }
-
-    // This code is left over from Night Vision and we need to put it somewhere.
-    // It gets location permissions for our Night Vision check.
-//            if (newState && context.checkSelfPermission(
-//                    android.Manifest.permission.ACCESS_COARSE_LOCATION)
-//                    != PackageManager.PERMISSION_GRANTED) {
-//                Activity a = (Activity) context;
-//                a.requestPermissions(new String[]{
-//                                android.Manifest.permission.ACCESS_COARSE_LOCATION},
-//                        MY_PERMISSION_ACCESS_COURSE_LOCATION);
-//            }
-
-    /**
-     * Displays switch to indicate whether or not a boolean value is toggled on/off.
-     */
-    public class ToggleViewHolder extends RecyclerView.ViewHolder
-            implements OnClickListener, WatchFaceStateListener {
-        private Switch mSwitch;
-        private int mEnabledIconResourceId;
-        private int mDisabledIconResourceId;
-        private ToggleConfigItem mConfigItem;
-        private int mVisibleLayoutHeight, mVisibleLayoutWidth;
-
-        ToggleViewHolder(View view) {
-            super(view);
-
-            mSwitch = view.findViewById(R.id.config_list_toggle);
-            view.setOnClickListener(this);
-
-            mVisibleLayoutHeight = itemView.getLayoutParams().height;
-            mVisibleLayoutWidth = itemView.getLayoutParams().width;
-        }
-
-        void bind(ToggleConfigItem configItem) {
-            mConfigItem = configItem;
-
-            setName(configItem.getName());
-            setIcons(configItem.getIconEnabledResourceId(),
-                    configItem.getIconDisabledResourceId());
-
-            setDefaultSwitchValue();
-        }
-
-        public void setName(String name) {
-            mSwitch.setText(name);
-        }
-
-        void setIcons(int enabledIconResourceId, int disabledIconResourceId) {
-            mEnabledIconResourceId = enabledIconResourceId;
-            mDisabledIconResourceId = disabledIconResourceId;
-
-            setDefaultSwitchValue();
-        }
-
-        void setDefaultSwitchValue() {
-            // Regenerate and grab our current permutations. Just in time!
-            String[] permutations = mConfigItem.permute(mCurrentWatchFaceState, mContext);
-            setChecked(mCurrentWatchFaceState.getString().equals(permutations[1]));
-
-            // Set visibility.
-            ViewGroup.LayoutParams param = itemView.getLayoutParams();
-            if (mConfigItem.isVisible(mCurrentWatchFaceState)) {
-                param.height = mVisibleLayoutHeight;
-                param.width = mVisibleLayoutWidth;
-                itemView.setVisibility(View.VISIBLE);
-            } else {
-                param.height = 0;
-                param.width = 0;
-                itemView.setVisibility(View.GONE);
-            }
-            itemView.setLayoutParams(param);
-        }
-
-        boolean isChecked() {
-            return mSwitch.isChecked();
-        }
-
-        void setChecked(Boolean checked) {
-            int currentIconResourceId;
-
-            if (checked) {
-                currentIconResourceId = mEnabledIconResourceId;
-            } else {
-                currentIconResourceId = mDisabledIconResourceId;
-            }
-
-            mSwitch.setChecked(checked);
-            mSwitch.setCompoundDrawablesWithIntrinsicBounds(
-                    mSwitch.getContext().getDrawable(currentIconResourceId), null, null, null);
-        }
-
-        @Override
-        public void onWatchFaceStateChanged() {
-            setDefaultSwitchValue();
-        }
-
-        @Override
-        public void onClick(View view) {
-            // Regenerate and grab our current permutations. Just in time!
-            String[] permutations = mConfigItem.permute(mCurrentWatchFaceState, mContext);
-
-            SharedPreferences.Editor editor = mSharedPref.edit();
-            editor.putString(mContext.getString(R.string.saved_watch_face_state),
-                    isChecked() ? permutations[1] : permutations[0]);
-            editor.apply();
-
-            ConfigRecyclerViewAdapter.this.onWatchFaceStateChanged();
-        }
     }
 }
