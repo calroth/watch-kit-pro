@@ -151,6 +151,7 @@ public final class PaintBox {
         return mShadowPaint;
     }
 
+    @NonNull
     public Paint getBezelPaint1() {
         return mBezelPaint1;
     }

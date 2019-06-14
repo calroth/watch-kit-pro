@@ -58,6 +58,7 @@ abstract public class ConfigData {
          * @param currentPreset WatchFaceState of our current preference
          * @return Value that it's currently set to
          */
+        @Nullable
         Enum getCurrentValue(WatchFaceState currentPreset);
     }
 
