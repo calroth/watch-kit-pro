@@ -44,7 +44,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.TicksDisplay.values(),
                                 WatchFaceState::setTicksDisplay,
                                 WatchFaceState::getTicksDisplay)),
@@ -55,7 +55,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.TickShape.values(),
                                 WatchFaceState::setFourTickShape,
                                 WatchFaceState::getFourTickShape),
@@ -67,7 +67,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.TickLength.values(),
                                 WatchFaceState::setFourTickLength,
                                 WatchFaceState::getFourTickLength),
@@ -79,7 +79,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.TickThickness.values(),
                                 WatchFaceState::setFourTickThickness,
                                 WatchFaceState::getFourTickThickness),
@@ -91,7 +91,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.TickRadiusPosition.values(),
                                 WatchFaceState::setFourTickRadiusPosition,
                                 WatchFaceState::getFourTickRadiusPosition),
@@ -103,7 +103,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.Style.values(),
                                 WatchFaceState::setFourTickStyle,
                                 WatchFaceState::getFourTickStyle),
@@ -138,7 +138,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.TickShape.values(),
                                 WatchFaceState::setTwelveTickShape,
                                 WatchFaceState::getTwelveTickShape),
@@ -150,7 +150,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.TickLength.values(),
                                 WatchFaceState::setTwelveTickLength,
                                 WatchFaceState::getTwelveTickLength),
@@ -162,7 +162,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.TickThickness.values(),
                                 WatchFaceState::setTwelveTickThickness,
                                 WatchFaceState::getTwelveTickThickness),
@@ -174,7 +174,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.TickRadiusPosition.values(),
                                 WatchFaceState::setTwelveTickRadiusPosition,
                                 WatchFaceState::getTwelveTickRadiusPosition),
@@ -186,7 +186,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.Style.values(),
                                 WatchFaceState::setTwelveTickStyle,
                                 WatchFaceState::getTwelveTickStyle),
@@ -221,7 +221,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.TickShape.values(),
                                 WatchFaceState::setSixtyTickShape,
                                 WatchFaceState::getSixtyTickShape),
@@ -233,7 +233,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.TickLength.values(),
                                 WatchFaceState::setSixtyTickLength,
                                 WatchFaceState::getSixtyTickLength),
@@ -245,7 +245,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.TickThickness.values(),
                                 WatchFaceState::setSixtyTickThickness,
                                 WatchFaceState::getSixtyTickThickness),
@@ -257,7 +257,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.TickRadiusPosition.values(),
                                 WatchFaceState::setSixtyTickRadiusPosition,
                                 WatchFaceState::getSixtyTickRadiusPosition),
@@ -269,7 +269,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.Style.values(),
                                 WatchFaceState::setSixtyTickStyle,
                                 WatchFaceState::getSixtyTickStyle),
@@ -281,7 +281,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.Style.values(),
                                 WatchFaceState::setBackgroundStyle,
                                 WatchFaceState::getBackgroundStyle))

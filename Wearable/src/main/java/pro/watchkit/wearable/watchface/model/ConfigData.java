@@ -208,7 +208,7 @@ abstract public class ConfigData {
         }
     }
 
-    protected static class MutatorImpl<E extends Enum> implements Mutator {
+    protected static class EnumMutator<E extends Enum> implements Mutator {
         /**
          * All the possible Enum values of E.
          */
@@ -231,7 +231,7 @@ abstract public class ConfigData {
          * @param setter a lambda which sets (or applies) setting E to the given Settings
          * @param getter a lambda which gets and returns setting E from the given Settings
          */
-        MutatorImpl(E[] values, BiConsumer<WatchFaceState, E> setter,
+        EnumMutator(E[] values, BiConsumer<WatchFaceState, E> setter,
                     Function<WatchFaceState, E> getter) {
             mValues = values;
             mSetter = setter;

@@ -44,7 +44,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.HandShape.values(),
                                 WatchFaceState::setHourHandShape,
                                 WatchFaceState::getHourHandShape)),
@@ -55,7 +55,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.HandLength.values(),
                                 WatchFaceState::setHourHandLength,
                                 WatchFaceState::getHourHandLength)),
@@ -66,7 +66,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.HandThickness.values(),
                                 WatchFaceState::setHourHandThickness,
                                 WatchFaceState::getHourHandThickness)),
@@ -77,7 +77,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.HandStalk.values(),
                                 WatchFaceState::setHourHandStalk,
                                 WatchFaceState::getHourHandStalk)),
@@ -88,7 +88,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.HandCutout.values(),
                                 WatchFaceState::setHourHandCutout,
                                 WatchFaceState::getHourHandCutout)),
@@ -99,7 +99,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.Style.values(),
                                 WatchFaceState::setHourHandStyle,
                                 WatchFaceState::getHourHandStyle)),
@@ -133,7 +133,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.HandShape.values(),
                                 WatchFaceState::setMinuteHandShape,
                                 WatchFaceState::getMinuteHandShape),
@@ -145,7 +145,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.HandLength.values(),
                                 WatchFaceState::setMinuteHandLength,
                                 WatchFaceState::getMinuteHandLength),
@@ -157,7 +157,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.HandThickness.values(),
                                 WatchFaceState::setMinuteHandThickness,
                                 WatchFaceState::getMinuteHandThickness),
@@ -169,7 +169,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.HandStalk.values(),
                                 WatchFaceState::setMinuteHandStalk,
                                 WatchFaceState::getMinuteHandStalk),
@@ -181,7 +181,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.HandCutout.values(),
                                 WatchFaceState::setMinuteHandCutout,
                                 WatchFaceState::getMinuteHandCutout),
@@ -193,7 +193,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.Style.values(),
                                 WatchFaceState::setMinuteHandStyle,
                                 WatchFaceState::getMinuteHandStyle),
@@ -228,7 +228,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.HandShape.values(),
                                 WatchFaceState::setSecondHandShape,
                                 WatchFaceState::getSecondHandShape),
@@ -240,7 +240,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.HandLength.values(),
                                 WatchFaceState::setSecondHandLength,
                                 WatchFaceState::getSecondHandLength),
@@ -253,7 +253,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.HandThickness.values(),
                                 WatchFaceState::setSecondHandThickness,
                                 WatchFaceState::getSecondHandThickness),
@@ -265,7 +265,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.Style.values(),
                                 WatchFaceState::setSecondHandStyle,
                                 WatchFaceState::getSecondHandStyle),

@@ -74,7 +74,7 @@ public class ColorsStylesConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.GradientStyle.values(),
                                 WatchFaceState::setFillHighlightStyle,
                                 WatchFaceState::getFillHighlightStyle)),
@@ -85,7 +85,7 @@ public class ColorsStylesConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.GradientStyle.values(),
                                 WatchFaceState::setAccentFillStyle,
                                 WatchFaceState::getAccentFillStyle)),
@@ -96,7 +96,7 @@ public class ColorsStylesConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.GradientStyle.values(),
                                 WatchFaceState::setAccentHighlightStyle,
                                 WatchFaceState::getAccentHighlightStyle)),
@@ -107,7 +107,7 @@ public class ColorsStylesConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.GradientStyle.values(),
                                 WatchFaceState::setBaseAccentStyle,
                                 WatchFaceState::getBaseAccentStyle))

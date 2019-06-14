@@ -45,7 +45,7 @@ public class ComplicationConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.ComplicationCount.values(),
                                 WatchFaceState::setComplicationCount,
                                 WatchFaceState::getComplicationCount)),
@@ -56,7 +56,7 @@ public class ComplicationConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.ComplicationRotation.values(),
                                 WatchFaceState::setComplicationRotation,
                                 WatchFaceState::getComplicationRotation)),
@@ -67,7 +67,7 @@ public class ComplicationConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.Style.values(),
                                 WatchFaceState::setComplicationRingStyle,
                                 WatchFaceState::getComplicationRingStyle)),
@@ -78,7 +78,7 @@ public class ComplicationConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
-                        new MutatorImpl<>(
+                        new EnumMutator<>(
                                 BytePackable.Style.values(),
                                 WatchFaceState::setComplicationBackgroundStyle,
                                 WatchFaceState::getComplicationBackgroundStyle))
