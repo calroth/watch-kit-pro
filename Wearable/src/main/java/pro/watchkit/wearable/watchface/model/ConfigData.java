@@ -63,15 +63,6 @@ abstract public class ConfigData {
     }
 
     /**
-     * Objects inherit this interface to determine the visibility of a ConfigItem.
-     * That is, implement this interface and put in some custom logic that determines
-     * whether an item is visible or not.
-     */
-    protected interface ConfigItemVisibilityCalculator {
-        boolean isVisible(WatchFaceState watchFaceState);
-    }
-
-    /**
      * Data for Watch Face Preview item in RecyclerView.
      */
     public static class WatchFaceDrawableConfigItem implements ConfigItemType {
@@ -315,7 +306,7 @@ abstract public class ConfigData {
         private int mIconResourceId;
         private Class<WatchFaceSelectionActivity> mActivityToChoosePreference;
         private Mutator mWatchFaceStateMutator;
-        private ConfigItemVisibilityCalculator mConfigItemVisibilityCalculator;
+        private Function<WatchFaceState, Boolean> mConfigItemVisibilityCalculator;
         private int mWatchFaceGlobalDrawableFlags;
 
         PickerConfigItem(
@@ -333,7 +324,7 @@ abstract public class ConfigData {
                 int watchFaceGlobalDrawableFlags,
                 Class<WatchFaceSelectionActivity> activity,
                 Mutator mutator,
-                ConfigItemVisibilityCalculator configItemVisibilityCalculator) {
+                Function<WatchFaceState, Boolean> configItemVisibilityCalculator) {
             this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, configItemVisibilityCalculator);
             mWatchFaceStateMutator = mutator;
         }
@@ -343,7 +334,7 @@ abstract public class ConfigData {
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
                 Class<WatchFaceSelectionActivity> activity,
-                ConfigItemVisibilityCalculator configItemVisibilityCalculator) {
+                Function<WatchFaceState, Boolean> configItemVisibilityCalculator) {
             mName = name;
             mIconResourceId = iconResourceId;
             mActivityToChoosePreference = activity;
@@ -403,7 +394,7 @@ abstract public class ConfigData {
 
         public boolean isVisible(WatchFaceState watchFaceState) {
             return mConfigItemVisibilityCalculator == null ||
-                    mConfigItemVisibilityCalculator.isVisible(watchFaceState);
+                    mConfigItemVisibilityCalculator.apply(watchFaceState);
         }
     }
 
@@ -416,7 +407,7 @@ abstract public class ConfigData {
         private int iconEnabledResourceId;
         private int iconDisabledResourceId;
         private Mutator mMutator;
-        private ConfigItemVisibilityCalculator mConfigItemVisibilityCalculator;
+        private Function<WatchFaceState, Boolean> mConfigItemVisibilityCalculator;
 
         ToggleConfigItem(
                 String name,
@@ -431,7 +422,7 @@ abstract public class ConfigData {
                 int iconEnabledResourceId,
                 int iconDisabledResourceId,
                 Mutator mutator,
-                ConfigItemVisibilityCalculator configItemVisibilityCalculator) {
+                Function<WatchFaceState, Boolean> configItemVisibilityCalculator) {
             this.name = name;
             this.iconEnabledResourceId = iconEnabledResourceId;
             this.iconDisabledResourceId = iconDisabledResourceId;
@@ -464,7 +455,7 @@ abstract public class ConfigData {
 
         public boolean isVisible(WatchFaceState watchFaceState) {
             return mConfigItemVisibilityCalculator == null ||
-                    mConfigItemVisibilityCalculator.isVisible(watchFaceState);
+                    mConfigItemVisibilityCalculator.apply(watchFaceState);
         }
     }
 }
