@@ -20,7 +20,6 @@ package pro.watchkit.wearable.watchface.model;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -114,23 +113,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         context.getString(R.string.config_preset_twelve_tick_override),
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
-                        new Mutator() {
-                            @NonNull
-                            @Override
-                            public String[] permute(@NonNull WatchFaceState permutation) {
-                                String[] result = new String[2];
-                                permutation.setTwelveTickOverride(false);
-                                result[0] = permutation.getString();
-                                permutation.setTwelveTickOverride(true);
-                                result[1] = permutation.getString();
-                                return result;
-                            }
-
-                            @Nullable
-                            public Enum getCurrentValue(WatchFaceState currentPreset) {
-                                return null;
-                            }
-                        }),
+                        new BooleanMutator(WatchFaceState::setTwelveTickOverride)),
 
                 // Data for twelve tick shape in settings Activity.
                 new PickerConfigItem(
@@ -197,23 +180,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                         context.getString(R.string.config_preset_sixty_tick_override),
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
-                        new Mutator() {
-                            @NonNull
-                            @Override
-                            public String[] permute(@NonNull WatchFaceState permutation) {
-                                String[] result = new String[2];
-                                permutation.setSixtyTickOverride(false);
-                                result[0] = permutation.getString();
-                                permutation.setSixtyTickOverride(true);
-                                result[1] = permutation.getString();
-                                return result;
-                            }
-
-                            @Nullable
-                            public Enum getCurrentValue(WatchFaceState currentPreset) {
-                                return null;
-                            }
-                        }),
+                        new BooleanMutator(WatchFaceState::setSixtyTickOverride)),
 
                 // Data for sixty tick shape in settings Activity.
                 new PickerConfigItem(

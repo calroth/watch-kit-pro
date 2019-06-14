@@ -37,7 +37,6 @@ package pro.watchkit.wearable.watchface.model;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -54,46 +53,14 @@ public class SettingsConfigData extends ConfigData {
                         context.getString(R.string.config_unread_notifications_label),
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
-                        new Mutator() {
-                            @NonNull
-                            @Override
-                            public String[] permute(@NonNull WatchFaceState permutation) {
-                                String[] result = new String[2];
-                                permutation.setShowUnreadNotifications(false);
-                                result[0] = permutation.getString();
-                                permutation.setShowUnreadNotifications(true);
-                                result[1] = permutation.getString();
-                                return result;
-                            }
-
-                            @Nullable
-                            public Enum getCurrentValue(WatchFaceState currentPreset) {
-                                return null;
-                            }
-                        }),
+                        new BooleanMutator(WatchFaceState::setShowUnreadNotifications)),
 
                 // Data for 'Night Vision' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
                         context.getString(R.string.config_night_vision_label),
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
-                        new Mutator() {
-                            @NonNull
-                            @Override
-                            public String[] permute(@NonNull WatchFaceState permutation) {
-                                String[] result = new String[2];
-                                permutation.setNightVisionModeEnabled(false);
-                                result[0] = permutation.getString();
-                                permutation.setNightVisionModeEnabled(true);
-                                result[1] = permutation.getString();
-                                return result;
-                            }
-
-                            @Nullable
-                            public Enum getCurrentValue(WatchFaceState currentPreset) {
-                                return null;
-                            }
-                        }),
+                        new BooleanMutator(WatchFaceState::setNightVisionModeEnabled)),
 
                 // Data for base color UX in settings Activity.
                 new ColorPickerConfigItem(
@@ -114,46 +81,14 @@ public class SettingsConfigData extends ConfigData {
                         context.getString(R.string.config_developer_mode_label),
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
-                        new Mutator() {
-                            @NonNull
-                            @Override
-                            public String[] permute(@NonNull WatchFaceState permutation) {
-                                String[] result = new String[2];
-                                permutation.setDeveloperMode(false);
-                                result[0] = permutation.getString();
-                                permutation.setDeveloperMode(true);
-                                result[1] = permutation.getString();
-                                return result;
-                            }
-
-                            @Nullable
-                            public Enum getCurrentValue(WatchFaceState currentPreset) {
-                                return null;
-                            }
-                        }),
+                        new BooleanMutator(WatchFaceState::setDeveloperMode)),
 
                 // Data for 'Stats' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
                         context.getString(R.string.config_stats_label),
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
-                        new Mutator() {
-                            @NonNull
-                            @Override
-                            public String[] permute(@NonNull WatchFaceState permutation) {
-                                String[] result = new String[2];
-                                permutation.setStats(false);
-                                result[0] = permutation.getString();
-                                permutation.setStats(true);
-                                result[1] = permutation.getString();
-                                return result;
-                            }
-
-                            @Nullable
-                            public Enum getCurrentValue(WatchFaceState currentPreset) {
-                                return null;
-                            }
-                        },
+                        new BooleanMutator(WatchFaceState::setStats),
                         WatchFaceState::isDeveloperMode),
 
                 // Data for 'Stats (Detailed)' UX (toggle) in settings Activity.
@@ -161,23 +96,7 @@ public class SettingsConfigData extends ConfigData {
                         context.getString(R.string.config_stats_detail_label),
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
-                        new Mutator() {
-                            @NonNull
-                            @Override
-                            public String[] permute(@NonNull WatchFaceState permutation) {
-                                String[] result = new String[2];
-                                permutation.setStatsDetail(false);
-                                result[0] = permutation.getString();
-                                permutation.setStatsDetail(true);
-                                result[1] = permutation.getString();
-                                return result;
-                            }
-
-                            @Nullable
-                            public Enum getCurrentValue(WatchFaceState currentPreset) {
-                                return null;
-                            }
-                        },
+                        new BooleanMutator(WatchFaceState::setStatsDetail),
                         WatchFaceState::isDeveloperMode)
         );
     }

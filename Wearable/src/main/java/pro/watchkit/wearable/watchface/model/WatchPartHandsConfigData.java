@@ -20,7 +20,6 @@ package pro.watchkit.wearable.watchface.model;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -109,23 +108,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         context.getString(R.string.config_preset_minute_hand_override),
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
-                        new Mutator() {
-                            @NonNull
-                            @Override
-                            public String[] permute(@NonNull WatchFaceState permutation) {
-                                String[] result = new String[2];
-                                permutation.setMinuteHandOverride(false);
-                                result[0] = permutation.getString();
-                                permutation.setMinuteHandOverride(true);
-                                result[1] = permutation.getString();
-                                return result;
-                            }
-
-                            @Nullable
-                            public Enum getCurrentValue(WatchFaceState currentPreset) {
-                                return null;
-                            }
-                        }),
+                        new BooleanMutator(WatchFaceState::setMinuteHandOverride)),
 
                 // Data for minute hand shape in settings Activity.
                 new PickerConfigItem(
@@ -204,23 +187,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         context.getString(R.string.config_preset_second_hand_override),
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
-                        new Mutator() {
-                            @NonNull
-                            @Override
-                            public String[] permute(@NonNull WatchFaceState permutation) {
-                                String[] result = new String[2];
-                                permutation.setSecondHandOverride(false);
-                                result[0] = permutation.getString();
-                                permutation.setSecondHandOverride(true);
-                                result[1] = permutation.getString();
-                                return result;
-                            }
-
-                            @Nullable
-                            public Enum getCurrentValue(WatchFaceState currentPreset) {
-                                return null;
-                            }
-                        }),
+                        new BooleanMutator(WatchFaceState::setSecondHandOverride)),
 
                 // Data for second hand shape in settings Activity.
                 new PickerConfigItem(

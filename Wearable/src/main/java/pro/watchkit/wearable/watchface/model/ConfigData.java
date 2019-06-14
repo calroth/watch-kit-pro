@@ -208,6 +208,52 @@ abstract public class ConfigData {
         }
     }
 
+    protected static class BooleanMutator implements Mutator {
+        /**
+         * A lambda which sets (or applies) a boolean to the given WatchFaceState.
+         */
+        private BiConsumer<WatchFaceState, Boolean> mSetter;
+
+        /**
+         * Create the given BooleanMutator.
+         *
+         * @param setter a lambda which sets (or applies) a boolean to the given Settings
+         */
+        BooleanMutator(BiConsumer<WatchFaceState, Boolean> setter) {
+            mSetter = setter;
+        }
+
+        /**
+         * For the given WatchFaceState (which must be a clone, since we'll modify it in the
+         * process) return a String array with each permutation.
+         *
+         * @param permutation WatchFaceState, which must be a clone, since we'll modify it
+         * @return String array with each permutation
+         */
+        @NonNull
+        @Override
+        public String[] permute(@NonNull WatchFaceState permutation) {
+            String[] result = new String[2];
+            mSetter.accept(permutation, false);
+            result[0] = permutation.getString();
+            mSetter.accept(permutation, true);
+            result[1] = permutation.getString();
+            return result;
+        }
+
+        /**
+         * For the given WatchFaceState (which is our current preference) return the current
+         * value.
+         *
+         * @param currentPreset WatchFaceState of our current preference
+         * @return Value that it's currently set to (always null for a BooleanMutator)
+         */
+        @Nullable
+        public Enum getCurrentValue(WatchFaceState currentPreset) {
+            return null;
+        }
+    }
+
     protected static class EnumMutator<E extends Enum> implements Mutator {
         /**
          * All the possible Enum values of E.
@@ -225,11 +271,11 @@ abstract public class ConfigData {
         private Function<WatchFaceState, E> mGetter;
 
         /**
-         * Create the given MutatorImpl for the E of type Enum.
+         * Create the given EnumMutator for the E of type Enum.
          *
          * @param values all possible enumeration values of E
-         * @param setter a lambda which sets (or applies) setting E to the given Settings
-         * @param getter a lambda which gets and returns setting E from the given Settings
+         * @param setter a lambda which sets (or applies) setting E to the given WatchFaceState
+         * @param getter a lambda which gets and returns setting E from the given WatchFaceState
          */
         EnumMutator(E[] values, BiConsumer<WatchFaceState, E> setter,
                     Function<WatchFaceState, E> getter) {
