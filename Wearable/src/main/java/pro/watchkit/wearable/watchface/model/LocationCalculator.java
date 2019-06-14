@@ -20,6 +20,8 @@ package pro.watchkit.wearable.watchface.model;
 
 import android.location.Location;
 
+import androidx.annotation.Nullable;
+
 import net.e175.klaus.solarpositioning.DeltaT;
 import net.e175.klaus.solarpositioning.SPA;
 
@@ -27,6 +29,7 @@ import java.util.GregorianCalendar;
 
 public final class LocationCalculator {
     private GregorianCalendar mCalendar;
+    @Nullable
     private Location mLocation = null;
     private long previousSunAltitudeTime = 0;
     private double previousSunAltitude = 90d;
@@ -35,7 +38,7 @@ public final class LocationCalculator {
         this.mCalendar = mCalendar;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(@Nullable Location location) {
         // Only set location if not null (and has changed).
         // If null, preserve previous location.
         if (location != null && !location.equals(mLocation)) {

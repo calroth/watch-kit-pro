@@ -3,6 +3,8 @@ package pro.watchkit.wearable.watchface.model;
 import android.content.Context;
 import android.text.Html;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Arrays;
@@ -20,6 +22,7 @@ abstract public class ConfigData {
     /**
      * Returns Watch Face Service class associated with configuration Activity.
      */
+    @NonNull
     final public Class getWatchFaceServiceClass() {
         return AnalogComplicationWatchFaceService.class;
     }
@@ -241,7 +244,7 @@ abstract public class ConfigData {
          * @param permutation WatchFaceState, which must be a clone, since we'll modify it
          * @return String array with each permutation
          */
-        public String[] permute(WatchFaceState permutation) {
+        public String[] permute(@NonNull WatchFaceState permutation) {
             return Arrays.stream(mValues).map(h -> {
                 mSetter.accept(permutation, h);
                 return permutation.getString();
@@ -302,7 +305,7 @@ abstract public class ConfigData {
         }
 
         public CharSequence getName(
-                WatchFaceState watchFaceState, Context context) {
+                WatchFaceState watchFaceState, @NonNull Context context) {
             Enum e = null;
             if (mWatchFaceStateMutator != null) {
                 e = mWatchFaceStateMutator.getCurrentValue(watchFaceState);
@@ -339,7 +342,8 @@ abstract public class ConfigData {
             return ConfigRecyclerViewAdapter.TYPE_PICKER_CONFIG;
         }
 
-        public String[] permute(WatchFaceState watchFaceState, Context context) {
+        @Nullable
+        public String[] permute(@NonNull WatchFaceState watchFaceState, Context context) {
             WatchFaceState deepCopy = new WatchFaceState(context);
             deepCopy.setString(watchFaceState.getString());
 
@@ -405,7 +409,7 @@ abstract public class ConfigData {
             return ConfigRecyclerViewAdapter.TYPE_TOGGLE_CONFIG;
         }
 
-        public String[] permute(WatchFaceState watchFaceState, Context context) {
+        public String[] permute(@NonNull WatchFaceState watchFaceState, Context context) {
             WatchFaceState deepCopy = new WatchFaceState(context);
             deepCopy.setString(watchFaceState.getString());
             return mMutator.permute(deepCopy);

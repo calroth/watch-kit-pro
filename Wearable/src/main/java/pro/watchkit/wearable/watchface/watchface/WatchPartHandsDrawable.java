@@ -42,21 +42,31 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     private static final float HOUR_MINUTE_HAND_MIDPOINT = 0.333f;
     private static final float ROUND_RECT_RADIUS_PERCENT = 1.5f;
 
+    @NonNull
     private Map<HandShape, Map<HandThickness, Float>> mHandThicknessDimensions
             = new EnumMap<>(HandShape.class);
 
+    @NonNull
     private Map<HandShape, Map<HandLength, Float>> mHandLengthDimensions
             = new EnumMap<>(HandShape.class);
 
+    @NonNull
     private Path mHub = new Path();
 
+    @NonNull
     private Path mHandActivePath = new Path();
+    @NonNull
     private Path mHandAmbientPath = new Path();
     private int mPreviousSerial = -1;
+    @NonNull
     private Path mStalk = new Path();
+    @NonNull
     private Path mStalkCutout = new Path();
+    @NonNull
     private Path mHandFullCutout = new Path();
+    @NonNull
     private Path mHandTopCutout = new Path();
+    @NonNull
     private Path mHandBottomCutout = new Path();
 
     WatchPartHandsDrawable() {
@@ -151,7 +161,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     }
 
     @Override
-    protected void onBoundsChange(Rect bounds) {
+    protected void onBoundsChange(@NonNull Rect bounds) {
         super.onBoundsChange(bounds);
         mHub.reset();
         mHub.addCircle(mCenterX, mCenterY, HUB_RADIUS_PERCENT * pc, getDirection());
@@ -159,6 +169,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         mPreviousSerial = -1;
     }
 
+    @NonNull
     Path getHub() {
         return mHub;
     }
@@ -187,6 +198,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         return false;
     }
 
+    @NonNull
     private Path getHandPath() {
         // Regenerate "mHandActivePath" and "mHandAmbientPath" if we need to.
         int currentSerial = Objects.hash(mWatchFaceState);
@@ -209,7 +221,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
             return mHandActivePath;
     }
 
-    private void getHandShapePath(Path p) {
+    private void getHandShapePath(@NonNull Path p) {
         HandShape handShape = getHandShape();
         HandLength handLength = getHandLength();
         HandThickness handThickness = getHandThickness();
@@ -518,7 +530,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     }
 
     private void drawDiamond(
-            Path path, float left, float top, float right, float bottom, float scale,
+            @NonNull Path path, float left, float top, float right, float bottom, float scale,
             boolean drawTopHalf, boolean drawBottomHalf) {
         // Add extra extension to the diamond top and bottom
         // because the diamond shape tapers to a point
@@ -555,7 +567,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     }
 
     private void drawDiamond(
-            Path path, float left, float top, float right, float bottom, float scale) {
+            @NonNull Path path, float left, float top, float right, float bottom, float scale) {
         drawDiamond(path, left, top, right, bottom, scale, true, true);
     }
 }

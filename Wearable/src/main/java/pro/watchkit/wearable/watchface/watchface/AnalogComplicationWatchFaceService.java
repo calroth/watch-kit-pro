@@ -53,6 +53,9 @@ import android.support.wearable.watchface.WatchFaceStyle;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -80,6 +83,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
      */
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
 
+    @NonNull
     @Override
     public Engine onCreateEngine() {
         return new Engine();
@@ -87,6 +91,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
 
     private static class UpdateTimeHandler extends Handler {
+        @NonNull
         private final WeakReference<AnalogComplicationWatchFaceService.Engine> mWeakReference;
 
         UpdateTimeHandler(AnalogComplicationWatchFaceService.Engine reference) {
@@ -228,7 +233,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                 // Sign up for ongoing location reports.
                 locationClient.requestLocationUpdates(req, new LocationCallback() {
                             @Override
-                            public void onLocationResult(LocationResult locationResult) {
+                            public void onLocationResult(@Nullable LocationResult locationResult) {
                                 if (locationResult == null) {
                                     Log.d(TAG, "onLocationResult: no locations (it's null)");
                                 } else {
@@ -249,7 +254,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
             }
         }
 
-        private void updateLocation(Location location) {
+        private void updateLocation(@Nullable Location location) {
             // Update UI with location data
             // ...
             // Note: can be null in rare situations; handle accordingly.
@@ -290,7 +295,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
         }
 
         @Override
-        public void onPropertiesChanged(Bundle properties) {
+        public void onPropertiesChanged(@NonNull Bundle properties) {
             super.onPropertiesChanged(properties);
 
             // The properties that matter to us.
@@ -310,7 +315,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
          */
         @Override
         public void onComplicationDataUpdate(
-                int complicationId, ComplicationData complicationData) {
+                int complicationId, @NonNull ComplicationData complicationData) {
 
             // Adds/updates active complication data in the array.
             getWatchFaceState().onComplicationDataUpdate(complicationId, complicationData);
@@ -391,7 +396,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
         }
 
         @Override
-        public void onDraw(Canvas canvas, Rect bounds) {
+        public void onDraw(@NonNull Canvas canvas, @NonNull Rect bounds) {
             boolean prevAmbient = getWatchFaceState().isAmbient();
             super.onDraw(canvas, bounds);
 

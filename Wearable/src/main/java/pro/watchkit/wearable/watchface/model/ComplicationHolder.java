@@ -32,6 +32,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.Objects;
 
@@ -46,6 +47,7 @@ public final class ComplicationHolder implements Drawable.Callback {
     //    private ImageButton mImageButton;
     public ImageView background;
     private int id;
+    @Nullable
     private ComplicationDrawable drawable;
     private boolean mIsInAmbientMode = false;
     private Rect mBounds, mInsetBounds;
@@ -63,7 +65,7 @@ public final class ComplicationHolder implements Drawable.Callback {
 //        mImageButton.setOnClickListener(onClickListener);
 //    }
 
-    ComplicationHolder(Context context) {
+    ComplicationHolder(@Nullable Context context) {
         id = BASE_ID;
         BASE_ID++;
 
@@ -128,7 +130,7 @@ public final class ComplicationHolder implements Drawable.Callback {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ComplicationHolder that = (ComplicationHolder) o;
@@ -320,7 +322,7 @@ public final class ComplicationHolder implements Drawable.Callback {
         return mActiveBitmap;
     }
 
-    public void draw(Canvas canvas, long currentTimeMillis) {
+    public void draw(@NonNull Canvas canvas, long currentTimeMillis) {
         if (cacheImages) {
             canvas.drawBitmap(mIsInAmbientMode ? getAmbientBitmap(currentTimeMillis) : getActiveBitmap(currentTimeMillis), mBounds.left, mBounds.top, null);
         } else if (mProviderIconDrawable != null) {

@@ -19,6 +19,9 @@ package pro.watchkit.wearable.watchface.model;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,7 +31,7 @@ import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 public class WatchPartTicksConfigData extends ConfigData {
     @Override
-    public List<ConfigItemType> getDataToPopulateAdapter(Context context) {
+    public List<ConfigItemType> getDataToPopulateAdapter(@NonNull Context context) {
         int watchFaceGlobalDrawableFlags = WatchFaceGlobalDrawable.PART_BACKGROUND |
                 WatchFaceGlobalDrawable.PART_TICKS;
         return Arrays.asList(
@@ -112,8 +115,9 @@ public class WatchPartTicksConfigData extends ConfigData {
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new Mutator() {
+                            @NonNull
                             @Override
-                            public String[] permute(WatchFaceState permutation) {
+                            public String[] permute(@NonNull WatchFaceState permutation) {
                                 String[] result = new String[2];
                                 permutation.setTwelveTickOverride(false);
                                 result[0] = permutation.getString();
@@ -122,6 +126,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                                 return result;
                             }
 
+                            @Nullable
                             public Enum getCurrentValue(WatchFaceState currentPreset) {
                                 return null;
                             }
@@ -193,8 +198,9 @@ public class WatchPartTicksConfigData extends ConfigData {
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new Mutator() {
+                            @NonNull
                             @Override
-                            public String[] permute(WatchFaceState permutation) {
+                            public String[] permute(@NonNull WatchFaceState permutation) {
                                 String[] result = new String[2];
                                 permutation.setSixtyTickOverride(false);
                                 result[0] = permutation.getString();
@@ -203,6 +209,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                                 return result;
                             }
 
+                            @Nullable
                             public Enum getCurrentValue(WatchFaceState currentPreset) {
                                 return null;
                             }

@@ -81,6 +81,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     /**
      * The current user-selected WatchFaceState with what's currently stored in preferences
      */
+    @NonNull
     final WatchFaceState mCurrentWatchFaceState;
     SharedPreferences mSharedPref;
     private static final String TAG = BaseRecyclerViewAdapter.class.getSimpleName();
@@ -106,6 +107,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
      * When the user selects a complication to launch the choose-a-complication-provider Activity,
      * this object holds the complication that we'll assign the provider to.
      */
+    @Nullable
     ComplicationHolder mSelectedComplication;
 
     /**
@@ -152,7 +154,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     public class WatchFacePresetSelectionViewHolder extends WatchFaceDrawableViewHolder
             implements View.OnClickListener {
 
-        WatchFacePresetSelectionViewHolder(final View view) {
+        WatchFacePresetSelectionViewHolder(@NonNull final View view) {
             super(view);
             view.setOnClickListener(this);
             setWatchFaceGlobalDrawableFlags(WatchFaceGlobalDrawable.PART_BACKGROUND |
@@ -161,7 +163,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
 
         @Override
-        public void onClick(View view) {
+        public void onClick(@NonNull View view) {
             String watchFaceStateString =
                     mWatchFaceGlobalDrawable.getWatchFaceState().getString();
 
@@ -199,7 +201,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         private int mWatchFaceGlobalDrawableFlags =
                 WatchFaceGlobalDrawable.PART_BACKGROUND; // Default flags.
 
-        WatchFaceDrawableViewHolder(View view) {
+        WatchFaceDrawableViewHolder(@NonNull View view) {
             super(view);
             mImageView = view.findViewById(R.id.watch_face_preset);
         }
@@ -208,7 +210,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             mWatchFaceGlobalDrawableFlags = WatchFaceGlobalDrawableFlags;
         }
 
-        void setPreset(String watchFaceStateString) {
+        void setPreset(@Nullable String watchFaceStateString) {
             if (mWatchFaceGlobalDrawable == null) {
                 mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(
                         mImageView.getContext(), mWatchFaceGlobalDrawableFlags);
@@ -244,7 +246,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         private float mLastTouchX = -1f, mLastTouchY = -1f;
         private Activity mCurrentActivity;
 
-        ComplicationViewHolder(final View view) {
+        ComplicationViewHolder(@NonNull final View view) {
             super(view);
             mContext = view.getContext();
             mCurrentActivity = (Activity) view.getContext();
@@ -269,7 +271,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         @Override
         public void onComplicationProviderInfo(
                 @NonNull ComplicationHolder complication,
-                ComplicationProviderInfo complicationProviderInfo) {
+                @Nullable ComplicationProviderInfo complicationProviderInfo) {
             Log.d(TAG, "updateComplicationViews(): id: " + complication);
             Log.d(TAG, "\tinfo: " + complicationProviderInfo);
 
@@ -360,6 +362,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         private Button mButton;
         private Class<ColorSelectionActivity> mLaunchActivity;
         private PaintBox.ColorType mColorType;
+        @NonNull
         private Drawable mColorSwatchDrawable = new Drawable() {
             private Paint mCirclePaint;
 
@@ -399,14 +402,14 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             }
         };
 
-        ColorPickerViewHolder(View view) {
+        ColorPickerViewHolder(@NonNull View view) {
             super(view);
 
             mButton = view.findViewById(R.id.color_picker_button);
             view.setOnClickListener(this);
         }
 
-        void bind(ConfigData.ColorPickerConfigItem configItem) {
+        void bind(@NonNull ConfigData.ColorPickerConfigItem configItem) {
             mButton.setText(configItem.getName());
             mButton.setCompoundDrawablesWithIntrinsicBounds(
                     mButton.getContext().getDrawable(configItem.getIconResourceId()),
@@ -420,7 +423,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
 
         @Override
-        public void onClick(View view) {
+        public void onClick(@NonNull View view) {
             if (mLaunchActivity != null) {
                 Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
 
@@ -443,14 +446,14 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         private Class<? extends ConfigData> mConfigDataClass;
         private Class<ConfigActivity> mLaunchActivity;
 
-        ConfigActivityViewHolder(View view) {
+        ConfigActivityViewHolder(@NonNull View view) {
             super(view);
 
             mButton = view.findViewById(R.id.color_picker_button);
             view.setOnClickListener(this);
         }
 
-        void bind(ConfigData.ConfigActivityConfigItem configItem) {
+        void bind(@NonNull ConfigData.ConfigActivityConfigItem configItem) {
             mButton.setText(configItem.getName());
             mButton.setCompoundDrawablesWithIntrinsicBounds(
                     mButton.getContext().getDrawable(configItem.getIconResourceId()),
@@ -460,7 +463,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
 
         @Override
-        public void onClick(View view) {
+        public void onClick(@NonNull View view) {
             if (mLaunchActivity != null) {
                 Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
 
@@ -490,7 +493,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         private int mVisibleLayoutHeight, mVisibleLayoutWidth;
 
-        PickerViewHolder(View view) {
+        PickerViewHolder(@NonNull View view) {
             super(view);
 
             mButton = view.findViewById(R.id.watch_face_preset_picker_button);
@@ -500,7 +503,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             mVisibleLayoutWidth = itemView.getLayoutParams().width;
         }
 
-        void bind(ConfigData.PickerConfigItem configItem) {
+        void bind(@NonNull ConfigData.PickerConfigItem configItem) {
             mConfigItem = configItem;
             mLaunchActivity = configItem.getActivityToChoosePreference();
             mFlags = configItem.getWatchFaceGlobalDrawableFlags();
@@ -545,7 +548,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
 
         @Override
-        public void onClick(View view) {
+        public void onClick(@NonNull View view) {
             int position = getAdapterPosition();
             Log.d(TAG, "Complication onClick() position: " + position);
 
@@ -590,7 +593,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         private ConfigData.ToggleConfigItem mConfigItem;
         private int mVisibleLayoutHeight, mVisibleLayoutWidth;
 
-        ToggleViewHolder(View view) {
+        ToggleViewHolder(@NonNull View view) {
             super(view);
 
             mSwitch = view.findViewById(R.id.config_list_toggle);
@@ -600,7 +603,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             mVisibleLayoutWidth = itemView.getLayoutParams().width;
         }
 
-        void bind(ConfigData.ToggleConfigItem configItem) {
+        void bind(@NonNull ConfigData.ToggleConfigItem configItem) {
             mConfigItem = configItem;
 
             setName(configItem.getName());

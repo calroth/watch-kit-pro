@@ -19,6 +19,8 @@ package pro.watchkit.wearable.watchface.model;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,7 +30,7 @@ import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 public class ComplicationConfigData extends ConfigData {
     @Override
-    public List<ConfigItemType> getDataToPopulateAdapter(Context context) {
+    public List<ConfigItemType> getDataToPopulateAdapter(@NonNull Context context) {
         int watchFaceGlobalDrawableFlags = WatchFaceGlobalDrawable.PART_BACKGROUND |
                 WatchFaceGlobalDrawable.PART_HANDS |
                 WatchFaceGlobalDrawable.PART_RINGS_ALL;

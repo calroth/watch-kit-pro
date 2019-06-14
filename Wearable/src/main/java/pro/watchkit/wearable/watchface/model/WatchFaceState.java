@@ -25,6 +25,8 @@ import android.support.wearable.complications.ComplicationData;
 import android.util.Log;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -82,6 +84,7 @@ import pro.watchkit.wearable.watchface.model.PaintBox.ColorType;
 public class WatchFaceState {
     private final WatchFacePreset mWatchFacePreset = new WatchFacePreset();
     private final Settings mSettings = new Settings();
+    @NonNull
     private final PaintBox mPaintBox;
     private final Collection<ComplicationHolder> mComplications = new ArrayList<>();
     private final Map<Integer, ComplicationHolder> mComplicationMap = new Hashtable<>();
@@ -101,6 +104,7 @@ public class WatchFaceState {
                 mTotalNotifications);
     }
 
+    @NonNull
     private StringBuilder mStringBuilder = new StringBuilder();
 
     public WatchFaceState(Context context) {
@@ -171,7 +175,7 @@ public class WatchFaceState {
     }
 
     public void onComplicationDataUpdate(
-            int complicationId, ComplicationData complicationData) {
+            int complicationId, @NonNull ComplicationData complicationData) {
         // Updates correct ComplicationDrawable with updated data.
         ComplicationHolder c = getComplicationWithId(complicationId);
         if (c != null) {
@@ -224,6 +228,7 @@ public class WatchFaceState {
         return mComplications.stream().mapToInt(ComplicationHolder::getId).toArray();
     }
 
+    @Nullable
     public ComplicationHolder getComplicationWithId(int id) {
         return mComplicationMap.get(id);
     }
@@ -333,6 +338,7 @@ public class WatchFaceState {
         }
     }
 
+    @NonNull
     public LocationCalculator getLocationCalculator() {
         return mLocationCalculator;
     }
@@ -383,6 +389,7 @@ public class WatchFaceState {
      *
      * @return List of our ComplicationHolder objects
      */
+    @NonNull
     public Collection<ComplicationHolder> getComplications() {
         return mComplications;
     }
@@ -395,7 +402,8 @@ public class WatchFaceState {
      * @param bounds Bounds of the drawable to which we intend to draw
      * @return List of our ComplicationHolder objects
      */
-    public Collection<ComplicationHolder> getComplicationsForDrawing(Rect bounds) {
+    @NonNull
+    public Collection<ComplicationHolder> getComplicationsForDrawing(@NonNull Rect bounds) {
         recalculateComplicationBounds(bounds);
         return mComplications;
     }
@@ -421,11 +429,13 @@ public class WatchFaceState {
         mTotalNotifications = total;
     }
 
+    @NonNull
     public PaintBox getPaintBox() {
         regeneratePaints();
         return mPaintBox;
     }
 
+    @NonNull
     public String getString() {
         mStringBuilder.setLength(0);
         mStringBuilder.append(mWatchFacePreset.getString())
@@ -434,7 +444,7 @@ public class WatchFaceState {
         return mStringBuilder.toString();
     }
 
-    public void setString(String s) {
+    public void setString(@Nullable String s) {
         if (s == null || s.length() == 0) return;
         String[] split = s.split("~");
         if (split.length == 2) {
@@ -617,6 +627,7 @@ public class WatchFaceState {
         mWatchFacePreset.mMinuteHandShape = minuteHandShape;
     }
 
+    @NonNull
     public HandShape getSecondHandShape() {
         // If not overridden, the default is just a plain and regular second hand.
         return mWatchFacePreset.mSecondHandOverride ?
@@ -644,6 +655,7 @@ public class WatchFaceState {
         mWatchFacePreset.mMinuteHandLength = minuteHandLength;
     }
 
+    @NonNull
     public HandLength getSecondHandLength() {
         // If not overridden, the default is just a plain and regular second hand.
         return mWatchFacePreset.mSecondHandOverride ?
@@ -671,6 +683,7 @@ public class WatchFaceState {
         mWatchFacePreset.mMinuteHandThickness = minuteHandThickness;
     }
 
+    @NonNull
     public HandThickness getSecondHandThickness() {
         // If not overridden, the default is just a plain and regular second hand.
         return mWatchFacePreset.mSecondHandOverride ?
@@ -698,6 +711,7 @@ public class WatchFaceState {
         mWatchFacePreset.mMinuteHandStyle = minuteHandStyle;
     }
 
+    @NonNull
     public Style getSecondHandStyle() {
         // If not overridden, the default is just a plain and regular second hand.
         return mWatchFacePreset.mSecondHandOverride ?
@@ -984,7 +998,7 @@ public class WatchFaceState {
      * @return Color from our palette as a ColorInt
      */
     @ColorInt
-    public int getColor(ColorType colorType) {
+    public int getColor(@NonNull ColorType colorType) {
         switch (colorType) {
             case FILL: {
                 return mPaintBox.getColor(getFillSixBitColor());
@@ -1008,7 +1022,7 @@ public class WatchFaceState {
         }
     }
 
-    public void setSixBitColor(ColorType colorType, @ColorInt int sixBitColor) {
+    public void setSixBitColor(@NonNull ColorType colorType, @ColorInt int sixBitColor) {
         switch (colorType) {
             case FILL: {
                 setFillSixBitColor(sixBitColor);

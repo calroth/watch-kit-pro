@@ -43,22 +43,29 @@ abstract class WatchPartDrawable extends Drawable {
     float mCenterX, mCenterY;
 
     private Path mExclusionPath;
-    private Path mResetExclusionActivePath = new Path();
-    private Path mResetExclusionAmbientPath = new Path();
-
-    private Path p5 = new Path();
-    private Path p6 = new Path();
-    private Path p7 = new Path();
-    private Path p8 = new Path();
-
-    private Path mPrimaryBezel = new Path();
-    private Path mSecondaryBezel = new Path();
-    private Path mIntersectionBezel = new Path();
-
     /**
      * Our current direction. Static, so shared amongst all our accessors.
      */
+    @NonNull
     private static Path.Direction mDirection = Path.Direction.CCW;
+    @NonNull
+    private Path mResetExclusionActivePath = new Path();
+    @NonNull
+    private Path mResetExclusionAmbientPath = new Path();
+    @NonNull
+    private Path p5 = new Path();
+    @NonNull
+    private Path p6 = new Path();
+    @NonNull
+    private Path p7 = new Path();
+    @NonNull
+    private Path p8 = new Path();
+    @NonNull
+    private Path mPrimaryBezel = new Path();
+    @NonNull
+    private Path mSecondaryBezel = new Path();
+    @NonNull
+    private Path mIntersectionBezel = new Path();
 
     /**
      * Reset our current direction. Call this before starting any drawing, so we get consistency
@@ -68,16 +75,8 @@ abstract class WatchPartDrawable extends Drawable {
         mDirection = Path.Direction.CCW;
     }
 
-    /**
-     * Flip and get our current direction.
-     * We alternate between clockwise and anticlockwise drawing.
-     *
-     * @return Our current direction, which is flipped from the last call to this method
-     */
-    Path.Direction getDirection() {
-        mDirection = mDirection == Path.Direction.CCW ? Path.Direction.CW : Path.Direction.CCW;
-        return mDirection;
-    }
+    @NonNull
+    private Matrix m1 = new Matrix();
 
     private final float mBevelOffset = 0.3333333f; // 0.33%
 
@@ -86,7 +85,8 @@ abstract class WatchPartDrawable extends Drawable {
 
     // Stats start
     long mLastStatsTime = 0;
-    abstract String getStatsName();
+    @NonNull
+    private Matrix m2 = new Matrix();
     // Stats end
 
     @Override
@@ -104,10 +104,22 @@ abstract class WatchPartDrawable extends Drawable {
 
     abstract void draw2(@NonNull Canvas canvas);
 
-    private Matrix m1 = new Matrix();
-    private Matrix m2 = new Matrix();
+    /**
+     * Flip and get our current direction.
+     * We alternate between clockwise and anticlockwise drawing.
+     *
+     * @return Our current direction, which is flipped from the last call to this method
+     */
+    @NonNull
+    Path.Direction getDirection() {
+        mDirection = mDirection == Path.Direction.CCW ? Path.Direction.CW : Path.Direction.CCW;
+        return mDirection;
+    }
 
-    void fastDrawPath(Canvas canvas, Path p, Paint paint, float degrees) {
+    @NonNull
+    abstract String getStatsName();
+
+    void fastDrawPath(@NonNull Canvas canvas, @NonNull Path p, @NonNull Paint paint, float degrees) {
         canvas.save();
         canvas.rotate(degrees, mCenterX, mCenterY);
 
@@ -140,7 +152,7 @@ abstract class WatchPartDrawable extends Drawable {
         canvas.restore();
     }
 
-    void generateBezels(Path p, float degrees) {
+    void generateBezels(@NonNull Path p, float degrees) {
         if (mWatchFaceState.isAmbient()) {
             return;
         }
@@ -182,7 +194,7 @@ abstract class WatchPartDrawable extends Drawable {
 //        canvas.drawPath(mSecondaryBezel, bezelPaint1);
     }
 
-    void drawPath(Canvas canvas, Path p, Paint paint) {
+    void drawPath(@NonNull Canvas canvas, @NonNull Path p, @NonNull Paint paint) {
         // Apply the exclusion path.
         p.op(mExclusionPath, Path.Op.INTERSECT);
 
@@ -265,7 +277,7 @@ abstract class WatchPartDrawable extends Drawable {
     }
 
     @Override
-    protected void onBoundsChange(Rect bounds) {
+    protected void onBoundsChange(@NonNull Rect bounds) {
         super.onBoundsChange(bounds);
 
         int width = bounds.width();

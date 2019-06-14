@@ -35,10 +35,10 @@ import android.graphics.Shader;
 import android.graphics.SweepGradient;
 import android.graphics.Xfermode;
 import android.os.Build;
-import android.util.Log;
 import android.util.SparseArray;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 
 import java.lang.ref.WeakReference;
 import java.util.Objects;
@@ -60,12 +60,16 @@ public final class PaintBox {
     private Paint mBasePaint;
     private Paint mAmbientPaint;
     private Paint mShadowPaint;
+    @NonNull
+    private static SparseArray<WeakReference<Bitmap>> mBitmapCache = new SparseArray<>();
+    @NonNull
     private GradientPaint mFillHighlightPaint = new GradientPaint();
+    @NonNull
     private GradientPaint mAccentFillPaint = new GradientPaint(),
             mBezelPaint1,
             mBezelPaint2 = new GradientPaint();
+    @NonNull
     private GradientPaint mAccentHighlightPaint = new GradientPaint();
-    private GradientPaint mBaseAccentPaint = new GradientPaint();
     private int mPreviousSerial = -1;
     private Context mContext;
 
@@ -87,14 +91,8 @@ public final class PaintBox {
 //        mShadowPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, Color.WHITE);
     }
 
-    private static Paint newDefaultPaint() {
-        Paint result = new Paint();
-        result.setStrokeJoin(Paint.Join.ROUND);
-        result.setStrokeCap(Paint.Cap.ROUND);
-        result.setAntiAlias(true);
-        result.setTextAlign(Paint.Align.CENTER);
-        return result;
-    }
+    @NonNull
+    private GradientPaint mBaseAccentPaint = new GradientPaint();
 
     /**
      * Given two colors A and B, return an intermediate color between the two. The distance
@@ -157,8 +155,14 @@ public final class PaintBox {
         return mBezelPaint1;
     }
 
-    public Paint getBezelPaint2() {
-        return mBezelPaint2;
+    @NonNull
+    private static Paint newDefaultPaint() {
+        Paint result = new Paint();
+        result.setStrokeJoin(Paint.Join.ROUND);
+        result.setStrokeCap(Paint.Cap.ROUND);
+        result.setAntiAlias(true);
+        result.setTextAlign(Paint.Align.CENTER);
+        return result;
     }
 
     public void onWidthAndHeightChanged(int width, int height) {
@@ -194,11 +198,40 @@ public final class PaintBox {
         return mContext.getResources().getStringArray(R.array.six_bit_color_names)[sixBitColor];
     }
 
+    @NonNull
+    public Paint getBezelPaint2() {
+        return mBezelPaint2;
+    }
+
+    public Paint getPaintFromPreset(Style style) {
+        switch (style) {
+            case FILL:
+                return mFillPaint;
+            case ACCENT:
+                return mAccentPaint;
+            case HIGHLIGHT:
+                return mHighlightPaint;
+            case BASE:
+                return mBasePaint;
+            case FILL_HIGHLIGHT:
+                return mFillHighlightPaint;
+            case ACCENT_FILL:
+                return mAccentFillPaint;
+            case ACCENT_HIGHLIGHT:
+                return mAccentHighlightPaint;
+            case ACCENT_BASE:
+                return mBaseAccentPaint;
+            default:
+                // Should never hit this.
+                return mFillPaint;
+        }
+    }
+
     void regeneratePaints(int fillSixBitColor, int accentSixBitColor,
                           int highlightSixBitColor, int baseSixBitColor,
                           int ambientDaySixBitColor, int ambientNightSixBitColor,
-                          GradientStyle fillHighlightStyle, GradientStyle accentFillStyle,
-                          GradientStyle accentHighlightStyle, GradientStyle baseAccentStyle) {
+                          @NonNull GradientStyle fillHighlightStyle, @NonNull GradientStyle accentFillStyle,
+                          @NonNull GradientStyle accentHighlightStyle, @NonNull GradientStyle baseAccentStyle) {
         // Invalidate if any of our colors or styles have changed.
         int currentSerial = Objects.hash(
                 getColor(fillSixBitColor),
@@ -242,32 +275,6 @@ public final class PaintBox {
         mAmbientPaint.setStrokeWidth(AMBIENT_PAINT_STROKE_WIDTH_PERCENT * pc);
     }
 
-    public Paint getPaintFromPreset(Style style) {
-        switch (style) {
-            case FILL:
-                return mFillPaint;
-            case ACCENT:
-                return mAccentPaint;
-            case HIGHLIGHT:
-                return mHighlightPaint;
-            case BASE:
-                return mBasePaint;
-            case FILL_HIGHLIGHT:
-                return mFillHighlightPaint;
-            case ACCENT_FILL:
-                return mAccentFillPaint;
-            case ACCENT_HIGHLIGHT:
-                return mAccentHighlightPaint;
-            case ACCENT_BASE:
-                return mBaseAccentPaint;
-            default:
-                // Should never hit this.
-                return mFillPaint;
-        }
-    }
-
-    private static SparseArray<WeakReference<Bitmap>> mBitmapCache = new SparseArray<>();
-
     private static Bitmap mTempBitmap;
     private static Canvas mTempCanvas;
 
@@ -276,7 +283,9 @@ public final class PaintBox {
     private class GradientPaint extends Paint {
         private int mCustomHashCode = -1;
 
+        @NonNull
         Paint mBrushedEffectPaint = new Paint();
+        @NonNull
         Path mBrushedEffectPath = new Path();
 
         GradientPaint() {
@@ -349,7 +358,7 @@ public final class PaintBox {
             return Objects.hash(super.hashCode(), mCustomHashCode);
         }
 
-        void setColors(int sixBitColorA, int sixBitColorB, GradientStyle gradientStyle) {
+        void setColors(int sixBitColorA, int sixBitColorB, @NonNull GradientStyle gradientStyle) {
             @ColorInt int colorA = PaintBox.this.getColor(sixBitColorA);
             @ColorInt int colorB = PaintBox.this.getColor(sixBitColorB);
 

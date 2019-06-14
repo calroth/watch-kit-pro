@@ -39,7 +39,7 @@ public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapt
     private int mFlags;
 
     WatchFaceSelectionRecyclerViewAdapter(
-            Context context, String[] watchFaceStateStrings, int flags) {
+            @NonNull Context context, String[] watchFaceStateStrings, int flags) {
         super(context);
         mWatchFaceStateStrings = watchFaceStateStrings;
         mFlags = flags;

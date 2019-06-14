@@ -19,6 +19,8 @@ package pro.watchkit.wearable.watchface.model;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,7 +30,7 @@ import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 public class WatchFacePresetConfigData extends ConfigData {
     @Override
-    public List<ConfigItemType> getDataToPopulateAdapter(Context context) {
+    public List<ConfigItemType> getDataToPopulateAdapter(@NonNull Context context) {
         return Arrays.asList(
                 // A preview of the current watch face.
                 new WatchFaceDrawableConfigItem(WatchFaceGlobalDrawable.PART_BACKGROUND |

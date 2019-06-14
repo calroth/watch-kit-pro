@@ -23,6 +23,7 @@ import android.util.Log;
 
 import androidx.annotation.ArrayRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
@@ -37,18 +38,20 @@ import javax.crypto.spec.SecretKeySpec;
 import pro.watchkit.wearable.watchface.R;
 
 public abstract class BytePackable {
+    @NonNull
     BytePacker mBytePacker = new BytePacker();
 
     abstract void pack();
 
     abstract void unpack();
 
+    @NonNull
     public String getString() {
         pack();
         return mBytePacker.getStringFast();
     }
 
-    public void setString(String s) {
+    public void setString(@Nullable String s) {
         if (s == null || s.length() == 0) return;
         try {
             mBytePacker.setStringFast(s);
@@ -421,7 +424,7 @@ public abstract class BytePackable {
                 // But we don't mind, we're not trying to be crypto-strong or protect anything.
                 // We just want a reversible hash that evenly distributes amongst buckets.
                 mCipher = Cipher.getInstance("AES/ECB/NoPadding");
-            } catch (NoSuchAlgorithmException | NoSuchPaddingException ex) {
+            } catch (@NonNull NoSuchAlgorithmException | NoSuchPaddingException ex) {
                 String TAG = "AnalogWatchFace";
                 Log.d(TAG, "setKey: " + ex.toString());
             }
@@ -453,7 +456,7 @@ public abstract class BytePackable {
                 mCipher.init(Cipher.ENCRYPT_MODE, mKey);
                 //            Log.d(TAG, "Encrypted: " + result);
                 return byteArrayToString(mCipher.doFinal(mBytes));
-            } catch (IllegalBlockSizeException | BadPaddingException | InvalidKeyException ex) {
+            } catch (@NonNull IllegalBlockSizeException | BadPaddingException | InvalidKeyException ex) {
                 Log.d(TAG, "getString: " + ex.toString());
                 return "0000000000000000";
             }
@@ -475,7 +478,7 @@ public abstract class BytePackable {
                 mCipher.init(Cipher.DECRYPT_MODE, mKey);
                 mBytes = mCipher.doFinal(encrypted);
                 //            Log.d(TAG, "Decrypted: " + byteArrayToString(mBytes));
-            } catch (IllegalBlockSizeException | BadPaddingException | InvalidKeyException ex) {
+            } catch (@NonNull IllegalBlockSizeException | BadPaddingException | InvalidKeyException ex) {
                 Log.d(TAG, "setString: " + ex.toString());
             }
 

@@ -53,8 +53,11 @@ import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickThickness;
 
 abstract class WatchPartTicksDrawable extends WatchPartDrawable {
+    @NonNull
     private Map<Pair<TickShape, TickThickness>, Float> mTickThicknessDimens = new Hashtable<>();
+    @NonNull
     private Map<Pair<TickShape, TickLength>, Float> mTickLengthDimens = new Hashtable<>();
+    @NonNull
     private Map<Pair<TickShape, TickRadiusPosition>, Float> mTickRadiusPositionDimens = new Hashtable<>();
 
     abstract protected boolean isVisible(int tickIndex);
@@ -157,8 +160,11 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
         mTickRadiusPositionDimens.put(Pair.create(BytePackable.TickShape.DIAMOND, BytePackable.TickRadiusPosition.X_LONG), 9f);
     }
 
+    @NonNull
     private Path p = new Path();
+    @NonNull
     private Path p2 = new Path();
+    @NonNull
     private Path temp = new Path();
 
     @Override

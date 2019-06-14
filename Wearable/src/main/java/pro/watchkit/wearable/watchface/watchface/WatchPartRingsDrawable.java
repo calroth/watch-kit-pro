@@ -30,9 +30,13 @@ import java.util.Collection;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 
 final class WatchPartRingsDrawable extends WatchPartDrawable {
+    @NonNull
     private Path mPath = new Path();
+    @NonNull
     private Path mRings = new Path();
+    @NonNull
     private Path mHoles = new Path();
+    @NonNull
     private Path mBackground = new Path();
 
     private boolean mDrawAllRings = false;

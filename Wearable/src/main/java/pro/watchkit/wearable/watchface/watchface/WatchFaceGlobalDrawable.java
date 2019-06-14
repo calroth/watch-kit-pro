@@ -30,6 +30,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.SystemClock;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ import pro.watchkit.wearable.watchface.model.WatchFaceState;
 public class WatchFaceGlobalDrawable extends LayerDrawable {
     private WatchFaceState mWatchFaceState;
     private Drawable[] mWatchPartDrawables;
+    @NonNull
     private Path mExclusionPath = new Path();
 
     public static final int PART_BACKGROUND = 1;
@@ -92,7 +94,30 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
         setWatchFaceState(context);
     }
 
-    static Drawable[] buildDrawables(Drawable cache, int flags) {
+    @NonNull
+    private Paint mTint = new Paint();
+
+    private void setWatchFaceState(@NonNull Context context) {
+        mWatchFaceState = new WatchFaceState(context);
+
+        for (Drawable d : mWatchPartDrawables) {
+            if (d instanceof WatchPartDrawable) {
+                ((WatchPartDrawable) d).setWatchFaceState(mWatchFaceState, mExclusionPath);
+            } else if (d instanceof WatchFaceGlobalCacheDrawable) {
+                ((WatchFaceGlobalCacheDrawable) d).setWatchFaceState(mWatchFaceState, mExclusionPath);
+            }
+        }
+    }
+
+    @NonNull
+    public WatchFaceState getWatchFaceState() {
+        return mWatchFaceState;
+    }
+
+    @NonNull
+    private Xfermode mTintXfermode = new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY);
+
+    static Drawable[] buildDrawables(@Nullable Drawable cache, int flags) {
         List<Drawable> d = new ArrayList<>();
 
         if (cache != null) {
@@ -137,25 +162,6 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
 
         return d.toArray(new Drawable[0]);
     }
-    private void setWatchFaceState(@NonNull Context context) {
-        mWatchFaceState = new WatchFaceState(context);
-
-        for (Drawable d : mWatchPartDrawables) {
-            if (d instanceof WatchPartDrawable) {
-                ((WatchPartDrawable) d).setWatchFaceState(mWatchFaceState, mExclusionPath);
-            } else if (d instanceof WatchFaceGlobalCacheDrawable) {
-                ((WatchFaceGlobalCacheDrawable) d).setWatchFaceState(mWatchFaceState, mExclusionPath);
-            }
-        }
-    }
-
-    @NonNull
-    public WatchFaceState getWatchFaceState() {
-        return mWatchFaceState;
-    }
-
-    private Paint mTint = new Paint();
-    private Xfermode mTintXfermode = new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY);
 
     @Override
     public void draw(@NonNull Canvas canvas) {

@@ -26,6 +26,7 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable {
     private Bitmap mAmbientHardwareCacheBitmap;
     private Canvas mAmbientCacheCanvas;
     private Path mExclusionPath;
+    @NonNull
     private Path mCacheExclusionPath = new Path();
 
     WatchFaceGlobalCacheDrawable(int flags) {
@@ -56,7 +57,7 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable {
     // Stats end
 
     @Override
-    protected void onBoundsChange(Rect bounds) {
+    protected void onBoundsChange(@NonNull Rect bounds) {
         super.onBoundsChange(bounds);
 
         if (bounds.width() == 0 || bounds.height() == 0) {

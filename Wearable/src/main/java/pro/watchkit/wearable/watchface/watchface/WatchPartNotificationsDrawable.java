@@ -41,7 +41,9 @@ import android.graphics.Path;
 import androidx.annotation.NonNull;
 
 final class WatchPartNotificationsDrawable extends WatchPartDrawable {
+    @NonNull
     private Path mPath = new Path();
+    @NonNull
     private Path mExclusion = new Path();
 
     @Override

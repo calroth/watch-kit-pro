@@ -43,6 +43,8 @@ import android.support.wearable.complications.ComplicationProviderInfo;
 import android.support.wearable.complications.ProviderChooserIntent;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.wear.widget.WearableRecyclerView;
 import androidx.wear.widget.drawer.WearableNavigationDrawerView;
@@ -73,6 +75,7 @@ public class ConfigActivity extends Activity {
     private static final String TAG = ConfigActivity.class.getSimpleName();
     private ConfigRecyclerViewAdapter mAdapter;
     private ConfigSubActivity mCurrentSubActivity;
+    @Nullable
     private ConfigData mConfigData;
 
     private WearableNavigationDrawerView mWearableNavigationDrawer;
@@ -165,6 +168,28 @@ public class ConfigActivity extends Activity {
         mWearableNavigationDrawer.getController().peekDrawer();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @NonNull Intent data) {
+        if (requestCode == COMPLICATION_CONFIG_REQUEST_CODE
+                && resultCode == RESULT_OK) {
+
+            // Retrieves information for selected Complication provider.
+            ComplicationProviderInfo complicationProviderInfo =
+                    data.getParcelableExtra(ProviderChooserIntent.EXTRA_PROVIDER_INFO);
+            Log.d(TAG, "Provider: " + complicationProviderInfo);
+
+            // Updates preview with new complication information for selected complication id.
+            // Note: complication id is saved and tracked in the adapter class.
+            mAdapter.updateSelectedComplication(complicationProviderInfo);
+
+        } else if (requestCode == UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE
+                && resultCode == RESULT_OK) {
+
+            // Updates highlight and background colors based on the user preference.
+            mAdapter.onWatchFaceStateChanged();
+        }
+    }
+
     private enum ConfigSubActivity {
         Settings(SettingsConfigData.class, R.string.config_configure_settings, R.drawable.ic_settings),
         Complications(ComplicationConfigData.class, R.string.config_configure_complications, R.drawable.ic_complications),
@@ -173,7 +198,9 @@ public class ConfigActivity extends Activity {
         WatchPartHands(WatchPartHandsConfigData.class, R.string.config_configure_hands, R.drawable.ic_hands),
         WatchPartTicks(WatchPartTicksConfigData.class, R.string.config_configure_ticks, R.drawable.ic_ticks);
 
+        @NonNull
         final String mClassName;
+        @NonNull
         final Class<? extends ConfigData> mClass;
         final int mTitleId;
         final int mDrawableId;
@@ -196,28 +223,6 @@ public class ConfigActivity extends Activity {
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == COMPLICATION_CONFIG_REQUEST_CODE
-                && resultCode == RESULT_OK) {
-
-            // Retrieves information for selected Complication provider.
-            ComplicationProviderInfo complicationProviderInfo =
-                    data.getParcelableExtra(ProviderChooserIntent.EXTRA_PROVIDER_INFO);
-            Log.d(TAG, "Provider: " + complicationProviderInfo);
-
-            // Updates preview with new complication information for selected complication id.
-            // Note: complication id is saved and tracked in the adapter class.
-            mAdapter.updateSelectedComplication(complicationProviderInfo);
-
-        } else if (requestCode == UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE
-                && resultCode == RESULT_OK) {
-
-            // Updates highlight and background colors based on the user preference.
-            mAdapter.onWatchFaceStateChanged();
-        }
-    }
-
     private final class NavigationAdapter
             extends WearableNavigationDrawerView.WearableNavigationDrawerAdapter {
 
@@ -232,6 +237,7 @@ public class ConfigActivity extends Activity {
             return mContext.getString(ConfigSubActivity.values()[index].mTitleId);
         }
 
+        @Nullable
         @Override
         public Drawable getItemDrawable(int index) {
             return mContext.getDrawable(ConfigSubActivity.values()[index].mDrawableId);

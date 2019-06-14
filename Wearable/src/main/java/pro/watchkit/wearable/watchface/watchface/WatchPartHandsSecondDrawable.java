@@ -19,31 +19,37 @@ final class WatchPartHandsSecondDrawable extends WatchPartHandsDrawable {
         return "Second";
     }
 
+    @NonNull
     @Override
     HandShape getHandShape() {
         return mWatchFaceState.getSecondHandShape();
     }
 
+    @NonNull
     @Override
     HandLength getHandLength() {
         return mWatchFaceState.getSecondHandLength();
     }
 
+    @NonNull
     @Override
     HandThickness getHandThickness() {
         return mWatchFaceState.getSecondHandThickness();
     }
 
+    @NonNull
     @Override
     HandStalk getHandStalk() {
         return BytePackable.HandStalk.NONE; // Don't have this for the seconds hand.
     }
 
+    @NonNull
     @Override
     HandCutout getHandCutout() {
         return BytePackable.HandCutout.NONE; // Don't have this for the seconds hand either.
     }
 
+    @NonNull
     @Override
     Style getStyle() {
         return mWatchFaceState.getSecondHandStyle();

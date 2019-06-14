@@ -32,6 +32,7 @@ dependencies {
 
     implementation 'com.google.android.support:wearable:2.4.0'
     implementation 'net.e175.klaus:solarpositioning:0.0.9'
+    implementation 'androidx.annotation:annotation:1.1.0'
 }
 
 // The sample build uses multiple directories to

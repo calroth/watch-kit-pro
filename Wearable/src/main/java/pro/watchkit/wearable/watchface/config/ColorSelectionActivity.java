@@ -294,7 +294,7 @@ public class ColorSelectionActivity extends Activity {
 
         colorImageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public boolean onTouch(View v, @NonNull MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     mLastTouchX = event.getX();
                     mLastTouchY = event.getY();

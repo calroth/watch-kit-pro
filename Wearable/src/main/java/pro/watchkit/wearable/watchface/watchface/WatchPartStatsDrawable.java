@@ -43,8 +43,11 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
     static long total;
     static int invalid = 0;
     Drawable[] mWatchPartDrawables, mWatchPartDrawables2;
+    @NonNull
     static String mInvalidTrigger = "";
+    @NonNull
     private StringBuffer mStringBuilder = new StringBuffer();
+    @NonNull
     private Formatter mFormatter = new Formatter(mStringBuilder);
     private Path mTextPath;
 

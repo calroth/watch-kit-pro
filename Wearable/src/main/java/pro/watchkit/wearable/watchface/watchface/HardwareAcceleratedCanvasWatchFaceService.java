@@ -40,6 +40,8 @@ import android.support.wearable.watchface.CanvasWatchFaceService;
 import android.view.Choreographer;
 import android.view.SurfaceHolder;
 
+import androidx.annotation.NonNull;
+
 /**
  * A hardware-accelerated implementation of CanvasWatchFaceService. Extend this class instead
  * of CanvasWatchFaceService, if you want hardware acceleration. Can be toggled at compile-time.
@@ -106,7 +108,7 @@ public abstract class HardwareAcceleratedCanvasWatchFaceService extends CanvasWa
         }
 
         @Override
-        public void onSurfaceRedrawNeeded(SurfaceHolder holder) {
+        public void onSurfaceRedrawNeeded(@NonNull SurfaceHolder holder) {
             // We override this method to intercept calls to "draw" in
             // CanvasWatchFaceService.Engine. Those calls do a software render.
             // If we want to do hardware render, we wedge ourselves in here...
@@ -141,7 +143,7 @@ public abstract class HardwareAcceleratedCanvasWatchFaceService extends CanvasWa
             }
         }
 
-        private void drawHardwareAccelerated(SurfaceHolder holder) {
+        private void drawHardwareAccelerated(@NonNull SurfaceHolder holder) {
             Canvas canvas = Build.VERSION.SDK_INT >= 26
                     ? holder.lockHardwareCanvas() : holder.lockCanvas();
             if (canvas != null) {

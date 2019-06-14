@@ -36,6 +36,9 @@ package pro.watchkit.wearable.watchface.model;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -44,7 +47,7 @@ import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
 
 public class SettingsConfigData extends ConfigData {
     @Override
-    public List<ConfigItemType> getDataToPopulateAdapter(Context context) {
+    public List<ConfigItemType> getDataToPopulateAdapter(@NonNull Context context) {
         return Arrays.asList(
                 // Data for 'Unread Notifications' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
@@ -52,8 +55,9 @@ public class SettingsConfigData extends ConfigData {
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new Mutator() {
+                            @NonNull
                             @Override
-                            public String[] permute(WatchFaceState permutation) {
+                            public String[] permute(@NonNull WatchFaceState permutation) {
                                 String[] result = new String[2];
                                 permutation.setShowUnreadNotifications(false);
                                 result[0] = permutation.getString();
@@ -62,6 +66,7 @@ public class SettingsConfigData extends ConfigData {
                                 return result;
                             }
 
+                            @Nullable
                             public Enum getCurrentValue(WatchFaceState currentPreset) {
                                 return null;
                             }
@@ -73,8 +78,9 @@ public class SettingsConfigData extends ConfigData {
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new Mutator() {
+                            @NonNull
                             @Override
-                            public String[] permute(WatchFaceState permutation) {
+                            public String[] permute(@NonNull WatchFaceState permutation) {
                                 String[] result = new String[2];
                                 permutation.setNightVisionModeEnabled(false);
                                 result[0] = permutation.getString();
@@ -83,6 +89,7 @@ public class SettingsConfigData extends ConfigData {
                                 return result;
                             }
 
+                            @Nullable
                             public Enum getCurrentValue(WatchFaceState currentPreset) {
                                 return null;
                             }
@@ -108,8 +115,9 @@ public class SettingsConfigData extends ConfigData {
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new Mutator() {
+                            @NonNull
                             @Override
-                            public String[] permute(WatchFaceState permutation) {
+                            public String[] permute(@NonNull WatchFaceState permutation) {
                                 String[] result = new String[2];
                                 permutation.setDeveloperMode(false);
                                 result[0] = permutation.getString();
@@ -118,6 +126,7 @@ public class SettingsConfigData extends ConfigData {
                                 return result;
                             }
 
+                            @Nullable
                             public Enum getCurrentValue(WatchFaceState currentPreset) {
                                 return null;
                             }
@@ -129,8 +138,9 @@ public class SettingsConfigData extends ConfigData {
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new Mutator() {
+                            @NonNull
                             @Override
-                            public String[] permute(WatchFaceState permutation) {
+                            public String[] permute(@NonNull WatchFaceState permutation) {
                                 String[] result = new String[2];
                                 permutation.setStats(false);
                                 result[0] = permutation.getString();
@@ -139,6 +149,7 @@ public class SettingsConfigData extends ConfigData {
                                 return result;
                             }
 
+                            @Nullable
                             public Enum getCurrentValue(WatchFaceState currentPreset) {
                                 return null;
                             }
@@ -151,8 +162,9 @@ public class SettingsConfigData extends ConfigData {
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new Mutator() {
+                            @NonNull
                             @Override
-                            public String[] permute(WatchFaceState permutation) {
+                            public String[] permute(@NonNull WatchFaceState permutation) {
                                 String[] result = new String[2];
                                 permutation.setStatsDetail(false);
                                 result[0] = permutation.getString();
@@ -161,6 +173,7 @@ public class SettingsConfigData extends ConfigData {
                                 return result;
                             }
 
+                            @Nullable
                             public Enum getCurrentValue(WatchFaceState currentPreset) {
                                 return null;
                             }
