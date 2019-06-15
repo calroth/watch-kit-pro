@@ -279,6 +279,9 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 // Update complication view.
                 if (complicationProviderInfo != null &&
                         complicationProviderInfo.providerIcon != null) {
+                    complicationProviderInfo.providerIcon.setTint(
+                            mCurrentWatchFaceState.getColor(
+                                    mCurrentWatchFaceState.getComplicationTextStyle()));
                     complication.setProviderIconDrawable(
                             complicationProviderInfo.providerIcon.loadDrawable(mContext),
                             true);
@@ -287,6 +290,8 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                     itemView.invalidate();
                 } else {
                     Drawable drawable = mContext.getDrawable(mDefaultComplicationDrawableId);
+                    drawable.setTint(mCurrentWatchFaceState.getColor(
+                            mCurrentWatchFaceState.getComplicationTextStyle()));
                     if (drawable != null) {
                         complication.setProviderIconDrawable(drawable, false);
                         itemView.invalidate();

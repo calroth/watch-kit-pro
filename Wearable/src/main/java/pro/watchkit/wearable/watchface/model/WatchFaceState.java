@@ -528,7 +528,7 @@ public class WatchFaceState {
         regeneratePaints();
     }
 
-    TextStyle getComplicationTextStyle() {
+    public TextStyle getComplicationTextStyle() {
         return mSettings.mComplicationTextStyle;
     }
 
@@ -1038,7 +1038,7 @@ public class WatchFaceState {
      * @return Color from our palette as a ColorInt
      */
     @ColorInt
-    private int getColor(@NonNull TextStyle textStyle) {
+    public int getColor(@NonNull TextStyle textStyle) {
         switch (textStyle) {
             case FILL: {
                 return getColor(ColorType.FILL);
