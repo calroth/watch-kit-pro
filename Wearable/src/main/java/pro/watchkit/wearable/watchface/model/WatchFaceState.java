@@ -46,6 +46,7 @@ import pro.watchkit.wearable.watchface.model.BytePackable.HandShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandStalk;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandThickness;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
+import pro.watchkit.wearable.watchface.model.BytePackable.TextStyle;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickLength;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickRadiusPosition;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
@@ -351,7 +352,7 @@ public class WatchFaceState {
      * again if the user changes the highlight color via ConfigActivity.
      */
     public void setComplicationColors() {
-        @ColorInt int activeColor = getColor(ColorType.HIGHLIGHT);
+        @ColorInt int activeColor = getColor(getComplicationTextStyle());
         @ColorInt int ambientColor = Color.WHITE;
         // TODO: hook that up to the night vision tint when after dark
 
@@ -525,6 +526,14 @@ public class WatchFaceState {
     private void setAmbientNightSixBitColor(int ambientNightSixBitColor) {
         mSettings.mAmbientNightSixBitColor = ambientNightSixBitColor;
         regeneratePaints();
+    }
+
+    TextStyle getComplicationTextStyle() {
+        return mSettings.mComplicationTextStyle;
+    }
+
+    void setComplicationTextStyle(TextStyle complicationTextStyle) {
+        mSettings.mComplicationTextStyle = complicationTextStyle;
     }
 
     public Style getComplicationRingStyle() {
@@ -1018,6 +1027,31 @@ public class WatchFaceState {
             default:
             case AMBIENT_NIGHT: {
                 return mPaintBox.getColor(getAmbientNightSixBitColor());
+            }
+        }
+    }
+
+    /**
+     * Get the given color from our 6-bit (64-color) palette. Returns a ColorInt.
+     *
+     * @param textStyle ColorType to get from our current WatchFacePreset.
+     * @return Color from our palette as a ColorInt
+     */
+    @ColorInt
+    private int getColor(@NonNull TextStyle textStyle) {
+        switch (textStyle) {
+            case FILL: {
+                return getColor(ColorType.FILL);
+            }
+            case ACCENT: {
+                return getColor(ColorType.ACCENT);
+            }
+            case HIGHLIGHT: {
+                return getColor(ColorType.HIGHLIGHT);
+            }
+            default:
+            case BASE: {
+                return getColor(ColorType.BASE);
             }
         }
     }

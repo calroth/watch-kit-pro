@@ -61,6 +61,17 @@ public class ComplicationConfigData extends ConfigData {
                                 WatchFaceState::setComplicationRotation,
                                 WatchFaceState::getComplicationRotation)),
 
+                // Data for complication text style in settings Activity.
+                new PickerConfigItem(
+                        context.getString(R.string.config_complication_text_style),
+                        R.drawable.icn_styles,
+                        watchFaceGlobalDrawableFlags,
+                        WatchFaceSelectionActivity.class,
+                        new EnumMutator<>(
+                                BytePackable.TextStyle.values(),
+                                WatchFaceState::setComplicationTextStyle,
+                                WatchFaceState::getComplicationTextStyle)),
+
                 // Data for complication ring style in settings Activity.
                 new PickerConfigItem(
                         context.getString(R.string.config_complication_ring_style),

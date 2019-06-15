@@ -78,6 +78,7 @@
 
     <string name="config_complication_count">Complication Count</string>
     <string name="config_complication_rotation">Complication Position</string>
+    <string name="config_complication_text_style">Complication Text Style</string>
     <string name="config_complication_ring_style">Complication Ring Style</string>
     <string name="config_complication_background_style">Complication Background Style</string>
 

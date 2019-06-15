@@ -29,8 +29,8 @@ final class Settings extends BytePackable {
     ComplicationCount mComplicationCount;
     ComplicationRotation mComplicationRotation = ComplicationRotation.ROTATE_25;
     int mAmbientDaySixBitColor, mAmbientNightSixBitColor;
-    Style mComplicationRingStyle;
-    Style mComplicationBackgroundStyle;
+    TextStyle mComplicationTextStyle;
+    Style mComplicationRingStyle, mComplicationBackgroundStyle;
     boolean mDeveloperMode;
     boolean mStats, mStatsDetail;
 
@@ -43,8 +43,8 @@ final class Settings extends BytePackable {
                 mComplicationCount,
                 mComplicationRotation,
                 mAmbientDaySixBitColor, mAmbientNightSixBitColor,
-                mComplicationRingStyle,
-                mComplicationBackgroundStyle,
+                mComplicationTextStyle,
+                mComplicationRingStyle, mComplicationBackgroundStyle,
                 mDeveloperMode,
                 mStats, mStatsDetail);
     }
@@ -86,6 +86,7 @@ final class Settings extends BytePackable {
         mBytePacker.put(mDeveloperMode);
         mBytePacker.put(mStats);
         mBytePacker.put(mStatsDetail);
+        mComplicationTextStyle.pack(mBytePacker);
 
         mBytePacker.finish();
     }
@@ -116,6 +117,7 @@ final class Settings extends BytePackable {
                 mDeveloperMode = mBytePacker.getBoolean();
                 mStats = mBytePacker.getBoolean();
                 mStatsDetail = mBytePacker.getBoolean();
+                mComplicationTextStyle = TextStyle.unpack(mBytePacker);
                 break;
             }
         }

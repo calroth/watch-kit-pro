@@ -216,9 +216,19 @@ public final class ComplicationHolder implements Drawable.Callback {
             // Set the default to black, in case the user-defined image takes a while to load.
             drawable.setBackgroundColorActive(Color.BLACK);
         } else {
+            // Generate a faded ambient color that is exactly the same as "ambientColor"
+            // only the alpha is 2/3 the value.
+            @ColorInt int fadedActiveColor = Color.argb(
+                    (int) (Color.alpha(activeColor) * 0.66666666666667f),
+                    Color.red(activeColor),
+                    Color.green(activeColor),
+                    Color.blue(activeColor));
+
             // Active mode colors
-//            drawable.setBorderColorActive(primaryComplicationColor);
             drawable.setBorderStyleActive(ComplicationDrawable.BORDER_STYLE_NONE);
+            drawable.setTextColorActive(activeColor);
+            drawable.setTitleColorActive(fadedActiveColor);
+            drawable.setIconColorActive(fadedActiveColor);
             drawable.setRangedValuePrimaryColorActive(activeColor);
 
             // Generate a faded ambient color that is exactly the same as "ambientColor"
