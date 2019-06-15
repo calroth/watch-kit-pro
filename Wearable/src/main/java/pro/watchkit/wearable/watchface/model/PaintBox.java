@@ -65,9 +65,10 @@ public final class PaintBox {
     @NonNull
     private GradientPaint mFillHighlightPaint = new GradientPaint();
     @NonNull
-    private GradientPaint mAccentFillPaint = new GradientPaint(),
-            mBezelPaint1,
-            mBezelPaint2 = new GradientPaint();
+    private GradientPaint mAccentFillPaint = new GradientPaint();
+    private GradientPaint mBezelPaint1;
+    @NonNull
+    private GradientPaint mBezelPaint2 = new GradientPaint();
     @NonNull
     private GradientPaint mAccentHighlightPaint = new GradientPaint();
     private int mPreviousSerial = -1;
