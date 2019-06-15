@@ -50,6 +50,7 @@ public final class ComplicationHolder implements Drawable.Callback {
     @Nullable
     private ComplicationDrawable drawable;
     private boolean mIsInAmbientMode = false;
+    private boolean mInset = false;
     private Rect mBounds, mInsetBounds;
     private long itWasMe = 0;
     private InvalidateCallback mInvalidateCallback;
@@ -102,6 +103,7 @@ public final class ComplicationHolder implements Drawable.Callback {
 
     public void setProviderIconDrawable(@NonNull Drawable drawable, boolean inset) {
         mProviderIconDrawable = drawable;
+        mInset = inset;
         if (mInsetBounds != null && inset) {
             mProviderIconDrawable.setBounds(mInsetBounds);
         } else if (mBounds != null) {
@@ -196,7 +198,7 @@ public final class ComplicationHolder implements Drawable.Callback {
                 mActiveBitmap = Bitmap.createBitmap(mBounds.width(), mBounds.height(),
                         Bitmap.Config.ARGB_8888);
             } else {
-                drawable.setBounds(mBounds);
+                drawable.setBounds(mInset ? mInsetBounds : mBounds);
                 if (mProviderIconDrawable != null) {
                     mProviderIconDrawable.setBounds(mBounds);
                 }
