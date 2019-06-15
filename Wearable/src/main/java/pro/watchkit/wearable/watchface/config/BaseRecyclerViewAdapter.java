@@ -290,9 +290,9 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                     itemView.invalidate();
                 } else {
                     Drawable drawable = mContext.getDrawable(mDefaultComplicationDrawableId);
-                    drawable.setTint(mCurrentWatchFaceState.getColor(
-                            mCurrentWatchFaceState.getComplicationTextStyle()));
                     if (drawable != null) {
+                        drawable.setTint(mCurrentWatchFaceState.getColor(
+                                mCurrentWatchFaceState.getComplicationTextStyle()));
                         complication.setProviderIconDrawable(drawable, false);
                         itemView.invalidate();
                     }
