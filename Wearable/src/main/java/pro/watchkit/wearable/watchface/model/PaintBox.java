@@ -386,6 +386,9 @@ public final class PaintBox {
 
             switch (styleGradient) {
                 case FLAT:
+                    // Set to "colorA", except if this is mAccentHighlightPaint.
+                    // So our four paints have four distinct colors.
+                    setColor(this == mAccentHighlightPaint ? colorB : colorA);
                     break;
                 case SWEEP:
                     addSweepGradient(colorA, colorB);
