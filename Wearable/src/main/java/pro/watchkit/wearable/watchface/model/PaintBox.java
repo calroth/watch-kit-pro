@@ -44,8 +44,8 @@ import java.lang.ref.WeakReference;
 import java.util.Objects;
 
 import pro.watchkit.wearable.watchface.R;
-import pro.watchkit.wearable.watchface.model.BytePackable.GradientStyle;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
+import pro.watchkit.wearable.watchface.model.BytePackable.StyleGradient;
 
 public final class PaintBox {
     private static final float AMBIENT_PAINT_STROKE_WIDTH_PERCENT = 0.333f; // 0.333%
@@ -232,8 +232,8 @@ public final class PaintBox {
     void regeneratePaints(int fillSixBitColor, int accentSixBitColor,
                           int highlightSixBitColor, int baseSixBitColor,
                           int ambientDaySixBitColor, int ambientNightSixBitColor,
-                          @NonNull GradientStyle fillHighlightStyle, @NonNull GradientStyle accentFillStyle,
-                          @NonNull GradientStyle accentHighlightStyle, @NonNull GradientStyle baseAccentStyle) {
+                          @NonNull StyleGradient fillHighlightStyle, @NonNull StyleGradient accentFillStyle,
+                          @NonNull StyleGradient accentHighlightStyle, @NonNull StyleGradient baseAccentStyle) {
         // Invalidate if any of our colors or styles have changed.
         int currentSerial = Objects.hash(
                 getColor(fillSixBitColor),
@@ -360,7 +360,7 @@ public final class PaintBox {
             return Objects.hash(super.hashCode(), mCustomHashCode);
         }
 
-        void setColors(int sixBitColorA, int sixBitColorB, @NonNull GradientStyle gradientStyle) {
+        void setColors(int sixBitColorA, int sixBitColorB, @NonNull StyleGradient gradientStyle) {
             @ColorInt int colorA = PaintBox.this.getColor(sixBitColorA);
             @ColorInt int colorB = PaintBox.this.getColor(sixBitColorB);
 

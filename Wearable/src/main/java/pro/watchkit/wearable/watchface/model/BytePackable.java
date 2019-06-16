@@ -302,12 +302,12 @@ public abstract class BytePackable {
         }
     }
 
-    public enum GradientStyle implements EnumResourceId {
+    public enum StyleGradient implements EnumResourceId {
         SWEEP, SWEEP_BRUSHED, RADIAL, RADIAL_BRUSHED;
 
         private static final int bits = 2;
 
-        static GradientStyle unpack(BytePacker bytePacker) {
+        static StyleGradient unpack(BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
@@ -318,7 +318,7 @@ public abstract class BytePackable {
         @Override
         @ArrayRes
         public int getNameResourceId() {
-            return R.array.WatchFacePreset_GradientStyle;
+            return R.array.WatchFacePreset_StyleGradient;
         }
     }
 

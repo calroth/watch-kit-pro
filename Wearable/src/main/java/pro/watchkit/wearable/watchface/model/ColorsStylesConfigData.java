@@ -70,47 +70,47 @@ public class ColorsStylesConfigData extends ConfigData {
 
                 // Data for fill highlight style in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_fill_highlight_style),
+                        context.getString(R.string.config_preset_fill_highlight_style_gradient),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.GradientStyle.values(),
-                                WatchFaceState::setFillHighlightStyle,
-                                WatchFaceState::getFillHighlightStyle)),
+                                BytePackable.StyleGradient.values(),
+                                WatchFaceState::setFillHighlightStyleGradient,
+                                WatchFaceState::getFillHighlightStyleGradient)),
 
                 // Data for accent fill style in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_accent_fill_style),
+                        context.getString(R.string.config_preset_accent_fill_style_gradient),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.GradientStyle.values(),
-                                WatchFaceState::setAccentFillStyle,
-                                WatchFaceState::getAccentFillStyle)),
+                                BytePackable.StyleGradient.values(),
+                                WatchFaceState::setAccentFillStyleGradient,
+                                WatchFaceState::getAccentFillStyleGradient)),
 
                 // Data for accent highlight style in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_accent_highlight_style),
+                        context.getString(R.string.config_preset_accent_highlight_style_gradient),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.GradientStyle.values(),
-                                WatchFaceState::setAccentHighlightStyle,
-                                WatchFaceState::getAccentHighlightStyle)),
+                                BytePackable.StyleGradient.values(),
+                                WatchFaceState::setAccentHighlightStyleGradient,
+                                WatchFaceState::getAccentHighlightStyleGradient)),
 
                 // Data for base accent style in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_base_accent_style),
+                        context.getString(R.string.config_preset_base_accent_style_gradient),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.GradientStyle.values(),
-                                WatchFaceState::setBaseAccentStyle,
-                                WatchFaceState::getBaseAccentStyle))
+                                BytePackable.StyleGradient.values(),
+                                WatchFaceState::setBaseAccentStyleGradient,
+                                WatchFaceState::getBaseAccentStyleGradient))
         );
     }
 }

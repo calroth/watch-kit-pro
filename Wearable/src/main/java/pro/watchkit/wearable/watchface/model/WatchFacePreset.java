@@ -37,7 +37,8 @@ final class WatchFacePreset extends BytePackable {
     TickRadiusPosition mFourTickRadiusPosition, mTwelveTickRadiusPosition, mSixtyTickRadiusPosition;
     Style mFourTickStyle, mTwelveTickStyle, mSixtyTickStyle;
     int mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor;
-    GradientStyle mFillHighlightStyle, mAccentFillStyle, mAccentHighlightStyle, mBaseAccentStyle;
+    StyleGradient mFillHighlightStyleGradient, mAccentFillStyleGradient,
+            mAccentHighlightStyleGradient, mBaseAccentStyleGradient;
 
     @Override
     public int hashCode() {
@@ -59,7 +60,8 @@ final class WatchFacePreset extends BytePackable {
                 mFourTickRadiusPosition, mTwelveTickRadiusPosition, mSixtyTickRadiusPosition,
                 mFourTickStyle, mTwelveTickStyle, mSixtyTickStyle,
                 mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor,
-                mFillHighlightStyle, mAccentFillStyle, mAccentHighlightStyle, mBaseAccentStyle);
+                mFillHighlightStyleGradient, mAccentFillStyleGradient,
+                mAccentHighlightStyleGradient, mBaseAccentStyleGradient);
     }
 
     @Override
@@ -109,10 +111,10 @@ final class WatchFacePreset extends BytePackable {
         mSixtyTickRadiusPosition.pack(mBytePacker);
         mSixtyTickStyle.pack(mBytePacker);
 
-        mFillHighlightStyle.pack(mBytePacker);
-        mAccentFillStyle.pack(mBytePacker);
-        mAccentHighlightStyle.pack(mBytePacker);
-        mBaseAccentStyle.pack(mBytePacker);
+        mFillHighlightStyleGradient.pack(mBytePacker);
+        mAccentFillStyleGradient.pack(mBytePacker);
+        mAccentHighlightStyleGradient.pack(mBytePacker);
+        mBaseAccentStyleGradient.pack(mBytePacker);
 
         mBytePacker.putSixBitColor(mFillSixBitColor);
         mBytePacker.putSixBitColor(mHighlightSixBitColor);
@@ -173,10 +175,10 @@ final class WatchFacePreset extends BytePackable {
         mSixtyTickRadiusPosition = TickRadiusPosition.unpack(mBytePacker);
         mSixtyTickStyle = Style.unpack(mBytePacker);
 
-        mFillHighlightStyle = GradientStyle.unpack(mBytePacker);
-        mAccentFillStyle = GradientStyle.unpack(mBytePacker);
-        mAccentHighlightStyle = GradientStyle.unpack(mBytePacker);
-        mBaseAccentStyle = GradientStyle.unpack(mBytePacker);
+        mFillHighlightStyleGradient = StyleGradient.unpack(mBytePacker);
+        mAccentFillStyleGradient = StyleGradient.unpack(mBytePacker);
+        mAccentHighlightStyleGradient = StyleGradient.unpack(mBytePacker);
+        mBaseAccentStyleGradient = StyleGradient.unpack(mBytePacker);
 
         mFillSixBitColor = mBytePacker.getSixBitColor();
         mHighlightSixBitColor = mBytePacker.getSixBitColor();

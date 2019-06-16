@@ -127,10 +127,10 @@
 
     <string name="config_preset_background_style">Background Style</string>
 
-    <string name="config_preset_fill_highlight_style">Fill Highlight Style</string>
-    <string name="config_preset_accent_fill_style">Accent Fill Style</string>
-    <string name="config_preset_accent_highlight_style">Accent Highlight Style</string>
-    <string name="config_preset_base_accent_style">Base Accent Style</string>
+    <string name="config_preset_fill_highlight_style_gradient">Fill Highlight Style Gradient</string>
+    <string name="config_preset_accent_fill_style_gradient">Accent Fill Style Gradient</string>
+    <string name="config_preset_accent_highlight_style_gradient">Accent Highlight Style Gradient</string>
+    <string name="config_preset_base_accent_style_gradient">Base Accent Style Gradient</string>
 
     <!-- TODO: this should be shared (needs covering all the samples with Gradle build model) -->
     <string name="color_black">Black</string>
@@ -226,7 +226,7 @@
         <item>Accent + Base</item>
     </string-array>
 
-    <string-array name="WatchFacePreset_GradientStyle">
+    <string-array name="WatchFacePreset_StyleGradient">
         <item>Sweep</item>
         <item>Sweep + Brushed</item>
         <item>Radial</item>

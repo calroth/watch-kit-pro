@@ -39,13 +39,13 @@ import java.util.TimeZone;
 
 import pro.watchkit.wearable.watchface.model.BytePackable.ComplicationCount;
 import pro.watchkit.wearable.watchface.model.BytePackable.ComplicationRotation;
-import pro.watchkit.wearable.watchface.model.BytePackable.GradientStyle;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandCutout;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandLength;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandStalk;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandThickness;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
+import pro.watchkit.wearable.watchface.model.BytePackable.StyleGradient;
 import pro.watchkit.wearable.watchface.model.BytePackable.TextStyle;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickLength;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickRadiusPosition;
@@ -883,39 +883,39 @@ public class WatchFaceState {
         mWatchFacePreset.mSixtyTickStyle = sixtyTickStyle;
     }
 
-    GradientStyle getFillHighlightStyle() {
-        return mWatchFacePreset.mFillHighlightStyle;
+    StyleGradient getFillHighlightStyleGradient() {
+        return mWatchFacePreset.mFillHighlightStyleGradient;
     }
 
-    void setFillHighlightStyle(GradientStyle fillHighlightStyle) {
-        mWatchFacePreset.mFillHighlightStyle = fillHighlightStyle;
+    void setFillHighlightStyleGradient(StyleGradient fillHighlightStyleGradient) {
+        mWatchFacePreset.mFillHighlightStyleGradient = fillHighlightStyleGradient;
         regeneratePaints();
     }
 
-    GradientStyle getAccentFillStyle() {
-        return mWatchFacePreset.mAccentFillStyle;
+    StyleGradient getAccentFillStyleGradient() {
+        return mWatchFacePreset.mAccentFillStyleGradient;
     }
 
-    void setAccentFillStyle(GradientStyle accentFillStyle) {
-        mWatchFacePreset.mAccentFillStyle = accentFillStyle;
+    void setAccentFillStyleGradient(StyleGradient accentFillStyleGradient) {
+        mWatchFacePreset.mAccentFillStyleGradient = accentFillStyleGradient;
         regeneratePaints();
     }
 
-    GradientStyle getAccentHighlightStyle() {
-        return mWatchFacePreset.mAccentHighlightStyle;
+    StyleGradient getAccentHighlightStyleGradient() {
+        return mWatchFacePreset.mAccentHighlightStyleGradient;
     }
 
-    void setAccentHighlightStyle(GradientStyle accentHighlightStyle) {
-        mWatchFacePreset.mAccentHighlightStyle = accentHighlightStyle;
+    void setAccentHighlightStyleGradient(StyleGradient accentHighlightStyleGradient) {
+        mWatchFacePreset.mAccentHighlightStyleGradient = accentHighlightStyleGradient;
         regeneratePaints();
     }
 
-    GradientStyle getBaseAccentStyle() {
-        return mWatchFacePreset.mBaseAccentStyle;
+    StyleGradient getBaseAccentStyleGradient() {
+        return mWatchFacePreset.mBaseAccentStyleGradient;
     }
 
-    void setBaseAccentStyle(GradientStyle baseAccentStyle) {
-        mWatchFacePreset.mBaseAccentStyle = baseAccentStyle;
+    void setBaseAccentStyleGradient(StyleGradient baseAccentStyleGradient) {
+        mWatchFacePreset.mBaseAccentStyleGradient = baseAccentStyleGradient;
         regeneratePaints();
     }
 
@@ -996,8 +996,8 @@ public class WatchFaceState {
                 getFillSixBitColor(), getAccentSixBitColor(),
                 getHighlightSixBitColor(), getBaseSixBitColor(),
                 getAmbientDaySixBitColor(), getAmbientNightSixBitColor(),
-                getFillHighlightStyle(), getAccentFillStyle(),
-                getAccentHighlightStyle(), getBaseAccentStyle());
+                getFillHighlightStyleGradient(), getAccentFillStyleGradient(),
+                getAccentHighlightStyleGradient(), getBaseAccentStyleGradient());
     }
 
     /**
