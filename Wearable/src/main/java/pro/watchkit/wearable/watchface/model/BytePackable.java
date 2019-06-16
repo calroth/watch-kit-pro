@@ -303,7 +303,7 @@ public abstract class BytePackable {
     }
 
     public enum StyleGradient implements EnumResourceId {
-        SWEEP, SWEEP_BRUSHED, RADIAL, RADIAL_BRUSHED;
+        FLAT, SWEEP, RADIAL, UNKNOWN1;
 
         private static final int bits = 2;
 
@@ -319,6 +319,26 @@ public abstract class BytePackable {
         @ArrayRes
         public int getNameResourceId() {
             return R.array.WatchFacePreset_StyleGradient;
+        }
+    }
+
+    public enum StyleTexture implements EnumResourceId {
+        NONE, SPUN, WEAVE, HEX;
+
+        private static final int bits = 2;
+
+        static StyleTexture unpack(BytePacker bytePacker) {
+            return values()[bytePacker.get(bits)];
+        }
+
+        void pack(BytePacker bytePacker) {
+            bytePacker.put(bits, values(), this);
+        }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.WatchFacePreset_StyleTexture;
         }
     }
 

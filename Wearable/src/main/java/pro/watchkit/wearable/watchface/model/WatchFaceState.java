@@ -46,6 +46,7 @@ import pro.watchkit.wearable.watchface.model.BytePackable.HandStalk;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandThickness;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 import pro.watchkit.wearable.watchface.model.BytePackable.StyleGradient;
+import pro.watchkit.wearable.watchface.model.BytePackable.StyleTexture;
 import pro.watchkit.wearable.watchface.model.BytePackable.TextStyle;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickLength;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickRadiusPosition;
@@ -919,6 +920,42 @@ public class WatchFaceState {
         regeneratePaints();
     }
 
+    StyleTexture getFillHighlightStyleTexture() {
+        return mWatchFacePreset.mFillHighlightStyleTexture;
+    }
+
+    void setFillHighlightStyleTexture(StyleTexture fillHighlightStyleTexture) {
+        mWatchFacePreset.mFillHighlightStyleTexture = fillHighlightStyleTexture;
+        regeneratePaints();
+    }
+
+    StyleTexture getAccentFillStyleTexture() {
+        return mWatchFacePreset.mAccentFillStyleTexture;
+    }
+
+    void setAccentFillStyleTexture(StyleTexture accentFillStyleTexture) {
+        mWatchFacePreset.mAccentFillStyleTexture = accentFillStyleTexture;
+        regeneratePaints();
+    }
+
+    StyleTexture getAccentHighlightStyleTexture() {
+        return mWatchFacePreset.mAccentHighlightStyleTexture;
+    }
+
+    void setAccentHighlightStyleTexture(StyleTexture accentHighlightStyleTexture) {
+        mWatchFacePreset.mAccentHighlightStyleTexture = accentHighlightStyleTexture;
+        regeneratePaints();
+    }
+
+    StyleTexture getBaseAccentStyleTexture() {
+        return mWatchFacePreset.mBaseAccentStyleTexture;
+    }
+
+    void setBaseAccentStyleTexture(StyleTexture baseAccentStyleTexture) {
+        mWatchFacePreset.mBaseAccentStyleTexture = baseAccentStyleTexture;
+        regeneratePaints();
+    }
+
     public HandStalk getHourHandStalk() {
         return mWatchFacePreset.mHourHandStalk;
     }
@@ -997,7 +1034,9 @@ public class WatchFaceState {
                 getHighlightSixBitColor(), getBaseSixBitColor(),
                 getAmbientDaySixBitColor(), getAmbientNightSixBitColor(),
                 getFillHighlightStyleGradient(), getAccentFillStyleGradient(),
-                getAccentHighlightStyleGradient(), getBaseAccentStyleGradient());
+                getAccentHighlightStyleGradient(), getBaseAccentStyleGradient(),
+                getFillHighlightStyleTexture(), getAccentFillStyleTexture(),
+                getAccentHighlightStyleTexture(), getBaseAccentStyleTexture());
     }
 
     /**

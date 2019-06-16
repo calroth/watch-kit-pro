@@ -46,6 +46,7 @@ import java.util.Objects;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 import pro.watchkit.wearable.watchface.model.BytePackable.StyleGradient;
+import pro.watchkit.wearable.watchface.model.BytePackable.StyleTexture;
 
 public final class PaintBox {
     private static final float AMBIENT_PAINT_STROKE_WIDTH_PERCENT = 0.333f; // 0.333%
@@ -232,8 +233,14 @@ public final class PaintBox {
     void regeneratePaints(int fillSixBitColor, int accentSixBitColor,
                           int highlightSixBitColor, int baseSixBitColor,
                           int ambientDaySixBitColor, int ambientNightSixBitColor,
-                          @NonNull StyleGradient fillHighlightStyle, @NonNull StyleGradient accentFillStyle,
-                          @NonNull StyleGradient accentHighlightStyle, @NonNull StyleGradient baseAccentStyle) {
+                          @NonNull StyleGradient fillHighlightStyleGradient,
+                          @NonNull StyleGradient accentFillStyleGradient,
+                          @NonNull StyleGradient accentHighlightStyleGradient,
+                          @NonNull StyleGradient baseAccentStyleGradient,
+                          @NonNull StyleTexture fillHighlightStyleTexture,
+                          @NonNull StyleTexture accentFillStyleTexture,
+                          @NonNull StyleTexture accentHighlightStyleTexture,
+                          @NonNull StyleTexture baseAccentStyleTexture) {
         // Invalidate if any of our colors or styles have changed.
         int currentSerial = Objects.hash(
                 getColor(fillSixBitColor),
@@ -242,10 +249,14 @@ public final class PaintBox {
                 getColor(baseSixBitColor),
                 getColor(ambientDaySixBitColor),
                 getColor(ambientNightSixBitColor),
-                fillHighlightStyle,
-                accentFillStyle,
-                accentHighlightStyle,
-                baseAccentStyle,
+                fillHighlightStyleGradient,
+                accentFillStyleGradient,
+                accentHighlightStyleGradient,
+                baseAccentStyleGradient,
+                fillHighlightStyleTexture,
+                accentFillStyleTexture,
+                accentHighlightStyleTexture,
+                baseAccentStyleTexture,
                 pc);
         if (mPreviousSerial == currentSerial || width <= 0 || height <= 0) {
             return;
@@ -258,13 +269,17 @@ public final class PaintBox {
         mHighlightPaint.setColor(getColor(highlightSixBitColor));
         mBasePaint.setColor(getColor(baseSixBitColor));
 
-        mFillHighlightPaint.setColors(fillSixBitColor, highlightSixBitColor, fillHighlightStyle);
-        mAccentFillPaint.setColors(accentSixBitColor, fillSixBitColor, accentFillStyle);
+        mFillHighlightPaint.setColors(fillSixBitColor, highlightSixBitColor,
+                fillHighlightStyleGradient, fillHighlightStyleTexture);
+        mAccentFillPaint.setColors(accentSixBitColor, fillSixBitColor,
+                accentFillStyleGradient, accentFillStyleTexture);
         mBezelPaint1 = mAccentFillPaint;
-        mBezelPaint2.setColors(fillSixBitColor, accentSixBitColor, accentFillStyle);
-        mAccentHighlightPaint.setColors(
-                accentSixBitColor, highlightSixBitColor, accentHighlightStyle);
-        mBaseAccentPaint.setColors(baseSixBitColor, accentSixBitColor, baseAccentStyle);
+        mBezelPaint2.setColors(fillSixBitColor, accentSixBitColor,
+                accentFillStyleGradient, accentFillStyleTexture);
+        mAccentHighlightPaint.setColors(accentSixBitColor, highlightSixBitColor,
+                accentHighlightStyleGradient, accentHighlightStyleTexture);
+        mBaseAccentPaint.setColors(baseSixBitColor, accentSixBitColor,
+                baseAccentStyleGradient, baseAccentStyleTexture);
 
         mShadowPaint.setColor(getColor(baseSixBitColor));
 
@@ -360,41 +375,57 @@ public final class PaintBox {
             return Objects.hash(super.hashCode(), mCustomHashCode);
         }
 
-        void setColors(int sixBitColorA, int sixBitColorB, @NonNull StyleGradient gradientStyle) {
+        void setColors(int sixBitColorA, int sixBitColorB,
+                       @NonNull StyleGradient styleGradient,
+                       @NonNull StyleTexture styleTexture) {
             @ColorInt int colorA = PaintBox.this.getColor(sixBitColorA);
             @ColorInt int colorB = PaintBox.this.getColor(sixBitColorB);
 
-            mCustomHashCode = Objects.hash(colorA, colorB, gradientStyle, height, width);
+            mCustomHashCode = Objects.hash(
+                    colorA, colorB, styleGradient, styleTexture, height, width);
 
-            switch (gradientStyle) {
+            switch (styleGradient) {
+                case FLAT:
+                    break;
                 case SWEEP:
                     addSweepGradient(colorA, colorB);
                     break;
                 case RADIAL:
                     addRadialGradient(colorA, colorB);
                     break;
-                case SWEEP_BRUSHED:
-                    addSweepGradient(colorA, colorB);
-                    addBrushedEffect();
+                case UNKNOWN1:
                     break;
-                case RADIAL_BRUSHED:
-                    addRadialGradient(colorA, colorB);
-                    addBrushedEffect();
+            }
+
+            switch (styleTexture) {
+                case NONE:
                     break;
-                default:
-                    // Should never hit this.
+                case SPUN:
+                    addSpunEffect();
+                    break;
+                case WEAVE:
+                    addWeaveEffect();
+                    break;
+                case HEX:
                     break;
             }
         }
 
-        private void addBrushedEffect() {
+        private void addSpunEffect() {
+            Bitmap brushedEffectBitmap = generateSpunEffect();
+
+            setShader(new BitmapShader(brushedEffectBitmap,
+                    Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+        }
+
+        private void addWeaveEffect() {
             Bitmap brushedEffectBitmap = generateWeaveEffect();
 
             setShader(new BitmapShader(brushedEffectBitmap,
                     Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
         }
 
-        private Bitmap generateBrushedEffect() {
+        private Bitmap generateSpunEffect() {
             // Attempt to return an existing bitmap from the cache if we have one.
             WeakReference<Bitmap> cache = mBitmapCache.get(mCustomHashCode);
             if (cache != null) {

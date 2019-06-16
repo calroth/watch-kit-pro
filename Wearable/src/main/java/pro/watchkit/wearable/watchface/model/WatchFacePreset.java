@@ -39,6 +39,8 @@ final class WatchFacePreset extends BytePackable {
     int mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor;
     StyleGradient mFillHighlightStyleGradient, mAccentFillStyleGradient,
             mAccentHighlightStyleGradient, mBaseAccentStyleGradient;
+    StyleTexture mFillHighlightStyleTexture, mAccentFillStyleTexture,
+            mAccentHighlightStyleTexture, mBaseAccentStyleTexture;
 
     @Override
     public int hashCode() {
@@ -61,7 +63,9 @@ final class WatchFacePreset extends BytePackable {
                 mFourTickStyle, mTwelveTickStyle, mSixtyTickStyle,
                 mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor,
                 mFillHighlightStyleGradient, mAccentFillStyleGradient,
-                mAccentHighlightStyleGradient, mBaseAccentStyleGradient);
+                mAccentHighlightStyleGradient, mBaseAccentStyleGradient,
+                mFillHighlightStyleTexture, mAccentFillStyleTexture,
+                mAccentHighlightStyleTexture, mBaseAccentStyleTexture);
     }
 
     @Override
@@ -124,6 +128,11 @@ final class WatchFacePreset extends BytePackable {
         // TODO: rearrange these into their right place
         mHourHandCutout.pack(mBytePacker);
         mMinuteHandCutout.pack(mBytePacker);
+
+        mFillHighlightStyleTexture.pack(mBytePacker);
+        mAccentFillStyleTexture.pack(mBytePacker);
+        mAccentHighlightStyleTexture.pack(mBytePacker);
+        mBaseAccentStyleTexture.pack(mBytePacker);
 
         mBytePacker.finish();
     }
@@ -188,5 +197,10 @@ final class WatchFacePreset extends BytePackable {
         // TODO: rearrange these into their right place
         mHourHandCutout = HandCutout.unpack(mBytePacker);
         mMinuteHandCutout = HandCutout.unpack(mBytePacker);
+
+        mFillHighlightStyleTexture = StyleTexture.unpack(mBytePacker);
+        mAccentFillStyleTexture = StyleTexture.unpack(mBytePacker);
+        mAccentHighlightStyleTexture = StyleTexture.unpack(mBytePacker);
+        mBaseAccentStyleTexture = StyleTexture.unpack(mBytePacker);
     }
 }

@@ -128,9 +128,13 @@
     <string name="config_preset_background_style">Background Style</string>
 
     <string name="config_preset_fill_highlight_style_gradient">Fill Highlight Style Gradient</string>
+    <string name="config_preset_fill_highlight_style_texture">Fill Highlight Style Texture</string>
     <string name="config_preset_accent_fill_style_gradient">Accent Fill Style Gradient</string>
+    <string name="config_preset_accent_fill_style_texture">Accent Fill Style Texture</string>
     <string name="config_preset_accent_highlight_style_gradient">Accent Highlight Style Gradient</string>
+    <string name="config_preset_accent_highlight_style_texture">Accent Highlight Style Texture</string>
     <string name="config_preset_base_accent_style_gradient">Base Accent Style Gradient</string>
+    <string name="config_preset_base_accent_style_texture">Base Accent Style Texture</string>
 
     <!-- TODO: this should be shared (needs covering all the samples with Gradle build model) -->
     <string name="color_black">Black</string>
@@ -227,10 +231,17 @@
     </string-array>
 
     <string-array name="WatchFacePreset_StyleGradient">
+        <item>Flat</item>
         <item>Sweep</item>
-        <item>Sweep + Brushed</item>
         <item>Radial</item>
-        <item>Radial + Brushed</item>
+        <item>Unknown 1</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_StyleTexture">
+        <item>None</item>
+        <item>Spun</item>
+        <item>Weave</item>
+        <item>Hex</item>
     </string-array>
 
     <string-array name="Settings_ComplicationRotation">
