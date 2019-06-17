@@ -38,7 +38,9 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 import androidx.wear.widget.WearableRecyclerView;
 
 import pro.watchkit.wearable.watchface.R;
@@ -81,5 +83,9 @@ public class WatchFaceSelectionActivity extends Activity {
         view.setHasFixedSize(true);
 
         view.setAdapter(recyclerViewAdapter);
+
+        // Attach a PagerSnapHelper to make it snap to each watch face!
+        SnapHelper snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(view);
     }
 }
