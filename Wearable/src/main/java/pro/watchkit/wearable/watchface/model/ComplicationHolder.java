@@ -48,7 +48,7 @@ public final class ComplicationHolder implements Drawable.Callback {
     public ImageView background;
     private int id;
     @Nullable
-    private ComplicationDrawable drawable;
+    private ComplicationDrawable mComplicationDrawable;
     private boolean mIsInAmbientMode = false;
     private boolean mInset = false;
     private Rect mBounds, mInsetBounds;
@@ -73,12 +73,12 @@ public final class ComplicationHolder implements Drawable.Callback {
 //        mContext = context;
 
         if (context != null) {
-            drawable = new ComplicationDrawable(context);
+            mComplicationDrawable = new ComplicationDrawable(context);
         } else {
-            drawable = new ComplicationDrawable();
+            mComplicationDrawable = new ComplicationDrawable();
         }
 
-        drawable.setCallback(this);
+        mComplicationDrawable.setCallback(this);
 
 //        if (Build.VERSION.SDK_INT >= 26) {
 //            Typeface.Builder b = new Typeface.Builder("/system/fonts/GoogleSans-Medium.ttf");
@@ -86,23 +86,23 @@ public final class ComplicationHolder implements Drawable.Callback {
 //            b.setFontVariationSettings("'smcp' 0.0");
 //            Typeface d = b.build();
 //
-//            drawable.setTextTypefaceActive(d);
-//            drawable.setTextTypefaceAmbient(d);
-//            drawable.setTitleTypefaceActive(d);
-//            drawable.setTitleTypefaceAmbient(d);
+//            mComplicationDrawable.setTextTypefaceActive(d);
+//            mComplicationDrawable.setTextTypefaceAmbient(d);
+//            mComplicationDrawable.setTitleTypefaceActive(d);
+//            mComplicationDrawable.setTitleTypefaceAmbient(d);
 //        }
     }
 
-//    public void setImageButtonDrawable(Drawable drawable) {
+//    public void setImageButtonDrawable(Drawable mComplicationDrawable) {
 //        if (mImageButton != null) {
-//            mImageButton.setImageDrawable(drawable);
+//            mImageButton.setImageDrawable(mComplicationDrawable);
 //        } else {
-//            mProviderIconDrawable = drawable;
+//            mProviderIconDrawable = mComplicationDrawable;
 //        }
 //    }
 
-    public void setProviderIconDrawable(@NonNull Drawable drawable, boolean inset) {
-        mProviderIconDrawable = drawable;
+    public void setProviderIconDrawable(@NonNull Drawable providerIconDrawable, boolean inset) {
+        mProviderIconDrawable = providerIconDrawable;
         mInset = inset;
         if (mInsetBounds != null && inset) {
             mProviderIconDrawable.setBounds(mInsetBounds);
@@ -154,12 +154,12 @@ public final class ComplicationHolder implements Drawable.Callback {
     }
 
     boolean onDrawableTap(int x, int y) {
-        return drawable.onTap(x, y);
+        return mComplicationDrawable.onTap(x, y);
     }
 
     void setAmbientMode(boolean inAmbientMode) {
-        drawable.setInAmbientMode(inAmbientMode);
-        drawable.setRangedValueProgressHidden(inAmbientMode);
+        mComplicationDrawable.setInAmbientMode(inAmbientMode);
+        mComplicationDrawable.setRangedValueProgressHidden(inAmbientMode);
         mIsInAmbientMode = inAmbientMode;
     }
 
@@ -192,15 +192,15 @@ public final class ComplicationHolder implements Drawable.Callback {
 
         if (dimensionsChanged) {
             if (cacheImages) {
-                drawable.setBounds(0, 0, mBounds.width(), mBounds.height());
+                mComplicationDrawable.setBounds(0, 0, mBounds.width(), mBounds.height());
                 mAmbientBitmap = Bitmap.createBitmap(mBounds.width(), mBounds.height(),
                         Bitmap.Config.ARGB_8888);
                 mActiveBitmap = Bitmap.createBitmap(mBounds.width(), mBounds.height(),
                         Bitmap.Config.ARGB_8888);
             } else {
-                drawable.setBounds(mInset ? mInsetBounds : mBounds);
+                mComplicationDrawable.setBounds(mBounds);
                 if (mProviderIconDrawable != null) {
-                    mProviderIconDrawable.setBounds(mBounds);
+                    mProviderIconDrawable.setBounds(mInset ? mInsetBounds : mBounds);
                 }
             }
             invalidate();
@@ -210,13 +210,13 @@ public final class ComplicationHolder implements Drawable.Callback {
 //    // TODO: why did I deprecate this?
 //    //@Deprecated
 //    public void setBorderStyleActive(int borderStyle) {
-//        drawable.setBorderStyleActive(borderStyle);
+//        mComplicationDrawable.setBorderStyleActive(borderStyle);
 //    }
 
     void setColors(@ColorInt int activeColor, @ColorInt int ambientColor) {
         if (!isForeground) {
             // Set the default to black, in case the user-defined image takes a while to load.
-            drawable.setBackgroundColorActive(Color.BLACK);
+            mComplicationDrawable.setBackgroundColorActive(Color.BLACK);
         } else {
             // Generate a faded ambient color that is exactly the same as "ambientColor"
             // only the alpha is 2/3 the value.
@@ -227,11 +227,11 @@ public final class ComplicationHolder implements Drawable.Callback {
                     Color.blue(activeColor));
 
             // Active mode colors
-            drawable.setBorderStyleActive(ComplicationDrawable.BORDER_STYLE_NONE);
-            drawable.setTextColorActive(activeColor);
-            drawable.setTitleColorActive(fadedActiveColor);
-            drawable.setIconColorActive(fadedActiveColor);
-            drawable.setRangedValuePrimaryColorActive(activeColor);
+            mComplicationDrawable.setBorderStyleActive(ComplicationDrawable.BORDER_STYLE_NONE);
+            mComplicationDrawable.setTextColorActive(activeColor);
+            mComplicationDrawable.setTitleColorActive(fadedActiveColor);
+            mComplicationDrawable.setIconColorActive(fadedActiveColor);
+            mComplicationDrawable.setRangedValuePrimaryColorActive(activeColor);
 
             // Generate a faded ambient color that is exactly the same as "ambientColor"
             // only the alpha is 2/3 the value.
@@ -242,10 +242,10 @@ public final class ComplicationHolder implements Drawable.Callback {
                     Color.blue(ambientColor));
 
             // Ambient mode colors
-            drawable.setBorderStyleAmbient(ComplicationDrawable.BORDER_STYLE_NONE);
-            drawable.setTextColorAmbient(ambientColor);
-            drawable.setTitleColorAmbient(fadedAmbientColor);
-            drawable.setIconColorAmbient(fadedAmbientColor);
+            mComplicationDrawable.setBorderStyleAmbient(ComplicationDrawable.BORDER_STYLE_NONE);
+            mComplicationDrawable.setTextColorAmbient(ambientColor);
+            mComplicationDrawable.setTitleColorAmbient(fadedAmbientColor);
+            mComplicationDrawable.setIconColorAmbient(fadedAmbientColor);
         }
     }
 
@@ -277,21 +277,21 @@ public final class ComplicationHolder implements Drawable.Callback {
     void setDrawableCallback(InvalidateCallback invalidateCallback) {
         mInvalidateCallback = invalidateCallback;
 //        public void setDrawableCallback(Drawable.Callback cb) {
-//        drawable.setCallback(this);
-//        drawable.setCallback(cb);
+//        mComplicationDrawable.setCallback(this);
+//        mComplicationDrawable.setCallback(cb);
         // Test it out?
-//        drawable.invalidateSelf();
+//        mComplicationDrawable.invalidateSelf();
     }
 
     void setComplicationData(ComplicationData complicationData) {
-        drawable.setComplicationData(complicationData);
+        mComplicationDrawable.setComplicationData(complicationData);
 //        mComplicationDescription = complicationData.toString();
         invalidate();
     }
 
     public void setLowBitAmbientBurnInProtection(boolean lowBitAmbient, boolean burnInProtection) {
-        drawable.setLowBitAmbient(lowBitAmbient);
-        drawable.setBurnInProtection(burnInProtection);
+        mComplicationDrawable.setLowBitAmbient(lowBitAmbient);
+        mComplicationDrawable.setBurnInProtection(burnInProtection);
     }
 
     public int[] getSupportedComplicationTypes() {
@@ -320,7 +320,7 @@ public final class ComplicationHolder implements Drawable.Callback {
 
     private Bitmap getAmbientBitmap(long currentTimeMillis) {
         if (mAmbientBitmapInvalidated) {
-            drawable.draw(new Canvas(mAmbientBitmap), currentTimeMillis);
+            mComplicationDrawable.draw(new Canvas(mAmbientBitmap), currentTimeMillis);
             mAmbientBitmapInvalidated = false;
         }
         return mAmbientBitmap;
@@ -328,7 +328,7 @@ public final class ComplicationHolder implements Drawable.Callback {
 
     private Bitmap getActiveBitmap(long currentTimeMillis) {
         if (mActiveBitmapInvalidated) {
-            drawable.draw(new Canvas(mActiveBitmap), currentTimeMillis);
+            mComplicationDrawable.draw(new Canvas(mActiveBitmap), currentTimeMillis);
             mActiveBitmapInvalidated = false;
         }
         return mActiveBitmap;
@@ -340,26 +340,26 @@ public final class ComplicationHolder implements Drawable.Callback {
         } else if (mProviderIconDrawable != null) {
             mProviderIconDrawable.draw(canvas);
         } else {
-//            Drawable.Callback obj = drawable.getCallback();
+//            Drawable.Callback obj = mComplicationDrawable.getCallback();
 //            Log.d("AnalogWatchFace", "Complication draw (id=" + getId()
 //                    + "): callback is " + (obj == null ? "null" : obj.toString()));
             if (highlightItWasMe && itWasMe > currentTimeMillis - 500) {
                 // if itWasMe triggered in the last 500 ms
-                drawable.setBorderStyleAmbient(ComplicationDrawable.BORDER_STYLE_DASHED);
-                drawable.setBorderColorAmbient(Color.WHITE);
+                mComplicationDrawable.setBorderStyleAmbient(ComplicationDrawable.BORDER_STYLE_DASHED);
+                mComplicationDrawable.setBorderColorAmbient(Color.WHITE);
                 Log.d("AnalogWatchFace", "invalidateDrawable(itWasMe) (" + getId() + ")");
             } else {
-                drawable.setBorderStyleAmbient(ComplicationDrawable.BORDER_STYLE_NONE);
+                mComplicationDrawable.setBorderStyleAmbient(ComplicationDrawable.BORDER_STYLE_NONE);
             }
-            drawable.draw(canvas, currentTimeMillis);
+            mComplicationDrawable.draw(canvas, currentTimeMillis);
         }
     }
 
     public interface InvalidateCallback {
         /**
-         * Called when the drawable needs to be redrawn.  A view at this point
+         * Called when the mComplicationDrawable needs to be redrawn.  A view at this point
          * should invalidate itself (or at least the part of itself where the
-         * drawable appears).
+         * mComplicationDrawable appears).
          */
         void invalidate();
     }
