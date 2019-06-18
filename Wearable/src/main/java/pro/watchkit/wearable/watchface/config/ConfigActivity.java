@@ -169,6 +169,14 @@ public class ConfigActivity extends Activity {
     }
 
     @Override
+    protected void onStop() {
+        // Unset the adapter. This cleans it up.
+        WearableRecyclerView view = findViewById(R.id.wearable_recycler_view);
+        view.setAdapter(null);
+        super.onStop();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @NonNull Intent data) {
         if (requestCode == COMPLICATION_CONFIG_REQUEST_CODE
                 && resultCode == RESULT_OK) {

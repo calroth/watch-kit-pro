@@ -63,6 +63,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Comparator;
+import java.util.concurrent.Executors;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
@@ -87,18 +88,16 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     private static final String TAG = BaseRecyclerViewAdapter.class.getSimpleName();
     String saved_watch_face_preset_1, saved_settings_1, saved_watch_face_state;
 
-    BaseRecyclerViewAdapter(@NonNull Context context) {
-        super();
-        mCurrentWatchFaceState = new WatchFaceState(context);
-
-        mSharedPref = context.getSharedPreferences(
-                context.getString(R.string.analog_complication_preference_file_key),
-                Context.MODE_PRIVATE);
-
-        saved_watch_face_preset_1 = context.getString(R.string.saved_watch_face_preset_1);
-        saved_settings_1 = context.getString(R.string.saved_settings_1);
-        saved_watch_face_state = context.getString(R.string.saved_watch_face_state);
-    }
+    /**
+     * The object that retrieves complication data for us to preview our complications with.
+     */
+    private ProviderInfoRetriever mProviderInfoRetriever;
+    /**
+     * The ComponentName of our WatchFaceService. We use this to find what complications have been
+     * set for this WatchFaceService. It's different for slot A, B, C etc. as we allow the user to
+     * have different complication setups per slot!
+     */
+    private ComponentName mWatchFaceComponentName;
 
     void onWatchFaceStateChanged() {
     }
@@ -110,17 +109,31 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     @Nullable
     ComplicationHolder mSelectedComplication;
 
-    /**
-     * The object that retrieves complication data for us to preview our complications with.
-     */
-    ProviderInfoRetriever mProviderInfoRetriever;
+    BaseRecyclerViewAdapter(@NonNull Context context, @NonNull Class watchFaceServiceClass) {
+        super();
+        mCurrentWatchFaceState = new WatchFaceState(context);
 
-    /**
-     * The ComponentName of our WatchFaceService. We use this to find what complications have been
-     * set for this WatchFaceService. It's different for slot A, B, C etc. as we allow the user to
-     * have different complication setups per slot!
-     */
-    ComponentName mWatchFaceComponentName;
+        mSharedPref = context.getSharedPreferences(
+                context.getString(R.string.analog_complication_preference_file_key),
+                Context.MODE_PRIVATE);
+
+        saved_watch_face_preset_1 = context.getString(R.string.saved_watch_face_preset_1);
+        saved_settings_1 = context.getString(R.string.saved_settings_1);
+        saved_watch_face_state = context.getString(R.string.saved_watch_face_state);
+
+        // Initialization of code to retrieve active complication data for the watch face.
+        mWatchFaceComponentName = new ComponentName(context, watchFaceServiceClass);
+        mProviderInfoRetriever =
+                new ProviderInfoRetriever(context, Executors.newCachedThreadPool());
+        mProviderInfoRetriever.init();
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        // Release our mProviderInfoRetriever to clean up and prevent object leaks.
+        mProviderInfoRetriever.release();
+        super.onDetachedFromRecyclerView(recyclerView);
+    }
 
     /**
      * A object implementing WatchFaceStateListener is interested in receiving a notification
@@ -192,14 +205,25 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     class WatchFaceDrawableViewHolder extends RecyclerView.ViewHolder
-            implements WatchFaceStateListener {
+            implements WatchFaceStateListener, ComplicationProviderInfoListener {
 
         ImageView mImageView;
 
         WatchFaceGlobalDrawable mWatchFaceGlobalDrawable;
 
+        @DrawableRes
+        private int mDefaultComplicationDrawableId = -1;
+
         private int mWatchFaceGlobalDrawableFlags =
                 WatchFaceGlobalDrawable.PART_BACKGROUND; // Default flags.
+
+        /**
+         * The color of our complication text. We keep our own private copy as
+         * "mWatchFaceState" can change, but this should stay the same from when we
+         * called "setPreset".
+         */
+        @ColorInt
+        private int mComplicationTextColor;
 
         WatchFaceDrawableViewHolder(@NonNull View view) {
             super(view);
@@ -222,6 +246,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             }
             w.setNotifications(0, 0);
             w.setAmbient(false);
+            mComplicationTextColor = w.getColor(w.getComplicationTextStyle());
 
             // Initialise complications, just enough to be able to draw rings.
             w.initializeComplications(mImageView.getContext(), this::onWatchFaceStateChanged);
@@ -231,24 +256,67 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             setPreset(mCurrentWatchFaceState.getString());
             itemView.invalidate();
         }
+
+        void setDefaultComplicationDrawable(@DrawableRes int resourceId) {
+            mDefaultComplicationDrawableId = resourceId;
+        }
+
+        void retrieveProviderInfo() {
+            WatchFaceState w = mWatchFaceGlobalDrawable.getWatchFaceState();
+            mProviderInfoRetriever.retrieveProviderInfo(
+                    new ProviderInfoRetriever.OnProviderInfoReceivedCallback() {
+                        @Override
+                        public void onProviderInfoReceived(
+                                int id,
+                                @Nullable ComplicationProviderInfo providerInfo) {
+                            if (w.getComplicationWithId(id) != null) {
+                                onComplicationProviderInfo(
+                                        w.getComplicationWithId(id), providerInfo);
+                            }
+                        }
+                    },
+                    mWatchFaceComponentName,
+                    w.getComplicationIds());
+        }
+
+        @Override
+        public void onComplicationProviderInfo(
+                @NonNull ComplicationHolder complication,
+                @Nullable ComplicationProviderInfo complicationProviderInfo) {
+            if (complication.isForeground) {
+                // Update complication view.
+                if (complicationProviderInfo != null &&
+                        complicationProviderInfo.providerIcon != null) {
+                    complicationProviderInfo.providerIcon.setTint(mComplicationTextColor);
+                    complication.setProviderIconDrawable(
+                            complicationProviderInfo.providerIcon.loadDrawable(
+                                    itemView.getContext()),
+                            true);
+                    // TODO: make that async
+
+                    itemView.invalidate();
+                } else if (mDefaultComplicationDrawableId != -1) {
+                    Drawable drawable =
+                            itemView.getContext().getDrawable(mDefaultComplicationDrawableId);
+                    if (drawable != null) {
+                        drawable.setTint(mComplicationTextColor);
+                        complication.setProviderIconDrawable(drawable, false);
+                        itemView.invalidate();
+                    }
+                }
+            }
+        }
     }
 
-    public class ComplicationViewHolder extends WatchFaceDrawableViewHolder
-            implements ComplicationProviderInfoListener {
-
-        private @DrawableRes
-        int mDefaultComplicationDrawableId;
+    class ComplicationViewHolder extends WatchFaceDrawableViewHolder {
 
         private ConfigData.ComplicationConfigItem mConfigItem;
-
-        private Context mContext;
 
         private float mLastTouchX = -1f, mLastTouchY = -1f;
         private Activity mCurrentActivity;
 
         ComplicationViewHolder(@NonNull final View view) {
             super(view);
-            mContext = view.getContext();
             mCurrentActivity = (Activity) view.getContext();
 
             setWatchFaceGlobalDrawableFlags(WatchFaceGlobalDrawable.PART_BACKGROUND |
@@ -262,42 +330,6 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 }
                 return false;
             });
-        }
-
-        void setDefaultComplicationDrawable(@DrawableRes int resourceId) {
-            mDefaultComplicationDrawableId = resourceId;
-        }
-
-        @Override
-        public void onComplicationProviderInfo(
-                @NonNull ComplicationHolder complication,
-                @Nullable ComplicationProviderInfo complicationProviderInfo) {
-            Log.d(TAG, "updateComplicationViews(): id: " + complication);
-            Log.d(TAG, "\tinfo: " + complicationProviderInfo);
-
-            if (complication.isForeground) {
-                // Update complication view.
-                if (complicationProviderInfo != null &&
-                        complicationProviderInfo.providerIcon != null) {
-                    complicationProviderInfo.providerIcon.setTint(
-                            mCurrentWatchFaceState.getColor(
-                                    mCurrentWatchFaceState.getComplicationTextStyle()));
-                    complication.setProviderIconDrawable(
-                            complicationProviderInfo.providerIcon.loadDrawable(mContext),
-                            true);
-                    // TODO: make that async
-
-                    itemView.invalidate();
-                } else {
-                    Drawable drawable = mContext.getDrawable(mDefaultComplicationDrawableId);
-                    if (drawable != null) {
-                        drawable.setTint(mCurrentWatchFaceState.getColor(
-                                mCurrentWatchFaceState.getComplicationTextStyle()));
-                        complication.setProviderIconDrawable(drawable, false);
-                        itemView.invalidate();
-                    }
-                }
-            }
         }
 
         void setPreset(String watchFaceStateString) {
@@ -316,20 +348,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 }
             });
 
-            mProviderInfoRetriever.retrieveProviderInfo(
-                    new ProviderInfoRetriever.OnProviderInfoReceivedCallback() {
-                        @Override
-                        public void onProviderInfoReceived(
-                                int id,
-                                @Nullable ComplicationProviderInfo providerInfo) {
-                            if (w.getComplicationWithId(id) != null) {
-                                onComplicationProviderInfo(
-                                        w.getComplicationWithId(id), providerInfo);
-                            }
-                        }
-                    },
-                    mWatchFaceComponentName,
-                    w.getComplicationIds());
+            retrieveProviderInfo();
         }
 
         void bind(ConfigData.ComplicationConfigItem configItem) {

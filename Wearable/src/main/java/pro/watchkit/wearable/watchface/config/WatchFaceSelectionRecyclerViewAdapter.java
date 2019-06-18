@@ -26,6 +26,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import pro.watchkit.wearable.watchface.R;
+import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
+
+import static pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable.PART_COMPLICATIONS;
 
 /**
  * Provides a binding from WatchFacePreset selection data set to views that are displayed within
@@ -40,7 +43,8 @@ public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapt
 
     WatchFaceSelectionRecyclerViewAdapter(
             @NonNull Context context, String[] watchFaceStateStrings, int flags) {
-        super(context);
+        // TODO: don't hard-code AnalogComplicationWatchFaceService.class
+        super(context, AnalogComplicationWatchFaceService.class);
         mWatchFaceStateStrings = watchFaceStateStrings;
         mFlags = flags;
     }
@@ -61,6 +65,10 @@ public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapt
         WatchFacePresetSelectionViewHolder holder = (WatchFacePresetSelectionViewHolder) viewHolder;
         holder.setWatchFaceGlobalDrawableFlags(mFlags);
         holder.setPreset(watchFaceStateString);
+
+        if ((mFlags & PART_COMPLICATIONS) > 0) {
+            holder.retrieveProviderInfo();
+        }
     }
 
     @Override

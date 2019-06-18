@@ -34,11 +34,9 @@
 
 package pro.watchkit.wearable.watchface.config;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.wearable.complications.ComplicationProviderInfo;
-import android.support.wearable.complications.ProviderInfoRetriever;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -47,7 +45,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
@@ -86,7 +83,6 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
     public static final int TYPE_PICKER_CONFIG = 3;
     public static final int TYPE_TOGGLE_CONFIG = 4;
     public static final int TYPE_CONFIG_ACTIVITY_CONFIG = 5;
-    private static final String TAG = "CompConfigAdapter";
     private List<ConfigItemType> mSettingsDataSet;
 
     final private List<WatchFaceStateListener> mWatchFaceStateListeners = new ArrayList<>();
@@ -97,17 +93,11 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
             @NonNull Context context,
             @NonNull Class watchFaceServiceClass,
             @NonNull List<ConfigItemType> settingsDataSet) {
-        super(context);
-        mWatchFaceComponentName = new ComponentName(context, watchFaceServiceClass);
+        super(context, watchFaceServiceClass);
         mSettingsDataSet = settingsDataSet;
 
         // Default value is invalid (only changed when user taps to change complication).
         mSelectedComplication = null;
-
-        // Initialization of code to retrieve active complication data for the watch face.
-        mProviderInfoRetriever =
-                new ProviderInfoRetriever(context, Executors.newCachedThreadPool());
-        mProviderInfoRetriever.init();
 
         regenerateCurrentWatchFaceState();
     }
@@ -276,13 +266,6 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
     void updateSelectedComplication(ComplicationProviderInfo complicationProviderInfo) {
         mComplicationProviderInfoListeners.forEach(
                 c -> c.onComplicationProviderInfo(mSelectedComplication, complicationProviderInfo));
-    }
-
-    @Override
-    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-        // Required to release retriever for active complication data on detach.
-        mProviderInfoRetriever.release();
     }
 
     @Override

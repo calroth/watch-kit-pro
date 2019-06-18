@@ -33,7 +33,8 @@ public class ComplicationConfigData extends ConfigData {
     public List<ConfigItemType> getDataToPopulateAdapter(@NonNull Context context) {
         int watchFaceGlobalDrawableFlags = WatchFaceGlobalDrawable.PART_BACKGROUND |
                 WatchFaceGlobalDrawable.PART_HANDS |
-                WatchFaceGlobalDrawable.PART_RINGS_ALL;
+                WatchFaceGlobalDrawable.PART_RINGS_ALL |
+                WatchFaceGlobalDrawable.PART_COMPLICATIONS;
 
         return Arrays.asList(
                 // Complication picker from watch face drawable.
