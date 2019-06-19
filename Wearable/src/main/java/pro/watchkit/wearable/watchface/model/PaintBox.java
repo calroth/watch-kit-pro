@@ -145,18 +145,9 @@ public final class PaintBox {
         }
     }
 
-    public Paint getAmbientPaint() {
-        return mAmbientPaint;
-    }
-
-    public Paint getShadowPaint() {
-        return mShadowPaint;
-    }
-
-    @NonNull
-    public Paint getBezelPaint1() {
-        return mBezelPaint1;
-    }
+    private int mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor;
+    private int mAmbientDaySixBitColor, mAmbientNightSixBitColor;
+    private StyleGradient mFillHighlightStyleGradient;
 
     @NonNull
     private static Paint newDefaultPaint() {
@@ -201,12 +192,38 @@ public final class PaintBox {
         return mContext.getResources().getStringArray(R.array.six_bit_color_names)[sixBitColor];
     }
 
+    private StyleGradient mAccentFillStyleGradient;
+    private StyleGradient mAccentHighlightStyleGradient;
+    private StyleGradient mBaseAccentStyleGradient;
+    private StyleTexture mFillHighlightStyleTexture;
+    private StyleTexture mAccentFillStyleTexture;
+    private StyleTexture mAccentHighlightStyleTexture;
+    private StyleTexture mBaseAccentStyleTexture;
+
+    public Paint getAmbientPaint() {
+        regeneratePaints2();
+        return mAmbientPaint;
+    }
+
+    public Paint getShadowPaint() {
+        regeneratePaints2();
+        return mShadowPaint;
+    }
+
+    @NonNull
+    public Paint getBezelPaint1() {
+        regeneratePaints2();
+        return mBezelPaint1;
+    }
+
     @NonNull
     public Paint getBezelPaint2() {
+        regeneratePaints2();
         return mBezelPaint2;
     }
 
     public Paint getPaintFromPreset(Style style) {
+        regeneratePaints2();
         switch (style) {
             case FILL:
                 return mFillPaint;
@@ -241,22 +258,39 @@ public final class PaintBox {
                           @NonNull StyleTexture accentFillStyleTexture,
                           @NonNull StyleTexture accentHighlightStyleTexture,
                           @NonNull StyleTexture baseAccentStyleTexture) {
+        mFillSixBitColor = fillSixBitColor;
+        mAccentSixBitColor = accentSixBitColor;
+        mHighlightSixBitColor = highlightSixBitColor;
+        mBaseSixBitColor = baseSixBitColor;
+        mAmbientDaySixBitColor = ambientDaySixBitColor;
+        mAmbientNightSixBitColor = ambientNightSixBitColor;
+        mFillHighlightStyleGradient = fillHighlightStyleGradient;
+        mAccentFillStyleGradient = accentFillStyleGradient;
+        mAccentHighlightStyleGradient = accentHighlightStyleGradient;
+        mBaseAccentStyleGradient = baseAccentStyleGradient;
+        mFillHighlightStyleTexture = fillHighlightStyleTexture;
+        mAccentFillStyleTexture = accentFillStyleTexture;
+        mAccentHighlightStyleTexture = accentHighlightStyleTexture;
+        mBaseAccentStyleTexture = baseAccentStyleTexture;
+    }
+
+    private void regeneratePaints2() {
         // Invalidate if any of our colors or styles have changed.
         int currentSerial = Objects.hash(
-                getColor(fillSixBitColor),
-                getColor(accentSixBitColor),
-                getColor(highlightSixBitColor),
-                getColor(baseSixBitColor),
-                getColor(ambientDaySixBitColor),
-                getColor(ambientNightSixBitColor),
-                fillHighlightStyleGradient,
-                accentFillStyleGradient,
-                accentHighlightStyleGradient,
-                baseAccentStyleGradient,
-                fillHighlightStyleTexture,
-                accentFillStyleTexture,
-                accentHighlightStyleTexture,
-                baseAccentStyleTexture,
+                getColor(mFillSixBitColor),
+                getColor(mAccentSixBitColor),
+                getColor(mHighlightSixBitColor),
+                getColor(mBaseSixBitColor),
+                getColor(mAmbientDaySixBitColor),
+                getColor(mAmbientNightSixBitColor),
+                mFillHighlightStyleGradient,
+                mAccentFillStyleGradient,
+                mAccentHighlightStyleGradient,
+                mBaseAccentStyleGradient,
+                mFillHighlightStyleTexture,
+                mAccentFillStyleTexture,
+                mAccentHighlightStyleTexture,
+                mBaseAccentStyleTexture,
                 pc);
         if (mPreviousSerial == currentSerial || width <= 0 || height <= 0) {
             return;
@@ -264,24 +298,24 @@ public final class PaintBox {
 
         mPreviousSerial = currentSerial;
 
-        mFillPaint.setColor(getColor(fillSixBitColor));
-        mAccentPaint.setColor(getColor(accentSixBitColor));
-        mHighlightPaint.setColor(getColor(highlightSixBitColor));
-        mBasePaint.setColor(getColor(baseSixBitColor));
+        mFillPaint.setColor(getColor(mFillSixBitColor));
+        mAccentPaint.setColor(getColor(mAccentSixBitColor));
+        mHighlightPaint.setColor(getColor(mHighlightSixBitColor));
+        mBasePaint.setColor(getColor(mBaseSixBitColor));
 
-        mFillHighlightPaint.setColors(fillSixBitColor, highlightSixBitColor,
-                fillHighlightStyleGradient, fillHighlightStyleTexture);
-        mAccentFillPaint.setColors(accentSixBitColor, fillSixBitColor,
-                accentFillStyleGradient, accentFillStyleTexture);
+        mFillHighlightPaint.setColors(mFillSixBitColor, mHighlightSixBitColor,
+                mFillHighlightStyleGradient, mFillHighlightStyleTexture);
+        mAccentFillPaint.setColors(mAccentSixBitColor, mFillSixBitColor,
+                mAccentFillStyleGradient, mAccentFillStyleTexture);
         mBezelPaint1 = mAccentFillPaint;
-        mBezelPaint2.setColors(fillSixBitColor, accentSixBitColor,
-                accentFillStyleGradient, accentFillStyleTexture);
-        mAccentHighlightPaint.setColors(accentSixBitColor, highlightSixBitColor,
-                accentHighlightStyleGradient, accentHighlightStyleTexture);
-        mBaseAccentPaint.setColors(baseSixBitColor, accentSixBitColor,
-                baseAccentStyleGradient, baseAccentStyleTexture);
+        mBezelPaint2.setColors(mFillSixBitColor, mAccentSixBitColor,
+                mAccentFillStyleGradient, mAccentFillStyleTexture);
+        mAccentHighlightPaint.setColors(mAccentSixBitColor, mHighlightSixBitColor,
+                mAccentHighlightStyleGradient, mAccentHighlightStyleTexture);
+        mBaseAccentPaint.setColors(mBaseSixBitColor, mAccentSixBitColor,
+                mBaseAccentStyleGradient, mBaseAccentStyleTexture);
 
-        mShadowPaint.setColor(getColor(baseSixBitColor));
+        mShadowPaint.setColor(getColor(mBaseSixBitColor));
 
         // Regenerate stroke widths based on value of "percent"
         mFillHighlightPaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
