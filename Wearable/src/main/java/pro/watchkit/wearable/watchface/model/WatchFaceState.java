@@ -928,7 +928,7 @@ public class WatchFaceState {
 
     void setBaseAccentStyleGradient(StyleGradient baseAccentStyleGradient) {
         mWatchFacePreset.mBaseAccentStyleGradient = baseAccentStyleGradient;
-        setSwatchStyle(Style.ACCENT_BASE);
+        setSwatchStyle(Style.BASE_ACCENT);
         regeneratePaints();
     }
 
@@ -968,7 +968,7 @@ public class WatchFaceState {
 
     void setBaseAccentStyleTexture(StyleTexture baseAccentStyleTexture) {
         mWatchFacePreset.mBaseAccentStyleTexture = baseAccentStyleTexture;
-        setSwatchStyle(Style.ACCENT_BASE);
+        setSwatchStyle(Style.BASE_ACCENT);
         regeneratePaints();
     }
 

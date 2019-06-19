@@ -283,7 +283,7 @@ public abstract class BytePackable {
     }
 
     public enum Style implements EnumResourceId {
-        FILL, ACCENT, HIGHLIGHT, BASE, FILL_HIGHLIGHT, ACCENT_FILL, ACCENT_HIGHLIGHT, ACCENT_BASE;
+        FILL, ACCENT, HIGHLIGHT, BASE, FILL_HIGHLIGHT, ACCENT_FILL, ACCENT_HIGHLIGHT, BASE_ACCENT;
 
         private static final int bits = 3;
 

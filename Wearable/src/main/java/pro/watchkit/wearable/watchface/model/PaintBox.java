@@ -239,7 +239,7 @@ public final class PaintBox {
                 return mAccentFillPaint;
             case ACCENT_HIGHLIGHT:
                 return mAccentHighlightPaint;
-            case ACCENT_BASE:
+            case BASE_ACCENT:
                 return mBaseAccentPaint;
             default:
                 // Should never hit this.

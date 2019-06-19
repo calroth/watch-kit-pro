@@ -227,7 +227,7 @@
         <item>Fill + Highlight</item>
         <item>Accent + Fill</item>
         <item>Accent + Highlight</item>
-        <item>Accent + Base</item>
+        <item>Base + Accent</item>
     </string-array>
 
     <string-array name="WatchFacePreset_StyleGradient">
