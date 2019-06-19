@@ -16,6 +16,8 @@ import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
 import pro.watchkit.wearable.watchface.config.ConfigRecyclerViewAdapter;
 import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
+import pro.watchkit.wearable.watchface.model.BytePackable.Style;
+import pro.watchkit.wearable.watchface.model.BytePackable.TextStyle;
 import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
 
 abstract public class ConfigData {
@@ -285,6 +287,31 @@ abstract public class ConfigData {
         public String[] permute(@NonNull WatchFaceState permutation) {
             return Arrays.stream(mValues).map(h -> {
                 mSetter.accept(permutation, h);
+                // if (h instanceof StyleGradient || h instanceof StyleTexture)
+                // then we do the "setSwatchStyle" inline in their setters in WatchFaceState
+                // else...
+                if (h instanceof Style) {
+                    permutation.setSwatchStyle((Style) h);
+                } else if (h instanceof TextStyle) {
+                    switch ((TextStyle) h) {
+                        case FILL: {
+                            permutation.setSwatchStyle(Style.FILL);
+                            break;
+                        }
+                        case ACCENT: {
+                            permutation.setSwatchStyle(Style.ACCENT);
+                            break;
+                        }
+                        case HIGHLIGHT: {
+                            permutation.setSwatchStyle(Style.HIGHLIGHT);
+                            break;
+                        }
+                        case BASE: {
+                            permutation.setSwatchStyle(Style.BASE);
+                            break;
+                        }
+                    }
+                }
                 return permutation.getString();
             }).toArray(String[]::new);
         }

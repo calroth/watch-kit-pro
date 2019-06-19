@@ -576,6 +576,14 @@ public class WatchFaceState {
     void setStatsDetail(boolean statsDetail) {
         mSettings.mStatsDetail = statsDetail;
     }
+
+    Style getSwatchStyle() {
+        return mSettings.mSwatchStyle;
+    }
+
+    void setSwatchStyle(Style swatchStyle) {
+        mSettings.mSwatchStyle = swatchStyle;
+    }
     // endregion
 
     // region WatchFacePreset
@@ -890,6 +898,7 @@ public class WatchFaceState {
 
     void setFillHighlightStyleGradient(StyleGradient fillHighlightStyleGradient) {
         mWatchFacePreset.mFillHighlightStyleGradient = fillHighlightStyleGradient;
+        setSwatchStyle(Style.FILL_HIGHLIGHT);
         regeneratePaints();
     }
 
@@ -899,6 +908,7 @@ public class WatchFaceState {
 
     void setAccentFillStyleGradient(StyleGradient accentFillStyleGradient) {
         mWatchFacePreset.mAccentFillStyleGradient = accentFillStyleGradient;
+        setSwatchStyle(Style.ACCENT_FILL);
         regeneratePaints();
     }
 
@@ -908,6 +918,7 @@ public class WatchFaceState {
 
     void setAccentHighlightStyleGradient(StyleGradient accentHighlightStyleGradient) {
         mWatchFacePreset.mAccentHighlightStyleGradient = accentHighlightStyleGradient;
+        setSwatchStyle(Style.ACCENT_HIGHLIGHT);
         regeneratePaints();
     }
 
@@ -917,6 +928,7 @@ public class WatchFaceState {
 
     void setBaseAccentStyleGradient(StyleGradient baseAccentStyleGradient) {
         mWatchFacePreset.mBaseAccentStyleGradient = baseAccentStyleGradient;
+        setSwatchStyle(Style.ACCENT_BASE);
         regeneratePaints();
     }
 
@@ -926,6 +938,7 @@ public class WatchFaceState {
 
     void setFillHighlightStyleTexture(StyleTexture fillHighlightStyleTexture) {
         mWatchFacePreset.mFillHighlightStyleTexture = fillHighlightStyleTexture;
+        setSwatchStyle(Style.FILL_HIGHLIGHT);
         regeneratePaints();
     }
 
@@ -935,6 +948,7 @@ public class WatchFaceState {
 
     void setAccentFillStyleTexture(StyleTexture accentFillStyleTexture) {
         mWatchFacePreset.mAccentFillStyleTexture = accentFillStyleTexture;
+        setSwatchStyle(Style.ACCENT_FILL);
         regeneratePaints();
     }
 
@@ -944,6 +958,7 @@ public class WatchFaceState {
 
     void setAccentHighlightStyleTexture(StyleTexture accentHighlightStyleTexture) {
         mWatchFacePreset.mAccentHighlightStyleTexture = accentHighlightStyleTexture;
+        setSwatchStyle(Style.ACCENT_HIGHLIGHT);
         regeneratePaints();
     }
 
@@ -953,6 +968,7 @@ public class WatchFaceState {
 
     void setBaseAccentStyleTexture(StyleTexture baseAccentStyleTexture) {
         mWatchFacePreset.mBaseAccentStyleTexture = baseAccentStyleTexture;
+        setSwatchStyle(Style.ACCENT_BASE);
         regeneratePaints();
     }
 
@@ -996,6 +1012,7 @@ public class WatchFaceState {
 
     private void setFillSixBitColor(int fillSixBitColor) {
         mWatchFacePreset.mFillSixBitColor = fillSixBitColor;
+        setSwatchStyle(Style.FILL);
         regeneratePaints();
     }
 
@@ -1005,6 +1022,7 @@ public class WatchFaceState {
 
     private void setAccentSixBitColor(int accentSixBitColor) {
         mWatchFacePreset.mAccentSixBitColor = accentSixBitColor;
+        setSwatchStyle(Style.ACCENT);
         regeneratePaints();
     }
 
@@ -1014,6 +1032,7 @@ public class WatchFaceState {
 
     private void setHighlightSixBitColor(int highlightSixBitColor) {
         mWatchFacePreset.mHighlightSixBitColor = highlightSixBitColor;
+        setSwatchStyle(Style.HIGHLIGHT);
         regeneratePaints();
     }
 
@@ -1023,6 +1042,7 @@ public class WatchFaceState {
 
     private void setBaseSixBitColor(int baseSixBitColor) {
         mWatchFacePreset.mBaseSixBitColor = baseSixBitColor;
+        setSwatchStyle(Style.BASE);
         regeneratePaints();
     }
     // endregion
