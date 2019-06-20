@@ -35,6 +35,8 @@ public class ComplicationConfigData extends ConfigData {
                 WatchFaceGlobalDrawable.PART_HANDS |
                 WatchFaceGlobalDrawable.PART_RINGS_ALL |
                 WatchFaceGlobalDrawable.PART_COMPLICATIONS;
+        int watchFaceGlobalDrawableFlagsStyle = watchFaceGlobalDrawableFlags |
+                WatchFaceGlobalDrawable.PART_SWATCH;
 
         return Arrays.asList(
                 // Complication picker from watch face drawable.
@@ -66,7 +68,7 @@ public class ComplicationConfigData extends ConfigData {
                 new PickerConfigItem(
                         context.getString(R.string.config_complication_text_style),
                         R.drawable.icn_styles,
-                        watchFaceGlobalDrawableFlags,
+                        watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.TextStyle.values(),
@@ -77,7 +79,7 @@ public class ComplicationConfigData extends ConfigData {
                 new PickerConfigItem(
                         context.getString(R.string.config_complication_ring_style),
                         R.drawable.icn_styles,
-                        watchFaceGlobalDrawableFlags,
+                        watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.Style.values(),
@@ -88,7 +90,7 @@ public class ComplicationConfigData extends ConfigData {
                 new PickerConfigItem(
                         context.getString(R.string.config_complication_background_style),
                         R.drawable.icn_styles,
-                        watchFaceGlobalDrawableFlags,
+                        watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.Style.values(),

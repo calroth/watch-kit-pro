@@ -61,6 +61,7 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
     private static final int PART_HANDS_MINUTE = 2048;
     private static final int PART_HANDS_SECOND = 4096;
     public static final int PART_HANDS = PART_HANDS_HOUR | PART_HANDS_MINUTE | PART_HANDS_SECOND;
+    public static final int PART_SWATCH = 8192;
 
     public WatchFaceGlobalDrawable(@NonNull Context context, int flags) {
         this(buildDrawables(null, flags));
@@ -158,6 +159,9 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
         }
         if ((flags & PART_STATS) > 0) {
             d.add(new WatchPartStatsDrawable());
+        }
+        if ((flags & PART_SWATCH) > 0) {
+            d.add(new WatchPartSwatchDrawable());
         }
 
         return d.toArray(new Drawable[0]);

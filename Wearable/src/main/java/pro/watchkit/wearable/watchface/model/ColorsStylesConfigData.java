@@ -36,6 +36,9 @@ public class ColorsStylesConfigData extends ConfigData {
                 WatchFaceGlobalDrawable.PART_TICKS |
                 WatchFaceGlobalDrawable.PART_RINGS_ALL |
                 WatchFaceGlobalDrawable.PART_HANDS;
+        int watchFaceGlobalDrawableFlagsStyle = watchFaceGlobalDrawableFlags |
+                WatchFaceGlobalDrawable.PART_SWATCH;
+
         return Arrays.asList(
                 // A preview of the current watch face.
                 new WatchFaceDrawableConfigItem(watchFaceGlobalDrawableFlags),
@@ -72,7 +75,7 @@ public class ColorsStylesConfigData extends ConfigData {
                 new PickerConfigItem(
                         context.getString(R.string.config_preset_fill_highlight_style_gradient),
                         R.drawable.icn_styles,
-                        watchFaceGlobalDrawableFlags,
+                        watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.StyleGradient.values(),
@@ -83,7 +86,7 @@ public class ColorsStylesConfigData extends ConfigData {
                 new PickerConfigItem(
                         context.getString(R.string.config_preset_fill_highlight_style_gradient),
                         R.drawable.icn_styles,
-                        watchFaceGlobalDrawableFlags,
+                        watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.StyleTexture.values(),
@@ -94,7 +97,7 @@ public class ColorsStylesConfigData extends ConfigData {
                 new PickerConfigItem(
                         context.getString(R.string.config_preset_accent_fill_style_gradient),
                         R.drawable.icn_styles,
-                        watchFaceGlobalDrawableFlags,
+                        watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.StyleGradient.values(),
@@ -105,7 +108,7 @@ public class ColorsStylesConfigData extends ConfigData {
                 new PickerConfigItem(
                         context.getString(R.string.config_preset_accent_fill_style_gradient),
                         R.drawable.icn_styles,
-                        watchFaceGlobalDrawableFlags,
+                        watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.StyleTexture.values(),
@@ -116,7 +119,7 @@ public class ColorsStylesConfigData extends ConfigData {
                 new PickerConfigItem(
                         context.getString(R.string.config_preset_accent_highlight_style_gradient),
                         R.drawable.icn_styles,
-                        watchFaceGlobalDrawableFlags,
+                        watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.StyleGradient.values(),
@@ -127,7 +130,7 @@ public class ColorsStylesConfigData extends ConfigData {
                 new PickerConfigItem(
                         context.getString(R.string.config_preset_accent_highlight_style_gradient),
                         R.drawable.icn_styles,
-                        watchFaceGlobalDrawableFlags,
+                        watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.StyleTexture.values(),
@@ -138,7 +141,7 @@ public class ColorsStylesConfigData extends ConfigData {
                 new PickerConfigItem(
                         context.getString(R.string.config_preset_base_accent_style_gradient),
                         R.drawable.icn_styles,
-                        watchFaceGlobalDrawableFlags,
+                        watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.StyleGradient.values(),
@@ -149,7 +152,7 @@ public class ColorsStylesConfigData extends ConfigData {
                 new PickerConfigItem(
                         context.getString(R.string.config_preset_base_accent_style_gradient),
                         R.drawable.icn_styles,
-                        watchFaceGlobalDrawableFlags,
+                        watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.StyleTexture.values(),

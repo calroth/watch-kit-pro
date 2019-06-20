@@ -33,6 +33,9 @@ public class WatchPartTicksConfigData extends ConfigData {
     public List<ConfigItemType> getDataToPopulateAdapter(@NonNull Context context) {
         int watchFaceGlobalDrawableFlags = WatchFaceGlobalDrawable.PART_BACKGROUND |
                 WatchFaceGlobalDrawable.PART_TICKS;
+        int watchFaceGlobalDrawableFlagsStyle = watchFaceGlobalDrawableFlags |
+                WatchFaceGlobalDrawable.PART_SWATCH;
+
         return Arrays.asList(
                 // A preview of the current watch face.
                 new WatchFaceDrawableConfigItem(watchFaceGlobalDrawableFlags),
@@ -100,7 +103,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                 new PickerConfigItem(
                         context.getString(R.string.config_preset_four_tick_style),
                         R.drawable.icn_styles,
-                        watchFaceGlobalDrawableFlags,
+                        watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.Style.values(),
@@ -167,7 +170,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                 new PickerConfigItem(
                         context.getString(R.string.config_preset_twelve_tick_style),
                         R.drawable.icn_styles,
-                        watchFaceGlobalDrawableFlags,
+                        watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.Style.values(),
@@ -234,7 +237,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                 new PickerConfigItem(
                         context.getString(R.string.config_preset_sixty_tick_style),
                         R.drawable.icn_styles,
-                        watchFaceGlobalDrawableFlags,
+                        watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.Style.values(),
@@ -246,7 +249,7 @@ public class WatchPartTicksConfigData extends ConfigData {
                 new PickerConfigItem(
                         context.getString(R.string.config_preset_background_style),
                         R.drawable.icn_styles,
-                        watchFaceGlobalDrawableFlags,
+                        watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.Style.values(),

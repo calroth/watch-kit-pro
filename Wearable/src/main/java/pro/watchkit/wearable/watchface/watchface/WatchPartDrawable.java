@@ -367,8 +367,19 @@ abstract class WatchPartDrawable extends Drawable {
         mExclusionPath.op(path, op);
     }
 
+    /**
+     * Reset our exclusion path to default, which respects the device's borders.
+     */
     void resetExclusionPath() {
         mExclusionPath.set(mWatchFaceState.isAmbient() ?
                 mResetExclusionAmbientPath : mResetExclusionActivePath);
+    }
+
+    /**
+     * Reset our exclusion path totally. For when we don't care about drawing outside borders!
+     */
+    void resetExclusionPathTotally() {
+        mExclusionPath.reset();
+        mExclusionPath.addCircle(mCenterX, mCenterY, mCenterX * 3f, getDirection());
     }
 }

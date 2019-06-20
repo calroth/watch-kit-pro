@@ -577,7 +577,7 @@ public class WatchFaceState {
         mSettings.mStatsDetail = statsDetail;
     }
 
-    Style getSwatchStyle() {
+    public Style getSwatchStyle() {
         return mSettings.mSwatchStyle;
     }
 
