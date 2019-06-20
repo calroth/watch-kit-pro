@@ -146,6 +146,11 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
     @Override
     public void draw2(@NonNull Canvas canvas) {
+        if (mWatchFaceState.isDeveloperMode() && mWatchFaceState.isHideHands()) {
+            // If we set developer mode "hide hands", then just return!
+            return;
+        }
+
         // Reset the exclusion path. We ignore it for this layer up!
         resetExclusionPath();
 

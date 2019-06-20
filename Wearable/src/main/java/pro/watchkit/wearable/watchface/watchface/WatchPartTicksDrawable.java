@@ -169,6 +169,11 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
 
     @Override
     public void draw2(@NonNull Canvas canvas) {
+        if (mWatchFaceState.isDeveloperMode() && mWatchFaceState.isHideTicks()) {
+            // If we set developer mode "hide hands", then just return!
+            return;
+        }
+
         Paint tickPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(getTickStyle());
 
         p.reset();

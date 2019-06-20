@@ -584,6 +584,30 @@ public class WatchFaceState {
     void setSwatchStyle(Style swatchStyle) {
         mSettings.mSwatchStyle = swatchStyle;
     }
+
+    public boolean isHideTicks() {
+        return mSettings.mHideTicks;
+    }
+
+    void setHideTicks(boolean hideTicks) {
+        mSettings.mHideTicks = hideTicks;
+    }
+
+    public boolean isHideHands() {
+        return mSettings.mHideHands;
+    }
+
+    void setHideHands(boolean hideHands) {
+        mSettings.mHideHands = hideHands;
+    }
+
+    public boolean isAltDrawing() {
+        return mSettings.mAltDrawing;
+    }
+
+    void setAltDrawing(boolean altDrawing) {
+        mSettings.mAltDrawing = altDrawing;
+    }
     // endregion
 
     // region WatchFacePreset

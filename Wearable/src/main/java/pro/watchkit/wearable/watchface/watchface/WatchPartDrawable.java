@@ -206,7 +206,7 @@ abstract class WatchPartDrawable extends Drawable {
         // Primary bevel
         // Secondary bevel
         // And finally the path itself.
-        boolean olde = true; // seconds % 2 == 0;
+        boolean altDrawing = mWatchFaceState.isDeveloperMode() && mWatchFaceState.isAltDrawing();
         if (!mWatchFaceState.isAmbient()) {
             // Shadow
             canvas.drawPath(p, mWatchFaceState.getPaintBox().getShadowPaint());
@@ -228,7 +228,7 @@ abstract class WatchPartDrawable extends Drawable {
             bezelPaint2.setStyle(Paint.Style.FILL);
 
             // Draw primary and secondary bezels as paths.
-            if (olde) {
+            if (!altDrawing) {
                 // Calculate the intersection of primary and secondary bezels.
                 mIntersectionBezel.set(mPrimaryBezel);
                 mIntersectionBezel.op(mSecondaryBezel, Path.Op.INTERSECT);
@@ -246,7 +246,7 @@ abstract class WatchPartDrawable extends Drawable {
                 canvas.drawPath(mSecondaryBezel, bezelPaint2);
             }
             // Draw primary and secondary bevels as strokes from a bitmap-shader paint.
-            if (!olde) {
+            if (altDrawing) {
                 // Draw our bevels to a temporary bitmap.
                 // Clear the bezel canvas first.
                 mBezelCanvas.drawColor(Color.TRANSPARENT);

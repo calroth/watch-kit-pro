@@ -34,6 +34,8 @@ final class Settings extends BytePackable {
     Style mSwatchStyle;
     boolean mDeveloperMode;
     boolean mStats, mStatsDetail;
+    boolean mHideTicks, mHideHands;
+    boolean mAltDrawing;
 
     @Override
     public int hashCode() {
@@ -90,6 +92,9 @@ final class Settings extends BytePackable {
         mBytePacker.put(mStatsDetail);
         mComplicationTextStyle.pack(mBytePacker);
         mSwatchStyle.pack(mBytePacker);
+        mBytePacker.put(mHideTicks);
+        mBytePacker.put(mHideHands);
+        mBytePacker.put(mAltDrawing);
 
         mBytePacker.finish();
     }
@@ -122,6 +127,9 @@ final class Settings extends BytePackable {
                 mStatsDetail = mBytePacker.getBoolean();
                 mComplicationTextStyle = TextStyle.unpack(mBytePacker);
                 mSwatchStyle = Style.unpack(mBytePacker);
+                mHideTicks = mBytePacker.getBoolean();
+                mHideHands = mBytePacker.getBoolean();
+                mAltDrawing = mBytePacker.getBoolean();
                 break;
             }
         }

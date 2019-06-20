@@ -97,6 +97,30 @@ public class SettingsConfigData extends ConfigData {
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new BooleanMutator(WatchFaceState::setStatsDetail),
+                        WatchFaceState::isDeveloperMode),
+
+                // Data for 'Hide Ticks' UX (toggle) in settings Activity.
+                new ToggleConfigItem(
+                        context.getString(R.string.config_hide_ticks_label),
+                        R.drawable.ic_notifications_white_24dp,
+                        R.drawable.ic_notifications_off_white_24dp,
+                        new BooleanMutator(WatchFaceState::setHideTicks),
+                        WatchFaceState::isDeveloperMode),
+
+                // Data for 'Hide Hands' UX (toggle) in settings Activity.
+                new ToggleConfigItem(
+                        context.getString(R.string.config_hide_hands_label),
+                        R.drawable.ic_notifications_white_24dp,
+                        R.drawable.ic_notifications_off_white_24dp,
+                        new BooleanMutator(WatchFaceState::setHideHands),
+                        WatchFaceState::isDeveloperMode),
+
+                // Data for 'Alt Drawing' in settings Activity.
+                new ToggleConfigItem(
+                        context.getString(R.string.config_alt_drawing_label),
+                        R.drawable.ic_notifications_white_24dp,
+                        R.drawable.ic_notifications_off_white_24dp,
+                        new BooleanMutator(WatchFaceState::setAltDrawing),
                         WatchFaceState::isDeveloperMode)
         );
     }
