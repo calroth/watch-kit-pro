@@ -86,7 +86,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     final WatchFaceState mCurrentWatchFaceState;
     SharedPreferences mSharedPref;
     private static final String TAG = BaseRecyclerViewAdapter.class.getSimpleName();
-    String saved_watch_face_preset_1, saved_settings_1, saved_watch_face_state;
+    String saved_watch_face_state;
 
     /**
      * The object that retrieves complication data for us to preview our complications with.
@@ -117,8 +117,6 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 context.getString(R.string.analog_complication_preference_file_key),
                 Context.MODE_PRIVATE);
 
-        saved_watch_face_preset_1 = context.getString(R.string.saved_watch_face_preset_1);
-        saved_settings_1 = context.getString(R.string.saved_settings_1);
         saved_watch_face_state = context.getString(R.string.saved_watch_face_state);
 
         // Initialization of code to retrieve active complication data for the watch face.

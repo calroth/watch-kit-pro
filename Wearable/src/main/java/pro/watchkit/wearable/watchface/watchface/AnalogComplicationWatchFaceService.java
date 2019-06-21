@@ -270,26 +270,6 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
         // Pulls all user's preferences for watch face appearance.
         private void loadSavedPreferences() {
-//            getWatchFaceState().getWatchFacePreset().setString(mSharedPref.getString(
-//                    getApplicationContext().getString(R.string.saved_watch_face_preset),
-//                    null));
-//
-//            getWatchFaceState().getSettings().setString(mSharedPref.getString(
-//                    getApplicationContext().getString(R.string.saved_settings), null));
-
-            // TODO: get rid of this transition code
-            String s0 = mSharedPref.getString(
-                    getApplicationContext().getString(R.string.saved_watch_face_preset_1), null);
-            String s1 = mSharedPref.getString(
-                    getApplicationContext().getString(R.string.saved_settings_1), null);
-            String s2 = mSharedPref.getString(
-                    getApplicationContext().getString(R.string.saved_watch_face_state), null);
-
-            if (s2 == null && s0 != null && s1 != null) {
-                getWatchFaceState().setString(s0 + "~" + s1);
-                return;
-            }
-
             getWatchFaceState().setString(mSharedPref.getString(
                     getApplicationContext().getString(R.string.saved_watch_face_state), null));
         }

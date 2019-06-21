@@ -108,17 +108,8 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
      * mCurrentWatchFaceState.
      */
     private void regenerateCurrentWatchFaceState() {
-        // TODO: get rid of this transition code
-        String s0 = mSharedPref.getString(saved_watch_face_preset_1, null);
-        String s1 = mSharedPref.getString(saved_settings_1, null);
-        String s2 = mSharedPref.getString(saved_watch_face_state, null);
-
-        if (s2 == null && s0 != null && s1 != null) {
-            mCurrentWatchFaceState.setString(s0 + "~" + s1);
-        } else {
-            mCurrentWatchFaceState.setString(
-                    mSharedPref.getString(saved_watch_face_state, null));
-        }
+        mCurrentWatchFaceState.setString(
+                mSharedPref.getString(saved_watch_face_state, null));
     }
 
     @Override

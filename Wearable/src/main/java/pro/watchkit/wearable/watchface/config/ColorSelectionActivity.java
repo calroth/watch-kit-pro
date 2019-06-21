@@ -89,20 +89,8 @@ public class ColorSelectionActivity extends Activity {
                 getString(R.string.analog_complication_preference_file_key),
                 Context.MODE_PRIVATE);
 
-        // TODO: get rid of this transition code
-        String s0 = mSharedPref.getString(
-                getApplicationContext().getString(R.string.saved_watch_face_preset_1), null);
-        String s1 = mSharedPref.getString(
-                getApplicationContext().getString(R.string.saved_settings_1), null);
-        String s2 = mSharedPref.getString(
-                getApplicationContext().getString(R.string.saved_watch_face_state), null);
-
-        if (s2 == null && s0 != null && s1 != null) {
-            mWatchFaceState.setString(s0 + "~" + s1);
-        } else {
-            mWatchFaceState.setString(mSharedPref.getString(
-                    getApplicationContext().getString(R.string.saved_watch_face_state), null));
-        }
+        mWatchFaceState.setString(mSharedPref.getString(
+                getApplicationContext().getString(R.string.saved_watch_face_state), null));
 
         int[] row1 = new int[]{
                 -1,
