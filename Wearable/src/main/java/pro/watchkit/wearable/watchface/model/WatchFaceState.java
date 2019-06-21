@@ -36,6 +36,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
+import java.util.stream.IntStream;
 
 import pro.watchkit.wearable.watchface.model.BytePackable.ComplicationCount;
 import pro.watchkit.wearable.watchface.model.BytePackable.ComplicationRotation;
@@ -437,23 +438,40 @@ public class WatchFaceState {
         return mPaintBox;
     }
 
+    // region Ephemeral
+    private Style mSwatchStyle;
+
+    /**
+     * Determines whether the two given WatchFaceState strings are mostly equal. That is, whether
+     * they're equal in all things such as WatchFacePreset and Settings, but don't compare
+     * ephemeral settings that don't matter.
+     *
+     * @param a First string to compare
+     * @param b Second string to compare
+     * @return Whether the strings are mostly equal
+     */
+    public static boolean mostlyEquals(@NonNull String a, @NonNull String b) {
+        String[] aSplit = a.split("~");
+        String[] bSplit = b.split("~");
+
+        if (aSplit.length < 2 || bSplit.length < 2) return false;
+
+        return aSplit[0].equals(bSplit[0]) && aSplit[1].equals(bSplit[1]);
+    }
+
     @NonNull
     public String getString() {
         mStringBuilder.setLength(0);
         mStringBuilder.append(mWatchFacePreset.getString())
                 .append("~")
-                .append(mSettings.getString());
+                .append(mSettings.getString())
+                .append("~")
+                .append(mSwatchStyle == null ? 0 : IntStream.range(0, Style.values().length)
+                        // This lambda finds the index of "mSwatchStyle" in Style.values()
+                        .filter(i -> mSwatchStyle.equals(Style.values()[i]))
+                        .findFirst()
+                        .orElse(0));
         return mStringBuilder.toString();
-    }
-
-    public void setString(@Nullable String s) {
-        if (s == null || s.length() == 0) return;
-        String[] split = s.split("~");
-        if (split.length == 2) {
-            mWatchFacePreset.setString(split[0]);
-            mSettings.setString(split[1]);
-        }
-        regeneratePaints();
     }
 
     // region Settings
@@ -577,14 +595,6 @@ public class WatchFaceState {
         mSettings.mStatsDetail = statsDetail;
     }
 
-    public Style getSwatchStyle() {
-        return mSettings.mSwatchStyle;
-    }
-
-    void setSwatchStyle(Style swatchStyle) {
-        mSettings.mSwatchStyle = swatchStyle;
-    }
-
     public boolean isHideTicks() {
         return mSettings.mHideTicks;
     }
@@ -611,7 +621,6 @@ public class WatchFaceState {
     // endregion
 
     // region WatchFacePreset
-
     void setMinuteHandOverride(boolean minuteHandOverride) {
         mWatchFacePreset.mMinuteHandOverride = minuteHandOverride;
     }
@@ -1171,4 +1180,63 @@ public class WatchFaceState {
         }
     }
     // endregion
+
+    public void setString(@Nullable String s) {
+        if (s == null || s.length() == 0) return;
+        String[] split = s.split("~");
+        if (split.length >= 2) {
+            mWatchFacePreset.setString(split[0]);
+            mSettings.setString(split[1]);
+        }
+        if (split.length >= 3) {
+            // There's probably a cleaner way of doing this. We'll come back to it...
+            switch (split[2]) {
+                case "0": {
+                    mSwatchStyle = Style.FILL;
+                    break;
+                }
+                case "1": {
+                    mSwatchStyle = Style.ACCENT;
+                    break;
+                }
+                case "2": {
+                    mSwatchStyle = Style.HIGHLIGHT;
+                    break;
+                }
+                case "3": {
+                    mSwatchStyle = Style.BASE;
+                    break;
+                }
+                case "4": {
+                    mSwatchStyle = Style.FILL_HIGHLIGHT;
+                    break;
+                }
+                case "55": {
+                    mSwatchStyle = Style.ACCENT_FILL;
+                    break;
+                }
+                case "6": {
+                    mSwatchStyle = Style.ACCENT_HIGHLIGHT;
+                    break;
+                }
+                case "7": {
+                    mSwatchStyle = Style.BASE_ACCENT;
+                    break;
+                }
+                default: {
+                    break;
+                }
+            }
+        }
+        regeneratePaints();
+    }
+
+    public Style getSwatchStyle() {
+        return mSwatchStyle;
+    }
+
+    void setSwatchStyle(Style swatchStyle) {
+        mSwatchStyle = swatchStyle;
+    }
+    //endregion
 }
