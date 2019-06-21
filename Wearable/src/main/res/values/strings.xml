@@ -35,10 +35,10 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Watch Kit Pro</string>
 
-    <!--<string name="opengl_name">Sample OpenGL</string>-->
-    <!--<string name="interactive_name">Sample Interactive</string>-->
-    <string name="analog_complication">Watch Kit Pro #1</string>
-    <!--<string name="digital_name">Sample Digital 1.0</string>-->
+    <string name="watch_face_service_label_a">Watch Kit Pro 🅰</string>
+    <string name="watch_face_service_label_b">Watch Kit Pro 🅱</string>
+    <string name="watch_face_service_label_c">Watch Kit Pro 🅲</string>
+    <string name="watch_face_service_label_d">Watch Kit Pro 🅳</string>
 
     <string name="digital_background_color">Background color</string>
     <string name="digital_config_name">Digital watch face configuration</string>

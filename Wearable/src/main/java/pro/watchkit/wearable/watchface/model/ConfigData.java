@@ -18,7 +18,7 @@ import pro.watchkit.wearable.watchface.config.ConfigRecyclerViewAdapter;
 import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 import pro.watchkit.wearable.watchface.model.BytePackable.TextStyle;
-import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 
 abstract public class ConfigData {
     /**
@@ -26,7 +26,7 @@ abstract public class ConfigData {
      */
     @NonNull
     final public Class getWatchFaceServiceClass() {
-        return AnalogComplicationWatchFaceService.class;
+        return ProWatchFaceService.class;
     }
 
     /**

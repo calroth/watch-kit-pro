@@ -69,7 +69,7 @@ import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
-public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanvasWatchFaceService {
+public class ProWatchFaceService extends HardwareAcceleratedCanvasWatchFaceService {
     //public class AnalogComplicationWatchFaceService extends WatchFaceService {
     private static final String TAG = "AnalogWatchFace";
 
@@ -92,15 +92,15 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
 
     private static class UpdateTimeHandler extends Handler {
         @NonNull
-        private final WeakReference<AnalogComplicationWatchFaceService.Engine> mWeakReference;
+        private final WeakReference<ProWatchFaceService.Engine> mWeakReference;
 
-        UpdateTimeHandler(AnalogComplicationWatchFaceService.Engine reference) {
+        UpdateTimeHandler(ProWatchFaceService.Engine reference) {
             mWeakReference = new WeakReference<>(reference);
         }
 
         @Override
         public void handleMessage(Message msg) {
-            AnalogComplicationWatchFaceService.Engine engine = mWeakReference.get();
+            ProWatchFaceService.Engine engine = mWeakReference.get();
             if (engine != null) {
                 engine.updateTimeViaHandler();
             }
@@ -181,7 +181,7 @@ public class AnalogComplicationWatchFaceService extends HardwareAcceleratedCanva
                             Context.MODE_PRIVATE);
 
             setWatchFaceStyle(
-                    new WatchFaceStyle.Builder(AnalogComplicationWatchFaceService.this)
+                    new WatchFaceStyle.Builder(ProWatchFaceService.this)
                             .setAcceptsTapEvents(true)
                             .setHideNotificationIndicator(true)
                             .setViewProtectionMode(WatchFaceStyle.PROTECT_STATUS_BAR)

@@ -59,10 +59,10 @@ import pro.watchkit.wearable.watchface.model.SettingsConfigData;
 import pro.watchkit.wearable.watchface.model.WatchFacePresetConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartHandsConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartTicksConfigData;
-import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 
 /**
- * The watch-side config activity for {@link AnalogComplicationWatchFaceService}, which
+ * The watch-side config activity for {@link ProWatchFaceService}, which
  * allows for setting the left and right complications of watch face along with the second's marker
  * color, background color, unread notifications toggle, and background complication image.
  */

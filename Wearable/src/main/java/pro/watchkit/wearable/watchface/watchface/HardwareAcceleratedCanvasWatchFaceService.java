@@ -46,7 +46,7 @@ import androidx.annotation.NonNull;
  * A hardware-accelerated implementation of CanvasWatchFaceService. Extend this class instead
  * of CanvasWatchFaceService, if you want hardware acceleration. Can be toggled at compile-time.
  */
-public abstract class HardwareAcceleratedCanvasWatchFaceService extends CanvasWatchFaceService {
+abstract class HardwareAcceleratedCanvasWatchFaceService extends CanvasWatchFaceService {
     public class Engine extends CanvasWatchFaceService.Engine
             implements Choreographer.FrameCallback {
 //        Engine(boolean hardwareAccelerationEnabled) {

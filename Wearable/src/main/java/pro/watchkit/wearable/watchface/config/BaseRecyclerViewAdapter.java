@@ -70,7 +70,7 @@ import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.ConfigData;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
-import pro.watchkit.wearable.watchface.watchface.AnalogComplicationWatchFaceService;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
@@ -372,7 +372,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             mSelectedComplication = complication;
 
             ComponentName watchFace =
-                    new ComponentName(mCurrentActivity, AnalogComplicationWatchFaceService.class);
+                    new ComponentName(mCurrentActivity, ProWatchFaceService.class);
 
             mCurrentActivity.startActivityForResult(
                     ComplicationHelperActivity.createProviderChooserHelperIntent(
