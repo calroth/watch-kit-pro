@@ -83,10 +83,10 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
      * The current user-selected WatchFaceState with what's currently stored in preferences
      */
     @NonNull
-    final WatchFaceState mCurrentWatchFaceState;
-    SharedPreferences mSharedPref;
+    private final WatchFaceState mCurrentWatchFaceState;
+    private final SharedPreferences mSharedPref;
     private static final String TAG = BaseRecyclerViewAdapter.class.getSimpleName();
-    String saved_watch_face_state;
+    private final String saved_watch_face_state;
 
     /**
      * The object that retrieves complication data for us to preview our complications with.
@@ -131,6 +131,16 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         // Release our mProviderInfoRetriever to clean up and prevent object leaks.
         mProviderInfoRetriever.release();
         super.onDetachedFromRecyclerView(recyclerView);
+    }
+
+    /**
+     * Regenerates the current WatchFaceState with what's currently stored in preferences.
+     * Call this if you suspect that preferences are changed, before accessing
+     * mCurrentWatchFaceState.
+     */
+    void regenerateCurrentWatchFaceState() {
+        mCurrentWatchFaceState.setString(
+                mSharedPref.getString(saved_watch_face_state, null));
     }
 
     /**

@@ -83,10 +83,9 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
     public static final int TYPE_PICKER_CONFIG = 3;
     public static final int TYPE_TOGGLE_CONFIG = 4;
     public static final int TYPE_CONFIG_ACTIVITY_CONFIG = 5;
-    private List<ConfigItemType> mSettingsDataSet;
-
-    final private List<WatchFaceStateListener> mWatchFaceStateListeners = new ArrayList<>();
-    final private List<ComplicationProviderInfoListener> mComplicationProviderInfoListeners =
+    private final List<ConfigItemType> mSettingsDataSet;
+    private final List<WatchFaceStateListener> mWatchFaceStateListeners = new ArrayList<>();
+    private final List<ComplicationProviderInfoListener> mComplicationProviderInfoListeners =
             new ArrayList<>();
 
     ConfigRecyclerViewAdapter(
@@ -100,16 +99,6 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
         mSelectedComplication = null;
 
         regenerateCurrentWatchFaceState();
-    }
-
-    /**
-     * Regenerates the current WatchFaceState with what's currently stored in preferences.
-     * Call this if you suspect that preferences are changed, before accessing
-     * mCurrentWatchFaceState.
-     */
-    private void regenerateCurrentWatchFaceState() {
-        mCurrentWatchFaceState.setString(
-                mSharedPref.getString(saved_watch_face_state, null));
     }
 
     @Override
