@@ -35,6 +35,8 @@
 package pro.watchkit.wearable.watchface.config;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -44,6 +46,7 @@ import androidx.recyclerview.widget.SnapHelper;
 import androidx.wear.widget.WearableRecyclerView;
 
 import pro.watchkit.wearable.watchface.R;
+import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 /**
@@ -57,7 +60,6 @@ public class WatchFaceSelectionActivity extends Activity {
             WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_STATES";
     static final String INTENT_EXTRA_FLAGS =
             WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_FLAGS";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +78,8 @@ public class WatchFaceSelectionActivity extends Activity {
         // Aligns the first and last items on the list vertically centered on the screen.
         view.setEdgeItemsCenteringEnabled(true);
 
-        view.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        view.setLayoutManager(layoutManager);
 
         // Improves performance because we know changes in content do not change the layout size of
         // the RecyclerView.
@@ -87,6 +90,27 @@ public class WatchFaceSelectionActivity extends Activity {
         // Attach a PagerSnapHelper to make it snap to each watch face!
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(view);
+
+        // Attempt to scroll to the current selection in preferences.
+        // Get our current preference.
+        Context context = this;
+        SharedPreferences sharedPreferences = context.getSharedPreferences(
+                context.getString(R.string.analog_complication_preference_file_key),
+                Context.MODE_PRIVATE);
+        String saved_watch_face_state = context.getString(R.string.saved_watch_face_state);
+        String currentWatchFaceState = sharedPreferences.getString(saved_watch_face_state, null);
+
+        // Go through our state strings and find the one that's equal to our current selection.
+        if (currentWatchFaceState != null) {
+            for (int i = 0; i < watchFaceStateStrings.length; i++) {
+                if (WatchFaceState.mostlyEquals(watchFaceStateStrings[i], currentWatchFaceState)) {
+                    // We found it! Scroll to this item.
+                    // This doesn't work, why? // layoutManager.scrollToPosition(i);
+                    layoutManager.smoothScrollToPosition(view, null, i);
+                    break;
+                }
+            }
+        }
     }
 
     @Override
