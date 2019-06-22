@@ -26,7 +26,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import pro.watchkit.wearable.watchface.R;
-import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 
 import static pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable.PART_COMPLICATIONS;
 
@@ -42,9 +41,10 @@ public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapt
     private int mFlags;
 
     WatchFaceSelectionRecyclerViewAdapter(
-            @NonNull Context context, String[] watchFaceStateStrings, int flags) {
+            @NonNull Context context, @NonNull Class watchFaceServiceClass,
+            String[] watchFaceStateStrings, int flags) {
         // TODO: don't hard-code AnalogComplicationWatchFaceService.class
-        super(context, ProWatchFaceService.class);
+        super(context, watchFaceServiceClass);
         mWatchFaceStateStrings = watchFaceStateStrings;
         mFlags = flags;
     }

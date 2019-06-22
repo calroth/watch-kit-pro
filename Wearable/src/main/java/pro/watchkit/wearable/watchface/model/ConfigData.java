@@ -18,17 +18,8 @@ import pro.watchkit.wearable.watchface.config.ConfigRecyclerViewAdapter;
 import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 import pro.watchkit.wearable.watchface.model.BytePackable.TextStyle;
-import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 
 abstract public class ConfigData {
-    /**
-     * Returns Watch Face Service class associated with configuration Activity.
-     */
-    @NonNull
-    final public Class getWatchFaceServiceClass() {
-        return ProWatchFaceService.class;
-    }
-
     /**
      * Includes all data to populate each of the 5 different custom
      * {@link RecyclerView.ViewHolder} types in {@link ConfigRecyclerViewAdapter}.

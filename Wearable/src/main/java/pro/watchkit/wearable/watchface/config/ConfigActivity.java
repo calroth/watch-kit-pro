@@ -60,6 +60,10 @@ import pro.watchkit.wearable.watchface.model.WatchFacePresetConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartHandsConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartTicksConfigData;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceA;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceB;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceC;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceD;
 
 /**
  * The watch-side config activity for {@link ProWatchFaceService}, which
@@ -84,11 +88,38 @@ public class ConfigActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.d(TAG, "Intent: " + getIntent().getAction());
+
         Context context = getApplicationContext();
 
         SharedPreferences sharedPref = context.getSharedPreferences(
                 context.getString(R.string.analog_complication_preference_file_key),
                 Context.MODE_PRIVATE);
+
+        // Try to get the watch face slot from our activity intent.
+        Class watchFaceServiceClass = ProWatchFaceServiceA.class;
+        if (getIntent().getAction() != null) {
+            switch (getIntent().getAction()) {
+                case "pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_B": {
+                    watchFaceServiceClass = ProWatchFaceServiceB.class;
+                    break;
+                }
+                case "pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_C": {
+                    watchFaceServiceClass = ProWatchFaceServiceC.class;
+                    break;
+                }
+                case "pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_D": {
+                    watchFaceServiceClass = ProWatchFaceServiceD.class;
+                    break;
+                }
+                default:
+                case "pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_A": {
+                    // Shouldn't happen. Oh well...
+                    watchFaceServiceClass = ProWatchFaceServiceA.class;
+                    break;
+                }
+            }
+        }
 
         // Try to get mCurrentSubActivity from our activity intent.
         if (mCurrentSubActivity == null) {
@@ -126,8 +157,7 @@ public class ConfigActivity extends Activity {
 
         setContentView(R.layout.activity_analog_complication_config);
 
-        mAdapter = new ConfigRecyclerViewAdapter(context,
-                mConfigData.getWatchFaceServiceClass(),
+        mAdapter = new ConfigRecyclerViewAdapter(context, watchFaceServiceClass,
                 mConfigData.getDataToPopulateAdapter(this));
 
         WearableRecyclerView mWearableRecyclerView =
@@ -155,9 +185,7 @@ public class ConfigActivity extends Activity {
                     new Intent(mWearableNavigationDrawer.getContext(), ConfigActivity.class);
 
             // Add an intent to the launch to point it towards our sub-activity.
-            if (configData != null) {
-                launchIntent.putExtra(CONFIG_DATA, configData);
-            }
+            launchIntent.putExtra(CONFIG_DATA, configData);
 
             Activity activity = (Activity) mWearableNavigationDrawer.getContext();
             activity.startActivity(launchIntent);

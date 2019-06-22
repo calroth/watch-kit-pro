@@ -38,6 +38,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -47,6 +48,10 @@ import androidx.wear.widget.WearableRecyclerView;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceA;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceB;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceC;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceD;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 /**
@@ -60,6 +65,8 @@ public class WatchFaceSelectionActivity extends Activity {
             WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_STATES";
     static final String INTENT_EXTRA_FLAGS =
             WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_FLAGS";
+    static final String INTENT_EXTRA_SLOT =
+            WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_SLOT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +77,37 @@ public class WatchFaceSelectionActivity extends Activity {
         int flags = getIntent().getIntExtra(
                 INTENT_EXTRA_FLAGS, WatchFaceGlobalDrawable.PART_BACKGROUND);
 
+        String slot = getIntent().getStringExtra(INTENT_EXTRA_SLOT);
+        Log.d("WatchFaceSelectionActivity", "Slot: " + slot);
+
+        // Try to get the watch face slot from our activity intent.
+        Class watchFaceServiceClass = ProWatchFaceServiceA.class;
+        if (getIntent().getAction() != null) {
+            switch (getIntent().getAction()) {
+                case ".watchface.ProWatchFaceServiceB": {
+                    watchFaceServiceClass = ProWatchFaceServiceB.class;
+                    break;
+                }
+                case ".watchface.ProWatchFaceServiceC": {
+                    watchFaceServiceClass = ProWatchFaceServiceC.class;
+                    break;
+                }
+                case ".watchface.ProWatchFaceServiceD": {
+                    watchFaceServiceClass = ProWatchFaceServiceD.class;
+                    break;
+                }
+                default:
+                case ".watchface.ProWatchFaceServiceA": {
+                    // Shouldn't happen. Oh well...
+                    watchFaceServiceClass = ProWatchFaceServiceA.class;
+                    break;
+                }
+            }
+        }
+
         WatchFaceSelectionRecyclerViewAdapter recyclerViewAdapter =
-                new WatchFaceSelectionRecyclerViewAdapter(this, watchFaceStateStrings, flags);
+                new WatchFaceSelectionRecyclerViewAdapter(
+                        this, watchFaceServiceClass, watchFaceStateStrings, flags);
 
         WearableRecyclerView view = findViewById(R.id.wearable_recycler_view);
 

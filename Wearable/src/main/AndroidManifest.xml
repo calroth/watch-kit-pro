@@ -66,7 +66,7 @@
             android:required="false"/>
 
         <service
-            android:name=".watchface.ProWatchFaceService"
+            android:name=".watchface.ProWatchFaceServiceA"
             android:enabled="true"
             android:label="@string/watch_face_service_label_a"
             android:permission="android.permission.BIND_WALLPAPER">
@@ -81,7 +81,7 @@
                 android:resource="@drawable/preview_analog_complication_circular"/>
             <meta-data
                 android:name="com.google.android.wearable.watchface.wearableConfigurationAction"
-                android:value="pro.watchkit.wearable.watchface.CONFIG_COMPLICATION_SIMPLE"/>
+                android:value="pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_A" />
 
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService"/>
@@ -106,7 +106,7 @@
                 android:resource="@drawable/preview_analog_complication_circular" />
             <meta-data
                 android:name="com.google.android.wearable.watchface.wearableConfigurationAction"
-                android:value="pro.watchkit.wearable.watchface.CONFIG_COMPLICATION_SIMPLE" />
+                android:value="pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_B" />
 
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService" />
@@ -131,7 +131,7 @@
                 android:resource="@drawable/preview_analog_complication_circular" />
             <meta-data
                 android:name="com.google.android.wearable.watchface.wearableConfigurationAction"
-                android:value="pro.watchkit.wearable.watchface.CONFIG_COMPLICATION_SIMPLE" />
+                android:value="pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_C" />
 
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService" />
@@ -156,7 +156,7 @@
                 android:resource="@drawable/preview_analog_complication_circular" />
             <meta-data
                 android:name="com.google.android.wearable.watchface.wearableConfigurationAction"
-                android:value="pro.watchkit.wearable.watchface.CONFIG_COMPLICATION_SIMPLE" />
+                android:value="pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_D" />
 
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService" />
@@ -166,11 +166,15 @@
         </service>
 
         <activity android:name="android.support.wearable.complications.ComplicationHelperActivity"/>
+
         <activity
             android:name=".config.ConfigActivity"
             android:label="@string/analog_complication_config">
             <intent-filter>
-                <action android:name="pro.watchkit.wearable.watchface.CONFIG_COMPLICATION_SIMPLE"/>
+                <action android:name="pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_A" />
+                <action android:name="pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_B" />
+                <action android:name="pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_C" />
+                <action android:name="pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_D" />
 
                 <category android:name="com.google.android.wearable.watchface.category.WEARABLE_CONFIGURATION"/>
                 <category android:name="android.intent.category.DEFAULT"/>

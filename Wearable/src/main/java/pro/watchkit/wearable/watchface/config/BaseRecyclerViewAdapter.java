@@ -70,12 +70,12 @@ import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.ConfigData;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
-import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
 import static pro.watchkit.wearable.watchface.config.ConfigActivity.CONFIG_DATA;
 import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_FLAGS;
+import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_SLOT;
 import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_STATES;
 
 abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -371,13 +371,10 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         private void launchComplicationHelperActivity(ComplicationHolder complication) {
             mSelectedComplication = complication;
 
-            ComponentName watchFace =
-                    new ComponentName(mCurrentActivity, ProWatchFaceService.class);
-
             mCurrentActivity.startActivityForResult(
                     ComplicationHelperActivity.createProviderChooserHelperIntent(
                             mCurrentActivity,
-                            watchFace,
+                            mWatchFaceComponentName,
                             mSelectedComplication.getId(),
                             mSelectedComplication.getSupportedComplicationTypes()),
                     ConfigActivity.COMPLICATION_CONFIG_REQUEST_CODE);
@@ -594,6 +591,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 // Pass shared preference name to save color value to.
                 launchIntent.putExtra(INTENT_EXTRA_STATES, permutations);
                 launchIntent.putExtra(INTENT_EXTRA_FLAGS, mFlags);
+                launchIntent.putExtra(INTENT_EXTRA_SLOT, mWatchFaceComponentName.getShortClassName());
 
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(

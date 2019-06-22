@@ -69,7 +69,7 @@ import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
-public class ProWatchFaceService extends HardwareAcceleratedCanvasWatchFaceService {
+public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatchFaceService {
     //public class AnalogComplicationWatchFaceService extends WatchFaceService {
     private static final String TAG = "AnalogWatchFace";
 
