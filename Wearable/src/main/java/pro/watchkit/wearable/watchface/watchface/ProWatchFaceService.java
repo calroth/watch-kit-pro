@@ -89,6 +89,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
         return new Engine();
     }
 
+    abstract String getDefaultWatchFaceStateString();
 
     private static class UpdateTimeHandler extends Handler {
         @NonNull
@@ -271,7 +272,8 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
         // Pulls all user's preferences for watch face appearance.
         private void loadSavedPreferences() {
             getWatchFaceState().setString(mSharedPref.getString(
-                    getApplicationContext().getString(R.string.saved_watch_face_state), null));
+                    getApplicationContext().getString(R.string.saved_watch_face_state),
+                    getDefaultWatchFaceStateString()));
         }
 
         @Override
