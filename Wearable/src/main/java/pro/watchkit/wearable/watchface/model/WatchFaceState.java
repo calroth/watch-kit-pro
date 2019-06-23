@@ -439,7 +439,8 @@ public class WatchFaceState {
     }
 
     // region Ephemeral
-    private Style mSwatchStyle;
+    @NonNull
+    private Style mSwatchStyle = Style.BASE;
 
     /**
      * Determines whether the two given WatchFaceState strings are mostly equal. That is, whether

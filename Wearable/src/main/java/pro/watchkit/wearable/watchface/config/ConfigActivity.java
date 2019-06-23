@@ -90,12 +90,6 @@ public class ConfigActivity extends Activity {
 
         Log.d(TAG, "Intent: " + getIntent().getAction());
 
-        Context context = getApplicationContext();
-
-        SharedPreferences sharedPref = context.getSharedPreferences(
-                context.getString(R.string.analog_complication_preference_file_key),
-                Context.MODE_PRIVATE);
-
         // Try to get the watch face slot from our activity intent.
         Class watchFaceServiceClass = ProWatchFaceServiceA.class;
         if (getIntent().getAction() != null) {
@@ -121,6 +115,9 @@ public class ConfigActivity extends Activity {
             }
         }
 
+        SharedPreferences sharedPref =
+                BaseRecyclerViewAdapter.getSharedPref(this, watchFaceServiceClass);
+
         // Try to get mCurrentSubActivity from our activity intent.
         if (mCurrentSubActivity == null) {
             String configDataString = getIntent().getStringExtra(CONFIG_DATA);
@@ -133,7 +130,7 @@ public class ConfigActivity extends Activity {
         // If we couldn't get mCurrentSubActivity, try to get it from preferences.
         if (mCurrentSubActivity == null) {
             String configDataString = sharedPref.getString(
-                    context.getString(R.string.saved_most_recent_config_page), null);
+                    getString(R.string.saved_most_recent_config_page), null);
             Arrays.stream(ConfigSubActivity.values())
                     .filter(c -> c.mClassName.equals(configDataString))
                     .findFirst()
@@ -147,7 +144,7 @@ public class ConfigActivity extends Activity {
 
         // Save out our most recent selected config page, for next time.
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(context.getString(R.string.saved_most_recent_config_page),
+        editor.putString(getString(R.string.saved_most_recent_config_page),
                 mCurrentSubActivity.mClassName);
         editor.apply();
 
@@ -157,7 +154,7 @@ public class ConfigActivity extends Activity {
 
         setContentView(R.layout.activity_analog_complication_config);
 
-        mAdapter = new ConfigRecyclerViewAdapter(context, watchFaceServiceClass,
+        mAdapter = new ConfigRecyclerViewAdapter(this, watchFaceServiceClass,
                 mConfigData.getDataToPopulateAdapter(this));
 
         WearableRecyclerView mWearableRecyclerView =

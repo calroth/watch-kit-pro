@@ -35,10 +35,8 @@
 package pro.watchkit.wearable.watchface.config;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -77,13 +75,11 @@ public class WatchFaceSelectionActivity extends Activity {
         int flags = getIntent().getIntExtra(
                 INTENT_EXTRA_FLAGS, WatchFaceGlobalDrawable.PART_BACKGROUND);
 
-        String slot = getIntent().getStringExtra(INTENT_EXTRA_SLOT);
-        Log.d("WatchFaceSelectionActivity", "Slot: " + slot);
-
         // Try to get the watch face slot from our activity intent.
+        String slot = getIntent().getStringExtra(INTENT_EXTRA_SLOT);
         Class watchFaceServiceClass = ProWatchFaceServiceA.class;
-        if (getIntent().getAction() != null) {
-            switch (getIntent().getAction()) {
+        if (slot != null) {
+            switch (slot) {
                 case ".watchface.ProWatchFaceServiceB": {
                     watchFaceServiceClass = ProWatchFaceServiceB.class;
                     break;
@@ -129,12 +125,10 @@ public class WatchFaceSelectionActivity extends Activity {
 
         // Attempt to scroll to the current selection in preferences.
         // Get our current preference.
-        Context context = this;
-        SharedPreferences sharedPreferences = context.getSharedPreferences(
-                context.getString(R.string.analog_complication_preference_file_key),
-                Context.MODE_PRIVATE);
-        String saved_watch_face_state = context.getString(R.string.saved_watch_face_state);
-        String currentWatchFaceState = sharedPreferences.getString(saved_watch_face_state, null);
+        SharedPreferences sharedPref =
+                BaseRecyclerViewAdapter.getSharedPref(this, watchFaceServiceClass);
+        String saved_watch_face_state = getString(R.string.saved_watch_face_state);
+        String currentWatchFaceState = sharedPref.getString(saved_watch_face_state, null);
 
         // Go through our state strings and find the one that's equal to our current selection.
         if (currentWatchFaceState != null) {

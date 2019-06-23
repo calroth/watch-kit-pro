@@ -60,6 +60,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Comparator;
@@ -70,6 +71,9 @@ import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.ConfigData;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceB;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceC;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceD;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
@@ -113,9 +117,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         super();
         mCurrentWatchFaceState = new WatchFaceState(context);
 
-        mSharedPref = context.getSharedPreferences(
-                context.getString(R.string.analog_complication_preference_file_key),
-                Context.MODE_PRIVATE);
+        mSharedPref = getSharedPref(context, watchFaceServiceClass);
 
         saved_watch_face_state = context.getString(R.string.saved_watch_face_state);
 
@@ -124,6 +126,24 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         mProviderInfoRetriever =
                 new ProviderInfoRetriever(context, Executors.newCachedThreadPool());
         mProviderInfoRetriever.init();
+    }
+
+    @NonNull
+    public static SharedPreferences getSharedPref(
+            @NonNull Context context, @NonNull Class watchFaceServiceClass) {
+        @StringRes int prefStringResId;
+        if (watchFaceServiceClass.equals(ProWatchFaceServiceB.class)) {
+            prefStringResId = R.string.watch_kit_pro_b_preference_file_key;
+        } else if (watchFaceServiceClass.equals(ProWatchFaceServiceC.class)) {
+            prefStringResId = R.string.watch_kit_pro_c_preference_file_key;
+        } else if (watchFaceServiceClass.equals(ProWatchFaceServiceD.class)) {
+            prefStringResId = R.string.watch_kit_pro_d_preference_file_key;
+        } else {
+            prefStringResId = R.string.watch_kit_pro_a_preference_file_key;
+        }
+
+        return context.getSharedPreferences(context.getString(prefStringResId),
+                Context.MODE_PRIVATE);
     }
 
     @Override
@@ -190,12 +210,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
             Activity activity = (Activity) view.getContext();
 
-            // TODO: the below code is duplicated, just have one SharedPreferences.
-            SharedPreferences preferences = activity.getSharedPreferences(
-                    activity.getString(R.string.analog_complication_preference_file_key),
-                    Context.MODE_PRIVATE);
-
-            SharedPreferences.Editor editor = preferences.edit();
+            SharedPreferences.Editor editor = mSharedPref.edit();
             editor.putString(
                     activity.getString(R.string.saved_watch_face_state), watchFaceStateString);
             editor.apply();
@@ -457,8 +472,9 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
 
                 // Pass shared preference name to save color value to.
-//                launchIntent.putExtra(INTENT_EXTRA_STATES, mSharedPrefResourceString);
                 launchIntent.putExtra(INTENT_EXTRA_COLOR, mColorType.name());
+                launchIntent.putExtra(INTENT_EXTRA_SLOT,
+                        mWatchFaceComponentName.getShortClassName());
 
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(
@@ -591,7 +607,8 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 // Pass shared preference name to save color value to.
                 launchIntent.putExtra(INTENT_EXTRA_STATES, permutations);
                 launchIntent.putExtra(INTENT_EXTRA_FLAGS, mFlags);
-                launchIntent.putExtra(INTENT_EXTRA_SLOT, mWatchFaceComponentName.getShortClassName());
+                launchIntent.putExtra(INTENT_EXTRA_SLOT,
+                        mWatchFaceComponentName.getShortClassName());
 
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(

@@ -35,7 +35,6 @@
 package pro.watchkit.wearable.watchface.config;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -58,6 +57,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceA;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceB;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceC;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceD;
+
+import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_SLOT;
 
 /**
  * Allows user to select color for something on the watch face (background, highlight,etc.) and
@@ -73,6 +78,7 @@ public class ColorSelectionActivity extends Activity {
     private RectF[][] mRectFs;
     private float mLastTouchX = -1f, mLastTouchY = -1f;
     private WatchFaceState mWatchFaceState;
+    private SharedPreferences mSharedPref;
 
     private int calc(int a, int b, int c) {
         return (a * 16) + (b * 4) + c;
@@ -83,11 +89,36 @@ public class ColorSelectionActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_color_selection_config);
         mWatchFaceState = new WatchFaceState(this);
+
+        // Try to get the watch face slot from our activity intent.
+        String slot = getIntent().getStringExtra(INTENT_EXTRA_SLOT);
+        Class watchFaceServiceClass = ProWatchFaceServiceA.class;
+        if (slot != null) {
+            switch (slot) {
+                case ".watchface.ProWatchFaceServiceB": {
+                    watchFaceServiceClass = ProWatchFaceServiceB.class;
+                    break;
+                }
+                case ".watchface.ProWatchFaceServiceC": {
+                    watchFaceServiceClass = ProWatchFaceServiceC.class;
+                    break;
+                }
+                case ".watchface.ProWatchFaceServiceD": {
+                    watchFaceServiceClass = ProWatchFaceServiceD.class;
+                    break;
+                }
+                default:
+                case ".watchface.ProWatchFaceServiceA": {
+                    // Shouldn't happen. Oh well...
+                    watchFaceServiceClass = ProWatchFaceServiceA.class;
+                    break;
+                }
+            }
+        }
+
         // Reload our current WatchFacePreset.
         // So we can get our currently selected color.
-        SharedPreferences mSharedPref = getSharedPreferences(
-                getString(R.string.analog_complication_preference_file_key),
-                Context.MODE_PRIVATE);
+        mSharedPref = BaseRecyclerViewAdapter.getSharedPref(this, watchFaceServiceClass);
 
         mWatchFaceState.setString(mSharedPref.getString(
                 getApplicationContext().getString(R.string.saved_watch_face_state), null));
@@ -352,10 +383,6 @@ public class ColorSelectionActivity extends Activity {
      * @param sixBitColor New 6-bit color to set (between 0 and 63)
      */
     private void setSixBitColor(int sixBitColor) {
-        SharedPreferences preferences = getSharedPreferences(
-                getString(R.string.analog_complication_preference_file_key),
-                Context.MODE_PRIVATE);
-
         String sharedPrefString = getIntent().getStringExtra(INTENT_EXTRA_COLOR);
         PaintBox.ColorType colorType = PaintBox.ColorType.valueOf(sharedPrefString);
         String toastText;
@@ -394,7 +421,7 @@ public class ColorSelectionActivity extends Activity {
             }
         }
 
-        SharedPreferences.Editor editor = preferences.edit();
+        SharedPreferences.Editor editor = mSharedPref.edit();
         editor.putString(getString(R.string.saved_watch_face_state), mWatchFaceState.getString());
         editor.apply();
 

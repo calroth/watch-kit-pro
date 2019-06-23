@@ -55,6 +55,7 @@ import android.view.SurfaceHolder;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -91,6 +92,9 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
 
     abstract String getDefaultWatchFaceStateString();
 
+    @StringRes
+    abstract int getPrefStringResId();
+
     private static class UpdateTimeHandler extends Handler {
         @NonNull
         private final WeakReference<ProWatchFaceService.Engine> mWeakReference;
@@ -112,7 +116,10 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
             implements ComplicationHolder.InvalidateCallback {
 
         private static final int MSG_UPDATE_TIME = 0;
-        // Handler to update the time once a second in interactive mode.
+
+        /**
+         * Handler to update the time once a second in interactive mode.
+         */
         private final Handler mUpdateTimeHandler = new UpdateTimeHandler(this);
 
         private final BroadcastReceiver mTimeZoneReceiver = new BroadcastReceiver() {
@@ -126,14 +133,14 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
         private final IntentFilter mActionTimezoneChangedIntentFilter =
                 new IntentFilter(Intent.ACTION_TIMEZONE_CHANGED);
         private WatchFaceGlobalDrawable mWatchFaceGlobalDrawable;
-        // Used to pull user's preferences for background color, highlight color, and visual
-        // indicating there are unread notifications.
-        SharedPreferences mSharedPref;
+
+        /**
+         * SharedPreferences object to retrieve our WatchFaceState out of preferences.
+         */
+        private SharedPreferences mSharedPref;
 
         private boolean mRegisteredTimeZoneReceiver = false;
         private boolean mMuteMode;
-        // User's preference for if they want visual shown to indicate unread notifications.
-//        private boolean mUnreadNotificationsPreference;
 
         @Override
         protected void beforeDoFrame(int invalidated) {
@@ -176,9 +183,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
 
             // Used throughout watch face to pull user's preferences.
             Context context = getApplicationContext();
-            mSharedPref =
-                    context.getSharedPreferences(
-                            getString(R.string.analog_complication_preference_file_key),
+            mSharedPref = context.getSharedPreferences(getString(getPrefStringResId()),
                             Context.MODE_PRIVATE);
 
             setWatchFaceStyle(
