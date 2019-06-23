@@ -38,7 +38,6 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
@@ -60,7 +59,6 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Comparator;
@@ -71,9 +69,7 @@ import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.ConfigData;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
-import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceB;
-import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceC;
-import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceD;
+import pro.watchkit.wearable.watchface.util.SharedPref;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
@@ -88,9 +84,8 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
      */
     @NonNull
     private final WatchFaceState mCurrentWatchFaceState;
-    private final SharedPreferences mSharedPref;
+    private final SharedPref mSharedPref;
     private static final String TAG = BaseRecyclerViewAdapter.class.getSimpleName();
-    private final String saved_watch_face_state;
 
     /**
      * The object that retrieves complication data for us to preview our complications with.
@@ -117,33 +112,13 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         super();
         mCurrentWatchFaceState = new WatchFaceState(context);
 
-        mSharedPref = getSharedPref(context, watchFaceServiceClass);
-
-        saved_watch_face_state = context.getString(R.string.saved_watch_face_state);
+        mSharedPref = new SharedPref(context, watchFaceServiceClass);
 
         // Initialization of code to retrieve active complication data for the watch face.
         mWatchFaceComponentName = new ComponentName(context, watchFaceServiceClass);
         mProviderInfoRetriever =
                 new ProviderInfoRetriever(context, Executors.newCachedThreadPool());
         mProviderInfoRetriever.init();
-    }
-
-    @NonNull
-    public static SharedPreferences getSharedPref(
-            @NonNull Context context, @NonNull Class watchFaceServiceClass) {
-        @StringRes int prefStringResId;
-        if (watchFaceServiceClass.equals(ProWatchFaceServiceB.class)) {
-            prefStringResId = R.string.watch_kit_pro_b_preference_file_key;
-        } else if (watchFaceServiceClass.equals(ProWatchFaceServiceC.class)) {
-            prefStringResId = R.string.watch_kit_pro_c_preference_file_key;
-        } else if (watchFaceServiceClass.equals(ProWatchFaceServiceD.class)) {
-            prefStringResId = R.string.watch_kit_pro_d_preference_file_key;
-        } else {
-            prefStringResId = R.string.watch_kit_pro_a_preference_file_key;
-        }
-
-        return context.getSharedPreferences(context.getString(prefStringResId),
-                Context.MODE_PRIVATE);
     }
 
     @Override
@@ -159,8 +134,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
      * mCurrentWatchFaceState.
      */
     void regenerateCurrentWatchFaceState() {
-        mCurrentWatchFaceState.setString(
-                mSharedPref.getString(saved_watch_face_state, null));
+        mCurrentWatchFaceState.setString(mSharedPref.getWatchFaceStateString());
     }
 
     /**
@@ -210,10 +184,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
             Activity activity = (Activity) view.getContext();
 
-            SharedPreferences.Editor editor = mSharedPref.edit();
-            editor.putString(
-                    activity.getString(R.string.saved_watch_face_state), watchFaceStateString);
-            editor.apply();
+            mSharedPref.putWatchFaceStateString(watchFaceStateString);
 
             // Lets Complication Config Activity know there was an update to colors.
             activity.setResult(Activity.RESULT_OK);
@@ -720,10 +691,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             String[] permutations =
                     mConfigItem.permute(mCurrentWatchFaceState, mSwitch.getContext());
 
-            SharedPreferences.Editor editor = mSharedPref.edit();
-            editor.putString(mSwitch.getContext().getString(R.string.saved_watch_face_state),
-                    isChecked() ? permutations[1] : permutations[0]);
-            editor.apply();
+            mSharedPref.putWatchFaceStateString(isChecked() ? permutations[1] : permutations[0]);
 
             BaseRecyclerViewAdapter.this.onWatchFaceStateChanged();
         }

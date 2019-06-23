@@ -35,7 +35,6 @@
 package pro.watchkit.wearable.watchface.config;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -57,6 +56,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
+import pro.watchkit.wearable.watchface.util.SharedPref;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceA;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceB;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceC;
@@ -78,7 +78,7 @@ public class ColorSelectionActivity extends Activity {
     private RectF[][] mRectFs;
     private float mLastTouchX = -1f, mLastTouchY = -1f;
     private WatchFaceState mWatchFaceState;
-    private SharedPreferences mSharedPref;
+    private SharedPref mSharedPref;
 
     private int calc(int a, int b, int c) {
         return (a * 16) + (b * 4) + c;
@@ -118,10 +118,9 @@ public class ColorSelectionActivity extends Activity {
 
         // Reload our current WatchFacePreset.
         // So we can get our currently selected color.
-        mSharedPref = BaseRecyclerViewAdapter.getSharedPref(this, watchFaceServiceClass);
+        mSharedPref = new SharedPref(this, watchFaceServiceClass);
 
-        mWatchFaceState.setString(mSharedPref.getString(
-                getApplicationContext().getString(R.string.saved_watch_face_state), null));
+        mWatchFaceState.setString(mSharedPref.getWatchFaceStateString());
 
         int[] row1 = new int[]{
                 -1,
@@ -421,9 +420,7 @@ public class ColorSelectionActivity extends Activity {
             }
         }
 
-        SharedPreferences.Editor editor = mSharedPref.edit();
-        editor.putString(getString(R.string.saved_watch_face_state), mWatchFaceState.getString());
-        editor.apply();
+        mSharedPref.putWatchFaceStateString(mWatchFaceState.getString());
 
         // Lets Complication Config Activity know there was an update to colors.
         setResult(Activity.RESULT_OK);

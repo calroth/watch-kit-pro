@@ -36,7 +36,6 @@ package pro.watchkit.wearable.watchface.config;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.wearable.complications.ComplicationProviderInfo;
@@ -59,6 +58,7 @@ import pro.watchkit.wearable.watchface.model.SettingsConfigData;
 import pro.watchkit.wearable.watchface.model.WatchFacePresetConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartHandsConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartTicksConfigData;
+import pro.watchkit.wearable.watchface.util.SharedPref;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceA;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceB;
@@ -115,8 +115,7 @@ public class ConfigActivity extends Activity {
             }
         }
 
-        SharedPreferences sharedPref =
-                BaseRecyclerViewAdapter.getSharedPref(this, watchFaceServiceClass);
+        SharedPref sharedPref = new SharedPref(this, watchFaceServiceClass);
 
         // Try to get mCurrentSubActivity from our activity intent.
         if (mCurrentSubActivity == null) {
@@ -129,8 +128,7 @@ public class ConfigActivity extends Activity {
 
         // If we couldn't get mCurrentSubActivity, try to get it from preferences.
         if (mCurrentSubActivity == null) {
-            String configDataString = sharedPref.getString(
-                    getString(R.string.saved_most_recent_config_page), null);
+            String configDataString = sharedPref.getMostRecentConfigPageString();
             Arrays.stream(ConfigSubActivity.values())
                     .filter(c -> c.mClassName.equals(configDataString))
                     .findFirst()
@@ -143,10 +141,7 @@ public class ConfigActivity extends Activity {
         }
 
         // Save out our most recent selected config page, for next time.
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(getString(R.string.saved_most_recent_config_page),
-                mCurrentSubActivity.mClassName);
-        editor.apply();
+        sharedPref.putMostRecentConfigPageString(mCurrentSubActivity.mClassName);
 
         if (mConfigData == null) {
             mConfigData = mCurrentSubActivity.getNewInstance();
@@ -183,6 +178,7 @@ public class ConfigActivity extends Activity {
 
             // Add an intent to the launch to point it towards our sub-activity.
             launchIntent.putExtra(CONFIG_DATA, configData);
+            launchIntent.setAction(getIntent().getAction());
 
             Activity activity = (Activity) mWearableNavigationDrawer.getContext();
             activity.startActivity(launchIntent);

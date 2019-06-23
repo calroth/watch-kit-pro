@@ -35,7 +35,6 @@
 package pro.watchkit.wearable.watchface.config;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -46,6 +45,7 @@ import androidx.wear.widget.WearableRecyclerView;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
+import pro.watchkit.wearable.watchface.util.SharedPref;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceA;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceB;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceC;
@@ -125,10 +125,8 @@ public class WatchFaceSelectionActivity extends Activity {
 
         // Attempt to scroll to the current selection in preferences.
         // Get our current preference.
-        SharedPreferences sharedPref =
-                BaseRecyclerViewAdapter.getSharedPref(this, watchFaceServiceClass);
-        String saved_watch_face_state = getString(R.string.saved_watch_face_state);
-        String currentWatchFaceState = sharedPref.getString(saved_watch_face_state, null);
+        SharedPref sharedPref = new SharedPref(this, watchFaceServiceClass);
+        String currentWatchFaceState = sharedPref.getWatchFaceStateString();
 
         // Go through our state strings and find the one that's equal to our current selection.
         if (currentWatchFaceState != null) {

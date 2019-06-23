@@ -38,7 +38,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -55,7 +54,6 @@ import android.view.SurfaceHolder;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -66,9 +64,9 @@ import com.google.android.gms.location.LocationServices;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.TimeUnit;
 
-import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
+import pro.watchkit.wearable.watchface.util.SharedPref;
 
 public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatchFaceService {
     //public class AnalogComplicationWatchFaceService extends WatchFaceService {
@@ -89,11 +87,6 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
     public Engine onCreateEngine() {
         return new Engine();
     }
-
-    abstract String getDefaultWatchFaceStateString();
-
-    @StringRes
-    abstract int getPrefStringResId();
 
     private static class UpdateTimeHandler extends Handler {
         @NonNull
@@ -137,7 +130,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
         /**
          * SharedPreferences object to retrieve our WatchFaceState out of preferences.
          */
-        private SharedPreferences mSharedPref;
+        private SharedPref mSharedPref;
 
         private boolean mRegisteredTimeZoneReceiver = false;
         private boolean mMuteMode;
@@ -183,8 +176,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
 
             // Used throughout watch face to pull user's preferences.
             Context context = getApplicationContext();
-            mSharedPref = context.getSharedPreferences(getString(getPrefStringResId()),
-                            Context.MODE_PRIVATE);
+            mSharedPref = new SharedPref(context, ProWatchFaceService.this.getClass());
 
             setWatchFaceStyle(
                     new WatchFaceStyle.Builder(ProWatchFaceService.this)
@@ -276,9 +268,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
 
         // Pulls all user's preferences for watch face appearance.
         private void loadSavedPreferences() {
-            getWatchFaceState().setString(mSharedPref.getString(
-                    getApplicationContext().getString(R.string.saved_watch_face_state),
-                    getDefaultWatchFaceStateString()));
+            getWatchFaceState().setString(mSharedPref.getWatchFaceStateString());
         }
 
         @Override
