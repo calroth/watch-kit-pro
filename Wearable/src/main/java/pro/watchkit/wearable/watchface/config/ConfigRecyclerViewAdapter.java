@@ -83,6 +83,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
     public static final int TYPE_PICKER_CONFIG = 3;
     public static final int TYPE_TOGGLE_CONFIG = 4;
     public static final int TYPE_CONFIG_ACTIVITY_CONFIG = 5;
+    @NonNull
     private final List<ConfigItemType> mSettingsDataSet;
     private final List<WatchFaceStateListener> mWatchFaceStateListeners = new ArrayList<>();
     private final List<ComplicationProviderInfoListener> mComplicationProviderInfoListeners =

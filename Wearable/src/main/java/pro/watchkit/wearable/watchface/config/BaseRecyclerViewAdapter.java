@@ -84,6 +84,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
      */
     @NonNull
     private final WatchFaceState mCurrentWatchFaceState;
+    @NonNull
     private final SharedPref mSharedPref;
     private static final String TAG = BaseRecyclerViewAdapter.class.getSimpleName();
 

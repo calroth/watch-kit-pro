@@ -1232,11 +1232,12 @@ public class WatchFaceState {
         regeneratePaints();
     }
 
+    @NonNull
     public Style getSwatchStyle() {
         return mSwatchStyle;
     }
 
-    void setSwatchStyle(Style swatchStyle) {
+    void setSwatchStyle(@NonNull Style swatchStyle) {
         mSwatchStyle = swatchStyle;
     }
     //endregion

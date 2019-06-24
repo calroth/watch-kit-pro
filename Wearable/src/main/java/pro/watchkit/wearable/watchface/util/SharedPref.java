@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
 import pro.watchkit.wearable.watchface.R;
@@ -86,6 +87,7 @@ public final class SharedPref {
      *
      * @return the current WatchFaceState string
      */
+    @Nullable
     public String getWatchFaceStateString() {
         return mSharedPreferences.getString(
                 mContext.getString(R.string.saved_watch_face_state), mDefaultWatchFaceStateString);
@@ -107,6 +109,7 @@ public final class SharedPref {
      *
      * @return the most recent config page string
      */
+    @Nullable
     public String getMostRecentConfigPageString() {
         return mSharedPreferences.getString(
                 mContext.getString(R.string.saved_most_recent_config_page), null);
