@@ -227,6 +227,25 @@
         <item>Extra Long</item>
     </string-array>
 
+    <string-array name="WatchFacePreset_DigitDisplay">
+        <item>None</item>
+        <item>Below</item>
+        <item>Over</item>
+        <item>Above</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_DigitRotation">
+        <item>Upright</item>
+        <item>Curved</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_DigitFormat">
+        <item>Numerals 1–12</item>
+        <item>Numerals 3, 6, 9, 12</item>
+        <item>Numerals 00–55</item>
+        <item>Roman Numerals I–XII</item>
+    </string-array>
+
     <string-array name="WatchFacePreset_Style">
         <item>Fill</item>
         <item>Accent</item>

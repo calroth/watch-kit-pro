@@ -262,6 +262,66 @@ public abstract class BytePackable {
         }
     }
 
+    public enum DigitDisplay implements EnumResourceId {
+        NONE, BELOW, OVER, ABOVE;
+
+        private static final int bits = 2;
+
+        static DigitDisplay unpack(BytePacker bytePacker) {
+            return values()[bytePacker.get(bits)];
+        }
+
+        void pack(BytePacker bytePacker) {
+            bytePacker.put(bits, values(), this);
+        }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.WatchFacePreset_DigitDisplay;
+        }
+    }
+
+    public enum DigitRotation implements EnumResourceId {
+        UPRIGHT, CURVED;
+
+        private static final int bits = 1;
+
+        static DigitRotation unpack(BytePacker bytePacker) {
+            return values()[bytePacker.get(bits)];
+        }
+
+        void pack(BytePacker bytePacker) {
+            bytePacker.put(bits, values(), this);
+        }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.WatchFacePreset_DigitRotation;
+        }
+    }
+
+    public enum DigitFormat implements EnumResourceId {
+        NUMERALS_12_4, NUMERALS_12_12, NUMERALS_60, ROMAN;
+
+        private static final int bits = 2;
+
+        static DigitFormat unpack(BytePacker bytePacker) {
+            return values()[bytePacker.get(bits)];
+        }
+
+        void pack(BytePacker bytePacker) {
+            bytePacker.put(bits, values(), this);
+        }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.WatchFacePreset_DigitFormat;
+        }
+    }
+
     public enum TextStyle implements EnumResourceId {
         FILL, ACCENT, HIGHLIGHT, BASE;
 
@@ -413,6 +473,8 @@ public abstract class BytePackable {
          * the version string.
          */
         void finish() {
+            Log.d(getClass().toString(), "finish() with " + mBytePtr +
+                    " / " + (mBytes.length * 8 - 1) + " bits.");
             if (mBytePtr >= mBytes.length * 8 - 1) {
                 // Already finalized?
                 return;
