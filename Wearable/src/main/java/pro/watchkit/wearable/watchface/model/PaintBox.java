@@ -274,15 +274,16 @@ public final class PaintBox {
         mBaseAccentStyleTexture = baseAccentStyleTexture;
     }
 
-    private void regeneratePaints2() {
-        // Invalidate if any of our colors or styles have changed.
-        int currentSerial = Objects.hash(
-                getColor(mFillSixBitColor),
-                getColor(mAccentSixBitColor),
-                getColor(mHighlightSixBitColor),
-                getColor(mBaseSixBitColor),
-                getColor(mAmbientDaySixBitColor),
-                getColor(mAmbientNightSixBitColor),
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                super.hashCode(),
+                mFillSixBitColor,
+                mAccentSixBitColor,
+                mHighlightSixBitColor,
+                mBaseSixBitColor,
+                mAmbientDaySixBitColor,
+                mAmbientNightSixBitColor,
                 mFillHighlightStyleGradient,
                 mAccentFillStyleGradient,
                 mAccentHighlightStyleGradient,
@@ -291,7 +292,13 @@ public final class PaintBox {
                 mAccentFillStyleTexture,
                 mAccentHighlightStyleTexture,
                 mBaseAccentStyleTexture,
-                pc);
+                pc,
+                height, width);
+    }
+
+    private void regeneratePaints2() {
+        // Invalidate if any of our colors or styles have changed.
+        int currentSerial = hashCode();
         if (mPreviousSerial == currentSerial || width <= 0 || height <= 0) {
             return;
         }

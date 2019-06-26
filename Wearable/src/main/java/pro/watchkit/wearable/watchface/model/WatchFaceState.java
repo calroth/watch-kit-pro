@@ -102,6 +102,7 @@ public class WatchFaceState {
         return Objects.hash(
                 mWatchFacePreset,
                 mSettings,
+                mPaintBox,
                 mComplications,
                 mUnreadNotifications,
                 mTotalNotifications);
@@ -467,7 +468,7 @@ public class WatchFaceState {
                 .append("~")
                 .append(mSettings.getString())
                 .append("~")
-                .append(mSwatchStyle == null ? 0 : IntStream.range(0, Style.values().length)
+                .append(IntStream.range(0, Style.values().length)
                         // This lambda finds the index of "mSwatchStyle" in Style.values()
                         .filter(i -> mSwatchStyle.equals(Style.values()[i]))
                         .findFirst()
