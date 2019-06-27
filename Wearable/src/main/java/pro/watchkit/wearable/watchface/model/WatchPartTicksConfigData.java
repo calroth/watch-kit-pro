@@ -111,6 +111,53 @@ public class WatchPartTicksConfigData extends ConfigData {
                                 WatchFaceState::getFourTickStyle),
                         WatchFaceState::isFourTicksVisible),
 
+                // Data for digit display in settings Activity.
+                new PickerConfigItem(
+                        context.getString(R.string.config_preset_digit_display),
+                        R.drawable.icn_styles,
+                        watchFaceGlobalDrawableFlags,
+                        WatchFaceSelectionActivity.class,
+                        new EnumMutator<>(
+                                BytePackable.DigitDisplay.values(),
+                                WatchFaceState::setDigitDisplay,
+                                WatchFaceState::getDigitDisplay)),
+
+                // Data for digit rotation in settings Activity.
+                new PickerConfigItem(
+                        context.getString(R.string.config_preset_digit_rotation),
+                        R.drawable.icn_styles,
+                        watchFaceGlobalDrawableFlags,
+                        WatchFaceSelectionActivity.class,
+                        new EnumMutator<>(
+                                BytePackable.DigitRotation.values(),
+                                WatchFaceState::setDigitRotation,
+                                WatchFaceState::getDigitRotation),
+                        WatchFaceState::isDigitVisible),
+
+                // Data for digit format in settings Activity.
+                new PickerConfigItem(
+                        context.getString(R.string.config_preset_digit_format),
+                        R.drawable.icn_styles,
+                        watchFaceGlobalDrawableFlags,
+                        WatchFaceSelectionActivity.class,
+                        new EnumMutator<>(
+                                BytePackable.DigitFormat.values(),
+                                WatchFaceState::setDigitFormat,
+                                WatchFaceState::getDigitFormat),
+                        WatchFaceState::isDigitVisible),
+
+                // Data for digit style in settings Activity.
+                new PickerConfigItem(
+                        context.getString(R.string.config_preset_digit_display),
+                        R.drawable.icn_styles,
+                        watchFaceGlobalDrawableFlagsStyle,
+                        WatchFaceSelectionActivity.class,
+                        new EnumMutator<>(
+                                BytePackable.Style.values(),
+                                WatchFaceState::setDigitStyle,
+                                WatchFaceState::getDigitStyle),
+                        WatchFaceState::isDigitVisible),
+
                 // Data for twelve tick override in settings Activity.
                 new ToggleConfigItem(
                         context.getString(R.string.config_preset_twelve_tick_override),

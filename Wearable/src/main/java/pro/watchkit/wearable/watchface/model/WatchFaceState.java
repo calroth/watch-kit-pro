@@ -40,6 +40,9 @@ import java.util.stream.IntStream;
 
 import pro.watchkit.wearable.watchface.model.BytePackable.ComplicationCount;
 import pro.watchkit.wearable.watchface.model.BytePackable.ComplicationRotation;
+import pro.watchkit.wearable.watchface.model.BytePackable.DigitDisplay;
+import pro.watchkit.wearable.watchface.model.BytePackable.DigitFormat;
+import pro.watchkit.wearable.watchface.model.BytePackable.DigitRotation;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandCutout;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandLength;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandShape;
@@ -460,6 +463,7 @@ public class WatchFaceState {
 
         return aSplit[0].equals(bSplit[0]) && aSplit[1].equals(bSplit[1]);
     }
+    // endregion
 
     @NonNull
     public String getString() {
@@ -925,6 +929,42 @@ public class WatchFaceState {
 
     void setSixtyTickStyle(Style sixtyTickStyle) {
         mWatchFacePreset.mSixtyTickStyle = sixtyTickStyle;
+    }
+
+    public boolean isDigitVisible() {
+        return getDigitDisplay() != DigitDisplay.NONE;
+    }
+
+    public Style getDigitStyle() {
+        return mWatchFacePreset.mDigitStyle;
+    }
+
+    void setDigitStyle(Style digitStyle) {
+        mWatchFacePreset.mDigitStyle = digitStyle;
+    }
+
+    public DigitDisplay getDigitDisplay() {
+        return mWatchFacePreset.mDigitDisplay;
+    }
+
+    void setDigitDisplay(DigitDisplay digitDisplay) {
+        mWatchFacePreset.mDigitDisplay = digitDisplay;
+    }
+
+    public DigitRotation getDigitRotation() {
+        return mWatchFacePreset.mDigitRotation;
+    }
+
+    void setDigitRotation(DigitRotation digitRotation) {
+        mWatchFacePreset.mDigitRotation = digitRotation;
+    }
+
+    public DigitFormat getDigitFormat() {
+        return mWatchFacePreset.mDigitFormat;
+    }
+
+    void setDigitFormat(DigitFormat digitFormat) {
+        mWatchFacePreset.mDigitFormat = digitFormat;
     }
 
     StyleGradient getFillHighlightStyleGradient() {

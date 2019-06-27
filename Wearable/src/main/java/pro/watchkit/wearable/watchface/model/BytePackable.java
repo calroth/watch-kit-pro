@@ -479,7 +479,7 @@ public abstract class BytePackable {
                 // Already finalized?
                 return;
             }
-            int versionLength = 3;
+            int versionLength = 0;
             int remainingBits = (mBytes.length * 8) - mBytePtr - versionLength - 1; // Off by 1...
             // Write out "remainingBits" zeroes.
             while (remainingBits > 0) {
@@ -487,9 +487,9 @@ public abstract class BytePackable {
                 put(length, 0);
                 remainingBits -= length;
             }
-            // Write our version.
-            int version = 0;
-            put(versionLength, version);
+//            // Write our version.
+//            int version = 0;
+//            put(versionLength, version);
         }
 
         @NonNull

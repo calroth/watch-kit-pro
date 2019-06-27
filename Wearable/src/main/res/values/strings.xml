@@ -119,6 +119,11 @@
     <string name="config_preset_four_tick_radius_position">Four Tick Radius Position</string>
     <string name="config_preset_four_tick_style">Four Tick Style</string>
 
+    <string name="config_preset_digit_display">Digit Display</string>
+    <string name="config_preset_digit_rotation">Digit Rotation</string>
+    <string name="config_preset_digit_format">Digit Format</string>
+    <string name="config_preset_digit_style">Digit Style</string>
+
     <string name="config_preset_twelve_tick_override">Twelve Tick Override</string>
     <string name="config_preset_twelve_tick_shape">Twelve Tick Shape</string>
     <string name="config_preset_twelve_tick_length">Twelve Tick Length</string>
