@@ -285,8 +285,8 @@ final class WatchFacePreset extends BytePackable {
 
         mFillHighlightStyleGradient = StyleGradient.unpack(mBytePacker);
         mFillHighlightStyleTexture = StyleTexture.unpack(mBytePacker);
-        mAccentFillStyleTexture = StyleTexture.unpack(mBytePacker);
         mAccentFillStyleGradient = StyleGradient.unpack(mBytePacker);
+        mAccentFillStyleTexture = StyleTexture.unpack(mBytePacker);
         mAccentHighlightStyleGradient = StyleGradient.unpack(mBytePacker);
         mAccentHighlightStyleTexture = StyleTexture.unpack(mBytePacker);
         mBaseAccentStyleGradient = StyleGradient.unpack(mBytePacker);
