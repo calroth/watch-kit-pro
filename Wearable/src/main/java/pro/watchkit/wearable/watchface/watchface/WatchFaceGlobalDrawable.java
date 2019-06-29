@@ -56,7 +56,9 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
     private static final int PART_TICKS_FOUR = 64;
     private static final int PART_TICKS_TWELVE = 128;
     private static final int PART_TICKS_SIXTY = 256;
-    public static final int PART_TICKS = PART_TICKS_FOUR | PART_TICKS_TWELVE | PART_TICKS_SIXTY;
+    private static final int PART_DIGITS = 512;
+    public static final int PART_TICKS =
+            PART_TICKS_FOUR | PART_TICKS_TWELVE | PART_TICKS_SIXTY | PART_DIGITS;
     private static final int PART_HANDS_HOUR = 1024;
     private static final int PART_HANDS_MINUTE = 2048;
     private static final int PART_HANDS_SECOND = 4096;
@@ -144,6 +146,9 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
         }
         if ((flags & PART_TICKS_SIXTY) > 0) {
             d.add(new WatchPartTicksSixtyDrawable());
+        }
+        if ((flags & PART_DIGITS) > 0) {
+            d.add(new WatchPartDigitsDrawable());
         }
         if ((flags & PART_COMPLICATIONS) > 0) {
             d.add(new WatchPartComplicationsDrawable());
