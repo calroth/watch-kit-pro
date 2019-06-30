@@ -19,14 +19,16 @@
 package pro.watchkit.wearable.watchface.watchface;
 
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import pro.watchkit.wearable.watchface.model.BytePackable.DigitDisplay;
+import pro.watchkit.wearable.watchface.model.BytePackable.DigitFormat;
+import pro.watchkit.wearable.watchface.model.BytePackable.DigitRotation;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 
 final class WatchPartDigitsDrawable extends WatchPartDrawable {
@@ -35,9 +37,10 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
         return "Dig";
     }
 
-    private Path mPath = new Path();
-    private Path mTempPath = new Path();
-    private Rect mLabelRect = new Rect();
+    private final Path mPath = new Path();
+    private final Path mTempPath = new Path();
+    private final Matrix mTempPathMatrix = new Matrix();
+    private final Rect mLabelRect = new Rect();
 
     @Override
     public void draw2(@NonNull Canvas canvas) {
@@ -69,22 +72,38 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
             // Calculate the location we want to draw.
             // Our calculations consider the "origin" to be the centre of the bounds.
             float x = 0f;// - (float)(mLabelRect.left + mLabelRect.right) / 2f;
-            float y = 0f - (float)(mLabelRect.top + mLabelRect.bottom) / 2f;
+            float y = 0f - (float) (mLabelRect.top + mLabelRect.bottom) / 2f;
 
             // Offset x and y to be relative to the centre of the canvas.
             x += mCenterX;
             y += mCenterY;
 
-            // Offset to spread the labels out in a circle around the centre! Trigonometry ahoy!
-            double radians = ((double)i / 12d) * 2d * Math.PI;
-            x += (float)Math.sin(radians) * 37.5f * pc;
-            y -= (float)Math.cos(radians) * 37.5f * pc;
-
             // Now, draw to a temporary path, and union that to our main path!
             mTempPath.reset();
             paint.getTextPath(label, 0, label.length(), x, y, mTempPath);
-            Log.d("digits", "Drawing '" + label + " with bounds '" +
-                    mLabelRect.toShortString() + "' to " + x + ", " + y);
+
+            mTempPathMatrix.reset();
+            // Trigonometry ahoy!
+            float degrees = ((float) i / 12f) * 360f;
+            double radians = ((double) i / 12d) * 2d * Math.PI;
+            // Rotate the label if necessary.
+            if (mWatchFaceState.getDigitRotation() == DigitRotation.CURVED) {
+                if ((mWatchFaceState.getDigitFormat() == DigitFormat.NUMERALS_12_4 ||
+                        mWatchFaceState.getDigitFormat() == DigitFormat.NUMERALS_12_12) &&
+                        i >= 4 && i <= 8) {
+                    // For the numeric label types, draw the labels 4-8 "upside down"...
+                    // Essentially to disambiguate labels "6" and "9".
+                    mTempPathMatrix.setRotate(degrees + 180f, mCenterX, mCenterY);
+                } else {
+                    // Right way up
+                    mTempPathMatrix.setRotate(degrees, mCenterX, mCenterY);
+                }
+            }
+            // Spread the labels out in a circle, 37.5% from the centre!
+            mTempPathMatrix.postTranslate((float) Math.sin(radians) * 37.5f * pc,
+                    0f - (float) Math.cos(radians) * 37.5f * pc);
+            mTempPath.transform(mTempPathMatrix);
+
             mPath.op(mTempPath, Path.Op.UNION);
         }
 
