@@ -24,6 +24,7 @@ import android.graphics.Rect;
 import android.support.wearable.complications.ComplicationData;
 import android.util.Log;
 
+import androidx.annotation.ArrayRes;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,6 +39,7 @@ import java.util.Objects;
 import java.util.TimeZone;
 import java.util.stream.IntStream;
 
+import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.BytePackable.ComplicationCount;
 import pro.watchkit.wearable.watchface.model.BytePackable.ComplicationRotation;
 import pro.watchkit.wearable.watchface.model.BytePackable.DigitDisplay;
@@ -99,6 +101,7 @@ public class WatchFaceState {
     private boolean mAmbient = false;
     private final GregorianCalendar mCalendar = new GregorianCalendar();
     private final LocationCalculator mLocationCalculator = new LocationCalculator(mCalendar);
+    private final Context mContext;
 
     @Override
     public int hashCode() {
@@ -116,6 +119,7 @@ public class WatchFaceState {
 
     public WatchFaceState(Context context) {
         mPaintBox = new PaintBox(context);
+        mContext = context;
         // Hmm. Strictly temporary: how about a default setting?
         // setString("fcd81c000c0100000006c06a60000001~3cda1cc0000000000000000000000001");
     }
@@ -957,6 +961,30 @@ public class WatchFaceState {
 
     void setDigitRotation(DigitRotation digitRotation) {
         mWatchFacePreset.mDigitRotation = digitRotation;
+    }
+
+    public String[] getDigitFormatLabels() {
+        @ArrayRes int labelRes;
+        switch (getDigitFormat()) {
+            case NUMERALS_12_4: {
+                labelRes = R.array.WatchFacePreset_DigitFormat_NUMERALS_12_4;
+                break;
+            }
+            case NUMERALS_12_12: {
+                labelRes = R.array.WatchFacePreset_DigitFormat_NUMERALS_12_12;
+                break;
+            }
+            case NUMERALS_60: {
+                labelRes = R.array.WatchFacePreset_DigitFormat_NUMERALS_60;
+                break;
+            }
+            default:
+            case ROMAN: {
+                labelRes = R.array.WatchFacePreset_DigitFormat_ROMAN;
+                break;
+            }
+        }
+        return mContext.getResources().getStringArray(labelRes);
     }
 
     public DigitFormat getDigitFormat() {

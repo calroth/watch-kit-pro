@@ -35,10 +35,6 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
         return "Dig";
     }
 
-    private String[] mLabels = new String[] {
-            "12", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"
-    };
-
     private Path mPath = new Path();
     private Path mTempPath = new Path();
     private Rect mLabelRect = new Rect();
@@ -49,6 +45,7 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
             return;
         }
 
+        String[] labels = mWatchFaceState.getDigitFormatLabels();
         Style style = mWatchFaceState.getDigitStyle();
         Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(style);
 
@@ -60,9 +57,13 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
 
         mPath.reset();
         for (int i = 0; i < 12; i++) {
-            String label = mLabels[i];
+            String label = labels[i];
+            if (label == null || label.length() == 0) {
+                // Don't worry about empty labels...
+                continue;
+            }
 
-            // Get the size (bounds) of the text we're trying to draw.
+            // Get the size (bounds) of the label we're trying to draw.
             paint.getTextBounds(label, 0, label.length(), mLabelRect);
 
             // Calculate the location we want to draw.

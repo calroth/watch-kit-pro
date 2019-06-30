@@ -246,9 +246,69 @@
 
     <string-array name="WatchFacePreset_DigitFormat">
         <item>Numerals 1–12</item>
-        <item>Numerals 3, 6, 9, 12</item>
+        <item>Numerals 12, 3, 6, 9</item>
         <item>Numerals 00–55</item>
         <item>Roman Numerals I–XII</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_DigitFormat_NUMERALS_12_4">
+        <item>12</item>
+        <item></item>
+        <item></item>
+        <item>3</item>
+        <item></item>
+        <item></item>
+        <item>6</item>
+        <item></item>
+        <item></item>
+        <item>9</item>
+        <item></item>
+        <item></item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_DigitFormat_NUMERALS_12_12">
+        <item>12</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_DigitFormat_NUMERALS_60">
+        <item>00</item>
+        <item>05</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+        <item>35</item>
+        <item>40</item>
+        <item>45</item>
+        <item>50</item>
+        <item>55</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_DigitFormat_ROMAN">
+        <item>XII</item>
+        <item>I</item>
+        <item>II</item>
+        <item>III</item>
+        <item>IV</item>
+        <item>V</item>
+        <item>VI</item>
+        <item>VII</item>
+        <item>VIII</item>
+        <item>IX</item>
+        <item>X</item>
+        <item>XI</item>
     </string-array>
 
     <string-array name="WatchFacePreset_Style">
@@ -288,16 +348,6 @@
         <item>6 Complications</item>
         <item>7 Complications</item>
         <item>8 Complications</item>
-    </string-array>
-
-    <string-array name="color_array">
-        <item>@string/color_black</item>
-        <item>@string/color_blue</item>
-        <item>@string/color_gray</item>
-        <item>@string/color_green</item>
-        <item>@string/color_navy</item>
-        <item>@string/color_red</item>
-        <item>@string/color_white</item>
     </string-array>
 
     <integer-array name="six_bit_colors">
