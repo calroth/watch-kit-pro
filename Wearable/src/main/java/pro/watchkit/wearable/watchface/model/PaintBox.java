@@ -338,13 +338,25 @@ public final class PaintBox {
 
     public enum ColorType {FILL, ACCENT, HIGHLIGHT, BASE, AMBIENT_DAY, AMBIENT_NIGHT}
 
+    @NonNull
+    private final Paint mBrushedEffectPaint = new Paint();
+    @NonNull
+    private final Path mBrushedEffectPath = new Path();
+    @NonNull
+    private final Paint mGradientH = new Paint();
+    @NonNull
+    private final Paint mGradientV = new Paint();
+    @NonNull
+    private final Xfermode mGradientTransferMode = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
+    @NonNull
+    private final Xfermode mClearMode = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
+    @NonNull
+    private final Paint mShadowLight = new Paint();
+    @NonNull
+    private final Paint mLightShadow = new Paint();
+
     private class GradientPaint extends Paint {
         private int mCustomHashCode = -1;
-
-        @NonNull
-        Paint mBrushedEffectPaint = new Paint();
-        @NonNull
-        Path mBrushedEffectPath = new Path();
 
         GradientPaint() {
             super();
@@ -393,16 +405,16 @@ public final class PaintBox {
                     colorB, // Original
                     colorB,
                     colorB,
-                    colorB,
-                    colorB,
-                    colorB, // Original
+                    getIntermediateColor(colorA, colorB, 0.025d), // Taper it in
+                    getIntermediateColor(colorA, colorB, 0.05d),
+                    getIntermediateColor(colorA, colorB, 0.1d), // Not original
                     getIntermediateColor(colorA, colorB, 0.2d),
                     getIntermediateColor(colorA, colorB, 0.4d),
                     getIntermediateColor(colorA, colorB, 0.6d),
                     getIntermediateColor(colorA, colorB, 0.8d),
-                    colorA, // Original
-                    colorA,
-                    colorA,
+                    getIntermediateColor(colorA, colorB, 0.9d), // Not original
+                    getIntermediateColor(colorA, colorB, 0.95d),
+                    getIntermediateColor(colorA, colorB, 0.975d), // Taper it out
                     colorA,
                     colorA,
                     colorA // Original
@@ -567,35 +579,33 @@ public final class PaintBox {
                     new int[]{Color.BLACK, Color.BLACK, Color.TRANSPARENT},
                     new float[]{0f, 0.8f, 0.95f}, Shader.TileMode.CLAMP);
 
-            Xfermode gradientTransferMode = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
-
-            Paint gradientH = new Paint();
-            gradientH.setShader(new ComposeShader(
+            mGradientH.reset();
+            mGradientH.setShader(new ComposeShader(
                     vignette,
                     new LinearGradient(
                             width * 0.3f, 0f, width * 0.7f, height,
                             new int[]{Color.TRANSPARENT, Color.BLACK, Color.TRANSPARENT},
                             new float[]{0.2f, 0.5f, 0.8f}, Shader.TileMode.CLAMP),
                     PorterDuff.Mode.SRC_IN));
-            gradientH.setXfermode(gradientTransferMode);
+            mGradientH.setXfermode(mGradientTransferMode);
 
-            Paint gradientV = new Paint();
-            gradientV.setShader(new ComposeShader(
+            mGradientV.reset();
+            mGradientV.setShader(new ComposeShader(
                     vignette,
                     new LinearGradient(
                             0f, height * 0.7f, width, height * 0.3f,
                             new int[]{Color.TRANSPARENT, Color.BLACK, Color.TRANSPARENT},
                             new float[]{0.2f, 0.5f, 0.8f}, Shader.TileMode.CLAMP),
                     PorterDuff.Mode.SRC_IN));
-            gradientV.setXfermode(gradientTransferMode);
+            mGradientV.setXfermode(mGradientTransferMode);
 
-//            Paint ribH = new Paint();
+//            ribH.reset();
 //            ribH.setShader(new LinearGradient(
 //                    mCenterX, mCenterY, mCenterX, mCenterY + weaveSize,
 //                    new int[]{0x1F000000, 0x1FFFFFFF, 0x1F000000},
 //                    new float[]{0f, 0.5f, 1f}, Shader.TileMode.REPEAT));
 //
-//            Paint ribV = new Paint();
+//            ribV.reset();
 //            ribV.setShader(new LinearGradient(
 //                    mCenterX, mCenterY, mCenterX + weaveSize, mCenterY,
 //                    new int[]{0x1F000000, 0x1FFFFFFF, 0x1F000000},
@@ -606,8 +616,8 @@ public final class PaintBox {
             int[] light = new int[]{cWhite, cTrans, cTrans, cWhite};
             float[] stops = new float[]{0f, 0.2f, 0.8f, 1f};
 
-            Paint shadowLight = new Paint();
-            shadowLight.setShader(new ComposeShader(
+            mShadowLight.reset();
+            mShadowLight.setShader(new ComposeShader(
                     new LinearGradient(
                             mCenterX, mCenterY, mCenterX, mCenterY + weaveSize,
                             shadow, stops, Shader.TileMode.REPEAT),
@@ -616,8 +626,8 @@ public final class PaintBox {
                             light, stops, Shader.TileMode.REPEAT),
                     PorterDuff.Mode.XOR));
 
-            Paint lightShadow = new Paint();
-            lightShadow.setShader(new ComposeShader(
+            mLightShadow.reset();
+            mLightShadow.setShader(new ComposeShader(
                     new LinearGradient(
                             mCenterX, mCenterY, mCenterX, mCenterY + weaveSize,
                             light, stops, Shader.TileMode.REPEAT),
@@ -672,16 +682,15 @@ public final class PaintBox {
             }
 
             // Apply ribs.
-            mTempCanvas.drawPaint(lightShadow);
+            mTempCanvas.drawPaint(mLightShadow);
 
             // Apply a gradient transfer mode.
-            mTempCanvas.drawPaint(gradientH);
+            mTempCanvas.drawPaint(mGradientH);
 
             // Erase every 2nd square of the bitmap, and apply a transfer mode.
-            Xfermode clearMode = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
             mBrushedEffectPaint.setColor(Color.BLACK);
             mBrushedEffectPaint.setStyle(Style.FILL);
-            mBrushedEffectPaint.setXfermode(clearMode);
+            mBrushedEffectPaint.setXfermode(mClearMode);
             for (int i = 0; i < weaves; i++) {
                 float heightI = height / (float) weaves;
                 float centerI = ((float) i + 0.5f) * heightI;
@@ -754,15 +763,15 @@ public final class PaintBox {
             }
 
             // Apply ribs.
-            mTempCanvas.drawPaint(shadowLight);
+            mTempCanvas.drawPaint(mShadowLight);
 
             // Apply a gradient transfer mode.
-            mTempCanvas.drawPaint(gradientV);
+            mTempCanvas.drawPaint(mGradientV);
 
             // Erase every OTHER other 2nd square.
             mBrushedEffectPaint.setColor(Color.BLACK);
             mBrushedEffectPaint.setStyle(Style.FILL);
-            mBrushedEffectPaint.setXfermode(clearMode);
+            mBrushedEffectPaint.setXfermode(mClearMode);
             for (int i = 0; i < weaves; i++) {
                 float heightI = height / (float) weaves;
                 float centerI = ((float) i + 0.5f) * heightI;
