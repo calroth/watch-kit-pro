@@ -161,11 +161,15 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
     }
 
     @NonNull
-    private Path p = new Path();
+    private final Path p = new Path();
     @NonNull
-    private Path p2 = new Path();
+    private final Path p2 = new Path();
     @NonNull
-    private Path temp = new Path();
+    private final Path t2 = new Path();
+    @NonNull
+    private final Path temp = new Path();
+    @NonNull
+    private final Matrix mTempMatrix = new Matrix();
 
     @Override
     public void draw2(@NonNull Canvas canvas) {
@@ -238,7 +242,7 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
                     temp.close();
 
                     // Crop it with our top circle and bottom circle.
-                    Path t2 = new Path();
+                    t2.reset();
                     t2.addCircle(mCenterX, mCenterY,
                             mCenterY - y + tickLengthDimen, getDirection());
                     temp.op(t2, Path.Op.INTERSECT);
@@ -304,9 +308,9 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
                 }
             }
 
-            Matrix m = new Matrix();
-            m.setRotate(tickDegrees, mCenterX, mCenterY);
-            temp.transform(m);
+            mTempMatrix.reset();
+            mTempMatrix.setRotate(tickDegrees, mCenterX, mCenterY);
+            temp.transform(mTempMatrix);
 
             if (tickIndex % 2 == 0) {
                 // Draw every 2nd tick into p2. This makes it so the bezels don't "stick together"

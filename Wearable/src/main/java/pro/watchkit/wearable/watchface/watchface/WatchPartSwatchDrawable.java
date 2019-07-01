@@ -30,7 +30,9 @@ import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 
 final class WatchPartSwatchDrawable extends WatchPartDrawable {
     @NonNull
-    private Path mPath = new Path();
+    private final Path mPath = new Path();
+    private final Matrix mOriginalMatrix = new Matrix();
+    private final Matrix mTranslateMatrix = new Matrix();
 
     @Override
     String getStatsName() {
@@ -50,16 +52,16 @@ final class WatchPartSwatchDrawable extends WatchPartDrawable {
         Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(swatchStyle);
 
         Shader shader = paint.getShader();
-        Matrix originalMatrix = new Matrix();
+        mOriginalMatrix.reset();
         if (shader != null) {
             // Save the original matrix.
-            shader.getLocalMatrix(originalMatrix);
+            shader.getLocalMatrix(mOriginalMatrix);
 
             // Create a new matrix which is a translation of the original.
-            Matrix translateMatrix = new Matrix(originalMatrix);
+            mTranslateMatrix.set(mOriginalMatrix);
             // Shift it a distance so the swatch's representation is closer to the centre.
-            translateMatrix.postTranslate(mCenterX * 0.3333f, -mCenterY * 0.3333f);
-            shader.setLocalMatrix(translateMatrix);
+            mTranslateMatrix.postTranslate(mCenterX * 0.3333f, -mCenterY * 0.3333f);
+            shader.setLocalMatrix(mTranslateMatrix);
         }
 
         // Draw our swatch!
@@ -67,7 +69,7 @@ final class WatchPartSwatchDrawable extends WatchPartDrawable {
 
         // Reset the shader matrix to leave things in their original state.
         if (shader != null) {
-            shader.setLocalMatrix(originalMatrix);
+            shader.setLocalMatrix(mOriginalMatrix);
         }
     }
 }
