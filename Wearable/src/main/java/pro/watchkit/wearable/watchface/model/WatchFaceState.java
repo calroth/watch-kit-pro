@@ -935,7 +935,7 @@ public class WatchFaceState {
         mWatchFacePreset.mSixtyTickStyle = sixtyTickStyle;
     }
 
-    public boolean isDigitVisible() {
+    boolean isDigitVisible() {
         return getDigitDisplay() != DigitDisplay.NONE;
     }
 
@@ -963,6 +963,7 @@ public class WatchFaceState {
         mWatchFacePreset.mDigitRotation = digitRotation;
     }
 
+    @NonNull
     public String[] getDigitFormatLabels() {
         @ArrayRes int labelRes;
         switch (getDigitFormat()) {
