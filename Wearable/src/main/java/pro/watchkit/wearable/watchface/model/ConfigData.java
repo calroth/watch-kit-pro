@@ -360,6 +360,8 @@ abstract public class ConfigData {
             mWatchFaceGlobalDrawableFlags = watchFaceGlobalDrawableFlags;
         }
 
+        private final StringBuilder mExtra = new StringBuilder();
+
         public CharSequence getName(
                 WatchFaceState watchFaceState, @NonNull Context context) {
             Enum e = null;
@@ -371,9 +373,17 @@ abstract public class ConfigData {
                 return mName;
             } else if (e instanceof BytePackable.EnumResourceId) {
                 BytePackable.EnumResourceId f = (BytePackable.EnumResourceId) e;
-                return Html.fromHtml(mName + "<br/><small>" +
-                        context.getResources().getStringArray(f.getNameResourceId())[e.ordinal()] +
-                        "</small>", Html.FROM_HTML_MODE_LEGACY);
+                mExtra.setLength(0);
+                mExtra.append(mName)
+                        .append("<br/><small>")
+                        .append(context.getResources().getStringArray(
+                                f.getNameResourceId())[e.ordinal()])
+                        .append("</small>");
+                if (e instanceof Style) {
+                    watchFaceState.getConfigItemLabelsSetToStyle((Style) e).forEach(
+                            s -> mExtra.append("<br/><small>").append(s).append("</small>"));
+                }
+                return Html.fromHtml(mExtra.toString(), Html.FROM_HTML_MODE_LEGACY);
             } else {
                 return Html.fromHtml(mName + "<br/><small>" +
                         e.getClass().getSimpleName() + " ~ " + e.name() +

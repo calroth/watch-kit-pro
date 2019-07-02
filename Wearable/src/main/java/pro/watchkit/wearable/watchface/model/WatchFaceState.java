@@ -34,6 +34,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
@@ -1311,4 +1312,39 @@ public class WatchFaceState {
         mSwatchStyle = swatchStyle;
     }
     //endregion
+
+    List<String> getConfigItemLabelsSetToStyle(Style style) {
+        List<String> result = new ArrayList<>();
+        if (getComplicationRingStyle() == style) {
+            result.add(mContext.getString(R.string.config_complication_ring_style));
+        }
+        if (getComplicationBackgroundStyle() == style) {
+            result.add(mContext.getString(R.string.config_complication_background_style));
+        }
+        if (getBackgroundStyle() == style) {
+            result.add(mContext.getString(R.string.config_preset_background_style));
+        }
+        if (getHourHandStyle() == style) {
+            result.add(mContext.getString(R.string.config_preset_hour_hand_style));
+        }
+        if (getDigitStyle() == style) {
+            result.add(mContext.getString(R.string.config_preset_digit_style));
+        }
+        if (getMinuteHandStyle() == style) {
+            result.add(mContext.getString(R.string.config_preset_minute_hand_style));
+        }
+        if (getComplicationBackgroundStyle() == style) {
+            result.add(mContext.getString(R.string.config_preset_second_hand_style));
+        }
+        if (getFourTickStyle() == style) {
+            result.add(mContext.getString(R.string.config_preset_four_tick_style));
+        }
+        if (getTwelveTickStyle() == style) {
+            result.add(mContext.getString(R.string.config_preset_twelve_tick_style));
+        }
+        if (getSixtyTickStyle() == style) {
+            result.add(mContext.getString(R.string.config_preset_sixty_tick_style));
+        }
+        return result;
+    }
 }
