@@ -138,6 +138,9 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
         } else if ((flags & PART_RINGS_ALL) > 0) {
             d.add(new WatchPartRingsDrawable(true));
         }
+        if ((flags & PART_DIGITS) > 0) {
+            d.add(new WatchPartDigitsDrawable());
+        }
         if ((flags & PART_TICKS_FOUR) > 0) {
             d.add(new WatchPartTicksFourDrawable());
         }
@@ -146,9 +149,6 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
         }
         if ((flags & PART_TICKS_SIXTY) > 0) {
             d.add(new WatchPartTicksSixtyDrawable());
-        }
-        if ((flags & PART_DIGITS) > 0) {
-            d.add(new WatchPartDigitsDrawable());
         }
         if ((flags & PART_COMPLICATIONS) > 0) {
             d.add(new WatchPartComplicationsDrawable());

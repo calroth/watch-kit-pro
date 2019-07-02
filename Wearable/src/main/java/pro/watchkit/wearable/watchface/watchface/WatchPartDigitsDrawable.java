@@ -113,5 +113,8 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
 
         // Draw it!
         drawPath(canvas, mPath, paint);
+
+        // Add to exclusion path so it punches out of everything above it.
+        addExclusionPath(mPath, Path.Op.DIFFERENCE);
     }
 }
