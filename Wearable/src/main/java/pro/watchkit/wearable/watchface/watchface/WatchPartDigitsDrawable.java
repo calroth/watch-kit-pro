@@ -58,6 +58,23 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
         Paint.Align originalTextAlign = paint.getTextAlign();
         paint.setTextAlign(Paint.Align.CENTER);
 
+        float digitLocation;
+        switch (mWatchFaceState.getDigitDisplay()) {
+            case ABOVE: {
+                digitLocation = 45f;
+                break;
+            }
+            case OVER: {
+                digitLocation = 40f;
+                break;
+            }
+            default:
+            case BELOW: {
+                digitLocation = 35f;
+                break;
+            }
+        }
+
         mPath.reset();
         for (int i = 0; i < 12; i++) {
             String label = labels[i];
@@ -99,9 +116,9 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
                     mTempPathMatrix.setRotate(degrees, mCenterX, mCenterY);
                 }
             }
-            // Spread the labels out in a circle, 37.5% from the centre!
-            mTempPathMatrix.postTranslate((float) Math.sin(radians) * 37.5f * pc,
-                    0f - (float) Math.cos(radians) * 37.5f * pc);
+            // Spread the labels out in a circle, digitLocation% from the centre!
+            mTempPathMatrix.postTranslate((float) Math.sin(radians) * digitLocation * pc,
+                    0f - (float) Math.cos(radians) * digitLocation * pc);
             mTempPath.transform(mTempPathMatrix);
 
             mPath.op(mTempPath, Path.Op.UNION);
