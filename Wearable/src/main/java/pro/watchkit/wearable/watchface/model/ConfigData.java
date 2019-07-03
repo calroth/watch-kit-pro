@@ -320,69 +320,85 @@ abstract public class ConfigData {
     }
 
     public static class PickerConfigItem implements ConfigItemType {
+        @NonNull
         private String mName;
         private int mIconResourceId;
         private Class<WatchFaceSelectionActivity> mActivityToChoosePreference;
+        @NonNull
         private Mutator mWatchFaceStateMutator;
+        @Nullable
         private Function<WatchFaceState, Boolean> mConfigItemVisibilityCalculator;
         private int mWatchFaceGlobalDrawableFlags;
+        @Nullable
+        private Style mStyle;
 
         PickerConfigItem(
-                String name,
+                @NonNull String name,
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
-                Class<WatchFaceSelectionActivity> activity,
-                Mutator mutator) {
-            this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, mutator, null);
+                @NonNull Class<WatchFaceSelectionActivity> activityToChoosePreference,
+                @NonNull Mutator watchFaceStateMutator) {
+            this(name, iconResourceId, watchFaceGlobalDrawableFlags, activityToChoosePreference,
+                    null, watchFaceStateMutator, null);
         }
 
         PickerConfigItem(
-                String name,
+                @NonNull String name,
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
-                Class<WatchFaceSelectionActivity> activity,
-                Mutator mutator,
-                Function<WatchFaceState, Boolean> configItemVisibilityCalculator) {
-            this(name, iconResourceId, watchFaceGlobalDrawableFlags, activity, configItemVisibilityCalculator);
-            mWatchFaceStateMutator = mutator;
+                @NonNull Class<WatchFaceSelectionActivity> activityToChoosePreference,
+                @NonNull Style style,
+                @NonNull Mutator watchFaceStateMutator) {
+            this(name, iconResourceId, watchFaceGlobalDrawableFlags, activityToChoosePreference,
+                    style, watchFaceStateMutator, null);
+        }
+
+        PickerConfigItem(
+                @NonNull String name,
+                int iconResourceId,
+                int watchFaceGlobalDrawableFlags,
+                @NonNull Class<WatchFaceSelectionActivity> activityToChoosePreference,
+                @NonNull Mutator watchFaceStateMutator,
+                @NonNull Function<WatchFaceState, Boolean> configItemVisibilityCalculator) {
+            this(name, iconResourceId, watchFaceGlobalDrawableFlags, activityToChoosePreference,
+                    null, watchFaceStateMutator, configItemVisibilityCalculator);
         }
 
         private PickerConfigItem(
-                String name,
+                @NonNull String name,
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
-                Class<WatchFaceSelectionActivity> activity,
-                Function<WatchFaceState, Boolean> configItemVisibilityCalculator) {
+                @NonNull Class<WatchFaceSelectionActivity> activityToChoosePreference,
+                @Nullable Style style,
+                @NonNull Mutator watchFaceStateMutator,
+                @Nullable Function<WatchFaceState, Boolean> configItemVisibilityCalculator) {
             mName = name;
             mIconResourceId = iconResourceId;
-            mActivityToChoosePreference = activity;
+            mActivityToChoosePreference = activityToChoosePreference;
+            mStyle = style;
             mConfigItemVisibilityCalculator = configItemVisibilityCalculator;
             mWatchFaceGlobalDrawableFlags = watchFaceGlobalDrawableFlags;
+            mWatchFaceStateMutator = watchFaceStateMutator;
         }
 
         private final StringBuilder mExtra = new StringBuilder();
 
         public CharSequence getName(
-                WatchFaceState watchFaceState, @NonNull Context context) {
-            Enum e = null;
-            if (mWatchFaceStateMutator != null) {
-                e = mWatchFaceStateMutator.getCurrentValue(watchFaceState);
-            }
+                @NonNull WatchFaceState watchFaceState, @NonNull Context context) {
+            Enum e = mWatchFaceStateMutator.getCurrentValue(watchFaceState);
 
             if (e == null) {
                 return mName;
             } else if (e instanceof BytePackable.EnumResourceId) {
                 BytePackable.EnumResourceId f = (BytePackable.EnumResourceId) e;
                 mExtra.setLength(0);
-                mExtra.append(mName)
-                        .append("<br/><small>")
+                // Append name of current setting.
+                mExtra.append(mName).append("<br/><small>")
                         .append(context.getResources().getStringArray(
-                                f.getNameResourceId())[e.ordinal()])
-                        .append("</small>");
-                if (e instanceof Style) {
-                    watchFaceState.getConfigItemLabelsSetToStyle((Style) e).forEach(
-                            s -> mExtra.append("<br/><small>").append(s).append("</small>"));
-                }
+                                f.getNameResourceId())[e.ordinal()]).append("</small>");
+                // Append any settings whose style are set to this.
+                watchFaceState.getConfigItemLabelsSetToStyle(mStyle).forEach(
+                        s -> mExtra.append("<br/><small> &bull; ").append(s).append("</small>"));
                 return Html.fromHtml(mExtra.toString(), Html.FROM_HTML_MODE_LEGACY);
             } else {
                 return Html.fromHtml(mName + "<br/><small>" +
@@ -412,12 +428,7 @@ abstract public class ConfigData {
         public String[] permute(@NonNull WatchFaceState watchFaceState, Context context) {
             WatchFaceState deepCopy = new WatchFaceState(context);
             deepCopy.setString(watchFaceState.getString());
-
-            if (mWatchFaceStateMutator != null) {
-                return mWatchFaceStateMutator.permute(deepCopy);
-            } else {
-                return null;
-            }
+            return mWatchFaceStateMutator.permute(deepCopy);
         }
 
         public boolean isVisible(WatchFaceState watchFaceState) {

@@ -1313,7 +1313,8 @@ public class WatchFaceState {
     }
     //endregion
 
-    List<String> getConfigItemLabelsSetToStyle(Style style) {
+    @NonNull
+    List<String> getConfigItemLabelsSetToStyle(@Nullable Style style) {
         List<String> result = new ArrayList<>();
         if (getComplicationRingStyle() == style) {
             result.add(mContext.getString(R.string.config_complication_ring_style));

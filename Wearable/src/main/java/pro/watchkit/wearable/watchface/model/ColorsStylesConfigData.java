@@ -27,6 +27,7 @@ import java.util.List;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
 import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
+import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 public class ColorsStylesConfigData extends ConfigData {
@@ -77,6 +78,7 @@ public class ColorsStylesConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
+                        Style.FILL_HIGHLIGHT,
                         new EnumMutator<>(
                                 BytePackable.StyleGradient.values(),
                                 WatchFaceState::setFillHighlightStyleGradient,
@@ -99,6 +101,7 @@ public class ColorsStylesConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
+                        Style.ACCENT_FILL,
                         new EnumMutator<>(
                                 BytePackable.StyleGradient.values(),
                                 WatchFaceState::setAccentFillStyleGradient,
@@ -121,6 +124,7 @@ public class ColorsStylesConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
+                        Style.ACCENT_HIGHLIGHT,
                         new EnumMutator<>(
                                 BytePackable.StyleGradient.values(),
                                 WatchFaceState::setAccentHighlightStyleGradient,
@@ -143,6 +147,7 @@ public class ColorsStylesConfigData extends ConfigData {
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
+                        Style.BASE_ACCENT,
                         new EnumMutator<>(
                                 BytePackable.StyleGradient.values(),
                                 WatchFaceState::setBaseAccentStyleGradient,
