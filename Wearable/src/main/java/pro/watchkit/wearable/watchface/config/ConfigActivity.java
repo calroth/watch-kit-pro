@@ -42,8 +42,10 @@ import android.support.wearable.complications.ComplicationProviderInfo;
 import android.support.wearable.complications.ProviderChooserIntent;
 import android.util.Log;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.wear.widget.WearableRecyclerView;
 import androidx.wear.widget.drawer.WearableNavigationDrawerView;
@@ -92,24 +94,22 @@ public class ConfigActivity extends Activity {
 
         // Try to get the watch face slot from our activity intent.
         Class watchFaceServiceClass = ProWatchFaceServiceA.class;
+        @StringRes int slotLabel = R.string.watch_face_service_short_label_a;
         if (getIntent().getAction() != null) {
             switch (getIntent().getAction()) {
                 case "pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_B": {
                     watchFaceServiceClass = ProWatchFaceServiceB.class;
+                    slotLabel = R.string.watch_face_service_short_label_b;
                     break;
                 }
                 case "pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_C": {
                     watchFaceServiceClass = ProWatchFaceServiceC.class;
+                    slotLabel = R.string.watch_face_service_short_label_c;
                     break;
                 }
                 case "pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_D": {
                     watchFaceServiceClass = ProWatchFaceServiceD.class;
-                    break;
-                }
-                default:
-                case "pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_A": {
-                    // Shouldn't happen. Oh well...
-                    watchFaceServiceClass = ProWatchFaceServiceA.class;
+                    slotLabel = R.string.watch_face_service_short_label_d;
                     break;
                 }
             }
@@ -168,7 +168,7 @@ public class ConfigActivity extends Activity {
 
         // Set up our navigation drawer at the top of the view.
         mWearableNavigationDrawer = findViewById(R.id.top_navigation_drawer);
-        mWearableNavigationDrawer.setAdapter(new NavigationAdapter(this));
+        mWearableNavigationDrawer.setAdapter(new NavigationAdapter(this, slotLabel));
         mWearableNavigationDrawer.setCurrentItem(mCurrentSubActivity.ordinal(), false);
         mWearableNavigationDrawer.addOnItemSelectedListener(pos -> {
             String configData = ConfigSubActivity.values()[pos].mClassName;
@@ -231,10 +231,13 @@ public class ConfigActivity extends Activity {
         final String mClassName;
         @NonNull
         final Class<? extends ConfigData> mClass;
+        @StringRes
         final int mTitleId;
+        @DrawableRes
         final int mDrawableId;
 
-        ConfigSubActivity(final Class<? extends ConfigData> c, final int titleId, final int drawableId) {
+        ConfigSubActivity(final Class<? extends ConfigData> c,
+                          @StringRes final int titleId, @DrawableRes final int drawableId) {
             mClass = c;
             mClassName = c.getSimpleName();
             mTitleId = titleId;
@@ -256,14 +259,18 @@ public class ConfigActivity extends Activity {
             extends WearableNavigationDrawerView.WearableNavigationDrawerAdapter {
 
         private final Context mContext;
+        @StringRes
+        private final int mSlotLabel;
 
-        NavigationAdapter(final Context context) {
+        NavigationAdapter(final Context context, final int slotLabel) {
             mContext = context;
+            mSlotLabel = slotLabel;
         }
 
         @Override
         public String getItemText(int index) {
-            return mContext.getString(ConfigSubActivity.values()[index].mTitleId);
+            return mContext.getString(mSlotLabel) + " " +
+                    mContext.getString(ConfigSubActivity.values()[index].mTitleId);
         }
 
         @Nullable

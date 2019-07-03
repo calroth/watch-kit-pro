@@ -40,6 +40,11 @@
     <string name="watch_face_service_label_c">Watch Kit Pro 🅲</string>
     <string name="watch_face_service_label_d">Watch Kit Pro 🅳</string>
 
+    <string name="watch_face_service_short_label_a">🅰</string>
+    <string name="watch_face_service_short_label_b">🅱</string>
+    <string name="watch_face_service_short_label_c">🅲</string>
+    <string name="watch_face_service_short_label_d">🅳</string>
+
     <string name="digital_background_color">Background color</string>
     <string name="digital_config_name">Digital watch face configuration</string>
     <string name="digital_am">AM</string>
