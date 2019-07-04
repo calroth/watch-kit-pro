@@ -37,6 +37,9 @@ public class WatchPartTicksConfigData extends ConfigData {
                 WatchFaceGlobalDrawable.PART_SWATCH;
 
         return Arrays.asList(
+                // Title.
+                new LabelConfigItem(R.string.config_configure_ticks),
+
                 // A preview of the current watch face.
                 new WatchFaceDrawableConfigItem(watchFaceGlobalDrawableFlags),
 

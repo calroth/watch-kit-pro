@@ -5,6 +5,7 @@ import android.text.Html;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Arrays;
@@ -94,6 +95,37 @@ abstract public class ConfigData {
         @Override
         public int getConfigType() {
             return ConfigRecyclerViewAdapter.TYPE_COMPLICATION_CONFIG;
+        }
+    }
+
+    /**
+     * Data for label item in RecyclerView.
+     */
+    public static class LabelConfigItem implements ConfigItemType {
+        @StringRes
+        final private int mLabelResourceId;
+        final private boolean mWithTitle;
+
+        LabelConfigItem(@StringRes final int labelResourceId) {
+            this(labelResourceId, true);
+        }
+
+        LabelConfigItem(@StringRes final int labelResourceId, boolean withTitle) {
+            this.mLabelResourceId = labelResourceId;
+            this.mWithTitle = withTitle;
+        }
+
+        public int getLabelResourceId() {
+            return mLabelResourceId;
+        }
+
+        public boolean getWithTitle() {
+            return mWithTitle;
+        }
+
+        @Override
+        public int getConfigType() {
+            return ConfigRecyclerViewAdapter.TYPE_LABEL_CONFIG;
         }
     }
 

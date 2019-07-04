@@ -41,6 +41,9 @@ public class ColorsStylesConfigData extends ConfigData {
                 WatchFaceGlobalDrawable.PART_SWATCH;
 
         return Arrays.asList(
+                // Title.
+                new LabelConfigItem(R.string.config_configure_colors_styles),
+
                 // A preview of the current watch face.
                 new WatchFaceDrawableConfigItem(watchFaceGlobalDrawableFlags),
 

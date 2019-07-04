@@ -48,6 +48,9 @@ public class SettingsConfigData extends ConfigData {
     @Override
     public List<ConfigItemType> getDataToPopulateAdapter(@NonNull Context context) {
         return Arrays.asList(
+                // Title.
+                new LabelConfigItem(R.string.config_configure_settings),
+
                 // Data for 'Unread Notifications' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
                         context.getString(R.string.config_unread_notifications_label),

@@ -52,6 +52,7 @@ import pro.watchkit.wearable.watchface.model.ConfigData.ColorPickerConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ComplicationConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ConfigActivityConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ConfigItemType;
+import pro.watchkit.wearable.watchface.model.ConfigData.LabelConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.PickerConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ToggleConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFaceDrawableConfigItem;
@@ -83,6 +84,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
     public static final int TYPE_PICKER_CONFIG = 3;
     public static final int TYPE_TOGGLE_CONFIG = 4;
     public static final int TYPE_CONFIG_ACTIVITY_CONFIG = 5;
+    public static final int TYPE_LABEL_CONFIG = 6;
     @NonNull
     private final List<ConfigItemType> mSettingsDataSet;
     private final List<WatchFaceStateListener> mWatchFaceStateListeners = new ArrayList<>();
@@ -139,6 +141,14 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                         new ComplicationViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.watch_face_preset_config_list_item, parent, false));
+                break;
+            }
+
+            case TYPE_LABEL_CONFIG: {
+                viewHolder =
+                        new LabelViewHolder(
+                                LayoutInflater.from(parent.getContext())
+                                        .inflate(R.layout.config_list_label_item, parent, false));
                 break;
             }
 
@@ -212,6 +222,13 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                 complicationViewHolder.setDefaultComplicationDrawable(
                         defaultComplicationResourceId);
                 complicationViewHolder.bind(complicationConfigItem);
+                break;
+            }
+
+            case TYPE_LABEL_CONFIG: {
+                LabelViewHolder labelViewHolder = (LabelViewHolder) viewHolder;
+                LabelConfigItem labelConfigItem = (LabelConfigItem) configItemType;
+                labelViewHolder.bind(labelConfigItem);
                 break;
             }
 

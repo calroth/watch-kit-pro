@@ -32,6 +32,9 @@ public class WatchFacePresetConfigData extends ConfigData {
     @Override
     public List<ConfigItemType> getDataToPopulateAdapter(@NonNull Context context) {
         return Arrays.asList(
+                // Title.
+                new LabelConfigItem(R.string.config_configure_watch_face_preset),
+
                 // A preview of the current watch face.
                 new WatchFaceDrawableConfigItem(WatchFaceGlobalDrawable.PART_BACKGROUND |
                         WatchFaceGlobalDrawable.PART_TICKS |

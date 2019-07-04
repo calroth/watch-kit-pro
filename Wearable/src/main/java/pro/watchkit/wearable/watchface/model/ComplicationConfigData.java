@@ -39,6 +39,9 @@ public class ComplicationConfigData extends ConfigData {
                 WatchFaceGlobalDrawable.PART_SWATCH;
 
         return Arrays.asList(
+                // Title.
+                new LabelConfigItem(R.string.config_configure_complications),
+
                 // Complication picker from watch face drawable.
                 new ComplicationConfigItem(R.drawable.add_complication),
 

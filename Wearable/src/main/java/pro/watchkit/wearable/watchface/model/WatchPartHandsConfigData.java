@@ -37,6 +37,9 @@ public class WatchPartHandsConfigData extends ConfigData {
                 WatchFaceGlobalDrawable.PART_SWATCH;
 
         return Arrays.asList(
+                // Title.
+                new LabelConfigItem(R.string.config_configure_hands),
+
                 // A preview of the current watch face.
                 new WatchFaceDrawableConfigItem(watchFaceGlobalDrawableFlags),
 

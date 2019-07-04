@@ -38,6 +38,7 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
@@ -53,12 +54,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Comparator;
@@ -70,6 +73,9 @@ import pro.watchkit.wearable.watchface.model.ConfigData;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.util.SharedPref;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceB;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceC;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceD;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
@@ -87,6 +93,8 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     @NonNull
     private final SharedPref mSharedPref;
     private static final String TAG = BaseRecyclerViewAdapter.class.getSimpleName();
+    @StringRes
+    private final int mTitleLabel;
 
     /**
      * The object that retrieves complication data for us to preview our complications with.
@@ -120,6 +128,17 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         mProviderInfoRetriever =
                 new ProviderInfoRetriever(context, Executors.newCachedThreadPool());
         mProviderInfoRetriever.init();
+
+        // Grab our title label based on the class (i.e. the watch face slot).
+        if (watchFaceServiceClass.equals(ProWatchFaceServiceB.class)) {
+            mTitleLabel = R.string.watch_face_service_label_b;
+        } else if (watchFaceServiceClass.equals(ProWatchFaceServiceC.class)) {
+            mTitleLabel = R.string.watch_face_service_label_c;
+        } else if (watchFaceServiceClass.equals(ProWatchFaceServiceD.class)) {
+            mTitleLabel = R.string.watch_face_service_label_d;
+        } else {
+            mTitleLabel = R.string.watch_face_service_label_a;
+        }
     }
 
     @Override
@@ -365,6 +384,28 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                             mSelectedComplication.getId(),
                             mSelectedComplication.getSupportedComplicationTypes()),
                     ConfigActivity.COMPLICATION_CONFIG_REQUEST_CODE);
+        }
+    }
+
+    class LabelViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView mLabelTextView;
+
+        LabelViewHolder(@NonNull final View view) {
+            super(view);
+            mLabelTextView = view.findViewById(R.id.label_textView);
+        }
+
+        void bind(ConfigData.LabelConfigItem configItem) {
+            if (configItem.getWithTitle()) {
+                Resources r = mLabelTextView.getContext().getResources();
+                // TODO: that code has a warning. A legitimate warning. Address it.
+                // Maybe have two TextViews and hide the unused one (or just don't use it).
+                mLabelTextView.setText(r.getString(mTitleLabel) + "\n" +
+                        r.getString(configItem.getLabelResourceId()));
+            } else {
+                mLabelTextView.setText(configItem.getLabelResourceId());
+            }
         }
     }
 
