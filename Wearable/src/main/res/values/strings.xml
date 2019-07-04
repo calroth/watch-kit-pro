@@ -45,13 +45,6 @@
     <string name="watch_face_service_short_label_c">🅲</string>
     <string name="watch_face_service_short_label_d">🅳</string>
 
-    <string name="digital_background_color">Background color</string>
-    <string name="digital_config_name">Digital watch face configuration</string>
-    <string name="digital_am">AM</string>
-    <string name="digital_pm">PM</string>
-
-    <string name="complications_provider_incrementing_number">Incrementing Number</string>
-
     <string name="watch_kit_pro_a_preference_file_key">pro.watchkit.wearable.watchface.WATCH_KIT_PRO_A_PREFERENCE_FILE_KEY</string>
     <string name="watch_kit_pro_b_preference_file_key">pro.watchkit.wearable.watchface.WATCH_KIT_PRO_B_PREFERENCE_FILE_KEY</string>
     <string name="watch_kit_pro_c_preference_file_key">pro.watchkit.wearable.watchface.WATCH_KIT_PRO_C_PREFERENCE_FILE_KEY</string>
@@ -154,18 +147,7 @@
     <string name="config_preset_base_accent_style_gradient">Base Accent Style Gradient</string>
     <string name="config_preset_base_accent_style_texture">Base Accent Style Texture</string>
 
-    <!-- TODO: this should be shared (needs covering all the samples with Gradle build model) -->
-    <string name="color_black">Black</string>
-    <string name="color_blue">Blue</string>
-    <string name="color_gray">Gray</string>
-    <string name="color_green">Green</string>
-    <string name="color_navy">Navy</string>
-    <string name="color_red">Red</string>
-    <string name="color_white">White</string>
-
-    <string name="analog_complication_config">Configure Watchface Complications</string>
-    <string name="add_complication">Add Complication</string>
-    <string name="edit_complication">Edit Complication <xliff:g id="name" example="World Clock">%1$s</xliff:g></string>
+    <string name="config_activity_label">Configure Watch Kit Pro</string>
 
     <string-array name="WatchFacePreset_TicksDisplay">
         <item>None</item>

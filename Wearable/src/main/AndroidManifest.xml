@@ -169,7 +169,7 @@
 
         <activity
             android:name=".config.ConfigActivity"
-            android:label="@string/analog_complication_config">
+            android:label="@string/config_activity_label">
             <intent-filter>
                 <action android:name="pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_A" />
                 <action android:name="pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_B" />
