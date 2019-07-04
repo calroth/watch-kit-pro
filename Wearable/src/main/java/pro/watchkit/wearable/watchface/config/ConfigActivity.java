@@ -155,9 +155,6 @@ public class ConfigActivity extends Activity {
         WearableRecyclerView mWearableRecyclerView =
                 findViewById(R.id.wearable_recycler_view);
 
-        // Aligns the first and last items on the list vertically centered on the screen.
-        mWearableRecyclerView.setEdgeItemsCenteringEnabled(true);
-
         mWearableRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Because we can add or remove items dynamically, we set this to false.

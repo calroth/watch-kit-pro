@@ -41,11 +41,13 @@
     tools:context=".config.WatchFaceSelectionActivity"
     tools:deviceIds="wear">
 
-    <androidx.wear.widget.WearableRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.wear.widget.WearableRecyclerView
         android:id="@+id/wearable_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dark_grey"
+        android:paddingTop="@dimen/activity_config_padding"
+        android:paddingBottom="36dp"
         android:paddingStart="@dimen/activity_config_padding"
         android:paddingEnd="@dimen/activity_config_padding"
         android:scrollbars="vertical" />
