@@ -57,10 +57,7 @@ import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.util.SharedPref;
-import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceA;
-import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceB;
-import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceC;
-import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceD;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 
 import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_SLOT;
 
@@ -92,25 +89,25 @@ public class ColorSelectionActivity extends Activity {
 
         // Try to get the watch face slot from our activity intent.
         String slot = getIntent().getStringExtra(INTENT_EXTRA_SLOT);
-        Class watchFaceServiceClass = ProWatchFaceServiceA.class;
+        Class watchFaceServiceClass = ProWatchFaceService.A.class;
         if (slot != null) {
             switch (slot) {
                 case ".watchface.ProWatchFaceServiceB": {
-                    watchFaceServiceClass = ProWatchFaceServiceB.class;
+                    watchFaceServiceClass = ProWatchFaceService.B.class;
                     break;
                 }
                 case ".watchface.ProWatchFaceServiceC": {
-                    watchFaceServiceClass = ProWatchFaceServiceC.class;
+                    watchFaceServiceClass = ProWatchFaceService.C.class;
                     break;
                 }
                 case ".watchface.ProWatchFaceServiceD": {
-                    watchFaceServiceClass = ProWatchFaceServiceD.class;
+                    watchFaceServiceClass = ProWatchFaceService.D.class;
                     break;
                 }
                 default:
                 case ".watchface.ProWatchFaceServiceA": {
                     // Shouldn't happen. Oh well...
-                    watchFaceServiceClass = ProWatchFaceServiceA.class;
+                    watchFaceServiceClass = ProWatchFaceService.A.class;
                     break;
                 }
             }

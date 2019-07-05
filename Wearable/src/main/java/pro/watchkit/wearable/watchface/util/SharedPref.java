@@ -26,9 +26,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
 import pro.watchkit.wearable.watchface.R;
-import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceB;
-import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceC;
-import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceD;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 
 /**
  * A wrapper for SharedPreferences that encapsulates all our slot-related logic
@@ -62,13 +60,13 @@ public final class SharedPref {
         mContext = context;
 
         @StringRes int prefFileKeyStringResId, prefDefaultStringResId;
-        if (watchFaceServiceClass.equals(ProWatchFaceServiceB.class)) {
+        if (watchFaceServiceClass.equals(ProWatchFaceService.B.class)) {
             prefFileKeyStringResId = R.string.watch_kit_pro_b_preference_file_key;
             prefDefaultStringResId = R.string.watch_kit_pro_b_default_string;
-        } else if (watchFaceServiceClass.equals(ProWatchFaceServiceC.class)) {
+        } else if (watchFaceServiceClass.equals(ProWatchFaceService.C.class)) {
             prefFileKeyStringResId = R.string.watch_kit_pro_c_preference_file_key;
             prefDefaultStringResId = R.string.watch_kit_pro_c_default_string;
-        } else if (watchFaceServiceClass.equals(ProWatchFaceServiceD.class)) {
+        } else if (watchFaceServiceClass.equals(ProWatchFaceService.D.class)) {
             prefFileKeyStringResId = R.string.watch_kit_pro_d_preference_file_key;
             prefDefaultStringResId = R.string.watch_kit_pro_d_default_string;
         } else {

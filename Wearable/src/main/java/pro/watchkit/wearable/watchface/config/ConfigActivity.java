@@ -62,10 +62,6 @@ import pro.watchkit.wearable.watchface.model.WatchPartHandsConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartTicksConfigData;
 import pro.watchkit.wearable.watchface.util.SharedPref;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
-import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceA;
-import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceB;
-import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceC;
-import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceD;
 
 /**
  * The watch-side config activity for {@link ProWatchFaceService}, which
@@ -93,22 +89,22 @@ public class ConfigActivity extends Activity {
         Log.d(TAG, "Intent: " + getIntent().getAction());
 
         // Try to get the watch face slot from our activity intent.
-        Class watchFaceServiceClass = ProWatchFaceServiceA.class;
+        Class watchFaceServiceClass = ProWatchFaceService.A.class;
         @StringRes int slotLabel = R.string.watch_face_service_short_label_a;
         if (getIntent().getAction() != null) {
             switch (getIntent().getAction()) {
                 case "pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_B": {
-                    watchFaceServiceClass = ProWatchFaceServiceB.class;
+                    watchFaceServiceClass = ProWatchFaceService.B.class;
                     slotLabel = R.string.watch_face_service_short_label_b;
                     break;
                 }
                 case "pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_C": {
-                    watchFaceServiceClass = ProWatchFaceServiceC.class;
+                    watchFaceServiceClass = ProWatchFaceService.C.class;
                     slotLabel = R.string.watch_face_service_short_label_c;
                     break;
                 }
                 case "pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_D": {
-                    watchFaceServiceClass = ProWatchFaceServiceD.class;
+                    watchFaceServiceClass = ProWatchFaceService.D.class;
                     slotLabel = R.string.watch_face_service_short_label_d;
                     break;
                 }

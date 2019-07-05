@@ -464,4 +464,16 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
             return isVisible() && !isInAmbientMode();
         }
     }
+
+    public static final class A extends ProWatchFaceService {
+    }
+
+    public static final class B extends ProWatchFaceService {
+    }
+
+    public static final class C extends ProWatchFaceService {
+    }
+
+    public static final class D extends ProWatchFaceService {
+    }
 }

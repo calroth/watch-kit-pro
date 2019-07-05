@@ -73,9 +73,7 @@ import pro.watchkit.wearable.watchface.model.ConfigData;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.util.SharedPref;
-import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceB;
-import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceC;
-import pro.watchkit.wearable.watchface.watchface.ProWatchFaceServiceD;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
@@ -130,11 +128,11 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         mProviderInfoRetriever.init();
 
         // Grab our title label based on the class (i.e. the watch face slot).
-        if (watchFaceServiceClass.equals(ProWatchFaceServiceB.class)) {
+        if (watchFaceServiceClass.equals(ProWatchFaceService.B.class)) {
             mTitleLabel = R.string.watch_face_service_label_b;
-        } else if (watchFaceServiceClass.equals(ProWatchFaceServiceC.class)) {
+        } else if (watchFaceServiceClass.equals(ProWatchFaceService.C.class)) {
             mTitleLabel = R.string.watch_face_service_label_c;
-        } else if (watchFaceServiceClass.equals(ProWatchFaceServiceD.class)) {
+        } else if (watchFaceServiceClass.equals(ProWatchFaceService.D.class)) {
             mTitleLabel = R.string.watch_face_service_label_d;
         } else {
             mTitleLabel = R.string.watch_face_service_label_a;

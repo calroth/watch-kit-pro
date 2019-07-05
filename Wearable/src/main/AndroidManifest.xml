@@ -66,7 +66,7 @@
             android:required="false"/>
 
         <service
-            android:name=".watchface.ProWatchFaceServiceA"
+            android:name=".watchface.ProWatchFaceService$A"
             android:enabled="true"
             android:label="@string/watch_face_service_label_a"
             android:permission="android.permission.BIND_WALLPAPER">
@@ -91,7 +91,7 @@
         </service>
 
         <service
-            android:name=".watchface.ProWatchFaceServiceB"
+            android:name=".watchface.ProWatchFaceService$B"
             android:enabled="true"
             android:label="@string/watch_face_service_label_b"
             android:permission="android.permission.BIND_WALLPAPER">
@@ -116,7 +116,7 @@
         </service>
 
         <service
-            android:name=".watchface.ProWatchFaceServiceC"
+            android:name=".watchface.ProWatchFaceService$C"
             android:enabled="true"
             android:label="@string/watch_face_service_label_c"
             android:permission="android.permission.BIND_WALLPAPER">
@@ -141,7 +141,7 @@
         </service>
 
         <service
-            android:name=".watchface.ProWatchFaceServiceD"
+            android:name=".watchface.ProWatchFaceService$D"
             android:enabled="true"
             android:label="@string/watch_face_service_label_d"
             android:permission="android.permission.BIND_WALLPAPER">
