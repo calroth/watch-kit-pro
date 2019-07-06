@@ -37,12 +37,15 @@ package pro.watchkit.wearable.watchface.model;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
+import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
+import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 public class SettingsConfigData extends ConfigData {
     @Override
@@ -124,7 +127,42 @@ public class SettingsConfigData extends ConfigData {
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new BooleanMutator(WatchFaceState::setAltDrawing),
+                        WatchFaceState::isDeveloperMode),
+
+                new PickerConfigItem(
+                        context.getString(R.string.config_reset_to_default),
+                        R.drawable.icn_styles,
+                        WatchFaceGlobalDrawable.PART_BACKGROUND |
+                                WatchFaceGlobalDrawable.PART_TICKS |
+                                WatchFaceGlobalDrawable.PART_HANDS |
+                                WatchFaceGlobalDrawable.PART_COMPLICATIONS,
+                        WatchFaceSelectionActivity.class,
+                        new Mutator() {
+                            /**
+                             * A custom Mutotor which "resets to default" by offering mutations
+                             * corresponding to the default WatchFaceState for each slot
+                             *
+                             * @param permutation WatchFaceState, which must be a clone, but in
+                             *                    this case we'll ignore it...
+                             * @return Default WatchFaceState strings for all slots
+                             */
+                            @Override
+                            public String[] permute(WatchFaceState permutation) {
+                                return new String[]{
+                                        context.getString(R.string.watch_kit_pro_a_default_string),
+                                        context.getString(R.string.watch_kit_pro_b_default_string),
+                                        context.getString(R.string.watch_kit_pro_c_default_string),
+                                        context.getString(R.string.watch_kit_pro_d_default_string)
+                                };
+                            }
+
+                            @Nullable
+                            @Override
+                            public Enum getCurrentValue(WatchFaceState currentPreset) {
+                                return null;
+                            }
+                        },
                         WatchFaceState::isDeveloperMode)
-        );
+                );
     }
 }

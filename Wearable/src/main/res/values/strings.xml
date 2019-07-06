@@ -74,6 +74,7 @@
     <string name="config_hide_ticks_label">Hide Ticks</string>
     <string name="config_hide_hands_label">Hide Hands</string>
     <string name="config_alt_drawing_label">Alternative Drawing Mode</string>
+    <string name="config_reset_to_default">Reset to Default</string>
 
     <string name="config_configure_settings">Configure Settings</string>
     <string name="config_configure_complications">Configure Complications</string>
