@@ -135,7 +135,7 @@ public class SettingsConfigData extends ConfigData {
                         WatchFaceGlobalDrawable.PART_BACKGROUND |
                                 WatchFaceGlobalDrawable.PART_TICKS |
                                 WatchFaceGlobalDrawable.PART_HANDS |
-                                WatchFaceGlobalDrawable.PART_COMPLICATIONS,
+                                WatchFaceGlobalDrawable.PART_RINGS_ALL,
                         WatchFaceSelectionActivity.class,
                         new Mutator() {
                             /**
