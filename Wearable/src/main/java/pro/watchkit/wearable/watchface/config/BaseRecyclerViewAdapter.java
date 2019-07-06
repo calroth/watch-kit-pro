@@ -484,8 +484,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
                 // Pass shared preference name to save color value to.
                 launchIntent.putExtra(INTENT_EXTRA_COLOR, mColorType.name());
-                launchIntent.putExtra(INTENT_EXTRA_SLOT,
-                        mWatchFaceComponentName.getShortClassName());
+                launchIntent.putExtra(INTENT_EXTRA_SLOT, mWatchFaceComponentName.getClassName());
 
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(
@@ -618,8 +617,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 // Pass shared preference name to save color value to.
                 launchIntent.putExtra(INTENT_EXTRA_STATES, permutations);
                 launchIntent.putExtra(INTENT_EXTRA_FLAGS, mFlags);
-                launchIntent.putExtra(INTENT_EXTRA_SLOT,
-                        mWatchFaceComponentName.getShortClassName());
+                launchIntent.putExtra(INTENT_EXTRA_SLOT, mWatchFaceComponentName.getClassName());
 
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(

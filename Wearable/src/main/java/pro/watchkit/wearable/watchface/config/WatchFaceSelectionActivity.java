@@ -74,28 +74,18 @@ public class WatchFaceSelectionActivity extends Activity {
 
         // Try to get the watch face slot from our activity intent.
         String slot = getIntent().getStringExtra(INTENT_EXTRA_SLOT);
-        Class watchFaceServiceClass = ProWatchFaceService.A.class;
-        if (slot != null) {
-            switch (slot) {
-                case ".watchface.ProWatchFaceServiceB": {
-                    watchFaceServiceClass = ProWatchFaceService.B.class;
-                    break;
-                }
-                case ".watchface.ProWatchFaceServiceC": {
-                    watchFaceServiceClass = ProWatchFaceService.C.class;
-                    break;
-                }
-                case ".watchface.ProWatchFaceServiceD": {
-                    watchFaceServiceClass = ProWatchFaceService.D.class;
-                    break;
-                }
-                default:
-                case ".watchface.ProWatchFaceServiceA": {
-                    // Shouldn't happen. Oh well...
-                    watchFaceServiceClass = ProWatchFaceService.A.class;
-                    break;
-                }
-            }
+        Class watchFaceServiceClass;
+        if (slot == null) {
+            // Default: A
+            watchFaceServiceClass = ProWatchFaceService.A.class;
+        } else if (slot.equals(ProWatchFaceService.B.class.getName())) {
+            watchFaceServiceClass = ProWatchFaceService.B.class;
+        } else if (slot.equals(ProWatchFaceService.C.class.getName())) {
+            watchFaceServiceClass = ProWatchFaceService.C.class;
+        } else if (slot.equals(ProWatchFaceService.D.class.getName())) {
+            watchFaceServiceClass = ProWatchFaceService.D.class;
+        } else {
+            watchFaceServiceClass = ProWatchFaceService.A.class;
         }
 
         WatchFaceSelectionRecyclerViewAdapter recyclerViewAdapter =
