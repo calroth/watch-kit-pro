@@ -38,6 +38,7 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
     }
 
     private final Path mPath = new Path();
+    private final Path mExclusionPath = new Path();
     private final Path mTempPath = new Path();
     private final Matrix mTempPathMatrix = new Matrix();
     private final Rect mLabelRect = new Rect();
@@ -76,6 +77,7 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
         }
 
         mPath.reset();
+        mExclusionPath.reset();
         for (int i = 0; i < 12; i++) {
             String label = labels[i];
             if (label == null || label.length() == 0) {
@@ -95,12 +97,8 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
             x += mCenterX;
             y += mCenterY;
 
-            // Now, draw to a temporary path, and union that to our main path!
-            mTempPath.reset();
-            paint.getTextPath(label, 0, label.length(), x, y, mTempPath);
-
-            mTempPathMatrix.reset();
             // Trigonometry ahoy!
+            mTempPathMatrix.reset();
             float degrees = ((float) i / 12f) * 360f;
             double radians = ((double) i / 12d) * 2d * Math.PI;
             // Rotate the label if necessary.
@@ -116,12 +114,30 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
                     mTempPathMatrix.setRotate(degrees, mCenterX, mCenterY);
                 }
             }
+
+            // Now, draw to a temporary path, and union that to our main path!
+            mTempPath.reset();
+            paint.getTextPath(label, 0, label.length(), x, y, mTempPath);
             // Spread the labels out in a circle, digitLocation% from the centre!
             mTempPathMatrix.postTranslate((float) Math.sin(radians) * digitLocation * pc,
                     0f - (float) Math.cos(radians) * digitLocation * pc);
             mTempPath.transform(mTempPathMatrix);
-
             mPath.op(mTempPath, Path.Op.UNION);
+
+            // Now do it again, but this time make it a rectangle with the label's bounds.
+            // This will form our exclusion path.
+            mTempPath.reset();
+            // Make the size of the round rect, mLabelRect plus an extra padding of 1% all sides.
+            // Round rect radius of 1%.
+            // Adjust x to consider aligned centre.
+            x -= (float) (mLabelRect.left + mLabelRect.right) / 2f;
+            mTempPath.addRoundRect((float) mLabelRect.left - (1f * pc) + x,
+                    (float) mLabelRect.top - (1f * pc) + y,
+                    (float) mLabelRect.right + (1f * pc) + x,
+                    (float) mLabelRect.bottom + (1f * pc) + y,
+                    pc, pc, getDirection());
+            mTempPath.transform(mTempPathMatrix); // Transform it with the same matrix!
+            mExclusionPath.op(mTempPath, Path.Op.UNION);
         }
 
         // Restore the paint's attributes.
@@ -132,6 +148,6 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
         drawPath(canvas, mPath, paint);
 
         // Add to exclusion path so it punches out of everything above it.
-        addExclusionPath(mPath, Path.Op.DIFFERENCE);
+        addExclusionPath(mExclusionPath, Path.Op.DIFFERENCE);
     }
 }
