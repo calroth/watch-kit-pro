@@ -385,16 +385,22 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
     }
 
-    class LabelViewHolder extends RecyclerView.ViewHolder {
+    class LabelViewHolder extends RecyclerView.ViewHolder implements WatchFaceStateListener {
 
         private TextView mLabelTextView;
+        private int mVisibleLayoutHeight, mVisibleLayoutWidth;
+        private ConfigData.LabelConfigItem mConfigItem;
 
         LabelViewHolder(@NonNull final View view) {
             super(view);
             mLabelTextView = view.findViewById(R.id.label_textView);
+
+            mVisibleLayoutHeight = itemView.getLayoutParams().height;
+            mVisibleLayoutWidth = itemView.getLayoutParams().width;
         }
 
         void bind(ConfigData.LabelConfigItem configItem) {
+            mConfigItem = configItem;
             if (configItem.getWithTitle()) {
                 Resources r = mLabelTextView.getContext().getResources();
                 // TODO: that code has a warning. A legitimate warning. Address it.
@@ -404,6 +410,24 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             } else {
                 mLabelTextView.setText(configItem.getLabelResourceId());
             }
+
+            onWatchFaceStateChanged();
+        }
+
+        @Override
+        public void onWatchFaceStateChanged() {
+            // Set visibility.
+            ViewGroup.LayoutParams param = itemView.getLayoutParams();
+            if (mConfigItem.isVisible(mCurrentWatchFaceState)) {
+                param.height = mVisibleLayoutHeight;
+                param.width = mVisibleLayoutWidth;
+                itemView.setVisibility(View.VISIBLE);
+            } else {
+                param.height = 0;
+                param.width = 0;
+                itemView.setVisibility(View.GONE);
+            }
+            itemView.setLayoutParams(param);
         }
     }
 

@@ -89,6 +89,14 @@ public class SettingsConfigData extends ConfigData {
                         R.drawable.ic_notifications_off_white_24dp,
                         new BooleanMutator(WatchFaceState::setDeveloperMode)),
 
+                // Git hash.
+                new LabelConfigItem(R.string.git_hash, false,
+                        WatchFaceState::isDeveloperMode),
+
+                // Git date.
+                new LabelConfigItem(R.string.git_date, false,
+                        WatchFaceState::isDeveloperMode),
+
                 // Data for 'Stats' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
                         context.getString(R.string.config_stats_label),

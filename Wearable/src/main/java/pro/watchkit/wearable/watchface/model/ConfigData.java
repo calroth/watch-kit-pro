@@ -105,14 +105,22 @@ abstract public class ConfigData {
         @StringRes
         final private int mLabelResourceId;
         final private boolean mWithTitle;
+        @Nullable
+        final private Function<WatchFaceState, Boolean> mConfigItemVisibilityCalculator;
 
         LabelConfigItem(@StringRes final int labelResourceId) {
-            this(labelResourceId, true);
+            this(labelResourceId, true, null);
         }
 
         LabelConfigItem(@StringRes final int labelResourceId, boolean withTitle) {
-            this.mLabelResourceId = labelResourceId;
-            this.mWithTitle = withTitle;
+            this(labelResourceId, withTitle, null);
+        }
+
+        LabelConfigItem(@StringRes final int labelResourceId, boolean withTitle,
+                        Function<WatchFaceState, Boolean> configItemVisibilityCalculator) {
+            mLabelResourceId = labelResourceId;
+            mWithTitle = withTitle;
+            mConfigItemVisibilityCalculator = configItemVisibilityCalculator;
         }
 
         public int getLabelResourceId() {
@@ -126,6 +134,11 @@ abstract public class ConfigData {
         @Override
         public int getConfigType() {
             return ConfigRecyclerViewAdapter.TYPE_LABEL_CONFIG;
+        }
+
+        public boolean isVisible(WatchFaceState watchFaceState) {
+            return mConfigItemVisibilityCalculator == null ||
+                    mConfigItemVisibilityCalculator.apply(watchFaceState);
         }
     }
 
