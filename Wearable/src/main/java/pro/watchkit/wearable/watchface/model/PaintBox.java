@@ -515,7 +515,8 @@ public final class PaintBox {
             // Spun metal circles?
             for (float max = 50f, i = max; i > 0f; i--) {
                 mBrushedEffectPath.reset();
-                mBrushedEffectPath.addCircle(mCenterX, mCenterY, mCenter * i / max, Path.Direction.CW);
+                mBrushedEffectPath.addCircle(mCenterX, mCenterY,
+                        mCenter * (i - 0.5f) / max, Path.Direction.CW);
 
                 mBrushedEffectPath.offset(-offset, -offset);
                 mBrushedEffectPaint.setColor(Color.WHITE);
