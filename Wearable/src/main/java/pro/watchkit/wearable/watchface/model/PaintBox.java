@@ -566,7 +566,7 @@ public final class PaintBox {
 
             float percent = mCenterX / 50f;
             float offset = 0.25f * percent;
-            float alphaMax = 50f;
+            float alphaMax = 70f;
             float alphaExtra = 40f;
 //            float mCenter = Math.min(mCenterX, mCenterY);
 
