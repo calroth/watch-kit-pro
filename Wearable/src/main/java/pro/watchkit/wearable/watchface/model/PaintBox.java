@@ -570,7 +570,7 @@ public final class PaintBox {
 //            float mCenter = Math.min(mCenterX, mCenterY);
 
             int prevAlpha = getAlpha();
-            int weaves = 9, fibres = 5;
+            int weaves = 9, fibres = 7;
 
             float weaveSize = (float) width / (float) weaves;
 
@@ -614,7 +614,7 @@ public final class PaintBox {
             int cBlack = 0x33000000, cWhite = 0x33ffffff, cTrans = Color.TRANSPARENT;
             int[] shadow = new int[]{cBlack, cTrans, cTrans, cBlack};
             int[] light = new int[]{cWhite, cTrans, cTrans, cWhite};
-            float[] stops = new float[]{0f, 0.2f, 0.8f, 1f};
+            float[] stops = new float[]{0f, 0.1f, 0.9f, 1f};
 
             mShadowLight.reset();
             mShadowLight.setShader(new ComposeShader(
