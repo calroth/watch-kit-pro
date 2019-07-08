@@ -570,7 +570,7 @@ public final class PaintBox {
 //            float mCenter = Math.min(mCenterX, mCenterY);
 
             int prevAlpha = getAlpha();
-            int weaves = 10, fibres = 5;
+            int weaves = 9, fibres = 5;
 
             float weaveSize = (float) width / (float) weaves;
 
@@ -619,20 +619,20 @@ public final class PaintBox {
             mShadowLight.reset();
             mShadowLight.setShader(new ComposeShader(
                     new LinearGradient(
-                            mCenterX, mCenterY, mCenterX, mCenterY + weaveSize,
+                            0f, 0f, 0f, weaveSize,
                             shadow, stops, Shader.TileMode.REPEAT),
                     new LinearGradient(
-                            mCenterX, mCenterY, mCenterX + weaveSize, mCenterY,
+                            0f, 0f, weaveSize, 0f,
                             light, stops, Shader.TileMode.REPEAT),
                     PorterDuff.Mode.XOR));
 
             mLightShadow.reset();
             mLightShadow.setShader(new ComposeShader(
                     new LinearGradient(
-                            mCenterX, mCenterY, mCenterX, mCenterY + weaveSize,
+                            0f, 0f, 0f, weaveSize,
                             light, stops, Shader.TileMode.REPEAT),
                     new LinearGradient(
-                            mCenterX, mCenterY, mCenterX + weaveSize, mCenterY,
+                            0f, 0f, weaveSize, 0f,
                             shadow, stops, Shader.TileMode.REPEAT),
                     PorterDuff.Mode.XOR));
 
