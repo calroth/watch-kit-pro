@@ -120,16 +120,18 @@ abstract class WatchPartDrawable extends Drawable {
     abstract String getStatsName();
 
     void fastDrawPath(@NonNull Canvas canvas, @NonNull Path p, @NonNull Paint paint, float degrees) {
-        canvas.save();
-        canvas.rotate(degrees, mCenterX, mCenterY);
+        m2.reset();
+        m2.postRotate(degrees, mCenterX, mCenterY);
 
         if (!mWatchFaceState.isAmbient()) {
+            // Here we treat "mIntersectionBezel" as a cheap throwaway path.
+            p.transform(m2, mIntersectionBezel);
             // Shadow
-            canvas.drawPath(p, mWatchFaceState.getPaintBox().getShadowPaint());
+            canvas.drawPath(mIntersectionBezel, mWatchFaceState.getPaintBox().getShadowPaint());
 
             // The path.
             paint.setStyle(Paint.Style.FILL);
-            canvas.drawPath(p, paint);
+            canvas.drawPath(mIntersectionBezel, paint);
 
             // Retrieve our bezel paints and set them to fill.
             Paint bezelPaint1 = mWatchFaceState.getPaintBox().getBezelPaint1();
@@ -138,18 +140,21 @@ abstract class WatchPartDrawable extends Drawable {
             bezelPaint2.setStyle(Paint.Style.FILL);
 
             // The bezels.
-            canvas.drawPath(mPrimaryBezel, bezelPaint1);
-            canvas.drawPath(mSecondaryBezel, bezelPaint2);
+            // Again we treat "mIntersectionBezel" as a cheap throwaway path.
+            mPrimaryBezel.transform(m2, mIntersectionBezel);
+            canvas.drawPath(mIntersectionBezel, bezelPaint1);
+            mSecondaryBezel.transform(m2, mIntersectionBezel);
+            canvas.drawPath(mIntersectionBezel, bezelPaint2);
 
         } else {
             // Ambient.
             // The path itself.
             Paint ambientPaint = mWatchFaceState.getPaintBox().getAmbientPaint();
 
-            canvas.drawPath(p, ambientPaint);
+            // Here we treat "mIntersectionBezel" as a cheap throwaway path.
+            p.transform(m2, mIntersectionBezel);
+            canvas.drawPath(mIntersectionBezel, ambientPaint);
         }
-
-        canvas.restore();
     }
 
     void generateBezels(@NonNull Path p, float degrees) {
