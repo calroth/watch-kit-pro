@@ -89,8 +89,6 @@ public final class PaintBox {
 
         mShadowPaint = newDefaultPaint();
         mShadowPaint.setStyle(Paint.Style.FILL);
-//        mShadowPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mWatchHandShadowColor);
-//        mShadowPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, Color.WHITE);
     }
 
     @NonNull
@@ -323,6 +321,7 @@ public final class PaintBox {
                 mBaseAccentStyleGradient, mBaseAccentStyleTexture);
 
         mShadowPaint.setColor(getColor(mBaseSixBitColor));
+        mShadowPaint.setShadowLayer(2f * pc, 0f, 0f, getColor(mBaseSixBitColor));
 
         // Regenerate stroke widths based on value of "percent"
         mFillHighlightPaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);

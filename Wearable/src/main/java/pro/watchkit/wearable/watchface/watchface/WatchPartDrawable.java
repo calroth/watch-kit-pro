@@ -214,7 +214,7 @@ abstract class WatchPartDrawable extends Drawable {
         boolean altDrawing = mWatchFaceState.isDeveloperMode() && mWatchFaceState.isAltDrawing();
         if (!mWatchFaceState.isAmbient()) {
             // Shadow
-            canvas.drawPath(p, mWatchFaceState.getPaintBox().getShadowPaint());
+//            canvas.drawPath(p, mWatchFaceState.getPaintBox().getShadowPaint());
 
             // The path itself.
             paint.setStyle(Paint.Style.FILL);
