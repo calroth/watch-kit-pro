@@ -104,23 +104,35 @@ abstract public class ConfigData {
     public static class LabelConfigItem implements ConfigItemType {
         @StringRes
         final private int mLabelResourceId;
+        @StringRes
+        final private int mTitleResourceId;
         final private boolean mWithTitle;
         @Nullable
         final private Function<WatchFaceState, Boolean> mConfigItemVisibilityCalculator;
 
         LabelConfigItem(@StringRes final int labelResourceId) {
-            this(labelResourceId, true, null);
+            this(-1, labelResourceId, true, null);
         }
 
-        LabelConfigItem(@StringRes final int labelResourceId, boolean withTitle) {
-            this(labelResourceId, withTitle, null);
+        LabelConfigItem(@StringRes final int titleResourceId,
+                        @StringRes final int labelResourceId,
+                        @Nullable Function<WatchFaceState, Boolean>
+                                configItemVisibilityCalculator) {
+            this(titleResourceId, labelResourceId, false, configItemVisibilityCalculator);
         }
 
-        LabelConfigItem(@StringRes final int labelResourceId, boolean withTitle,
-                        Function<WatchFaceState, Boolean> configItemVisibilityCalculator) {
+        LabelConfigItem(@StringRes final int titleResourceId,
+                        @StringRes final int labelResourceId, boolean withTitle,
+                        @Nullable Function<WatchFaceState, Boolean>
+                                configItemVisibilityCalculator) {
+            mTitleResourceId = titleResourceId;
             mLabelResourceId = labelResourceId;
             mWithTitle = withTitle;
             mConfigItemVisibilityCalculator = configItemVisibilityCalculator;
+        }
+
+        public int getTitleResourceId() {
+            return mTitleResourceId;
         }
 
         public int getLabelResourceId() {

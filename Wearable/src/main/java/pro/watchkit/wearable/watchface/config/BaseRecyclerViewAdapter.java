@@ -47,6 +47,7 @@ import android.graphics.drawable.Drawable;
 import android.support.wearable.complications.ComplicationHelperActivity;
 import android.support.wearable.complications.ComplicationProviderInfo;
 import android.support.wearable.complications.ProviderInfoRetriever;
+import android.text.Html;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -390,6 +391,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         private TextView mLabelTextView;
         private int mVisibleLayoutHeight, mVisibleLayoutWidth;
         private ConfigData.LabelConfigItem mConfigItem;
+        private final StringBuilder mStringBuilder = new StringBuilder();
 
         LabelViewHolder(@NonNull final View view) {
             super(view);
@@ -405,8 +407,21 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 Resources r = mLabelTextView.getContext().getResources();
                 // TODO: that code has a warning. A legitimate warning. Address it.
                 // Maybe have two TextViews and hide the unused one (or just don't use it).
-                mLabelTextView.setText(r.getString(mTitleLabel) + "\n" +
-                        r.getString(configItem.getLabelResourceId()));
+                mStringBuilder.setLength(0);
+                mStringBuilder.append(r.getString(mTitleLabel));
+                mStringBuilder.append("<br>");
+                mStringBuilder.append(r.getString(configItem.getLabelResourceId()));
+                mLabelTextView.setText(Html.fromHtml(mStringBuilder.toString(),
+                        Html.FROM_HTML_MODE_LEGACY));
+            } else if (configItem.getTitleResourceId() != -1) {
+                Resources r = mLabelTextView.getContext().getResources();
+                mStringBuilder.setLength(0);
+                mStringBuilder.append("<b>");
+                mStringBuilder.append(r.getString(configItem.getTitleResourceId()));
+                mStringBuilder.append("</b> ");
+                mStringBuilder.append(r.getString(configItem.getLabelResourceId()));
+                mLabelTextView.setText(Html.fromHtml(mStringBuilder.toString(),
+                        Html.FROM_HTML_MODE_LEGACY));
             } else {
                 mLabelTextView.setText(configItem.getLabelResourceId());
             }

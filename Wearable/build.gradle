@@ -72,8 +72,8 @@ android {
         versionCode 1
         versionName "1.0"
 
-        resValue "string", "git_hash", "Revision: ${getGitHash()}"
-        resValue "string", "git_date", "Date: ${getGitDate()}"
+        resValue "string", "git_hash", "${getGitHash()}"
+        resValue "string", "git_date", "${getGitDate()}"
 
         minSdkVersion 24
 

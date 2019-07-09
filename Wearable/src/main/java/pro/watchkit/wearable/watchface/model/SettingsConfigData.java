@@ -90,11 +90,11 @@ public class SettingsConfigData extends ConfigData {
                         new BooleanMutator(WatchFaceState::setDeveloperMode)),
 
                 // Git hash.
-                new LabelConfigItem(R.string.git_hash, false,
+                new LabelConfigItem(R.string.config_git_hash, R.string.git_hash,
                         WatchFaceState::isDeveloperMode),
 
                 // Git date.
-                new LabelConfigItem(R.string.git_date, false,
+                new LabelConfigItem(R.string.config_git_date, R.string.git_date,
                         WatchFaceState::isDeveloperMode),
 
                 // Data for 'Stats' UX (toggle) in settings Activity.
