@@ -301,11 +301,14 @@
         <item>XI</item>
     </string-array>
 
-    <string-array name="WatchFacePreset_Style">
+    <string-array name="WatchFacePreset_TextStyle">
         <item>Fill</item>
         <item>Accent</item>
         <item>Highlight</item>
         <item>Base</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_Style">
         <item>Fill + Highlight</item>
         <item>Accent + Fill</item>
         <item>Accent + Highlight</item>

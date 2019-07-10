@@ -47,6 +47,7 @@ import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 import pro.watchkit.wearable.watchface.model.BytePackable.StyleGradient;
 import pro.watchkit.wearable.watchface.model.BytePackable.StyleTexture;
+import pro.watchkit.wearable.watchface.model.BytePackable.TextStyle;
 
 public final class PaintBox {
     private static final float AMBIENT_PAINT_STROKE_WIDTH_PERCENT = 0.333f; // 0.333%
@@ -220,28 +221,43 @@ public final class PaintBox {
         return mBezelPaint2;
     }
 
-    public Paint getPaintFromPreset(Style style) {
+    @NonNull
+    Paint getPaintFromPreset(@NonNull TextStyle style) {
         regeneratePaints2();
         switch (style) {
-            case FILL:
+            case FILL: {
                 return mFillPaint;
-            case ACCENT:
+            }
+            case ACCENT: {
                 return mAccentPaint;
-            case HIGHLIGHT:
+            }
+            case HIGHLIGHT: {
                 return mHighlightPaint;
-            case BASE:
-                return mBasePaint;
-            case FILL_HIGHLIGHT:
-                return mFillHighlightPaint;
-            case ACCENT_FILL:
-                return mAccentFillPaint;
-            case ACCENT_HIGHLIGHT:
-                return mAccentHighlightPaint;
-            case BASE_ACCENT:
-                return mBaseAccentPaint;
+            }
             default:
-                // Should never hit this.
-                return mFillPaint;
+            case BASE: {
+                return mBasePaint;
+            }
+        }
+    }
+
+    @NonNull
+    public Paint getPaintFromPreset(@NonNull Style style) {
+        regeneratePaints2();
+        switch (style) {
+            case FILL_HIGHLIGHT: {
+                return mFillHighlightPaint;
+            }
+            case ACCENT_FILL: {
+                return mAccentFillPaint;
+            }
+            case ACCENT_HIGHLIGHT: {
+                return mAccentHighlightPaint;
+            }
+            default:
+            case BASE_ACCENT: {
+                return mBaseAccentPaint;
+            }
         }
     }
 

@@ -53,7 +53,7 @@ final class Settings extends BytePackable {
 
     @Override
     void pack() {
-        packVersion1();
+        packVersion2();
     }
 
     @SuppressWarnings("unused")
@@ -71,11 +71,37 @@ final class Settings extends BytePackable {
         mBytePacker.finish();
     }
 
+    @SuppressWarnings("unused")
     private void packVersion1() {
         mBytePacker.rewind();
 
         // Version. 3-bits. Current version is v1.
         mBytePacker.put(3, 1);
+
+        mBytePacker.put(mShowUnreadNotifications);
+        mBytePacker.put(mNightVisionModeEnabled);
+        mComplicationCount.pack(mBytePacker);
+        mComplicationRotation.pack(mBytePacker);
+        mBytePacker.put(6, mAmbientDaySixBitColor);
+        mBytePacker.put(6, mAmbientNightSixBitColor);
+        mComplicationRingStyle.pack(mBytePacker);
+        mComplicationBackgroundStyle.pack(mBytePacker);
+        mBytePacker.put(mDeveloperMode);
+        mBytePacker.put(mStats);
+        mBytePacker.put(mStatsDetail);
+        mComplicationTextStyle.pack(mBytePacker);
+        mBytePacker.put(mHideTicks);
+        mBytePacker.put(mHideHands);
+        mBytePacker.put(mAltDrawing);
+
+        mBytePacker.finish();
+    }
+
+    private void packVersion2() {
+        mBytePacker.rewind();
+
+        // Version. 3-bits. Current version is v2.
+        mBytePacker.put(3, 2);
 
         mBytePacker.put(mShowUnreadNotifications);
         mBytePacker.put(mNightVisionModeEnabled);
@@ -109,7 +135,25 @@ final class Settings extends BytePackable {
 //                mComplicationRotation = ComplicationRotation.unpack(mBytePacker);
                 break;
             }
-            case 1:
+            case 1: {
+                mShowUnreadNotifications = mBytePacker.getBoolean();
+                mNightVisionModeEnabled = mBytePacker.getBoolean();
+                mComplicationCount = ComplicationCount.unpack(mBytePacker);
+                mComplicationRotation = ComplicationRotation.unpack(mBytePacker);
+                mAmbientDaySixBitColor = mBytePacker.get(6);
+                mAmbientNightSixBitColor = mBytePacker.get(6);
+                mComplicationRingStyle = Style.unpack3(mBytePacker);
+                mComplicationBackgroundStyle = Style.unpack3(mBytePacker);
+                mDeveloperMode = mBytePacker.getBoolean();
+                mStats = mBytePacker.getBoolean();
+                mStatsDetail = mBytePacker.getBoolean();
+                mComplicationTextStyle = TextStyle.unpack(mBytePacker);
+                mHideTicks = mBytePacker.getBoolean();
+                mHideHands = mBytePacker.getBoolean();
+                mAltDrawing = mBytePacker.getBoolean();
+                break;
+            }
+            case 2:
             default: {
                 mShowUnreadNotifications = mBytePacker.getBoolean();
                 mNightVisionModeEnabled = mBytePacker.getBoolean();

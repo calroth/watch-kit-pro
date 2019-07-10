@@ -26,8 +26,6 @@ import android.graphics.Shader;
 
 import androidx.annotation.NonNull;
 
-import pro.watchkit.wearable.watchface.model.BytePackable.Style;
-
 final class WatchPartSwatchDrawable extends WatchPartDrawable {
     @NonNull
     private final Path mPath = new Path();
@@ -48,9 +46,7 @@ final class WatchPartSwatchDrawable extends WatchPartDrawable {
         mPath.addCircle(mCenterX * 1.6666f, mCenterY * 0.4166f, mCenterX * 0.3333f,
                 getDirection());
 
-        Style swatchStyle = mWatchFaceState.getSwatchStyle();
-        Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(swatchStyle);
-
+        Paint paint = mWatchFaceState.getSwatchPaint();
         Shader shader = paint.getShader();
         mOriginalMatrix.reset();
         if (shader != null) {

@@ -341,24 +341,7 @@ abstract public class ConfigData {
                 if (h instanceof Style) {
                     permutation.setSwatchStyle((Style) h);
                 } else if (h instanceof TextStyle) {
-                    switch ((TextStyle) h) {
-                        case FILL: {
-                            permutation.setSwatchStyle(Style.FILL);
-                            break;
-                        }
-                        case ACCENT: {
-                            permutation.setSwatchStyle(Style.ACCENT);
-                            break;
-                        }
-                        case HIGHLIGHT: {
-                            permutation.setSwatchStyle(Style.HIGHLIGHT);
-                            break;
-                        }
-                        case BASE: {
-                            permutation.setSwatchStyle(Style.BASE);
-                            break;
-                        }
-                    }
+                    permutation.setSwatchStyle((TextStyle) h);
                 }
                 return permutation.getString();
             }).toArray(String[]::new);

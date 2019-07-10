@@ -338,17 +338,21 @@ public abstract class BytePackable {
         @Override
         @ArrayRes
         public int getNameResourceId() {
-            return R.array.WatchFacePreset_Style;
+            return R.array.WatchFacePreset_TextStyle;
         }
     }
 
     public enum Style implements EnumResourceId {
-        FILL, ACCENT, HIGHLIGHT, BASE, FILL_HIGHLIGHT, ACCENT_FILL, ACCENT_HIGHLIGHT, BASE_ACCENT;
+        FILL_HIGHLIGHT, ACCENT_FILL, ACCENT_HIGHLIGHT, BASE_ACCENT;
 
-        private static final int bits = 3;
+        private static final int bits = 2;
 
         static Style unpack(BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
+        }
+
+        static Style unpack3(BytePacker bytePacker) {
+            return values()[bytePacker.get(3) % values().length];
         }
 
         void pack(BytePacker bytePacker) {
