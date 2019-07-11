@@ -367,7 +367,7 @@ public abstract class BytePackable {
     }
 
     public enum StyleGradient implements EnumResourceId {
-        FLAT, SWEEP, RADIAL, UNKNOWN1;
+        FLAT, SWEEP, RADIAL, TRIANGLE;
 
         private static final int bits = 2;
 

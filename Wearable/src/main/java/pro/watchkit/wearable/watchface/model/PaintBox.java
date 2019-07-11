@@ -438,6 +438,49 @@ public final class PaintBox {
                     Shader.TileMode.CLAMP));
         }
 
+        private void addTriangleGradient(int colorA, int colorB) {
+            // The constants here can be tweaked a lot. Here's an initial implementation.
+            int colorC = Color.TRANSPARENT;
+            int[] gradient = new int[]{
+                    getIntermediateColor(colorA, colorC, 1.0d), // Original
+                    getIntermediateColor(colorA, colorC, 1.0d), // Original
+                    getIntermediateColor(colorA, colorC, 0.9d),
+                    getIntermediateColor(colorA, colorC, 0.8d),
+                    getIntermediateColor(colorA, colorC, 0.7d),
+                    getIntermediateColor(colorA, colorC, 0.6d),
+                    getIntermediateColor(colorA, colorC, 0.5d),
+                    getIntermediateColor(colorA, colorC, 0.4d),
+                    getIntermediateColor(colorA, colorC, 0.2d), // Slightly out
+                    getIntermediateColor(colorA, colorC, 0.3d), // of place!
+                    getIntermediateColor(colorA, colorC, 0.1d),
+                    getIntermediateColor(colorA, colorC, 0.0d), // Original
+                    getIntermediateColor(colorA, colorC, 0.0d) // Original
+            };
+            float x1 = mCenterX - (mCenterX * (float) Math.sqrt(3) / 2f);
+            float x2 = mCenterX + (mCenterX * (float) Math.sqrt(3) / 2f);
+            float y = mCenterY + (mCenterY / 2f);
+            float radius = mCenterY * 1.05f;
+            // Gradients A, B and C have an origin at the 12, 4 and 8 o'clock positions.
+            Shader gradientA = new RadialGradient(
+                    mCenterX, 0f, radius, gradient, null, Shader.TileMode.CLAMP);
+            Shader gradientB = new RadialGradient(
+                    x1, y, radius, gradient, null, Shader.TileMode.CLAMP);
+            Shader gradientC = new RadialGradient(
+                    x2, y, radius, gradient, null, Shader.TileMode.CLAMP);
+            // The base shader is just one that's a flat colorB.
+            Shader base = new RadialGradient(
+                    mCenterX, mCenterY, radius, colorB, colorB, Shader.TileMode.CLAMP);
+//            setShader(new ComposeShader(gradientA, new ComposeShader(
+//                    gradientB, gradientC, PorterDuff.Mode.SCREEN), PorterDuff.Mode.DARKEN));
+//            setShader(gradientA);
+            setShader(
+                    new ComposeShader(gradientA,
+                            new ComposeShader(gradientB,
+                                    new ComposeShader(gradientC, base, PorterDuff.Mode.DST_OVER),
+                                    PorterDuff.Mode.DST_OVER),
+                            PorterDuff.Mode.DST_OVER));
+        }
+
         @Override
         public int hashCode() {
             return Objects.hash(super.hashCode(), mCustomHashCode);
@@ -464,7 +507,8 @@ public final class PaintBox {
                 case RADIAL:
                     addRadialGradient(colorA, colorB);
                     break;
-                case UNKNOWN1:
+                case TRIANGLE:
+                    addTriangleGradient(colorA, colorB);
                     break;
             }
 

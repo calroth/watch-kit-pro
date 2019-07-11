@@ -320,7 +320,7 @@
         <item>Flat</item>
         <item>Sweep</item>
         <item>Radial</item>
-        <item>Unknown 1</item>
+        <item>Triangle</item>
     </string-array>
 
     <string-array name="WatchFacePreset_StyleTexture">
