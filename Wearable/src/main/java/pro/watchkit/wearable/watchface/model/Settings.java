@@ -53,51 +53,6 @@ final class Settings extends BytePackable {
 
     @Override
     void pack() {
-        packVersion2();
-    }
-
-    @SuppressWarnings("unused")
-    private void packVersion0() {
-        mBytePacker.rewind();
-
-        // Version. 3-bits. Current version is v0.
-//        mBytePacker.put(3, 0);
-//
-//        mBytePacker.put(mShowUnreadNotifications);
-//        mBytePacker.put(mNightVisionModeEnabled);
-//        mBytePacker.put(3, mComplicationCount); // 3-bit complication count
-//        mComplicationRotation.pack(mBytePacker);
-
-        mBytePacker.finish();
-    }
-
-    @SuppressWarnings("unused")
-    private void packVersion1() {
-        mBytePacker.rewind();
-
-        // Version. 3-bits. Current version is v1.
-        mBytePacker.put(3, 1);
-
-        mBytePacker.put(mShowUnreadNotifications);
-        mBytePacker.put(mNightVisionModeEnabled);
-        mComplicationCount.pack(mBytePacker);
-        mComplicationRotation.pack(mBytePacker);
-        mBytePacker.put(6, mAmbientDaySixBitColor);
-        mBytePacker.put(6, mAmbientNightSixBitColor);
-        mComplicationRingStyle.pack(mBytePacker);
-        mComplicationBackgroundStyle.pack(mBytePacker);
-        mBytePacker.put(mDeveloperMode);
-        mBytePacker.put(mStats);
-        mBytePacker.put(mStatsDetail);
-        mComplicationTextStyle.pack(mBytePacker);
-        mBytePacker.put(mHideTicks);
-        mBytePacker.put(mHideHands);
-        mBytePacker.put(mAltDrawing);
-
-        mBytePacker.finish();
-    }
-
-    private void packVersion2() {
         mBytePacker.rewind();
 
         // Version. 3-bits. Current version is v2.
@@ -129,10 +84,6 @@ final class Settings extends BytePackable {
         int version = mBytePacker.get(3);
         switch (version) {
             case 0: {
-//                mShowUnreadNotifications = mBytePacker.getBoolean();
-//                mNightVisionModeEnabled = mBytePacker.getBoolean();
-//                mComplicationCount = mBytePacker.get(3); // 3-bit complication count
-//                mComplicationRotation = ComplicationRotation.unpack(mBytePacker);
                 break;
             }
             case 1: {
