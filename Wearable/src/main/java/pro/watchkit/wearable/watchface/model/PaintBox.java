@@ -442,14 +442,16 @@ public final class PaintBox {
             // The constants here can be tweaked a lot. Here's an initial implementation.
             int colorC = Color.TRANSPARENT;
             int[] gradient = new int[]{
-                    getIntermediateColor(colorA, colorC, 1.0d), // Original
+                    getIntermediateColor(colorA, colorC, 0.8d),
                     getIntermediateColor(colorA, colorC, 1.0d), // Original
                     getIntermediateColor(colorA, colorC, 0.9d),
-                    getIntermediateColor(colorA, colorC, 0.8d),
+                    getIntermediateColor(colorA, colorC, 1.0d), // Original
+                    getIntermediateColor(colorA, colorC, 0.9d),
                     getIntermediateColor(colorA, colorC, 0.7d),
+                    getIntermediateColor(colorA, colorC, 0.8d),
                     getIntermediateColor(colorA, colorC, 0.6d),
+                    getIntermediateColor(colorA, colorC, 0.4d), // Ripples!
                     getIntermediateColor(colorA, colorC, 0.5d),
-                    getIntermediateColor(colorA, colorC, 0.4d),
                     getIntermediateColor(colorA, colorC, 0.2d), // Slightly out
                     getIntermediateColor(colorA, colorC, 0.3d), // of place!
                     getIntermediateColor(colorA, colorC, 0.1d),
@@ -459,7 +461,7 @@ public final class PaintBox {
             float x1 = mCenterX - (mCenterX * (float) Math.sqrt(3) / 2f);
             float x2 = mCenterX + (mCenterX * (float) Math.sqrt(3) / 2f);
             float y = mCenterY + (mCenterY / 2f);
-            float radius = mCenterY * 1.05f;
+            float radius = mCenterY * 1.33333333333f;
             // Gradients A, B and C have an origin at the 12, 4 and 8 o'clock positions.
             Shader gradientA = new RadialGradient(
                     mCenterX, 0f, radius, gradient, null, Shader.TileMode.CLAMP);
