@@ -1349,7 +1349,10 @@ public class WatchFaceState {
         if (getComplicationBackgroundStyle() == style) {
             result.add(mContext.getString(R.string.config_complication_background_style));
         }
-        if (getBackgroundStyle() == style) {
+        if (Style.ACCENT_FILL == style) {
+            result.add(mContext.getString(R.string.config_preset_bezel_style));
+        }
+        if (Style.BASE_ACCENT == style) {
             result.add(mContext.getString(R.string.config_preset_background_style));
         }
         if (getHourHandStyle() == style) {

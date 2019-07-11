@@ -139,6 +139,7 @@
     <string name="config_preset_sixty_tick_radius_position">Sixty Tick Radius Position</string>
     <string name="config_preset_sixty_tick_style">Sixty Tick Style</string>
 
+    <string name="config_preset_bezel_style">Bezel Style</string>
     <string name="config_preset_background_style">Background Style</string>
 
     <string name="config_preset_fill_highlight_style_gradient">Fill Highlight Style Gradient</string>
