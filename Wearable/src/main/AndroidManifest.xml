@@ -78,7 +78,7 @@
                 android:resource="@drawable/preview_analog_complication"/>
             <meta-data
                 android:name="com.google.android.wearable.watchface.preview_circular"
-                android:resource="@drawable/preview_analog_complication_circular"/>
+                android:resource="@drawable/preview_watch_kit_pro_a_circular" />
             <meta-data
                 android:name="com.google.android.wearable.watchface.wearableConfigurationAction"
                 android:value="pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_A" />
@@ -103,7 +103,7 @@
                 android:resource="@drawable/preview_analog_complication" />
             <meta-data
                 android:name="com.google.android.wearable.watchface.preview_circular"
-                android:resource="@drawable/preview_analog_complication_circular" />
+                android:resource="@drawable/preview_watch_kit_pro_b_circular" />
             <meta-data
                 android:name="com.google.android.wearable.watchface.wearableConfigurationAction"
                 android:value="pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_B" />
@@ -128,7 +128,7 @@
                 android:resource="@drawable/preview_analog_complication" />
             <meta-data
                 android:name="com.google.android.wearable.watchface.preview_circular"
-                android:resource="@drawable/preview_analog_complication_circular" />
+                android:resource="@drawable/preview_watch_kit_pro_c_circular" />
             <meta-data
                 android:name="com.google.android.wearable.watchface.wearableConfigurationAction"
                 android:value="pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_C" />
@@ -153,7 +153,7 @@
                 android:resource="@drawable/preview_analog_complication" />
             <meta-data
                 android:name="com.google.android.wearable.watchface.preview_circular"
-                android:resource="@drawable/preview_analog_complication_circular" />
+                android:resource="@drawable/preview_watch_kit_pro_d_circular" />
             <meta-data
                 android:name="com.google.android.wearable.watchface.wearableConfigurationAction"
                 android:value="pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_D" />
