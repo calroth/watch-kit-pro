@@ -478,9 +478,9 @@ public final class PaintBox {
             setShader(
                     new ComposeShader(gradientA,
                             new ComposeShader(gradientB,
-                                    new ComposeShader(gradientC, base, PorterDuff.Mode.DST_OVER),
-                                    PorterDuff.Mode.DST_OVER),
-                            PorterDuff.Mode.DST_OVER));
+                                    new ComposeShader(gradientC, base, PorterDuff.Mode.OVERLAY),
+                                    PorterDuff.Mode.OVERLAY),
+                            PorterDuff.Mode.OVERLAY));
         }
 
         @Override
