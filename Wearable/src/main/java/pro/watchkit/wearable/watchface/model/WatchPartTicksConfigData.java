@@ -151,7 +151,7 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for digit style in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_digit_display),
+                        context.getString(R.string.config_preset_digit_style),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
