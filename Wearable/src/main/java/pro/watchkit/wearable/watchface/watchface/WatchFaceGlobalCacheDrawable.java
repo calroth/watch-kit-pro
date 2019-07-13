@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Path;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
@@ -86,8 +87,8 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable {
             boolean currentAmbient = mWatchFaceState.isAmbient();
 
             // Cache invalid. Draw into our cache canvas.
-            mAmbientCacheCanvas.drawColor(Color.TRANSPARENT); // Clear it first.
-            mActiveCacheCanvas.drawColor(Color.TRANSPARENT); // Clear it first.
+            mAmbientCacheCanvas.drawColor(Color.TRANSPARENT, Mode.CLEAR); // Clear it first.
+            mActiveCacheCanvas.drawColor(Color.TRANSPARENT, Mode.CLEAR); // Clear it first.
 
             // Pre-cache our ambient canvas.
             mCacheExclusionPath.reset();

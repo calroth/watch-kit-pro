@@ -28,7 +28,7 @@ import android.graphics.ComposeShader;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PorterDuff;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
@@ -363,9 +363,9 @@ public final class PaintBox {
     @NonNull
     private final Paint mGradientV = new Paint();
     @NonNull
-    private final Xfermode mGradientTransferMode = new PorterDuffXfermode(PorterDuff.Mode.DST_IN);
+    private final Xfermode mGradientTransferMode = new PorterDuffXfermode(Mode.DST_IN);
     @NonNull
-    private final Xfermode mClearMode = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
+    private final Xfermode mClearMode = new PorterDuffXfermode(Mode.CLEAR);
     @NonNull
     private final Paint mShadowLight = new Paint();
     @NonNull
@@ -382,14 +382,14 @@ public final class PaintBox {
             mTempCanvas = new Canvas(mTempBitmap);
         } else if (mTempBitmap.getWidth() == width && mTempBitmap.getHeight() == height) {
             // Do nothing, our current bitmap is just right.
-            mTempCanvas.drawColor(Color.TRANSPARENT);
+            mTempCanvas.drawColor(Color.TRANSPARENT, Mode.CLEAR);
         } else if (mTempBitmap.getAllocationByteCount() <= width * height) {
             // Width and height changed and we can reconfigure to re-use this object.
             mTempCanvas.setBitmap(null);
             // Not sure above is technically needed but may cure esoteric bugs?
             mTempBitmap.reconfigure(width, height, Bitmap.Config.ARGB_8888);
             mTempCanvas.setBitmap(mTempBitmap);
-            mTempCanvas.drawColor(Color.TRANSPARENT);
+            mTempCanvas.drawColor(Color.TRANSPARENT, Mode.CLEAR);
         } else {
             // Width and height changed and we can't re-use this object, need a new one.
             mTempCanvas.setBitmap(null);
@@ -504,14 +504,14 @@ public final class PaintBox {
             Shader base = new RadialGradient(
                     mCenterX, mCenterY, radius, colorB, colorB, Shader.TileMode.CLAMP);
 //            setShader(new ComposeShader(gradientA, new ComposeShader(
-//                    gradientB, gradientC, PorterDuff.Mode.SCREEN), PorterDuff.Mode.DARKEN));
+//                    gradientB, gradientC, Mode.SCREEN), Mode.DARKEN));
 //            setShader(gradientA);
             setShader(
                     new ComposeShader(gradientA,
                             new ComposeShader(gradientB,
-                                    new ComposeShader(gradientC, base, PorterDuff.Mode.OVERLAY),
-                                    PorterDuff.Mode.OVERLAY),
-                            PorterDuff.Mode.OVERLAY));
+                                    new ComposeShader(gradientC, base, Mode.OVERLAY),
+                                    Mode.OVERLAY),
+                            Mode.OVERLAY));
         }
 
         private void addTriangleGradientSlow(int colorA, int colorB) {
@@ -550,7 +550,7 @@ public final class PaintBox {
 
             mBrushedEffectPaint.reset();
             mBrushedEffectPaint.setShader(new ComposeShader(gradientA, new ComposeShader(
-                    gradientB, gradientC, PorterDuff.Mode.OVERLAY), PorterDuff.Mode.OVERLAY));
+                    gradientB, gradientC, Mode.OVERLAY), Mode.OVERLAY));
 
             sb.append("Gradient: ").append((System.nanoTime() - time) / 1000000f);
             time = System.nanoTime();
@@ -742,7 +742,7 @@ public final class PaintBox {
                             width * 0.3f, 0f, width * 0.7f, height,
                             new int[]{Color.TRANSPARENT, Color.BLACK, Color.TRANSPARENT},
                             new float[]{0.2f, 0.5f, 0.8f}, Shader.TileMode.CLAMP),
-                    PorterDuff.Mode.SRC_IN));
+                    Mode.SRC_IN));
             mGradientH.setXfermode(mGradientTransferMode);
 
             mGradientV.reset();
@@ -752,7 +752,7 @@ public final class PaintBox {
                             0f, height * 0.7f, width, height * 0.3f,
                             new int[]{Color.TRANSPARENT, Color.BLACK, Color.TRANSPARENT},
                             new float[]{0.2f, 0.5f, 0.8f}, Shader.TileMode.CLAMP),
-                    PorterDuff.Mode.SRC_IN));
+                    Mode.SRC_IN));
             mGradientV.setXfermode(mGradientTransferMode);
 
 //            ribH.reset();
@@ -780,7 +780,7 @@ public final class PaintBox {
                     new LinearGradient(
                             0f, 0f, weaveSize, 0f,
                             light, stops, Shader.TileMode.REPEAT),
-                    PorterDuff.Mode.XOR));
+                    Mode.XOR));
 
             mLightShadow.reset();
             mLightShadow.setShader(new ComposeShader(
@@ -790,7 +790,7 @@ public final class PaintBox {
                     new LinearGradient(
                             0f, 0f, weaveSize, 0f,
                             shadow, stops, Shader.TileMode.REPEAT),
-                    PorterDuff.Mode.XOR));
+                    Mode.XOR));
 
             mBrushedEffectPaint.reset();
             mBrushedEffectPaint.setStyle(Style.STROKE);
@@ -873,13 +873,13 @@ public final class PaintBox {
             brushedEffectCanvas.drawBitmap(mTempBitmap, 0f, 0f, null);
 
             // Apply a destination atop transfer mode to only draw into transparent bits.
-//            Xfermode dstMode = new PorterDuffXfermode(PorterDuff.Mode.DST_OVER);
+//            Xfermode dstMode = new PorterDuffXfermode(Mode.DST_OVER);
 //            mBrushedEffectPaint.setXfermode(dstMode);
 //            mBrushedEffectPaint.setColor(Color.GREEN);
 //            brushedEffectCanvas.drawPaint(mBrushedEffectPaint);
 
             // Zero out the temp canvas in preparation for next.
-            mTempCanvas.drawColor(Color.TRANSPARENT);
+            mTempCanvas.drawColor(Color.TRANSPARENT, Mode.CLEAR);
 
             // Vertical
             for (int i = 0; i < weaves; i += 1) {

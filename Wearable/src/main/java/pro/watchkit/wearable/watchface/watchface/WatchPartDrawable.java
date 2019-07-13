@@ -27,6 +27,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
@@ -254,7 +255,7 @@ abstract class WatchPartDrawable extends Drawable {
             if (altDrawing) {
                 // Draw our bevels to a temporary bitmap.
                 // Clear the bezel canvas first.
-                mBezelCanvas.drawColor(Color.TRANSPARENT);
+                mBezelCanvas.drawColor(Color.TRANSPARENT, Mode.CLEAR);
 
                 // And clip the primary and secondary bezels to the original paths.
                 mPrimaryBezel.op(p, Path.Op.INTERSECT);
