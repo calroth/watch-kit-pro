@@ -41,6 +41,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
 import java.lang.ref.WeakReference;
+import java.util.Arrays;
 import java.util.Objects;
 
 import pro.watchkit.wearable.watchface.R;
@@ -370,6 +371,34 @@ public final class PaintBox {
     @NonNull
     private final Paint mLightShadow = new Paint();
 
+    /**
+     * Prepare the temp bitmap and canvas for use. Call before using "mTempBitmap" or
+     * "mTempCanvas".
+     */
+    private void prepareTempBitmapForUse() {
+        if (mTempBitmap == null) {
+            // Initialise on first use.
+            mTempBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            mTempCanvas = new Canvas(mTempBitmap);
+        } else if (mTempBitmap.getWidth() == width && mTempBitmap.getHeight() == height) {
+            // Do nothing, our current bitmap is just right.
+            mTempCanvas.drawColor(Color.TRANSPARENT);
+        } else if (mTempBitmap.getAllocationByteCount() <= width * height) {
+            // Width and height changed and we can reconfigure to re-use this object.
+            mTempCanvas.setBitmap(null);
+            // Not sure above is technically needed but may cure esoteric bugs?
+            mTempBitmap.reconfigure(width, height, Bitmap.Config.ARGB_8888);
+            mTempCanvas.setBitmap(mTempBitmap);
+            mTempCanvas.drawColor(Color.TRANSPARENT);
+        } else {
+            // Width and height changed and we can't re-use this object, need a new one.
+            mTempCanvas.setBitmap(null);
+            // Not sure above is technically needed but may cure esoteric bugs?
+            mTempBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            mTempCanvas.setBitmap(mTempBitmap);
+        }
+    }
+
     private class GradientPaint extends Paint {
         private int mCustomHashCode = -1;
 
@@ -438,7 +467,9 @@ public final class PaintBox {
                     Shader.TileMode.CLAMP));
         }
 
-        private void addTriangleGradient(int colorA, int colorB) {
+        @SuppressWarnings("unused")
+        private void addTriangleGradientFast(int colorA, int colorB) {
+            // Fast version which uses sRGB gradients, which aren't very nice-looking.
             // The constants here can be tweaked a lot. Here's an initial implementation.
             int colorC = Color.TRANSPARENT;
             int[] gradient = new int[]{
@@ -483,6 +514,75 @@ public final class PaintBox {
                             PorterDuff.Mode.OVERLAY));
         }
 
+        private void addTriangleGradientSlow(int colorA, int colorB) {
+            // Slow version which uses CIE LAB gradients, which look excellent.
+            // We draw a black-to-white gradient then map that to a cLUT with the CIE LAB gradient.
+            long time = System.nanoTime();
+            StringBuilder sb = new StringBuilder();
+            // The constants here can be tweaked a lot. Here's an initial implementation.
+            // Colors range from between Color.BLACK and Color.TRANSPARENT.
+            int[] gradient = new int[]{
+                    Color.argb((int) (0.9f * 255f + 0.5f), 0, 0, 0),
+                    Color.argb((int) (1.0f * 255f + 0.5f), 0, 0, 0), // Original
+                    Color.argb((int) (0.9f * 255f + 0.5f), 0, 0, 0),
+                    Color.argb((int) (0.7f * 255f + 0.5f), 0, 0, 0),
+                    Color.argb((int) (0.8f * 255f + 0.5f), 0, 0, 0),
+                    Color.argb((int) (0.6f * 255f + 0.5f), 0, 0, 0),
+                    Color.argb((int) (0.4f * 255f + 0.5f), 0, 0, 0), // Ripples!
+                    Color.argb((int) (0.5f * 255f + 0.5f), 0, 0, 0),
+                    Color.argb((int) (0.2f * 255f + 0.5f), 0, 0, 0), // Slightly out
+                    Color.argb((int) (0.3f * 255f + 0.5f), 0, 0, 0), // of place!
+                    Color.argb((int) (0.1f * 255f + 0.5f), 0, 0, 0),
+                    Color.argb((int) (0.0f * 255f + 0.5f), 0, 0, 0), // Original
+                    Color.argb((int) (0.0f * 255f + 0.5f), 0, 0, 0) // Original
+            };
+            float x1 = mCenterX - (mCenterX * (float) Math.sqrt(3) / 2f);
+            float x2 = mCenterX + (mCenterX * (float) Math.sqrt(3) / 2f);
+            float y = mCenterY + (mCenterY / 2f);
+            float radius = mCenterY * 1.33333333333f;
+            // Gradients A, B and C have an origin at the 12, 4 and 8 o'clock positions.
+            Shader gradientA = new RadialGradient(
+                    mCenterX, 0f, radius, gradient, null, Shader.TileMode.CLAMP);
+            Shader gradientB = new RadialGradient(
+                    x1, y, radius, gradient, null, Shader.TileMode.CLAMP);
+            Shader gradientC = new RadialGradient(
+                    x2, y, radius, gradient, null, Shader.TileMode.CLAMP);
+
+            mBrushedEffectPaint.reset();
+            mBrushedEffectPaint.setShader(new ComposeShader(gradientA, new ComposeShader(
+                    gradientB, gradientC, PorterDuff.Mode.OVERLAY), PorterDuff.Mode.OVERLAY));
+
+            sb.append("Gradient: ").append((System.nanoTime() - time) / 1000000f);
+            time = System.nanoTime();
+
+            int[] cLUT = new int[256];
+            double j = (double) (cLUT.length - 1);
+            for (int i = 0; i < cLUT.length; i++) {
+                cLUT[i] = getIntermediateColor(colorB, colorA, (double) i / j);
+            }
+
+            sb.append(" ~ cLUT: ").append((System.nanoTime() - time) / 1000000f);
+            time = System.nanoTime();
+            prepareTempBitmapForUse();
+
+            // Draw the gradient to the temp bitmap.
+            mTempCanvas.drawColor(Color.WHITE);
+            mTempCanvas.drawPaint(mBrushedEffectPaint);
+            // Extract the pixels...
+            int[] pixels = new int[width * height];
+            mTempBitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+            // Modify them...
+            // Map the B component of each ARGB pixel to the corresponding in the cLUT.
+            int[] p2 = Arrays.stream(pixels).map(p -> cLUT[p & 0xFF]).toArray();
+            mTempBitmap.setPixels(p2, 0, width, 0, 0, width, height);
+
+            // Set it as our bitmap.
+            setShader(new BitmapShader(mTempBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+
+            sb.append(" ~ Map: ").append((System.nanoTime() - time) / 1000000f);
+            android.util.Log.d("Paint", sb.toString());
+        }
+
         @Override
         public int hashCode() {
             return Objects.hash(super.hashCode(), mCustomHashCode);
@@ -510,7 +610,7 @@ public final class PaintBox {
                     addRadialGradient(colorA, colorB);
                     break;
                 case TRIANGLE:
-                    addTriangleGradient(colorA, colorB);
+                    addTriangleGradientSlow(colorA, colorB);
                     break;
             }
 
@@ -566,6 +666,7 @@ public final class PaintBox {
             int alpha = 50;
             float mCenter = Math.min(mCenterX, mCenterY);
 
+            mBrushedEffectPaint.reset();
             mBrushedEffectPaint.setStyle(Style.STROKE);
             mBrushedEffectPaint.setStrokeWidth(offset);
             mBrushedEffectPaint.setStrokeJoin(Join.ROUND);
@@ -574,7 +675,8 @@ public final class PaintBox {
 //            brushedEffectCanvas.drawPaint(this);
 
             // Spun metal circles?
-            for (float max = 50f, i = max; i > 0f; i--) {
+            // 51 instead of 50 because we start at 0.5 instead of 1.
+            for (float max = 51f, i = max; i > 0f; i--) {
                 mBrushedEffectPath.reset();
                 mBrushedEffectPath.addCircle(mCenterX, mCenterY,
                         mCenter * (i - 0.5f) / max, Path.Direction.CW);
@@ -615,15 +717,7 @@ public final class PaintBox {
             // Cache it for next time's use.
             mBitmapCache.put(mCustomHashCode, new WeakReference<>(brushedEffectBitmap));
 
-            // Temp bitmap?
-            if (mTempBitmap == null ||
-                    (mTempBitmap.getWidth() != width && mTempBitmap.getHeight() != height)) {
-                mTempBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-                mTempCanvas = new Canvas(mTempBitmap);
-            } else {
-                // Zero out the canvas.
-                mTempCanvas.drawColor(Color.TRANSPARENT);
-            }
+            prepareTempBitmapForUse();
 
             float percent = mCenterX / 50f;
             float offset = 0.25f * percent;
@@ -698,6 +792,7 @@ public final class PaintBox {
                             shadow, stops, Shader.TileMode.REPEAT),
                     PorterDuff.Mode.XOR));
 
+            mBrushedEffectPaint.reset();
             mBrushedEffectPaint.setStyle(Style.STROKE);
             mBrushedEffectPaint.setStrokeWidth(offset);
             mBrushedEffectPaint.setStrokeJoin(Join.ROUND);
