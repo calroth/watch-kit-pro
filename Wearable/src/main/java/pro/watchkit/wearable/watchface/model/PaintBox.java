@@ -382,14 +382,13 @@ public final class PaintBox {
             mTempCanvas = new Canvas(mTempBitmap);
         } else if (mTempBitmap.getWidth() == width && mTempBitmap.getHeight() == height) {
             // Do nothing, our current bitmap is just right.
-            mTempCanvas.drawColor(Color.TRANSPARENT, Mode.CLEAR);
+            return;
         } else if (mTempBitmap.getAllocationByteCount() <= width * height) {
             // Width and height changed and we can reconfigure to re-use this object.
             mTempCanvas.setBitmap(null);
             // Not sure above is technically needed but may cure esoteric bugs?
             mTempBitmap.reconfigure(width, height, Bitmap.Config.ARGB_8888);
             mTempCanvas.setBitmap(mTempBitmap);
-            mTempCanvas.drawColor(Color.TRANSPARENT, Mode.CLEAR);
         } else {
             // Width and height changed and we can't re-use this object, need a new one.
             mTempCanvas.setBitmap(null);
@@ -717,8 +716,6 @@ public final class PaintBox {
             // Cache it for next time's use.
             mBitmapCache.put(mCustomHashCode, new WeakReference<>(brushedEffectBitmap));
 
-            prepareTempBitmapForUse();
-
             float percent = mCenterX / 50f;
             float offset = 0.25f * percent;
             float alphaMax = 70f;
@@ -799,6 +796,11 @@ public final class PaintBox {
             mBrushedEffectPaint.setAntiAlias(true);
 
             brushedEffectCanvas.drawPaint(this);
+
+            prepareTempBitmapForUse();
+
+            // Zero out the temp canvas in preparation for next.
+            mTempCanvas.drawColor(Color.TRANSPARENT, Mode.CLEAR);
 
             // Horizontal
             for (int i = 0; i < weaves; i += 1) {
