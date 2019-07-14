@@ -674,8 +674,8 @@ public final class PaintBox {
 //            brushedEffectCanvas.drawPaint(this);
 
             // Spun metal circles?
-            // 51 instead of 50 because we start at 0.5 instead of 1.
-            for (float max = 51f, i = max; i > 0f; i--) {
+            // 72 to cover the entire surface to the corners of a square device.
+            for (float max = 72f, i = max; i > 0f; i--) {
                 mBrushedEffectPath.reset();
                 mBrushedEffectPath.addCircle(mCenterX, mCenterY,
                         mCenter * (i - 0.5f) / max, Path.Direction.CW);
