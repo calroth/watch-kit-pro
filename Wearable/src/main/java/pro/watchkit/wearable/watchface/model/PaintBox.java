@@ -145,6 +145,61 @@ public final class PaintBox {
         }
     }
 
+    /**
+     * Given two colors A and B, fill an array with intermediate colors. The distance
+     * between the two is given by "d"; 1.0 means return "colorA", 0.0 means return "colorB",
+     * 0.5 means return something evenly between the two.
+     * <p>
+     * For SDK 26 (Android O) and above, the calculation is done in the LAB color space for
+     * extra perceptual accuracy!
+     *
+     * @param colorA One color to calculate
+     * @param colorB The other color
+     * @param cLUT   The array to put the results into
+     */
+    static void getIntermediateColor(
+            @ColorInt int colorA, @ColorInt int colorB, @ColorInt int[] cLUT) {
+        double j = (double) (cLUT.length - 1);
+
+        // The "long colors" feature is only available in SDK 26 onwards!
+        if (Build.VERSION.SDK_INT >= 26) {
+            ColorSpace CIE_LAB = ColorSpace.get(ColorSpace.Named.CIE_LAB);
+            ColorSpace sRGB = ColorSpace.get(ColorSpace.Named.SRGB);
+
+            // Convert colors to LAB color space.
+            long colorAL = Color.convert(colorA, CIE_LAB);
+            long colorBL = Color.convert(colorB, CIE_LAB);
+
+            for (int i = 0; i < cLUT.length; i++) {
+                double d = (double) i / j;
+                double e = 1d - d;
+
+                // Generate a new color that is between the two.
+                float a = (float) (Color.alpha(colorAL) * d + Color.alpha(colorBL) * e);
+                float r = (float) (Color.red(colorAL) * d + Color.red(colorBL) * e);
+                float g = (float) (Color.green(colorAL) * d + Color.green(colorBL) * e);
+                float b = (float) (Color.blue(colorAL) * d + Color.blue(colorBL) * e);
+
+                // Convert back to sRGB.
+                cLUT[i] = Color.toArgb(Color.convert(r, g, b, a, CIE_LAB, sRGB));
+            }
+        } else {
+            for (int i = 0; i < cLUT.length; i++) {
+                double d = (double) i / j;
+                double e = 1d - d;
+
+                // Generate a new color that is between the two.
+                int a = (int) (Color.alpha(colorA) * d + Color.alpha(colorB) * e);
+                int r = (int) (Color.red(colorA) * d + Color.red(colorB) * e);
+                int g = (int) (Color.green(colorA) * d + Color.green(colorB) * e);
+                int b = (int) (Color.blue(colorA) * d + Color.blue(colorB) * e);
+
+                // And add to array.
+                cLUT[i] = Color.argb(a, r, g, b);
+            }
+        }
+    }
+
     private int mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor;
     private int mAmbientDaySixBitColor, mAmbientNightSixBitColor;
     private StyleGradient mFillHighlightStyleGradient;
@@ -554,11 +609,8 @@ public final class PaintBox {
             sb.append("Gradient: ").append((System.nanoTime() - time) / 1000000f);
             time = System.nanoTime();
 
-            int[] cLUT = new int[256];
-            double j = (double) (cLUT.length - 1);
-            for (int i = 0; i < cLUT.length; i++) {
-                cLUT[i] = getIntermediateColor(colorB, colorA, (double) i / j);
-            }
+            @ColorInt int[] cLUT = new int[256];
+            getIntermediateColor(colorB, colorA, cLUT);
 
             sb.append(" ~ cLUT: ").append((System.nanoTime() - time) / 1000000f);
             time = System.nanoTime();
@@ -568,11 +620,11 @@ public final class PaintBox {
             mTempCanvas.drawColor(Color.WHITE);
             mTempCanvas.drawPaint(mBrushedEffectPaint);
             // Extract the pixels...
-            int[] pixels = new int[width * height];
+            @ColorInt int[] pixels = new int[width * height];
             mTempBitmap.getPixels(pixels, 0, width, 0, 0, width, height);
             // Modify them...
             // Map the B component of each ARGB pixel to the corresponding in the cLUT.
-            int[] p2 = Arrays.stream(pixels).map(p -> cLUT[p & 0xFF]).toArray();
+            @ColorInt int[] p2 = Arrays.stream(pixels).map(p -> cLUT[p & 0xFF]).toArray();
             mTempBitmap.setPixels(p2, 0, width, 0, 0, width, height);
 
             // Set it as our bitmap.
