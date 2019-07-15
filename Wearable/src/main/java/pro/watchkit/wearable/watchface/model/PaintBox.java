@@ -41,8 +41,8 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
 import java.lang.ref.WeakReference;
-import java.util.Arrays;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
@@ -619,13 +619,29 @@ public final class PaintBox {
             // Draw the gradient to the temp bitmap.
             mTempCanvas.drawColor(Color.WHITE);
             mTempCanvas.drawPaint(mBrushedEffectPaint);
-            // Extract the pixels...
-            @ColorInt int[] pixels = new int[width * height];
-            mTempBitmap.getPixels(pixels, 0, width, 0, 0, width, height);
-            // Modify them...
-            // Map the B component of each ARGB pixel to the corresponding in the cLUT.
-            @ColorInt int[] p2 = Arrays.stream(pixels).map(p -> cLUT[p & 0xFF]).toArray();
-            mTempBitmap.setPixels(p2, 0, width, 0, 0, width, height);
+
+            // Go line by line through "mTempBitmap".
+            // For each line, get its pixels, convert it, then write it back.
+            // We unroll the loop to do 8 pixels at a time, which seems to help.
+            int widthMod8 = width + (width % 8 == 0 ? 0 : 8 - width % 8);
+            @ColorInt int[] pixels = new int[widthMod8];
+            IntStream.iterate(0, j -> j += 1).limit(height).forEach(j -> {
+                mTempBitmap.getPixels(pixels, 0, width, 0, j, width, 1);
+                IntStream.iterate(0, i -> i += 8).limit(widthMod8 / 8)
+                        .forEach(i -> {
+                            pixels[i] = cLUT[pixels[i] & 0xFF];
+                            pixels[i + 1] = cLUT[pixels[i + 1] & 0xFF];
+                            pixels[i + 2] = cLUT[pixels[i + 2] & 0xFF];
+                            pixels[i + 3] = cLUT[pixels[i + 3] & 0xFF];
+                            pixels[i + 4] = cLUT[pixels[i + 4] & 0xFF];
+                            pixels[i + 5] = cLUT[pixels[i + 5] & 0xFF];
+                            pixels[i + 6] = cLUT[pixels[i + 6] & 0xFF];
+                            pixels[i + 7] = cLUT[pixels[i + 7] & 0xFF];
+                        });
+                mTempBitmap.setPixels(pixels, 0, width, 0, j, width, 1);
+            });
+            sb.append(" ~ p1: ").append((System.nanoTime() - time) / 1000000f);
+            time = System.nanoTime();
 
             // Set it as our bitmap.
             setShader(new BitmapShader(mTempBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
