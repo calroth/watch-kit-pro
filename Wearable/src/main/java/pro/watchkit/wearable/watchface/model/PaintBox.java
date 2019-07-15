@@ -606,6 +606,12 @@ public final class PaintBox {
             mBrushedEffectPaint.setShader(new ComposeShader(gradientA, new ComposeShader(
                     gradientB, gradientC, Mode.OVERLAY), Mode.OVERLAY));
 
+            prepareTempBitmapForUse();
+
+            // Draw the gradient to the temp bitmap.
+            mTempCanvas.drawColor(Color.WHITE);
+            mTempCanvas.drawPaint(mBrushedEffectPaint);
+
             sb.append("Gradient: ").append((System.nanoTime() - time) / 1000000f);
             time = System.nanoTime();
 
@@ -614,11 +620,6 @@ public final class PaintBox {
 
             sb.append(" ~ cLUT: ").append((System.nanoTime() - time) / 1000000f);
             time = System.nanoTime();
-            prepareTempBitmapForUse();
-
-            // Draw the gradient to the temp bitmap.
-            mTempCanvas.drawColor(Color.WHITE);
-            mTempCanvas.drawPaint(mBrushedEffectPaint);
 
             // Go line by line through "mTempBitmap".
             // For each line, get its pixels, convert it, then write it back.
