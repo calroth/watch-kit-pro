@@ -42,7 +42,6 @@ import androidx.annotation.NonNull;
 
 import java.lang.ref.WeakReference;
 import java.util.Objects;
-import java.util.stream.IntStream;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
@@ -76,6 +75,12 @@ public final class PaintBox {
     private GradientPaint mAccentHighlightPaint = new GradientPaint();
     private int mPreviousSerial = -1;
     private Context mContext;
+
+    static {
+        System.loadLibrary("native-lib");
+    }
+
+    native void nativeMapBitmap(Bitmap bitmap, int[] cLUT);
 
     PaintBox(Context context) {
         mContext = context;
@@ -621,26 +626,28 @@ public final class PaintBox {
             sb.append(" ~ cLUT: ").append((System.nanoTime() - time) / 1000000f);
             time = System.nanoTime();
 
-            // Go line by line through "mTempBitmap".
-            // For each line, get its pixels, convert it, then write it back.
-            // We unroll the loop to do 8 pixels at a time, which seems to help.
-            int widthMod8 = width + (width % 8 == 0 ? 0 : 8 - width % 8);
-            @ColorInt int[] pixels = new int[widthMod8];
-            IntStream.iterate(0, j -> j += 1).limit(height).forEach(j -> {
-                mTempBitmap.getPixels(pixels, 0, width, 0, j, width, 1);
-                IntStream.iterate(0, i -> i += 8).limit(widthMod8 / 8)
-                        .forEach(i -> {
-                            pixels[i] = cLUT[pixels[i] & 0xFF];
-                            pixels[i + 1] = cLUT[pixels[i + 1] & 0xFF];
-                            pixels[i + 2] = cLUT[pixels[i + 2] & 0xFF];
-                            pixels[i + 3] = cLUT[pixels[i + 3] & 0xFF];
-                            pixels[i + 4] = cLUT[pixels[i + 4] & 0xFF];
-                            pixels[i + 5] = cLUT[pixels[i + 5] & 0xFF];
-                            pixels[i + 6] = cLUT[pixels[i + 6] & 0xFF];
-                            pixels[i + 7] = cLUT[pixels[i + 7] & 0xFF];
-                        });
-                mTempBitmap.setPixels(pixels, 0, width, 0, j, width, 1);
-            });
+            nativeMapBitmap(mTempBitmap, cLUT);
+
+//            // Go line by line through "mTempBitmap".
+//            // For each line, get its pixels, convert it, then write it back.
+//            // We unroll the loop to do 8 pixels at a time, which seems to help.
+//            int widthMod8 = width + (width % 8 == 0 ? 0 : 8 - width % 8);
+//            @ColorInt int[] pixels = new int[widthMod8];
+//            IntStream.iterate(0, j -> j += 1).limit(height).forEach(j -> {
+//                mTempBitmap.getPixels(pixels, 0, width, 0, j, width, 1);
+//                IntStream.iterate(0, i -> i += 8).limit(widthMod8 / 8)
+//                        .forEach(i -> {
+//                            pixels[i] = cLUT[pixels[i] & 0xFF];
+//                            pixels[i + 1] = cLUT[pixels[i + 1] & 0xFF];
+//                            pixels[i + 2] = cLUT[pixels[i + 2] & 0xFF];
+//                            pixels[i + 3] = cLUT[pixels[i + 3] & 0xFF];
+//                            pixels[i + 4] = cLUT[pixels[i + 4] & 0xFF];
+//                            pixels[i + 5] = cLUT[pixels[i + 5] & 0xFF];
+//                            pixels[i + 6] = cLUT[pixels[i + 6] & 0xFF];
+//                            pixels[i + 7] = cLUT[pixels[i + 7] & 0xFF];
+//                        });
+//                mTempBitmap.setPixels(pixels, 0, width, 0, j, width, 1);
+//            });
             sb.append(" ~ p1: ").append((System.nanoTime() - time) / 1000000f);
             time = System.nanoTime();
 
@@ -764,7 +771,6 @@ public final class PaintBox {
             }
             return brushedEffectBitmap;
         }
-
 
         private Bitmap generateWeaveEffect() {
             // Attempt to return an existing bitmap from the cache if we have one.

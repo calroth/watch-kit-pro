@@ -80,6 +80,12 @@ android {
         targetSdkVersion 28
 
         multiDexEnabled true
+
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+            }
+        }
     }
 
     compileOptions {
@@ -107,5 +113,10 @@ android {
         androidTest.setRoot('tests')
         androidTest.java.srcDirs = ['tests/src']
 
+    }
+    externalNativeBuild {
+        cmake {
+            path file('CMakeLists.txt')
+        }
     }
 }
