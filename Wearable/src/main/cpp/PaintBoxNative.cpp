@@ -24,7 +24,7 @@ JNIEXPORT jint JNICALL
 Java_pro_watchkit_wearable_watchface_model_PaintBox_nativeMapBitmap(
         JNIEnv *env, jobject, jobject bitmap, jintArray cLUT) {
     jint *bitmapPtr;
-//    jint cLUTLength;
+    jint cLUTLength;
     jint *cLUTPtr;
     AndroidBitmapInfo info;
     int err;
@@ -40,18 +40,25 @@ Java_pro_watchkit_wearable_watchface_model_PaintBox_nativeMapBitmap(
         return NULL;
     }
 
+    cLUTLength = env->GetArrayLength(cLUT);
+    if (cLUTLength < 256) {
+        // Need a cLUT of at least 256 elements; return.
+        return NULL;
+    }
+
     err = AndroidBitmap_lockPixels(env, bitmap, (void **) &bitmapPtr);
     if (err < 0) {
         // Can't lock the bitmap; return.
         return NULL;
     }
 
-//    cLUTLength = env->GetArrayLength(cLUT);
     cLUTPtr = env->GetIntArrayElements(cLUT, NULL);
 
     for (int i = 0; i < info.width * info.height; i++) {
         bitmapPtr[i] = cLUTPtr[bitmapPtr[i] & 0xFF];
     }
+
+    env->ReleaseIntArrayElements(cLUT, cLUTPtr, NULL);
 
     AndroidBitmap_unlockPixels(env, bitmap);
 
