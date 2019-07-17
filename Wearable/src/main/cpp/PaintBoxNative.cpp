@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Terence Tan
+ * Copyright (C) 2019 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -18,13 +18,12 @@
 #include <jni.h>
 #include <android/bitmap.h>
 
-extern "C" {
+constexpr int CLUT_SIZE = 0xFF;
 
-JNIEXPORT jint JNICALL
-Java_pro_watchkit_wearable_watchface_model_PaintBox_nativeMapBitmap(
+extern "C"
+JNIEXPORT void JNICALL Java_pro_watchkit_wearable_watchface_model_PaintBox_nativeMapBitmap(
         JNIEnv *env, jobject, jobject bitmap, jintArray cLUT) {
     jint *bitmapPtr;
-    jint cLUTLength;
     jint *cLUTPtr;
     AndroidBitmapInfo info;
     int err;
@@ -32,37 +31,44 @@ Java_pro_watchkit_wearable_watchface_model_PaintBox_nativeMapBitmap(
     err = AndroidBitmap_getInfo(env, bitmap, &info);
     if (err < 0) {
         // Can't get info; return.
-        return NULL;
+        return;
     }
 
     if (info.format != ANDROID_BITMAP_FORMAT_RGBA_8888) {
         // Bitmap format isn't right; return.
-        return NULL;
+        return;
     }
 
-    cLUTLength = env->GetArrayLength(cLUT);
-    if (cLUTLength < 256) {
+    if (env->GetArrayLength(cLUT) <= CLUT_SIZE) {
         // Need a cLUT of at least 256 elements; return.
-        return NULL;
+        return;
     }
 
     err = AndroidBitmap_lockPixels(env, bitmap, (void **) &bitmapPtr);
     if (err < 0) {
         // Can't lock the bitmap; return.
-        return NULL;
+        return;
     }
 
     cLUTPtr = env->GetIntArrayElements(cLUT, NULL);
 
-    for (int i = 0; i < info.width * info.height; i++) {
-        bitmapPtr[i] = cLUTPtr[bitmapPtr[i] & 0xFF];
+    // For whatever reason, in NDK the red and blue channels are swapped
+    // (i.e. it expects colors of form ABGR rather than ARGB).
+    // Swap everything in the cLUT...
+    for (int i = 0; i <= CLUT_SIZE; i++) {
+        int a = cLUTPtr[i] >> 24 & CLUT_SIZE;
+        int r = cLUTPtr[i] >> 16 & CLUT_SIZE;
+        int g = cLUTPtr[i] >> 8 & CLUT_SIZE;
+        int b = cLUTPtr[i] & CLUT_SIZE;
+        cLUTPtr[i] = (a << 24) + (b << 16) + (g << 8) + r;
     }
 
-    env->ReleaseIntArrayElements(cLUT, cLUTPtr, NULL);
+    for (int i = 0; i < info.width * info.height; i++) {
+        bitmapPtr[i] = cLUTPtr[(bitmapPtr[i] & CLUT_SIZE)];
+    }
+
+    // Release the array. JNI_ABORT means don't copy the changed elements back.
+    env->ReleaseIntArrayElements(cLUT, cLUTPtr, JNI_ABORT);
 
     AndroidBitmap_unlockPixels(env, bitmap);
-
-    return NULL;
-}
-
 }
