@@ -775,11 +775,12 @@ public final class PaintBox {
 //            brushedEffectCanvas.drawPaint(this);
 
             // Spun metal circles?
-            // 72 to cover the entire surface to the corners of a square device.
-            for (float max = 72f, i = max; i > 0f; i--) {
+            // 71 to cover the entire surface to the corners of a square device.
+            float sqrt2 = (float) (Math.sqrt(2d));
+            for (float max = 71f, i = max; i > 0f; i--) {
                 mBrushedEffectPath.reset();
                 mBrushedEffectPath.addCircle(mCenterX, mCenterY,
-                        mCenter * (i - 0.5f) / max, Path.Direction.CW);
+                        mCenter * sqrt2 * (i - 0.5f) / max, Path.Direction.CW);
 
                 mBrushedEffectPath.offset(-offset, -offset);
                 mBrushedEffectPaint.setColor(Color.WHITE);
