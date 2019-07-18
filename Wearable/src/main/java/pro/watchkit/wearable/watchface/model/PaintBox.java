@@ -573,7 +573,35 @@ public final class PaintBox {
                             Mode.OVERLAY));
         }
 
-        private void addTriangleGradientSlow(int colorA, int colorB) {
+        private void addTriangleGradient(int colorA, int colorB) {
+            setShader(new BitmapShader(generateTriangleGradient(colorA, colorB),
+                    Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+        }
+
+        private Bitmap generateTriangleGradient(int colorA, int colorB) {
+            // Calculate a modified hash code where mStyleTexture == StyleTexture.NONE.
+            int modifiedCustomHashCode = Objects.hash(
+                    colorA, colorB, StyleGradient.TRIANGLE, StyleTexture.NONE, height, width);
+            // Attempt to return an existing bitmap from the cache if we have one.
+            WeakReference<Bitmap> cache = mBitmapCache.get(modifiedCustomHashCode);
+            if (cache != null) {
+                // Well, we have an existing bitmap, but it may have been garbage collected...
+                Bitmap result = cache.get();
+                if (result != null) {
+                    android.util.Log.d("Paint", "Returning cached triangle bitmap " +
+                            modifiedCustomHashCode);
+                    // It wasn't garbage collected! Return it.
+                    return result;
+                }
+            }
+
+            // Generate a new bitmap.
+            Bitmap triangleBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Canvas triangleCanvas = new Canvas(triangleBitmap);
+
+            // Cache it for next time's use.
+            mBitmapCache.put(modifiedCustomHashCode, new WeakReference<>(triangleBitmap));
+
             // Slow version which uses CIE LAB gradients, which look excellent.
             // We draw a black-to-white gradient then map that to a cLUT with the CIE LAB gradient.
             long time = System.nanoTime();
@@ -611,11 +639,11 @@ public final class PaintBox {
             mBrushedEffectPaint.setShader(new ComposeShader(gradientA, new ComposeShader(
                     gradientB, gradientC, Mode.OVERLAY), Mode.OVERLAY));
 
-            prepareTempBitmapForUse();
+//            prepareTempBitmapForUse();
 
             // Draw the gradient to the temp bitmap.
-            mTempCanvas.drawColor(Color.WHITE);
-            mTempCanvas.drawPaint(mBrushedEffectPaint);
+            triangleCanvas.drawColor(Color.WHITE);
+            triangleCanvas.drawPaint(mBrushedEffectPaint);
 
             sb.append("Gradient: ").append((System.nanoTime() - time) / 1000000f);
             time = System.nanoTime();
@@ -626,15 +654,15 @@ public final class PaintBox {
             sb.append(" ~ cLUT: ").append((System.nanoTime() - time) / 1000000f);
             time = System.nanoTime();
 
-            nativeMapBitmap(mTempBitmap, cLUT);
+            nativeMapBitmap(triangleBitmap, cLUT);
 
-//            // Go line by line through "mTempBitmap".
+//            // Go line by line through "triangleBitmap".
 //            // For each line, get its pixels, convert it, then write it back.
 //            // We unroll the loop to do 8 pixels at a time, which seems to help.
 //            int widthMod8 = width + (width % 8 == 0 ? 0 : 8 - width % 8);
 //            @ColorInt int[] pixels = new int[widthMod8];
 //            IntStream.iterate(0, j -> j += 1).limit(height).forEach(j -> {
-//                mTempBitmap.getPixels(pixels, 0, width, 0, j, width, 1);
+//                triangleBitmap.getPixels(pixels, 0, width, 0, j, width, 1);
 //                IntStream.iterate(0, i -> i += 8).limit(widthMod8 / 8)
 //                        .forEach(i -> {
 //                            pixels[i] = cLUT[pixels[i] & 0xFF];
@@ -646,16 +674,13 @@ public final class PaintBox {
 //                            pixels[i + 6] = cLUT[pixels[i + 6] & 0xFF];
 //                            pixels[i + 7] = cLUT[pixels[i + 7] & 0xFF];
 //                        });
-//                mTempBitmap.setPixels(pixels, 0, width, 0, j, width, 1);
+//                triangleBitmap.setPixels(pixels, 0, width, 0, j, width, 1);
 //            });
+
             sb.append(" ~ p1: ").append((System.nanoTime() - time) / 1000000f);
-            time = System.nanoTime();
-
-            // Set it as our bitmap.
-            setShader(new BitmapShader(mTempBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-
-            sb.append(" ~ Map: ").append((System.nanoTime() - time) / 1000000f);
             android.util.Log.d("Paint", sb.toString());
+
+            return triangleBitmap;
         }
 
         @Override
@@ -685,7 +710,7 @@ public final class PaintBox {
                     addRadialGradient(colorA, colorB);
                     break;
                 case TRIANGLE:
-                    addTriangleGradientSlow(colorA, colorB);
+                    addTriangleGradient(colorA, colorB);
                     break;
             }
 
