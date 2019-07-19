@@ -57,14 +57,14 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
     private static final int PART_TICKS_FOUR = 128;
     private static final int PART_TICKS_TWELVE = 256;
     private static final int PART_TICKS_SIXTY = 512;
-    public static final int PART_HANDS = PART_HANDS_HOUR | PART_HANDS_MINUTE | PART_HANDS_SECOND;
+    private static final int PART_DIGITS = 1024;
     public static final int PART_TICKS =
             PART_TICKS_FOUR | PART_TICKS_TWELVE | PART_TICKS_SIXTY | PART_DIGITS;
     private static final int PART_HANDS_HOUR = 2048;
     private static final int PART_HANDS_MINUTE = 4096;
     private static final int PART_HANDS_SECOND = 8192;
+    public static final int PART_HANDS = PART_HANDS_HOUR | PART_HANDS_MINUTE | PART_HANDS_SECOND;
     public static final int PART_SWATCH = 16384;
-    private static final int PART_DIGITS = 1024;
 
     public WatchFaceGlobalDrawable(@NonNull Context context, int flags) {
         this(buildDrawables(null, flags));
