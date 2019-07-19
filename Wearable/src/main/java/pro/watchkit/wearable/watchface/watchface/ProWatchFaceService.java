@@ -187,7 +187,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
 
             mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(context,
                     new WatchFaceGlobalCacheDrawable(
-                            WatchFaceGlobalDrawable.PART_BACKGROUND |
+                            WatchFaceGlobalDrawable.PART_BACKGROUND_FULL_CANVAS |
                                     WatchFaceGlobalDrawable.PART_NOTIFICATIONS |
                                     WatchFaceGlobalDrawable.PART_RINGS_ACTIVE |
                                     WatchFaceGlobalDrawable.PART_TICKS),
