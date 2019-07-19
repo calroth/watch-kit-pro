@@ -48,23 +48,23 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
     private Path mExclusionPath = new Path();
 
     public static final int PART_BACKGROUND = 1;
-    public static final int PART_RINGS_ALL = 16;
-    public static final int PART_COMPLICATIONS = 32;
-    public static final int PART_SWATCH = 16384;
     static final int PART_BACKGROUND_FULL_CANVAS = 2;
     static final int PART_NOTIFICATIONS = 4;
     static final int PART_RINGS_ACTIVE = 8;
+    public static final int PART_RINGS_ALL = 16;
+    public static final int PART_COMPLICATIONS = 32;
     static final int PART_STATS = 64;
     private static final int PART_TICKS_FOUR = 128;
     private static final int PART_TICKS_TWELVE = 256;
     private static final int PART_TICKS_SIXTY = 512;
+    public static final int PART_HANDS = PART_HANDS_HOUR | PART_HANDS_MINUTE | PART_HANDS_SECOND;
     public static final int PART_TICKS =
             PART_TICKS_FOUR | PART_TICKS_TWELVE | PART_TICKS_SIXTY | PART_DIGITS;
-    private static final int PART_DIGITS = 1024;
     private static final int PART_HANDS_HOUR = 2048;
     private static final int PART_HANDS_MINUTE = 4096;
-    public static final int PART_HANDS = PART_HANDS_HOUR | PART_HANDS_MINUTE | PART_HANDS_SECOND;
     private static final int PART_HANDS_SECOND = 8192;
+    public static final int PART_SWATCH = 16384;
+    private static final int PART_DIGITS = 1024;
 
     public WatchFaceGlobalDrawable(@NonNull Context context, int flags) {
         this(buildDrawables(null, flags));
