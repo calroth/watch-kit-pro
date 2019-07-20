@@ -98,7 +98,7 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
             TickThickness tickThickness = getTickThickness();
             TickRadiusPosition tickRadiusPosition = getTickRadiusPosition();
             // Modifiers: four ticks are one size up; sixty ticks one size down.
-            float mod = getMod();
+            float mod = getMod() / getMod(); // You know what, turn this off.
 
             // Draw the tick.
 
