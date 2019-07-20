@@ -1340,6 +1340,152 @@ public class WatchFaceState {
     }
     //endregion
 
+    public float getTickLength(TickShape tickShape, TickLength tickLength) {
+        float barLengthScale = 3f;
+        float triangleFactor = (float) (Math.sqrt(3d) / 2d); // Height of an equilateral triangle.
+
+        float globalScale = 1.0f;
+
+        // f0, f1, f2, f3 are a geometric series!
+        float f0 = globalScale * (float) (1d / Math.sqrt(2d));
+        float f1 = globalScale * 1f;
+        float f2 = globalScale * (float) Math.sqrt(2d);
+        float f3 = globalScale * 2f;
+
+        // Scaling factors for dot, triangle and diamond.
+        // Relative to a square of side 1. So all greater than 1.
+        float dotScale = 2f / (float) Math.sqrt(Math.PI);
+        float triangleScale = 2f / (float) Math.sqrt(Math.sqrt(3d));
+        float diamondScale = (float) Math.sqrt(2d);
+
+        float result;
+        switch (tickShape) {
+            case BAR: {
+                result = barLengthScale;
+                break;
+            }
+            case DOT: {
+                result = dotScale;
+                break;
+            }
+            case TRIANGLE: {
+                result = triangleFactor * triangleScale;
+                break;
+            }
+            default:
+            case DIAMOND: {
+                result = diamondScale;
+                break;
+            }
+        }
+        switch (tickLength) {
+            case SHORT: {
+                result *= f0;
+                break;
+            }
+            case MEDIUM: {
+                result *= f1;
+                break;
+            }
+            case LONG: {
+                result *= f2;
+                break;
+            }
+            default:
+            case X_LONG: {
+                result *= f3;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    public float getTickThickness(TickShape tickShape, TickThickness tickThickness) {
+        float barThicknessScale = (float) (Math.PI / 120d);
+
+        float globalScale = 1.0f;
+
+        // f0, f1, f2, f3 are a geometric series!
+        float f0 = globalScale * (float) (1d / Math.sqrt(2d));
+        float f1 = globalScale * 1f;
+        float f2 = globalScale * (float) Math.sqrt(2d);
+        float f3 = globalScale * 2f;
+
+        // Scaling factors for dot, triangle and diamond.
+        // Relative to a square of side 1. So all greater than 1.
+        float dotScale = 2f / (float) Math.sqrt(Math.PI);
+        float triangleScale = 2f / (float) Math.sqrt(Math.sqrt(3d));
+        float diamondScale = (float) Math.sqrt(2d);
+
+        float result;
+        switch (tickShape) {
+            case BAR: {
+                result = barThicknessScale;
+                break;
+            }
+            case DOT: {
+                result = dotScale;
+                break;
+            }
+            case TRIANGLE: {
+                result = triangleScale;
+                break;
+            }
+            default:
+            case DIAMOND: {
+                result = diamondScale;
+                break;
+            }
+        }
+        switch (tickThickness) {
+            case THIN: {
+                result *= f0;
+                break;
+            }
+            case REGULAR: {
+                result *= f1;
+                break;
+            }
+            case THICK: {
+                result *= f2;
+                break;
+            }
+            default:
+            case X_THICK: {
+                result *= f3;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    public float getTickRadiusPosition(TickRadiusPosition tickRadiusPosition) {
+        float result;
+        switch (tickRadiusPosition) {
+            case SHORT: {
+                result = 0f;
+                break;
+            }
+            case MEDIUM: {
+                result = 3f;
+                break;
+            }
+            case LONG: {
+                result = 6f;
+                break;
+            }
+            default:
+            case X_LONG: {
+                result = 9f;
+                break;
+            }
+        }
+
+        return result;
+    }
+
     @NonNull
     List<String> getConfigItemLabelsSetToStyle(@Nullable Style style) {
         List<String> result = new ArrayList<>();
