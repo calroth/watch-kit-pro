@@ -1348,6 +1348,51 @@ public class WatchFaceState {
         return Math.max(fourTickHeight, Math.max(twelveTickHeight, sixtyTickHeight));
     }
 
+
+    private final Rect mLabelRect = new Rect();
+
+    public float getDigitBandHeight(float pc) {
+        String[] labels = getDigitFormatLabels();
+        Style style = getDigitStyle();
+        Paint paint = getPaintBox().getPaintFromPreset(style);
+
+        // Save various attributes of the paint before we temporarily overwrite them...
+        float originalTextSize = paint.getTextSize();
+        paint.setTextSize(10f * pc);
+        Paint.Align originalTextAlign = paint.getTextAlign();
+        paint.setTextAlign(Paint.Align.CENTER);
+
+        float result = 0f;
+
+        for (int i = 0; i < 12; i++) {
+            String label = labels[i];
+            if (label == null || label.length() == 0) {
+                // Don't worry about empty labels...
+                continue;
+            }
+
+            // Get the size (bounds) of the label we're trying to draw.
+            paint.getTextBounds(label, 0, label.length(), mLabelRect);
+
+            if (getDigitRotation() == DigitRotation.CURVED) {
+                // For curved, take the band size as the height.
+                result = Math.max(result, (float) mLabelRect.height());
+            } else {
+                // For straight, take the band size as the diagonal length (worst-case scenario)
+                // = √(width² + height²)
+                result = Math.max(result, (float) Math.sqrt(
+                        (double) (mLabelRect.height() * mLabelRect.height() +
+                                mLabelRect.width() * mLabelRect.width())));
+            }
+        }
+
+        // Restore the paint's attributes.
+        paint.setTextSize(originalTextSize);
+        paint.setTextAlign(originalTextAlign);
+
+        return result;
+    }
+
     public float getTickLength(TickShape tickShape, TickLength tickLength) {
         float barLengthScale = 3f;
         float triangleFactor = (float) (Math.sqrt(3d) / 2d); // Height of an equilateral triangle.
