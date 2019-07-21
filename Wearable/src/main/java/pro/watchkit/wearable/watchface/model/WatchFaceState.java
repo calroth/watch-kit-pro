@@ -1340,6 +1340,14 @@ public class WatchFaceState {
     }
     //endregion
 
+    public float getTickBandHeight() {
+        float fourTickHeight = getTickLength(getFourTickShape(), getFourTickLength());
+        float twelveTickHeight = getTickLength(getTwelveTickShape(), getTwelveTickLength());
+        float sixtyTickHeight = getTickLength(getSixtyTickShape(), getSixtyTickLength());
+
+        return Math.max(fourTickHeight, Math.max(twelveTickHeight, sixtyTickHeight));
+    }
+
     public float getTickLength(TickShape tickShape, TickLength tickLength) {
         float barLengthScale = 3f;
         float triangleFactor = (float) (Math.sqrt(3d) / 2d); // Height of an equilateral triangle.
