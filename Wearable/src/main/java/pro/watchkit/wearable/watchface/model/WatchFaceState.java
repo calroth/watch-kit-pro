@@ -1355,16 +1355,64 @@ public class WatchFaceState {
         mSwatchStyle = swatchStyle;
         mSwatchTextStyle = null;
     }
-    //endregion
+    // endregion
 
-    public float getTickBandHeight() {
-        float fourTickHeight = getTickLength(getFourTickShape(), getFourTickLength());
-        float twelveTickHeight = getTickLength(getTwelveTickShape(), getTwelveTickLength());
-        float sixtyTickHeight = getTickLength(getSixtyTickShape(), getSixtyTickLength());
+    // region Dimensions
 
-        return Math.max(fourTickHeight, Math.max(twelveTickHeight, sixtyTickHeight));
+    private float getBandStart() {
+        switch (getTickMargin()) {
+            case NONE: {
+                return 0f;
+            }
+            case SHORT: {
+                return 5f;
+            }
+            case MEDIUM: {
+                return 10f;
+            }
+            default:
+            case LONG: {
+                return 15f;
+            }
+        }
     }
 
+    public float getTickBandStart(float pc) {
+        if (getDigitDisplay() == DigitDisplay.ABOVE) {
+            return getBandStart() + getDigitBandHeight(pc);
+        } else {
+            return getBandStart();
+        }
+    }
+
+    public float getDigitBandStart(float pc) {
+        if (getDigitDisplay() == DigitDisplay.BELOW) {
+            return getBandStart() + getTickBandHeight(pc);
+        } else {
+            return getBandStart();
+        }
+    }
+
+    /**
+     * Get the tick band height, which is the longest of the four, twelve and sixty ticks (and the
+     * digits too if we're drawing them here).
+     *
+     * @param pc
+     * @return
+     */
+    public float getTickBandHeight(float pc) {
+        float fourTickHeight = getTickHalfLength(getFourTickShape(), getFourTickLength());
+        float twelveTickHeight = getTickHalfLength(getTwelveTickShape(), getTwelveTickLength());
+        float sixtyTickHeight = getTickHalfLength(getSixtyTickShape(), getSixtyTickLength());
+
+        float result = 2f * Math.max(fourTickHeight, Math.max(twelveTickHeight, sixtyTickHeight));
+
+        if (getDigitDisplay() == DigitDisplay.OVER) {
+            return Math.max(result, getDigitBandHeight(pc));
+        } else {
+            return result;
+        }
+    }
 
     private final Rect mLabelRect = new Rect();
 
@@ -1407,10 +1455,10 @@ public class WatchFaceState {
         paint.setTextSize(originalTextSize);
         paint.setTextAlign(originalTextAlign);
 
-        return result;
+        return result / pc; // Convert back from pixels to percentage
     }
 
-    public float getTickLength(TickShape tickShape, TickLength tickLength) {
+    public float getTickHalfLength(TickShape tickShape, TickLength tickLength) {
         float barLengthScale = 3f;
         float triangleFactor = (float) (Math.sqrt(3d) / 2d); // Height of an equilateral triangle.
 
@@ -1555,6 +1603,7 @@ public class WatchFaceState {
 
         return result;
     }
+    // endregion
 
     @NonNull
     List<String> getConfigItemLabelsSetToStyle(@Nullable Style style) {

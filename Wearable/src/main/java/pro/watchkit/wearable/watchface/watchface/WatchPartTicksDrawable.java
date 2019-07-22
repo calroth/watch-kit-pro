@@ -76,7 +76,7 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
     @Override
     public void draw2(@NonNull Canvas canvas) {
         if (mWatchFaceState.isDeveloperMode() && mWatchFaceState.isHideTicks()) {
-            // If we set developer mode "hide hands", then just return!
+            // If we set developer mode "hide ticks", then just return!
             return;
         }
 
@@ -96,7 +96,6 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
             TickShape tickShape = getTickShape();
             TickLength tickLength = getTickLength();
             TickThickness tickThickness = getTickThickness();
-            TickRadiusPosition tickRadiusPosition = getTickRadiusPosition();
             // Modifiers: four ticks are one size up; sixty ticks one size down.
             float mod = getMod() / getMod(); // You know what, turn this off.
 
@@ -106,9 +105,10 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
             float tickWidth =
                     mWatchFaceState.getTickThickness(tickShape, tickThickness) * pc * mod;
             float tickLengthDimen =
-                    mWatchFaceState.getTickLength(tickShape, tickLength) * pc * mod;
-            float tickRadiusPositionDimen =
-                    mWatchFaceState.getTickRadiusPosition(tickRadiusPosition) * pc;
+                    mWatchFaceState.getTickHalfLength(tickShape, tickLength) * pc * mod;
+            float tickBandStart = mWatchFaceState.getTickBandStart(pc) * pc * mod;
+            float tickBandHeight = mWatchFaceState.getTickBandHeight(pc) * pc * mod;
+            float tickRadiusPositionDimen = tickBandStart + (tickBandHeight / 2f);
 
             float centerTickRadius = mCenter - tickRadiusPositionDimen;
             float tickDegrees = ((float) tickIndex / (float) numTicks) * 360f;

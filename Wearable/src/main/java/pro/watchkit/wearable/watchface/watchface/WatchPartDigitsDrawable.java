@@ -59,22 +59,8 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
         Paint.Align originalTextAlign = paint.getTextAlign();
         paint.setTextAlign(Paint.Align.CENTER);
 
-        float digitLocation;
-        switch (mWatchFaceState.getDigitDisplay()) {
-            case ABOVE: {
-                digitLocation = 45f;
-                break;
-            }
-            case OVER: {
-                digitLocation = 40f;
-                break;
-            }
-            default:
-            case BELOW: {
-                digitLocation = 35f;
-                break;
-            }
-        }
+        float digitLocation = 50f - (mWatchFaceState.getDigitBandStart(pc) +
+                (mWatchFaceState.getDigitBandHeight(pc) / 2f));
 
         mPath.reset();
         mExclusionPath.reset();
