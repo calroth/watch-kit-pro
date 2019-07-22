@@ -1405,7 +1405,8 @@ public class WatchFaceState {
         float twelveTickHeight = getTickHalfLength(getTwelveTickShape(), getTwelveTickLength());
         float sixtyTickHeight = getTickHalfLength(getSixtyTickShape(), getSixtyTickLength());
 
-        float result = 2f * Math.max(fourTickHeight, Math.max(twelveTickHeight, sixtyTickHeight));
+        float result = 2f + // Add 2f padding, which is 1f on top and bottom
+                2f * Math.max(fourTickHeight, Math.max(twelveTickHeight, sixtyTickHeight));
 
         if (getDigitDisplay() == DigitDisplay.OVER) {
             return Math.max(result, getDigitBandHeight(pc));
