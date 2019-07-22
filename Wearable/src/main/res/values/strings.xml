@@ -113,6 +113,8 @@
     <string name="config_preset_second_hand_style">Second Hand Style</string>
 
     <string name="config_preset_ticks_display">Ticks Display</string>
+    <string name="config_preset_tick_margin">Tick Margin</string>
+    <string name="config_preset_tick_background_style">Tick Background Style</string>
 
     <string name="config_preset_four_tick_shape">Four Tick Shape</string>
     <string name="config_preset_four_tick_length">Four Tick Length</string>
@@ -221,6 +223,13 @@
         <item>Medium</item>
         <item>Long</item>
         <item>Extra Long</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_TickMargin">
+        <item>None</item>
+        <item>Short</item>
+        <item>Medium</item>
+        <item>Long</item>
     </string-array>
 
     <string-array name="WatchFacePreset_DigitDisplay">

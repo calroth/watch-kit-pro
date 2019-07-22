@@ -262,6 +262,26 @@ public abstract class BytePackable {
         }
     }
 
+    public enum TickMargin implements EnumResourceId {
+        NONE, SHORT, MEDIUM, LONG;
+
+        private static final int bits = 2;
+
+        static TickMargin unpack(BytePacker bytePacker) {
+            return values()[bytePacker.get(bits)];
+        }
+
+        void pack(BytePacker bytePacker) {
+            bytePacker.put(bits, values(), this);
+        }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.WatchFacePreset_TickMargin;
+        }
+    }
+
     public enum DigitDisplay implements EnumResourceId {
         NONE, BELOW, OVER, ABOVE;
 

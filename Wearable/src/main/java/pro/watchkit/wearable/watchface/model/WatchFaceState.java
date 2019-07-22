@@ -56,6 +56,7 @@ import pro.watchkit.wearable.watchface.model.BytePackable.StyleGradient;
 import pro.watchkit.wearable.watchface.model.BytePackable.StyleTexture;
 import pro.watchkit.wearable.watchface.model.BytePackable.TextStyle;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickLength;
+import pro.watchkit.wearable.watchface.model.BytePackable.TickMargin;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickRadiusPosition;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickThickness;
@@ -971,6 +972,14 @@ public class WatchFaceState {
         mWatchFacePreset.mSixtyTickRadiusPosition = sixtyTickRadiusPosition;
     }
 
+    public TickMargin getTickMargin() {
+        return mWatchFacePreset.mTickMargin;
+    }
+
+    void setTickMargin(TickMargin tickMargin) {
+        mWatchFacePreset.mTickMargin = tickMargin;
+    }
+
     public Style getFourTickStyle() {
         return mWatchFacePreset.mFourTickStyle;
     }
@@ -995,6 +1004,14 @@ public class WatchFaceState {
 
     void setSixtyTickStyle(Style sixtyTickStyle) {
         mWatchFacePreset.mSixtyTickStyle = sixtyTickStyle;
+    }
+
+    public Style getTickBackgroundStyle() {
+        return mWatchFacePreset.mTickBackgroundStyle;
+    }
+
+    void setTickBackgroundStyle(Style tickBackgroundStyle) {
+        mWatchFacePreset.mTickBackgroundStyle = tickBackgroundStyle;
     }
 
     boolean isDigitVisible() {

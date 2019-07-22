@@ -34,7 +34,8 @@ final class WatchFacePreset extends BytePackable {
     TickLength mFourTickLength, mTwelveTickLength, mSixtyTickLength;
     TickThickness mFourTickThickness, mTwelveTickThickness, mSixtyTickThickness;
     TickRadiusPosition mFourTickRadiusPosition, mTwelveTickRadiusPosition, mSixtyTickRadiusPosition;
-    Style mFourTickStyle, mTwelveTickStyle, mSixtyTickStyle, mDigitStyle;
+    Style mFourTickStyle, mTwelveTickStyle, mSixtyTickStyle, mDigitStyle, mTickBackgroundStyle;
+    TickMargin mTickMargin;
     DigitDisplay mDigitDisplay;
     DigitRotation mDigitRotation;
     DigitFormat mDigitFormat;
@@ -61,7 +62,8 @@ final class WatchFacePreset extends BytePackable {
                 mFourTickLength, mTwelveTickLength, mSixtyTickLength,
                 mFourTickThickness, mTwelveTickThickness, mSixtyTickThickness,
                 mFourTickRadiusPosition, mTwelveTickRadiusPosition, mSixtyTickRadiusPosition,
-                mFourTickStyle, mTwelveTickStyle, mSixtyTickStyle, mDigitStyle,
+                mTickMargin,
+                mFourTickStyle, mTwelveTickStyle, mSixtyTickStyle, mDigitStyle, mTickBackgroundStyle,
                 mDigitDisplay,
                 mDigitRotation,
                 mDigitFormat,
@@ -141,6 +143,10 @@ final class WatchFacePreset extends BytePackable {
         mBytePacker.putSixBitColor(mHighlightSixBitColor);
         mBytePacker.putSixBitColor(mAccentSixBitColor);
         mBytePacker.putSixBitColor(mBaseSixBitColor);
+
+        // TODO: rearrange these
+        mTickMargin.pack(mBytePacker);
+        mTickBackgroundStyle.pack(mBytePacker);
 
         mBytePacker.finish();
     }
@@ -285,5 +291,9 @@ final class WatchFacePreset extends BytePackable {
         mHighlightSixBitColor = mBytePacker.getSixBitColor();
         mAccentSixBitColor = mBytePacker.getSixBitColor();
         mBaseSixBitColor = mBytePacker.getSixBitColor();
+
+        // TODO: rearrange these too
+        mTickMargin = TickMargin.unpack(mBytePacker);
+        mTickBackgroundStyle = Style.unpack(mBytePacker);
     }
 }

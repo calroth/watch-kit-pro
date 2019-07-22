@@ -54,6 +54,28 @@ public class WatchPartTicksConfigData extends ConfigData {
                                 WatchFaceState::setTicksDisplay,
                                 WatchFaceState::getTicksDisplay)),
 
+                // Data for tick margin in settings Activity.
+                new PickerConfigItem(
+                        context.getString(R.string.config_preset_tick_margin),
+                        R.drawable.icn_styles,
+                        watchFaceGlobalDrawableFlags,
+                        WatchFaceSelectionActivity.class,
+                        new EnumMutator<>(
+                                BytePackable.TickMargin.values(),
+                                WatchFaceState::setTickMargin,
+                                WatchFaceState::getTickMargin)),
+
+                // Data for tick background style in settings Activity.
+                new PickerConfigItem(
+                        context.getString(R.string.config_preset_tick_background_style),
+                        R.drawable.icn_styles,
+                        watchFaceGlobalDrawableFlagsStyle,
+                        WatchFaceSelectionActivity.class,
+                        new EnumMutator<>(
+                                BytePackable.Style.values(),
+                                WatchFaceState::setTickBackgroundStyle,
+                                WatchFaceState::getTickBackgroundStyle)),
+
                 // Data for four tick shape in settings Activity.
                 new PickerConfigItem(
                         context.getString(R.string.config_preset_four_tick_shape),
