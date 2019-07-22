@@ -1623,14 +1623,17 @@ public class WatchFaceState {
         if (getHourHandStyle() == style) {
             result.add(mContext.getString(R.string.config_preset_hour_hand_style));
         }
-        if (getDigitStyle() == style) {
-            result.add(mContext.getString(R.string.config_preset_digit_style));
-        }
         if (getMinuteHandStyle() == style) {
             result.add(mContext.getString(R.string.config_preset_minute_hand_style));
         }
         if (getComplicationBackgroundStyle() == style) {
             result.add(mContext.getString(R.string.config_preset_second_hand_style));
+        }
+        if (getTickBackgroundStyle() == style) {
+            result.add(mContext.getString(R.string.config_preset_tick_background_style));
+        }
+        if (getDigitStyle() == style) {
+            result.add(mContext.getString(R.string.config_preset_digit_style));
         }
         if (getFourTickStyle() == style) {
             result.add(mContext.getString(R.string.config_preset_four_tick_style));
