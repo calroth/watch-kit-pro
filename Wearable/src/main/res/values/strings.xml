@@ -229,7 +229,7 @@
         <item>None</item>
         <item>Short</item>
         <item>Medium</item>
-        <item>Long</item>
+        <item>Large</item>
     </string-array>
 
     <string-array name="WatchFacePreset_DigitDisplay">
