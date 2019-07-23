@@ -53,8 +53,10 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
         Style style = mWatchFaceState.getDigitStyle();
         Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(style);
 
-        float digitLocation = 50f - (mWatchFaceState.getDigitBandStart(pc) +
-                (mWatchFaceState.getDigitBandHeight(pc) / 2f));
+        float digitBandStart = mWatchFaceState.getDigitBandStart(pc);
+        float digitBandHeight = 0.5f * (mWatchFaceState.getDigitDisplay() == DigitDisplay.OVER ?
+                mWatchFaceState.getTickBandHeight(pc) : mWatchFaceState.getDigitBandHeight(pc));
+        float digitLocation = 50f - (digitBandStart + digitBandHeight);
 
         mPath.reset();
         mExclusionPath.reset();
