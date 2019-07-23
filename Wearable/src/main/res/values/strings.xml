@@ -219,13 +219,6 @@
         <item>Extra Thick</item>
     </string-array>
 
-    <string-array name="WatchFacePreset_TickRadiusPosition">
-        <item>Short</item>
-        <item>Medium</item>
-        <item>Long</item>
-        <item>Extra Long</item>
-    </string-array>
-
     <string-array name="WatchFacePreset_TickMargin">
         <item>None</item>
         <item>Small</item>

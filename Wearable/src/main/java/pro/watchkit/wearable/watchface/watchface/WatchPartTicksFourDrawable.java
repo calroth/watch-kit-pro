@@ -2,7 +2,6 @@ package pro.watchkit.wearable.watchface.watchface;
 
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickLength;
-import pro.watchkit.wearable.watchface.model.BytePackable.TickRadiusPosition;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickThickness;
 
@@ -38,11 +37,6 @@ final class WatchPartTicksFourDrawable extends WatchPartTicksDrawable {
     @Override
     protected TickThickness getTickThickness() {
         return mWatchFaceState.getFourTickThickness();
-    }
-
-    @Override
-    protected TickRadiusPosition getTickRadiusPosition() {
-        return mWatchFaceState.getFourTickRadiusPosition();
     }
 
     @Override

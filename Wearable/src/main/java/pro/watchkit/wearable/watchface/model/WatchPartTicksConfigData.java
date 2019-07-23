@@ -112,18 +112,6 @@ public class WatchPartTicksConfigData extends ConfigData {
                                 WatchFaceState::getFourTickThickness),
                         WatchFaceState::isFourTicksVisible),
 
-                // Data for four tick radius position in settings Activity.
-                new PickerConfigItem(
-                        context.getString(R.string.config_preset_four_tick_radius_position),
-                        R.drawable.icn_styles,
-                        watchFaceGlobalDrawableFlags,
-                        WatchFaceSelectionActivity.class,
-                        new EnumMutator<>(
-                                BytePackable.TickRadiusPosition.values(),
-                                WatchFaceState::setFourTickRadiusPosition,
-                                WatchFaceState::getFourTickRadiusPosition),
-                        WatchFaceState::isFourTicksVisible),
-
                 // Data for four tick style in settings Activity.
                 new PickerConfigItem(
                         context.getString(R.string.config_preset_four_tick_style),
@@ -237,18 +225,6 @@ public class WatchPartTicksConfigData extends ConfigData {
                                 WatchFaceState::getTwelveTickThickness),
                         WatchFaceState::isTwelveTicksOverridden),
 
-                // Data for twelve tick radius position in settings Activity.
-                new PickerConfigItem(
-                        context.getString(R.string.config_preset_twelve_tick_radius_position),
-                        R.drawable.icn_styles,
-                        watchFaceGlobalDrawableFlags,
-                        WatchFaceSelectionActivity.class,
-                        new EnumMutator<>(
-                                BytePackable.TickRadiusPosition.values(),
-                                WatchFaceState::setTwelveTickRadiusPosition,
-                                WatchFaceState::getTwelveTickRadiusPosition),
-                        WatchFaceState::isTwelveTicksOverridden),
-
                 // Data for twelve tick style in settings Activity.
                 new PickerConfigItem(
                         context.getString(R.string.config_preset_twelve_tick_style),
@@ -302,18 +278,6 @@ public class WatchPartTicksConfigData extends ConfigData {
                                 BytePackable.TickThickness.values(),
                                 WatchFaceState::setSixtyTickThickness,
                                 WatchFaceState::getSixtyTickThickness),
-                        WatchFaceState::isSixtyTicksOverridden),
-
-                // Data for sixty tick radius position in settings Activity.
-                new PickerConfigItem(
-                        context.getString(R.string.config_preset_sixty_tick_radius_position),
-                        R.drawable.icn_styles,
-                        watchFaceGlobalDrawableFlags,
-                        WatchFaceSelectionActivity.class,
-                        new EnumMutator<>(
-                                BytePackable.TickRadiusPosition.values(),
-                                WatchFaceState::setSixtyTickRadiusPosition,
-                                WatchFaceState::getSixtyTickRadiusPosition),
                         WatchFaceState::isSixtyTicksOverridden),
 
                 // Data for sixty tick style in settings Activity.

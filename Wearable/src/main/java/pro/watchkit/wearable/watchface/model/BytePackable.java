@@ -242,26 +242,6 @@ public abstract class BytePackable {
         }
     }
 
-    public enum TickRadiusPosition implements EnumResourceId {
-        SHORT, MEDIUM, LONG, X_LONG;
-
-        private static final int bits = 2;
-
-        static TickRadiusPosition unpack(BytePacker bytePacker) {
-            return values()[bytePacker.get(bits)];
-        }
-
-        void pack(BytePacker bytePacker) {
-            bytePacker.put(bits, values(), this);
-        }
-
-        @Override
-        @ArrayRes
-        public int getNameResourceId() {
-            return R.array.WatchFacePreset_TickRadiusPosition;
-        }
-    }
-
     public enum TickMargin implements EnumResourceId {
         NONE, SMALL, MEDIUM, LARGE;
 

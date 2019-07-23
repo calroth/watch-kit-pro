@@ -33,7 +33,6 @@ final class WatchFacePreset extends BytePackable {
     TickShape mFourTickShape, mTwelveTickShape, mSixtyTickShape;
     TickLength mFourTickLength, mTwelveTickLength, mSixtyTickLength;
     TickThickness mFourTickThickness, mTwelveTickThickness, mSixtyTickThickness;
-    TickRadiusPosition mFourTickRadiusPosition, mTwelveTickRadiusPosition, mSixtyTickRadiusPosition;
     Style mFourTickStyle, mTwelveTickStyle, mSixtyTickStyle, mDigitStyle, mTickBackgroundStyle;
     TickMargin mTickMargin;
     DigitDisplay mDigitDisplay;
@@ -62,7 +61,6 @@ final class WatchFacePreset extends BytePackable {
                 mFourTickShape, mTwelveTickShape, mSixtyTickShape,
                 mFourTickLength, mTwelveTickLength, mSixtyTickLength,
                 mFourTickThickness, mTwelveTickThickness, mSixtyTickThickness,
-                mFourTickRadiusPosition, mTwelveTickRadiusPosition, mSixtyTickRadiusPosition,
                 mTickMargin,
                 mFourTickStyle, mTwelveTickStyle, mSixtyTickStyle, mDigitStyle, mTickBackgroundStyle,
                 mDigitDisplay,
@@ -115,21 +113,21 @@ final class WatchFacePreset extends BytePackable {
         mFourTickShape.pack(mBytePacker);
         mFourTickLength.pack(mBytePacker);
         mFourTickThickness.pack(mBytePacker);
-        mFourTickRadiusPosition.pack(mBytePacker);
+        mBytePacker.put(2, 0); // mFourTickRadiusPosition
         mFourTickStyle.pack(mBytePacker);
 
         mBytePacker.put(mTwelveTickOverride);
         mTwelveTickShape.pack(mBytePacker);
         mTwelveTickLength.pack(mBytePacker);
         mTwelveTickThickness.pack(mBytePacker);
-        mTwelveTickRadiusPosition.pack(mBytePacker);
+        mBytePacker.put(2, 0); // mTwelveTickRadiusPosition
         mTwelveTickStyle.pack(mBytePacker);
 
         mBytePacker.put(mSixtyTickOverride);
         mSixtyTickShape.pack(mBytePacker);
         mSixtyTickLength.pack(mBytePacker);
         mSixtyTickThickness.pack(mBytePacker);
-        mSixtyTickRadiusPosition.pack(mBytePacker);
+        mBytePacker.put(2, 0); // mSixtyTickRadiusPosition
         mSixtyTickStyle.pack(mBytePacker);
 
         mFillHighlightStyleGradient.pack(mBytePacker);
@@ -195,21 +193,21 @@ final class WatchFacePreset extends BytePackable {
                 mFourTickShape = TickShape.unpack(mBytePacker);
                 mFourTickLength = TickLength.unpack(mBytePacker);
                 mFourTickThickness = TickThickness.unpack(mBytePacker);
-                mFourTickRadiusPosition = TickRadiusPosition.unpack(mBytePacker);
+                mBytePacker.get(2); // mFourTickRadiusPosition
                 mFourTickStyle = Style.unpack3(mBytePacker);
 
                 mTwelveTickOverride = mBytePacker.getBoolean();
                 mTwelveTickShape = TickShape.unpack(mBytePacker);
                 mTwelveTickLength = TickLength.unpack(mBytePacker);
                 mTwelveTickThickness = TickThickness.unpack(mBytePacker);
-                mTwelveTickRadiusPosition = TickRadiusPosition.unpack(mBytePacker);
+                mBytePacker.get(2); // mTwelveTickRadiusPosition
                 mTwelveTickStyle = Style.unpack3(mBytePacker);
 
                 mSixtyTickOverride = mBytePacker.getBoolean();
                 mSixtyTickShape = TickShape.unpack(mBytePacker);
                 mSixtyTickLength = TickLength.unpack(mBytePacker);
                 mSixtyTickThickness = TickThickness.unpack(mBytePacker);
-                mSixtyTickRadiusPosition = TickRadiusPosition.unpack(mBytePacker);
+                mBytePacker.get(2); // mSixtyTickRadiusPosition
                 mSixtyTickStyle = Style.unpack3(mBytePacker);
 
                 mFillHighlightStyleGradient = StyleGradient.unpack(mBytePacker);
@@ -259,21 +257,21 @@ final class WatchFacePreset extends BytePackable {
                 mFourTickShape = TickShape.unpack(mBytePacker);
                 mFourTickLength = TickLength.unpack(mBytePacker);
                 mFourTickThickness = TickThickness.unpack(mBytePacker);
-                mFourTickRadiusPosition = TickRadiusPosition.unpack(mBytePacker);
+                mBytePacker.get(2); // mFourTickRadiusPosition
                 mFourTickStyle = Style.unpack(mBytePacker);
 
                 mTwelveTickOverride = mBytePacker.getBoolean();
                 mTwelveTickShape = TickShape.unpack(mBytePacker);
                 mTwelveTickLength = TickLength.unpack(mBytePacker);
                 mTwelveTickThickness = TickThickness.unpack(mBytePacker);
-                mTwelveTickRadiusPosition = TickRadiusPosition.unpack(mBytePacker);
+                mBytePacker.get(2); // mTwelveTickRadiusPosition
                 mTwelveTickStyle = Style.unpack(mBytePacker);
 
                 mSixtyTickOverride = mBytePacker.getBoolean();
                 mSixtyTickShape = TickShape.unpack(mBytePacker);
                 mSixtyTickLength = TickLength.unpack(mBytePacker);
                 mSixtyTickThickness = TickThickness.unpack(mBytePacker);
-                mSixtyTickRadiusPosition = TickRadiusPosition.unpack(mBytePacker);
+                mBytePacker.get(2); // mSixtyTickRadiusPosition;
                 mSixtyTickStyle = Style.unpack(mBytePacker);
 
                 mFillHighlightStyleGradient = StyleGradient.unpack(mBytePacker);

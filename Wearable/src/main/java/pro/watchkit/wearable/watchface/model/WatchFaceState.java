@@ -58,7 +58,6 @@ import pro.watchkit.wearable.watchface.model.BytePackable.StyleTexture;
 import pro.watchkit.wearable.watchface.model.BytePackable.TextStyle;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickLength;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickMargin;
-import pro.watchkit.wearable.watchface.model.BytePackable.TickRadiusPosition;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickThickness;
 import pro.watchkit.wearable.watchface.model.BytePackable.TicksDisplay;
@@ -946,33 +945,6 @@ public class WatchFaceState {
         mWatchFacePreset.mSixtyTickThickness = sixtyTickThickness;
     }
 
-    public TickRadiusPosition getFourTickRadiusPosition() {
-        return mWatchFacePreset.mFourTickRadiusPosition;
-    }
-
-    void setFourTickRadiusPosition(TickRadiusPosition fourTickRadiusPosition) {
-        mWatchFacePreset.mFourTickRadiusPosition = fourTickRadiusPosition;
-    }
-
-    public TickRadiusPosition getTwelveTickRadiusPosition() {
-        return mWatchFacePreset.mTwelveTickOverride ?
-                mWatchFacePreset.mTwelveTickRadiusPosition :
-                mWatchFacePreset.mFourTickRadiusPosition;
-    }
-
-    void setTwelveTickRadiusPosition(TickRadiusPosition twelveTickRadiusPosition) {
-        mWatchFacePreset.mTwelveTickRadiusPosition = twelveTickRadiusPosition;
-    }
-
-    public TickRadiusPosition getSixtyTickRadiusPosition() {
-        return mWatchFacePreset.mSixtyTickOverride ?
-                mWatchFacePreset.mSixtyTickRadiusPosition : mWatchFacePreset.mFourTickRadiusPosition;
-    }
-
-    void setSixtyTickRadiusPosition(TickRadiusPosition sixtyTickRadiusPosition) {
-        mWatchFacePreset.mSixtyTickRadiusPosition = sixtyTickRadiusPosition;
-    }
-
     public TickMargin getTickMargin() {
         return mWatchFacePreset.mTickMargin;
     }
@@ -1573,31 +1545,6 @@ public class WatchFaceState {
             default:
             case X_THICK: {
                 result *= f3;
-                break;
-            }
-        }
-
-        return result;
-    }
-
-    public float getTickRadiusPosition(TickRadiusPosition tickRadiusPosition) {
-        float result;
-        switch (tickRadiusPosition) {
-            case SHORT: {
-                result = 0f;
-                break;
-            }
-            case MEDIUM: {
-                result = 3f;
-                break;
-            }
-            case LONG: {
-                result = 6f;
-                break;
-            }
-            default:
-            case X_LONG: {
-                result = 9f;
                 break;
             }
         }
