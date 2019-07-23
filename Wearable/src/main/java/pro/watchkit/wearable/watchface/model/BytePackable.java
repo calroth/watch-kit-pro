@@ -263,7 +263,7 @@ public abstract class BytePackable {
     }
 
     public enum TickMargin implements EnumResourceId {
-        NONE, SHORT, MEDIUM, LONG;
+        NONE, SMALL, MEDIUM, LARGE;
 
         private static final int bits = 2;
 

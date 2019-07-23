@@ -1373,14 +1373,14 @@ public class WatchFaceState {
             case NONE: {
                 return 0f;
             }
-            case SHORT: {
+            case SMALL: {
                 return 5f;
             }
             case MEDIUM: {
                 return 10f;
             }
             default:
-            case LONG: {
+            case LARGE: {
                 return 15f;
             }
         }
