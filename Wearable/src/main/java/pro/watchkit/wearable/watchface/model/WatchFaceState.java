@@ -1041,6 +1041,7 @@ public class WatchFaceState {
 
     void setDigitSize(DigitSize digitSize) {
         mWatchFacePreset.mDigitSize = digitSize;
+        regeneratePaints();
     }
 
     public DigitRotation getDigitRotation() {
@@ -1244,7 +1245,8 @@ public class WatchFaceState {
                 getFillHighlightStyleGradient(), getAccentFillStyleGradient(),
                 getAccentHighlightStyleGradient(), getBaseAccentStyleGradient(),
                 getFillHighlightStyleTexture(), getAccentFillStyleTexture(),
-                getAccentHighlightStyleTexture(), getBaseAccentStyleTexture());
+                getAccentHighlightStyleTexture(), getBaseAccentStyleTexture(),
+                getDigitSize());
     }
 
     /**
@@ -1430,13 +1432,6 @@ public class WatchFaceState {
         String[] labels = getDigitFormatLabels();
         Style style = getDigitStyle();
         Paint paint = getPaintBox().getPaintFromPreset(style);
-
-        // Save various attributes of the paint before we temporarily overwrite them...
-        float originalTextSize = paint.getTextSize();
-        paint.setTextSize(10f * pc);
-        Paint.Align originalTextAlign = paint.getTextAlign();
-        paint.setTextAlign(Paint.Align.CENTER);
-
         float result = 0f;
 
         for (int i = 0; i < 12; i++) {
@@ -1460,10 +1455,6 @@ public class WatchFaceState {
                                 mLabelRect.width() * mLabelRect.width())));
             }
         }
-
-        // Restore the paint's attributes.
-        paint.setTextSize(originalTextSize);
-        paint.setTextAlign(originalTextAlign);
 
         return result / pc; // Convert back from pixels to percentage
     }

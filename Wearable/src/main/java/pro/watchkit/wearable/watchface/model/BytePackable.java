@@ -305,7 +305,7 @@ public abstract class BytePackable {
     public enum DigitSize implements EnumResourceId {
         SMALL, MEDIUM, LARGE, X_LARGE;
 
-        private static final int bits = 1;
+        private static final int bits = 2;
 
         static DigitSize unpack(BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];

@@ -53,12 +53,6 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
         Style style = mWatchFaceState.getDigitStyle();
         Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(style);
 
-        // Save various attributes of the paint before we temporarily overwrite them...
-        float originalTextSize = paint.getTextSize();
-        paint.setTextSize(10f * pc);
-        Paint.Align originalTextAlign = paint.getTextAlign();
-        paint.setTextAlign(Paint.Align.CENTER);
-
         float digitLocation = 50f - (mWatchFaceState.getDigitBandStart(pc) +
                 (mWatchFaceState.getDigitBandHeight(pc) / 2f));
 
@@ -125,10 +119,6 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
             mTempPath.transform(mTempPathMatrix); // Transform it with the same matrix!
             mExclusionPath.op(mTempPath, Path.Op.UNION);
         }
-
-        // Restore the paint's attributes.
-        paint.setTextSize(originalTextSize);
-        paint.setTextAlign(originalTextAlign);
 
         // Draw it!
         drawPath(canvas, mPath, paint);

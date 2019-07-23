@@ -44,6 +44,7 @@ import java.lang.ref.WeakReference;
 import java.util.Objects;
 
 import pro.watchkit.wearable.watchface.R;
+import pro.watchkit.wearable.watchface.model.BytePackable.DigitSize;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 import pro.watchkit.wearable.watchface.model.BytePackable.StyleGradient;
 import pro.watchkit.wearable.watchface.model.BytePackable.StyleTexture;
@@ -73,6 +74,8 @@ public final class PaintBox {
     private GradientPaint mBezelPaint2 = new GradientPaint();
     @NonNull
     private GradientPaint mAccentHighlightPaint = new GradientPaint();
+    @NonNull
+    private GradientPaint mBaseAccentPaint = new GradientPaint();
     private int mPreviousSerial = -1;
     private Context mContext;
 
@@ -97,9 +100,6 @@ public final class PaintBox {
         mShadowPaint = newDefaultPaint();
         mShadowPaint.setStyle(Paint.Style.FILL);
     }
-
-    @NonNull
-    private GradientPaint mBaseAccentPaint = new GradientPaint();
 
     /**
      * Given two colors A and B, return an intermediate color between the two. The distance
@@ -208,6 +208,7 @@ public final class PaintBox {
     private int mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor;
     private int mAmbientDaySixBitColor, mAmbientNightSixBitColor;
     private StyleGradient mFillHighlightStyleGradient;
+    private DigitSize mDigitSize;
 
     @NonNull
     private static Paint newDefaultPaint() {
@@ -332,7 +333,8 @@ public final class PaintBox {
                           @NonNull StyleTexture fillHighlightStyleTexture,
                           @NonNull StyleTexture accentFillStyleTexture,
                           @NonNull StyleTexture accentHighlightStyleTexture,
-                          @NonNull StyleTexture baseAccentStyleTexture) {
+                          @NonNull StyleTexture baseAccentStyleTexture,
+                          @NonNull DigitSize digitSize) {
         mFillSixBitColor = fillSixBitColor;
         mAccentSixBitColor = accentSixBitColor;
         mHighlightSixBitColor = highlightSixBitColor;
@@ -347,6 +349,7 @@ public final class PaintBox {
         mAccentFillStyleTexture = accentFillStyleTexture;
         mAccentHighlightStyleTexture = accentHighlightStyleTexture;
         mBaseAccentStyleTexture = baseAccentStyleTexture;
+        mDigitSize = digitSize;
     }
 
     @Override
@@ -367,6 +370,7 @@ public final class PaintBox {
                 mAccentFillStyleTexture,
                 mAccentHighlightStyleTexture,
                 mBaseAccentStyleTexture,
+                mDigitSize,
                 pc,
                 height, width);
     }
@@ -407,6 +411,47 @@ public final class PaintBox {
         mAccentHighlightPaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
         mBaseAccentPaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
         mAmbientPaint.setStrokeWidth(AMBIENT_PAINT_STROKE_WIDTH_PERCENT * pc);
+
+        // Regenerate digit sizes.
+        float textSize;
+        switch (mDigitSize) {
+            case SMALL: {
+                textSize = 4f * pc;
+                break;
+            }
+            case MEDIUM: {
+                textSize = 6f * pc;
+                break;
+            }
+            case LARGE: {
+                textSize = 8f * pc;
+                break;
+            }
+            default:
+            case X_LARGE: {
+                textSize = 10f * pc;
+                break;
+            }
+        }
+
+        setPaintTextAttributes(mFillPaint, textSize);
+        setPaintTextAttributes(mAccentPaint, textSize);
+        setPaintTextAttributes(mHighlightPaint, textSize);
+        setPaintTextAttributes(mBasePaint, textSize);
+        setPaintTextAttributes(mAmbientPaint, textSize);
+        setPaintTextAttributes(mShadowPaint, textSize);
+
+        setPaintTextAttributes(mFillHighlightPaint, textSize);
+        setPaintTextAttributes(mAccentFillPaint, textSize);
+        setPaintTextAttributes(mBezelPaint1, textSize);
+        setPaintTextAttributes(mBezelPaint2, textSize);
+        setPaintTextAttributes(mAccentHighlightPaint, textSize);
+        setPaintTextAttributes(mBaseAccentPaint, textSize);
+    }
+
+    private static void setPaintTextAttributes(Paint paint, float textSize) {
+        paint.setTextSize(textSize);
+        paint.setTextAlign(Paint.Align.CENTER);
     }
 
     private static Bitmap mTempBitmap;
