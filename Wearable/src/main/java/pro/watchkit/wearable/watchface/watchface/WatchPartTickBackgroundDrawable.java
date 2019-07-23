@@ -65,6 +65,12 @@ class WatchPartTickBackgroundDrawable extends WatchPartDrawable {
             // If the tick ring is too, skip it. Otherwise draw something!
             return;
         }
+
+        // Oh yes. Only draw in active mode -- don't need to do this in ambient.
+        if (mWatchFaceState.isAmbient()) {
+            return;
+        }
+
         p.reset();
         p2.reset();
 
