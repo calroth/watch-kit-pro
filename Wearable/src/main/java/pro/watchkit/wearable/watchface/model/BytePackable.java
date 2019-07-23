@@ -302,6 +302,26 @@ public abstract class BytePackable {
         }
     }
 
+    public enum DigitSize implements EnumResourceId {
+        SMALL, MEDIUM, LARGE, X_LARGE;
+
+        private static final int bits = 1;
+
+        static DigitSize unpack(BytePacker bytePacker) {
+            return values()[bytePacker.get(bits)];
+        }
+
+        void pack(BytePacker bytePacker) {
+            bytePacker.put(bits, values(), this);
+        }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.WatchFacePreset_DigitSize;
+        }
+    }
+
     public enum DigitRotation implements EnumResourceId {
         UPRIGHT, CURVED;
 

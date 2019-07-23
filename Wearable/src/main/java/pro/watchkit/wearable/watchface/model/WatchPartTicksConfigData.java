@@ -147,6 +147,17 @@ public class WatchPartTicksConfigData extends ConfigData {
                                 WatchFaceState::setDigitDisplay,
                                 WatchFaceState::getDigitDisplay)),
 
+                // Data for digit size in settings Activity.
+                new PickerConfigItem(
+                        context.getString(R.string.config_preset_digit_size),
+                        R.drawable.icn_styles,
+                        watchFaceGlobalDrawableFlags,
+                        WatchFaceSelectionActivity.class,
+                        new EnumMutator<>(
+                                BytePackable.DigitSize.values(),
+                                WatchFaceState::setDigitSize,
+                                WatchFaceState::getDigitSize)),
+
                 // Data for digit rotation in settings Activity.
                 new PickerConfigItem(
                         context.getString(R.string.config_preset_digit_rotation),

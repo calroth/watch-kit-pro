@@ -46,6 +46,7 @@ import pro.watchkit.wearable.watchface.model.BytePackable.ComplicationRotation;
 import pro.watchkit.wearable.watchface.model.BytePackable.DigitDisplay;
 import pro.watchkit.wearable.watchface.model.BytePackable.DigitFormat;
 import pro.watchkit.wearable.watchface.model.BytePackable.DigitRotation;
+import pro.watchkit.wearable.watchface.model.BytePackable.DigitSize;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandCutout;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandLength;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandShape;
@@ -1032,6 +1033,14 @@ public class WatchFaceState {
 
     void setDigitDisplay(DigitDisplay digitDisplay) {
         mWatchFacePreset.mDigitDisplay = digitDisplay;
+    }
+
+    public DigitSize getDigitSize() {
+        return mWatchFacePreset.mDigitSize;
+    }
+
+    void setDigitSize(DigitSize digitSize) {
+        mWatchFacePreset.mDigitSize = digitSize;
     }
 
     public DigitRotation getDigitRotation() {
