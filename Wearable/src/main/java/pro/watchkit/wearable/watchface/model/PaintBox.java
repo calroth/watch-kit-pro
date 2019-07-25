@@ -33,12 +33,14 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.RadialGradient;
 import android.graphics.Shader;
 import android.graphics.SweepGradient;
+import android.graphics.Typeface;
 import android.graphics.Xfermode;
 import android.os.Build;
 import android.util.SparseArray;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.lang.ref.WeakReference;
 import java.util.Objects;
@@ -162,7 +164,7 @@ public final class PaintBox {
      * @param colorB The other color
      * @param cLUT   The array to put the results into
      */
-    static void getIntermediateColor(
+    private static void getIntermediateColor(
             @ColorInt int colorA, @ColorInt int colorB, @ColorInt int[] cLUT) {
         double j = (double) (cLUT.length - 1);
 
@@ -208,7 +210,9 @@ public final class PaintBox {
     private int mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor;
     private int mAmbientDaySixBitColor, mAmbientNightSixBitColor;
     private StyleGradient mFillHighlightStyleGradient;
-    private DigitSize mDigitSize;
+    private float mTextSize;
+    @Nullable
+    private Typeface mTypeface;
 
     @NonNull
     private static Paint newDefaultPaint() {
@@ -334,7 +338,8 @@ public final class PaintBox {
                           @NonNull StyleTexture accentFillStyleTexture,
                           @NonNull StyleTexture accentHighlightStyleTexture,
                           @NonNull StyleTexture baseAccentStyleTexture,
-                          @NonNull DigitSize digitSize) {
+                          @NonNull DigitSize digitSize,
+                          @Nullable Typeface typeface) {
         mFillSixBitColor = fillSixBitColor;
         mAccentSixBitColor = accentSixBitColor;
         mHighlightSixBitColor = highlightSixBitColor;
@@ -349,7 +354,28 @@ public final class PaintBox {
         mAccentFillStyleTexture = accentFillStyleTexture;
         mAccentHighlightStyleTexture = accentHighlightStyleTexture;
         mBaseAccentStyleTexture = baseAccentStyleTexture;
-        mDigitSize = digitSize;
+
+        // Set digit sizes.
+        switch (digitSize) {
+            case SMALL: {
+                mTextSize = 4f * pc;
+                break;
+            }
+            case MEDIUM: {
+                mTextSize = 6f * pc;
+                break;
+            }
+            case LARGE: {
+                mTextSize = 8f * pc;
+                break;
+            }
+            default:
+            case X_LARGE: {
+                mTextSize = 10f * pc;
+                break;
+            }
+        }
+        mTypeface = typeface;
     }
 
     @Override
@@ -370,7 +396,8 @@ public final class PaintBox {
                 mAccentFillStyleTexture,
                 mAccentHighlightStyleTexture,
                 mBaseAccentStyleTexture,
-                mDigitSize,
+                mTextSize,
+                mTypeface,
                 pc,
                 height, width);
     }
@@ -412,45 +439,24 @@ public final class PaintBox {
         mBaseAccentPaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
         mAmbientPaint.setStrokeWidth(AMBIENT_PAINT_STROKE_WIDTH_PERCENT * pc);
 
-        // Regenerate digit sizes.
-        float textSize;
-        switch (mDigitSize) {
-            case SMALL: {
-                textSize = 4f * pc;
-                break;
-            }
-            case MEDIUM: {
-                textSize = 6f * pc;
-                break;
-            }
-            case LARGE: {
-                textSize = 8f * pc;
-                break;
-            }
-            default:
-            case X_LARGE: {
-                textSize = 10f * pc;
-                break;
-            }
-        }
+        setPaintTextAttributes(mFillPaint);
+        setPaintTextAttributes(mAccentPaint);
+        setPaintTextAttributes(mHighlightPaint);
+        setPaintTextAttributes(mBasePaint);
+        setPaintTextAttributes(mAmbientPaint);
+        setPaintTextAttributes(mShadowPaint);
 
-        setPaintTextAttributes(mFillPaint, textSize);
-        setPaintTextAttributes(mAccentPaint, textSize);
-        setPaintTextAttributes(mHighlightPaint, textSize);
-        setPaintTextAttributes(mBasePaint, textSize);
-        setPaintTextAttributes(mAmbientPaint, textSize);
-        setPaintTextAttributes(mShadowPaint, textSize);
-
-        setPaintTextAttributes(mFillHighlightPaint, textSize);
-        setPaintTextAttributes(mAccentFillPaint, textSize);
-        setPaintTextAttributes(mBezelPaint1, textSize);
-        setPaintTextAttributes(mBezelPaint2, textSize);
-        setPaintTextAttributes(mAccentHighlightPaint, textSize);
-        setPaintTextAttributes(mBaseAccentPaint, textSize);
+        setPaintTextAttributes(mFillHighlightPaint);
+        setPaintTextAttributes(mAccentFillPaint);
+        setPaintTextAttributes(mBezelPaint1);
+        setPaintTextAttributes(mBezelPaint2);
+        setPaintTextAttributes(mAccentHighlightPaint);
+        setPaintTextAttributes(mBaseAccentPaint);
     }
 
-    private static void setPaintTextAttributes(Paint paint, float textSize) {
-        paint.setTextSize(textSize);
+    private void setPaintTextAttributes(Paint paint) {
+        paint.setTextSize(mTextSize);
+        paint.setTypeface(mTypeface);
         paint.setTextAlign(Paint.Align.CENTER);
     }
 

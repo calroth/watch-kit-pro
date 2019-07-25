@@ -515,6 +515,7 @@ public class WatchFaceState {
 
     void setTypeface(Typeface typeface) {
         mSettings.mTypeface = typeface;
+        regeneratePaints();
     }
 
     /**
@@ -527,10 +528,12 @@ public class WatchFaceState {
     }
 
     @Nullable
-    android.graphics.Typeface getTypefaceObject() {
+    private android.graphics.Typeface getTypefaceObject() {
+        Typeface temp = Typeface.PRODUCT_SANS_BOLD;
         if (Build.VERSION.SDK_INT >= 26) {
             // For API 26 and above, we can attempt to get most cool fonts.
-            switch (getTypeface()) {
+            switch (temp) {
+//            switch (getTypeface()) {
                 case DROID_SANS: {
                     Builder b = new Builder("/system/fonts/DroidSans.ttf");
                     return b.build();
@@ -1327,7 +1330,8 @@ public class WatchFaceState {
                 getAccentHighlightStyleGradient(), getBaseAccentStyleGradient(),
                 getFillHighlightStyleTexture(), getAccentFillStyleTexture(),
                 getAccentHighlightStyleTexture(), getBaseAccentStyleTexture(),
-                getDigitSize());
+                getDigitSize(),
+                getTypefaceObject());
     }
 
     /**
