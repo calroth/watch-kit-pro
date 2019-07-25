@@ -466,6 +466,30 @@ public abstract class BytePackable {
         }
     }
 
+    public enum Typeface implements EnumResourceId {
+        DROID_SANS, DROID_SANS_BOLD,
+        NOTO_SERIF, NOTO_SERIF_BOLD,
+        DROID_SANS_MONO,
+        ROBOTO, ROBOTO_BOLD, ROBOTO_BLACK,
+        PRODUCT_SANS, PRODUCT_SANS_BOLD;
+
+        private static final int bits = 4;
+
+        static Typeface unpack(BytePacker bytePacker) {
+            return values()[bytePacker.get(bits)];
+        }
+
+        void pack(BytePacker bytePacker) {
+            bytePacker.put(bits, values(), this);
+        }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.Settings_Typeface;
+        }
+    }
+
     public interface EnumResourceId {
         @ArrayRes
         int getNameResourceId();

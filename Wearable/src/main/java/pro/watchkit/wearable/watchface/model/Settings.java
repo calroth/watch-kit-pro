@@ -24,6 +24,7 @@ import java.util.Objects;
  * Check yuor settings.
  */
 final class Settings extends BytePackable {
+    Typeface mTypeface;
     boolean mShowUnreadNotifications;
     boolean mNightVisionModeEnabled;
     ComplicationCount mComplicationCount;
@@ -40,6 +41,7 @@ final class Settings extends BytePackable {
     public int hashCode() {
         return Objects.hash(
                 super.hashCode(),
+                mTypeface,
                 mShowUnreadNotifications,
                 mNightVisionModeEnabled,
                 mComplicationCount,
@@ -73,6 +75,7 @@ final class Settings extends BytePackable {
         mBytePacker.put(mHideTicks);
         mBytePacker.put(mHideHands);
         mBytePacker.put(mAltDrawing);
+        mTypeface.pack(mBytePacker);
 
         mBytePacker.finish();
     }
@@ -102,6 +105,7 @@ final class Settings extends BytePackable {
                 mHideTicks = mBytePacker.getBoolean();
                 mHideHands = mBytePacker.getBoolean();
                 mAltDrawing = mBytePacker.getBoolean();
+                mTypeface = Typeface.DROID_SANS_BOLD;
                 break;
             }
             case 2:
@@ -121,6 +125,7 @@ final class Settings extends BytePackable {
                 mHideTicks = mBytePacker.getBoolean();
                 mHideHands = mBytePacker.getBoolean();
                 mAltDrawing = mBytePacker.getBoolean();
+                mTypeface = Typeface.unpack(mBytePacker);
                 break;
             }
         }

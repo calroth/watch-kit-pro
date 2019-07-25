@@ -22,6 +22,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface.Builder;
+import android.os.Build;
 import android.support.wearable.complications.ComplicationData;
 import android.util.Log;
 
@@ -61,6 +63,7 @@ import pro.watchkit.wearable.watchface.model.BytePackable.TickMargin;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickThickness;
 import pro.watchkit.wearable.watchface.model.BytePackable.TicksDisplay;
+import pro.watchkit.wearable.watchface.model.BytePackable.Typeface;
 import pro.watchkit.wearable.watchface.model.PaintBox.ColorType;
 
 /**
@@ -506,11 +509,117 @@ public class WatchFaceState {
     }
 
     // region Settings
+    Typeface getTypeface() {
+        return mSettings.mTypeface;
+    }
+
+    void setTypeface(Typeface typeface) {
+        mSettings.mTypeface = typeface;
+    }
+
+    /**
+     * Is the currently-set typeface installed and available for use?
+     *
+     * @return Whether the typeface is available
+     */
+    boolean isTypefaceAvailable() {
+        return getTypefaceObject() != null;
+    }
+
+    @Nullable
+    android.graphics.Typeface getTypefaceObject() {
+        if (Build.VERSION.SDK_INT >= 26) {
+            // For API 26 and above, we can attempt to get most cool fonts.
+            switch (getTypeface()) {
+                case DROID_SANS: {
+                    Builder b = new Builder("/system/fonts/DroidSans.ttf");
+                    return b.build();
+                }
+                case DROID_SANS_BOLD: {
+                    Builder b = new Builder("/system/fonts/DroidSans-Bold.ttf");
+                    return b.build();
+                }
+                case NOTO_SERIF: {
+                    Builder b = new Builder("/system/fonts/NotoSerif-Regular.ttf");
+                    return b.build();
+                }
+                case NOTO_SERIF_BOLD: {
+                    Builder b = new Builder("/system/fonts/NotoSerif-Bold.ttf");
+                    return b.build();
+                }
+                case DROID_SANS_MONO: {
+                    Builder b = new Builder("/system/fonts/DroidSans-Mono.ttf");
+                    return b.build();
+                }
+                case ROBOTO: {
+                    Builder b = new Builder("/system/fonts/Roboto-Regular.ttf");
+                    return b.build();
+                }
+                case ROBOTO_BOLD: {
+                    Builder b = new Builder("/system/fonts/Roboto-Bold.ttf");
+                    return b.build();
+                }
+                case ROBOTO_BLACK: {
+                    Builder b = new Builder("/system/fonts/Roboto-Black.ttf");
+                    return b.build();
+                }
+                case PRODUCT_SANS: {
+                    Builder b = new Builder("/system/fonts/GoogleSans-Regular.ttf");
+                    return b.build();
+                }
+                case PRODUCT_SANS_BOLD: {
+                    Builder b = new Builder("/system/fonts/GoogleSans-Bold.ttf");
+                    return b.build();
+                }
+                default: {
+                    return android.graphics.Typeface.DEFAULT;
+                }
+            }
+        } else {
+            // For API 25 and older, just get the regular uncool fonts.
+            switch (getTypeface()) {
+                case DROID_SANS: {
+                    return android.graphics.Typeface.DEFAULT;
+                }
+                case DROID_SANS_BOLD: {
+                    return android.graphics.Typeface.DEFAULT_BOLD;
+                }
+                case NOTO_SERIF: {
+                    return android.graphics.Typeface.SERIF;
+                }
+                case NOTO_SERIF_BOLD: {
+                    return null;
+                }
+                case DROID_SANS_MONO: {
+                    return android.graphics.Typeface.MONOSPACE;
+                }
+                case ROBOTO: {
+                    return null;
+                }
+                case ROBOTO_BOLD: {
+                    return null;
+                }
+                case ROBOTO_BLACK: {
+                    return null;
+                }
+                case PRODUCT_SANS: {
+                    return null;
+                }
+                case PRODUCT_SANS_BOLD: {
+                    return null;
+                }
+                default: {
+                    return android.graphics.Typeface.DEFAULT;
+                }
+            }
+        }
+    }
+
     ComplicationRotation getComplicationRotation() {
         return mSettings.mComplicationRotation;
     }
 
-    void setComplicationRotation(BytePackable.ComplicationRotation complicationRotation) {
+    void setComplicationRotation(ComplicationRotation complicationRotation) {
         mSettings.mComplicationRotation = complicationRotation;
     }
 

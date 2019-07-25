@@ -340,6 +340,19 @@
         <item>Hex</item>
     </string-array>
 
+    <string-array name="Settings_Typeface">
+        <item>Droid Sans</item>
+        <item>Droid Sans Bold</item>
+        <item>Noto Serif</item>
+        <item>Noto Serif Bold</item>
+        <item>Droid Sans Mono</item>
+        <item>Roboto</item>
+        <item>Roboto Bold</item>
+        <item>Roboto Black</item>
+        <item>Product Sans</item>
+        <item>Product Sans Bold</item>
+    </string-array>
+
     <string-array name="Settings_ComplicationRotation">
         <item>Offset +0.00</item>
         <item>Offset +0.25</item>
