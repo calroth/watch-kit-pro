@@ -23,6 +23,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.wearable.complications.ComplicationData;
@@ -213,7 +214,8 @@ public final class ComplicationHolder implements Drawable.Callback {
 //        mComplicationDrawable.setBorderStyleActive(borderStyle);
 //    }
 
-    void setColors(@ColorInt int activeColor, @ColorInt int ambientColor) {
+    void setColors(@ColorInt int activeColor, @ColorInt int ambientColor,
+                   @Nullable Typeface typeface) {
         if (!isForeground) {
             // Set the default to black, in case the user-defined image takes a while to load.
             mComplicationDrawable.setBackgroundColorActive(Color.BLACK);
@@ -232,6 +234,8 @@ public final class ComplicationHolder implements Drawable.Callback {
             mComplicationDrawable.setTitleColorActive(fadedActiveColor);
             mComplicationDrawable.setIconColorActive(fadedActiveColor);
             mComplicationDrawable.setRangedValuePrimaryColorActive(activeColor);
+            mComplicationDrawable.setTextTypefaceActive(typeface);
+            mComplicationDrawable.setTitleTypefaceActive(typeface);
 
             // Generate a faded ambient color that is exactly the same as "ambientColor"
             // only the alpha is 2/3 the value.
@@ -246,6 +250,8 @@ public final class ComplicationHolder implements Drawable.Callback {
             mComplicationDrawable.setTextColorAmbient(ambientColor);
             mComplicationDrawable.setTitleColorAmbient(fadedAmbientColor);
             mComplicationDrawable.setIconColorAmbient(fadedAmbientColor);
+            mComplicationDrawable.setTextTypefaceAmbient(typeface);
+            mComplicationDrawable.setTitleTypefaceAmbient(typeface);
         }
     }
 

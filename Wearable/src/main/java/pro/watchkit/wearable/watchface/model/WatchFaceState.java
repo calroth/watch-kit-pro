@@ -369,9 +369,9 @@ public class WatchFaceState {
     public void setComplicationColors() {
         @ColorInt int activeColor = getColor(getComplicationTextStyle());
         @ColorInt int ambientColor = Color.WHITE;
-        // TODO: hook that up to the night vision tint when after dark
+        @Nullable android.graphics.Typeface typeface = getTypefaceObject();
 
-        mComplications.forEach(c -> c.setColors(activeColor, ambientColor));
+        mComplications.forEach(c -> c.setColors(activeColor, ambientColor, typeface));
     }
 
 //    public Settings getSettings() {
@@ -529,7 +529,7 @@ public class WatchFaceState {
 
     @Nullable
     private android.graphics.Typeface getTypefaceObject() {
-        Typeface temp = Typeface.PRODUCT_SANS_BOLD;
+        Typeface temp = Typeface.NOTO_SERIF_BOLD;
         if (Build.VERSION.SDK_INT >= 26) {
             // For API 26 and above, we can attempt to get most cool fonts.
             switch (temp) {
