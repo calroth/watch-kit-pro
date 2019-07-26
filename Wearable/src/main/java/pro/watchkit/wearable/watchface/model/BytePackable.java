@@ -466,6 +466,46 @@ public abstract class BytePackable {
         }
     }
 
+    public enum ComplicationSize implements EnumResourceId {
+        SMALL, MEDIUM, LARGE, X_LARGE;
+
+        private static final int bits = 2;
+
+        static ComplicationSize unpack(BytePacker bytePacker) {
+            return values()[bytePacker.get(bits)];
+        }
+
+        void pack(BytePacker bytePacker) {
+            bytePacker.put(bits, values(), this);
+        }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.Settings_ComplicationSize;
+        }
+    }
+
+    public enum ComplicationOverlap implements EnumResourceId {
+        SMALL, MEDIUM, LARGE, X_LARGE;
+
+        private static final int bits = 2;
+
+        static ComplicationOverlap unpack(BytePacker bytePacker) {
+            return values()[bytePacker.get(bits)];
+        }
+
+        void pack(BytePacker bytePacker) {
+            bytePacker.put(bits, values(), this);
+        }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.Settings_ComplicationOverlap;
+        }
+    }
+
     public enum Typeface implements EnumResourceId {
         DROID_SANS, DROID_SANS_BOLD,
         NOTO_SERIF, NOTO_SERIF_BOLD,

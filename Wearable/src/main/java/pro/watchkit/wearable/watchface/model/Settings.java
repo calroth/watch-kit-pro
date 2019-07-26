@@ -28,7 +28,9 @@ final class Settings extends BytePackable {
     boolean mShowUnreadNotifications;
     boolean mNightVisionModeEnabled;
     ComplicationCount mComplicationCount;
-    ComplicationRotation mComplicationRotation = ComplicationRotation.ROTATE_25;
+    ComplicationRotation mComplicationRotation;
+    ComplicationSize mComplicationSize;
+    ComplicationOverlap mComplicationOverlap;
     int mAmbientDaySixBitColor, mAmbientNightSixBitColor;
     TextStyle mComplicationTextStyle;
     Style mComplicationRingStyle, mComplicationBackgroundStyle;
@@ -46,6 +48,8 @@ final class Settings extends BytePackable {
                 mNightVisionModeEnabled,
                 mComplicationCount,
                 mComplicationRotation,
+                mComplicationSize,
+                mComplicationOverlap,
                 mAmbientDaySixBitColor, mAmbientNightSixBitColor,
                 mComplicationTextStyle,
                 mComplicationRingStyle, mComplicationBackgroundStyle,
@@ -76,6 +80,9 @@ final class Settings extends BytePackable {
         mBytePacker.put(mHideHands);
         mBytePacker.put(mAltDrawing);
         mTypeface.pack(mBytePacker);
+        // TODO: rearrange these
+        mComplicationSize.pack(mBytePacker);
+        mComplicationOverlap.pack(mBytePacker);
 
         mBytePacker.finish();
     }
@@ -106,6 +113,8 @@ final class Settings extends BytePackable {
                 mHideHands = mBytePacker.getBoolean();
                 mAltDrawing = mBytePacker.getBoolean();
                 mTypeface = Typeface.DROID_SANS_BOLD;
+                mComplicationSize = ComplicationSize.X_LARGE;
+                mComplicationOverlap = ComplicationOverlap.MEDIUM;
                 break;
             }
             case 2:
@@ -126,6 +135,8 @@ final class Settings extends BytePackable {
                 mHideHands = mBytePacker.getBoolean();
                 mAltDrawing = mBytePacker.getBoolean();
                 mTypeface = Typeface.unpack(mBytePacker);
+                mComplicationSize = ComplicationSize.unpack(mBytePacker);
+                mComplicationOverlap = ComplicationOverlap.unpack(mBytePacker);
                 break;
             }
         }

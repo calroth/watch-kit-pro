@@ -67,6 +67,28 @@ public class ComplicationConfigData extends ConfigData {
                                 WatchFaceState::setComplicationRotation,
                                 WatchFaceState::getComplicationRotation)),
 
+                // Data for complication size in settings Activity.
+                new PickerConfigItem(
+                        context.getString(R.string.config_complication_size),
+                        R.drawable.icn_styles,
+                        watchFaceGlobalDrawableFlags,
+                        WatchFaceSelectionActivity.class,
+                        new EnumMutator<>(
+                                BytePackable.ComplicationSize.values(),
+                                WatchFaceState::setComplicationSize,
+                                WatchFaceState::getComplicationSize)),
+
+                // Data for complication overlap in settings Activity.
+                new PickerConfigItem(
+                        context.getString(R.string.config_complication_overlap),
+                        R.drawable.icn_styles,
+                        watchFaceGlobalDrawableFlags,
+                        WatchFaceSelectionActivity.class,
+                        new EnumMutator<>(
+                                BytePackable.ComplicationOverlap.values(),
+                                WatchFaceState::setComplicationOverlap,
+                                WatchFaceState::getComplicationOverlap)),
+
                 // Data for complication text style in settings Activity.
                 new PickerConfigItem(
                         context.getString(R.string.config_complication_text_style),
