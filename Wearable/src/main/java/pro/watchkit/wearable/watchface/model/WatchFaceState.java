@@ -707,7 +707,7 @@ public class WatchFaceState {
         mSettings.mComplicationCount = complicationCount;
     }
 
-    ComplicationSize getComplicationSize() {
+    public ComplicationSize getComplicationSize() {
         return mSettings.mComplicationSize;
     }
 
@@ -715,7 +715,7 @@ public class WatchFaceState {
         mSettings.mComplicationSize = complicationSize;
     }
 
-    ComplicationOverlap getComplicationOverlap() {
+    public ComplicationOverlap getComplicationOverlap() {
         return mSettings.mComplicationOverlap;
     }
 

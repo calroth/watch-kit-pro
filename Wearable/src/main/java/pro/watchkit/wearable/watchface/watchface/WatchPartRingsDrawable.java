@@ -69,18 +69,41 @@ final class WatchPartRingsDrawable extends WatchPartDrawable {
         mHoles.reset();
         mBackground.reset();
 
+        float ringRadius;
+        switch (mWatchFaceState.getComplicationOverlap()) {
+            case SMALL: {
+                ringRadius = 0.85f;
+                break;
+            }
+            case MEDIUM: {
+                ringRadius = 0.95f;
+                break;
+            }
+            case LARGE: {
+                ringRadius = 1.05f;
+                break;
+            }
+            default:
+            case X_LARGE: {
+                ringRadius = 1.15f;
+                break;
+            }
+        }
+        float holeRadius = ringRadius - 0.04f;
+        float pathRadius = ringRadius - 0.02f;
+
         // Calculate our mRings and mHoles!
         complications.stream()
                 .filter(c -> c.isForeground && c.getBounds() != null && (c.isActive || mDrawAllRings))
                 .forEach(c -> {
                     Rect r = c.getBounds();
                     mRings.addCircle(r.exactCenterX(), r.exactCenterY(),
-                            1.05f * r.width() / 2f, getDirection());
+                            ringRadius * r.width() / 2f, getDirection());
                     mHoles.addCircle(r.exactCenterX(), r.exactCenterY(),
-                            1.01f * r.width() / 2f, getDirection());
+                            holeRadius * r.width() / 2f, getDirection());
                     mPath.reset(); // Using "mPath" as a temporary variable here...
                     mPath.addCircle(r.exactCenterX(), r.exactCenterY(),
-                            1.03f * r.width() / 2f, getDirection());
+                            pathRadius * r.width() / 2f, getDirection());
                     mBackground.op(mPath, Path.Op.UNION);
                 });
 
