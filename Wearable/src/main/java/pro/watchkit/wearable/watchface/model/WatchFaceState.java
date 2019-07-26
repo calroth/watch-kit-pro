@@ -333,19 +333,57 @@ public class WatchFaceState {
             }
         }
 
+        float radius = size * 2f;
+        switch (getComplicationSize()) {
+            case SMALL: {
+                radius *= 0.4f;
+                break;
+            }
+            case MEDIUM: {
+                radius *= 0.6f;
+                break;
+            }
+            case LARGE: {
+                radius *= 0.8f;
+                break;
+            }
+            default:
+            case X_LARGE: {
+                // Don't need to do this: radius *= 1.0f;
+                break;
+            }
+        }
+
         for (ComplicationHolder complication : mComplications) {
             if (complication.isForeground) {
                 // Foreground
-                float degrees = (float) ((i + 0.5f) * Math.PI * 2 / getComplicationCountInt());
+                float degreesB = (float) (i * Math.PI * 2 / getComplicationCountInt());
+                float degreesC = (float) ((i + 1f) * Math.PI * 2 / getComplicationCountInt());
 
-                float halfSize = size / 2f;
+                // A triangle (a, b, c) with a at the centre,
+                // and b and c forming a wedge of the circle.
+                // Their co-ordinates:
+                float xa = (float) width / 2f;
+                float ya = (float) height / 2f;
+                float xb = xa + (float) Math.sin(degreesB) * radius;
+                float yb = ya + (float) Math.cos(degreesB) * radius;
+                float xc = xa + (float) Math.sin(degreesC) * radius;
+                float yc = ya + (float) Math.cos(degreesC) * radius;
 
-                float innerX = (width / 2f) + (float) Math.sin(degrees) * size;
-                float innerY = (height / 2f) - (float) Math.cos(degrees) * size;
+                // Their side lengths
+                float a = (float) Math.sqrt((double) (
+                        ((xb - xc) * (xb - xc)) + ((yb - yc) * (yb - yc))));
+                float b = radius; // By definition.
+                float c = radius;
 
-                Rect b1 = new Rect((int) (innerX - halfSize), (int) (innerY - halfSize),
-                        (int) (innerX + halfSize), (int) (innerY + halfSize));
+                // The centre and radius of the incircle.
+                float incentreX = (a * xa + b * xb + c * xc) / (a + b + c);
+                float incentreY = (a * ya + b * yb + c * yc) / (a + b + c);
+                float s = (a + b + c) / 2f;
+                float inradius = (float) Math.sqrt((double) (s * (s - a) * (s - b) * (s - c))) / s;
 
+                Rect b1 = new Rect((int) (incentreX - inradius), (int) (incentreY - inradius),
+                        (int) (incentreX + inradius), (int) (incentreY + inradius));
                 complication.setBounds(b1);
                 i++;
             } else {
@@ -707,7 +745,7 @@ public class WatchFaceState {
         mSettings.mComplicationCount = complicationCount;
     }
 
-    public ComplicationSize getComplicationSize() {
+    ComplicationSize getComplicationSize() {
         return mSettings.mComplicationSize;
     }
 
