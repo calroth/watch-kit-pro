@@ -65,6 +65,9 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
                 mWatchFaceState.getPaintBox().getAmbientPaint() :
                 mWatchFaceState.getPaintBox().getPaintFromPreset(Style.FILL_HIGHLIGHT);
 
+        float originalTextSize = textPaint.getTextSize();
+        textPaint.setTextSize(3f * pc);
+
         float x = 12f * pc;
         float y = 35f * pc;
         mStringBuilder.setLength(0);
@@ -109,10 +112,12 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
 
         if (mTextPath == null) {
             mTextPath = new Path();
-            mTextPath.addArc(15f * pc, 15f * pc, 85f * pc, 85f * pc, 5f + 45f, 350f);
+            mTextPath.addArc(4f * pc, 4f * pc, 96f * pc, 96f * pc, 5f + 45f, 350f);
         }
 
         canvas.drawTextOnPath(mStringBuilder.toString(), mTextPath, 0, 0, textPaint);
+
+        textPaint.setTextSize(originalTextSize);
     }
 
     private float drawStats(
