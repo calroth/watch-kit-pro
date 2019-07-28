@@ -248,10 +248,14 @@
     </string-array>
 
     <string-array name="WatchFacePreset_DigitFormat">
-        <item>Numerals 1–12</item>
-        <item>Numerals 12, 3, 6, 9</item>
-        <item>Numerals 00–55</item>
-        <item>Roman Numerals I–XII</item>
+        <item>12, 1, 2, 3 … 11</item>
+        <item>12, 3, 6, 9</item>
+        <item>00, 05, 10, 15 … 55</item>
+        <item>Ⅻ, Ⅰ, Ⅱ, Ⅲ … Ⅺ</item>
+        <item>⑫, ①, ②, ③ … ⑪</item>
+        <item>⓬, ❶, ❷, ❸ … ⓫</item>
+        <item>𝟙𝟚, 𝟙, 𝟚, 𝟛 … 𝟙𝟙</item>
+        <item>🕛, 🕐, 🕑, 🕒 … 🕚</item>
     </string-array>
 
     <string-array name="WatchFacePreset_DigitFormat_NUMERALS_12_4">
@@ -312,6 +316,66 @@
         <item>Ⅸ</item>
         <item>Ⅹ</item>
         <item>Ⅺ</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_DigitFormat_CIRCLED">
+        <item>⑫</item>
+        <item>①</item>
+        <item>②</item>
+        <item>③</item>
+        <item>④</item>
+        <item>⑤</item>
+        <item>⑥</item>
+        <item>⑦</item>
+        <item>⑧</item>
+        <item>⑨</item>
+        <item>⑩</item>
+        <item>⑪</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_DigitFormat_NEGATIVE_CIRCLED">
+        <item>⓬</item>
+        <item>❶</item>
+        <item>❷</item>
+        <item>❸</item>
+        <item>❹</item>
+        <item>❺</item>
+        <item>❻</item>
+        <item>❼</item>
+        <item>❽</item>
+        <item>❾</item>
+        <item>❿</item>
+        <item>⓫</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_DigitFormat_DOUBLE_STRUCK">
+        <item>𝟙𝟚</item>
+        <item>𝟙</item>
+        <item>𝟚</item>
+        <item>𝟛</item>
+        <item>𝟜</item>
+        <item>𝟝</item>
+        <item>𝟞</item>
+        <item>𝟟</item>
+        <item>𝟠</item>
+        <item>𝟡</item>
+        <item>𝟙𝟘</item>
+        <item>𝟙𝟙</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_DigitFormat_CLOCK_FACES">
+        <item>🕛</item>
+        <item>🕐</item>
+        <item>🕑</item>
+        <item>🕒</item>
+        <item>🕓</item>
+        <item>🕔</item>
+        <item>🕕</item>
+        <item>🕖</item>
+        <item>🕗</item>
+        <item>🕘</item>
+        <item>🕙</item>
+        <item>🕚</item>
     </string-array>
 
     <string-array name="WatchFacePreset_TextStyle">

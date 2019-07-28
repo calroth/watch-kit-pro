@@ -323,7 +323,8 @@ public abstract class BytePackable {
     }
 
     public enum DigitFormat implements EnumResourceId {
-        NUMERALS_12_4, NUMERALS_12_12, NUMERALS_60, ROMAN;
+        NUMERALS_12_4, NUMERALS_12_12, NUMERALS_60, ROMAN,
+        CIRCLED, NEGATIVE_CIRCLED, DOUBLE_STRUCK, CLOCK_FACES;
 
         private static final int bits = 2;
 

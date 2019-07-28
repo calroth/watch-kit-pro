@@ -86,7 +86,10 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
             // Rotate the label if necessary.
             if (mWatchFaceState.getDigitRotation() == DigitRotation.CURVED) {
                 if ((mWatchFaceState.getDigitFormat() == DigitFormat.NUMERALS_12_4 ||
-                        mWatchFaceState.getDigitFormat() == DigitFormat.NUMERALS_12_12) &&
+                        mWatchFaceState.getDigitFormat() == DigitFormat.NUMERALS_12_12 ||
+                        mWatchFaceState.getDigitFormat() == DigitFormat.CIRCLED ||
+                        mWatchFaceState.getDigitFormat() == DigitFormat.NEGATIVE_CIRCLED ||
+                        mWatchFaceState.getDigitFormat() == DigitFormat.DOUBLE_STRUCK) &&
                         i >= 4 && i <= 8) {
                     // For the numeric label types, draw the labels 4-8 "upside down"...
                     // Essentially to disambiguate labels "6" and "9".

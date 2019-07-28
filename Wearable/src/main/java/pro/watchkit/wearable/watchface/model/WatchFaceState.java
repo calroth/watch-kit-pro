@@ -1261,9 +1261,25 @@ public class WatchFaceState {
                 labelRes = R.array.WatchFacePreset_DigitFormat_NUMERALS_60;
                 break;
             }
-            default:
             case ROMAN: {
                 labelRes = R.array.WatchFacePreset_DigitFormat_ROMAN;
+                break;
+            }
+            case CIRCLED: {
+                labelRes = R.array.WatchFacePreset_DigitFormat_CIRCLED;
+                break;
+            }
+            case NEGATIVE_CIRCLED: {
+                labelRes = R.array.WatchFacePreset_DigitFormat_NEGATIVE_CIRCLED;
+                break;
+            }
+            case DOUBLE_STRUCK: {
+                labelRes = R.array.WatchFacePreset_DigitFormat_DOUBLE_STRUCK;
+                break;
+            }
+            default:
+            case CLOCK_FACES: {
+                labelRes = R.array.WatchFacePreset_DigitFormat_CLOCK_FACES;
                 break;
             }
         }
