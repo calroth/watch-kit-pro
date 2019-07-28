@@ -354,6 +354,27 @@ public class WatchFaceState {
             }
         }
 
+        float complicationScale;
+        switch (getComplicationOverlap()) {
+            case SMALL: {
+                complicationScale = 0.875f;
+                break;
+            }
+            default:
+            case MEDIUM: {
+                complicationScale = 1f;
+                break;
+            }
+            case LARGE: {
+                complicationScale = 1.125f;
+                break;
+            }
+            case X_LARGE: {
+                complicationScale = 1.25f;
+                break;
+            }
+        }
+
         for (ComplicationHolder complication : mComplications) {
             if (complication.isForeground) {
                 // Foreground
@@ -381,6 +402,7 @@ public class WatchFaceState {
                 float incentreY = (a * ya + b * yb + c * yc) / (a + b + c);
                 float s = (a + b + c) / 2f;
                 float inradius = (float) Math.sqrt((double) (s * (s - a) * (s - b) * (s - c))) / s;
+                inradius *= complicationScale;
 
                 Rect b1 = new Rect((int) (incentreX - inradius), (int) (incentreY - inradius),
                         (int) (incentreX + inradius), (int) (incentreY + inradius));

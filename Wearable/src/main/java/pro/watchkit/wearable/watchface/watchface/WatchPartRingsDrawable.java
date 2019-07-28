@@ -60,7 +60,7 @@ final class WatchPartRingsDrawable extends WatchPartDrawable {
         Collection<ComplicationHolder> complications =
                 mWatchFaceState.getComplicationsForDrawing(getBounds());
 
-        if (complications == null || complications.size() == 0) {
+        if (complications.size() == 0) {
             // Early finish if we don't actually have any complications.
             return;
         }
@@ -69,26 +69,7 @@ final class WatchPartRingsDrawable extends WatchPartDrawable {
         mHoles.reset();
         mBackground.reset();
 
-        float ringRadius;
-        switch (mWatchFaceState.getComplicationOverlap()) {
-            case SMALL: {
-                ringRadius = 0.85f;
-                break;
-            }
-            case MEDIUM: {
-                ringRadius = 0.95f;
-                break;
-            }
-            case LARGE: {
-                ringRadius = 1.05f;
-                break;
-            }
-            default:
-            case X_LARGE: {
-                ringRadius = 1.15f;
-                break;
-            }
-        }
+        float ringRadius = 1.05f;
         float holeRadius = ringRadius - 0.04f;
         float pathRadius = ringRadius - 0.02f;
 
