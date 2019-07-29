@@ -76,11 +76,11 @@ final class WatchFacePreset extends BytePackable {
 
     @Override
     void pack() {
-        // Version 1
+        // Version 2
         mBytePacker.rewind();
 
-        // Pack version 1
-        mBytePacker.put(3, 1);
+        // Pack version 2
+        mBytePacker.put(3, 2);
 
         mHourHandShape.pack(mBytePacker);
         mHourHandLength.pack(mBytePacker);
@@ -91,6 +91,7 @@ final class WatchFacePreset extends BytePackable {
 
         mDigitStyle.pack(mBytePacker);
         mDigitDisplay.pack(mBytePacker);
+        mDigitSize.pack(mBytePacker);
         mDigitRotation.pack(mBytePacker);
         mDigitFormat.pack(mBytePacker);
 
@@ -109,25 +110,24 @@ final class WatchFacePreset extends BytePackable {
         mSecondHandStyle.pack(mBytePacker);
 
         mTicksDisplay.pack(mBytePacker);
+        mTickMargin.pack(mBytePacker);
+        mTickBackgroundStyle.pack(mBytePacker);
 
         mFourTickShape.pack(mBytePacker);
         mFourTickLength.pack(mBytePacker);
         mFourTickThickness.pack(mBytePacker);
-        mBytePacker.put(2, 0); // mFourTickRadiusPosition
         mFourTickStyle.pack(mBytePacker);
 
         mBytePacker.put(mTwelveTickOverride);
         mTwelveTickShape.pack(mBytePacker);
         mTwelveTickLength.pack(mBytePacker);
         mTwelveTickThickness.pack(mBytePacker);
-        mBytePacker.put(2, 0); // mTwelveTickRadiusPosition
         mTwelveTickStyle.pack(mBytePacker);
 
         mBytePacker.put(mSixtyTickOverride);
         mSixtyTickShape.pack(mBytePacker);
         mSixtyTickLength.pack(mBytePacker);
         mSixtyTickThickness.pack(mBytePacker);
-        mBytePacker.put(2, 0); // mSixtyTickRadiusPosition
         mSixtyTickStyle.pack(mBytePacker);
 
         mFillHighlightStyleGradient.pack(mBytePacker);
@@ -145,9 +145,6 @@ final class WatchFacePreset extends BytePackable {
         mBytePacker.putSixBitColor(mBaseSixBitColor);
 
         // TODO: rearrange these
-        mTickMargin.pack(mBytePacker);
-        mTickBackgroundStyle.pack(mBytePacker);
-        mDigitSize.pack(mBytePacker);
 
         mBytePacker.finish();
     }
@@ -172,7 +169,7 @@ final class WatchFacePreset extends BytePackable {
                 mDigitStyle = Style.unpack3(mBytePacker);
                 mDigitDisplay = DigitDisplay.unpack(mBytePacker);
                 mDigitRotation = DigitRotation.unpack(mBytePacker);
-                mDigitFormat = DigitFormat.unpack(mBytePacker);
+                mDigitFormat = DigitFormat.unpack2(mBytePacker);
 
                 mMinuteHandOverride = mBytePacker.getBoolean();
                 mMinuteHandShape = HandShape.unpack(mBytePacker);
@@ -236,7 +233,7 @@ final class WatchFacePreset extends BytePackable {
                 mDigitStyle = Style.unpack(mBytePacker);
                 mDigitDisplay = DigitDisplay.unpack(mBytePacker);
                 mDigitRotation = DigitRotation.unpack(mBytePacker);
-                mDigitFormat = DigitFormat.unpack(mBytePacker);
+                mDigitFormat = DigitFormat.unpack2(mBytePacker);
 
                 mMinuteHandOverride = mBytePacker.getBoolean();
                 mMinuteHandShape = HandShape.unpack(mBytePacker);
@@ -288,10 +285,73 @@ final class WatchFacePreset extends BytePackable {
                 mAccentSixBitColor = mBytePacker.getSixBitColor();
                 mBaseSixBitColor = mBytePacker.getSixBitColor();
 
-                // TODO: rearrange these too
                 mTickMargin = TickMargin.unpack(mBytePacker);
                 mTickBackgroundStyle = Style.unpack(mBytePacker);
                 mDigitSize = DigitSize.unpack(mBytePacker);
+                break;
+            }
+            case 2: {
+                mHourHandShape = HandShape.unpack(mBytePacker);
+                mHourHandLength = HandLength.unpack(mBytePacker);
+                mHourHandThickness = HandThickness.unpack(mBytePacker);
+                mHourHandStalk = HandStalk.unpack(mBytePacker);
+                mHourHandCutout = HandCutout.unpack(mBytePacker);
+                mHourHandStyle = Style.unpack(mBytePacker);
+
+                mDigitStyle = Style.unpack(mBytePacker);
+                mDigitDisplay = DigitDisplay.unpack(mBytePacker);
+                mDigitSize = DigitSize.unpack(mBytePacker);
+                mDigitRotation = DigitRotation.unpack(mBytePacker);
+                mDigitFormat = DigitFormat.unpack(mBytePacker);
+
+                mMinuteHandOverride = mBytePacker.getBoolean();
+                mMinuteHandShape = HandShape.unpack(mBytePacker);
+                mMinuteHandLength = HandLength.unpack(mBytePacker);
+                mMinuteHandThickness = HandThickness.unpack(mBytePacker);
+                mMinuteHandStalk = HandStalk.unpack(mBytePacker);
+                mMinuteHandCutout = HandCutout.unpack(mBytePacker);
+                mMinuteHandStyle = Style.unpack(mBytePacker);
+
+                mSecondHandOverride = mBytePacker.getBoolean();
+                mSecondHandShape = HandShape.STRAIGHT; // Hard-coded!
+                mSecondHandLength = HandLength.unpack(mBytePacker);
+                mSecondHandThickness = HandThickness.unpack(mBytePacker);
+                mSecondHandStyle = Style.unpack(mBytePacker);
+
+                mTicksDisplay = TicksDisplay.unpack(mBytePacker);
+                mTickMargin = TickMargin.unpack(mBytePacker);
+                mTickBackgroundStyle = Style.unpack(mBytePacker);
+
+                mFourTickShape = TickShape.unpack(mBytePacker);
+                mFourTickLength = TickLength.unpack(mBytePacker);
+                mFourTickThickness = TickThickness.unpack(mBytePacker);
+                mFourTickStyle = Style.unpack(mBytePacker);
+
+                mTwelveTickOverride = mBytePacker.getBoolean();
+                mTwelveTickShape = TickShape.unpack(mBytePacker);
+                mTwelveTickLength = TickLength.unpack(mBytePacker);
+                mTwelveTickThickness = TickThickness.unpack(mBytePacker);
+                mTwelveTickStyle = Style.unpack(mBytePacker);
+
+                mSixtyTickOverride = mBytePacker.getBoolean();
+                mSixtyTickShape = TickShape.unpack(mBytePacker);
+                mSixtyTickLength = TickLength.unpack(mBytePacker);
+                mSixtyTickThickness = TickThickness.unpack(mBytePacker);
+                mSixtyTickStyle = Style.unpack(mBytePacker);
+
+                mFillHighlightStyleGradient = StyleGradient.unpack(mBytePacker);
+                mFillHighlightStyleTexture = StyleTexture.unpack(mBytePacker);
+                mAccentFillStyleGradient = StyleGradient.unpack(mBytePacker);
+                mAccentFillStyleTexture = StyleTexture.unpack(mBytePacker);
+                mAccentHighlightStyleGradient = StyleGradient.unpack(mBytePacker);
+                mAccentHighlightStyleTexture = StyleTexture.unpack(mBytePacker);
+                mBaseAccentStyleGradient = StyleGradient.unpack(mBytePacker);
+                mBaseAccentStyleTexture = StyleTexture.unpack(mBytePacker);
+
+                mFillSixBitColor = mBytePacker.getSixBitColor();
+                mHighlightSixBitColor = mBytePacker.getSixBitColor();
+                mAccentSixBitColor = mBytePacker.getSixBitColor();
+                mBaseSixBitColor = mBytePacker.getSixBitColor();
                 break;
             }
         }

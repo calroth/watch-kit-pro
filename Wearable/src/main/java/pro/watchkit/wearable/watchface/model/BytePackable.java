@@ -326,10 +326,14 @@ public abstract class BytePackable {
         NUMERALS_12_4, NUMERALS_12_12, NUMERALS_60, ROMAN,
         CIRCLED, NEGATIVE_CIRCLED, DOUBLE_STRUCK, CLOCK_FACES;
 
-        private static final int bits = 2;
+        private static final int bits = 3;
 
         static DigitFormat unpack(BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
+        }
+
+        static DigitFormat unpack2(BytePacker bytePacker) {
+            return values()[bytePacker.get(2)];
         }
 
         void pack(BytePacker bytePacker) {
