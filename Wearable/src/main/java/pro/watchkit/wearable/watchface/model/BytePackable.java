@@ -183,12 +183,19 @@ public abstract class BytePackable {
     }
 
     public enum TickShape implements EnumResourceId {
-        BAR, DOT, TRIANGLE, DIAMOND;
+        SECTOR, DOT, TRIANGLE, DIAMOND,
+        SQUARE, BAR_1_2, BAR_1_4, BAR_1_8,
+        SQUARE_WIDE, DOT_THIN, TRIANGLE_THIN, DIAMOND_THIN,
+        SQUARE_CUTOUT, DOT_CUTOUT, TRIANGLE_CUTOUT, DIAMOND_CUTOUT;
 
-        private static final int bits = 2;
+        private static final int bits = 4;
 
         static TickShape unpack(BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
+        }
+
+        static TickShape unpack2(BytePacker bytePacker) {
+            return values()[bytePacker.get(2)];
         }
 
         void pack(BytePacker bytePacker) {
@@ -203,12 +210,16 @@ public abstract class BytePackable {
     }
 
     public enum TickLength implements EnumResourceId {
-        SHORT, MEDIUM, LONG, X_LONG;
+        XX_SHORT, X_SHORT, SHORT, MEDIUM, LONG, X_LONG, XX_LONG, XXX_LONG;
 
-        private static final int bits = 2;
+        private static final int bits = 3;
 
         static TickLength unpack(BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
+        }
+
+        static TickLength unpack2(BytePacker bytePacker) {
+            return values()[bytePacker.get(2)];
         }
 
         void pack(BytePacker bytePacker) {

@@ -201,17 +201,21 @@
     </string-array>
 
     <string-array name="WatchFacePreset_TickShape">
-        <item>Bar</item>
+        <item>Sector</item>
         <item>Dot</item>
         <item>Triangle</item>
         <item>Diamond</item>
     </string-array>
 
     <string-array name="WatchFacePreset_TickLength">
+        <item>Extra Extra Short</item>
+        <item>Extra Short</item>
         <item>Short</item>
         <item>Medium</item>
         <item>Long</item>
         <item>Extra Long</item>
+        <item>Extra Extra Long</item>
+        <item>Extra Extra Extra Long</item>
     </string-array>
 
     <string-array name="WatchFacePreset_TickThickness">

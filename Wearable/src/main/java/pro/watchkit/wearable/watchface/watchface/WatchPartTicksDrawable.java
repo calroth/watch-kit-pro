@@ -92,7 +92,7 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
             float mCenter = Math.min(mCenterX, mCenterY);
             TickShape tickShape = getTickShape();
             TickLength tickLength = getTickLength();
-            TickThickness tickThickness = getTickThickness();
+//            TickThickness tickThickness = getTickThickness();
             // Modifiers: four ticks are one size up; sixty ticks one size down.
             float mod = getMod() / getMod(); // You know what, turn this off.
 
@@ -100,7 +100,7 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
 
             // Get our dimensions.
             float tickWidth =
-                    mWatchFaceState.getTickThickness(tickShape, tickThickness) * pc * mod;
+                    mWatchFaceState.getTickThickness(tickShape, tickLength) * pc * mod;
             float tickLengthDimen =
                     mWatchFaceState.getTickHalfLength(tickShape, tickLength) * pc * mod;
             float tickBandStart = mWatchFaceState.getTickBandStart(pc) * pc * mod;
@@ -117,7 +117,11 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
 
             // Draw the object at 12 o'clock, then rotate it to desired location.
             switch (tickShape) {
-                case BAR: {
+                case SQUARE:
+                case BAR_1_2:
+                case BAR_1_4:
+                case BAR_1_8:
+                case SECTOR: {
                     // Draw a really large triangle, then crop it with two
                     // circles to give us a wedge shape with arc top and bottom.
                     // Height "2 * mCenterY", centered on (mCenterX, mCenterY)

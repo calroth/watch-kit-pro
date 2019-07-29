@@ -1711,29 +1711,62 @@ public class WatchFaceState {
 
         float result;
         switch (tickShape) {
-            case BAR: {
+            default:
+            case SQUARE:
+            case SQUARE_WIDE:
+            case SQUARE_CUTOUT: {
+                result = 1f;
+                break;
+            }
+            case BAR_1_2: {
+                result = 1.5f;
+                break;
+            }
+            case BAR_1_4: {
+                result = 2f;
+                break;
+            }
+            case BAR_1_8: {
+                result = 2.5f;
+                break;
+            }
+            case SECTOR: {
                 result = barLengthScale;
                 break;
             }
-            case DOT: {
+            case DOT:
+            case DOT_THIN:
+            case DOT_CUTOUT: {
                 result = dotScale;
                 break;
             }
-            case TRIANGLE: {
+            case TRIANGLE:
+            case TRIANGLE_THIN:
+            case TRIANGLE_CUTOUT: {
                 result = triangleFactor * triangleScale;
                 break;
             }
-            default:
-            case DIAMOND: {
+            case DIAMOND:
+            case DIAMOND_THIN:
+            case DIAMOND_CUTOUT: {
                 result = diamondScale;
                 break;
             }
         }
         switch (tickLength) {
+            case XX_SHORT: {
+                result *= globalScale * (float) (0.5d / Math.sqrt(2d));
+                break;
+            }
+            case X_SHORT: {
+                result *= globalScale * 0.5f;
+                break;
+            }
             case SHORT: {
                 result *= f0;
                 break;
             }
+            default:
             case MEDIUM: {
                 result *= f1;
                 break;
@@ -1742,9 +1775,16 @@ public class WatchFaceState {
                 result *= f2;
                 break;
             }
-            default:
             case X_LONG: {
                 result *= f3;
+                break;
+            }
+            case XX_LONG: {
+                result *= globalScale * f3 * (float) Math.sqrt(2d);
+                break;
+            }
+            case XXX_LONG: {
+                result *= globalScale * 4f;
                 break;
             }
         }
@@ -1752,7 +1792,7 @@ public class WatchFaceState {
         return result;
     }
 
-    public float getTickThickness(TickShape tickShape, TickThickness tickThickness) {
+    public float getTickThickness(TickShape tickShape, TickLength tickLength) {
         float barThicknessScale = (float) (Math.PI / 120d);
 
         float globalScale = 1.0f;
@@ -1771,43 +1811,104 @@ public class WatchFaceState {
 
         float result;
         switch (tickShape) {
-            case BAR: {
-                result = barThicknessScale;
+            default:
+            case SQUARE:
+            case SQUARE_WIDE:
+            case SQUARE_CUTOUT: {
+                result = 1f;
                 break;
             }
-            case DOT: {
+            case BAR_1_2: {
+                result = 0.5f;
+                break;
+            }
+            case BAR_1_4: {
+                result = 0.25f;
+                break;
+            }
+            case BAR_1_8: {
+                result = 0.125f;
+                break;
+            }
+            case SECTOR: {
+                result = barThicknessScale * 2f;
+                break;
+            }
+            case DOT:
+            case DOT_THIN:
+            case DOT_CUTOUT: {
                 result = dotScale;
                 break;
             }
-            case TRIANGLE: {
+            case TRIANGLE:
+            case TRIANGLE_THIN:
+            case TRIANGLE_CUTOUT: {
                 result = triangleScale;
                 break;
             }
-            default:
-            case DIAMOND: {
+            case DIAMOND:
+            case DIAMOND_THIN:
+            case DIAMOND_CUTOUT: {
                 result = diamondScale;
                 break;
             }
         }
-        switch (tickThickness) {
-            case THIN: {
-                result *= f0;
-                break;
-            }
-            case REGULAR: {
-                result *= f1;
-                break;
-            }
-            case THICK: {
-                result *= f2;
-                break;
-            }
-            default:
-            case X_THICK: {
-                result *= f3;
-                break;
+        if (tickShape != TickShape.SECTOR) {
+            switch (tickLength) {
+                case XX_SHORT: {
+                    result *= globalScale * (float) (0.5d / Math.sqrt(2d));
+                    break;
+                }
+                case X_SHORT: {
+                    result *= globalScale * 0.5f;
+                    break;
+                }
+                case SHORT: {
+                    result *= f0;
+                    break;
+                }
+                default:
+                case MEDIUM: {
+                    result *= f1;
+                    break;
+                }
+                case LONG: {
+                    result *= f2;
+                    break;
+                }
+                case X_LONG: {
+                    result *= f3;
+                    break;
+                }
+                case XX_LONG: {
+                    result *= globalScale * f3 * (float) Math.sqrt(2d);
+                    break;
+                }
+                case XXX_LONG: {
+                    result *= globalScale * 4f;
+                    break;
+                }
             }
         }
+//        switch (tickThickness) {
+//            case THIN: {
+//                result *= f0;
+//                break;
+//            }
+//            case REGULAR: {
+//                result *= f1;
+//                break;
+//            }
+//            case THICK: {
+//                result *= f2;
+//                break;
+//            }
+//            default:
+//            case X_THICK: {
+//                result *= f3;
+//                break;
+//            }
+//        }
 
         return result;
     }
