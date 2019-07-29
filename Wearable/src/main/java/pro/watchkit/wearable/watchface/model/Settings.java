@@ -30,7 +30,7 @@ final class Settings extends BytePackable {
     ComplicationCount mComplicationCount;
     ComplicationRotation mComplicationRotation;
     ComplicationSize mComplicationSize;
-    ComplicationOverlap mComplicationOverlap;
+    ComplicationScale mComplicationScale;
     int mAmbientDaySixBitColor, mAmbientNightSixBitColor;
     TextStyle mComplicationTextStyle;
     Style mComplicationRingStyle, mComplicationBackgroundStyle;
@@ -49,7 +49,7 @@ final class Settings extends BytePackable {
                 mComplicationCount,
                 mComplicationRotation,
                 mComplicationSize,
-                mComplicationOverlap,
+                mComplicationScale,
                 mAmbientDaySixBitColor, mAmbientNightSixBitColor,
                 mComplicationTextStyle,
                 mComplicationRingStyle, mComplicationBackgroundStyle,
@@ -82,7 +82,7 @@ final class Settings extends BytePackable {
         mTypeface.pack(mBytePacker);
         // TODO: rearrange these
         mComplicationSize.pack(mBytePacker);
-        mComplicationOverlap.pack(mBytePacker);
+        mComplicationScale.pack(mBytePacker);
 
         mBytePacker.finish();
     }
@@ -114,7 +114,7 @@ final class Settings extends BytePackable {
                 mAltDrawing = mBytePacker.getBoolean();
                 mTypeface = Typeface.DROID_SANS_BOLD;
                 mComplicationSize = ComplicationSize.X_LARGE;
-                mComplicationOverlap = ComplicationOverlap.MEDIUM;
+                mComplicationScale = ComplicationScale.MEDIUM;
                 break;
             }
             case 2:
@@ -136,7 +136,7 @@ final class Settings extends BytePackable {
                 mAltDrawing = mBytePacker.getBoolean();
                 mTypeface = Typeface.unpack(mBytePacker);
                 mComplicationSize = ComplicationSize.unpack(mBytePacker);
-                mComplicationOverlap = ComplicationOverlap.unpack(mBytePacker);
+                mComplicationScale = ComplicationScale.unpack(mBytePacker);
                 break;
             }
         }

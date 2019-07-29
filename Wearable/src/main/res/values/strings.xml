@@ -88,7 +88,7 @@
     <string name="config_complication_count">Complication Count</string>
     <string name="config_complication_rotation">Complication Position</string>
     <string name="config_complication_size">Complication Size</string>
-    <string name="config_complication_overlap">Complication Overlap</string>
+    <string name="config_complication_scale">Complication Scale</string>
     <string name="config_complication_text_style">Complication Text Style</string>
     <string name="config_complication_ring_style">Complication Ring Style</string>
     <string name="config_complication_background_style">Complication Background Style</string>
@@ -440,7 +440,7 @@
         <item>Extra Large</item>
     </string-array>
 
-    <string-array name="Settings_ComplicationOverlap">
+    <string-array name="Settings_ComplicationScale">
         <item>Small</item>
         <item>Medium</item>
         <item>Large</item>

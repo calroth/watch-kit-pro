@@ -44,8 +44,8 @@ import java.util.TimeZone;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.BytePackable.ComplicationCount;
-import pro.watchkit.wearable.watchface.model.BytePackable.ComplicationOverlap;
 import pro.watchkit.wearable.watchface.model.BytePackable.ComplicationRotation;
+import pro.watchkit.wearable.watchface.model.BytePackable.ComplicationScale;
 import pro.watchkit.wearable.watchface.model.BytePackable.ComplicationSize;
 import pro.watchkit.wearable.watchface.model.BytePackable.DigitDisplay;
 import pro.watchkit.wearable.watchface.model.BytePackable.DigitFormat;
@@ -775,12 +775,12 @@ public class WatchFaceState {
         mSettings.mComplicationSize = complicationSize;
     }
 
-    public ComplicationOverlap getComplicationOverlap() {
-        return mSettings.mComplicationOverlap;
+    public ComplicationScale getComplicationOverlap() {
+        return mSettings.mComplicationScale;
     }
 
-    void setComplicationOverlap(ComplicationOverlap complicationOverlap) {
-        mSettings.mComplicationOverlap = complicationOverlap;
+    void setComplicationOverlap(ComplicationScale complicationScale) {
+        mSettings.mComplicationScale = complicationScale;
     }
 
     public boolean isShowUnreadNotifications() {

@@ -80,12 +80,12 @@ public class ComplicationConfigData extends ConfigData {
 
                 // Data for complication overlap in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_complication_overlap),
+                        context.getString(R.string.config_complication_scale),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.ComplicationOverlap.values(),
+                                BytePackable.ComplicationScale.values(),
                                 WatchFaceState::setComplicationOverlap,
                                 WatchFaceState::getComplicationOverlap)),
 

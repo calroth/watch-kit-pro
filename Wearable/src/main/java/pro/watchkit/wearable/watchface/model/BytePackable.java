@@ -491,12 +491,12 @@ public abstract class BytePackable {
         }
     }
 
-    public enum ComplicationOverlap implements EnumResourceId {
+    public enum ComplicationScale implements EnumResourceId {
         SMALL, MEDIUM, LARGE, X_LARGE;
 
         private static final int bits = 2;
 
-        static ComplicationOverlap unpack(BytePacker bytePacker) {
+        static ComplicationScale unpack(BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
@@ -507,7 +507,7 @@ public abstract class BytePackable {
         @Override
         @ArrayRes
         public int getNameResourceId() {
-            return R.array.Settings_ComplicationOverlap;
+            return R.array.Settings_ComplicationScale;
         }
     }
 

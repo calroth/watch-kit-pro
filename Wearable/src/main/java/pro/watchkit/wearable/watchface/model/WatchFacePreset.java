@@ -144,8 +144,6 @@ final class WatchFacePreset extends BytePackable {
         mBytePacker.putSixBitColor(mAccentSixBitColor);
         mBytePacker.putSixBitColor(mBaseSixBitColor);
 
-        // TODO: rearrange these
-
         mBytePacker.finish();
     }
 
