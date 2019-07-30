@@ -1692,16 +1692,10 @@ public class WatchFaceState {
     }
 
     public float getTickHalfLength(TickShape tickShape, TickLength tickLength) {
-        float barLengthScale = 3f;
+        float barLengthScale = 1.5f;
         float triangleFactor = (float) (Math.sqrt(3d) / 2d); // Height of an equilateral triangle.
 
-        float globalScale = 1.0f;
-
-        // f0, f1, f2, f3 are a geometric series!
-        float f0 = globalScale * (float) (1d / Math.sqrt(2d));
-        float f1 = globalScale * 1f;
-        float f2 = globalScale * (float) Math.sqrt(2d);
-        float f3 = globalScale * 2f;
+        double goldenRatio = (1d + Math.sqrt(5d)) / 2d;
 
         // Scaling factors for dot, triangle and diamond.
         // Relative to a square of side 1. So all greater than 1.
@@ -1755,36 +1749,36 @@ public class WatchFaceState {
         }
         switch (tickLength) {
             case XX_SHORT: {
-                result *= globalScale * (float) (0.5d / Math.sqrt(2d));
+                result *= (float) Math.pow(goldenRatio, -1.5d);
                 break;
             }
             case X_SHORT: {
-                result *= globalScale * 0.5f;
-                break;
-            }
-            case SHORT: {
-                result *= f0;
+                result *= (float) Math.pow(goldenRatio, -1.0d);
                 break;
             }
             default:
+            case SHORT: {
+                result *= (float) Math.pow(goldenRatio, -0.5d);
+                break;
+            }
             case MEDIUM: {
-                result *= f1;
+                result *= (float) Math.pow(goldenRatio, 0.0d);
                 break;
             }
             case LONG: {
-                result *= f2;
+                result *= (float) Math.pow(goldenRatio, 0.5d);
                 break;
             }
             case X_LONG: {
-                result *= f3;
+                result *= (float) Math.pow(goldenRatio, 1.0d);
                 break;
             }
             case XX_LONG: {
-                result *= globalScale * f3 * (float) Math.sqrt(2d);
+                result *= (float) Math.pow(goldenRatio, 1.5d);
                 break;
             }
             case XXX_LONG: {
-                result *= globalScale * 4f;
+                result *= (float) Math.pow(goldenRatio, 2.0d);
                 break;
             }
         }
@@ -1795,13 +1789,7 @@ public class WatchFaceState {
     public float getTickThickness(TickShape tickShape, TickLength tickLength) {
         float barThicknessScale = (float) (Math.PI / 120d);
 
-        float globalScale = 1.0f;
-
-        // f0, f1, f2, f3 are a geometric series!
-        float f0 = globalScale * (float) (1d / Math.sqrt(2d));
-        float f1 = globalScale * 1f;
-        float f2 = globalScale * (float) Math.sqrt(2d);
-        float f3 = globalScale * 2f;
+        double goldenRatio = (1d + Math.sqrt(5d)) / 2d;
 
         // Scaling factors for dot, triangle and diamond.
         // Relative to a square of side 1. So all greater than 1.
@@ -1856,59 +1844,40 @@ public class WatchFaceState {
         if (tickShape != TickShape.SECTOR) {
             switch (tickLength) {
                 case XX_SHORT: {
-                    result *= globalScale * (float) (0.5d / Math.sqrt(2d));
+                    result *= (float) Math.pow(goldenRatio, -1.5d);
                     break;
                 }
                 case X_SHORT: {
-                    result *= globalScale * 0.5f;
-                    break;
-                }
-                case SHORT: {
-                    result *= f0;
+                    result *= (float) Math.pow(goldenRatio, -1.0d);
                     break;
                 }
                 default:
+                case SHORT: {
+                    result *= (float) Math.pow(goldenRatio, -0.5d);
+                    break;
+                }
                 case MEDIUM: {
-                    result *= f1;
+                    result *= (float) Math.pow(goldenRatio, 0.0d);
                     break;
                 }
                 case LONG: {
-                    result *= f2;
+                    result *= (float) Math.pow(goldenRatio, 0.5d);
                     break;
                 }
                 case X_LONG: {
-                    result *= f3;
+                    result *= (float) Math.pow(goldenRatio, 1.0d);
                     break;
                 }
                 case XX_LONG: {
-                    result *= globalScale * f3 * (float) Math.sqrt(2d);
+                    result *= (float) Math.pow(goldenRatio, 1.5d);
                     break;
                 }
                 case XXX_LONG: {
-                    result *= globalScale * 4f;
+                    result *= (float) Math.pow(goldenRatio, 2.0d);
                     break;
                 }
             }
         }
-//        switch (tickThickness) {
-//            case THIN: {
-//                result *= f0;
-//                break;
-//            }
-//            case REGULAR: {
-//                result *= f1;
-//                break;
-//            }
-//            case THICK: {
-//                result *= f2;
-//                break;
-//            }
-//            default:
-//            case X_THICK: {
-//                result *= f3;
-//                break;
-//            }
-//        }
 
         return result;
     }
