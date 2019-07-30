@@ -120,8 +120,6 @@
 
     <string name="config_preset_four_tick_shape">Four Tick Shape</string>
     <string name="config_preset_four_tick_length">Four Tick Length</string>
-    <string name="config_preset_four_tick_thickness">Four Tick Thickness</string>
-    <string name="config_preset_four_tick_radius_position">Four Tick Radius Position</string>
     <string name="config_preset_four_tick_style">Four Tick Style</string>
 
     <string name="config_preset_digit_display">Digit Display</string>
@@ -133,15 +131,11 @@
     <string name="config_preset_twelve_tick_override">Twelve Tick Override</string>
     <string name="config_preset_twelve_tick_shape">Twelve Tick Shape</string>
     <string name="config_preset_twelve_tick_length">Twelve Tick Length</string>
-    <string name="config_preset_twelve_tick_thickness">Twelve Tick Thickness</string>
-    <string name="config_preset_twelve_tick_radius_position">Twelve Tick Radius Position</string>
     <string name="config_preset_twelve_tick_style">Twelve Tick Style</string>
 
     <string name="config_preset_sixty_tick_override">Sixty Tick Override</string>
     <string name="config_preset_sixty_tick_shape">Sixty Tick Shape</string>
     <string name="config_preset_sixty_tick_length">Sixty Tick Length</string>
-    <string name="config_preset_sixty_tick_thickness">Sixty Tick Thickness</string>
-    <string name="config_preset_sixty_tick_radius_position">Sixty Tick Radius Position</string>
     <string name="config_preset_sixty_tick_style">Sixty Tick Style</string>
 
     <string name="config_preset_bezel_style">Bezel Style</string>
@@ -216,13 +210,6 @@
         <item>Extra Long</item>
         <item>Extra Extra Long</item>
         <item>Extra Extra Extra Long</item>
-    </string-array>
-
-    <string-array name="WatchFacePreset_TickThickness">
-        <item>Thin</item>
-        <item>Regular</item>
-        <item>Thick</item>
-        <item>Extra Thick</item>
     </string-array>
 
     <string-array name="WatchFacePreset_TickMargin">

@@ -63,7 +63,6 @@ import pro.watchkit.wearable.watchface.model.BytePackable.TextStyle;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickLength;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickMargin;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
-import pro.watchkit.wearable.watchface.model.BytePackable.TickThickness;
 import pro.watchkit.wearable.watchface.model.BytePackable.TicksDisplay;
 import pro.watchkit.wearable.watchface.model.BytePackable.Typeface;
 import pro.watchkit.wearable.watchface.model.PaintBox.ColorType;
@@ -775,7 +774,7 @@ public class WatchFaceState {
         mSettings.mComplicationSize = complicationSize;
     }
 
-    public ComplicationScale getComplicationOverlap() {
+    ComplicationScale getComplicationOverlap() {
         return mSettings.mComplicationScale;
     }
 
@@ -1162,33 +1161,7 @@ public class WatchFaceState {
         mWatchFacePreset.mSixtyTickLength = sixtyTickLength;
     }
 
-    public TickThickness getFourTickThickness() {
-        return mWatchFacePreset.mFourTickThickness;
-    }
-
-    void setFourTickThickness(TickThickness fourTickThickness) {
-        mWatchFacePreset.mFourTickThickness = fourTickThickness;
-    }
-
-    public TickThickness getTwelveTickThickness() {
-        return mWatchFacePreset.mTwelveTickOverride ?
-                mWatchFacePreset.mTwelveTickThickness : mWatchFacePreset.mFourTickThickness;
-    }
-
-    void setTwelveTickThickness(TickThickness twelveTickThickness) {
-        mWatchFacePreset.mTwelveTickThickness = twelveTickThickness;
-    }
-
-    public TickThickness getSixtyTickThickness() {
-        return mWatchFacePreset.mSixtyTickOverride ?
-                mWatchFacePreset.mSixtyTickThickness : mWatchFacePreset.mFourTickThickness;
-    }
-
-    void setSixtyTickThickness(TickThickness sixtyTickThickness) {
-        mWatchFacePreset.mSixtyTickThickness = sixtyTickThickness;
-    }
-
-    public TickMargin getTickMargin() {
+    TickMargin getTickMargin() {
         return mWatchFacePreset.mTickMargin;
     }
 
@@ -1250,7 +1223,7 @@ public class WatchFaceState {
         mWatchFacePreset.mDigitDisplay = digitDisplay;
     }
 
-    public DigitSize getDigitSize() {
+    DigitSize getDigitSize() {
         return mWatchFacePreset.mDigitSize;
     }
 
@@ -1640,8 +1613,8 @@ public class WatchFaceState {
      * Get the tick band height, which is the longest of the four, twelve and sixty ticks (and the
      * digits too if we're drawing them here).
      *
-     * @param pc
-     * @return
+     * @param pc Current length of one percent
+     * @return Height of tick band
      */
     public float getTickBandHeight(float pc) {
         float fourTickHeight = getTickHalfLength(getFourTickShape(), getFourTickLength());

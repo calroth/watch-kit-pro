@@ -3,7 +3,6 @@ package pro.watchkit.wearable.watchface.watchface;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickLength;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
-import pro.watchkit.wearable.watchface.model.BytePackable.TickThickness;
 
 final class WatchPartTicksTwelveDrawable extends WatchPartTicksDrawable {
     @Override
@@ -34,11 +33,6 @@ final class WatchPartTicksTwelveDrawable extends WatchPartTicksDrawable {
     @Override
     protected TickLength getTickLength() {
         return mWatchFaceState.getTwelveTickLength();
-    }
-
-    @Override
-    protected TickThickness getTickThickness() {
-        return mWatchFaceState.getTwelveTickThickness();
     }
 
     @Override

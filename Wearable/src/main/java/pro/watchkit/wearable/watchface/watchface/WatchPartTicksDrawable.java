@@ -44,7 +44,6 @@ import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickLength;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
-import pro.watchkit.wearable.watchface.model.BytePackable.TickThickness;
 
 abstract class WatchPartTicksDrawable extends WatchPartDrawable {
     abstract protected boolean isVisible(int tickIndex);
@@ -54,8 +53,6 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
     abstract protected TickShape getTickShape();
 
     abstract protected TickLength getTickLength();
-
-    abstract protected TickThickness getTickThickness();
 
     abstract protected Style getTickStyle();
 

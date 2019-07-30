@@ -233,26 +233,6 @@ public abstract class BytePackable {
         }
     }
 
-    public enum TickThickness implements EnumResourceId {
-        THIN, REGULAR, THICK, X_THICK;
-
-        private static final int bits = 2;
-
-        static TickThickness unpack(BytePacker bytePacker) {
-            return values()[bytePacker.get(bits)];
-        }
-
-        void pack(BytePacker bytePacker) {
-            bytePacker.put(bits, values(), this);
-        }
-
-        @Override
-        @ArrayRes
-        public int getNameResourceId() {
-            return R.array.WatchFacePreset_TickThickness;
-        }
-    }
-
     public enum TickMargin implements EnumResourceId {
         NONE, SMALL, MEDIUM, LARGE;
 
