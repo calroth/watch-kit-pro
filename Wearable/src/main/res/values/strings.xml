@@ -326,16 +326,16 @@
 
     <string-array name="WatchFacePreset_DigitFormat_NEGATIVE_CIRCLED">
         <item>⓬</item>
-        <item>❶</item>
-        <item>❷</item>
-        <item>❸</item>
-        <item>❹</item>
-        <item>❺</item>
-        <item>❻</item>
-        <item>❼</item>
-        <item>❽</item>
-        <item>❾</item>
-        <item>❿</item>
+        <item>➊</item>
+        <item>➋</item>
+        <item>➌</item>
+        <item>➍</item>
+        <item>➎</item>
+        <item>➏</item>
+        <item>➐</item>
+        <item>➑</item>
+        <item>➒</item>
+        <item>➓</item>
         <item>⓫</item>
     </string-array>
 
