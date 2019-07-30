@@ -354,7 +354,7 @@ public class WatchFaceState {
         }
 
         float complicationScale;
-        switch (getComplicationOverlap()) {
+        switch (getComplicationScale()) {
             case SMALL: {
                 complicationScale = 0.875f;
                 break;
@@ -774,11 +774,11 @@ public class WatchFaceState {
         mSettings.mComplicationSize = complicationSize;
     }
 
-    ComplicationScale getComplicationOverlap() {
+    ComplicationScale getComplicationScale() {
         return mSettings.mComplicationScale;
     }
 
-    void setComplicationOverlap(ComplicationScale complicationScale) {
+    void setComplicationScale(ComplicationScale complicationScale) {
         mSettings.mComplicationScale = complicationScale;
     }
 

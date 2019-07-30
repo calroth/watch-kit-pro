@@ -86,8 +86,8 @@ public class ComplicationConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.ComplicationScale.values(),
-                                WatchFaceState::setComplicationOverlap,
-                                WatchFaceState::getComplicationOverlap)),
+                                WatchFaceState::setComplicationScale,
+                                WatchFaceState::getComplicationScale)),
 
                 // Data for complication text style in settings Activity.
                 new PickerConfigItem(
