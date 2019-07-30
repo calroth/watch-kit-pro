@@ -42,8 +42,8 @@ import android.graphics.Path;
 import androidx.annotation.NonNull;
 
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
-import pro.watchkit.wearable.watchface.model.BytePackable.TickLength;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
+import pro.watchkit.wearable.watchface.model.BytePackable.TickSize;
 
 abstract class WatchPartTicksDrawable extends WatchPartDrawable {
     abstract protected boolean isVisible(int tickIndex);
@@ -52,7 +52,7 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
 
     abstract protected TickShape getTickShape();
 
-    abstract protected TickLength getTickLength();
+    abstract protected TickSize getTickSize();
 
     abstract protected Style getTickStyle();
 
@@ -88,7 +88,7 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
 
             float mCenter = Math.min(mCenterX, mCenterY);
             TickShape tickShape = getTickShape();
-            TickLength tickLength = getTickLength();
+            TickSize tickSize = getTickSize();
 //            TickThickness tickThickness = getTickThickness();
             // Modifiers: four ticks are one size up; sixty ticks one size down.
             float mod = getMod() / getMod(); // You know what, turn this off.
@@ -97,9 +97,9 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
 
             // Get our dimensions.
             float tickWidth =
-                    mWatchFaceState.getTickThickness(tickShape, tickLength) * pc * mod;
-            float tickLengthDimen =
-                    mWatchFaceState.getTickHalfLength(tickShape, tickLength) * pc * mod;
+                    mWatchFaceState.getTickThickness(tickShape, tickSize) * pc * mod;
+            float tickSizeDimen =
+                    mWatchFaceState.getTickHalfLength(tickShape, tickSize) * pc * mod;
             float tickBandStart = mWatchFaceState.getTickBandStart(pc) * pc * mod;
             float tickBandHeight = mWatchFaceState.getTickBandHeight(pc) * pc * mod;
             float tickRadiusPositionDimen = tickBandStart + (tickBandHeight / 2f);
@@ -144,11 +144,11 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
                     // Crop it with our top circle and bottom circle.
                     t2.reset();
                     t2.addCircle(mCenterX, mCenterY,
-                            mCenterY - y + tickLengthDimen, getDirection());
+                            mCenterY - y + tickSizeDimen, getDirection());
                     temp.op(t2, Path.Op.INTERSECT);
                     t2.reset();
                     t2.addCircle(mCenterX, mCenterY,
-                            mCenterY - y - tickLengthDimen, getDirection());
+                            mCenterY - y - tickSizeDimen, getDirection());
                     temp.op(t2, Path.Op.DIFFERENCE);
 
                     break;
@@ -157,25 +157,25 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
                     // Draw an oval.
                     temp.addOval(
                             x - tickWidth,
-                            y - tickLengthDimen,
+                            y - tickSizeDimen,
                             x + tickWidth,
-                            y + tickLengthDimen,
+                            y + tickSizeDimen,
                             getDirection());
                     break;
                 }
                 case TRIANGLE: {
                     // Move to top left.
-                    temp.moveTo(x - tickWidth, y - tickLengthDimen);
+                    temp.moveTo(x - tickWidth, y - tickSizeDimen);
                     if (getDirection() == Path.Direction.CW) {
                         // Line to top right.
-                        temp.lineTo(x + tickWidth, y - tickLengthDimen);
+                        temp.lineTo(x + tickWidth, y - tickSizeDimen);
                         // Line to bottom centre.
-                        temp.lineTo(x, y + tickLengthDimen);
+                        temp.lineTo(x, y + tickSizeDimen);
                     } else {
                         // Line to bottom centre.
-                        temp.lineTo(x, y + tickLengthDimen);
+                        temp.lineTo(x, y + tickSizeDimen);
                         // Line to top right.
-                        temp.lineTo(x + tickWidth, y - tickLengthDimen);
+                        temp.lineTo(x + tickWidth, y - tickSizeDimen);
                     }
                     // And line back to origin.
                     temp.close();
@@ -183,19 +183,19 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
                 }
                 case DIAMOND: {
                     // Move to top centre.
-                    temp.moveTo(x, y - tickLengthDimen);
+                    temp.moveTo(x, y - tickSizeDimen);
                     if (getDirection() == Path.Direction.CW) {
                         // Line to centre right.
                         temp.lineTo(x + tickWidth, y);
                         // Line to bottom centre.
-                        temp.lineTo(x, y + tickLengthDimen);
+                        temp.lineTo(x, y + tickSizeDimen);
                         // Line to centre left.
                         temp.lineTo(x - tickWidth, y);
                     } else {
                         // Line to centre left.
                         temp.lineTo(x - tickWidth, y);
                         // Line to bottom centre.
-                        temp.lineTo(x, y + tickLengthDimen);
+                        temp.lineTo(x, y + tickSizeDimen);
                         // Line to centre right.
                         temp.lineTo(x + tickWidth, y);
                     }

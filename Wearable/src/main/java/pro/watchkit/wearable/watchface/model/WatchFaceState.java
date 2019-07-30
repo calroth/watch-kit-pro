@@ -60,9 +60,9 @@ import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 import pro.watchkit.wearable.watchface.model.BytePackable.StyleGradient;
 import pro.watchkit.wearable.watchface.model.BytePackable.StyleTexture;
 import pro.watchkit.wearable.watchface.model.BytePackable.TextStyle;
-import pro.watchkit.wearable.watchface.model.BytePackable.TickLength;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickMargin;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
+import pro.watchkit.wearable.watchface.model.BytePackable.TickSize;
 import pro.watchkit.wearable.watchface.model.BytePackable.TicksDisplay;
 import pro.watchkit.wearable.watchface.model.BytePackable.Typeface;
 import pro.watchkit.wearable.watchface.model.PaintBox.ColorType;
@@ -1135,30 +1135,30 @@ public class WatchFaceState {
         mWatchFacePreset.mSixtyTickShape = sixtyTickShape;
     }
 
-    public TickLength getFourTickLength() {
-        return mWatchFacePreset.mFourTickLength;
+    public TickSize getFourTickSize() {
+        return mWatchFacePreset.mFourTickSize;
     }
 
-    void setFourTickLength(TickLength fourTickLength) {
-        mWatchFacePreset.mFourTickLength = fourTickLength;
+    void setFourTickSize(TickSize fourTickSize) {
+        mWatchFacePreset.mFourTickSize = fourTickSize;
     }
 
-    public TickLength getTwelveTickLength() {
+    public TickSize getTwelveTickSize() {
         return mWatchFacePreset.mTwelveTickOverride ?
-                mWatchFacePreset.mTwelveTickLength : mWatchFacePreset.mFourTickLength;
+                mWatchFacePreset.mTwelveTickSize : mWatchFacePreset.mFourTickSize;
     }
 
-    void setTwelveTickLength(TickLength twelveTickLength) {
-        mWatchFacePreset.mTwelveTickLength = twelveTickLength;
+    void setTwelveTickSize(TickSize twelveTickSize) {
+        mWatchFacePreset.mTwelveTickSize = twelveTickSize;
     }
 
-    public TickLength getSixtyTickLength() {
+    public TickSize getSixtyTickSize() {
         return mWatchFacePreset.mSixtyTickOverride ?
-                mWatchFacePreset.mSixtyTickLength : mWatchFacePreset.mFourTickLength;
+                mWatchFacePreset.mSixtyTickSize : mWatchFacePreset.mFourTickSize;
     }
 
-    void setSixtyTickLength(TickLength sixtyTickLength) {
-        mWatchFacePreset.mSixtyTickLength = sixtyTickLength;
+    void setSixtyTickSize(TickSize sixtyTickSize) {
+        mWatchFacePreset.mSixtyTickSize = sixtyTickSize;
     }
 
     TickMargin getTickMargin() {
@@ -1617,9 +1617,9 @@ public class WatchFaceState {
      * @return Height of tick band
      */
     public float getTickBandHeight(float pc) {
-        float fourTickHeight = getTickHalfLength(getFourTickShape(), getFourTickLength());
-        float twelveTickHeight = getTickHalfLength(getTwelveTickShape(), getTwelveTickLength());
-        float sixtyTickHeight = getTickHalfLength(getSixtyTickShape(), getSixtyTickLength());
+        float fourTickHeight = getTickHalfLength(getFourTickShape(), getFourTickSize());
+        float twelveTickHeight = getTickHalfLength(getTwelveTickShape(), getTwelveTickSize());
+        float sixtyTickHeight = getTickHalfLength(getSixtyTickShape(), getSixtyTickSize());
 
         float result = 2f + // Add 2f padding, which is 1f on top and bottom
                 2f * Math.max(fourTickHeight, Math.max(twelveTickHeight, sixtyTickHeight));
@@ -1664,7 +1664,7 @@ public class WatchFaceState {
         return result / pc; // Convert back from pixels to percentage
     }
 
-    public float getTickHalfLength(TickShape tickShape, TickLength tickLength) {
+    public float getTickHalfLength(TickShape tickShape, TickSize tickSize) {
         float barLengthScale = 1.5f;
         float triangleFactor = (float) (Math.sqrt(3d) / 2d); // Height of an equilateral triangle.
 
@@ -1720,7 +1720,7 @@ public class WatchFaceState {
                 break;
             }
         }
-        switch (tickLength) {
+        switch (tickSize) {
             case XX_SHORT: {
                 result *= (float) Math.pow(goldenRatio, -1.5d);
                 break;
@@ -1759,7 +1759,7 @@ public class WatchFaceState {
         return result;
     }
 
-    public float getTickThickness(TickShape tickShape, TickLength tickLength) {
+    public float getTickThickness(TickShape tickShape, TickSize tickSize) {
         float barThicknessScale = (float) (Math.PI / 120d);
 
         double goldenRatio = (1d + Math.sqrt(5d)) / 2d;
@@ -1815,7 +1815,7 @@ public class WatchFaceState {
             }
         }
         if (tickShape != TickShape.SECTOR) {
-            switch (tickLength) {
+            switch (tickSize) {
                 case XX_SHORT: {
                     result *= (float) Math.pow(goldenRatio, -1.5d);
                     break;

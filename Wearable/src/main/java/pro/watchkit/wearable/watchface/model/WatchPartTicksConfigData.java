@@ -90,14 +90,14 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for four tick length in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_four_tick_length),
+                        context.getString(R.string.config_preset_four_tick_size),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.TickLength.values(),
-                                WatchFaceState::setFourTickLength,
-                                WatchFaceState::getFourTickLength),
+                                BytePackable.TickSize.values(),
+                                WatchFaceState::setFourTickSize,
+                                WatchFaceState::getFourTickSize),
                         WatchFaceState::isFourTicksVisible),
 
                 // Data for four tick style in settings Activity.
@@ -191,14 +191,14 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for twelve tick length in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_twelve_tick_length),
+                        context.getString(R.string.config_preset_twelve_tick_size),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.TickLength.values(),
-                                WatchFaceState::setTwelveTickLength,
-                                WatchFaceState::getTwelveTickLength),
+                                BytePackable.TickSize.values(),
+                                WatchFaceState::setTwelveTickSize,
+                                WatchFaceState::getTwelveTickSize),
                         WatchFaceState::isTwelveTicksOverridden),
 
                 // Data for twelve tick style in settings Activity.
@@ -234,14 +234,14 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for sixty tick length in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_sixty_tick_length),
+                        context.getString(R.string.config_preset_sixty_tick_size),
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.TickLength.values(),
-                                WatchFaceState::setSixtyTickLength,
-                                WatchFaceState::getSixtyTickLength),
+                                BytePackable.TickSize.values(),
+                                WatchFaceState::setSixtyTickSize,
+                                WatchFaceState::getSixtyTickSize),
                         WatchFaceState::isSixtyTicksOverridden),
 
                 // Data for sixty tick style in settings Activity.

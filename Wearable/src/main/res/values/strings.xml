@@ -119,7 +119,7 @@
     <string name="config_preset_tick_background_style">Tick Background Style</string>
 
     <string name="config_preset_four_tick_shape">Four Tick Shape</string>
-    <string name="config_preset_four_tick_length">Four Tick Length</string>
+    <string name="config_preset_four_tick_size">Four Tick Size</string>
     <string name="config_preset_four_tick_style">Four Tick Style</string>
 
     <string name="config_preset_digit_display">Digit Display</string>
@@ -130,12 +130,12 @@
 
     <string name="config_preset_twelve_tick_override">Twelve Tick Override</string>
     <string name="config_preset_twelve_tick_shape">Twelve Tick Shape</string>
-    <string name="config_preset_twelve_tick_length">Twelve Tick Length</string>
+    <string name="config_preset_twelve_tick_size">Twelve Tick Size</string>
     <string name="config_preset_twelve_tick_style">Twelve Tick Style</string>
 
     <string name="config_preset_sixty_tick_override">Sixty Tick Override</string>
     <string name="config_preset_sixty_tick_shape">Sixty Tick Shape</string>
-    <string name="config_preset_sixty_tick_length">Sixty Tick Length</string>
+    <string name="config_preset_sixty_tick_size">Sixty Tick Size</string>
     <string name="config_preset_sixty_tick_style">Sixty Tick Style</string>
 
     <string name="config_preset_bezel_style">Bezel Style</string>
@@ -201,15 +201,15 @@
         <item>Diamond</item>
     </string-array>
 
-    <string-array name="WatchFacePreset_TickLength">
-        <item>Extra Extra Short</item>
-        <item>Extra Short</item>
-        <item>Short</item>
+    <string-array name="WatchFacePreset_TickSize">
+        <item>Extra Extra Small</item>
+        <item>Extra Small</item>
+        <item>Small</item>
         <item>Medium</item>
-        <item>Long</item>
-        <item>Extra Long</item>
-        <item>Extra Extra Long</item>
-        <item>Extra Extra Extra Long</item>
+        <item>Large</item>
+        <item>Extra Large</item>
+        <item>Extra Extra Large</item>
+        <item>Extra Extra Extra Large</item>
     </string-array>
 
     <string-array name="WatchFacePreset_TickMargin">

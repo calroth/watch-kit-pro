@@ -209,16 +209,16 @@ public abstract class BytePackable {
         }
     }
 
-    public enum TickLength implements EnumResourceId {
+    public enum TickSize implements EnumResourceId {
         XX_SHORT, X_SHORT, SHORT, MEDIUM, LONG, X_LONG, XX_LONG, XXX_LONG;
 
         private static final int bits = 3;
 
-        static TickLength unpack(BytePacker bytePacker) {
+        static TickSize unpack(BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        static TickLength unpack2(BytePacker bytePacker) {
+        static TickSize unpack2(BytePacker bytePacker) {
             return values()[bytePacker.get(2)];
         }
 
@@ -229,7 +229,7 @@ public abstract class BytePackable {
         @Override
         @ArrayRes
         public int getNameResourceId() {
-            return R.array.WatchFacePreset_TickLength;
+            return R.array.WatchFacePreset_TickSize;
         }
     }
 
