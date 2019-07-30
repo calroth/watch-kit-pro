@@ -221,9 +221,9 @@
 
     <string-array name="WatchFacePreset_DigitDisplay">
         <item>None</item>
-        <item>Below</item>
+        <item>Inside</item>
         <item>Over</item>
-        <item>Above</item>
+        <item>Outside</item>
     </string-array>
 
     <string-array name="WatchFacePreset_DigitSize">
