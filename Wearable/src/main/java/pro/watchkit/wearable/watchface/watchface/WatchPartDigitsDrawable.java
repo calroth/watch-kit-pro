@@ -112,15 +112,27 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
             // Now do it again, but this time make it a rectangle with the label's bounds.
             // This will form our exclusion path.
             mTempPath.reset();
-            // Make the size of the round rect, mLabelRect plus an extra padding of 1% all sides.
-            // Round rect radius of 1%.
-            // Adjust x to consider aligned centre.
-            x -= (float) (mLabelRect.left + mLabelRect.right) / 2f;
-            mTempPath.addRoundRect((float) mLabelRect.left - (1f * pc) + x,
-                    (float) mLabelRect.top - (1f * pc) + y,
-                    (float) mLabelRect.right + (1f * pc) + x,
-                    (float) mLabelRect.bottom + (1f * pc) + y,
-                    pc, pc, getDirection());
+            if (mWatchFaceState.getDigitFormat() == DigitFormat.CIRCLED ||
+                    mWatchFaceState.getDigitFormat() == DigitFormat.NEGATIVE_CIRCLED) {
+                // The exclusion path is a circle!
+                // Make the radius the height of the glyph plus 1%.
+                float radius = (float) mLabelRect.height() / 2f + (1f * pc);
+                // Adjust y to consider aligned centre.
+                y += (float) (mLabelRect.top + mLabelRect.bottom) / 2f;
+                mTempPath.addCircle(x, y, radius, getDirection());
+            } else {
+                // The exclusion path is a (round) rectangle!
+                // Make the size of the round rect,
+                // mLabelRect plus an extra padding of 1% all sides.
+                // Round rect radius of 1%.
+                // Adjust x to consider aligned centre.
+                x -= (float) (mLabelRect.left + mLabelRect.right) / 2f;
+                mTempPath.addRoundRect((float) mLabelRect.left - (1f * pc) + x,
+                        (float) mLabelRect.top - (1f * pc) + y,
+                        (float) mLabelRect.right + (1f * pc) + x,
+                        (float) mLabelRect.bottom + (1f * pc) + y,
+                        pc, pc, getDirection());
+            }
             mTempPath.transform(mTempPathMatrix); // Transform it with the same matrix!
             mExclusionPath.op(mTempPath, Path.Op.UNION);
         }
