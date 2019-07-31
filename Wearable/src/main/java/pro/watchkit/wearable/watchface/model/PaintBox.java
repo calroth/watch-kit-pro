@@ -36,6 +36,8 @@ import android.graphics.SweepGradient;
 import android.graphics.Typeface;
 import android.graphics.Xfermode;
 import android.os.Build;
+import android.renderscript.Allocation;
+import android.renderscript.RenderScript;
 import android.util.SparseArray;
 
 import androidx.annotation.ColorInt;
@@ -80,6 +82,9 @@ public final class PaintBox {
     private GradientPaint mBaseAccentPaint = new GradientPaint();
     private int mPreviousSerial = -1;
     private Context mContext;
+
+    private static RenderScript mRenderScript;
+    private static ScriptC_mapBitmap mScriptC_mapBitmap;
 
     static {
         System.loadLibrary("native-lib");
@@ -705,7 +710,7 @@ public final class PaintBox {
             sb.append(" ~ cLUT: ").append((System.nanoTime() - time) / 1000000f);
             time = System.nanoTime();
 
-            nativeMapBitmap(triangleBitmap, cLUT);
+//            nativeMapBitmap(triangleBitmap, cLUT);
 
 //            // Go line by line through "triangleBitmap".
 //            // For each line, get its pixels, convert it, then write it back.
@@ -729,6 +734,31 @@ public final class PaintBox {
 //            });
 
             sb.append(" ~ p1: ").append((System.nanoTime() - time) / 1000000f);
+            time = System.nanoTime();
+
+            if (mRenderScript == null) {
+                mRenderScript = RenderScript.create(mContext);
+            }
+            if (mScriptC_mapBitmap == null) {
+                mScriptC_mapBitmap = new ScriptC_mapBitmap(mRenderScript);
+            }
+            sb.append(" ~ p2: ").append((System.nanoTime() - time) / 1000000f);
+            time = System.nanoTime();
+            mScriptC_mapBitmap.set_mapping(cLUT);
+            mScriptC_mapBitmap.invoke_convertMapping();
+//            for (int i = 0; i < 256; i++) {
+//                mScriptC_mapBitmap.invoke_setMapping(i, cLUT[i]);
+//            }
+            sb.append(" ~ p3: ").append((System.nanoTime() - time) / 1000000f);
+            time = System.nanoTime();
+            Allocation in = Allocation.createFromBitmap(mRenderScript, triangleBitmap);
+//            Allocation out = Allocation.createFromBitmap(mRenderScript, triangleBitmap);
+//            Allocation out = Allocation.createSized(
+//                    mRenderScript, in.getElement(), in.g);
+            mScriptC_mapBitmap.forEach_mapBitmap(in, in);
+            in.copyTo(triangleBitmap);
+
+            sb.append(" ~ p4: ").append((System.nanoTime() - time) / 1000000f);
             android.util.Log.d("Paint", sb.toString());
 
             return triangleBitmap;
