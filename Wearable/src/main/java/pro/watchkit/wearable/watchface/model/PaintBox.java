@@ -86,11 +86,11 @@ public final class PaintBox {
     private static RenderScript mRenderScript;
     private static ScriptC_mapBitmap mScriptC_mapBitmap;
 
-    static {
-        System.loadLibrary("native-lib");
-    }
+//    static {
+//        System.loadLibrary("native-lib");
+//    }
 
-    native void nativeMapBitmap(Bitmap bitmap, int[] cLUT);
+//    native void nativeMapBitmap(Bitmap bitmap, int[] cLUT);
 
     PaintBox(Context context) {
         mContext = context;
@@ -652,7 +652,10 @@ public final class PaintBox {
             }
 
             // Generate a new bitmap.
-            Bitmap triangleBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            // Extra padding to make width mod 4, for RenderScript.
+            int extra = width % 4 == 0 ? 0 : 4 - width % 4;
+            Bitmap triangleBitmap = Bitmap.createBitmap(
+                    width + extra, height, Bitmap.Config.ARGB_8888);
             Canvas triangleCanvas = new Canvas(triangleBitmap);
 
             // Cache it for next time's use.
@@ -742,23 +745,24 @@ public final class PaintBox {
             if (mScriptC_mapBitmap == null) {
                 mScriptC_mapBitmap = new ScriptC_mapBitmap(mRenderScript);
             }
-            sb.append(" ~ p2: ").append((System.nanoTime() - time) / 1000000f);
+            sb.append(" ~ p2.0: ").append((System.nanoTime() - time) / 1000000f);
             time = System.nanoTime();
             mScriptC_mapBitmap.set_mapping(cLUT);
+            sb.append(" ~ p2.1: ").append((System.nanoTime() - time) / 1000000f);
+            time = System.nanoTime();
             mScriptC_mapBitmap.invoke_convertMapping();
 //            for (int i = 0; i < 256; i++) {
 //                mScriptC_mapBitmap.invoke_setMapping(i, cLUT[i]);
 //            }
-            sb.append(" ~ p3: ").append((System.nanoTime() - time) / 1000000f);
+            sb.append(" ~ p2.2: ").append((System.nanoTime() - time) / 1000000f);
             time = System.nanoTime();
             Allocation in = Allocation.createFromBitmap(mRenderScript, triangleBitmap);
-//            Allocation out = Allocation.createFromBitmap(mRenderScript, triangleBitmap);
-//            Allocation out = Allocation.createSized(
-//                    mRenderScript, in.getElement(), in.g);
+//            Allocation out = Allocation.createFromBitmap(mRenderScript, in.getType());
             mScriptC_mapBitmap.forEach_mapBitmap(in, in);
             in.copyTo(triangleBitmap);
+            in.destroy();
 
-            sb.append(" ~ p4: ").append((System.nanoTime() - time) / 1000000f);
+            sb.append(" ~ p2.3: ").append((System.nanoTime() - time) / 1000000f);
             android.util.Log.d("Paint", sb.toString());
 
             return triangleBitmap;

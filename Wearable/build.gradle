@@ -114,9 +114,9 @@ android {
         androidTest.java.srcDirs = ['tests/src']
 
     }
-    externalNativeBuild {
-        cmake {
-            path file('CMakeLists.txt')
-        }
-    }
+//    externalNativeBuild {
+//        cmake {
+//            path file('CMakeLists.txt')
+//        }
+//    }
 }
