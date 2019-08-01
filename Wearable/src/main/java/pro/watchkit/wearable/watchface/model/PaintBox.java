@@ -85,6 +85,7 @@ public final class PaintBox {
 
     private static RenderScript mRenderScript;
     private static ScriptC_mapBitmap mScriptC_mapBitmap;
+    private static WeakReference<Bitmap> mTriangleGradientBitmapRef;
 
 //    static {
 //        System.loadLibrary("native-lib");
@@ -651,58 +652,68 @@ public final class PaintBox {
                 }
             }
 
+            long time = System.nanoTime();
+            StringBuilder sb = new StringBuilder();
+
             // Generate a new bitmap.
             // Extra padding to make width mod 4, for RenderScript.
             int extra = width % 4 == 0 ? 0 : 4 - width % 4;
-            Bitmap triangleBitmap = Bitmap.createBitmap(
-                    width + extra, height, Bitmap.Config.ARGB_8888);
-            Canvas triangleCanvas = new Canvas(triangleBitmap);
+            Bitmap triangleGradientBitmap = null;
+            if (mTriangleGradientBitmapRef != null) {
+                triangleGradientBitmap = mTriangleGradientBitmapRef.get();
+            }
+            if (triangleGradientBitmap == null ||
+                    triangleGradientBitmap.getHeight() != height ||
+                    triangleGradientBitmap.getWidth() != width + extra) {
+                triangleGradientBitmap = Bitmap.createBitmap(
+                        width + extra, height, Bitmap.Config.ARGB_8888);
+                mTriangleGradientBitmapRef = new WeakReference<>(triangleGradientBitmap);
+                Canvas triangleCanvas = new Canvas(triangleGradientBitmap);
 
-            // Cache it for next time's use.
-            mBitmapCache.put(modifiedCustomHashCode, new WeakReference<>(triangleBitmap));
+                // Cache it for next time's use.
+                mBitmapCache.put(modifiedCustomHashCode, new WeakReference<>(triangleGradientBitmap));
 
-            // Slow version which uses CIE LAB gradients, which look excellent.
-            // We draw a black-to-white gradient then map that to a cLUT with the CIE LAB gradient.
-            long time = System.nanoTime();
-            StringBuilder sb = new StringBuilder();
-            // The constants here can be tweaked a lot. Here's an initial implementation.
-            // Colors range from between Color.BLACK and Color.TRANSPARENT.
-            int[] gradient = new int[]{
-                    Color.argb((int) (0.9f * 255f + 0.5f), 0, 0, 0),
-                    Color.argb((int) (1.0f * 255f + 0.5f), 0, 0, 0), // Original
-                    Color.argb((int) (0.9f * 255f + 0.5f), 0, 0, 0),
-                    Color.argb((int) (0.7f * 255f + 0.5f), 0, 0, 0),
-                    Color.argb((int) (0.8f * 255f + 0.5f), 0, 0, 0),
-                    Color.argb((int) (0.6f * 255f + 0.5f), 0, 0, 0),
-                    Color.argb((int) (0.4f * 255f + 0.5f), 0, 0, 0), // Ripples!
-                    Color.argb((int) (0.5f * 255f + 0.5f), 0, 0, 0),
-                    Color.argb((int) (0.2f * 255f + 0.5f), 0, 0, 0), // Slightly out
-                    Color.argb((int) (0.3f * 255f + 0.5f), 0, 0, 0), // of place!
-                    Color.argb((int) (0.1f * 255f + 0.5f), 0, 0, 0),
-                    Color.argb((int) (0.0f * 255f + 0.5f), 0, 0, 0), // Original
-                    Color.argb((int) (0.0f * 255f + 0.5f), 0, 0, 0) // Original
-            };
-            float x1 = mCenterX - (mCenterX * (float) Math.sqrt(3) / 2f);
-            float x2 = mCenterX + (mCenterX * (float) Math.sqrt(3) / 2f);
-            float y = mCenterY + (mCenterY / 2f);
-            float radius = mCenterY * 1.33333333333f;
-            // Gradients A, B and C have an origin at the 12, 4 and 8 o'clock positions.
-            Shader gradientA = new RadialGradient(
-                    mCenterX, 0f, radius, gradient, null, Shader.TileMode.CLAMP);
-            Shader gradientB = new RadialGradient(
-                    x1, y, radius, gradient, null, Shader.TileMode.CLAMP);
-            Shader gradientC = new RadialGradient(
-                    x2, y, radius, gradient, null, Shader.TileMode.CLAMP);
+                // Slow version which uses CIE LAB gradients, which look excellent.
+                // We draw a black-to-white gradient then map that to a cLUT with the CIE LAB gradient.
+                // The constants here can be tweaked a lot. Here's an initial implementation.
+                // Colors range from between Color.BLACK and Color.TRANSPARENT.
+                int[] gradient = new int[]{
+                        Color.argb((int) (0.9f * 255f + 0.5f), 0, 0, 0),
+                        Color.argb((int) (1.0f * 255f + 0.5f), 0, 0, 0), // Original
+                        Color.argb((int) (0.9f * 255f + 0.5f), 0, 0, 0),
+                        Color.argb((int) (0.7f * 255f + 0.5f), 0, 0, 0),
+                        Color.argb((int) (0.8f * 255f + 0.5f), 0, 0, 0),
+                        Color.argb((int) (0.6f * 255f + 0.5f), 0, 0, 0),
+                        Color.argb((int) (0.4f * 255f + 0.5f), 0, 0, 0), // Ripples!
+                        Color.argb((int) (0.5f * 255f + 0.5f), 0, 0, 0),
+                        Color.argb((int) (0.2f * 255f + 0.5f), 0, 0, 0), // Slightly out
+                        Color.argb((int) (0.3f * 255f + 0.5f), 0, 0, 0), // of place!
+                        Color.argb((int) (0.1f * 255f + 0.5f), 0, 0, 0),
+                        Color.argb((int) (0.0f * 255f + 0.5f), 0, 0, 0), // Original
+                        Color.argb((int) (0.0f * 255f + 0.5f), 0, 0, 0) // Original
+                };
+                float x1 = mCenterX - (mCenterX * (float) Math.sqrt(3) / 2f);
+                float x2 = mCenterX + (mCenterX * (float) Math.sqrt(3) / 2f);
+                float y = mCenterY + (mCenterY / 2f);
+                float radius = mCenterY * 1.33333333333f;
+                // Gradients A, B and C have an origin at the 12, 4 and 8 o'clock positions.
+                Shader gradientA = new RadialGradient(
+                        mCenterX, 0f, radius, gradient, null, Shader.TileMode.CLAMP);
+                Shader gradientB = new RadialGradient(
+                        x1, y, radius, gradient, null, Shader.TileMode.CLAMP);
+                Shader gradientC = new RadialGradient(
+                        x2, y, radius, gradient, null, Shader.TileMode.CLAMP);
 
-            mBrushedEffectPaint.reset();
-            mBrushedEffectPaint.setShader(new ComposeShader(gradientA, new ComposeShader(
-                    gradientB, gradientC, Mode.OVERLAY), Mode.OVERLAY));
+                mBrushedEffectPaint.reset();
+                mBrushedEffectPaint.setShader(new ComposeShader(gradientA, new ComposeShader(
+                        gradientB, gradientC, Mode.OVERLAY), Mode.OVERLAY));
 
 //            prepareTempBitmapForUse();
 
-            // Draw the gradient to the temp bitmap.
-            triangleCanvas.drawColor(Color.WHITE);
-            triangleCanvas.drawPaint(mBrushedEffectPaint);
+                // Draw the gradient to the temp bitmap.
+                triangleCanvas.drawColor(Color.WHITE);
+                triangleCanvas.drawPaint(mBrushedEffectPaint);
+            }
 
             sb.append("Gradient: ").append((System.nanoTime() - time) / 1000000f);
             time = System.nanoTime();
@@ -756,11 +767,14 @@ public final class PaintBox {
 //            }
             sb.append(" ~ p2.2: ").append((System.nanoTime() - time) / 1000000f);
             time = System.nanoTime();
-            Allocation in = Allocation.createFromBitmap(mRenderScript, triangleBitmap);
-//            Allocation out = Allocation.createFromBitmap(mRenderScript, in.getType());
-            mScriptC_mapBitmap.forEach_mapBitmap(in, in);
-            in.copyTo(triangleBitmap);
+            Bitmap triangleBitmap = Bitmap.createBitmap(
+                    width + extra, height, Bitmap.Config.ARGB_8888);
+            Allocation in = Allocation.createFromBitmap(mRenderScript, triangleGradientBitmap);
+            Allocation out = Allocation.createFromBitmap(mRenderScript, triangleBitmap);
+            mScriptC_mapBitmap.forEach_mapBitmap(in, out);
+            out.copyTo(triangleBitmap);
             in.destroy();
+            out.destroy();
 
             sb.append(" ~ p2.3: ").append((System.nanoTime() - time) / 1000000f);
             android.util.Log.d("Paint", sb.toString());
