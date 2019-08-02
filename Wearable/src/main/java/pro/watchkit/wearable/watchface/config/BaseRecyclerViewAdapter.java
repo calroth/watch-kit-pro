@@ -80,6 +80,7 @@ import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
 import static pro.watchkit.wearable.watchface.config.ConfigActivity.CONFIG_DATA;
 import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_FLAGS;
+import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_LABEL;
 import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_SLOT;
 import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_STATES;
 
@@ -657,6 +658,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 launchIntent.putExtra(INTENT_EXTRA_STATES, permutations);
                 launchIntent.putExtra(INTENT_EXTRA_FLAGS, mFlags);
                 launchIntent.putExtra(INTENT_EXTRA_SLOT, mWatchFaceComponentName.getClassName());
+                launchIntent.putExtra(INTENT_EXTRA_LABEL, mConfigItem.getNameResourceId());
 
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(

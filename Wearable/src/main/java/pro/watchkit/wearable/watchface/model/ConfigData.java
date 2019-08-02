@@ -110,7 +110,7 @@ abstract public class ConfigData {
         @Nullable
         final private Function<WatchFaceState, Boolean> mConfigItemVisibilityCalculator;
 
-        LabelConfigItem(@StringRes final int labelResourceId) {
+        public LabelConfigItem(@StringRes final int labelResourceId) {
             this(-1, labelResourceId, true, null);
         }
 
@@ -360,8 +360,8 @@ abstract public class ConfigData {
     }
 
     public static class PickerConfigItem implements ConfigItemType {
-        @NonNull
-        private String mName;
+        @StringRes
+        private int mNameResourceId;
         private int mIconResourceId;
         private Class<WatchFaceSelectionActivity> mActivityToChoosePreference;
         @NonNull
@@ -373,46 +373,46 @@ abstract public class ConfigData {
         private Style mStyle;
 
         PickerConfigItem(
-                @NonNull String name,
+                @StringRes int nameResourceId,
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
                 @NonNull Class<WatchFaceSelectionActivity> activityToChoosePreference,
                 @NonNull Mutator watchFaceStateMutator) {
-            this(name, iconResourceId, watchFaceGlobalDrawableFlags, activityToChoosePreference,
+            this(nameResourceId, iconResourceId, watchFaceGlobalDrawableFlags, activityToChoosePreference,
                     null, watchFaceStateMutator, null);
         }
 
         PickerConfigItem(
-                @NonNull String name,
+                @StringRes int nameResourceId,
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
                 @NonNull Class<WatchFaceSelectionActivity> activityToChoosePreference,
                 @NonNull Style style,
                 @NonNull Mutator watchFaceStateMutator) {
-            this(name, iconResourceId, watchFaceGlobalDrawableFlags, activityToChoosePreference,
+            this(nameResourceId, iconResourceId, watchFaceGlobalDrawableFlags, activityToChoosePreference,
                     style, watchFaceStateMutator, null);
         }
 
         PickerConfigItem(
-                @NonNull String name,
+                @StringRes int nameResourceId,
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
                 @NonNull Class<WatchFaceSelectionActivity> activityToChoosePreference,
                 @NonNull Mutator watchFaceStateMutator,
                 @NonNull Function<WatchFaceState, Boolean> configItemVisibilityCalculator) {
-            this(name, iconResourceId, watchFaceGlobalDrawableFlags, activityToChoosePreference,
+            this(nameResourceId, iconResourceId, watchFaceGlobalDrawableFlags, activityToChoosePreference,
                     null, watchFaceStateMutator, configItemVisibilityCalculator);
         }
 
         private PickerConfigItem(
-                @NonNull String name,
+                @StringRes int nameResourceId,
                 int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
                 @NonNull Class<WatchFaceSelectionActivity> activityToChoosePreference,
                 @Nullable Style style,
                 @NonNull Mutator watchFaceStateMutator,
                 @Nullable Function<WatchFaceState, Boolean> configItemVisibilityCalculator) {
-            mName = name;
+            mNameResourceId = nameResourceId;
             mIconResourceId = iconResourceId;
             mActivityToChoosePreference = activityToChoosePreference;
             mStyle = style;
@@ -423,17 +423,23 @@ abstract public class ConfigData {
 
         private final StringBuilder mExtra = new StringBuilder();
 
+        public int getNameResourceId() {
+            return mNameResourceId;
+        }
+
         public CharSequence getName(
                 @NonNull WatchFaceState watchFaceState, @NonNull Context context) {
             Enum e = mWatchFaceStateMutator.getCurrentValue(watchFaceState);
 
+            String name = context.getString(mNameResourceId);
+
             if (e == null) {
-                return mName;
+                return name;
             } else if (e instanceof BytePackable.EnumResourceId) {
                 BytePackable.EnumResourceId f = (BytePackable.EnumResourceId) e;
                 mExtra.setLength(0);
                 // Append name of current setting.
-                mExtra.append(mName).append("<br/><small>")
+                mExtra.append(name).append("<br/><small>")
                         .append(context.getResources().getStringArray(
                                 f.getNameResourceId())[e.ordinal()]).append("</small>");
                 // Append any settings whose style are set to this.
@@ -441,7 +447,7 @@ abstract public class ConfigData {
                         s -> mExtra.append("<br/><small> &bull; ").append(s).append("</small>"));
                 return Html.fromHtml(mExtra.toString(), Html.FROM_HTML_MODE_LEGACY);
             } else {
-                return Html.fromHtml(mName + "<br/><small>" +
+                return Html.fromHtml(name + "<br/><small>" +
                         e.getClass().getSimpleName() + " ~ " + e.name() +
                         "</small>", Html.FROM_HTML_MODE_LEGACY);
             }

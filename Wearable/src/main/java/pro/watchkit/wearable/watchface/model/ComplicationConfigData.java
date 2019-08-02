@@ -47,7 +47,7 @@ public class ComplicationConfigData extends ConfigData {
 
                 // Data for complication count in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_complication_count),
+                        R.string.config_complication_count,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
@@ -58,7 +58,7 @@ public class ComplicationConfigData extends ConfigData {
 
                 // Data for complication rotation in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_complication_rotation),
+                        R.string.config_complication_rotation,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
@@ -69,7 +69,7 @@ public class ComplicationConfigData extends ConfigData {
 
                 // Data for complication size in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_complication_size),
+                        R.string.config_complication_size,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
@@ -80,7 +80,7 @@ public class ComplicationConfigData extends ConfigData {
 
                 // Data for complication overlap in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_complication_scale),
+                        R.string.config_complication_scale,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
@@ -91,7 +91,7 @@ public class ComplicationConfigData extends ConfigData {
 
                 // Data for complication text style in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_complication_text_style),
+                        R.string.config_complication_text_style,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
@@ -102,7 +102,7 @@ public class ComplicationConfigData extends ConfigData {
 
                 // Data for complication ring style in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_complication_ring_style),
+                        R.string.config_complication_ring_style,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
@@ -113,7 +113,7 @@ public class ComplicationConfigData extends ConfigData {
 
                 // Data for complication background style in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_complication_background_style),
+                        R.string.config_complication_background_style,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,

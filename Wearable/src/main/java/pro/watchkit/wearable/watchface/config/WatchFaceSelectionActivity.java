@@ -62,6 +62,8 @@ public class WatchFaceSelectionActivity extends Activity {
             WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_FLAGS";
     static final String INTENT_EXTRA_SLOT =
             WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_SLOT";
+    static final String INTENT_EXTRA_LABEL =
+            WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_LABEL";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,8 @@ public class WatchFaceSelectionActivity extends Activity {
         String[] watchFaceStateStrings = getIntent().getStringArrayExtra(INTENT_EXTRA_STATES);
         int flags = getIntent().getIntExtra(
                 INTENT_EXTRA_FLAGS, WatchFaceGlobalDrawable.PART_BACKGROUND);
+        int nameResourceId = getIntent().getIntExtra(
+                INTENT_EXTRA_LABEL, 0);
 
         // Try to get the watch face slot from our activity intent.
         String slot = getIntent().getStringExtra(INTENT_EXTRA_SLOT);
@@ -89,8 +93,8 @@ public class WatchFaceSelectionActivity extends Activity {
         }
 
         WatchFaceSelectionRecyclerViewAdapter recyclerViewAdapter =
-                new WatchFaceSelectionRecyclerViewAdapter(
-                        this, watchFaceServiceClass, watchFaceStateStrings, flags);
+                new WatchFaceSelectionRecyclerViewAdapter(this, watchFaceServiceClass,
+                        watchFaceStateStrings, flags, nameResourceId);
 
         WearableRecyclerView view = findViewById(R.id.wearable_recycler_view);
 
@@ -121,7 +125,7 @@ public class WatchFaceSelectionActivity extends Activity {
                 if (WatchFaceState.mostlyEquals(watchFaceStateStrings[i], currentWatchFaceState)) {
                     // We found it! Scroll to this item.
                     // This doesn't work, why? // layoutManager.scrollToPosition(i);
-                    layoutManager.smoothScrollToPosition(view, null, i);
+                    layoutManager.smoothScrollToPosition(view, null, i + 1);
                     break;
                 }
             }

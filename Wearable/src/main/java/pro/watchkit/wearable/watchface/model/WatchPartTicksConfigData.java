@@ -45,7 +45,7 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for ticks display in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_ticks_display),
+                        R.string.config_preset_ticks_display,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
@@ -56,7 +56,7 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for tick margin in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_tick_margin),
+                        R.string.config_preset_tick_margin,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
@@ -67,7 +67,7 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for tick background style in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_tick_background_style),
+                        R.string.config_preset_tick_background_style,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
@@ -78,7 +78,7 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for four tick shape in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_four_tick_shape),
+                        R.string.config_preset_four_tick_shape,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
@@ -90,7 +90,7 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for four tick length in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_four_tick_size),
+                        R.string.config_preset_four_tick_size,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
@@ -102,7 +102,7 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for four tick style in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_four_tick_style),
+                        R.string.config_preset_four_tick_style,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
@@ -114,7 +114,7 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for digit display in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_digit_display),
+                        R.string.config_preset_digit_display,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
@@ -125,7 +125,7 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for digit size in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_digit_size),
+                        R.string.config_preset_digit_size,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
@@ -136,7 +136,7 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for digit rotation in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_digit_rotation),
+                        R.string.config_preset_digit_rotation,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
@@ -148,7 +148,7 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for digit format in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_digit_format),
+                        R.string.config_preset_digit_format,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
@@ -160,7 +160,7 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for digit style in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_digit_style),
+                        R.string.config_preset_digit_style,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
@@ -179,7 +179,7 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for twelve tick shape in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_twelve_tick_shape),
+                        R.string.config_preset_twelve_tick_shape,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
@@ -191,7 +191,7 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for twelve tick length in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_twelve_tick_size),
+                        R.string.config_preset_twelve_tick_size,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
@@ -203,7 +203,7 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for twelve tick style in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_twelve_tick_style),
+                        R.string.config_preset_twelve_tick_style,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
@@ -222,7 +222,7 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for sixty tick shape in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_sixty_tick_shape),
+                        R.string.config_preset_sixty_tick_shape,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
@@ -234,7 +234,7 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for sixty tick length in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_sixty_tick_size),
+                        R.string.config_preset_sixty_tick_size,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
@@ -246,7 +246,7 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for sixty tick style in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_sixty_tick_style),
+                        R.string.config_preset_sixty_tick_style,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
@@ -258,7 +258,7 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for background style in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_background_style),
+                        R.string.config_preset_background_style,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,

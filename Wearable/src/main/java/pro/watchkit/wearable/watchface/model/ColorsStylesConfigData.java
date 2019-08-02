@@ -77,7 +77,7 @@ public class ColorsStylesConfigData extends ConfigData {
 
                 // Data for fill highlight style gradient in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_fill_highlight_style_gradient),
+                        R.string.config_preset_fill_highlight_style_gradient,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
@@ -89,7 +89,7 @@ public class ColorsStylesConfigData extends ConfigData {
 
                 // Data for fill highlight style texture in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_fill_highlight_style_texture),
+                        R.string.config_preset_fill_highlight_style_texture,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
@@ -100,7 +100,7 @@ public class ColorsStylesConfigData extends ConfigData {
 
                 // Data for accent fill style gradient in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_accent_fill_style_gradient),
+                        R.string.config_preset_accent_fill_style_gradient,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
@@ -112,7 +112,7 @@ public class ColorsStylesConfigData extends ConfigData {
 
                 // Data for accent fill style texture in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_accent_fill_style_texture),
+                        R.string.config_preset_accent_fill_style_texture,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
@@ -123,7 +123,7 @@ public class ColorsStylesConfigData extends ConfigData {
 
                 // Data for accent highlight style gradient in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_accent_highlight_style_gradient),
+                        R.string.config_preset_accent_highlight_style_gradient,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
@@ -135,7 +135,7 @@ public class ColorsStylesConfigData extends ConfigData {
 
                 // Data for accent highlight style texture in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_accent_highlight_style_texture),
+                        R.string.config_preset_accent_highlight_style_texture,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
@@ -146,7 +146,7 @@ public class ColorsStylesConfigData extends ConfigData {
 
                 // Data for base accent style gradient in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_base_accent_style_gradient),
+                        R.string.config_preset_base_accent_style_gradient,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
@@ -158,7 +158,7 @@ public class ColorsStylesConfigData extends ConfigData {
 
                 // Data for base accent style texture in settings Activity.
                 new PickerConfigItem(
-                        context.getString(R.string.config_preset_base_accent_style_texture),
+                        R.string.config_preset_base_accent_style_texture,
                         R.drawable.icn_styles,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,

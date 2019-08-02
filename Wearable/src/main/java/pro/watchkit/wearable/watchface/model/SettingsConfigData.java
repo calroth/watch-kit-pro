@@ -138,7 +138,7 @@ public class SettingsConfigData extends ConfigData {
                         WatchFaceState::isDeveloperMode),
 
                 new PickerConfigItem(
-                        context.getString(R.string.config_reset_to_default),
+                        R.string.config_reset_to_default,
                         R.drawable.icn_styles,
                         WatchFaceGlobalDrawable.PART_BACKGROUND |
                                 WatchFaceGlobalDrawable.PART_TICKS |

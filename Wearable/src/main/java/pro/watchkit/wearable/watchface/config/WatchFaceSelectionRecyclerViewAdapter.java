@@ -23,9 +23,11 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import pro.watchkit.wearable.watchface.R;
+import pro.watchkit.wearable.watchface.model.ConfigData.LabelConfigItem;
 
 import static pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable.PART_COMPLICATIONS;
 
@@ -39,28 +41,54 @@ import static pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable.
 public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapter {
     private String[] mWatchFaceStateStrings;
     private int mFlags;
+    @StringRes
+    private int mNameResourceId;
+
+    private static final int TYPE_WATCH_FACE_DRAWABLE_CONFIG = 0;
+    private static final int TYPE_LABEL_CONFIG = 1;
 
     WatchFaceSelectionRecyclerViewAdapter(
             @NonNull Context context, @NonNull Class watchFaceServiceClass,
-            String[] watchFaceStateStrings, int flags) {
-        // TODO: don't hard-code AnalogComplicationWatchFaceService.class
+            String[] watchFaceStateStrings, int flags, @StringRes int nameResourceId) {
         super(context, watchFaceServiceClass);
         mWatchFaceStateStrings = watchFaceStateStrings;
         mFlags = flags;
+        mNameResourceId = nameResourceId;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0) {
+            return TYPE_LABEL_CONFIG;
+        } else {
+            return TYPE_WATCH_FACE_DRAWABLE_CONFIG;
+        }
     }
 
     @Override
     @NonNull
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new WatchFacePresetSelectionViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.watch_face_preset_config_list_item, parent, false));
+        if (viewType == TYPE_WATCH_FACE_DRAWABLE_CONFIG) {
+            return new WatchFacePresetSelectionViewHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.watch_face_preset_config_list_item, parent, false));
+        } else {
+            return new LabelViewHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.config_list_label_item, parent, false));
+        }
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
+        if (position == 0) {
+            // The label.
+            LabelViewHolder labelViewHolder = (LabelViewHolder) viewHolder;
+            LabelConfigItem labelConfigItem = new LabelConfigItem(mNameResourceId);
+            labelViewHolder.bind(labelConfigItem);
+            return;
+        }
         String watchFaceStateString =
-                mWatchFaceStateStrings != null && mWatchFaceStateStrings.length > position ?
-                        mWatchFaceStateStrings[position] : null;
+                mWatchFaceStateStrings != null && mWatchFaceStateStrings.length > position - 1 ?
+                        mWatchFaceStateStrings[position - 1] : null;
 
         WatchFacePresetSelectionViewHolder holder = (WatchFacePresetSelectionViewHolder) viewHolder;
         holder.setWatchFaceGlobalDrawableFlags(mFlags);
@@ -73,6 +101,6 @@ public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapt
 
     @Override
     public int getItemCount() {
-        return mWatchFaceStateStrings != null ? mWatchFaceStateStrings.length : 0;
+        return 1 + (mWatchFaceStateStrings != null ? mWatchFaceStateStrings.length : 0);
     }
 }
