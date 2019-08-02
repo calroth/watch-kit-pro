@@ -658,10 +658,29 @@ public final class PaintBox {
             // Generate a new bitmap.
             // Extra padding to make width mod 4, for RenderScript.
             int extra = width % 4 == 0 ? 0 : 4 - width % 4;
+            Bitmap triangleBitmap = Bitmap.createBitmap(
+                    width + extra, height, Bitmap.Config.ARGB_8888);
+            // Cache it for next time's use.
+            mBitmapCache.put(modifiedCustomHashCode, new WeakReference<>(triangleBitmap));
+
+            // A new bitmap for the triangle gradient pattern.
+            // Unlike the triangle bitmap above (which will be transformed with our colors),
+            // this triangle gradient bitmap doesn't change from run to run. Therefore we cache it.
             Bitmap triangleGradientBitmap = null;
             if (mTriangleGradientBitmapRef != null) {
                 triangleGradientBitmap = mTriangleGradientBitmapRef.get();
             }
+//            if (mTriangleGradientBitmapRef == null) {
+//                sb.append("(no weak ref) ");
+//            } else if (mTriangleGradientBitmapRef.get() == null) {
+//                sb.append("(garbage collected) ");
+//            } else if (triangleGradientBitmap.getHeight() != height) {
+//                sb.append("(height ").append(triangleGradientBitmap.getHeight());
+//                sb.append(" != ").append(height).append(") ");
+//            } else if (triangleGradientBitmap.getWidth() != width + extra) {
+//                sb.append("(width ").append(triangleGradientBitmap.getWidth());
+//                sb.append(" != ").append(width + extra).append(") ");
+//            }
             if (triangleGradientBitmap == null ||
                     triangleGradientBitmap.getHeight() != height ||
                     triangleGradientBitmap.getWidth() != width + extra) {
@@ -670,11 +689,8 @@ public final class PaintBox {
                 mTriangleGradientBitmapRef = new WeakReference<>(triangleGradientBitmap);
                 Canvas triangleCanvas = new Canvas(triangleGradientBitmap);
 
-                // Cache it for next time's use.
-                mBitmapCache.put(modifiedCustomHashCode, new WeakReference<>(triangleGradientBitmap));
-
-                // Slow version which uses CIE LAB gradients, which look excellent.
-                // We draw a black-to-white gradient then map that to a cLUT with the CIE LAB gradient.
+                // Slow version which uses CIE LAB gradients, which look excellent. We draw
+                // a black-to-white gradient then map that to a cLUT with the CIE LAB gradient.
                 // The constants here can be tweaked a lot. Here's an initial implementation.
                 // Colors range from between Color.BLACK and Color.TRANSPARENT.
                 int[] gradient = new int[]{
@@ -767,8 +783,7 @@ public final class PaintBox {
 //            }
             sb.append(" ~ p2.2: ").append((System.nanoTime() - time) / 1000000f);
             time = System.nanoTime();
-            Bitmap triangleBitmap = Bitmap.createBitmap(
-                    width + extra, height, Bitmap.Config.ARGB_8888);
+
             Allocation in = Allocation.createFromBitmap(mRenderScript, triangleGradientBitmap);
             Allocation out = Allocation.createFromBitmap(mRenderScript, triangleBitmap);
             mScriptC_mapBitmap.forEach_mapBitmap(in, out);
