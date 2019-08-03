@@ -61,8 +61,7 @@ abstract public class ConfigData {
      * Data for Watch Face Preview item in RecyclerView.
      */
     public static class WatchFaceDrawableConfigItem implements ConfigItemType {
-
-        private int mFlags;
+        final private int mFlags;
 
         WatchFaceDrawableConfigItem(int flags) {
             mFlags = flags;
@@ -82,15 +81,16 @@ abstract public class ConfigData {
      * Data for Watch Face Preview with Complications Preview item in RecyclerView.
      */
     public static class ComplicationConfigItem implements ConfigItemType {
+        @DrawableRes
+        final private int mDefaultComplicationResourceId;
 
-        private int defaultComplicationResourceId;
-
-        ComplicationConfigItem(int defaultComplicationResourceId) {
-            this.defaultComplicationResourceId = defaultComplicationResourceId;
+        ComplicationConfigItem(@DrawableRes int defaultComplicationResourceId) {
+            mDefaultComplicationResourceId = defaultComplicationResourceId;
         }
 
+        @DrawableRes
         public int getDefaultComplicationResourceId() {
-            return defaultComplicationResourceId;
+            return mDefaultComplicationResourceId;
         }
 
         @Override
@@ -132,10 +132,12 @@ abstract public class ConfigData {
             mConfigItemVisibilityCalculator = configItemVisibilityCalculator;
         }
 
+        @StringRes
         public int getTitleResourceId() {
             return mTitleResourceId;
         }
 
+        @StringRes
         public int getLabelResourceId() {
             return mLabelResourceId;
         }
@@ -160,11 +162,11 @@ abstract public class ConfigData {
      */
     public static class ColorPickerConfigItem implements ConfigItemType {
         @StringRes
-        private int mNameResourceId;
+        final private int mNameResourceId;
         @DrawableRes
-        private int mIconResourceId;
-        private PaintBox.ColorType mWatchFacePresetColorType;
-        private Class<ColorSelectionActivity> mActivityToChoosePreference;
+        final private int mIconResourceId;
+        final private PaintBox.ColorType mWatchFacePresetColorType;
+        final private Class<ColorSelectionActivity> mActivityToChoosePreference;
 
         ColorPickerConfigItem(
                 @StringRes int nameResourceId,
@@ -206,11 +208,11 @@ abstract public class ConfigData {
      */
     public static class ConfigActivityConfigItem implements ConfigItemType {
         @StringRes
-        private int mNameResourceId;
+        final private int mNameResourceId;
         @DrawableRes
-        private int mIconResourceId;
-        private Class<? extends ConfigData> mConfigDataClass;
-        private Class<ConfigActivity> mActivityToChoosePreference;
+        final private int mIconResourceId;
+        final private Class<? extends ConfigData> mConfigDataClass;
+        final private Class<ConfigActivity> mActivityToChoosePreference;
 
         ConfigActivityConfigItem(
                 @StringRes int nameResourceId,
@@ -359,17 +361,17 @@ abstract public class ConfigData {
 
     public static class PickerConfigItem implements ConfigItemType {
         @StringRes
-        private int mNameResourceId;
+        final private int mNameResourceId;
         @DrawableRes
-        private int mIconResourceId;
-        private Class<WatchFaceSelectionActivity> mActivityToChoosePreference;
+        final private int mIconResourceId;
+        final private Class<WatchFaceSelectionActivity> mActivityToChoosePreference;
         @NonNull
-        private Mutator mWatchFaceStateMutator;
+        final private Mutator mWatchFaceStateMutator;
         @Nullable
-        private Function<WatchFaceState, Boolean> mConfigItemVisibilityCalculator;
-        private int mWatchFaceGlobalDrawableFlags;
+        final private Function<WatchFaceState, Boolean> mConfigItemVisibilityCalculator;
+        final private int mWatchFaceGlobalDrawableFlags;
         @Nullable
-        private Style mStyle;
+        final private Style mStyle;
 
         PickerConfigItem(
                 @StringRes int nameResourceId,
@@ -490,13 +492,13 @@ abstract public class ConfigData {
     public static class ToggleConfigItem implements ConfigItemType {
 
         @StringRes
-        private int mNameResourceId;
+        final private int mNameResourceId;
         @DrawableRes
-        private int mIconEnabledResourceId;
+        final private int mIconEnabledResourceId;
         @DrawableRes
-        private int mIconDisabledResourceId;
-        private Mutator mMutator;
-        private Function<WatchFaceState, Boolean> mConfigItemVisibilityCalculator;
+        final private int mIconDisabledResourceId;
+        final private Mutator mMutator;
+        final private Function<WatchFaceState, Boolean> mConfigItemVisibilityCalculator;
 
         ToggleConfigItem(
                 @StringRes int nameResourceId,

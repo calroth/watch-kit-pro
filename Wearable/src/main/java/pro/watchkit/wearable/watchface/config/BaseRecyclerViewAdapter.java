@@ -609,6 +609,9 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         private void setTextAndVisibility() {
             mButton.setText(mConfigItem.getName(
                     mCurrentWatchFaceState, mButton.getContext()));
+            mButton.setCompoundDrawablesWithIntrinsicBounds(
+                    mButton.getContext().getDrawable(mConfigItem.getIconResourceId()),
+                    null, null, null);
 
             ViewGroup.LayoutParams param = itemView.getLayoutParams();
             if (mConfigItem.isVisible(mCurrentWatchFaceState)) {
