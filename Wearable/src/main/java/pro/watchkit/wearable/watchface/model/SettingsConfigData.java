@@ -34,9 +34,6 @@
 
 package pro.watchkit.wearable.watchface.model;
 
-import android.content.Context;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.Arrays;
@@ -49,7 +46,7 @@ import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 public class SettingsConfigData extends ConfigData {
     @Override
-    public List<ConfigItemType> getDataToPopulateAdapter(@NonNull Context context) {
+    public List<ConfigItemType> getDataToPopulateAdapter() {
         return Arrays.asList(
                 // Title.
                 new LabelConfigItem(R.string.config_configure_settings),
@@ -157,10 +154,14 @@ public class SettingsConfigData extends ConfigData {
                             @Override
                             public String[] permute(WatchFaceState permutation) {
                                 return new String[]{
-                                        context.getString(R.string.watch_kit_pro_a_default_string),
-                                        context.getString(R.string.watch_kit_pro_b_default_string),
-                                        context.getString(R.string.watch_kit_pro_c_default_string),
-                                        context.getString(R.string.watch_kit_pro_d_default_string)
+                                        permutation.getStringResource(
+                                                R.string.watch_kit_pro_a_default_string),
+                                        permutation.getStringResource(
+                                                R.string.watch_kit_pro_b_default_string),
+                                        permutation.getStringResource(
+                                                R.string.watch_kit_pro_c_default_string),
+                                        permutation.getStringResource(
+                                                R.string.watch_kit_pro_d_default_string)
                                 };
                             }
 

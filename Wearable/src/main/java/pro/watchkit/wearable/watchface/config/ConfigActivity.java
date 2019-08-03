@@ -146,7 +146,7 @@ public class ConfigActivity extends Activity {
         setContentView(R.layout.activity_analog_complication_config);
 
         mAdapter = new ConfigRecyclerViewAdapter(this, watchFaceServiceClass,
-                mConfigData.getDataToPopulateAdapter(this));
+                mConfigData.getDataToPopulateAdapter());
 
         WearableRecyclerView mWearableRecyclerView =
                 findViewById(R.id.wearable_recycler_view);

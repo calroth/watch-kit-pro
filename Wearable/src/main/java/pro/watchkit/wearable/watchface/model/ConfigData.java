@@ -26,7 +26,7 @@ abstract public class ConfigData {
      * Includes all data to populate each of the 5 different custom
      * {@link RecyclerView.ViewHolder} types in {@link ConfigRecyclerViewAdapter}.
      */
-    abstract public List<ConfigItemType> getDataToPopulateAdapter(Context context);
+    abstract public List<ConfigItemType> getDataToPopulateAdapter();
 
     /**
      * Interface all ConfigItems must implement so the {@link RecyclerView}'s Adapter associated
