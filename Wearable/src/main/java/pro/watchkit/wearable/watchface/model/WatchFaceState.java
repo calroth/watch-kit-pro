@@ -31,6 +31,7 @@ import androidx.annotation.ArrayRes;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -128,6 +129,17 @@ public class WatchFaceState {
         mContext = context;
         // Hmm. Strictly temporary: how about a default setting?
         // setString("fcd81c000c0100000006c06a60000001~3cda1cc0000000000000000000000001");
+    }
+
+    /**
+     * Returns the string from the application's resources.
+     * Convenience method for "mContext.getString(resId)".
+     *
+     * @param resId Resource id for the string
+     * @return The string from the application's resources..
+     */
+    String getStringResource(@StringRes int resId) {
+        return mContext.getString(resId);
     }
 
     /**
@@ -1860,40 +1872,40 @@ public class WatchFaceState {
     List<String> getConfigItemLabelsSetToStyle(@Nullable Style style) {
         List<String> result = new ArrayList<>();
         if (getComplicationRingStyle() == style) {
-            result.add(mContext.getString(R.string.config_complication_ring_style));
+            result.add(getStringResource(R.string.config_complication_ring_style));
         }
         if (getComplicationBackgroundStyle() == style) {
-            result.add(mContext.getString(R.string.config_complication_background_style));
+            result.add(getStringResource(R.string.config_complication_background_style));
         }
         if (Style.ACCENT_FILL == style) {
-            result.add(mContext.getString(R.string.config_preset_bezel_style));
+            result.add(getStringResource(R.string.config_preset_bezel_style));
         }
         if (Style.BASE_ACCENT == style) {
-            result.add(mContext.getString(R.string.config_preset_background_style));
+            result.add(getStringResource(R.string.config_preset_background_style));
         }
         if (getHourHandStyle() == style) {
-            result.add(mContext.getString(R.string.config_preset_hour_hand_style));
+            result.add(getStringResource(R.string.config_preset_hour_hand_style));
         }
         if (getMinuteHandStyle() == style) {
-            result.add(mContext.getString(R.string.config_preset_minute_hand_style));
+            result.add(getStringResource(R.string.config_preset_minute_hand_style));
         }
         if (getComplicationBackgroundStyle() == style) {
-            result.add(mContext.getString(R.string.config_preset_second_hand_style));
+            result.add(getStringResource(R.string.config_preset_second_hand_style));
         }
         if (getTickBackgroundStyle() == style) {
-            result.add(mContext.getString(R.string.config_preset_tick_background_style));
+            result.add(getStringResource(R.string.config_preset_tick_background_style));
         }
         if (getDigitStyle() == style) {
-            result.add(mContext.getString(R.string.config_preset_digit_style));
+            result.add(getStringResource(R.string.config_preset_digit_style));
         }
         if (getFourTickStyle() == style) {
-            result.add(mContext.getString(R.string.config_preset_four_tick_style));
+            result.add(getStringResource(R.string.config_preset_four_tick_style));
         }
         if (getTwelveTickStyle() == style) {
-            result.add(mContext.getString(R.string.config_preset_twelve_tick_style));
+            result.add(getStringResource(R.string.config_preset_twelve_tick_style));
         }
         if (getSixtyTickStyle() == style) {
-            result.add(mContext.getString(R.string.config_preset_sixty_tick_style));
+            result.add(getStringResource(R.string.config_preset_sixty_tick_style));
         }
         return result;
     }
