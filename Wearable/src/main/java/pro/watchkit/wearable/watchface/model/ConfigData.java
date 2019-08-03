@@ -3,6 +3,7 @@ package pro.watchkit.wearable.watchface.model;
 import android.content.Context;
 import android.text.Html;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -158,41 +159,40 @@ abstract public class ConfigData {
      * Data for color picker item in RecyclerView.
      */
     public static class ColorPickerConfigItem implements ConfigItemType {
-
-        private String name;
-        private int iconResourceId;
+        @StringRes
+        private int mNameResourceId;
+        @DrawableRes
+        private int mIconResourceId;
         private PaintBox.ColorType mWatchFacePresetColorType;
-        private Class<ColorSelectionActivity> activityToChoosePreference;
+        private Class<ColorSelectionActivity> mActivityToChoosePreference;
 
         ColorPickerConfigItem(
-                String name,
-                int iconResourceId,
+                @StringRes int nameResourceId,
+                @DrawableRes int iconResourceId,
                 PaintBox.ColorType colorType,
                 Class<ColorSelectionActivity> activity) {
-            this.name = name;
-            this.iconResourceId = iconResourceId;
-            this.mWatchFacePresetColorType = colorType;
-            this.activityToChoosePreference = activity;
+            mNameResourceId = nameResourceId;
+            mIconResourceId = iconResourceId;
+            mWatchFacePresetColorType = colorType;
+            mActivityToChoosePreference = activity;
         }
 
         public PaintBox.ColorType getType() {
             return mWatchFacePresetColorType;
         }
 
-        public String getName() {
-            return name;
+        @StringRes
+        public int getNameResourceId() {
+            return mNameResourceId;
         }
 
+        @DrawableRes
         public int getIconResourceId() {
-            return iconResourceId;
+            return mIconResourceId;
         }
-
-//        public String getSharedPrefString() {
-//            return sharedPrefString;
-//        }
 
         public Class<ColorSelectionActivity> getActivityToChoosePreference() {
-            return activityToChoosePreference;
+            return mActivityToChoosePreference;
         }
 
         @Override
@@ -205,42 +205,40 @@ abstract public class ConfigData {
      * Data for another config (sub-) activity in RecyclerView.
      */
     public static class ConfigActivityConfigItem implements ConfigItemType {
-
-        private String name;
-        private int iconResourceId;
-        //        private WatchFacePreset.ColorType mWatchFacePresetColorType;
+        @StringRes
+        private int mNameResourceId;
+        @DrawableRes
+        private int mIconResourceId;
         private Class<? extends ConfigData> mConfigDataClass;
-        private Class<ConfigActivity> activityToChoosePreference;
+        private Class<ConfigActivity> mActivityToChoosePreference;
 
         ConfigActivityConfigItem(
-                String name,
-                int iconResourceId,
+                @StringRes int nameResourceId,
+                @DrawableRes int iconResourceId,
                 Class<? extends ConfigData> configDataClass,
                 Class<ConfigActivity> activity) {
-            this.name = name;
-            this.iconResourceId = iconResourceId;
+            mNameResourceId = nameResourceId;
+            mIconResourceId = iconResourceId;
             mConfigDataClass = configDataClass;
-            this.activityToChoosePreference = activity;
+            mActivityToChoosePreference = activity;
         }
 
         public Class<? extends ConfigData> getConfigDataClass() {
             return mConfigDataClass;
         }
 
-        public String getName() {
-            return name;
+        @StringRes
+        public int getNameResourceId() {
+            return mNameResourceId;
         }
 
+        @DrawableRes
         public int getIconResourceId() {
-            return iconResourceId;
+            return mIconResourceId;
         }
-
-//        public String getSharedPrefString() {
-//            return sharedPrefString;
-//        }
 
         public Class<ConfigActivity> getActivityToChoosePreference() {
-            return activityToChoosePreference;
+            return mActivityToChoosePreference;
         }
 
         @Override
@@ -362,6 +360,7 @@ abstract public class ConfigData {
     public static class PickerConfigItem implements ConfigItemType {
         @StringRes
         private int mNameResourceId;
+        @DrawableRes
         private int mIconResourceId;
         private Class<WatchFaceSelectionActivity> mActivityToChoosePreference;
         @NonNull
@@ -374,7 +373,7 @@ abstract public class ConfigData {
 
         PickerConfigItem(
                 @StringRes int nameResourceId,
-                int iconResourceId,
+                @DrawableRes int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
                 @NonNull Class<WatchFaceSelectionActivity> activityToChoosePreference,
                 @NonNull Mutator watchFaceStateMutator) {
@@ -384,7 +383,7 @@ abstract public class ConfigData {
 
         PickerConfigItem(
                 @StringRes int nameResourceId,
-                int iconResourceId,
+                @DrawableRes int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
                 @NonNull Class<WatchFaceSelectionActivity> activityToChoosePreference,
                 @NonNull Style style,
@@ -395,7 +394,7 @@ abstract public class ConfigData {
 
         PickerConfigItem(
                 @StringRes int nameResourceId,
-                int iconResourceId,
+                @DrawableRes int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
                 @NonNull Class<WatchFaceSelectionActivity> activityToChoosePreference,
                 @NonNull Mutator watchFaceStateMutator,
@@ -406,7 +405,7 @@ abstract public class ConfigData {
 
         private PickerConfigItem(
                 @StringRes int nameResourceId,
-                int iconResourceId,
+                @DrawableRes int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
                 @NonNull Class<WatchFaceSelectionActivity> activityToChoosePreference,
                 @Nullable Style style,
@@ -423,6 +422,7 @@ abstract public class ConfigData {
 
         private final StringBuilder mExtra = new StringBuilder();
 
+        @StringRes
         public int getNameResourceId() {
             return mNameResourceId;
         }
@@ -438,7 +438,7 @@ abstract public class ConfigData {
             } else if (e instanceof BytePackable.EnumResourceId) {
                 BytePackable.EnumResourceId f = (BytePackable.EnumResourceId) e;
                 mExtra.setLength(0);
-                // Append name of current setting.
+                // Append mNameResourceId of current setting.
                 mExtra.append(name).append("<br/><small>")
                         .append(context.getResources().getStringArray(
                                 f.getNameResourceId())[e.ordinal()]).append("</small>");
@@ -457,6 +457,7 @@ abstract public class ConfigData {
             return mWatchFaceGlobalDrawableFlags;
         }
 
+        @DrawableRes
         public int getIconResourceId() {
             return mIconResourceId;
         }
@@ -488,43 +489,49 @@ abstract public class ConfigData {
      */
     public static class ToggleConfigItem implements ConfigItemType {
 
-        private String name;
-        private int iconEnabledResourceId;
-        private int iconDisabledResourceId;
+        @StringRes
+        private int mNameResourceId;
+        @DrawableRes
+        private int mIconEnabledResourceId;
+        @DrawableRes
+        private int mIconDisabledResourceId;
         private Mutator mMutator;
         private Function<WatchFaceState, Boolean> mConfigItemVisibilityCalculator;
 
         ToggleConfigItem(
-                String name,
-                int iconEnabledResourceId,
-                int iconDisabledResourceId,
+                @StringRes int nameResourceId,
+                @DrawableRes int iconEnabledResourceId,
+                @DrawableRes int iconDisabledResourceId,
                 Mutator mutator) {
-            this(name, iconEnabledResourceId, iconDisabledResourceId, mutator, null);
+            this(nameResourceId, iconEnabledResourceId, iconDisabledResourceId, mutator, null);
         }
 
         ToggleConfigItem(
-                String name,
-                int iconEnabledResourceId,
-                int iconDisabledResourceId,
+                @StringRes int nameResourceId,
+                @DrawableRes int iconEnabledResourceId,
+                @DrawableRes int iconDisabledResourceId,
                 Mutator mutator,
                 Function<WatchFaceState, Boolean> configItemVisibilityCalculator) {
-            this.name = name;
-            this.iconEnabledResourceId = iconEnabledResourceId;
-            this.iconDisabledResourceId = iconDisabledResourceId;
+            mNameResourceId = nameResourceId;
+            mIconEnabledResourceId = iconEnabledResourceId;
+            mIconDisabledResourceId = iconDisabledResourceId;
             mMutator = mutator;
             mConfigItemVisibilityCalculator = configItemVisibilityCalculator;
         }
 
-        public String getName() {
-            return name;
+        @StringRes
+        public int getNameResourceId() {
+            return mNameResourceId;
         }
 
+        @DrawableRes
         public int getIconEnabledResourceId() {
-            return iconEnabledResourceId;
+            return mIconEnabledResourceId;
         }
 
+        @DrawableRes
         public int getIconDisabledResourceId() {
-            return iconDisabledResourceId;
+            return mIconDisabledResourceId;
         }
 
         @Override

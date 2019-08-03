@@ -42,21 +42,21 @@ public class WatchFacePresetConfigData extends ConfigData {
 
                 // Data for Configure Colors and Styles sub-activity in settings Activity.
                 new ConfigActivityConfigItem(
-                        context.getString(R.string.config_configure_colors_styles),
+                        R.string.config_configure_colors_styles,
                         R.drawable.icn_styles,
                         ColorsStylesConfigData.class,
                         ConfigActivity.class),
 
                 // Data for Configure Hands sub-activity in settings Activity.
                 new ConfigActivityConfigItem(
-                        context.getString(R.string.config_configure_hands),
+                        R.string.config_configure_hands,
                         R.drawable.ic_hands,
                         WatchPartHandsConfigData.class,
                         ConfigActivity.class),
 
                 // Data for Configure Ticks sub-activity in settings Activity.
                 new ConfigActivityConfigItem(
-                        context.getString(R.string.config_configure_ticks),
+                        R.string.config_configure_ticks,
                         R.drawable.ic_ticks,
                         WatchPartTicksConfigData.class,
                         ConfigActivity.class)

@@ -56,35 +56,35 @@ public class SettingsConfigData extends ConfigData {
 
                 // Data for 'Unread Notifications' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
-                        context.getString(R.string.config_unread_notifications_label),
+                        R.string.config_unread_notifications_label,
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new BooleanMutator(WatchFaceState::setShowUnreadNotifications)),
 
                 // Data for 'Night Vision' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
-                        context.getString(R.string.config_night_vision_label),
+                        R.string.config_night_vision_label,
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new BooleanMutator(WatchFaceState::setNightVisionModeEnabled)),
 
                 // Data for base color UX in settings Activity.
                 new ColorPickerConfigItem(
-                        context.getString(R.string.config_ambient_day_color_label),
+                        R.string.config_ambient_day_color_label,
                         R.drawable.icn_styles,
                         PaintBox.ColorType.AMBIENT_DAY,
                         ColorSelectionActivity.class),
 
                 // Data for base color UX in settings Activity.
                 new ColorPickerConfigItem(
-                        context.getString(R.string.config_ambient_night_color_label),
+                        R.string.config_ambient_night_color_label,
                         R.drawable.icn_styles,
                         PaintBox.ColorType.AMBIENT_NIGHT,
                         ColorSelectionActivity.class),
 
                 // Data for 'Developer Mode' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
-                        context.getString(R.string.config_developer_mode_label),
+                        R.string.config_developer_mode_label,
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new BooleanMutator(WatchFaceState::setDeveloperMode)),
@@ -99,7 +99,7 @@ public class SettingsConfigData extends ConfigData {
 
                 // Data for 'Stats' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
-                        context.getString(R.string.config_stats_label),
+                        R.string.config_stats_label,
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new BooleanMutator(WatchFaceState::setStats),
@@ -107,7 +107,7 @@ public class SettingsConfigData extends ConfigData {
 
                 // Data for 'Stats (Detailed)' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
-                        context.getString(R.string.config_stats_detail_label),
+                        R.string.config_stats_detail_label,
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new BooleanMutator(WatchFaceState::setStatsDetail),
@@ -115,7 +115,7 @@ public class SettingsConfigData extends ConfigData {
 
                 // Data for 'Hide Ticks' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
-                        context.getString(R.string.config_hide_ticks_label),
+                        R.string.config_hide_ticks_label,
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new BooleanMutator(WatchFaceState::setHideTicks),
@@ -123,7 +123,7 @@ public class SettingsConfigData extends ConfigData {
 
                 // Data for 'Hide Hands' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
-                        context.getString(R.string.config_hide_hands_label),
+                        R.string.config_hide_hands_label,
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new BooleanMutator(WatchFaceState::setHideHands),
@@ -131,7 +131,7 @@ public class SettingsConfigData extends ConfigData {
 
                 // Data for 'Alt Drawing' in settings Activity.
                 new ToggleConfigItem(
-                        context.getString(R.string.config_alt_drawing_label),
+                        R.string.config_alt_drawing_label,
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new BooleanMutator(WatchFaceState::setAltDrawing),

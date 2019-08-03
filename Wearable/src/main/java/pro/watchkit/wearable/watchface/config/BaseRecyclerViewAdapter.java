@@ -505,7 +505,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
 
         void bind(@NonNull ConfigData.ColorPickerConfigItem configItem) {
-            mButton.setText(configItem.getName());
+            mButton.setText(mButton.getContext().getString(configItem.getNameResourceId()));
             mButton.setCompoundDrawablesWithIntrinsicBounds(
                     mButton.getContext().getDrawable(configItem.getIconResourceId()),
                     null, mColorSwatchDrawable, null);
@@ -549,7 +549,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
 
         void bind(@NonNull ConfigData.ConfigActivityConfigItem configItem) {
-            mButton.setText(configItem.getName());
+            mButton.setText(mButton.getResources().getString(configItem.getNameResourceId()));
             mButton.setCompoundDrawablesWithIntrinsicBounds(
                     mButton.getContext().getDrawable(configItem.getIconResourceId()),
                     null, null, null);
@@ -685,8 +685,6 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     public class ToggleViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, WatchFaceStateListener {
         private Switch mSwitch;
-        private int mEnabledIconResourceId;
-        private int mDisabledIconResourceId;
         private ConfigData.ToggleConfigItem mConfigItem;
         private int mVisibleLayoutHeight, mVisibleLayoutWidth;
 
@@ -703,20 +701,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         void bind(@NonNull ConfigData.ToggleConfigItem configItem) {
             mConfigItem = configItem;
 
-            setName(configItem.getName());
-            setIcons(configItem.getIconEnabledResourceId(),
-                    configItem.getIconDisabledResourceId());
-
-            setDefaultSwitchValue();
-        }
-
-        public void setName(String name) {
-            mSwitch.setText(name);
-        }
-
-        void setIcons(int enabledIconResourceId, int disabledIconResourceId) {
-            mEnabledIconResourceId = enabledIconResourceId;
-            mDisabledIconResourceId = disabledIconResourceId;
+            mSwitch.setText(mSwitch.getContext().getString(configItem.getNameResourceId()));
 
             setDefaultSwitchValue();
         }
@@ -749,9 +734,9 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             int currentIconResourceId;
 
             if (checked) {
-                currentIconResourceId = mEnabledIconResourceId;
+                currentIconResourceId = mConfigItem.getIconEnabledResourceId();
             } else {
-                currentIconResourceId = mDisabledIconResourceId;
+                currentIconResourceId = mConfigItem.getIconDisabledResourceId();
             }
 
             mSwitch.setChecked(checked);

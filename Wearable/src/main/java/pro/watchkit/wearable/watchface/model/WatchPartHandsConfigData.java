@@ -111,7 +111,7 @@ public class WatchPartHandsConfigData extends ConfigData {
 
                 // Data for minute hand override in settings Activity.
                 new ToggleConfigItem(
-                        context.getString(R.string.config_preset_minute_hand_override),
+                        R.string.config_preset_minute_hand_override,
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new BooleanMutator(WatchFaceState::setMinuteHandOverride)),
@@ -190,7 +190,7 @@ public class WatchPartHandsConfigData extends ConfigData {
 
                 // Data for second hand override in settings Activity.
                 new ToggleConfigItem(
-                        context.getString(R.string.config_preset_second_hand_override),
+                        R.string.config_preset_second_hand_override,
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new BooleanMutator(WatchFaceState::setSecondHandOverride)),

@@ -172,7 +172,7 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for twelve tick override in settings Activity.
                 new ToggleConfigItem(
-                        context.getString(R.string.config_preset_twelve_tick_override),
+                        R.string.config_preset_twelve_tick_override,
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new BooleanMutator(WatchFaceState::setTwelveTickOverride)),
@@ -215,7 +215,7 @@ public class WatchPartTicksConfigData extends ConfigData {
 
                 // Data for sixty tick override in settings Activity.
                 new ToggleConfigItem(
-                        context.getString(R.string.config_preset_sixty_tick_override),
+                        R.string.config_preset_sixty_tick_override,
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new BooleanMutator(WatchFaceState::setSixtyTickOverride)),

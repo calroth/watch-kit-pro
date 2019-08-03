@@ -49,28 +49,28 @@ public class ColorsStylesConfigData extends ConfigData {
 
                 // Data for fill color UX in settings Activity.
                 new ColorPickerConfigItem(
-                        context.getString(R.string.config_fill_color_label),
+                        R.string.config_fill_color_label,
                         R.drawable.icn_styles,
                         PaintBox.ColorType.FILL,
                         ColorSelectionActivity.class),
 
                 // Data for accent color UX in settings Activity.
                 new ColorPickerConfigItem(
-                        context.getString(R.string.config_accent_color_label),
+                        R.string.config_accent_color_label,
                         R.drawable.icn_styles,
                         PaintBox.ColorType.ACCENT,
                         ColorSelectionActivity.class),
 
                 // Data for highlight/marker (second hand) color UX in settings Activity.
                 new ColorPickerConfigItem(
-                        context.getString(R.string.config_marker_color_label),
+                        R.string.config_marker_color_label,
                         R.drawable.icn_styles,
                         PaintBox.ColorType.HIGHLIGHT,
                         ColorSelectionActivity.class),
 
                 // Data for base color UX in settings Activity.
                 new ColorPickerConfigItem(
-                        context.getString(R.string.config_base_color_label),
+                        R.string.config_base_color_label,
                         R.drawable.icn_styles,
                         PaintBox.ColorType.BASE,
                         ColorSelectionActivity.class),
