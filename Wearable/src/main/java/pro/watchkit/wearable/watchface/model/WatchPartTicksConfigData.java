@@ -171,7 +171,8 @@ public class WatchPartTicksConfigData extends ConfigData {
                         R.string.config_preset_twelve_tick_override,
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
-                        new BooleanMutator(WatchFaceState::setTwelveTickOverride)),
+                        new BooleanMutator(WatchFaceState::setTwelveTickOverride),
+                        WatchFaceState::isTwelveTicksVisible),
 
                 // Data for twelve tick shape in settings Activity.
                 new PickerConfigItem(
@@ -214,7 +215,8 @@ public class WatchPartTicksConfigData extends ConfigData {
                         R.string.config_preset_sixty_tick_override,
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
-                        new BooleanMutator(WatchFaceState::setSixtyTickOverride)),
+                        new BooleanMutator(WatchFaceState::setSixtyTickOverride),
+                        WatchFaceState::isSixtyTicksVisible),
 
                 // Data for sixty tick shape in settings Activity.
                 new PickerConfigItem(
