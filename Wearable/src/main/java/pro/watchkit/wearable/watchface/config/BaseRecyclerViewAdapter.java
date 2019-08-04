@@ -580,13 +580,13 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     public class PickerViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, WatchFaceStateListener {
 
-        private Button mButton;
+        private final Button mButton;
 
         private Class<WatchFaceSelectionActivity> mLaunchActivity;
         private ConfigData.PickerConfigItem mConfigItem;
         private int mFlags;
 
-        private int mVisibleLayoutHeight, mVisibleLayoutWidth;
+        private final int mVisibleLayoutHeight, mVisibleLayoutWidth;
 
         PickerViewHolder(@NonNull View view) {
             super(view);
@@ -613,17 +613,15 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                     mButton.getContext().getDrawable(mConfigItem.getIconResourceId()),
                     null, null, null);
 
-            ViewGroup.LayoutParams param = itemView.getLayoutParams();
             if (mConfigItem.isVisible(mCurrentWatchFaceState)) {
-                param.height = mVisibleLayoutHeight;
-                param.width = mVisibleLayoutWidth;
+                itemView.getLayoutParams().height = mVisibleLayoutHeight;
+                itemView.getLayoutParams().width = mVisibleLayoutWidth;
                 itemView.setVisibility(View.VISIBLE);
             } else {
-                param.height = 0;
-                param.width = 0;
+                itemView.getLayoutParams().height = 0;
+                itemView.getLayoutParams().width = 0;
                 itemView.setVisibility(View.GONE);
             }
-            itemView.setLayoutParams(param);
         }
 
         public void onWatchFaceStateChanged() {
@@ -687,15 +685,20 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
      */
     public class ToggleViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, WatchFaceStateListener {
-        private Switch mSwitch;
+        private final Switch mSwitch;
         private ConfigData.ToggleConfigItem mConfigItem;
-        private int mVisibleLayoutHeight, mVisibleLayoutWidth;
+        private final int mVisibleLayoutHeight, mVisibleLayoutWidth;
+        private final Drawable mSwitchTrackDrawable, mSwitchThumbDrawable;
 
         ToggleViewHolder(@NonNull View view) {
             super(view);
 
             mSwitch = view.findViewById(R.id.config_list_toggle);
+            mSwitch.setSplitTrack(true);
             view.setOnClickListener(this);
+
+            mSwitchTrackDrawable = mSwitch.getTrackDrawable();
+            mSwitchThumbDrawable = mSwitch.getThumbDrawable();
 
             mVisibleLayoutHeight = itemView.getLayoutParams().height;
             mVisibleLayoutWidth = itemView.getLayoutParams().width;
@@ -716,17 +719,21 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             setChecked(mCurrentWatchFaceState.getString().equals(permutations[1]));
 
             // Set visibility.
-            ViewGroup.LayoutParams param = itemView.getLayoutParams();
             if (mConfigItem.isVisible(mCurrentWatchFaceState)) {
-                param.height = mVisibleLayoutHeight;
-                param.width = mVisibleLayoutWidth;
+                mSwitch.setTrackDrawable(mSwitchTrackDrawable);
+                mSwitch.setThumbDrawable(mSwitchThumbDrawable);
+                itemView.getLayoutParams().height = mVisibleLayoutHeight;
+                itemView.getLayoutParams().width = mVisibleLayoutWidth;
                 itemView.setVisibility(View.VISIBLE);
             } else {
-                param.height = 0;
-                param.width = 0;
+                // For whatever reason, the toggle switch won't truly disappear until we also null
+                // out its track and thumb drawables. Sure, OK...
+                mSwitch.setTrackDrawable(null);
+                mSwitch.setThumbDrawable(null);
+                itemView.getLayoutParams().height = 0;
+                itemView.getLayoutParams().width = 0;
                 itemView.setVisibility(View.GONE);
             }
-            itemView.setLayoutParams(param);
         }
 
         boolean isChecked() {
