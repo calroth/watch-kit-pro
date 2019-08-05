@@ -455,6 +455,21 @@ abstract public class ConfigData {
             }
         }
 
+        public String getExtraName(
+                @NonNull WatchFaceState watchFaceState, @NonNull Context context) {
+            Enum e = mWatchFaceStateMutator.getCurrentValue(watchFaceState);
+            String name = context.getString(mNameResourceId);
+
+            if (e == null) {
+                return name;
+            } else if (e instanceof BytePackable.EnumResourceId) {
+                BytePackable.EnumResourceId f = (BytePackable.EnumResourceId) e;
+                return context.getResources().getStringArray(f.getNameResourceId())[e.ordinal()];
+            } else {
+                return e.name();
+            }
+        }
+
         public int getWatchFaceGlobalDrawableFlags() {
             return mWatchFaceGlobalDrawableFlags;
         }

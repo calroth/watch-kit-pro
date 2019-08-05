@@ -39,7 +39,8 @@ import static pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable.
  */
 
 public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapter {
-    private String[] mWatchFaceStateStrings;
+    @NonNull
+    final private String[] mWatchFaceStateStrings;
     private int mFlags;
     @StringRes
     private int mNameResourceId;
@@ -49,7 +50,7 @@ public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapt
 
     WatchFaceSelectionRecyclerViewAdapter(
             @NonNull Context context, @NonNull Class watchFaceServiceClass,
-            String[] watchFaceStateStrings, int flags, @StringRes int nameResourceId) {
+            @NonNull String[] watchFaceStateStrings, int flags, @StringRes int nameResourceId) {
         super(context, watchFaceServiceClass);
         mWatchFaceStateStrings = watchFaceStateStrings;
         mFlags = flags;

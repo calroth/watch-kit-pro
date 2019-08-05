@@ -36,9 +36,12 @@ package pro.watchkit.wearable.watchface.config;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 import androidx.wear.widget.WearableRecyclerView;
@@ -64,6 +67,8 @@ public class WatchFaceSelectionActivity extends Activity {
             WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_SLOT";
     static final String INTENT_EXTRA_LABEL =
             WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_LABEL";
+    static final String INTENT_EXTRA_EXTRA_NAMES =
+            WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_EXTRA_NAMES";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +97,8 @@ public class WatchFaceSelectionActivity extends Activity {
             watchFaceServiceClass = ProWatchFaceService.A.class;
         }
 
+        String[] extraNames = getIntent().getStringArrayExtra(INTENT_EXTRA_EXTRA_NAMES);
+
         WatchFaceSelectionRecyclerViewAdapter recyclerViewAdapter =
                 new WatchFaceSelectionRecyclerViewAdapter(this, watchFaceServiceClass,
                         watchFaceStateStrings, flags, nameResourceId);
@@ -110,9 +117,29 @@ public class WatchFaceSelectionActivity extends Activity {
 
         view.setAdapter(recyclerViewAdapter);
 
-        // Attach a PagerSnapHelper to make it snap to each watch face!
-        SnapHelper snapHelper = new PagerSnapHelper();
+        // Attach a LinearSnapHelper to make it snap to each watch face!
+        SnapHelper snapHelper = new LinearSnapHelper();
         snapHelper.attachToRecyclerView(view);
+
+        // Add an OnScrollListener to the view.
+        // Every time we snap to a new view with the SnapHelper, check its position.
+        // Show a toast depending on what we snapped.
+        view.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    View snapView = snapHelper.findSnapView(layoutManager);
+                    if (snapView != null) {
+                        int i = layoutManager.getPosition(snapView);
+                        if (/* i != RecyclerView.NO_POSITION && */ i > 0) {
+                            Toast.makeText(getApplicationContext(),
+                                    extraNames[i - 1], Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            }
+        });
 
         // Attempt to scroll to the current selection in preferences.
         // Get our current preference.
