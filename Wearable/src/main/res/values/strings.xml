@@ -199,6 +199,18 @@
         <item>Dot</item>
         <item>Triangle</item>
         <item>Diamond</item>
+        <item>Square</item>
+        <item>Bar 2:1</item>
+        <item>Bar 4:1</item>
+        <item>Bar 8:1</item>
+        <item>Square (wide)</item>
+        <item>Dot (thin)</item>
+        <item>Triangle (thin)</item>
+        <item>Diamond (thin)</item>
+        <item>Square (cutout)</item>
+        <item>Dot  (cutout)</item>
+        <item>Triangle (cutout)</item>
+        <item>Diamond (cutout)</item>
     </string-array>
 
     <string-array name="WatchFacePreset_TickSize">
