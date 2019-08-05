@@ -115,9 +115,20 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
             // Draw the object at 12 o'clock, then rotate it to desired location.
             switch (tickShape) {
                 case SQUARE:
+                case SQUARE_WIDE:
+                case SQUARE_CUTOUT:
                 case BAR_1_2:
                 case BAR_1_4:
-                case BAR_1_8:
+                case BAR_1_8: {
+                    // Draw a square.
+                    temp.addRect(
+                            x - tickWidth,
+                            y - tickSizeDimen,
+                            x + tickWidth,
+                            y + tickSizeDimen,
+                            getDirection());
+                    break;
+                }
                 case SECTOR: {
                     // Draw a really large triangle, then crop it with two
                     // circles to give us a wedge shape with arc top and bottom.
@@ -153,7 +164,9 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
 
                     break;
                 }
-                case DOT: {
+                case DOT:
+                case DOT_THIN:
+                case DOT_CUTOUT: {
                     // Draw an oval.
                     temp.addOval(
                             x - tickWidth,
@@ -163,7 +176,9 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
                             getDirection());
                     break;
                 }
-                case TRIANGLE: {
+                case TRIANGLE:
+                case TRIANGLE_THIN:
+                case TRIANGLE_CUTOUT: {
                     // Move to top left.
                     temp.moveTo(x - tickWidth, y - tickSizeDimen);
                     if (getDirection() == Path.Direction.CW) {
@@ -181,7 +196,9 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
                     temp.close();
                     break;
                 }
-                case DIAMOND: {
+                case DIAMOND:
+                case DIAMOND_THIN:
+                case DIAMOND_CUTOUT: {
                     // Move to top centre.
                     temp.moveTo(x, y - tickSizeDimen);
                     if (getDirection() == Path.Direction.CW) {
