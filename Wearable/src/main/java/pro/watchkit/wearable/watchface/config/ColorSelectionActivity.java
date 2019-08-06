@@ -46,7 +46,6 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
@@ -57,6 +56,7 @@ import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.util.SharedPref;
+import pro.watchkit.wearable.watchface.util.Toaster;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 
 import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_SLOT;
@@ -415,7 +415,7 @@ public class ColorSelectionActivity extends Activity {
         // Show a toast popup with the color we just selected.
         toastText = toastText.replace('\n', ' ') +
                 ":\n" + mWatchFaceState.getPaintBox().getColorName(sixBitColor);
-        Toast.makeText(this, toastText, Toast.LENGTH_LONG).show();
+        Toaster.makeText(this, toastText, Toaster.LENGTH_LONG);
 
         finish();
     }

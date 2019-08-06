@@ -37,7 +37,6 @@ package pro.watchkit.wearable.watchface.config;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -49,6 +48,7 @@ import androidx.wear.widget.WearableRecyclerView;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.util.SharedPref;
+import pro.watchkit.wearable.watchface.util.Toaster;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
@@ -133,8 +133,8 @@ public class WatchFaceSelectionActivity extends Activity {
                     if (snapView != null) {
                         int i = layoutManager.getPosition(snapView);
                         if (/* i != RecyclerView.NO_POSITION && */ i > 0) {
-                            Toast.makeText(getApplicationContext(),
-                                    extraNames[i - 1], Toast.LENGTH_SHORT).show();
+                            Toaster.makeText(getApplicationContext(), extraNames[i - 1],
+                                    Toaster.LENGTH_SHORT);
                         }
                     }
                 }

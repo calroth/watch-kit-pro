@@ -56,7 +56,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
@@ -74,6 +73,7 @@ import pro.watchkit.wearable.watchface.model.ConfigData;
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.util.SharedPref;
+import pro.watchkit.wearable.watchface.util.Toaster;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
@@ -639,7 +639,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 // that changed.
                 // Don't show if we were previously invisible.
                 // Only show if we are visible.
-                Toast.makeText(itemView.getContext(), newText, Toast.LENGTH_LONG).show();
+                Toaster.makeText(itemView.getContext(), newText, Toaster.LENGTH_LONG);
             }
             itemView.invalidate();
         }
