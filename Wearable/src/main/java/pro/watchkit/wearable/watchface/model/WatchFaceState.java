@@ -591,15 +591,6 @@ public class WatchFaceState {
         regeneratePaints();
     }
 
-    /**
-     * Is the currently-set typeface installed and available for use?
-     *
-     * @return Whether the typeface is available
-     */
-    boolean isTypefaceAvailable() {
-        return getTypefaceObject() != null;
-    }
-
     private android.graphics.Typeface mTypeface_DROID_SANS;
     private android.graphics.Typeface mTypeface_DROID_SANS_BOLD;
     private android.graphics.Typeface mTypeface_NOTO_SERIF;
@@ -613,11 +604,15 @@ public class WatchFaceState {
 
     @Nullable
     private android.graphics.Typeface getTypefaceObject() {
-        Typeface temp = Typeface.NOTO_SERIF_BOLD;
+        return getTypefaceObject(Typeface.NOTO_SERIF_BOLD);
+//        return getTypefaceObject(getTypeface());
+    }
+
+    @Nullable
+    android.graphics.Typeface getTypefaceObject(Typeface typeface) {
         if (Build.VERSION.SDK_INT >= 26) {
             // For API 26 and above, we can attempt to get most cool fonts.
-            switch (temp) {
-//            switch (getTypeface()) {
+            switch (typeface) {
                 case DROID_SANS: {
                     if (mTypeface_DROID_SANS == null) {
                         Builder b = new Builder("/system/fonts/DroidSans.ttf");

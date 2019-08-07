@@ -57,6 +57,7 @@ import pro.watchkit.wearable.watchface.model.ColorsStylesConfigData;
 import pro.watchkit.wearable.watchface.model.ComplicationConfigData;
 import pro.watchkit.wearable.watchface.model.ConfigData;
 import pro.watchkit.wearable.watchface.model.SettingsConfigData;
+import pro.watchkit.wearable.watchface.model.TypefaceConfigData;
 import pro.watchkit.wearable.watchface.model.WatchFacePresetConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartHandsConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartTicksConfigData;
@@ -218,7 +219,8 @@ public class ConfigActivity extends Activity {
         WatchFacePresets(WatchFacePresetConfigData.class, R.string.config_configure_watch_face_preset, R.drawable.ic_hands_ticks),
         ColorsStyles(ColorsStylesConfigData.class, R.string.config_configure_colors_styles, R.drawable.ic_color_lens),
         WatchPartHands(WatchPartHandsConfigData.class, R.string.config_configure_hands, R.drawable.ic_hands),
-        WatchPartTicks(WatchPartTicksConfigData.class, R.string.config_configure_ticks, R.drawable.ic_ticks);
+        WatchPartTicks(WatchPartTicksConfigData.class, R.string.config_configure_ticks, R.drawable.ic_ticks),
+        Typeface(TypefaceConfigData.class, R.string.config_configure_typeface, R.drawable.ic_ticks);
 
         @NonNull
         final String mClassName;

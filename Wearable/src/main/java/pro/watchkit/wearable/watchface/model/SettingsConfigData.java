@@ -41,6 +41,7 @@ import java.util.List;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
+import pro.watchkit.wearable.watchface.config.ConfigActivity;
 import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
@@ -64,6 +65,13 @@ public class SettingsConfigData extends ConfigData {
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
                         new BooleanMutator(WatchFaceState::setNightVisionModeEnabled)),
+
+                // Data for Configure Colors and Styles sub-activity in settings Activity.
+                new ConfigActivityConfigItem(
+                        R.string.config_configure_typeface,
+                        R.drawable.icn_styles,
+                        TypefaceConfigData.class,
+                        ConfigActivity.class),
 
                 // Data for base color UX in settings Activity.
                 new ColorPickerConfigItem(

@@ -78,12 +78,25 @@
     <string name="config_alt_drawing_label">Alternative Drawing Mode</string>
     <string name="config_reset_to_default">Reset to Default</string>
 
+    <string name="config_typeface_0">0</string>
+    <string name="config_typeface_1">1</string>
+    <string name="config_typeface_2">2</string>
+    <string name="config_typeface_3">3</string>
+    <string name="config_typeface_4">4</string>
+    <string name="config_typeface_5">5</string>
+    <string name="config_typeface_6">6</string>
+    <string name="config_typeface_7">7</string>
+    <string name="config_typeface_8">8</string>
+    <string name="config_typeface_9">9</string>
+    <string name="config_typeface_sample">Sample text</string>
+
     <string name="config_configure_settings">Configure Settings</string>
     <string name="config_configure_complications">Configure Complications</string>
     <string name="config_configure_watch_face_preset">Configure Watch Face Preset</string>
     <string name="config_configure_colors_styles">Configure Colors and Styles</string>
     <string name="config_configure_hands">Configure Hands</string>
     <string name="config_configure_ticks">Configure Ticks</string>
+    <string name="config_configure_typeface">Configure Typeface</string>
 
     <string name="config_complication_count">Complication Count</string>
     <string name="config_complication_rotation">Complication Position</string>
