@@ -652,7 +652,7 @@ public class WatchFaceState {
                 }
                 case DROID_SANS_MONO: {
                     if (mTypeface_DROID_SANS_MONO == null) {
-                        Builder b = new Builder("/system/fonts/DroidSans-Mono.ttf");
+                        Builder b = new Builder("/system/fonts/DroidSansMono.ttf");
                         mTypeface_DROID_SANS_MONO = b.build();
                     }
                     if (mTypeface_DROID_SANS_MONO == null) {
