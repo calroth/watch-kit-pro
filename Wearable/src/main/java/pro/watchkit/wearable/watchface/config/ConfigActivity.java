@@ -41,6 +41,7 @@ import android.os.Bundle;
 import android.support.wearable.complications.ComplicationProviderInfo;
 import android.support.wearable.complications.ProviderChooserIntent;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
@@ -138,7 +139,11 @@ public class ConfigActivity extends Activity {
         }
 
         // Save out our most recent selected config page, for next time.
-        sharedPref.putMostRecentConfigPageString(mCurrentSubActivity.mClassName);
+        if (mCurrentSubActivity.mDrawableId != -1) {
+            // Only if we're in the navigation. Otherwise we'll be trapped there with no
+            // way to leave...
+            sharedPref.putMostRecentConfigPageString(mCurrentSubActivity.mClassName);
+        }
 
         if (mConfigData == null) {
             mConfigData = mCurrentSubActivity.getNewInstance();
@@ -160,27 +165,32 @@ public class ConfigActivity extends Activity {
 
         mWearableRecyclerView.setAdapter(mAdapter);
 
-        // Set up our navigation drawer at the top of the view.
         mWearableNavigationDrawer = findViewById(R.id.top_navigation_drawer);
-        mWearableNavigationDrawer.setAdapter(new NavigationAdapter(this, slotLabel));
-        mWearableNavigationDrawer.setCurrentItem(mCurrentSubActivity.ordinal(), false);
-        mWearableNavigationDrawer.addOnItemSelectedListener(pos -> {
-            String configData = ConfigSubActivity.values()[pos].mClassName;
+        // Only if we're part of the main navigation.
+        if (mCurrentSubActivity.mDrawableId != -1) {
+            // Set up our navigation drawer at the top of the view.
+            mWearableNavigationDrawer.setAdapter(new NavigationAdapter(this, slotLabel));
+            mWearableNavigationDrawer.setCurrentItem(mCurrentSubActivity.ordinal(), false);
+            mWearableNavigationDrawer.addOnItemSelectedListener(pos -> {
+                String configData = ConfigSubActivity.values()[pos].mClassName;
 
-            Intent launchIntent =
-                    new Intent(mWearableNavigationDrawer.getContext(), ConfigActivity.class);
+                Intent launchIntent =
+                        new Intent(mWearableNavigationDrawer.getContext(), ConfigActivity.class);
 
-            // Add an intent to the launch to point it towards our sub-activity.
-            launchIntent.putExtra(CONFIG_DATA, configData);
-            launchIntent.setAction(getIntent().getAction());
+                // Add an intent to the launch to point it towards our sub-activity.
+                launchIntent.putExtra(CONFIG_DATA, configData);
+                launchIntent.setAction(getIntent().getAction());
 
-            Activity activity = (Activity) mWearableNavigationDrawer.getContext();
-            activity.startActivity(launchIntent);
-            finish(); // Remove this from the "back" stack, so it's a direct switch.
-        });
+                Activity activity = (Activity) mWearableNavigationDrawer.getContext();
+                activity.startActivity(launchIntent);
+                finish(); // Remove this from the "back" stack, so it's a direct switch.
+            });
 
-        // Give a hint it's there.
-        mWearableNavigationDrawer.getController().peekDrawer();
+            // Give a hint it's there.
+            mWearableNavigationDrawer.getController().peekDrawer();
+        } else {
+            mWearableNavigationDrawer.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -230,7 +240,7 @@ public class ConfigActivity extends Activity {
         @StringRes
         final int mTitleId;
         @DrawableRes
-        final int mDrawableId;
+        final int mDrawableId; // Or -1 if not part of NavigationAdapter.
 
         ConfigSubActivity(final Class<? extends ConfigData> c,
                           @StringRes final int titleId, @DrawableRes final int drawableId) {
