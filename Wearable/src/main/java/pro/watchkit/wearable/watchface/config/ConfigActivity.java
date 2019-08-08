@@ -220,7 +220,8 @@ public class ConfigActivity extends Activity {
         ColorsStyles(ColorsStylesConfigData.class, R.string.config_configure_colors_styles, R.drawable.ic_color_lens),
         WatchPartHands(WatchPartHandsConfigData.class, R.string.config_configure_hands, R.drawable.ic_hands),
         WatchPartTicks(WatchPartTicksConfigData.class, R.string.config_configure_ticks, R.drawable.ic_ticks),
-        Typeface(TypefaceConfigData.class, R.string.config_configure_typeface, R.drawable.ic_ticks);
+        // N.B. As a shortcut, put items NOT in the NavigationAdapter at the end of this list.
+        Typeface(TypefaceConfigData.class, R.string.config_configure_typeface, -1);
 
         @NonNull
         final String mClassName;
@@ -262,21 +263,34 @@ public class ConfigActivity extends Activity {
             mSlotLabel = slotLabel;
         }
 
+        /**
+         * Just the ConfigSubActivity objects we actually want to present in this
+         * NavigationAdapter.
+         */
+        private final ConfigSubActivity[] mNavigationActivities = new ConfigSubActivity[]{
+                ConfigSubActivity.Settings,
+                ConfigSubActivity.Complications,
+                ConfigSubActivity.WatchFacePresets,
+                ConfigSubActivity.ColorsStyles,
+                ConfigSubActivity.WatchPartHands,
+                ConfigSubActivity.WatchPartTicks
+        };
+
         @Override
         public String getItemText(int index) {
             return mContext.getString(mSlotLabel) + " " +
-                    mContext.getString(ConfigSubActivity.values()[index].mTitleId);
+                    mContext.getString(mNavigationActivities[index].mTitleId);
         }
 
         @Nullable
         @Override
         public Drawable getItemDrawable(int index) {
-            return mContext.getDrawable(ConfigSubActivity.values()[index].mDrawableId);
+            return mContext.getDrawable(mNavigationActivities[index].mDrawableId);
         }
 
         @Override
         public int getCount() {
-            return ConfigSubActivity.values().length;
+            return mNavigationActivities.length;
         }
     }
 }
