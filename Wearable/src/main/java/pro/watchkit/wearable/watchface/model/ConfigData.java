@@ -20,6 +20,7 @@ import pro.watchkit.wearable.watchface.config.ConfigRecyclerViewAdapter;
 import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 import pro.watchkit.wearable.watchface.model.BytePackable.TextStyle;
+import pro.watchkit.wearable.watchface.model.BytePackable.Typeface;
 
 abstract public class ConfigData {
     /**
@@ -109,26 +110,41 @@ abstract public class ConfigData {
         final private int mTitleResourceId;
         final private boolean mWithTitle;
         @Nullable
+        final private Typeface mTypeface;
+        @Nullable
         final private Function<WatchFaceState, Boolean> mConfigItemVisibilityCalculator;
 
         public LabelConfigItem(@StringRes final int labelResourceId) {
-            this(-1, labelResourceId, true, null);
+            this(-1, labelResourceId, true, null,
+                    null);
+        }
+
+        LabelConfigItem(@StringRes final int titleResourceId,
+                        @StringRes final int labelResourceId,
+                        @Nullable Typeface typeface,
+                        @Nullable Function<WatchFaceState, Boolean>
+                                configItemVisibilityCalculator) {
+            this(titleResourceId, labelResourceId, true, typeface,
+                    configItemVisibilityCalculator);
         }
 
         LabelConfigItem(@StringRes final int titleResourceId,
                         @StringRes final int labelResourceId,
                         @Nullable Function<WatchFaceState, Boolean>
                                 configItemVisibilityCalculator) {
-            this(titleResourceId, labelResourceId, false, configItemVisibilityCalculator);
+            this(titleResourceId, labelResourceId, false, null,
+                    configItemVisibilityCalculator);
         }
 
         LabelConfigItem(@StringRes final int titleResourceId,
                         @StringRes final int labelResourceId, boolean withTitle,
+                        @Nullable Typeface typeface,
                         @Nullable Function<WatchFaceState, Boolean>
                                 configItemVisibilityCalculator) {
             mTitleResourceId = titleResourceId;
             mLabelResourceId = labelResourceId;
             mWithTitle = withTitle;
+            mTypeface = typeface;
             mConfigItemVisibilityCalculator = configItemVisibilityCalculator;
         }
 
@@ -144,6 +160,10 @@ abstract public class ConfigData {
 
         public boolean getWithTitle() {
             return mWithTitle;
+        }
+
+        public Typeface getTypeface() {
+            return mTypeface;
         }
 
         @Override

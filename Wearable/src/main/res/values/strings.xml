@@ -78,16 +78,16 @@
     <string name="config_alt_drawing_label">Alternative Drawing Mode</string>
     <string name="config_reset_to_default">Reset to Default</string>
 
-    <string name="config_typeface_0">0</string>
-    <string name="config_typeface_1">1</string>
-    <string name="config_typeface_2">2</string>
-    <string name="config_typeface_3">3</string>
-    <string name="config_typeface_4">4</string>
-    <string name="config_typeface_5">5</string>
-    <string name="config_typeface_6">6</string>
-    <string name="config_typeface_7">7</string>
-    <string name="config_typeface_8">8</string>
-    <string name="config_typeface_9">9</string>
+    <string name="config_typeface_DROID_SANS">Droid Sans</string>
+    <string name="config_typeface_DROID_SANS_BOLD">Droid Sans Bold</string>
+    <string name="config_typeface_NOTO_SERIF">Noto Serif</string>
+    <string name="config_typeface_NOTO_SERIF_BOLD">Noto Serif Bold</string>
+    <string name="config_typeface_DROID_SANS_MONO">Droid Sans Mono</string>
+    <string name="config_typeface_ROBOTO">Roboto</string>
+    <string name="config_typeface_ROBOTO_BOLD">Roboto Bold</string>
+    <string name="config_typeface_ROBOTO_BLACK">Roboto Black</string>
+    <string name="config_typeface_PRODUCT_SANS">Product Sans</string>
+    <string name="config_typeface_PRODUCT_SANS_BOLD">Product Sans Bold</string>
     <string name="config_typeface_sample">Sample text</string>
 
     <string name="config_configure_settings">Configure Settings</string>

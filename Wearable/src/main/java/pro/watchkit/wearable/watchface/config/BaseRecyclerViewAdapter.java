@@ -43,6 +43,7 @@ import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.wearable.complications.ComplicationHelperActivity;
 import android.support.wearable.complications.ComplicationProviderInfo;
@@ -405,8 +406,20 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         void bind(ConfigData.LabelConfigItem configItem) {
             mConfigItem = configItem;
-            if (configItem.getWithTitle()) {
-                Resources r = mLabelTextView.getContext().getResources();
+            Resources r = itemView.getResources();
+            mLabelTextView.setTypeface(null); // Set as default typeface by default!
+            if (configItem.getTypeface() != null) {
+                // TODO: that code has a warning. A legitimate warning. Address it.
+                // Maybe have two TextViews and hide the unused one (or just don't use it).
+                Typeface t = mCurrentWatchFaceState.getTypefaceObject(configItem.getTypeface());
+                mLabelTextView.setTypeface(t);
+                mStringBuilder.setLength(0);
+                mStringBuilder.append(r.getString(configItem.getTitleResourceId()));
+                mStringBuilder.append("<br>");
+                mStringBuilder.append(r.getString(configItem.getLabelResourceId()));
+                mLabelTextView.setText(Html.fromHtml(mStringBuilder.toString(),
+                        Html.FROM_HTML_MODE_LEGACY));
+            } else if (configItem.getWithTitle()) {
                 // TODO: that code has a warning. A legitimate warning. Address it.
                 // Maybe have two TextViews and hide the unused one (or just don't use it).
                 mStringBuilder.setLength(0);
@@ -416,7 +429,6 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 mLabelTextView.setText(Html.fromHtml(mStringBuilder.toString(),
                         Html.FROM_HTML_MODE_LEGACY));
             } else if (configItem.getTitleResourceId() != -1) {
-                Resources r = mLabelTextView.getContext().getResources();
                 mStringBuilder.setLength(0);
                 mStringBuilder.append("<b>");
                 mStringBuilder.append(r.getString(configItem.getTitleResourceId()));
@@ -506,9 +518,9 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
 
         void bind(@NonNull ConfigData.ColorPickerConfigItem configItem) {
-            mButton.setText(itemView.getContext().getString(configItem.getNameResourceId()));
+            mButton.setText(itemView.getResources().getString(configItem.getNameResourceId()));
             mButton.setCompoundDrawablesWithIntrinsicBounds(
-                    itemView.getContext().getDrawable(configItem.getIconResourceId()),
+                    itemView.getResources().getDrawable(configItem.getIconResourceId()),
                     null, mColorSwatchDrawable, null);
             mColorType = configItem.getType();
             mLaunchActivity = configItem.getActivityToChoosePreference();
@@ -550,7 +562,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
 
         void bind(@NonNull ConfigData.ConfigActivityConfigItem configItem) {
-            mButton.setText(mButton.getResources().getString(configItem.getNameResourceId()));
+            mButton.setText(itemView.getResources().getString(configItem.getNameResourceId()));
             mButton.setCompoundDrawablesWithIntrinsicBounds(
                     itemView.getContext().getDrawable(configItem.getIconResourceId()),
                     null, null, null);
@@ -718,7 +730,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         void bind(@NonNull ConfigData.ToggleConfigItem configItem) {
             mConfigItem = configItem;
 
-            mSwitch.setText(mSwitch.getContext().getString(configItem.getNameResourceId()));
+            mSwitch.setText(mSwitch.getResources().getString(configItem.getNameResourceId()));
 
             setDefaultSwitchValue();
         }

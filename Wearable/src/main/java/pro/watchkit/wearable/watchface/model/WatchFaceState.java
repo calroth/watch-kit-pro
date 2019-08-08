@@ -609,7 +609,7 @@ public class WatchFaceState {
     }
 
     @Nullable
-    android.graphics.Typeface getTypefaceObject(Typeface typeface) {
+    public android.graphics.Typeface getTypefaceObject(Typeface typeface) {
         if (Build.VERSION.SDK_INT >= 26) {
             // For API 26 and above, we can attempt to get most cool fonts.
             switch (typeface) {
@@ -631,7 +631,7 @@ public class WatchFaceState {
                     if (mTypeface_DROID_SANS_BOLD == null) {
                         mTypeface_DROID_SANS_BOLD = android.graphics.Typeface.DEFAULT_BOLD;
                     }
-                    return mTypeface_DROID_SANS;
+                    return mTypeface_DROID_SANS_BOLD;
                 }
                 case NOTO_SERIF: {
                     if (mTypeface_NOTO_SERIF == null) {
@@ -651,9 +651,9 @@ public class WatchFaceState {
                     return mTypeface_NOTO_SERIF_BOLD;
                 }
                 case DROID_SANS_MONO: {
-                    if (mTypeface_NOTO_SERIF_BOLD == null) {
+                    if (mTypeface_DROID_SANS_MONO == null) {
                         Builder b = new Builder("/system/fonts/DroidSans-Mono.ttf");
-                        mTypeface_NOTO_SERIF_BOLD = b.build();
+                        mTypeface_DROID_SANS_MONO = b.build();
                     }
                     if (mTypeface_DROID_SANS_MONO == null) {
                         mTypeface_DROID_SANS_MONO = android.graphics.Typeface.MONOSPACE;
