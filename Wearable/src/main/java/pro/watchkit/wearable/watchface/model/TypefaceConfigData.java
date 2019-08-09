@@ -30,35 +30,25 @@ public class TypefaceConfigData extends ConfigData {
                 // Title.
                 new LabelConfigItem(R.string.config_configure_typeface),
 
-                new LabelConfigItem(R.string.config_typeface_DROID_SANS, R.string.config_typeface_sample, Typeface.DROID_SANS,
-                        c -> c.getTypefaceObject(Typeface.DROID_SANS) != null),
+                new TypefaceConfigItem(R.string.config_typeface_DROID_SANS, Typeface.DROID_SANS),
 
-                new LabelConfigItem(R.string.config_typeface_ROBOTO, R.string.config_typeface_sample, Typeface.ROBOTO,
-                        c -> c.getTypefaceObject(Typeface.ROBOTO) != null),
+                new TypefaceConfigItem(R.string.config_typeface_ROBOTO, Typeface.ROBOTO),
 
-                new LabelConfigItem(R.string.config_typeface_DROID_SANS_BOLD, R.string.config_typeface_sample, Typeface.DROID_SANS_BOLD,
-                        c -> c.getTypefaceObject(Typeface.DROID_SANS_BOLD) != null),
+                new TypefaceConfigItem(R.string.config_typeface_DROID_SANS_BOLD, Typeface.DROID_SANS_BOLD),
 
-                new LabelConfigItem(R.string.config_typeface_ROBOTO_BOLD, R.string.config_typeface_sample, Typeface.ROBOTO_BOLD,
-                        c -> c.getTypefaceObject(Typeface.ROBOTO_BOLD) != null),
+                new TypefaceConfigItem(R.string.config_typeface_ROBOTO_BOLD, Typeface.ROBOTO_BOLD),
 
-                new LabelConfigItem(R.string.config_typeface_ROBOTO_BLACK, R.string.config_typeface_sample, Typeface.ROBOTO_BLACK,
-                        c -> c.getTypefaceObject(Typeface.ROBOTO_BLACK) != null),
+                new TypefaceConfigItem(R.string.config_typeface_ROBOTO_BLACK, Typeface.ROBOTO_BLACK),
 
-                new LabelConfigItem(R.string.config_typeface_NOTO_SERIF, R.string.config_typeface_sample, Typeface.NOTO_SERIF,
-                        c -> c.getTypefaceObject(Typeface.NOTO_SERIF) != null),
+                new TypefaceConfigItem(R.string.config_typeface_NOTO_SERIF, Typeface.NOTO_SERIF),
 
-                new LabelConfigItem(R.string.config_typeface_NOTO_SERIF_BOLD, R.string.config_typeface_sample, Typeface.NOTO_SERIF_BOLD,
-                        c -> c.getTypefaceObject(Typeface.NOTO_SERIF_BOLD) != null),
+                new TypefaceConfigItem(R.string.config_typeface_NOTO_SERIF_BOLD, Typeface.NOTO_SERIF_BOLD),
 
-                new LabelConfigItem(R.string.config_typeface_DROID_SANS_MONO, R.string.config_typeface_sample, Typeface.DROID_SANS_MONO,
-                        c -> c.getTypefaceObject(Typeface.DROID_SANS_MONO) != null),
+                new TypefaceConfigItem(R.string.config_typeface_DROID_SANS_MONO, Typeface.DROID_SANS_MONO),
 
-                new LabelConfigItem(R.string.config_typeface_PRODUCT_SANS, R.string.config_typeface_sample, Typeface.PRODUCT_SANS,
-                        c -> c.getTypefaceObject(Typeface.PRODUCT_SANS) != null),
+                new TypefaceConfigItem(R.string.config_typeface_PRODUCT_SANS, Typeface.PRODUCT_SANS),
 
-                new LabelConfigItem(R.string.config_typeface_PRODUCT_SANS_BOLD, R.string.config_typeface_sample, Typeface.PRODUCT_SANS_BOLD,
-                        c -> c.getTypefaceObject(Typeface.PRODUCT_SANS_BOLD) != null)
+                new TypefaceConfigItem(R.string.config_typeface_PRODUCT_SANS_BOLD, Typeface.PRODUCT_SANS_BOLD)
         );
     }
 }

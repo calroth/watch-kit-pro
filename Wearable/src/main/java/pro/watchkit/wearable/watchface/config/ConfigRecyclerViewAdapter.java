@@ -55,6 +55,7 @@ import pro.watchkit.wearable.watchface.model.ConfigData.ConfigItemType;
 import pro.watchkit.wearable.watchface.model.ConfigData.LabelConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.PickerConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ToggleConfigItem;
+import pro.watchkit.wearable.watchface.model.ConfigData.TypefaceConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFaceDrawableConfigItem;
 
 /**
@@ -85,6 +86,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
     public static final int TYPE_TOGGLE_CONFIG = 4;
     public static final int TYPE_CONFIG_ACTIVITY_CONFIG = 5;
     public static final int TYPE_LABEL_CONFIG = 6;
+    public static final int TYPE_TYPEFACE_CONFIG = 7;
     @NonNull
     private final List<ConfigItemType> mSettingsDataSet;
     private final List<WatchFaceStateListener> mWatchFaceStateListeners = new ArrayList<>();
@@ -149,6 +151,14 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                         new LabelViewHolder(
                                 LayoutInflater.from(parent.getContext())
                                         .inflate(R.layout.config_list_textview, parent, false));
+                break;
+            }
+
+            case TYPE_TYPEFACE_CONFIG: {
+                viewHolder =
+                        new TypefaceViewHolder(
+                                LayoutInflater.from(parent.getContext())
+                                        .inflate(R.layout.config_list_button, parent, false));
                 break;
             }
 
@@ -229,6 +239,13 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                 LabelViewHolder labelViewHolder = (LabelViewHolder) viewHolder;
                 LabelConfigItem labelConfigItem = (LabelConfigItem) configItemType;
                 labelViewHolder.bind(labelConfigItem);
+                break;
+            }
+
+            case TYPE_TYPEFACE_CONFIG: {
+                TypefaceViewHolder typefaceViewHolder = (TypefaceViewHolder) viewHolder;
+                TypefaceConfigItem typefaceConfigItem = (TypefaceConfigItem) configItemType;
+                typefaceViewHolder.bind(typefaceConfigItem);
                 break;
             }
 

@@ -110,41 +110,27 @@ abstract public class ConfigData {
         final private int mTitleResourceId;
         final private boolean mWithTitle;
         @Nullable
-        final private Typeface mTypeface;
-        @Nullable
         final private Function<WatchFaceState, Boolean> mConfigItemVisibilityCalculator;
 
         public LabelConfigItem(@StringRes final int labelResourceId) {
-            this(-1, labelResourceId, true, null,
-                    null);
-        }
-
-        LabelConfigItem(@StringRes final int titleResourceId,
-                        @StringRes final int labelResourceId,
-                        @Nullable Typeface typeface,
-                        @Nullable Function<WatchFaceState, Boolean>
-                                configItemVisibilityCalculator) {
-            this(titleResourceId, labelResourceId, true, typeface,
-                    configItemVisibilityCalculator);
+            this(-1, labelResourceId, true, null);
         }
 
         LabelConfigItem(@StringRes final int titleResourceId,
                         @StringRes final int labelResourceId,
                         @Nullable Function<WatchFaceState, Boolean>
                                 configItemVisibilityCalculator) {
-            this(titleResourceId, labelResourceId, false, null,
+            this(titleResourceId, labelResourceId, false,
                     configItemVisibilityCalculator);
         }
 
         LabelConfigItem(@StringRes final int titleResourceId,
                         @StringRes final int labelResourceId, boolean withTitle,
-                        @Nullable Typeface typeface,
                         @Nullable Function<WatchFaceState, Boolean>
                                 configItemVisibilityCalculator) {
             mTitleResourceId = titleResourceId;
             mLabelResourceId = labelResourceId;
             mWithTitle = withTitle;
-            mTypeface = typeface;
             mConfigItemVisibilityCalculator = configItemVisibilityCalculator;
         }
 
@@ -162,10 +148,6 @@ abstract public class ConfigData {
             return mWithTitle;
         }
 
-        public Typeface getTypeface() {
-            return mTypeface;
-        }
-
         @Override
         public int getConfigType() {
             return ConfigRecyclerViewAdapter.TYPE_LABEL_CONFIG;
@@ -174,6 +156,36 @@ abstract public class ConfigData {
         public boolean isVisible(WatchFaceState watchFaceState) {
             return mConfigItemVisibilityCalculator == null ||
                     mConfigItemVisibilityCalculator.apply(watchFaceState);
+        }
+    }
+
+    /**
+     * Data for typeface item in RecyclerView.
+     */
+    public static class TypefaceConfigItem implements ConfigItemType {
+        @StringRes
+        final private int mTitleResourceId;
+        @Nullable
+        final private Typeface mTypeface;
+
+        TypefaceConfigItem(@StringRes final int titleResourceId,
+                           @Nullable Typeface typeface) {
+            mTitleResourceId = titleResourceId;
+            mTypeface = typeface;
+        }
+
+        @StringRes
+        public int getTitleResourceId() {
+            return mTitleResourceId;
+        }
+
+        public Typeface getTypeface() {
+            return mTypeface;
+        }
+
+        @Override
+        public int getConfigType() {
+            return ConfigRecyclerViewAdapter.TYPE_TYPEFACE_CONFIG;
         }
     }
 

@@ -408,18 +408,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             mConfigItem = configItem;
             Resources r = itemView.getResources();
             mLabelTextView.setTypeface(null); // Set as default typeface by default!
-            if (configItem.getTypeface() != null) {
-                // TODO: that code has a warning. A legitimate warning. Address it.
-                // Maybe have two TextViews and hide the unused one (or just don't use it).
-                Typeface t = mCurrentWatchFaceState.getTypefaceObject(configItem.getTypeface());
-                mLabelTextView.setTypeface(t);
-                mStringBuilder.setLength(0);
-                mStringBuilder.append(r.getString(configItem.getTitleResourceId()));
-                mStringBuilder.append("<br>");
-                mStringBuilder.append(r.getString(configItem.getLabelResourceId()));
-                mLabelTextView.setText(Html.fromHtml(mStringBuilder.toString(),
-                        Html.FROM_HTML_MODE_LEGACY));
-            } else if (configItem.getWithTitle()) {
+            if (configItem.getWithTitle()) {
                 // TODO: that code has a warning. A legitimate warning. Address it.
                 // Maybe have two TextViews and hide the unused one (or just don't use it).
                 mStringBuilder.setLength(0);
@@ -583,6 +572,53 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                         launchIntent,
                         ConfigActivity.UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE);
             }
+        }
+    }
+
+    public class TypefaceViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
+
+        private final Button mButton;
+
+        private ConfigData.TypefaceConfigItem mConfigItem;
+
+        private final int mVisibleLayoutHeight, mVisibleLayoutWidth;
+
+        TypefaceViewHolder(@NonNull View view) {
+            super(view);
+
+            mButton = view.findViewById(R.id.config_list_button_widget);
+            view.setOnClickListener(this);
+
+            mVisibleLayoutHeight = itemView.getLayoutParams().height;
+            mVisibleLayoutWidth = itemView.getLayoutParams().width;
+        }
+
+        void bind(@NonNull ConfigData.TypefaceConfigItem configItem) {
+            mConfigItem = configItem;
+
+            setTextAndVisibility();
+        }
+
+        private void setTextAndVisibility() {
+            mButton.setText(mConfigItem.getTitleResourceId());
+
+            Typeface t = mCurrentWatchFaceState.getTypefaceObject(mConfigItem.getTypeface());
+            mButton.setTypeface(t);
+
+            if (t != null) {
+                itemView.getLayoutParams().height = mVisibleLayoutHeight;
+                itemView.getLayoutParams().width = mVisibleLayoutWidth;
+                itemView.setVisibility(View.VISIBLE);
+            } else {
+                itemView.getLayoutParams().height = 0;
+                itemView.getLayoutParams().width = 0;
+                itemView.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void onClick(@NonNull View view) {
         }
     }
 
