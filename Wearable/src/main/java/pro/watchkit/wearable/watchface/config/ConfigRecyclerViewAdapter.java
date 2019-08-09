@@ -165,7 +165,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                 viewHolder =
                         new ToggleViewHolder(
                                 LayoutInflater.from(parent.getContext())
-                                        .inflate(R.layout.config_list_toggle, parent, false));
+                                        .inflate(R.layout.config_list_switch, parent, false));
                 break;
             }
         }

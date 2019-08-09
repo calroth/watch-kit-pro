@@ -716,7 +716,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         ToggleViewHolder(@NonNull View view) {
             super(view);
 
-            mSwitch = view.findViewById(R.id.config_list_toggle);
+            mSwitch = view.findViewById(R.id.config_list_toggle_widget);
             mSwitch.setSplitTrack(true);
             view.setOnClickListener(this);
 
