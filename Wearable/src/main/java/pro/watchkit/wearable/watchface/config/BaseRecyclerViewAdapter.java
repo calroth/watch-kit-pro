@@ -398,7 +398,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         LabelViewHolder(@NonNull final View view) {
             super(view);
-            mLabelTextView = view.findViewById(R.id.label_textView);
+            mLabelTextView = view.findViewById(R.id.config_item_textview_widget);
 
             mVisibleLayoutHeight = itemView.getLayoutParams().height;
             mVisibleLayoutWidth = itemView.getLayoutParams().width;

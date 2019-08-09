@@ -148,7 +148,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                 viewHolder =
                         new LabelViewHolder(
                                 LayoutInflater.from(parent.getContext())
-                                        .inflate(R.layout.config_list_label_item, parent, false));
+                                        .inflate(R.layout.config_list_textview, parent, false));
                 break;
             }
 

@@ -74,7 +74,7 @@ public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapt
                     .inflate(R.layout.watch_face_preset_config_list_item, parent, false));
         } else {
             return new LabelViewHolder(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.config_list_label_item, parent, false));
+                    .inflate(R.layout.config_list_textview, parent, false));
         }
     }
 
