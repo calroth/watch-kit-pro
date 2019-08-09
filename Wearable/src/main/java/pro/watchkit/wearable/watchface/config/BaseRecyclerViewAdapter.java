@@ -619,6 +619,14 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         @Override
         public void onClick(@NonNull View view) {
+            // We selected this typeface. Write it to shared pref.
+            mCurrentWatchFaceState.setTypeface(mConfigItem.getTypeface());
+            mSharedPref.putWatchFaceStateString(mCurrentWatchFaceState.getString());
+
+            // Close the activity, it went just great!
+            Activity activity = (Activity) view.getContext();
+            activity.setResult(Activity.RESULT_OK);
+            activity.finish();
         }
     }
 

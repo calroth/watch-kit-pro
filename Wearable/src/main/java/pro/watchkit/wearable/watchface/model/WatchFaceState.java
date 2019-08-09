@@ -586,7 +586,7 @@ public class WatchFaceState {
         return mSettings.mTypeface;
     }
 
-    void setTypeface(Typeface typeface) {
+    public void setTypeface(Typeface typeface) {
         mSettings.mTypeface = typeface;
         regeneratePaints();
     }
@@ -604,12 +604,14 @@ public class WatchFaceState {
 
     @Nullable
     private android.graphics.Typeface getTypefaceObject() {
-        return getTypefaceObject(Typeface.NOTO_SERIF_BOLD);
-//        return getTypefaceObject(getTypeface());
+        return getTypefaceObject(getTypeface());
     }
 
     @Nullable
     public android.graphics.Typeface getTypefaceObject(Typeface typeface) {
+        if (typeface == null) {
+            return android.graphics.Typeface.DEFAULT;
+        }
         if (Build.VERSION.SDK_INT >= 26) {
             // For API 26 and above, we can attempt to get most cool fonts.
             switch (typeface) {
