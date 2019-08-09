@@ -34,8 +34,7 @@
 -->
 <Button
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/color_picker_button"
+    android:id="@+id/config_list_button_widget"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/ButtonConfigurationStyle"
-    android:text="Color"/>
+    style="@style/ButtonConfigurationStyle" />

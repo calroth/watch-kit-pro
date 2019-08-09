@@ -513,7 +513,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         ColorPickerViewHolder(@NonNull View view) {
             super(view);
 
-            mButton = view.findViewById(R.id.color_picker_button);
+            mButton = view.findViewById(R.id.config_list_button_widget);
             view.setOnClickListener(this);
         }
 
@@ -557,7 +557,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         ConfigActivityViewHolder(@NonNull View view) {
             super(view);
 
-            mButton = view.findViewById(R.id.color_picker_button);
+            mButton = view.findViewById(R.id.config_list_button_widget);
             view.setOnClickListener(this);
         }
 
@@ -604,7 +604,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         PickerViewHolder(@NonNull View view) {
             super(view);
 
-            mButton = view.findViewById(R.id.watch_face_preset_picker_button);
+            mButton = view.findViewById(R.id.config_list_button_widget);
             view.setOnClickListener(this);
 
             mVisibleLayoutHeight = itemView.getLayoutParams().height;

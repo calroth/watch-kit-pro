@@ -116,7 +116,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                 viewHolder =
                         new ColorPickerViewHolder(
                                 LayoutInflater.from(parent.getContext())
-                                        .inflate(R.layout.config_list_color_item, parent, false));
+                                        .inflate(R.layout.config_list_button, parent, false));
                 break;
             }
 
@@ -124,7 +124,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                 viewHolder =
                         new ConfigActivityViewHolder(
                                 LayoutInflater.from(parent.getContext())
-                                        .inflate(R.layout.config_list_color_item, parent, false));
+                                        .inflate(R.layout.config_list_button, parent, false));
                 break;
             }
 
@@ -156,7 +156,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                 viewHolder =
                         new PickerViewHolder(
                                 LayoutInflater.from(parent.getContext())
-                                        .inflate(R.layout.config_list_watch_face_preset_item, parent, false));
+                                        .inflate(R.layout.config_list_button, parent, false));
                 break;
             }
 
