@@ -97,6 +97,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     private static final String TAG = BaseRecyclerViewAdapter.class.getSimpleName();
     @StringRes
     private final int mTitleLabel;
+    private final String mSubActivityIntent;
 
     /**
      * The object that retrieves complication data for us to preview our complications with.
@@ -134,12 +135,16 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         // Grab our title label based on the class (i.e. the watch face slot).
         if (watchFaceServiceClass.equals(ProWatchFaceService.B.class)) {
             mTitleLabel = R.string.watch_face_service_label_b;
+            mSubActivityIntent = "pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_B";
         } else if (watchFaceServiceClass.equals(ProWatchFaceService.C.class)) {
             mTitleLabel = R.string.watch_face_service_label_c;
+            mSubActivityIntent = "pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_C";
         } else if (watchFaceServiceClass.equals(ProWatchFaceService.D.class)) {
             mTitleLabel = R.string.watch_face_service_label_d;
+            mSubActivityIntent = "pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_D";
         } else {
             mTitleLabel = R.string.watch_face_service_label_a;
+            mSubActivityIntent = "pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_A";
         }
     }
 
@@ -566,6 +571,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
                 // Add an intent to the launch to point it towards our sub-activity.
                 launchIntent.putExtra(CONFIG_DATA, mConfigDataClass.getSimpleName());
+                launchIntent.setAction(mSubActivityIntent);
 
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(
