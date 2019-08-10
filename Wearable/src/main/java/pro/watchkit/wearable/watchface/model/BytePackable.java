@@ -503,11 +503,11 @@ public abstract class BytePackable {
     }
 
     public enum Typeface implements EnumResourceId {
-        DROID_SANS, DROID_SANS_BOLD,
-        NOTO_SERIF, NOTO_SERIF_BOLD,
-        DROID_SANS_MONO,
-        ROBOTO, ROBOTO_BOLD, ROBOTO_BLACK,
-        PRODUCT_SANS, PRODUCT_SANS_BOLD;
+        SANS_THIN, SANS_LIGHT, SANS_REGULAR, SANS_MEDIUM, SANS_BOLD, SANS_BLACK,
+        SERIF_REGULAR, SERIF_BOLD,
+        MONO_REGULAR,
+        CONDENSED_LIGHT, CONDENSED_REGULAR, CONDENSED_MEDIUM, CONDENSED_BOLD,
+        PRODUCT_SANS_REGULAR, PRODUCT_SANS_MEDIUM, PRODUCT_SANS_BOLD;
 
         private static final int bits = 4;
 

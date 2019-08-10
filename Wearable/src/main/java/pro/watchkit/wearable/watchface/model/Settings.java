@@ -112,7 +112,7 @@ final class Settings extends BytePackable {
                 mHideTicks = mBytePacker.getBoolean();
                 mHideHands = mBytePacker.getBoolean();
                 mAltDrawing = mBytePacker.getBoolean();
-                mTypeface = Typeface.DROID_SANS_BOLD;
+                mTypeface = Typeface.SANS_BOLD;
                 mComplicationSize = ComplicationSize.X_LARGE;
                 mComplicationScale = ComplicationScale.MEDIUM;
                 break;

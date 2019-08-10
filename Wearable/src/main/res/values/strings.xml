@@ -78,15 +78,21 @@
     <string name="config_alt_drawing_label">Alternative Drawing Mode</string>
     <string name="config_reset_to_default">Reset to Default</string>
 
-    <string name="config_typeface_DROID_SANS">Droid Sans</string>
-    <string name="config_typeface_DROID_SANS_BOLD">Droid Sans Bold</string>
-    <string name="config_typeface_NOTO_SERIF">Noto Serif</string>
-    <string name="config_typeface_NOTO_SERIF_BOLD">Noto Serif Bold</string>
-    <string name="config_typeface_DROID_SANS_MONO">Droid Sans Mono</string>
-    <string name="config_typeface_ROBOTO">Roboto</string>
-    <string name="config_typeface_ROBOTO_BOLD">Roboto Bold</string>
-    <string name="config_typeface_ROBOTO_BLACK">Roboto Black</string>
-    <string name="config_typeface_PRODUCT_SANS">Product Sans</string>
+    <string name="config_typeface_SANS_THIN">Sans Thin</string>
+    <string name="config_typeface_SANS_LIGHT">Sans Light</string>
+    <string name="config_typeface_SANS_REGULAR">Sans Regular</string>
+    <string name="config_typeface_SANS_MEDIUM">Sans Medium</string>
+    <string name="config_typeface_SANS_BOLD">Sans Bold</string>
+    <string name="config_typeface_SANS_BLACK">Sans Black</string>
+    <string name="config_typeface_CONDENSED_LIGHT">Condensed Light</string>
+    <string name="config_typeface_CONDENSED_REGULAR">Condensed Regular</string>
+    <string name="config_typeface_CONDENSED_MEDIUM">Condensed Medium</string>
+    <string name="config_typeface_CONDENSED_BOLD">Condensed Bold</string>
+    <string name="config_typeface_SERIF_REGULAR">Serif Regular</string>
+    <string name="config_typeface_SERIF_BOLD">Serif Bold</string>
+    <string name="config_typeface_MONO_REGULAR">Mono Regular</string>
+    <string name="config_typeface_PRODUCT_SANS_REGULAR">Product Sans Regular</string>
+    <string name="config_typeface_PRODUCT_SANS_MEDIUM">Product Sans Medium</string>
     <string name="config_typeface_PRODUCT_SANS_BOLD">Product Sans Bold</string>
     <string name="config_typeface_sample">Sample text</string>
 

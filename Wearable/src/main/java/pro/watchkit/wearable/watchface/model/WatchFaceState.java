@@ -127,6 +127,7 @@ public class WatchFaceState {
     public WatchFaceState(Context context) {
         mPaintBox = new PaintBox(context);
         mContext = context;
+        mTypefaceCache = new android.graphics.Typeface[Typeface.values().length];
         // Hmm. Strictly temporary: how about a default setting?
         // setString("fcd81c000c0100000006c06a60000001~3cda1cc0000000000000000000000001");
     }
@@ -591,16 +592,7 @@ public class WatchFaceState {
         regeneratePaints();
     }
 
-    private android.graphics.Typeface mTypeface_DROID_SANS;
-    private android.graphics.Typeface mTypeface_DROID_SANS_BOLD;
-    private android.graphics.Typeface mTypeface_NOTO_SERIF;
-    private android.graphics.Typeface mTypeface_NOTO_SERIF_BOLD;
-    private android.graphics.Typeface mTypeface_DROID_SANS_MONO;
-    private android.graphics.Typeface mTypeface_ROBOTO;
-    private android.graphics.Typeface mTypeface_ROBOTO_BOLD;
-    private android.graphics.Typeface mTypeface_ROBOTO_BLACK;
-    private android.graphics.Typeface mTypeface_PRODUCT_SANS;
-    private android.graphics.Typeface mTypeface_PRODUCT_SANS_BOLD;
+    final private android.graphics.Typeface[] mTypefaceCache;
 
     @Nullable
     private android.graphics.Typeface getTypefaceObject() {
@@ -614,128 +606,153 @@ public class WatchFaceState {
         }
         if (Build.VERSION.SDK_INT >= 26) {
             // For API 26 and above, we can attempt to get most cool fonts.
+            int i = typeface.ordinal();
             switch (typeface) {
-                case DROID_SANS: {
-                    if (mTypeface_DROID_SANS == null) {
+                case SANS_THIN: {
+                    if (mTypefaceCache[i] == null) {
+                        Builder b = new Builder("/system/fonts/Roboto-Thin.ttf");
+                        mTypefaceCache[i] = b.build();
+                    }
+                    return mTypefaceCache[i];
+                }
+                case SANS_LIGHT: {
+                    if (mTypefaceCache[i] == null) {
+                        Builder b = new Builder("/system/fonts/Roboto-Light.ttf");
+                        mTypefaceCache[i] = b.build();
+                    }
+                    return mTypefaceCache[i];
+                }
+                case SANS_REGULAR: {
+                    if (mTypefaceCache[i] == null) {
                         Builder b = new Builder("/system/fonts/DroidSans.ttf");
-                        mTypeface_DROID_SANS = b.build();
+                        mTypefaceCache[i] = b.build();
                     }
-                    if (mTypeface_DROID_SANS == null) {
-                        mTypeface_DROID_SANS = android.graphics.Typeface.DEFAULT;
+                    if (mTypefaceCache[i] == null) {
+                        mTypefaceCache[i] = android.graphics.Typeface.DEFAULT;
                     }
-                    return mTypeface_DROID_SANS;
+                    return mTypefaceCache[i];
                 }
-                case DROID_SANS_BOLD: {
-                    if (mTypeface_DROID_SANS_BOLD == null) {
+                case SANS_MEDIUM: {
+                    if (mTypefaceCache[i] == null) {
+                        Builder b = new Builder("/system/fonts/Roboto-Medium.ttf");
+                        mTypefaceCache[i] = b.build();
+                    }
+                    return mTypefaceCache[i];
+                }
+                case SANS_BOLD: {
+                    if (mTypefaceCache[i] == null) {
                         Builder b = new Builder("/system/fonts/DroidSans-Bold.ttf");
-                        mTypeface_DROID_SANS_BOLD = b.build();
+                        mTypefaceCache[i] = b.build();
                     }
-                    if (mTypeface_DROID_SANS_BOLD == null) {
-                        mTypeface_DROID_SANS_BOLD = android.graphics.Typeface.DEFAULT_BOLD;
+                    if (mTypefaceCache[i] == null) {
+                        mTypefaceCache[i] = android.graphics.Typeface.DEFAULT_BOLD;
                     }
-                    return mTypeface_DROID_SANS_BOLD;
+                    return mTypefaceCache[i];
                 }
-                case NOTO_SERIF: {
-                    if (mTypeface_NOTO_SERIF == null) {
-                        Builder b = new Builder("/system/fonts/NotoSerif-Regular.ttf");
-                        mTypeface_NOTO_SERIF = b.build();
-                    }
-                    if (mTypeface_NOTO_SERIF == null) {
-                        mTypeface_NOTO_SERIF = android.graphics.Typeface.SERIF;
-                    }
-                    return mTypeface_NOTO_SERIF;
-                }
-                case NOTO_SERIF_BOLD: {
-                    if (mTypeface_NOTO_SERIF_BOLD == null) {
-                        Builder b = new Builder("/system/fonts/NotoSerif-Bold.ttf");
-                        mTypeface_NOTO_SERIF_BOLD = b.build();
-                    }
-                    return mTypeface_NOTO_SERIF_BOLD;
-                }
-                case DROID_SANS_MONO: {
-                    if (mTypeface_DROID_SANS_MONO == null) {
-                        Builder b = new Builder("/system/fonts/DroidSansMono.ttf");
-                        mTypeface_DROID_SANS_MONO = b.build();
-                    }
-                    if (mTypeface_DROID_SANS_MONO == null) {
-                        mTypeface_DROID_SANS_MONO = android.graphics.Typeface.MONOSPACE;
-                    }
-                    return mTypeface_DROID_SANS_MONO;
-                }
-                case ROBOTO: {
-                    if (mTypeface_ROBOTO == null) {
-                        Builder b = new Builder("/system/fonts/Roboto-Regular.ttf");
-                        mTypeface_ROBOTO = b.build();
-                    }
-                    return mTypeface_ROBOTO;
-                }
-                case ROBOTO_BOLD: {
-                    if (mTypeface_ROBOTO_BOLD == null) {
-                        Builder b = new Builder("/system/fonts/Roboto-Bold.ttf");
-                        mTypeface_ROBOTO_BOLD = b.build();
-                    }
-                    return mTypeface_ROBOTO_BOLD;
-                }
-                case ROBOTO_BLACK: {
-                    if (mTypeface_ROBOTO_BLACK == null) {
+                case SANS_BLACK: {
+                    if (mTypefaceCache[i] == null) {
                         Builder b = new Builder("/system/fonts/Roboto-Black.ttf");
-                        mTypeface_ROBOTO_BLACK = b.build();
+                        mTypefaceCache[i] = b.build();
                     }
-                    return mTypeface_ROBOTO_BLACK;
+                    return mTypefaceCache[i];
                 }
-                case PRODUCT_SANS: {
-                    if (mTypeface_PRODUCT_SANS == null) {
-                        Builder b = new Builder("/system/fonts/GoogleSans-Regular.ttf");
-                        mTypeface_PRODUCT_SANS = b.build();
+                case SERIF_REGULAR: {
+                    if (mTypefaceCache[i] == null) {
+                        Builder b = new Builder("/system/fonts/NotoSerif-Regular.ttf");
+                        mTypefaceCache[i] = b.build();
                     }
-                    return mTypeface_PRODUCT_SANS;
+                    if (mTypefaceCache[i] == null) {
+                        mTypefaceCache[i] = android.graphics.Typeface.SERIF;
+                    }
+                    return mTypefaceCache[i];
+                }
+                case SERIF_BOLD: {
+                    if (mTypefaceCache[i] == null) {
+                        Builder b = new Builder("/system/fonts/NotoSerif-Bold.ttf");
+                        mTypefaceCache[i] = b.build();
+                    }
+                    return mTypefaceCache[i];
+                }
+                case MONO_REGULAR: {
+                    if (mTypefaceCache[i] == null) {
+                        Builder b = new Builder("/system/fonts/DroidSansMono.ttf");
+                        mTypefaceCache[i] = b.build();
+                    }
+                    if (mTypefaceCache[i] == null) {
+                        mTypefaceCache[i] = android.graphics.Typeface.MONOSPACE;
+                    }
+                    return mTypefaceCache[i];
+                }
+                case CONDENSED_LIGHT: {
+                    if (mTypefaceCache[i] == null) {
+                        Builder b = new Builder("/system/fonts/RobotoCondensed-Light.ttf");
+                        mTypefaceCache[i] = b.build();
+                    }
+                    return mTypefaceCache[i];
+                }
+                case CONDENSED_REGULAR: {
+                    if (mTypefaceCache[i] == null) {
+                        Builder b = new Builder("/system/fonts/RobotoCondensed-Regular.ttf");
+                        mTypefaceCache[i] = b.build();
+                    }
+                    return mTypefaceCache[i];
+                }
+                case CONDENSED_MEDIUM: {
+                    if (mTypefaceCache[i] == null) {
+                        Builder b = new Builder("/system/fonts/RobotoCondensed-Medium.ttf");
+                        mTypefaceCache[i] = b.build();
+                    }
+                    return mTypefaceCache[i];
+                }
+                case CONDENSED_BOLD: {
+                    if (mTypefaceCache[i] == null) {
+                        Builder b = new Builder("/system/fonts/RobotoCondensed-Bold.ttf");
+                        mTypefaceCache[i] = b.build();
+                    }
+                    return mTypefaceCache[i];
+                }
+                case PRODUCT_SANS_REGULAR: {
+                    if (mTypefaceCache[i] == null) {
+                        Builder b = new Builder("/system/fonts/GoogleSans-Regular.ttf");
+                        mTypefaceCache[i] = b.build();
+                    }
+                    return mTypefaceCache[i];
+                }
+                case PRODUCT_SANS_MEDIUM: {
+                    if (mTypefaceCache[i] == null) {
+                        Builder b = new Builder("/system/fonts/GoogleSans-Medium.ttf");
+                        mTypefaceCache[i] = b.build();
+                    }
+                    return mTypefaceCache[i];
                 }
                 case PRODUCT_SANS_BOLD: {
-                    if (mTypeface_PRODUCT_SANS_BOLD == null) {
+                    if (mTypefaceCache[i] == null) {
                         Builder b = new Builder("/system/fonts/GoogleSans-Bold.ttf");
-                        mTypeface_PRODUCT_SANS_BOLD = b.build();
+                        mTypefaceCache[i] = b.build();
                     }
-                    return mTypeface_PRODUCT_SANS_BOLD;
+                    return mTypefaceCache[i];
                 }
                 default: {
-                    return android.graphics.Typeface.DEFAULT;
+                    return null;
                 }
             }
         } else {
             // For API 25 and older, just get the regular uncool fonts.
             switch (getTypeface()) {
-                case DROID_SANS: {
+                case SANS_REGULAR: {
                     return android.graphics.Typeface.DEFAULT;
                 }
-                case DROID_SANS_BOLD: {
+                case SANS_BOLD: {
                     return android.graphics.Typeface.DEFAULT_BOLD;
                 }
-                case NOTO_SERIF: {
+                case SERIF_REGULAR: {
                     return android.graphics.Typeface.SERIF;
                 }
-                case NOTO_SERIF_BOLD: {
-                    return null;
-                }
-                case DROID_SANS_MONO: {
+                case MONO_REGULAR: {
                     return android.graphics.Typeface.MONOSPACE;
                 }
-                case ROBOTO: {
-                    return null;
-                }
-                case ROBOTO_BOLD: {
-                    return null;
-                }
-                case ROBOTO_BLACK: {
-                    return null;
-                }
-                case PRODUCT_SANS: {
-                    return null;
-                }
-                case PRODUCT_SANS_BOLD: {
-                    return null;
-                }
                 default: {
-                    return android.graphics.Typeface.DEFAULT;
+                    return null;
                 }
             }
         }
