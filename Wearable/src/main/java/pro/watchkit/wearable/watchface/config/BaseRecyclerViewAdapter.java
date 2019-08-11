@@ -58,6 +58,7 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.annotation.ArrayRes;
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
@@ -607,11 +608,16 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
 
         private void setTextAndVisibility() {
-            mButton.setText(mConfigItem.getTitleResourceId());
+            // Set text to the appropriate resource in the Typeface's resource array.
+            @ArrayRes int arrayRes = mConfigItem.getTypeface().getNameResourceId();
+            mButton.setText(itemView.getResources().
+                    getStringArray(arrayRes)[mConfigItem.getTypeface().ordinal()]);
 
+            // Set typeface to whatever the typeface ought to be!
             Typeface t = mCurrentWatchFaceState.getTypefaceObject(mConfigItem.getTypeface());
             mButton.setTypeface(t);
 
+            // Set visible or invisible based on whether the typeface is installed.
             if (t != null) {
                 itemView.getLayoutParams().height = mVisibleLayoutHeight;
                 itemView.getLayoutParams().width = mVisibleLayoutWidth;

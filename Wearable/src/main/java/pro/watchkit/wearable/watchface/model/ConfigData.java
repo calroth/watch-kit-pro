@@ -163,22 +163,14 @@ abstract public class ConfigData {
      * Data for typeface item in RecyclerView.
      */
     public static class TypefaceConfigItem implements ConfigItemType {
-        @StringRes
-        final private int mTitleResourceId;
-        @Nullable
+        @NonNull
         final private Typeface mTypeface;
 
-        TypefaceConfigItem(@StringRes final int titleResourceId,
-                           @Nullable Typeface typeface) {
-            mTitleResourceId = titleResourceId;
+        TypefaceConfigItem(@NonNull Typeface typeface) {
             mTypeface = typeface;
         }
 
-        @StringRes
-        public int getTitleResourceId() {
-            return mTitleResourceId;
-        }
-
+        @NonNull
         public Typeface getTypeface() {
             return mTypeface;
         }

@@ -30,37 +30,37 @@ public class TypefaceConfigData extends ConfigData {
                 // Title.
                 new LabelConfigItem(R.string.config_configure_typeface),
 
-                new TypefaceConfigItem(R.string.config_typeface_SANS_THIN, Typeface.SANS_THIN),
+                new TypefaceConfigItem(Typeface.SANS_THIN),
 
-                new TypefaceConfigItem(R.string.config_typeface_SANS_LIGHT, Typeface.SANS_LIGHT),
+                new TypefaceConfigItem(Typeface.SANS_LIGHT),
 
-                new TypefaceConfigItem(R.string.config_typeface_SANS_REGULAR, Typeface.SANS_REGULAR),
+                new TypefaceConfigItem(Typeface.SANS_REGULAR),
 
-                new TypefaceConfigItem(R.string.config_typeface_SANS_MEDIUM, Typeface.SANS_MEDIUM),
+                new TypefaceConfigItem(Typeface.SANS_MEDIUM),
 
-                new TypefaceConfigItem(R.string.config_typeface_SANS_BOLD, Typeface.SANS_BOLD),
+                new TypefaceConfigItem(Typeface.SANS_BOLD),
 
-                new TypefaceConfigItem(R.string.config_typeface_SANS_BLACK, Typeface.SANS_BLACK),
+                new TypefaceConfigItem(Typeface.SANS_BLACK),
 
-                new TypefaceConfigItem(R.string.config_typeface_CONDENSED_LIGHT, Typeface.CONDENSED_LIGHT),
+                new TypefaceConfigItem(Typeface.CONDENSED_LIGHT),
 
-                new TypefaceConfigItem(R.string.config_typeface_CONDENSED_REGULAR, Typeface.CONDENSED_REGULAR),
+                new TypefaceConfigItem(Typeface.CONDENSED_REGULAR),
 
-                new TypefaceConfigItem(R.string.config_typeface_CONDENSED_MEDIUM, Typeface.CONDENSED_MEDIUM),
+                new TypefaceConfigItem(Typeface.CONDENSED_MEDIUM),
 
-                new TypefaceConfigItem(R.string.config_typeface_CONDENSED_BOLD, Typeface.CONDENSED_BOLD),
+                new TypefaceConfigItem(Typeface.CONDENSED_BOLD),
 
-                new TypefaceConfigItem(R.string.config_typeface_SERIF_REGULAR, Typeface.SERIF_REGULAR),
+                new TypefaceConfigItem(Typeface.SERIF_REGULAR),
 
-                new TypefaceConfigItem(R.string.config_typeface_SERIF_BOLD, Typeface.SERIF_BOLD),
+                new TypefaceConfigItem(Typeface.SERIF_BOLD),
 
-                new TypefaceConfigItem(R.string.config_typeface_MONO_REGULAR, Typeface.MONO_REGULAR),
+                new TypefaceConfigItem(Typeface.MONO_REGULAR),
 
-                new TypefaceConfigItem(R.string.config_typeface_PRODUCT_SANS_REGULAR, Typeface.PRODUCT_SANS_REGULAR),
+                new TypefaceConfigItem(Typeface.PRODUCT_SANS_REGULAR),
 
-                new TypefaceConfigItem(R.string.config_typeface_PRODUCT_SANS_MEDIUM, Typeface.PRODUCT_SANS_MEDIUM),
+                new TypefaceConfigItem(Typeface.PRODUCT_SANS_MEDIUM),
 
-                new TypefaceConfigItem(R.string.config_typeface_PRODUCT_SANS_BOLD, Typeface.PRODUCT_SANS_BOLD)
+                new TypefaceConfigItem(Typeface.PRODUCT_SANS_BOLD)
         );
     }
 }

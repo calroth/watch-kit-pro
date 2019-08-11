@@ -78,24 +78,6 @@
     <string name="config_alt_drawing_label">Alternative Drawing Mode</string>
     <string name="config_reset_to_default">Reset to Default</string>
 
-    <string name="config_typeface_SANS_THIN">Sans Thin</string>
-    <string name="config_typeface_SANS_LIGHT">Sans Light</string>
-    <string name="config_typeface_SANS_REGULAR">Sans Regular</string>
-    <string name="config_typeface_SANS_MEDIUM">Sans Medium</string>
-    <string name="config_typeface_SANS_BOLD">Sans Bold</string>
-    <string name="config_typeface_SANS_BLACK">Sans Black</string>
-    <string name="config_typeface_CONDENSED_LIGHT">Condensed Light</string>
-    <string name="config_typeface_CONDENSED_REGULAR">Condensed Regular</string>
-    <string name="config_typeface_CONDENSED_MEDIUM">Condensed Medium</string>
-    <string name="config_typeface_CONDENSED_BOLD">Condensed Bold</string>
-    <string name="config_typeface_SERIF_REGULAR">Serif Regular</string>
-    <string name="config_typeface_SERIF_BOLD">Serif Bold</string>
-    <string name="config_typeface_MONO_REGULAR">Mono Regular</string>
-    <string name="config_typeface_PRODUCT_SANS_REGULAR">Product Sans Regular</string>
-    <string name="config_typeface_PRODUCT_SANS_MEDIUM">Product Sans Medium</string>
-    <string name="config_typeface_PRODUCT_SANS_BOLD">Product Sans Bold</string>
-    <string name="config_typeface_sample">Sample text</string>
-
     <string name="config_configure_settings">Configure Settings</string>
     <string name="config_configure_complications">Configure Complications</string>
     <string name="config_configure_watch_face_preset">Configure Watch Face Preset</string>
@@ -429,15 +411,21 @@
     </string-array>
 
     <string-array name="Settings_Typeface">
-        <item>Droid Sans</item>
-        <item>Droid Sans Bold</item>
-        <item>Noto Serif</item>
-        <item>Noto Serif Bold</item>
-        <item>Droid Sans Mono</item>
-        <item>Roboto</item>
-        <item>Roboto Bold</item>
-        <item>Roboto Black</item>
-        <item>Product Sans</item>
+        <item>Sans Thin</item>
+        <item>Sans Light</item>
+        <item>Sans Regular</item>
+        <item>Sans Medium</item>
+        <item>Sans Bold</item>
+        <item>Sans Black</item>
+        <item>Condensed Light</item>
+        <item>Condensed Regular</item>
+        <item>Condensed Medium</item>
+        <item>Condensed Bold</item>
+        <item>Serif Regular</item>
+        <item>Serif Bold</item>
+        <item>Mono Regular</item>
+        <item>Product Sans Regular</item>
+        <item>Product Sans Medium</item>
         <item>Product Sans Bold</item>
     </string-array>
 
