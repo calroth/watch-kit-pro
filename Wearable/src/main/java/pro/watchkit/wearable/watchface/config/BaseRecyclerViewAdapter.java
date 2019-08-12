@@ -274,6 +274,17 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             w.initializeComplications(mImageView.getContext(), this::onWatchFaceStateChanged);
         }
 
+        void setHighlighedCurrentSelection(@Nullable String watchFaceStateString) {
+            // Highlight this if it's the current selection.
+            if (WatchFaceState.mostlyEquals(
+                    mSharedPref.getWatchFaceStateString(), watchFaceStateString)) {
+                itemView.setBackground(itemView.getContext().
+                        getDrawable(android.R.drawable.screen_background_dark_transparent));
+            } else {
+                itemView.setBackground(null);
+            }
+        }
+
         public void onWatchFaceStateChanged() {
             setPreset(mCurrentWatchFaceState.getString());
             itemView.invalidate();

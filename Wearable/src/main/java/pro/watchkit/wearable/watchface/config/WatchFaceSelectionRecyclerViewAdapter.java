@@ -87,13 +87,13 @@ public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapt
             labelViewHolder.bind(labelConfigItem);
             return;
         }
-        String watchFaceStateString =
-                mWatchFaceStateStrings != null && mWatchFaceStateStrings.length > position - 1 ?
+        String watchFaceStateString = mWatchFaceStateStrings.length > position - 1 ?
                         mWatchFaceStateStrings[position - 1] : null;
 
         WatchFacePresetSelectionViewHolder holder = (WatchFacePresetSelectionViewHolder) viewHolder;
         holder.setWatchFaceGlobalDrawableFlags(mFlags);
         holder.setPreset(watchFaceStateString);
+        holder.setHighlighedCurrentSelection(watchFaceStateString);
 
         if ((mFlags & PART_COMPLICATIONS) > 0) {
             holder.retrieveProviderInfo();
@@ -102,6 +102,6 @@ public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapt
 
     @Override
     public int getItemCount() {
-        return 1 + (mWatchFaceStateStrings != null ? mWatchFaceStateStrings.length : 0);
+        return 1 + mWatchFaceStateStrings.length;
     }
 }

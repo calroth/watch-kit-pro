@@ -540,7 +540,12 @@ public class WatchFaceState {
      * @param b Second string to compare
      * @return Whether the strings are mostly equal
      */
-    public static boolean mostlyEquals(@NonNull String a, @NonNull String b) {
+    public static boolean mostlyEquals(String a, String b) {
+        if (a == null || b == null) {
+            // Don't even try comparing nulls, even to each other.
+            return false;
+        }
+
         String[] aSplit = a.split("~");
         String[] bSplit = b.split("~");
 
