@@ -45,6 +45,11 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
 
     @Override
     public void draw2(@NonNull Canvas canvas) {
+        if (mWatchFaceState.isDeveloperMode() && mWatchFaceState.isHideTicks()) {
+            // If we set developer mode "hide ticks", then just return!
+            return;
+        }
+
         if (mWatchFaceState.getDigitDisplay() == DigitDisplay.NONE) {
             return;
         }
