@@ -68,6 +68,8 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     private Path mHandTopCutout = new Path();
     @NonNull
     private Path mHandBottomCutout = new Path();
+    @NonNull
+    private Path mTempTriangleMask = new Path();
 
     WatchPartHandsDrawable() {
         super();
@@ -89,7 +91,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 new EnumMap<HandThickness, Float>(HandThickness.class));
         mHandThicknessDimensions.put(BytePackable.HandShape.DIAMOND,
                 new EnumMap<HandThickness, Float>(HandThickness.class));
-        mHandThicknessDimensions.put(BytePackable.HandShape.UNKNOWN1,
+        mHandThicknessDimensions.put(BytePackable.HandShape.TRIANGLE,
                 new EnumMap<HandThickness, Float>(HandThickness.class));
 
         mHandThicknessDimensions.get(BytePackable.HandShape.STRAIGHT).put(BytePackable.HandThickness.THIN, f0);
@@ -107,10 +109,10 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         mHandThicknessDimensions.get(BytePackable.HandShape.DIAMOND).put(BytePackable.HandThickness.THICK, f2 * DIAMOND_HAND_ASPECT_RATIO);
         mHandThicknessDimensions.get(BytePackable.HandShape.DIAMOND).put(BytePackable.HandThickness.X_THICK, f3 * DIAMOND_HAND_ASPECT_RATIO);
 
-        mHandThicknessDimensions.get(BytePackable.HandShape.UNKNOWN1).put(BytePackable.HandThickness.THIN, f0);
-        mHandThicknessDimensions.get(BytePackable.HandShape.UNKNOWN1).put(BytePackable.HandThickness.REGULAR, f1);
-        mHandThicknessDimensions.get(BytePackable.HandShape.UNKNOWN1).put(BytePackable.HandThickness.THICK, f2);
-        mHandThicknessDimensions.get(BytePackable.HandShape.UNKNOWN1).put(BytePackable.HandThickness.X_THICK, f3);
+        mHandThicknessDimensions.get(BytePackable.HandShape.TRIANGLE).put(BytePackable.HandThickness.THIN, f0);
+        mHandThicknessDimensions.get(BytePackable.HandShape.TRIANGLE).put(BytePackable.HandThickness.REGULAR, f1);
+        mHandThicknessDimensions.get(BytePackable.HandShape.TRIANGLE).put(BytePackable.HandThickness.THICK, f2);
+        mHandThicknessDimensions.get(BytePackable.HandShape.TRIANGLE).put(BytePackable.HandThickness.X_THICK, f3);
 
         mHandLengthDimensions.put(BytePackable.HandShape.STRAIGHT,
                 new EnumMap<HandLength, Float>(HandLength.class));
@@ -118,7 +120,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 new EnumMap<HandLength, Float>(HandLength.class));
         mHandLengthDimensions.put(BytePackable.HandShape.DIAMOND,
                 new EnumMap<HandLength, Float>(HandLength.class));
-        mHandLengthDimensions.put(BytePackable.HandShape.UNKNOWN1,
+        mHandLengthDimensions.put(BytePackable.HandShape.TRIANGLE,
                 new EnumMap<HandLength, Float>(HandLength.class));
 
         mHandLengthDimensions.get(BytePackable.HandShape.STRAIGHT).put(BytePackable.HandLength.SHORT, 2f + f0);
@@ -136,10 +138,10 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         mHandLengthDimensions.get(BytePackable.HandShape.DIAMOND).put(BytePackable.HandLength.LONG, 2f + f2);
         mHandLengthDimensions.get(BytePackable.HandShape.DIAMOND).put(BytePackable.HandLength.X_LONG, 2f + f3);
 
-        mHandLengthDimensions.get(BytePackable.HandShape.UNKNOWN1).put(BytePackable.HandLength.SHORT, 2f + f0);
-        mHandLengthDimensions.get(BytePackable.HandShape.UNKNOWN1).put(BytePackable.HandLength.MEDIUM, 2f + f1);
-        mHandLengthDimensions.get(BytePackable.HandShape.UNKNOWN1).put(BytePackable.HandLength.LONG, 2f + f2);
-        mHandLengthDimensions.get(BytePackable.HandShape.UNKNOWN1).put(BytePackable.HandLength.X_LONG, 2f + f3);
+        mHandLengthDimensions.get(BytePackable.HandShape.TRIANGLE).put(BytePackable.HandLength.SHORT, 2f + f0);
+        mHandLengthDimensions.get(BytePackable.HandShape.TRIANGLE).put(BytePackable.HandLength.MEDIUM, 2f + f1);
+        mHandLengthDimensions.get(BytePackable.HandShape.TRIANGLE).put(BytePackable.HandLength.LONG, 2f + f2);
+        mHandLengthDimensions.get(BytePackable.HandShape.TRIANGLE).put(BytePackable.HandLength.X_LONG, 2f + f3);
     }
 
     private float mLastDegrees = -360f;
@@ -340,6 +342,20 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 drawRectInset(mHandBottomCutout, left, top, right, bottom, 0.5f, 1.0f);
                 break;
             }
+            case ROUNDED: {
+                // Draw a round rect with double corner radius.
+                drawRoundRect(p, left, top, right, bottom,
+                        roundRectRadius * 2f, 0f);
+
+                // Draw a cutout.
+                drawRoundRectInset(mHandFullCutout, left, top, right, bottom,
+                        roundRectRadius * 2f, 1.0f, 1.0f);
+                drawRoundRectInset(mHandTopCutout, left, top, right, bottom,
+                        roundRectRadius * 2f, 1.0f, 0.5f);
+                drawRoundRectInset(mHandBottomCutout, left, top, right, bottom,
+                        roundRectRadius * 2f, 0.5f, 1.0f);
+                break;
+            }
             case DIAMOND: {
                 // Draw a diamond.
                 drawDiamond(p, left, top, right, bottom, 0f);
@@ -353,28 +369,17 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 drawDiamond(mHandBottomCutout, left, top, right, bottom, scale, false, true);
                 break;
             }
-            case ROUNDED: {
-                // Draw a round rect.
-                drawRoundRect(p, left, top, right, bottom, roundRectRadius, 0f);
+            case TRIANGLE: {
+                // Draw a triangle.
+                drawTriangle(p, left, top, right, bottom, 0f);
+
+                // Golden ratio scale = 1 / sqrt(golden ratio)
+                float scale = 1f - (float) (Math.sqrt(1d / 1.61803398875d / 1.61803398875d));
 
                 // Draw a cutout.
-                drawRoundRectInset(mHandFullCutout, left, top, right, bottom, roundRectRadius, 1.0f, 1.0f);
-                drawRoundRectInset(mHandTopCutout, left, top, right, bottom, roundRectRadius, 1.0f, 0.5f);
-                drawRoundRectInset(mHandBottomCutout, left, top, right, bottom, roundRectRadius, 0.5f, 1.0f);
-                break;
-            }
-            case UNKNOWN1: {
-                // Dunno! Draw a round rect with double corner radius.
-                drawRoundRect(p, left, top, right, bottom,
-                        roundRectRadius * 2f, 0f);
-
-                // Draw a cutout.
-                drawRoundRectInset(mHandFullCutout, left, top, right, bottom,
-                        roundRectRadius * 2f, 1.0f, 1.0f);
-                drawRoundRectInset(mHandTopCutout, left, top, right, bottom,
-                        roundRectRadius * 2f, 1.0f, 0.5f);
-                drawRoundRectInset(mHandBottomCutout, left, top, right, bottom,
-                        roundRectRadius * 2f, 0.5f, 1.0f);
+                drawTriangle(mHandFullCutout, left, top, right, bottom, scale);
+                drawTriangle(mHandTopCutout, left, top, right, bottom, scale, true, false);
+                drawTriangle(mHandBottomCutout, left, top, right, bottom, scale, false, true);
                 break;
             }
         }
@@ -574,5 +579,51 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     private void drawDiamond(
             @NonNull Path path, float left, float top, float right, float bottom, float scale) {
         drawDiamond(path, left, top, right, bottom, scale, true, true);
+    }
+
+    private void drawTriangle(
+            @NonNull Path path, float left, float top, float right, float bottom, float scale,
+            boolean drawTopHalf, boolean drawBottomHalf) {
+        // TODO: currently this code is a copy-and-paste of diamond. Needs tweaking to look good.
+        // Add extra extension to the triangle top and bottom
+        // because the triangle shape tapers to a point
+        float triangleTop = top - (HUB_RADIUS_PERCENT * pc * 0.5f);
+        float triangleBottom = bottom + (HUB_RADIUS_PERCENT * pc * 0.5f);
+
+        // Scale factor. Ignored if scale == 0f
+        float x0 = (right - left) * 0.5f * scale;
+        float y1 = x0; //(triangleMidpoint - triangleTop) * scale;
+        float y2 = x0; //(triangleBottom - triangleMidpoint) * scale;
+
+        if (getDirection() == Path.Direction.CW) {
+            path.moveTo(left + x0, triangleBottom - y2); // Left
+            path.lineTo(mCenterX, triangleTop + y1); // Top
+            path.lineTo(right - x0, triangleBottom - y2); // Right
+        } else {
+            path.moveTo(right - x0, triangleBottom - y2); // Right
+            path.lineTo(mCenterX, triangleTop + y1); // Top
+            path.lineTo(left + x0, triangleBottom - y2); // Left
+        }
+        path.close();
+        if (drawTopHalf && !drawBottomHalf) {
+            mTempTriangleMask.reset();
+            // Make "mTempTriangleMask" a bit bigger than top half, then intersect with "path".
+            mTempTriangleMask.addRect(
+                    left - 1f * pc, triangleTop - 1 * pc,
+                    right + 1f * pc, (triangleTop + triangleBottom) / 2f, getDirection());
+            path.op(mTempTriangleMask, Path.Op.INTERSECT);
+        } else if (drawBottomHalf && !drawTopHalf) {
+            mTempTriangleMask.reset();
+            // Make "mTempTriangleMask" a bit bigger than bottom half, then intersect with "path".
+            mTempTriangleMask.addRect(
+                    left - 1f * pc, (triangleTop + triangleBottom) / 2f,
+                    right + 1f * pc, triangleBottom + 1f * pc, getDirection());
+            path.op(mTempTriangleMask, Path.Op.INTERSECT);
+        }
+    }
+
+    private void drawTriangle(
+            @NonNull Path path, float left, float top, float right, float bottom, float scale) {
+        drawTriangle(path, left, top, right, bottom, scale, true, true);
     }
 }

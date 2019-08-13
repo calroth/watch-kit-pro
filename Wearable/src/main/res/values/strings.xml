@@ -164,7 +164,7 @@
         <item>Straight</item>
         <item>Rounded</item>
         <item>Diamond</item>
-        <item>Unknown</item>
+        <item>Triangle</item>
     </string-array>
 
     <string-array name="WatchFacePreset_HandLength">

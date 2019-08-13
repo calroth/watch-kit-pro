@@ -83,7 +83,7 @@ public abstract class BytePackable {
     }
 
     public enum HandShape implements EnumResourceId {
-        STRAIGHT, ROUNDED, DIAMOND, UNKNOWN1;
+        STRAIGHT, ROUNDED, DIAMOND, TRIANGLE;
 
         private static final int bits = 2;
 
