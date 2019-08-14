@@ -832,28 +832,18 @@ public final class PaintBox {
                 case NONE:
                     break;
                 case SPUN:
-                    addSpunEffect();
+                    setShader(new BitmapShader(generateSpunEffect(),
+                            Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
                     break;
                 case WEAVE:
-                    addWeaveEffect();
+                    setShader(new BitmapShader(generateWeaveEffect(),
+                            Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
                     break;
                 case HEX:
+                    setShader(new BitmapShader(generateHexEffect(),
+                            Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
                     break;
             }
-        }
-
-        private void addSpunEffect() {
-            Bitmap brushedEffectBitmap = generateSpunEffect();
-
-            setShader(new BitmapShader(brushedEffectBitmap,
-                    Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-        }
-
-        private void addWeaveEffect() {
-            Bitmap brushedEffectBitmap = generateWeaveEffect();
-
-            setShader(new BitmapShader(brushedEffectBitmap,
-                    Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
         }
 
         private Bitmap generateSpunEffect() {
@@ -1173,6 +1163,82 @@ public final class PaintBox {
             setAlpha(prevAlpha);
 
             return brushedEffectBitmap;
+        }
+
+        private Bitmap generateHexEffect() {
+            // Attempt to return an existing bitmap from the cache if we have one.
+            WeakReference<Bitmap> cache = mBitmapCache.get(mCustomHashCode);
+            if (cache != null) {
+                // Well, we have an existing bitmap, but it may have been garbage collected...
+                Bitmap result = cache.get();
+                if (result != null) {
+                    // It wasn't garbage collected! Return it.
+                    return result;
+                }
+            }
+
+            // Generate a new bitmap.
+            Bitmap hexEffectBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Canvas hexEffectCanvas = new Canvas(hexEffectBitmap);
+
+            // Cache it for next time's use.
+            mBitmapCache.put(mCustomHashCode, new WeakReference<>(hexEffectBitmap));
+
+            // The height and width of a single hex.
+            final float hexWidth = 10f * pc;
+            final float hexHeight = hexWidth * (float) Math.sqrt(3d) / 2f;
+
+            // The spacing between hexes, centre to centre.
+            final float hexSpacingX = 12f * pc;
+            final float hexSpacingY = hexSpacingX * (float) Math.sqrt(3d) / 2f;
+
+            // The number of rows and columns of hexes.
+            final int cols0 = (int) Math.ceil((double) width / (double) hexSpacingX);
+            final int cols = cols0 + 1 - cols0 % 2; // Make it always odd.
+            final int rows0 = (int) Math.ceil((double) height / (double) hexSpacingY);
+            final int rows = rows0 + 1 - rows0 % 2; // Make it always odd.
+
+            // The initial offset of the first row and column, so there's always a hex in centre.
+            // These figures are negative because there's more hexes than can fit within bounds.
+            final float offsetX = ((float) width - ((float) cols * hexSpacingX)) / 2f;
+            final float offsetY = ((float) height - ((float) rows * hexSpacingY)) / 2f;
+
+            mBrushedEffectPaint.reset();
+            mBrushedEffectPaint.setStyle(Style.STROKE);
+            mBrushedEffectPaint.setStrokeWidth(1f * pc);
+            mBrushedEffectPaint.setStrokeJoin(Join.ROUND);
+            mBrushedEffectPaint.setColor(Color.WHITE);
+            mBrushedEffectPaint.setAntiAlias(true);
+
+            android.util.Log.d("Paint", "cols = " + cols +
+                    ", rows = " + rows +
+                    ", cols0 = " + cols0 +
+                    ", rows0 = " + rows0 +
+                    ", cols0 = " + ((double) hexSpacingX / (double) width) +
+                    ", rows0 = " + ((double) hexSpacingY / (double) height) +
+                    ", hexSpacingX = " + hexSpacingX +
+                    ", hexSpacingY = " + hexSpacingY);
+
+            for (int y = 0; y < rows; y++) {
+                int modCols = cols;
+                float modOffsetX = offsetX;
+                if (y % 2 == 1) {
+                    // For odd rows, draw one less hex and indent them all by half a hex.
+                    modCols -= 1;
+                    modOffsetX += hexSpacingX / 2f;
+                }
+                for (int x = 0; x < modCols; x++) {
+                    float hX = modOffsetX + (hexSpacingX * (float) x);
+                    float hY = offsetX + (hexSpacingY * (float) y);
+                    hexEffectCanvas.drawCircle(hX, hY, hexWidth / 2f, mBrushedEffectPaint);
+                    android.util.Log.d("Paint", "x = " + x +
+                            ", y = " + y +
+                            ", hX = " + hX +
+                            ", hY = " + hY);
+                }
+            }
+
+            return hexEffectBitmap;
         }
     }
 }
