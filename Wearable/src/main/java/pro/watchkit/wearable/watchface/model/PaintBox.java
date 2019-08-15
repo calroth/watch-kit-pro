@@ -476,6 +476,10 @@ public final class PaintBox {
     @NonNull
     private final Path mBrushedEffectPath = new Path();
     @NonNull
+    private final Path mBrushedEffectPathUpper = new Path();
+    @NonNull
+    private final Path mBrushedEffectPathLower = new Path();
+    @NonNull
     private final Paint mGradientH = new Paint();
     @NonNull
     private final Paint mGradientV = new Paint();
@@ -1184,31 +1188,27 @@ public final class PaintBox {
             // Cache it for next time's use.
             mBitmapCache.put(mCustomHashCode, new WeakReference<>(hexEffectBitmap));
 
+            // Alpha value of the bezels.
+            int alpha = 50;
+
             // The height and width of a single hex.
-            final float hexWidth = 10f * pc;
+            final float hexWidth = 7f * pc;
             final float hexHeight = hexWidth * (float) Math.sqrt(3d) / 2f;
 
             // The spacing between hexes, centre to centre.
-            final float hexSpacingX = 12f * pc;
+            final float hexSpacingX = 7.5f * pc;
             final float hexSpacingY = hexSpacingX * (float) Math.sqrt(3d) / 2f;
 
             // The number of rows and columns of hexes.
             final int cols0 = (int) Math.ceil((double) width / (double) hexSpacingX);
-            final int cols = cols0 + 1 - cols0 % 2; // Make it always odd.
+            final int cols = cols0 + cols0 % 2; // Make it always even, rounded up.
             final int rows0 = (int) Math.ceil((double) height / (double) hexSpacingY);
-            final int rows = rows0 + 1 - rows0 % 2; // Make it always odd.
+            final int rows = rows0 + 1 - rows0 % 2; // Make it always odd, rounded up.
 
             // The initial offset of the first row and column, so there's always a hex in centre.
             // These figures are negative because there's more hexes than can fit within bounds.
-            final float offsetX = ((float) width - ((float) cols * hexSpacingX)) / 2f;
-            final float offsetY = ((float) height - ((float) rows * hexSpacingY)) / 2f;
-
-            mBrushedEffectPaint.reset();
-            mBrushedEffectPaint.setStyle(Style.STROKE);
-            mBrushedEffectPaint.setStrokeWidth(1f * pc);
-            mBrushedEffectPaint.setStrokeJoin(Join.ROUND);
-            mBrushedEffectPaint.setColor(Color.WHITE);
-            mBrushedEffectPaint.setAntiAlias(true);
+            final float offsetX = ((float) width - ((float) (cols - 1) * hexSpacingX)) / 2f;
+            final float offsetY = ((float) height - ((float) (rows - 1) * hexSpacingY)) / 2f;
 
             android.util.Log.d("Paint", "cols = " + cols +
                     ", rows = " + rows +
@@ -1219,24 +1219,68 @@ public final class PaintBox {
                     ", hexSpacingX = " + hexSpacingX +
                     ", hexSpacingY = " + hexSpacingY);
 
+            mBrushedEffectPaint.reset();
+            mBrushedEffectPaint.setStyle(Style.FILL);
+//            mBrushedEffectPaint.setStrokeWidth(1f * pc);
+            mBrushedEffectPaint.setStrokeJoin(Join.ROUND);
+            mBrushedEffectPaint.setColor(Color.WHITE);
+            mBrushedEffectPaint.setAntiAlias(true);
+
+            mBrushedEffectPath.reset();
+
+            hexEffectCanvas.drawPaint(this);
+
+            final int mod = ((rows - 1) / 2) % 2;
+
             for (int y = 0; y < rows; y++) {
                 int modCols = cols;
                 float modOffsetX = offsetX;
-                if (y % 2 == 1) {
-                    // For odd rows, draw one less hex and indent them all by half a hex.
-                    modCols -= 1;
-                    modOffsetX += hexSpacingX / 2f;
+                if (y % 2 == mod) {
+                    // For "mod" rows, draw more hexes and indent them all back by half a hex.
+                    // Make it so the central row is always a "mod" row with odd number of hexes.
+                    modCols += 1;
+                    modOffsetX -= hexSpacingX / 2f;
                 }
                 for (int x = 0; x < modCols; x++) {
-                    float hX = modOffsetX + (hexSpacingX * (float) x);
-                    float hY = offsetX + (hexSpacingY * (float) y);
-                    hexEffectCanvas.drawCircle(hX, hY, hexWidth / 2f, mBrushedEffectPaint);
-                    android.util.Log.d("Paint", "x = " + x +
-                            ", y = " + y +
-                            ", hX = " + hX +
-                            ", hY = " + hY);
+                    final float hX = modOffsetX + (hexSpacingX * (float) x);
+                    final float hY = offsetY + (hexSpacingY * (float) y);
+                    final float w = hexWidth / 2f;
+                    final float w2 = hexHeight / (float) Math.sqrt(3d) / 2f;
+                    final float h = w / (float) Math.sqrt(3) * 2f;
+
+                    // TODO: one day we might like to have circles instead of hexes. The below:
+                    // hexEffectCanvas.drawCircle(hX, hY, w, mBrushedEffectPaint);
+
+                    // Draw a hexagon! Clockwise starting from 12 o'clock:
+                    mBrushedEffectPath.moveTo(hX, hY - h);
+                    // 2 o'clock
+                    mBrushedEffectPath.lineTo(hX + w, hY - w2);
+                    // 4 o'clock
+                    mBrushedEffectPath.lineTo(hX + w, hY + w2);
+                    // 6 o'clock
+                    mBrushedEffectPath.lineTo(hX, hY + h);
+                    // 8 o'clock
+                    mBrushedEffectPath.lineTo(hX - w, hY + w2);
+                    // 10 o'clock
+                    mBrushedEffectPath.lineTo(hX - w, hY - w2);
+                    // And close the hexagon at 12 o'clock
+                    mBrushedEffectPath.close();
                 }
             }
+
+            final float bezelOffset = 0.25f * pc;
+
+            mBrushedEffectPaint.setColor(Color.WHITE);
+            mBrushedEffectPaint.setAlpha(alpha);
+            mBrushedEffectPath.offset(-bezelOffset, -bezelOffset, mBrushedEffectPathUpper);
+            mBrushedEffectPathUpper.op(mBrushedEffectPath, Path.Op.DIFFERENCE);
+            hexEffectCanvas.drawPath(mBrushedEffectPathUpper, mBrushedEffectPaint);
+
+            mBrushedEffectPaint.setColor(Color.BLACK);
+            mBrushedEffectPaint.setAlpha(alpha);
+            mBrushedEffectPath.offset(bezelOffset, bezelOffset, mBrushedEffectPathLower);
+            mBrushedEffectPathLower.op(mBrushedEffectPath, Path.Op.DIFFERENCE);
+            hexEffectCanvas.drawPath(mBrushedEffectPathLower, mBrushedEffectPaint);
 
             return hexEffectBitmap;
         }
