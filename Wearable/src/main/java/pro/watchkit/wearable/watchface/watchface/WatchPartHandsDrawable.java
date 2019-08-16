@@ -109,10 +109,10 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         mHandThicknessDimensions.get(BytePackable.HandShape.DIAMOND).put(BytePackable.HandThickness.THICK, f2 * DIAMOND_HAND_ASPECT_RATIO);
         mHandThicknessDimensions.get(BytePackable.HandShape.DIAMOND).put(BytePackable.HandThickness.X_THICK, f3 * DIAMOND_HAND_ASPECT_RATIO);
 
-        mHandThicknessDimensions.get(BytePackable.HandShape.TRIANGLE).put(BytePackable.HandThickness.THIN, f0);
-        mHandThicknessDimensions.get(BytePackable.HandShape.TRIANGLE).put(BytePackable.HandThickness.REGULAR, f1);
-        mHandThicknessDimensions.get(BytePackable.HandShape.TRIANGLE).put(BytePackable.HandThickness.THICK, f2);
-        mHandThicknessDimensions.get(BytePackable.HandShape.TRIANGLE).put(BytePackable.HandThickness.X_THICK, f3);
+        mHandThicknessDimensions.get(BytePackable.HandShape.TRIANGLE).put(BytePackable.HandThickness.THIN, f0 * DIAMOND_HAND_ASPECT_RATIO);
+        mHandThicknessDimensions.get(BytePackable.HandShape.TRIANGLE).put(BytePackable.HandThickness.REGULAR, f1 * DIAMOND_HAND_ASPECT_RATIO);
+        mHandThicknessDimensions.get(BytePackable.HandShape.TRIANGLE).put(BytePackable.HandThickness.THICK, f2 * DIAMOND_HAND_ASPECT_RATIO);
+        mHandThicknessDimensions.get(BytePackable.HandShape.TRIANGLE).put(BytePackable.HandThickness.X_THICK, f3 * DIAMOND_HAND_ASPECT_RATIO);
 
         mHandLengthDimensions.put(BytePackable.HandShape.STRAIGHT,
                 new EnumMap<HandLength, Float>(HandLength.class));
@@ -361,7 +361,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 drawDiamond(p, left, top, right, bottom, 0f);
 
                 // Golden ratio scale = 1 / sqrt(golden ratio)
-                float scale = 1f - (float) (Math.sqrt(1d / 1.61803398875d / 1.61803398875d));
+                final float scale = 1f - (float) (Math.sqrt(1d / 1.61803398875d / 1.61803398875d));
 
                 // Draw a cutout.
                 drawDiamond(mHandFullCutout, left, top, right, bottom, scale);
@@ -374,7 +374,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 drawTriangle(p, left, top, right, bottom, 0f);
 
                 // Golden ratio scale = 1 / sqrt(golden ratio)
-                float scale = 1f - (float) (Math.sqrt(1d / 1.61803398875d / 1.61803398875d));
+                final float scale = 1f - (float) (Math.sqrt(1d / 1.61803398875d / 1.61803398875d));
 
                 // Draw a cutout.
                 drawTriangle(mHandFullCutout, left, top, right, bottom, scale);
@@ -544,15 +544,15 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
             boolean drawTopHalf, boolean drawBottomHalf) {
         // Add extra extension to the diamond top and bottom
         // because the diamond shape tapers to a point
-        float diamondTop = top - (HUB_RADIUS_PERCENT * pc * 0.5f);
-        float diamondBottom = bottom + (HUB_RADIUS_PERCENT * pc * 0.5f);
-        float diamondMidpoint = (diamondTop * HOUR_MINUTE_HAND_MIDPOINT) +
+        final float diamondTop = top - (HUB_RADIUS_PERCENT * pc * 0.5f);
+        final float diamondBottom = bottom + (HUB_RADIUS_PERCENT * pc * 0.5f);
+        final float diamondMidpoint = (diamondTop * HOUR_MINUTE_HAND_MIDPOINT) +
                 (diamondBottom * (1 - HOUR_MINUTE_HAND_MIDPOINT));
 
         // Scale factor. Ignored if scale == 0f
-        float x0 = (right - left) * 0.5f * scale;
-        float y1 = (diamondMidpoint - diamondTop) * scale;
-        float y2 = (diamondBottom - diamondMidpoint) * scale;
+        final float x0 = (right - left) * 0.5f * scale;
+        final float y1 = (diamondMidpoint - diamondTop) * scale;
+        final float y2 = (diamondBottom - diamondMidpoint) * scale;
 
         if (getDirection() == Path.Direction.CW) {
             path.moveTo(left + x0, diamondMidpoint); // Left
@@ -587,22 +587,28 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         // TODO: currently this code is a copy-and-paste of diamond. Needs tweaking to look good.
         // Add extra extension to the triangle top and bottom
         // because the triangle shape tapers to a point
-        float triangleTop = top - (HUB_RADIUS_PERCENT * pc * 0.5f);
-        float triangleBottom = bottom + (HUB_RADIUS_PERCENT * pc * 0.5f);
+        final float triangleTop = top - (HUB_RADIUS_PERCENT * pc * 0.5f);
+        final float triangleBottom = bottom + (HUB_RADIUS_PERCENT * pc * 0.5f);
 
         // Scale factor. Ignored if scale == 0f
-        float x0 = (right - left) * 0.5f * scale;
-        float y1 = x0; //(triangleMidpoint - triangleTop) * scale;
-        float y2 = x0; //(triangleBottom - triangleMidpoint) * scale;
+        final double h = (double) (triangleBottom - triangleTop);
+        final double w = (double) (right - left);
+        final double w1 = w - (w * Math.sqrt(1d - (double) scale));
+        final double z = Math.sin(Math.atan(h / w) / 2d) * w1;
+        final double z1 = h - (h * Math.sqrt(1d - (double) scale)) - z;
+
+        android.util.Log.d("Triangle", "w1 = " + (float) w1 +
+                " ~ z = " + (float) z +
+                " ~ z1 = " + (float) z1);
 
         if (getDirection() == Path.Direction.CW) {
-            path.moveTo(left + x0, triangleBottom - y2); // Left
-            path.lineTo(mCenterX, triangleTop + y1); // Top
-            path.lineTo(right - x0, triangleBottom - y2); // Right
+            path.moveTo(left + (float) w1, triangleBottom - (float) z); // Left
+            path.lineTo(mCenterX, triangleTop + (float) z1); // Top
+            path.lineTo(right - (float) w1, triangleBottom - (float) z); // Right
         } else {
-            path.moveTo(right - x0, triangleBottom - y2); // Right
-            path.lineTo(mCenterX, triangleTop + y1); // Top
-            path.lineTo(left + x0, triangleBottom - y2); // Left
+            path.moveTo(right - (float) w1, triangleBottom - (float) z); // Right
+            path.lineTo(mCenterX, triangleTop + (float) z1); // Top
+            path.lineTo(left + (float) w1, triangleBottom - (float) z); // Left
         }
         path.close();
         if (drawTopHalf && !drawBottomHalf) {
