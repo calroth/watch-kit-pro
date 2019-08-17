@@ -596,11 +596,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         final double w1 = w - (w * Math.sqrt(1d - (double) scale));
         final double z = Math.sin(Math.atan(h / w) / 2d) * w1;
         final double z1 = h - (h * Math.sqrt(1d - (double) scale)) - z;
-
-        android.util.Log.d("Triangle", "w1 = " + (float) w1 +
-                " ~ z = " + (float) z +
-                " ~ z1 = " + (float) z1);
-
+        
         if (getDirection() == Path.Direction.CW) {
             path.moveTo(left + (float) w1, triangleBottom - (float) z); // Left
             path.lineTo(mCenterX, triangleTop + (float) z1); // Top
