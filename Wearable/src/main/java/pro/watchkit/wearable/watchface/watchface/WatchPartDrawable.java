@@ -29,6 +29,7 @@ import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
@@ -67,6 +68,8 @@ abstract class WatchPartDrawable extends Drawable {
     private Path mSecondaryBezel = new Path();
     @NonNull
     private Path mIntersectionBezel = new Path();
+    @NonNull
+    private Path mInnerGlowPath = new Path();
 
     /**
      * Reset our current direction. Call this before starting any drawing, so we get consistency
@@ -200,9 +203,25 @@ abstract class WatchPartDrawable extends Drawable {
 //        canvas.drawPath(mSecondaryBezel, bezelPaint1);
     }
 
+    private Paint mInnerGlowPaint;
+
+    void drawInnerGlowPath(@NonNull Canvas canvas, Paint paint) {
+        if (mInnerGlowPaint == null) {
+            mInnerGlowPaint = new Paint();
+            mInnerGlowPaint.setStyle(Paint.Style.FILL);
+            mInnerGlowPaint.setColor(Color.RED);
+            mInnerGlowPaint.setShadowLayer(
+                    5f * pc, 0f, 0f, Color.argb(250, 0, 0, 255));
+        }
+        canvas.drawPath(mInnerGlowPath, mInnerGlowPaint);
+    }
+
     void drawPath(@NonNull Canvas canvas, @NonNull Path p, @NonNull Paint paint) {
         // Apply the exclusion path.
         p.op(mExclusionPath, Path.Op.INTERSECT);
+
+        // Apply the inner glow path.
+        mInnerGlowPath.op(p, Path.Op.DIFFERENCE);
 
 //        int seconds = (int)(mWatchFaceState.getSecondsDecimal());
 //        seconds = seconds % 2;
@@ -345,6 +364,12 @@ abstract class WatchPartDrawable extends Drawable {
         mResetExclusionActivePath.reset();
         mResetExclusionActivePath.addCircle(mCenterX, mCenterY, pc * 50f, getDirection());
         addExclusionPath(mResetExclusionActivePath, Path.Op.UNION);
+
+        // Reset "mInnerGlowPath" to our bounds, outset by 10%.
+        mInnerGlowPath.reset();
+        RectF boundsF = new RectF(bounds);
+        boundsF.inset(-10f * pc, -10f * pc);
+        mInnerGlowPath.addRect(boundsF, getDirection());
     }
 
     @Override
@@ -364,9 +389,11 @@ abstract class WatchPartDrawable extends Drawable {
 //        return 0;
     }
 
-    void setWatchFaceState(@NonNull WatchFaceState watchFaceState, @NonNull Path path) {
+    void setWatchFaceState(@NonNull WatchFaceState watchFaceState, @NonNull Path exclusionPath,
+                           @NonNull Path innerGlowPath) {
         mWatchFaceState = watchFaceState;
-        mExclusionPath = path;
+        mExclusionPath = exclusionPath;
+        mInnerGlowPath = innerGlowPath;
     }
 
     void addExclusionPath(@NonNull Path path, Path.Op op) {

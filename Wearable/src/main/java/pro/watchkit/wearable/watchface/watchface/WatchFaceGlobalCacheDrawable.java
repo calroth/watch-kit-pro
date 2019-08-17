@@ -27,8 +27,11 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable {
     private Bitmap mAmbientHardwareCacheBitmap;
     private Canvas mAmbientCacheCanvas;
     private Path mExclusionPath;
+    private Path mInnerGlowPath;
     @NonNull
     private Path mCacheExclusionPath = new Path();
+    @NonNull
+    private Path mCacheInnerGlowPath = new Path();
 
     WatchFaceGlobalCacheDrawable(int flags) {
         this(WatchFaceGlobalDrawable.buildDrawables(null, flags));
@@ -40,13 +43,16 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable {
         mWatchPartDrawables = watchPartDrawables;
     }
 
-    void setWatchFaceState(@NonNull WatchFaceState watchFaceState, @NonNull Path path) {
+    void setWatchFaceState(@NonNull WatchFaceState watchFaceState, @NonNull Path exclusionPath,
+                           @NonNull Path innerGlowPath) {
         mWatchFaceState = watchFaceState;
-        mExclusionPath = path;
+        mExclusionPath = exclusionPath;
+        mInnerGlowPath = innerGlowPath;
 
         for (Drawable d : mWatchPartDrawables) {
             if (d instanceof WatchPartDrawable) {
-                ((WatchPartDrawable) d).setWatchFaceState(mWatchFaceState, mCacheExclusionPath);
+                ((WatchPartDrawable) d).setWatchFaceState(
+                        mWatchFaceState, mCacheExclusionPath, mCacheInnerGlowPath);
             }
         }
     }
@@ -115,6 +121,7 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable {
 
         // Then copy our cache to the results!
         mExclusionPath.set(mCacheExclusionPath);
+        mInnerGlowPath.set(mCacheInnerGlowPath);
         Bitmap mHardwareCacheBitmap = mWatchFaceState.isAmbient() ?
                 mAmbientHardwareCacheBitmap : mActiveHardwareCacheBitmap;
         Bitmap mCacheBitmap = mWatchFaceState.isAmbient() ?

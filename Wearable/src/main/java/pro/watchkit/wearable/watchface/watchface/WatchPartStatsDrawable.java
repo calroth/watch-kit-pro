@@ -61,6 +61,8 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
         // Only draw stats in developer mode if selected. If not, return early.
         if (!mWatchFaceState.isDeveloperMode() || !mWatchFaceState.isStats()) return;
 
+        drawInnerGlowPath(canvas, mWatchFaceState.getPaintBox().getShadowPaint());
+
         Paint textPaint = mWatchFaceState.isAmbient() ?
                 mWatchFaceState.getPaintBox().getAmbientPaint() :
                 mWatchFaceState.getPaintBox().getPaintFromPreset(Style.FILL_HIGHLIGHT);

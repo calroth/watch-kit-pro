@@ -46,6 +46,8 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
     private Drawable[] mWatchPartDrawables;
     @NonNull
     private Path mExclusionPath = new Path();
+    @NonNull
+    private Path mInnerGlowPath = new Path();
 
     public static final int PART_BACKGROUND = 1;
     static final int PART_BACKGROUND_FULL_CANVAS = 2;
@@ -107,9 +109,11 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
 
         for (Drawable d : mWatchPartDrawables) {
             if (d instanceof WatchPartDrawable) {
-                ((WatchPartDrawable) d).setWatchFaceState(mWatchFaceState, mExclusionPath);
+                ((WatchPartDrawable) d).setWatchFaceState(
+                        mWatchFaceState, mExclusionPath, mInnerGlowPath);
             } else if (d instanceof WatchFaceGlobalCacheDrawable) {
-                ((WatchFaceGlobalCacheDrawable) d).setWatchFaceState(mWatchFaceState, mExclusionPath);
+                ((WatchFaceGlobalCacheDrawable) d).setWatchFaceState(
+                        mWatchFaceState, mExclusionPath, mInnerGlowPath);
             }
         }
     }
