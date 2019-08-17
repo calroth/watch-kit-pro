@@ -38,6 +38,7 @@ final class Settings extends BytePackable {
     boolean mStats, mStatsDetail;
     boolean mHideTicks, mHideHands;
     boolean mAltDrawing;
+    boolean mHardwareAccelerationEnabled = true;
 
     @Override
     public int hashCode() {

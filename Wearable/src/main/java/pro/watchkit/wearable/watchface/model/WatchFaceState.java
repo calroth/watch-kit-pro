@@ -879,6 +879,14 @@ public class WatchFaceState {
         return mSettings.mDeveloperMode;
     }
 
+    void setHardwareAccelerationEnabled(boolean hardwareAccelerationEnabled) {
+        mSettings.mHardwareAccelerationEnabled = hardwareAccelerationEnabled;
+    }
+
+    public boolean isHardwareAccelerationEnabled() {
+        return mSettings.mHardwareAccelerationEnabled;
+    }
+
     void setDeveloperMode(boolean developerMode) {
         mSettings.mDeveloperMode = developerMode;
     }

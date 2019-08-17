@@ -196,6 +196,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
                             WatchFaceGlobalDrawable.PART_STATS);
 
             loadSavedPreferences();
+            setHardwareAccelerationEnabled(getWatchFaceState().isHardwareAccelerationEnabled());
 
             // Initialise complications
             setActiveComplications(getWatchFaceState().initializeComplications(context, this));
@@ -402,6 +403,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
             if (visible) {
                 // Preferences might have changed since last time watch face was visible.
                 loadSavedPreferences();
+                setHardwareAccelerationEnabled(getWatchFaceState().isHardwareAccelerationEnabled());
 
                 // With the rest of the watch face, we update the paint colors based on
                 // ambient/active mode callbacks, but because the ComplicationDrawable handles

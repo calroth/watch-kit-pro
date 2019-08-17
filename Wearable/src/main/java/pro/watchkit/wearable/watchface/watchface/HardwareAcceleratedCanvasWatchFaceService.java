@@ -60,6 +60,10 @@ abstract class HardwareAcceleratedCanvasWatchFaceService extends CanvasWatchFace
 
         private boolean mHardwareAccelerationEnabled = true;
 
+        void setHardwareAccelerationEnabled(boolean hardwareAccelerationEnabled) {
+            mHardwareAccelerationEnabled = hardwareAccelerationEnabled;
+        }
+
         // Our own private Choreographer which we can use to call hardware render.
         private Choreographer mChoreographer = Choreographer.getInstance();
         // Track whether we've been invalidated; don't need to draw if we haven't.

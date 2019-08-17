@@ -110,13 +110,13 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable {
             mWatchFaceState.setAmbient(currentAmbient);
             mPreviousSerial = currentSerial;
 
-            // Hardware power!
-            if (Build.VERSION.SDK_INT >= 26) {
-                mAmbientHardwareCacheBitmap =
-                        mAmbientCacheBitmap.copy(Bitmap.Config.HARDWARE, false);
-                mActiveHardwareCacheBitmap =
-                        mActiveCacheBitmap.copy(Bitmap.Config.HARDWARE, false);
+            Bitmap.Config config = Bitmap.Config.ARGB_8888;
+            if (Build.VERSION.SDK_INT >= 26 && mWatchFaceState.isHardwareAccelerationEnabled()) {
+                // Hardware power!
+                config = Bitmap.Config.HARDWARE;
             }
+            mAmbientHardwareCacheBitmap = mAmbientCacheBitmap.copy(config, false);
+            mActiveHardwareCacheBitmap = mActiveCacheBitmap.copy(config, false);
         }
 
         // Then copy our cache to the results!
