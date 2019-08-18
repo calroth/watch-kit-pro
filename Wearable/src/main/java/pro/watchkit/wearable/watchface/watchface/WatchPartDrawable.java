@@ -419,4 +419,193 @@ abstract class WatchPartDrawable extends Drawable {
         mExclusionPath.reset();
         mExclusionPath.addCircle(mCenterX, mCenterY, mCenterX * 3f, getDirection());
     }
+
+    void drawRect(Path path, float left, float top, float right, float bottom, float scale) {
+        float x0 = (right - left) * 0.5f * scale;
+        float y0 = (bottom - top) * 0.5f * scale;
+
+        path.addRect(left + x0, top + y0, right - x0, bottom - y0,
+                getDirection());
+    }
+
+    /**
+     * Better implementation of drawRect. Draws a rectangle in the specified bounds (or extending
+     * past them). Notionally the area of this rectangle is k of the area of the bounds. Plus it
+     * has a property that the inset is equal on all sides.
+     * <p>
+     * Where "k" is the golden ratio 2nd term ≈ 0.38196601125...
+     * <p>
+     * For example, pass in bounds of 6x4 (24 area) and it will calculate a rectangle of 4x2 (12
+     * area) with an inset of 1 on all sides.
+     * <p>
+     * If offsetTop or offsetBottom is 1.0, then it uses the calculations as specified. If it's
+     * greater than 1.0, the top or bottom is moved outwards. If less than 1.0, inwards.
+     *
+     * @param path         Path to draw into
+     * @param left         Left boundary
+     * @param top          Top boundary
+     * @param right        Right boundary
+     * @param bottom       Bottom boundary
+     * @param offsetTop    Factor to move the top border, 1.0f is no change
+     * @param offsetBottom Factor to move the bottom border, 1.0f is no change.
+     */
+    void drawRectInset(Path path, float left, float top, float right, float bottom,
+                       float offsetTop, float offsetBottom) {
+        // Inset calculation:
+        //   k = golden ratio 2nd term
+        //     = (3 − √5) / 2
+        //     ≈ 0.38196601125...
+        //  xy = ((x - n)(y - n)) / k
+        //   n = (x + y − √( x² + y² + (4 − 2√5)xy)) / 2
+        // And then...
+        //   offset = n / 2
+        float x = (right - left);
+        float y = (bottom - top);
+        float n = (x + y - (float) Math.sqrt(x * x + y * y + (4f - 2f * Math.sqrt(5d)) * x * y)) * 0.5f;
+        float offset = n / 2f;
+
+        float newTop = bottom - (y * offsetTop);
+        float newBottom = top + (y * offsetBottom);
+
+        path.addRect(left + offset, newTop + offset,
+                right - offset, newBottom - offset, getDirection());
+    }
+
+    void drawRoundRect(Path path, float left, float top, float right, float bottom,
+                       float cornerRadius, float scale) {
+        float x0 = (right - left) * 0.5f * scale;
+        float y0 = (bottom - top) * 0.5f * scale;
+        float v = cornerRadius * (1f - scale);
+
+        path.addRoundRect(left + x0, top + y0, right - x0, bottom - y0,
+                v, v, getDirection());
+    }
+
+    /**
+     * Better implementation of drawRoundRect. Draws a round rectangle in the specified bounds (or
+     * extending past them). Notionally the area of this round rectangle is k of the area of the
+     * bounds. Plus it has a property that the inset is equal on all sides.
+     * <p>
+     * Where "k" is the golden ratio 2nd term ≈ 0.38196601125...
+     * <p>
+     * For example, pass in bounds of 6x4 (24 area) and it will calculate a rectangle of 4x2 (12
+     * area) with an inset of 1 on all sides.
+     * <p>
+     * If offsetTop or offsetBottom is 1.0, then it uses the calculations as specified. If it's
+     * greater than 1.0, the top or bottom is moved outwards. If less than 1.0, inwards.
+     *
+     * @param path         Path to draw into
+     * @param left         Left boundary
+     * @param top          Top boundary
+     * @param right        Right boundary
+     * @param bottom       Bottom boundary
+     * @param cornerRadius Corner radius of round rectangle
+     * @param offsetTop    Factor to move the top border, 1.0f is no change
+     * @param offsetBottom Factor to move the bottom border, 1.0f is no change.
+     */
+    void drawRoundRectInset(Path path, float left, float top, float right, float bottom,
+                            float cornerRadius, float offsetTop, float offsetBottom) {
+        // Inset calculation:
+        //   k = golden ratio 2nd term
+        //     = (3 − √5) / 2
+        //     ≈ 0.38196601125...
+        //  xy = ((x - n)(y - n)) / k
+        //   n = (x + y − √( x² + y² + (4 − 2√5)xy)) / 2
+        // And then...
+        //   offset = n / 2
+        float x = (right - left);
+        float y = (bottom - top);
+        float n = (x + y - (float) Math.sqrt(x * x + y * y + (4f - 2f * Math.sqrt(5d)) * x * y)) * 0.5f;
+        float offset = n / 2f;
+
+        float newTop = bottom - (y * offsetTop);
+        float newBottom = top + (y * offsetBottom);
+
+        float v = cornerRadius - n;
+        v = v < 0 ? 0 : v; // Cap minimum at 0.
+
+        path.addRoundRect(left + offset, newTop + offset,
+                right - offset, newBottom - offset, v, v, getDirection());
+    }
+
+    void drawDiamond(@NonNull Path path, float left, float top, float right, float bottom,
+                     float scale, float midpoint) {
+        drawDiamond(path, left, top, right, bottom, scale, midpoint, true, true);
+    }
+
+    void drawDiamond(@NonNull Path path, float left, float top, float right, float bottom,
+                     float scale, float midpoint, boolean drawTopHalf,
+                     boolean drawBottomHalf) {
+        final float diamondMidpoint = (top * midpoint) + (bottom * (1 - midpoint));
+
+        // Scale factor. Ignored if scale == 0f
+        final float x0 = (right - left) * 0.5f * scale;
+        final float y1 = (diamondMidpoint - top) * scale;
+        final float y2 = (bottom - diamondMidpoint) * scale;
+
+        if (getDirection() == Path.Direction.CW) {
+            path.moveTo(left + x0, diamondMidpoint); // Left
+            if (drawTopHalf) {
+                path.lineTo(mCenterX, top + y1); // Top
+            }
+            path.lineTo(right - x0, diamondMidpoint); // Right
+            if (drawBottomHalf) {
+                path.lineTo(mCenterX, bottom - y2); // Bottom: extend past the hub
+            }
+        } else {
+            path.moveTo(right - x0, diamondMidpoint); // Right
+            if (drawTopHalf) {
+                path.lineTo(mCenterX, top + y1); // Top
+            }
+            path.lineTo(left + x0, diamondMidpoint); // Left
+            if (drawBottomHalf) {
+                path.lineTo(mCenterX, bottom - y2); // Bottom: extend past the hub
+            }
+        }
+        path.close();
+    }
+
+    void drawTriangle(@NonNull Path path, float left, float top, float right, float bottom,
+                      float scale) {
+        drawTriangle(path, left, top, right, bottom, scale, true, true);
+    }
+
+    void drawTriangle(@NonNull Path path, float left, float top, float right, float bottom,
+                      float scale, boolean drawTopHalf, boolean drawBottomHalf) {
+        // Scale factor. Ignored if scale == 0f
+        final double h = (double) (bottom - top);
+        final double w = (double) (right - left);
+        final double w1 = w - (w * Math.sqrt(1d - (double) scale));
+        final double z = Math.sin(Math.atan(h / w) / 2d) * w1;
+        final double z1 = h - (h * Math.sqrt(1d - (double) scale)) - z;
+
+        if (getDirection() == Path.Direction.CW) {
+            path.moveTo(left + (float) w1, bottom - (float) z); // Left
+            path.lineTo(mCenterX, top + (float) z1); // Top
+            path.lineTo(right - (float) w1, bottom - (float) z); // Right
+        } else {
+            path.moveTo(right - (float) w1, bottom - (float) z); // Right
+            path.lineTo(mCenterX, top + (float) z1); // Top
+            path.lineTo(left + (float) w1, bottom - (float) z); // Left
+        }
+        path.close();
+
+        // Top and bottom halves.
+        // Shamelessly re-use the "mPrimaryBezel" path for this.
+        if (drawTopHalf && !drawBottomHalf) {
+            mPrimaryBezel.reset();
+            // Make "mPrimaryBezel" a bit bigger than top half, then intersect with "path".
+            mPrimaryBezel.addRect(
+                    left - 1f * pc, top - 1 * pc,
+                    right + 1f * pc, (top + bottom) / 2f, getDirection());
+            path.op(mPrimaryBezel, Path.Op.INTERSECT);
+        } else if (drawBottomHalf && !drawTopHalf) {
+            mPrimaryBezel.reset();
+            // Make "mPrimaryBezel" a bit bigger than bottom half, then intersect with "path".
+            mPrimaryBezel.addRect(
+                    left - 1f * pc, (top + bottom) / 2f,
+                    right + 1f * pc, bottom + 1f * pc, getDirection());
+            path.op(mPrimaryBezel, Path.Op.INTERSECT);
+        }
+    }
 }

@@ -68,8 +68,6 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     private Path mHandTopCutout = new Path();
     @NonNull
     private Path mHandBottomCutout = new Path();
-    @NonNull
-    private Path mTempTriangleMask = new Path();
 
     WatchPartHandsDrawable() {
         super();
@@ -357,29 +355,45 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 break;
             }
             case DIAMOND: {
+                // Add extra extension to the diamond top and bottom
+                // because the diamond shape tapers to a point
+                final float diamondTop = top - (HUB_RADIUS_PERCENT * pc * 0.5f);
+                final float diamondBottom = bottom + (HUB_RADIUS_PERCENT * pc * 0.5f);
+
                 // Draw a diamond.
-                drawDiamond(p, left, top, right, bottom, 0f);
+                drawDiamond(p, left, diamondTop, right, diamondBottom, 0f,
+                        HOUR_MINUTE_HAND_MIDPOINT);
 
                 // Golden ratio scale = 1 / sqrt(golden ratio)
                 final float scale = 1f - (float) (Math.sqrt(1d / 1.61803398875d / 1.61803398875d));
 
                 // Draw a cutout.
-                drawDiamond(mHandFullCutout, left, top, right, bottom, scale);
-                drawDiamond(mHandTopCutout, left, top, right, bottom, scale, true, false);
-                drawDiamond(mHandBottomCutout, left, top, right, bottom, scale, false, true);
+                drawDiamond(mHandFullCutout, left, diamondTop, right, diamondBottom, scale,
+                        HOUR_MINUTE_HAND_MIDPOINT);
+                drawDiamond(mHandTopCutout, left, diamondTop, right, diamondBottom, scale,
+                        HOUR_MINUTE_HAND_MIDPOINT, true, false);
+                drawDiamond(mHandBottomCutout, left, diamondTop, right, diamondBottom, scale,
+                        HOUR_MINUTE_HAND_MIDPOINT, false, true);
                 break;
             }
             case TRIANGLE: {
+                // Add extra extension to the triangle top and bottom
+                // because the triangle shape tapers to a point
+                final float triangleTop = top - (HUB_RADIUS_PERCENT * pc * 0.5f);
+                final float triangleBottom = bottom + (HUB_RADIUS_PERCENT * pc * 0.5f);
+
                 // Draw a triangle.
-                drawTriangle(p, left, top, right, bottom, 0f);
+                drawTriangle(p, left, triangleTop, right, triangleBottom, 0f);
 
                 // Golden ratio scale = 1 / sqrt(golden ratio)
                 final float scale = 1f - (float) (Math.sqrt(1d / 1.61803398875d / 1.61803398875d));
 
                 // Draw a cutout.
-                drawTriangle(mHandFullCutout, left, top, right, bottom, scale);
-                drawTriangle(mHandTopCutout, left, top, right, bottom, scale, true, false);
-                drawTriangle(mHandBottomCutout, left, top, right, bottom, scale, false, true);
+                drawTriangle(mHandFullCutout, left, triangleTop, right, triangleBottom, scale);
+                drawTriangle(mHandTopCutout, left, triangleTop, right, triangleBottom, scale,
+                        true, false);
+                drawTriangle(mHandBottomCutout, left, triangleTop, right, triangleBottom, scale,
+                        false, true);
                 break;
             }
         }
@@ -426,206 +440,5 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 }
             }
         }
-    }
-
-    /**
-     * Better implementation of drawRect. Draws a rectangle in the specified bounds (or extending
-     * past them). Notionally the area of this rectangle is k of the area of the bounds. Plus it
-     * has a property that the inset is equal on all sides.
-     * <p>
-     * Where "k" is the golden ratio 2nd term ≈ 0.38196601125...
-     * <p>
-     * For example, pass in bounds of 6x4 (24 area) and it will calculate a rectangle of 4x2 (12
-     * area) with an inset of 1 on all sides.
-     * <p>
-     * If offsetTop or offsetBottom is 1.0, then it uses the calculations as specified. If it's
-     * greater than 1.0, the top or bottom is moved outwards. If less than 1.0, inwards.
-     * @param path Path to draw into
-     * @param left Left boundary
-     * @param top Top boundary
-     * @param right Right boundary
-     * @param bottom Bottom boundary
-     * @param offsetTop Factor to move the top border, 1.0f is no change
-     * @param offsetBottom Factor to move the bottom border, 1.0f is no change.
-     */
-    private void drawRectInset(
-            Path path, float left, float top, float right, float bottom,
-            float offsetTop, float offsetBottom) {
-        // Inset calculation:
-        //   k = golden ratio 2nd term
-        //     = (3 − √5) / 2
-        //     ≈ 0.38196601125...
-        //  xy = ((x - n)(y - n)) / k
-        //   n = (x + y − √( x² + y² + (4 − 2√5)xy)) / 2
-        // And then...
-        //   offset = n / 2
-        float x = (right - left);
-        float y = (bottom - top);
-        float n = (x + y - (float) Math.sqrt(x * x + y * y + (4f - 2f * Math.sqrt(5d)) * x * y)) * 0.5f;
-        float offset = n / 2f;
-
-        float newTop = bottom - (y * offsetTop);
-        float newBottom = top + (y * offsetBottom);
-
-        path.addRect(left + offset, newTop + offset,
-                right - offset, newBottom - offset, getDirection());
-    }
-
-    /**
-     * Better implementation of drawRoundRect. Draws a round rectangle in the specified bounds (or
-     * extending past them). Notionally the area of this round rectangle is k of the area of the
-     * bounds. Plus it has a property that the inset is equal on all sides.
-     * <p>
-     * Where "k" is the golden ratio 2nd term ≈ 0.38196601125...
-     * <p>
-     * For example, pass in bounds of 6x4 (24 area) and it will calculate a rectangle of 4x2 (12
-     * area) with an inset of 1 on all sides.
-     * <p>
-     * If offsetTop or offsetBottom is 1.0, then it uses the calculations as specified. If it's
-     * greater than 1.0, the top or bottom is moved outwards. If less than 1.0, inwards.
-     *
-     * @param path         Path to draw into
-     * @param left         Left boundary
-     * @param top          Top boundary
-     * @param right        Right boundary
-     * @param bottom       Bottom boundary
-     * @param cornerRadius Corner radius of round rectangle
-     * @param offsetTop    Factor to move the top border, 1.0f is no change
-     * @param offsetBottom Factor to move the bottom border, 1.0f is no change.
-     */
-    private void drawRoundRectInset(
-            Path path, float left, float top, float right, float bottom, float cornerRadius,
-            float offsetTop, float offsetBottom) {
-        // Inset calculation:
-        //   k = golden ratio 2nd term
-        //     = (3 − √5) / 2
-        //     ≈ 0.38196601125...
-        //  xy = ((x - n)(y - n)) / k
-        //   n = (x + y − √( x² + y² + (4 − 2√5)xy)) / 2
-        // And then...
-        //   offset = n / 2
-        float x = (right - left);
-        float y = (bottom - top);
-        float n = (x + y - (float) Math.sqrt(x * x + y * y + (4f - 2f * Math.sqrt(5d)) * x * y)) * 0.5f;
-        float offset = n / 2f;
-
-        float newTop = bottom - (y * offsetTop);
-        float newBottom = top + (y * offsetBottom);
-
-        float v = cornerRadius - n;
-        v = v < 0 ? 0 : v; // Cap minimum at 0.
-
-        path.addRoundRect(left + offset, newTop + offset,
-                right - offset, newBottom - offset, v, v, getDirection());
-    }
-
-    private void drawRect(
-            Path path, float left, float top, float right, float bottom, float scale) {
-        float x0 = (right - left) * 0.5f * scale;
-        float y0 = (bottom - top) * 0.5f * scale;
-
-        path.addRect(left + x0, top + y0, right - x0, bottom - y0,
-                getDirection());
-    }
-
-    private void drawRoundRect(
-            Path path, float left, float top, float right, float bottom, float cornerRadius,
-            float scale) {
-        float x0 = (right - left) * 0.5f * scale;
-        float y0 = (bottom - top) * 0.5f * scale;
-        float v = cornerRadius * (1f - scale);
-
-        path.addRoundRect(left + x0, top + y0, right - x0, bottom - y0,
-                v, v, getDirection());
-    }
-
-    private void drawDiamond(
-            @NonNull Path path, float left, float top, float right, float bottom, float scale,
-            boolean drawTopHalf, boolean drawBottomHalf) {
-        // Add extra extension to the diamond top and bottom
-        // because the diamond shape tapers to a point
-        final float diamondTop = top - (HUB_RADIUS_PERCENT * pc * 0.5f);
-        final float diamondBottom = bottom + (HUB_RADIUS_PERCENT * pc * 0.5f);
-        final float diamondMidpoint = (diamondTop * HOUR_MINUTE_HAND_MIDPOINT) +
-                (diamondBottom * (1 - HOUR_MINUTE_HAND_MIDPOINT));
-
-        // Scale factor. Ignored if scale == 0f
-        final float x0 = (right - left) * 0.5f * scale;
-        final float y1 = (diamondMidpoint - diamondTop) * scale;
-        final float y2 = (diamondBottom - diamondMidpoint) * scale;
-
-        if (getDirection() == Path.Direction.CW) {
-            path.moveTo(left + x0, diamondMidpoint); // Left
-            if (drawTopHalf) {
-                path.lineTo(mCenterX, diamondTop + y1); // Top
-            }
-            path.lineTo(right - x0, diamondMidpoint); // Right
-            if (drawBottomHalf) {
-                path.lineTo(mCenterX, diamondBottom - y2); // Bottom: extend past the hub
-            }
-        } else {
-            path.moveTo(right - x0, diamondMidpoint); // Right
-            if (drawTopHalf) {
-                path.lineTo(mCenterX, diamondTop + y1); // Top
-            }
-            path.lineTo(left + x0, diamondMidpoint); // Left
-            if (drawBottomHalf) {
-                path.lineTo(mCenterX, diamondBottom - y2); // Bottom: extend past the hub
-            }
-        }
-        path.close();
-    }
-
-    private void drawDiamond(
-            @NonNull Path path, float left, float top, float right, float bottom, float scale) {
-        drawDiamond(path, left, top, right, bottom, scale, true, true);
-    }
-
-    private void drawTriangle(
-            @NonNull Path path, float left, float top, float right, float bottom, float scale,
-            boolean drawTopHalf, boolean drawBottomHalf) {
-        // TODO: currently this code is a copy-and-paste of diamond. Needs tweaking to look good.
-        // Add extra extension to the triangle top and bottom
-        // because the triangle shape tapers to a point
-        final float triangleTop = top - (HUB_RADIUS_PERCENT * pc * 0.5f);
-        final float triangleBottom = bottom + (HUB_RADIUS_PERCENT * pc * 0.5f);
-
-        // Scale factor. Ignored if scale == 0f
-        final double h = (double) (triangleBottom - triangleTop);
-        final double w = (double) (right - left);
-        final double w1 = w - (w * Math.sqrt(1d - (double) scale));
-        final double z = Math.sin(Math.atan(h / w) / 2d) * w1;
-        final double z1 = h - (h * Math.sqrt(1d - (double) scale)) - z;
-        
-        if (getDirection() == Path.Direction.CW) {
-            path.moveTo(left + (float) w1, triangleBottom - (float) z); // Left
-            path.lineTo(mCenterX, triangleTop + (float) z1); // Top
-            path.lineTo(right - (float) w1, triangleBottom - (float) z); // Right
-        } else {
-            path.moveTo(right - (float) w1, triangleBottom - (float) z); // Right
-            path.lineTo(mCenterX, triangleTop + (float) z1); // Top
-            path.lineTo(left + (float) w1, triangleBottom - (float) z); // Left
-        }
-        path.close();
-        if (drawTopHalf && !drawBottomHalf) {
-            mTempTriangleMask.reset();
-            // Make "mTempTriangleMask" a bit bigger than top half, then intersect with "path".
-            mTempTriangleMask.addRect(
-                    left - 1f * pc, triangleTop - 1 * pc,
-                    right + 1f * pc, (triangleTop + triangleBottom) / 2f, getDirection());
-            path.op(mTempTriangleMask, Path.Op.INTERSECT);
-        } else if (drawBottomHalf && !drawTopHalf) {
-            mTempTriangleMask.reset();
-            // Make "mTempTriangleMask" a bit bigger than bottom half, then intersect with "path".
-            mTempTriangleMask.addRect(
-                    left - 1f * pc, (triangleTop + triangleBottom) / 2f,
-                    right + 1f * pc, triangleBottom + 1f * pc, getDirection());
-            path.op(mTempTriangleMask, Path.Op.INTERSECT);
-        }
-    }
-
-    private void drawTriangle(
-            @NonNull Path path, float left, float top, float right, float bottom, float scale) {
-        drawTriangle(path, left, top, right, bottom, scale, true, true);
     }
 }
