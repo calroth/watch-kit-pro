@@ -206,22 +206,26 @@ abstract class WatchPartDrawable extends Drawable {
     private Paint mInnerGlowPaint;
 
     void drawInnerGlowPath(@NonNull Canvas canvas, Paint paint) {
-        if (mInnerGlowPaint == null) {
-            mInnerGlowPaint = new Paint();
-            mInnerGlowPaint.setStyle(Paint.Style.FILL);
-            mInnerGlowPaint.setColor(Color.RED);
-            mInnerGlowPaint.setShadowLayer(
-                    5f * pc, 0f, 0f, Color.argb(250, 0, 0, 255));
+        if (mWatchFaceState.isInnerGlow()) {
+            if (mInnerGlowPaint == null) {
+                mInnerGlowPaint = new Paint();
+                mInnerGlowPaint.setStyle(Paint.Style.FILL);
+                mInnerGlowPaint.setColor(Color.RED);
+                mInnerGlowPaint.setShadowLayer(
+                        5f * pc, 0f, 0f, Color.argb(250, 0, 0, 255));
+            }
+            canvas.drawPath(mInnerGlowPath, mInnerGlowPaint);
         }
-        canvas.drawPath(mInnerGlowPath, mInnerGlowPaint);
     }
 
     void drawPath(@NonNull Canvas canvas, @NonNull Path p, @NonNull Paint paint) {
         // Apply the exclusion path.
         p.op(mExclusionPath, Path.Op.INTERSECT);
 
-        // Apply the inner glow path.
-        mInnerGlowPath.op(p, Path.Op.DIFFERENCE);
+        if (mWatchFaceState.isInnerGlow()) {
+            // Apply the inner glow path.
+            mInnerGlowPath.op(p, Path.Op.DIFFERENCE);
+        }
 
 //        int seconds = (int)(mWatchFaceState.getSecondsDecimal());
 //        seconds = seconds % 2;

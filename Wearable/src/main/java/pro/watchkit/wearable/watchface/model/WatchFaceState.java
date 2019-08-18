@@ -887,6 +887,14 @@ public class WatchFaceState {
         return mSettings.mHardwareAccelerationEnabled;
     }
 
+    void setInnerGlow(boolean innerGlow) {
+        mSettings.mInnerGlow = innerGlow;
+    }
+
+    public boolean isInnerGlow() {
+        return mSettings.mInnerGlow;
+    }
+
     void setDeveloperMode(boolean developerMode) {
         mSettings.mDeveloperMode = developerMode;
     }
