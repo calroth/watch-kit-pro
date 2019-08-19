@@ -44,6 +44,17 @@ abstract class WatchPartDrawable extends Drawable {
     float pc = 0f; // percent, set to 0.01f * height, all units are based on percent
     float mCenterX, mCenterY;
 
+    /**
+     * Cutout scale. Scaled to the golden ratio. The outer cutout is half a ratio larger than 1.
+     */
+    final static float CUTOUT_SCALE_OUTER =
+            1f - (float) Math.pow((1d + Math.sqrt(5d)) / 2d, 0.5d);
+    /**
+     * Cutout scale. Scaled to the golden ratio. The inner cutout is half a ratio smaller than 1.
+     */
+    final static float CUTOUT_SCALE_INNER =
+            1f - (float) Math.pow((1d + Math.sqrt(5d)) / 2d, -0.5d);
+
     private Path mExclusionPath;
     /**
      * Our current direction. Static, so shared amongst all our accessors.
@@ -536,7 +547,7 @@ abstract class WatchPartDrawable extends Drawable {
     void drawDiamond(@NonNull Path path, float left, float top, float right, float bottom,
                      float scale, float midpoint, boolean drawTopHalf,
                      boolean drawBottomHalf) {
-        final float diamondMidpoint = (top * midpoint) + (bottom * (1 - midpoint));
+        final float diamondMidpoint = (top * midpoint) + (bottom * (1f - midpoint));
 
         // Scale factor. Ignored if scale == 0f
         final float x0 = (right - left) * 0.5f * scale;

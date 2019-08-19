@@ -65,6 +65,8 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
     @NonNull
     private final Path temp = new Path();
     @NonNull
+    private final Path cutout = new Path();
+    @NonNull
     private final Matrix mTempMatrix = new Matrix();
 
     @Override
@@ -111,6 +113,7 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
             float y = mCenterY - centerTickRadius;
 
             temp.reset();
+            cutout.reset();
 
             // Draw the object at 12 o'clock, then rotate it to desired location.
             switch (tickShape) {
@@ -177,47 +180,41 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
                     break;
                 }
                 case TRIANGLE:
-                case TRIANGLE_THIN:
+                case TRIANGLE_THIN: {
+                    final float left = x - tickWidth;
+                    final float right = x + tickWidth;
+                    final float top = y - tickSizeDimen;
+                    final float bottom = y + tickSizeDimen;
+                    drawTriangle(temp, left, top, right, bottom, 0f);
+                    break;
+                }
                 case TRIANGLE_CUTOUT: {
-                    // Move to top left.
-                    temp.moveTo(x - tickWidth, y - tickSizeDimen);
-                    if (getDirection() == Path.Direction.CW) {
-                        // Line to top right.
-                        temp.lineTo(x + tickWidth, y - tickSizeDimen);
-                        // Line to bottom centre.
-                        temp.lineTo(x, y + tickSizeDimen);
-                    } else {
-                        // Line to bottom centre.
-                        temp.lineTo(x, y + tickSizeDimen);
-                        // Line to top right.
-                        temp.lineTo(x + tickWidth, y - tickSizeDimen);
-                    }
-                    // And line back to origin.
-                    temp.close();
+                    final float left = x - tickWidth;
+                    final float right = x + tickWidth;
+                    final float top = y - tickSizeDimen;
+                    final float bottom = y + tickSizeDimen;
+                    drawTriangle(temp, left, top, right, bottom, CUTOUT_SCALE_OUTER);
+                    drawTriangle(cutout, left, top, right, bottom, CUTOUT_SCALE_INNER);
+                    temp.op(cutout, Path.Op.DIFFERENCE);
                     break;
                 }
                 case DIAMOND:
-                case DIAMOND_THIN:
+                case DIAMOND_THIN: {
+                    final float left = x - tickWidth;
+                    final float right = x + tickWidth;
+                    final float top = y - tickSizeDimen;
+                    final float bottom = y + tickSizeDimen;
+                    drawDiamond(temp, left, top, right, bottom, 0f, 0.5f);
+                    break;
+                }
                 case DIAMOND_CUTOUT: {
-                    // Move to top centre.
-                    temp.moveTo(x, y - tickSizeDimen);
-                    if (getDirection() == Path.Direction.CW) {
-                        // Line to centre right.
-                        temp.lineTo(x + tickWidth, y);
-                        // Line to bottom centre.
-                        temp.lineTo(x, y + tickSizeDimen);
-                        // Line to centre left.
-                        temp.lineTo(x - tickWidth, y);
-                    } else {
-                        // Line to centre left.
-                        temp.lineTo(x - tickWidth, y);
-                        // Line to bottom centre.
-                        temp.lineTo(x, y + tickSizeDimen);
-                        // Line to centre right.
-                        temp.lineTo(x + tickWidth, y);
-                    }
-                    // And line back to origin.
-                    temp.close();
+                    final float left = x - tickWidth;
+                    final float right = x + tickWidth;
+                    final float top = y - tickSizeDimen;
+                    final float bottom = y + tickSizeDimen;
+                    drawDiamond(temp, left, top, right, bottom, CUTOUT_SCALE_OUTER, 0.5f);
+                    drawDiamond(cutout, left, top, right, bottom, CUTOUT_SCALE_INNER, 0.5f);
+                    temp.op(cutout, Path.Op.DIFFERENCE);
                     break;
                 }
                 default: {
