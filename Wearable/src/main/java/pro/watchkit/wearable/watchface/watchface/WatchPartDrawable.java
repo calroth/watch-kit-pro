@@ -45,15 +45,15 @@ abstract class WatchPartDrawable extends Drawable {
     float mCenterX, mCenterY;
 
     /**
-     * Cutout scale. Scaled to the golden ratio. The outer cutout is half a ratio larger than 1.
+     * Cutout scale. Scaled to the golden ratio. The outer cutout is a ratio larger than 1.
      */
     final static float CUTOUT_SCALE_OUTER =
-            1f - (float) Math.pow((1d + Math.sqrt(5d)) / 2d, 0.5d);
+            1f - (float) Math.pow((1d + Math.sqrt(5d)) / 2d, 1d);
     /**
-     * Cutout scale. Scaled to the golden ratio. The inner cutout is half a ratio smaller than 1.
+     * Cutout scale. Scaled to the golden ratio. The inner cutout is a ratio smaller than 1.
      */
     final static float CUTOUT_SCALE_INNER =
-            1f - (float) Math.pow((1d + Math.sqrt(5d)) / 2d, -0.5d);
+            1f - (float) Math.pow((1d + Math.sqrt(5d)) / 2d, -1d);
 
     private Path mExclusionPath;
     /**
