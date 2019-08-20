@@ -583,21 +583,35 @@ abstract class WatchPartDrawable extends Drawable {
 
     void drawTriangle(@NonNull Path path, float left, float top, float right, float bottom,
                       float scale, boolean drawTopHalf, boolean drawBottomHalf) {
+        // If bottom is above top, invert the triangle!
+        final boolean invert = bottom < top;
         // Scale factor. Ignored if scale == 0f
-        final double h = (double) (bottom - top);
+        final double h = invert ? top - bottom : bottom - top;
         final double w = (double) (right - left);
         final double w1 = w - (w * Math.sqrt(1d - (double) scale));
         final double z = Math.sin(Math.atan(h / w) / 2d) * w1;
         final double z1 = h - (h * Math.sqrt(1d - (double) scale)) - z;
 
-        if (getDirection() == Path.Direction.CW) {
-            path.moveTo(left + (float) w1, bottom - (float) z); // Left
-            path.lineTo(mCenterX, top + (float) z1); // Top
-            path.lineTo(right - (float) w1, bottom - (float) z); // Right
+        if (invert) {
+            if (getDirection() == Path.Direction.CW) {
+                path.moveTo(left + (float) w1, bottom + (float) z); // Left
+                path.lineTo(mCenterX, top - (float) z1); // Top
+                path.lineTo(right - (float) w1, bottom + (float) z); // Right
+            } else {
+                path.moveTo(right - (float) w1, bottom + (float) z); // Right
+                path.lineTo(mCenterX, top - (float) z1); // Top
+                path.lineTo(left + (float) w1, bottom + (float) z); // Left
+            }
         } else {
-            path.moveTo(right - (float) w1, bottom - (float) z); // Right
-            path.lineTo(mCenterX, top + (float) z1); // Top
-            path.lineTo(left + (float) w1, bottom - (float) z); // Left
+            if (getDirection() == Path.Direction.CW) {
+                path.moveTo(left + (float) w1, bottom - (float) z); // Left
+                path.lineTo(mCenterX, top + (float) z1); // Top
+                path.lineTo(right - (float) w1, bottom - (float) z); // Right
+            } else {
+                path.moveTo(right - (float) w1, bottom - (float) z); // Right
+                path.lineTo(mCenterX, top + (float) z1); // Top
+                path.lineTo(left + (float) w1, bottom - (float) z); // Left
+            }
         }
         path.close();
 

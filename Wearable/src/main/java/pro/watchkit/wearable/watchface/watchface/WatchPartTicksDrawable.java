@@ -185,7 +185,8 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
                     final float right = x + tickWidth;
                     final float top = y - tickSizeDimen;
                     final float bottom = y + tickSizeDimen;
-                    drawTriangle(temp, left, top, right, bottom, 0f);
+                    // Invert bottom and top to draw upside down!
+                    drawTriangle(temp, left, bottom, right, top, 0f);
                     break;
                 }
                 case TRIANGLE_CUTOUT: {
@@ -193,8 +194,9 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
                     final float right = x + tickWidth;
                     final float top = y - tickSizeDimen;
                     final float bottom = y + tickSizeDimen;
-                    drawTriangle(temp, left, top, right, bottom, CUTOUT_SCALE_OUTER);
-                    drawTriangle(cutout, left, top, right, bottom, CUTOUT_SCALE_INNER);
+                    // Invert bottom and top to draw upside down!
+                    drawTriangle(temp, left, bottom, right, top, CUTOUT_SCALE_OUTER);
+                    drawTriangle(cutout, left, bottom, right, top, CUTOUT_SCALE_INNER);
                     temp.op(cutout, Path.Op.DIFFERENCE);
                     break;
                 }
