@@ -47,13 +47,11 @@ abstract class WatchPartDrawable extends Drawable {
     /**
      * Cutout scale. Scaled to the golden ratio. The outer cutout is a ratio larger than 1.
      */
-    final static float CUTOUT_SCALE_OUTER =
-            1f - (float) Math.pow((1d + Math.sqrt(5d)) / 2d, 1d);
+    final static float CUTOUT_SCALE_OUTER = (float) Math.pow((1d + Math.sqrt(5d)) / 2d, 1d);
     /**
      * Cutout scale. Scaled to the golden ratio. The inner cutout is a ratio smaller than 1.
      */
-    final static float CUTOUT_SCALE_INNER =
-            1f - (float) Math.pow((1d + Math.sqrt(5d)) / 2d, -1d);
+    final static float CUTOUT_SCALE_INNER = (float) Math.pow((1d + Math.sqrt(5d)) / 2d, -1d);
 
     private Path mExclusionPath;
     /**
@@ -539,20 +537,69 @@ abstract class WatchPartDrawable extends Drawable {
                 right - offset, newBottom - offset, v, v, getDirection());
     }
 
+    /**
+     * Draw a diamond into "path". The diamond's dimensions are set by the given bounds "left",
+     * "top", "right" and "bottom".
+     * <p>
+     * At scale 1.0f this method draws a diamond exactly up to these bounds.
+     * <p>
+     * At scales less than 1.0f this method draws a shape inset into a "1.0f shape" in such a way
+     * that each edge is a constant distance from the "1.0f shape", and at the same time, such that
+     * the shape's area is "scale" the size of the "1.0f shape".
+     * <p>
+     * At scales greater than 1.0f, it works the same way, except the shape drawn will be
+     * correspondingly larger (and outside of the bounds).
+     * <p>
+     * The vertical midpoint of the diamond is given by "midpoint". It ranges between 0.0f (the
+     * top) and 1.0f (the bottom). Pass 0.5f for the vertical centre.
+     *
+     * @param path     The path to draw into
+     * @param left     Left bound
+     * @param top      Top bound
+     * @param right    Right bound
+     * @param bottom   Bottom bound
+     * @param scale    Scale of the shape
+     * @param midpoint The vertical midpoint of the diamond
+     */
     void drawDiamond(@NonNull Path path, float left, float top, float right, float bottom,
                      float scale, float midpoint) {
         drawDiamond(path, left, top, right, bottom, scale, midpoint, true, true);
     }
 
+    /**
+     * Draw a diamond into "path". The diamond's dimensions are set by the given bounds "left",
+     * "top", "right" and "bottom".
+     *
+     * At scale 1.0f this method draws a diamond exactly up to these bounds.
+     *
+     * At scales less than 1.0f this method draws a shape inset into a "1.0f shape" in such a way
+     * that each edge is a constant distance from the "1.0f shape", and at the same time, such that
+     * the shape's area is "scale" the size of the "1.0f shape".
+     *
+     * At scales greater than 1.0f, it works the same way, except the shape drawn will be
+     * correspondingly larger (and outside of the bounds).
+     *
+     * The vertical midpoint of the diamond is given by "midpoint". It ranges between 0.0f (the
+     * top) and 1.0f (the bottom). Pass 0.5f for the vertical centre.
+     * @param path The path to draw into
+     * @param left Left bound
+     * @param top Top bound
+     * @param right Right bound
+     * @param bottom Bottom bound
+     * @param scale Scale of the shape
+     * @param midpoint The vertical midpoint of the diamond
+     * @param drawTopHalf Draw the top half of the shape, false for certain styles of cutout
+     * @param drawBottomHalf Draw the bottom half of the shape, false for certain styles of cutout
+     */
     void drawDiamond(@NonNull Path path, float left, float top, float right, float bottom,
                      float scale, float midpoint, boolean drawTopHalf,
                      boolean drawBottomHalf) {
         final float diamondMidpoint = (top * midpoint) + (bottom * (1f - midpoint));
 
-        // Scale factor. Ignored if scale == 0f
-        final float x0 = (right - left) * 0.5f * scale;
-        final float y1 = (diamondMidpoint - top) * scale;
-        final float y2 = (bottom - diamondMidpoint) * scale;
+        // Scale factor. Ignored if scale == 1.0f
+        final float x0 = (right - left) * 0.5f * (1f - scale);
+        final float y1 = (diamondMidpoint - top) * (1f - scale);
+        final float y2 = (bottom - diamondMidpoint) * (1f - scale);
 
         if (getDirection() == Path.Direction.CW) {
             path.moveTo(left + x0, diamondMidpoint); // Left
@@ -576,11 +623,57 @@ abstract class WatchPartDrawable extends Drawable {
         path.close();
     }
 
+    /**
+     * Draw a triangle into "path". The triangle's dimensions are set by the given bounds "left",
+     * "top", "right" and "bottom".
+     *
+     * At scale 1.0f this method draws a triangle exactly up to these bounds.
+     *
+     * At scales less than 1.0f this method draws a shape inset into a "1.0f shape" in such a way
+     * that each edge is a constant distance from the "1.0f shape", and at the same time, such that
+     * the shape's area is "scale" the size of the "1.0f shape".
+     *
+     * At scales greater than 1.0f, it works the same way, except the shape drawn will be
+     * correspondingly larger (and outside of the bounds).
+     *
+     * If "top" is above "bottom" (the usual way) then the triangle is drawn pointing up. If "top"
+     * is below "bottom" then the triangle is drawn pointing down.
+     * @param path The path to draw into
+     * @param left Left bound
+     * @param top Top bound
+     * @param right Right bound
+     * @param bottom Bottom bound
+     * @param scale Scale of the shape
+     */
     void drawTriangle(@NonNull Path path, float left, float top, float right, float bottom,
                       float scale) {
         drawTriangle(path, left, top, right, bottom, scale, true, true);
     }
 
+    /**
+     * Draw a triangle into "path". The triangle's dimensions are set by the given bounds "left",
+     * "top", "right" and "bottom".
+     *
+     * At scale 1.0f this method draws a triangle exactly up to these bounds.
+     *
+     * At scales less than 1.0f this method draws a shape inset into a "1.0f shape" in such a way
+     * that each edge is a constant distance from the "1.0f shape", and at the same time, such that
+     * the shape's area is "scale" the size of the "1.0f shape".
+     *
+     * At scales greater than 1.0f, it works the same way, except the shape drawn will be
+     * correspondingly larger (and outside of the bounds).
+     *
+     * If "top" is above "bottom" (the usual way) then the triangle is drawn pointing up. If "top"
+     * is below "bottom" then the triangle is drawn pointing down.
+     * @param path The path to draw into
+     * @param left Left bound
+     * @param top Top bound
+     * @param right Right bound
+     * @param bottom Bottom bound
+     * @param scale Scale of the shape
+     * @param drawTopHalf Draw the top half of the shape, false for certain styles of cutout
+     * @param drawBottomHalf Draw the bottom half of the shape, false for certain styles of cutout
+     */
     void drawTriangle(@NonNull Path path, float left, float top, float right, float bottom,
                       float scale, boolean drawTopHalf, boolean drawBottomHalf) {
         // If bottom is above top, invert the triangle!
@@ -588,9 +681,9 @@ abstract class WatchPartDrawable extends Drawable {
         // Scale factor. Ignored if scale == 0f
         final double h = invert ? top - bottom : bottom - top;
         final double w = (double) (right - left);
-        final double w1 = w - (w * Math.sqrt(1d - (double) scale));
+        final double w1 = w - (w * Math.sqrt((double) scale));
         final double z = Math.sin(Math.atan(h / w) / 2d) * w1;
-        final double z1 = h - (h * Math.sqrt(1d - (double) scale)) - z;
+        final double z1 = h - (h * Math.sqrt((double) scale)) - z;
 
         if (invert) {
             if (getDirection() == Path.Direction.CW) {

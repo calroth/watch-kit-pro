@@ -361,11 +361,11 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 final float diamondBottom = bottom + (HUB_RADIUS_PERCENT * pc * 0.5f);
 
                 // Draw a diamond.
-                drawDiamond(p, left, diamondTop, right, diamondBottom, 0f,
+                drawDiamond(p, left, diamondTop, right, diamondBottom, 1f,
                         HOUR_MINUTE_HAND_MIDPOINT);
 
                 // Golden ratio scale = 1 / sqrt(golden ratio)
-                final float scale = 1f - (float) (Math.sqrt(1d / 1.61803398875d / 1.61803398875d));
+                final float scale = (float) (Math.sqrt(1d / 1.61803398875d / 1.61803398875d));
 
                 // Draw a cutout.
                 drawDiamond(mHandFullCutout, left, diamondTop, right, diamondBottom, scale,
@@ -383,10 +383,10 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 final float triangleBottom = bottom + (HUB_RADIUS_PERCENT * pc * 0.5f);
 
                 // Draw a triangle.
-                drawTriangle(p, left, triangleTop, right, triangleBottom, 0f);
+                drawTriangle(p, left, triangleTop, right, triangleBottom, 1f);
 
                 // Golden ratio scale = 1 / sqrt(golden ratio)
-                final float scale = 1f - (float) (Math.sqrt(1d / 1.61803398875d / 1.61803398875d));
+                final float scale = (float) (Math.sqrt(1d / 1.61803398875d / 1.61803398875d));
 
                 // Draw a cutout.
                 drawTriangle(mHandFullCutout, left, triangleTop, right, triangleBottom, scale);
