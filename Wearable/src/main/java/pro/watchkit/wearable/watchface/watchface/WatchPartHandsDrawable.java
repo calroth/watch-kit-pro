@@ -290,7 +290,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 // Draw a stalk.
                 drawRoundRect(mStalk,
                         mCenterX - stalkThickness, stalkTop,
-                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 0f);
+                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 1.0f);
 
                 // Draw a cutout.
                 drawRoundRectInset(mStalkCutout,
@@ -310,7 +310,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 // Draw a stalk.
                 drawRoundRect(mStalk,
                         mCenterX - stalkThickness, stalkTop,
-                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 0f);
+                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 1.0f);
 
                 // Draw a cutout.
                 drawRoundRectInset(mStalkCutout,
@@ -332,7 +332,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         switch (handShape) {
             case STRAIGHT: {
                 // Draw a rectangle.
-                drawRect(p, left, top, right, bottom, 0f);
+                drawRect(p, left, top, right, bottom, 1.0f);
 
                 // Draw a cutout.
                 drawRectInset(mHandFullCutout, left, top, right, bottom, 1.0f, 1.0f);
@@ -343,7 +343,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
             case ROUNDED: {
                 // Draw a round rect with double corner radius.
                 drawRoundRect(p, left, top, right, bottom,
-                        roundRectRadius * 2f, 0f);
+                        roundRectRadius * 2f, 1.0f);
 
                 // Draw a cutout.
                 drawRoundRectInset(mHandFullCutout, left, top, right, bottom,

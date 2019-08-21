@@ -168,15 +168,22 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
                     break;
                 }
                 case DOT:
-                case DOT_THIN:
+                case DOT_THIN: {
+                    final float left = x - tickWidth;
+                    final float right = x + tickWidth;
+                    final float top = y - tickSizeDimen;
+                    final float bottom = y + tickSizeDimen;
+                    drawEllipse(temp, left, top, right, bottom, 1f);
+                    break;
+                }
                 case DOT_CUTOUT: {
-                    // Draw an oval.
-                    temp.addOval(
-                            x - tickWidth,
-                            y - tickSizeDimen,
-                            x + tickWidth,
-                            y + tickSizeDimen,
-                            getDirection());
+                    final float left = x - tickWidth;
+                    final float right = x + tickWidth;
+                    final float top = y - tickSizeDimen;
+                    final float bottom = y + tickSizeDimen;
+                    drawEllipse(temp, left, top, right, bottom, CUTOUT_SCALE_OUTER);
+                    drawEllipse(cutout, left, top, right, bottom, CUTOUT_SCALE_INNER);
+                    temp.op(cutout, Path.Op.DIFFERENCE);
                     break;
                 }
                 case TRIANGLE:

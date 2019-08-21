@@ -429,12 +429,41 @@ abstract class WatchPartDrawable extends Drawable {
         mExclusionPath.addCircle(mCenterX, mCenterY, mCenterX * 3f, getDirection());
     }
 
-    void drawRect(Path path, float left, float top, float right, float bottom, float scale) {
-        float x0 = (right - left) * 0.5f * scale;
-        float y0 = (bottom - top) * 0.5f * scale;
+    /**
+     * Draw a rectangle into "path". The rect's dimensions are set by the given bounds "left",
+     * "top", "right" and "bottom".
+     * <p>
+     * At scale 1.0f this method draws a rectangle exactly up to these bounds.
+     * <p>
+     * At scales less than 1.0f this method draws a shape inset into a "1.0f shape" in such a way
+     * that each edge is a constant distance from the "1.0f shape", and at the same time, such that
+     * the shape's area is "scale" the size of the "1.0f shape".
+     * <p>
+     * At scales greater than 1.0f, it works the same way, except the shape drawn will be
+     * correspondingly larger (and outside of the bounds).
+     *
+     * @param path   The path to draw into
+     * @param left   Left bound
+     * @param top    Top bound
+     * @param right  Right bound
+     * @param bottom Bottom bound
+     * @param scale  Scale of the shape
+     */
+    void drawRect(@NonNull Path path, float left, float top, float right, float bottom,
+                  float scale) {
+        // Inset calculation:
+        //  xy = ((x - n)(y - n)) / scale
+        //   n = (x + y − √( x² + y² + (4 * scale - 2)xy)) / 2
+        // And then...
+        //   offset = n / 2
+        final float x = right - left;
+        final float y = bottom - top;
+        final float n =
+                (x + y - (float) Math.sqrt(x * x + y * y + (4f * scale - 2f) * x * y)) * 0.5f;
+        final float offset = n / 2f;
 
-        path.addRect(left + x0, top + y0, right - x0, bottom - y0,
-                getDirection());
+        path.addRect(left + offset, top + offset,
+                right - offset, bottom - offset, getDirection());
     }
 
     /**
@@ -458,6 +487,7 @@ abstract class WatchPartDrawable extends Drawable {
      * @param offsetTop    Factor to move the top border, 1.0f is no change
      * @param offsetBottom Factor to move the bottom border, 1.0f is no change.
      */
+    @Deprecated
     void drawRectInset(Path path, float left, float top, float right, float bottom,
                        float offsetTop, float offsetBottom) {
         // Inset calculation:
@@ -480,14 +510,42 @@ abstract class WatchPartDrawable extends Drawable {
                 right - offset, newBottom - offset, getDirection());
     }
 
-    void drawRoundRect(Path path, float left, float top, float right, float bottom,
+    /**
+     * Draw a round rect into "path". The rect's dimensions are set by the given bounds "left",
+     * "top", "right" and "bottom".
+     * <p>
+     * At scale 1.0f this method draws a round rect exactly up to these bounds.
+     * <p>
+     * At scales less than 1.0f this method draws a shape inset into a "1.0f shape" in such a way
+     * that each edge is a constant distance from the "1.0f shape", and at the same time, such that
+     * the shape's area is "scale" the size of the "1.0f shape".
+     * <p>
+     * At scales greater than 1.0f, it works the same way, except the shape drawn will be
+     * correspondingly larger (and outside of the bounds).
+     *
+     * @param path   The path to draw into
+     * @param left   Left bound
+     * @param top    Top bound
+     * @param right  Right bound
+     * @param bottom Bottom bound
+     * @param scale  Scale of the shape
+     */
+    void drawRoundRect(@NonNull Path path, float left, float top, float right, float bottom,
                        float cornerRadius, float scale) {
-        float x0 = (right - left) * 0.5f * scale;
-        float y0 = (bottom - top) * 0.5f * scale;
-        float v = cornerRadius * (1f - scale);
+        // Inset calculation:
+        //  xy = ((x - n)(y - n)) / scale
+        //   n = (x + y − √( x² + y² + (4 * scale - 2)xy)) / 2
+        // And then...
+        //   offset = n / 2
+        final float x = right - left;
+        final float y = bottom - top;
+        final float n =
+                (x + y - (float) Math.sqrt(x * x + y * y + (4f * scale - 2f) * x * y)) * 0.5f;
+        final float offset = n / 2f;
+        final float v = cornerRadius * scale;
 
-        path.addRoundRect(left + x0, top + y0, right - x0, bottom - y0,
-                v, v, getDirection());
+        path.addRoundRect(left + offset, top + offset,
+                right - offset, bottom - offset, v, v, getDirection());
     }
 
     /**
@@ -512,6 +570,7 @@ abstract class WatchPartDrawable extends Drawable {
      * @param offsetTop    Factor to move the top border, 1.0f is no change
      * @param offsetBottom Factor to move the bottom border, 1.0f is no change.
      */
+    @Deprecated
     void drawRoundRectInset(Path path, float left, float top, float right, float bottom,
                             float cornerRadius, float offsetTop, float offsetBottom) {
         // Inset calculation:
@@ -535,6 +594,48 @@ abstract class WatchPartDrawable extends Drawable {
 
         path.addRoundRect(left + offset, newTop + offset,
                 right - offset, newBottom - offset, v, v, getDirection());
+    }
+
+    /**
+     * Draw an ellipse into "path". The ellipse's dimensions are set by the given bounds "left",
+     * "top", "right" and "bottom".
+     * <p>
+     * At scale 1.0f this method draws a ellipse exactly up to these bounds.
+     * <p>
+     * At scales less than 1.0f this method draws a shape inset into a "1.0f shape" in such a way
+     * that each edge is a constant distance from the "1.0f shape", and at the same time, such that
+     * the shape's area is "scale" the size of the "1.0f shape".
+     * <p>
+     * At scales greater than 1.0f, it works the same way, except the shape drawn will be
+     * correspondingly larger (and outside of the bounds).
+     * <p>
+     * Scales other than 1.0f likely only work well for circles. For non-circle ellipses this will
+     * be inaccurate because we need to draw an oval with some curve I can't be bothered deriving.
+     *
+     * @param path   The path to draw into
+     * @param left   Left bound
+     * @param top    Top bound
+     * @param right  Right bound
+     * @param bottom Bottom bound
+     * @param scale  Scale of the shape
+     */
+    void drawEllipse(@NonNull Path path, float left, float top, float right, float bottom,
+                     float scale) {
+        // Inset calculation:
+        //  xy = ((x - n)(y - n)) / scale
+        //   n = (x + y − √( x² + y² + (4 * scale - 2)xy)) / 2
+        // And then...
+        //   offset = n / 2
+        final float x = right - left;
+        final float y = bottom - top;
+        final float n =
+                (x + y - (float) Math.sqrt(x * x + y * y + (4f * scale - 2f) * x * y)) * 0.5f;
+        final float offset = n / 2f;
+
+        path.addOval(left + offset, top + offset,
+                right - offset, bottom - offset, getDirection());
+
+        path.close();
     }
 
     /**
