@@ -1901,6 +1901,88 @@ public class WatchFaceState {
 
         return result;
     }
+
+    public float getHandLength(HandLength handLength) {
+        // f0, f1, f2, f3 are a geometric series!
+        final float f0 = (float) (1d / Math.sqrt(2d));
+        final float f1 = 1f;
+        final float f2 = (float) Math.sqrt(2d);
+        final float f3 = 2f;
+
+        float result;
+
+        switch (handLength) {
+            case SHORT: {
+                result = 2f + f0;
+                break;
+            }
+            default:
+            case MEDIUM: {
+                result = 2f + f1;
+                break;
+            }
+            case LONG: {
+                result = 2f + f2;
+                break;
+            }
+            case X_LONG: {
+                result = 2f + f3;
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    public float getHandThickness(HandShape handShape, HandThickness handThickness) {
+        final float globalScale = 1.0f;
+
+        // f0, f1, f2, f3 are a geometric series!
+        final float f0 = (float) (1d / Math.sqrt(2d));
+        final float f1 = 1f;
+        final float f2 = (float) Math.sqrt(2d);
+        final float f3 = 2f;
+
+        // Diamonds are drawn slightly thicker to account for the fact they taper at the ends.
+        final float DIAMOND_HAND_ASPECT_RATIO = f2;
+
+        float result = globalScale;
+
+        switch (handShape) {
+            default:
+            case STRAIGHT:
+            case ROUNDED: {
+                result *= 1.0f;
+                break;
+            }
+            case DIAMOND:
+            case TRIANGLE: {
+                result *= DIAMOND_HAND_ASPECT_RATIO;
+            }
+        }
+
+        switch (handThickness) {
+            case THIN: {
+                result *= f0;
+                break;
+            }
+            default:
+            case REGULAR: {
+                result *= f1;
+                break;
+            }
+            case THICK: {
+                result *= f2;
+                break;
+            }
+            case X_THICK: {
+                result *= f3;
+                break;
+            }
+        }
+
+        return result;
+    }
     // endregion
 
     @NonNull
