@@ -109,6 +109,7 @@ public class WatchFaceState {
     private final GregorianCalendar mCalendar = new GregorianCalendar();
     private final LocationCalculator mLocationCalculator = new LocationCalculator(mCalendar);
     private final Context mContext;
+    private static final double GOLDEN_RATIO = (1d + Math.sqrt(5d)) / 2d;
 
     @Override
     public int hashCode() {
@@ -1711,17 +1712,16 @@ public class WatchFaceState {
         return result / pc; // Convert back from pixels to percentage
     }
 
-    public float getTickHalfLength(TickShape tickShape, TickSize tickSize) {
-        float barLengthScale = 1.5f;
-        float triangleFactor = (float) (Math.sqrt(3d) / 2d); // Height of an equilateral triangle.
-
-        double goldenRatio = (1d + Math.sqrt(5d)) / 2d;
+    public static float getTickHalfLength(TickShape tickShape, TickSize tickSize) {
+        final float barLengthScale = 1.5f;
+        // Height of an equilateral triangle.
+        final float triangleFactor = (float) (Math.sqrt(3d) / 2d);
 
         // Scaling factors for dot, triangle and diamond.
         // Relative to a square of side 1. So all greater than 1.
-        float dotScale = 2f / (float) Math.sqrt(Math.PI);
-        float triangleScale = 2f / (float) Math.sqrt(Math.sqrt(3d));
-        float diamondScale = (float) Math.sqrt(2d);
+        final float dotScale = 2f / (float) Math.sqrt(Math.PI);
+        final float triangleScale = 2f / (float) Math.sqrt(Math.sqrt(3d));
+        final float diamondScale = (float) Math.sqrt(2d);
 
         float result;
         switch (tickShape) {
@@ -1769,36 +1769,36 @@ public class WatchFaceState {
         }
         switch (tickSize) {
             case XX_SHORT: {
-                result *= (float) Math.pow(goldenRatio, -1.5d);
+                result *= (float) Math.pow(GOLDEN_RATIO, -1.5d);
                 break;
             }
             case X_SHORT: {
-                result *= (float) Math.pow(goldenRatio, -1.0d);
+                result *= (float) Math.pow(GOLDEN_RATIO, -1.0d);
                 break;
             }
             default:
             case SHORT: {
-                result *= (float) Math.pow(goldenRatio, -0.5d);
+                result *= (float) Math.pow(GOLDEN_RATIO, -0.5d);
                 break;
             }
             case MEDIUM: {
-                result *= (float) Math.pow(goldenRatio, 0.0d);
+                result *= (float) Math.pow(GOLDEN_RATIO, 0.0d);
                 break;
             }
             case LONG: {
-                result *= (float) Math.pow(goldenRatio, 0.5d);
+                result *= (float) Math.pow(GOLDEN_RATIO, 0.5d);
                 break;
             }
             case X_LONG: {
-                result *= (float) Math.pow(goldenRatio, 1.0d);
+                result *= (float) Math.pow(GOLDEN_RATIO, 1.0d);
                 break;
             }
             case XX_LONG: {
-                result *= (float) Math.pow(goldenRatio, 1.5d);
+                result *= (float) Math.pow(GOLDEN_RATIO, 1.5d);
                 break;
             }
             case XXX_LONG: {
-                result *= (float) Math.pow(goldenRatio, 2.0d);
+                result *= (float) Math.pow(GOLDEN_RATIO, 2.0d);
                 break;
             }
         }
@@ -1806,16 +1806,14 @@ public class WatchFaceState {
         return result;
     }
 
-    public float getTickThickness(TickShape tickShape, TickSize tickSize) {
-        float barThicknessScale = (float) (Math.PI / 120d);
-
-        double goldenRatio = (1d + Math.sqrt(5d)) / 2d;
+    public static float getTickThickness(TickShape tickShape, TickSize tickSize) {
+        final float barThicknessScale = (float) (Math.PI / 120d);
 
         // Scaling factors for dot, triangle and diamond.
         // Relative to a square of side 1. So all greater than 1.
-        float dotScale = 2f / (float) Math.sqrt(Math.PI);
-        float triangleScale = 2f / (float) Math.sqrt(Math.sqrt(3d));
-        float diamondScale = (float) Math.sqrt(2d);
+        final float dotScale = 2f / (float) Math.sqrt(Math.PI);
+        final float triangleScale = 2f / (float) Math.sqrt(Math.sqrt(3d));
+        final float diamondScale = (float) Math.sqrt(2d);
 
         float result;
         switch (tickShape) {
@@ -1864,36 +1862,36 @@ public class WatchFaceState {
         if (tickShape != TickShape.SECTOR) {
             switch (tickSize) {
                 case XX_SHORT: {
-                    result *= (float) Math.pow(goldenRatio, -1.5d);
+                    result *= (float) Math.pow(GOLDEN_RATIO, -1.5d);
                     break;
                 }
                 case X_SHORT: {
-                    result *= (float) Math.pow(goldenRatio, -1.0d);
+                    result *= (float) Math.pow(GOLDEN_RATIO, -1.0d);
                     break;
                 }
                 default:
                 case SHORT: {
-                    result *= (float) Math.pow(goldenRatio, -0.5d);
+                    result *= (float) Math.pow(GOLDEN_RATIO, -0.5d);
                     break;
                 }
                 case MEDIUM: {
-                    result *= (float) Math.pow(goldenRatio, 0.0d);
+                    result *= (float) Math.pow(GOLDEN_RATIO, 0.0d);
                     break;
                 }
                 case LONG: {
-                    result *= (float) Math.pow(goldenRatio, 0.5d);
+                    result *= (float) Math.pow(GOLDEN_RATIO, 0.5d);
                     break;
                 }
                 case X_LONG: {
-                    result *= (float) Math.pow(goldenRatio, 1.0d);
+                    result *= (float) Math.pow(GOLDEN_RATIO, 1.0d);
                     break;
                 }
                 case XX_LONG: {
-                    result *= (float) Math.pow(goldenRatio, 1.5d);
+                    result *= (float) Math.pow(GOLDEN_RATIO, 1.5d);
                     break;
                 }
                 case XXX_LONG: {
-                    result *= (float) Math.pow(goldenRatio, 2.0d);
+                    result *= (float) Math.pow(GOLDEN_RATIO, 2.0d);
                     break;
                 }
             }
@@ -1902,12 +1900,12 @@ public class WatchFaceState {
         return result;
     }
 
-    public float getHandLength(HandLength handLength) {
+    public static float getHandLength(HandLength handLength) {
         // f0, f1, f2, f3 are a geometric series!
-        final float f0 = (float) (1d / Math.sqrt(2d));
-        final float f1 = 1f;
-        final float f2 = (float) Math.sqrt(2d);
-        final float f3 = 2f;
+        final float f0 = (float) Math.pow(GOLDEN_RATIO, -1.0d);
+        final float f1 = (float) Math.pow(GOLDEN_RATIO, 0.0d);
+        final float f2 = (float) Math.pow(GOLDEN_RATIO, 1.0d);
+        final float f3 = (float) Math.pow(GOLDEN_RATIO, 2.0d);
 
         float result;
 
@@ -1934,17 +1932,14 @@ public class WatchFaceState {
         return result;
     }
 
-    public float getHandThickness(HandShape handShape, HandThickness handThickness) {
+    public static float getHandThickness(HandShape handShape, HandThickness handThickness) {
         final float globalScale = 1.0f;
 
         // f0, f1, f2, f3 are a geometric series!
-        final float f0 = (float) (1d / Math.sqrt(2d));
-        final float f1 = 1f;
-        final float f2 = (float) Math.sqrt(2d);
-        final float f3 = 2f;
-
-        // Diamonds are drawn slightly thicker to account for the fact they taper at the ends.
-        final float DIAMOND_HAND_ASPECT_RATIO = f2;
+        final float f0 = (float) Math.pow(GOLDEN_RATIO, -1.0d);
+        final float f1 = (float) Math.pow(GOLDEN_RATIO, 0.0d);
+        final float f2 = (float) Math.pow(GOLDEN_RATIO, 1.0d);
+        final float f3 = (float) Math.pow(GOLDEN_RATIO, 2.0d);
 
         float result = globalScale;
 
@@ -1957,7 +1952,8 @@ public class WatchFaceState {
             }
             case DIAMOND:
             case TRIANGLE: {
-                result *= DIAMOND_HAND_ASPECT_RATIO;
+                // Diamonds are drawn slightly thicker to account for the fact they taper at the ends.
+                result *= f2;
             }
         }
 
