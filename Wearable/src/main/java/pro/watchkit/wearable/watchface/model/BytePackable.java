@@ -183,23 +183,32 @@ public abstract class BytePackable {
     }
 
     public enum TickShape implements EnumResourceId {
-        SECTOR, DOT, TRIANGLE, DIAMOND,
-        SQUARE, BAR_1_2, BAR_1_4, BAR_1_8,
-        SQUARE_WIDE, DOT_THIN, TRIANGLE_THIN, DIAMOND_THIN,
-        SQUARE_CUTOUT, DOT_CUTOUT, TRIANGLE_CUTOUT, DIAMOND_CUTOUT;
+        SECTOR, SQUARE_WIDE, SQUARE, SQUARE_CUTOUT, BAR_1_2, BAR_1_4, BAR_1_8,
+        DOT_THIN, DOT, DOT_CUTOUT,
+        TRIANGLE_THIN, TRIANGLE, TRIANGLE_CUTOUT,
+        DIAMOND_THIN, DIAMOND, DIAMOND_CUTOUT;
+
+        private static TickShape[] orderedValues = new TickShape[]{
+                SECTOR, DOT, TRIANGLE, DIAMOND,
+                SQUARE, BAR_1_2, BAR_1_4, BAR_1_8,
+                SQUARE_WIDE, DOT_THIN, TRIANGLE_THIN, DIAMOND_THIN,
+                SQUARE_CUTOUT, DOT_CUTOUT, TRIANGLE_CUTOUT, DIAMOND_CUTOUT};
 
         private static final int bits = 4;
 
         static TickShape unpack(BytePacker bytePacker) {
-            return values()[bytePacker.get(bits)];
+//            return values()[bytePacker.get(bits)];
+            return orderedValues[bytePacker.get(bits)];
         }
 
         static TickShape unpack2(BytePacker bytePacker) {
-            return values()[bytePacker.get(2)];
+//            return values()[bytePacker.get(2)];
+            return orderedValues[bytePacker.get(2)];
         }
 
         void pack(BytePacker bytePacker) {
-            bytePacker.put(bits, values(), this);
+//            bytePacker.put(bits, values(), this);
+            bytePacker.put(bits, orderedValues, this);
         }
 
         @Override

@@ -197,20 +197,20 @@
 
     <string-array name="WatchFacePreset_TickShape">
         <item>Sector</item>
-        <item>Dot</item>
-        <item>Triangle</item>
-        <item>Diamond</item>
+        <item>Bar (wide)</item>
         <item>Square</item>
-        <item>Bar 2:1</item>
-        <item>Bar 4:1</item>
-        <item>Bar 8:1</item>
-        <item>Square (wide)</item>
-        <item>Dot (thin)</item>
-        <item>Triangle (thin)</item>
-        <item>Diamond (thin)</item>
         <item>Square (cutout)</item>
+        <item>Bar 1</item>
+        <item>Bar 2</item>
+        <item>Bar 3</item>
+        <item>Dot (thin)</item>
+        <item>Dot</item>
         <item>Dot (cutout)</item>
+        <item>Triangle (thin)</item>
+        <item>Triangle</item>
         <item>Triangle (cutout)</item>
+        <item>Diamond (thin)</item>
+        <item>Diamond</item>
         <item>Diamond (cutout)</item>
     </string-array>
 
