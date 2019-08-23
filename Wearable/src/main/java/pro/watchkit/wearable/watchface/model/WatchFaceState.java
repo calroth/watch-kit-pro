@@ -1726,25 +1726,25 @@ public class WatchFaceState {
         float result;
         switch (tickShape) {
             case SQUARE_WIDE: {
-                result = 0.5f;
+                result = (float) Math.pow(GOLDEN_RATIO, -2d / 3d);
                 break;
             }
             default:
             case SQUARE:
             case SQUARE_CUTOUT: {
-                result = 1f;
+                result = (float) Math.pow(GOLDEN_RATIO, 0.0d);
                 break;
             }
             case BAR_1_2: {
-                result = 1.5f;
+                result = (float) Math.pow(GOLDEN_RATIO, 2d / 3d);
                 break;
             }
             case BAR_1_4: {
-                result = 2f;
+                result = (float) Math.pow(GOLDEN_RATIO, 4d / 3d);
                 break;
             }
             case BAR_1_8: {
-                result = 2.5f;
+                result = (float) Math.pow(GOLDEN_RATIO, 6d / 3d);
                 break;
             }
             case SECTOR: {
@@ -1832,25 +1832,25 @@ public class WatchFaceState {
         float result;
         switch (tickShape) {
             case SQUARE_WIDE: {
-                result = 2f;
+                result = (float) Math.pow(GOLDEN_RATIO, 2d / 3d);
                 break;
             }
             default:
             case SQUARE:
             case SQUARE_CUTOUT: {
-                result = 1f;
+                result = (float) Math.pow(GOLDEN_RATIO, 0.0d);
                 break;
             }
             case BAR_1_2: {
-                result = 0.5f;
+                result = (float) Math.pow(GOLDEN_RATIO, -2d / 3d);
                 break;
             }
             case BAR_1_4: {
-                result = 0.25f;
+                result = (float) Math.pow(GOLDEN_RATIO, -4d / 3d);
                 break;
             }
             case BAR_1_8: {
-                result = 0.125f;
+                result = (float) Math.pow(GOLDEN_RATIO, -6d / 3d);
                 break;
             }
             case SECTOR: {
