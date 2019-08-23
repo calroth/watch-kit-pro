@@ -44,6 +44,7 @@ import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickSize;
+import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 abstract class WatchPartTicksDrawable extends WatchPartDrawable {
     abstract protected boolean isVisible(int tickIndex);
@@ -99,9 +100,9 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
 
             // Get our dimensions.
             float tickWidth =
-                    mWatchFaceState.getTickThickness(tickShape, tickSize) * pc * mod;
+                    WatchFaceState.getTickThickness(tickShape, tickSize) * pc * mod;
             float tickSizeDimen =
-                    mWatchFaceState.getTickHalfLength(tickShape, tickSize) * pc * mod;
+                    WatchFaceState.getTickHalfLength(tickShape, tickSize) * pc * mod;
             float tickBandStart = mWatchFaceState.getTickBandStart(pc) * pc * mod;
             float tickBandHeight = mWatchFaceState.getTickBandHeight(pc) * pc * mod;
             float tickRadiusPositionDimen = tickBandStart + (tickBandHeight / 2f);
@@ -115,21 +116,26 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
             temp.reset();
             cutout.reset();
 
+            final float left = x - tickWidth;
+            final float right = x + tickWidth;
+            final float top = y - tickSizeDimen;
+            final float bottom = y + tickSizeDimen;
+
             // Draw the object at 12 o'clock, then rotate it to desired location.
             switch (tickShape) {
                 case SQUARE:
                 case SQUARE_WIDE:
-                case SQUARE_CUTOUT:
                 case BAR_1_2:
                 case BAR_1_4:
                 case BAR_1_8: {
                     // Draw a square.
-                    temp.addRect(
-                            x - tickWidth,
-                            y - tickSizeDimen,
-                            x + tickWidth,
-                            y + tickSizeDimen,
-                            getDirection());
+                    drawRect(temp, left, top, right, bottom, 1f);
+                    break;
+                }
+                case SQUARE_CUTOUT: {
+                    drawRect(temp, left, top, right, bottom, CUTOUT_SCALE_OUTER);
+                    drawRect(cutout, left, top, right, bottom, CUTOUT_SCALE_INNER);
+                    temp.op(cutout, Path.Op.DIFFERENCE);
                     break;
                 }
                 case SECTOR: {
@@ -169,18 +175,10 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
                 }
                 case DOT:
                 case DOT_THIN: {
-                    final float left = x - tickWidth;
-                    final float right = x + tickWidth;
-                    final float top = y - tickSizeDimen;
-                    final float bottom = y + tickSizeDimen;
                     drawEllipse(temp, left, top, right, bottom, 1f);
                     break;
                 }
                 case DOT_CUTOUT: {
-                    final float left = x - tickWidth;
-                    final float right = x + tickWidth;
-                    final float top = y - tickSizeDimen;
-                    final float bottom = y + tickSizeDimen;
                     drawEllipse(temp, left, top, right, bottom, CUTOUT_SCALE_OUTER);
                     drawEllipse(cutout, left, top, right, bottom, CUTOUT_SCALE_INNER);
                     temp.op(cutout, Path.Op.DIFFERENCE);
@@ -188,19 +186,11 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
                 }
                 case TRIANGLE:
                 case TRIANGLE_THIN: {
-                    final float left = x - tickWidth;
-                    final float right = x + tickWidth;
-                    final float top = y - tickSizeDimen;
-                    final float bottom = y + tickSizeDimen;
                     // Invert bottom and top to draw upside down!
                     drawTriangle(temp, left, bottom, right, top, 1f);
                     break;
                 }
                 case TRIANGLE_CUTOUT: {
-                    final float left = x - tickWidth;
-                    final float right = x + tickWidth;
-                    final float top = y - tickSizeDimen;
-                    final float bottom = y + tickSizeDimen;
                     // Invert bottom and top to draw upside down!
                     drawTriangle(temp, left, bottom, right, top, CUTOUT_SCALE_OUTER);
                     drawTriangle(cutout, left, bottom, right, top, CUTOUT_SCALE_INNER);
@@ -209,18 +199,10 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
                 }
                 case DIAMOND:
                 case DIAMOND_THIN: {
-                    final float left = x - tickWidth;
-                    final float right = x + tickWidth;
-                    final float top = y - tickSizeDimen;
-                    final float bottom = y + tickSizeDimen;
                     drawDiamond(temp, left, top, right, bottom, 1f, 0.5f);
                     break;
                 }
                 case DIAMOND_CUTOUT: {
-                    final float left = x - tickWidth;
-                    final float right = x + tickWidth;
-                    final float top = y - tickSizeDimen;
-                    final float bottom = y + tickSizeDimen;
                     drawDiamond(temp, left, top, right, bottom, CUTOUT_SCALE_OUTER, 0.5f);
                     drawDiamond(cutout, left, top, right, bottom, CUTOUT_SCALE_INNER, 0.5f);
                     temp.op(cutout, Path.Op.DIFFERENCE);
