@@ -1725,9 +1725,12 @@ public class WatchFaceState {
 
         float result;
         switch (tickShape) {
+            case SQUARE_WIDE: {
+                result = 0.5f;
+                break;
+            }
             default:
             case SQUARE:
-            case SQUARE_WIDE:
             case SQUARE_CUTOUT: {
                 result = 1f;
                 break;
@@ -1767,6 +1770,17 @@ public class WatchFaceState {
                 break;
             }
         }
+
+        // For thin types, make their length more (and their thickness less)!
+        switch (tickShape) {
+            case DOT_THIN:
+            case TRIANGLE_THIN:
+            case DIAMOND_THIN: {
+                result *= (float) Math.pow(GOLDEN_RATIO, 0.5d);
+                break;
+            }
+        }
+
         switch (tickSize) {
             case XX_SHORT: {
                 result *= (float) Math.pow(GOLDEN_RATIO, -1.5d);
@@ -1817,9 +1831,12 @@ public class WatchFaceState {
 
         float result;
         switch (tickShape) {
+            case SQUARE_WIDE: {
+                result = 2f;
+                break;
+            }
             default:
             case SQUARE:
-            case SQUARE_WIDE:
             case SQUARE_CUTOUT: {
                 result = 1f;
                 break;
@@ -1859,6 +1876,17 @@ public class WatchFaceState {
                 break;
             }
         }
+
+        // For thin types, make their thickness less (and their length more)!
+        switch (tickShape) {
+            case DOT_THIN:
+            case TRIANGLE_THIN:
+            case DIAMOND_THIN: {
+                result *= (float) Math.pow(GOLDEN_RATIO, -0.5d);
+                break;
+            }
+        }
+
         if (tickShape != TickShape.SECTOR) {
             switch (tickSize) {
                 case XX_SHORT: {
