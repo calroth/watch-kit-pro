@@ -687,6 +687,9 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
 
         private void setTextAndVisibility() {
+            if (mConfigItem == null) {
+                return;
+            }
             mButton.setText(mConfigItem.getName(
                     mCurrentWatchFaceState, itemView.getContext()));
             mButton.setCompoundDrawablesWithIntrinsicBounds(
