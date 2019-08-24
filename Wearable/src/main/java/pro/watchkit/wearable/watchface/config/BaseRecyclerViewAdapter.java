@@ -451,6 +451,10 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         @Override
         public void onWatchFaceStateChanged() {
+            if (mConfigItem == null) {
+                return;
+            }
+
             // Set visibility.
             ViewGroup.LayoutParams param = itemView.getLayoutParams();
             if (mConfigItem.isVisible(mCurrentWatchFaceState)) {
@@ -806,6 +810,10 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
 
         void setDefaultSwitchValue() {
+            if (mConfigItem == null) {
+                return;
+            }
+
             // Regenerate and grab our current permutations. Just in time!
             String[] permutations =
                     mConfigItem.permute(mCurrentWatchFaceState, mSwitch.getContext());
