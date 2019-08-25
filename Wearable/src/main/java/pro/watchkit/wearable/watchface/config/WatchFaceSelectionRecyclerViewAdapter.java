@@ -93,7 +93,7 @@ public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapt
         WatchFacePresetSelectionViewHolder holder = (WatchFacePresetSelectionViewHolder) viewHolder;
         holder.setWatchFaceGlobalDrawableFlags(mFlags);
         holder.setPreset(watchFaceStateString);
-        holder.setHighlighedCurrentSelection(watchFaceStateString);
+        holder.setHighlightedCurrentSelection(watchFaceStateString);
 
         if ((mFlags & PART_COMPLICATIONS) > 0) {
             holder.retrieveProviderInfo();

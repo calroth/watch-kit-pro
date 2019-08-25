@@ -274,7 +274,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             w.initializeComplications(mImageView.getContext(), this::onWatchFaceStateChanged);
         }
 
-        void setHighlighedCurrentSelection(@Nullable String watchFaceStateString) {
+        void setHighlightedCurrentSelection(@Nullable String watchFaceStateString) {
             // Highlight this if it's the current selection.
             if (WatchFaceState.mostlyEquals(
                     mSharedPref.getWatchFaceStateString(), watchFaceStateString)) {
