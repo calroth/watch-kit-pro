@@ -566,8 +566,8 @@ public abstract class BytePackable {
          * the version string.
          */
         void finish() {
-            Log.d(getClass().toString(), "finish() with " + mBytePtr +
-                    " / " + (mBytes.length * 8 - 1) + " bits.");
+//            Log.d(getClass().toString(), "finish() with " + mBytePtr +
+//                    " / " + (mBytes.length * 8 - 1) + " bits.");
             if (mBytePtr >= mBytes.length * 8 - 1) {
                 // Already finalized?
                 return;
