@@ -261,6 +261,9 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(
                         mImageView.getContext(), mWatchFaceGlobalDrawableFlags);
                 mImageView.setImageDrawable(mWatchFaceGlobalDrawable);
+                // Set layer type to hardware. We promise not to update this any more,
+                // so now Android can render this to a texture and leave it there.
+                mImageView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
             }
             WatchFaceState w = mWatchFaceGlobalDrawable.getWatchFaceState();
             if (watchFaceStateString != null) {

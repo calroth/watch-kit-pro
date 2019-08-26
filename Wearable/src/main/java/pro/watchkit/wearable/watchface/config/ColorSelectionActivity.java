@@ -210,6 +210,9 @@ public class ColorSelectionActivity extends Activity {
         };
 
         ImageView colorImageView = findViewById(R.id.color);
+        // Set layer type to hardware. We promise not to update this any more,
+        // so now Android can render this to a texture and leave it there.
+        colorImageView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         colorImageView.setImageDrawable(new Drawable() {
             @Override
             public void draw(@NonNull Canvas canvas) {
