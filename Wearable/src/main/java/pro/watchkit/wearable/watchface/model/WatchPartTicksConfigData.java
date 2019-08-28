@@ -128,7 +128,8 @@ public class WatchPartTicksConfigData extends ConfigData {
                         new EnumMutator<>(
                                 BytePackable.DigitSize.values(),
                                 WatchFaceState::setDigitSize,
-                                WatchFaceState::getDigitSize)),
+                                WatchFaceState::getDigitSize),
+                        WatchFaceState::isDigitVisible),
 
                 // Data for digit rotation in settings Activity.
                 new PickerConfigItem(
