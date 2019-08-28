@@ -33,6 +33,9 @@ dependencies {
     implementation 'com.google.android.support:wearable:2.4.0'
     implementation 'net.e175.klaus:solarpositioning:0.0.9'
     implementation 'androidx.annotation:annotation:1.1.0'
+    // The below was only needed since upgrading to Android build tools 3.5.0.
+    // Not sure why we need it, only that we error out if we don't. Revisit this...
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
 }
 
 // The sample build uses multiple directories to
