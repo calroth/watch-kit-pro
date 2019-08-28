@@ -37,6 +37,8 @@ import android.os.SystemClock;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.common.internal.Objects;
+
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 abstract class WatchPartDrawable extends Drawable {
@@ -131,6 +133,22 @@ abstract class WatchPartDrawable extends Drawable {
 
     @NonNull
     abstract String getStatsName();
+
+    private int mSerialNumber = -1;
+
+    boolean hasStateChanged(Object... values) {
+        int serialNumber = Objects.hashCode(values);
+        if (serialNumber == mSerialNumber) {
+            android.util.Log.d("hasStateChanged", "mSerialNumber=" + serialNumber +
+                    " == " + mSerialNumber + " (re-using cache)");
+            return false;
+        } else {
+            android.util.Log.d("hasStateChanged", "mSerialNumber=" + serialNumber +
+                    " != " + mSerialNumber + " (drawing)");
+            mSerialNumber = serialNumber;
+            return true;
+        }
+    }
 
     void fastDrawPath(@NonNull Canvas canvas, @NonNull Path p, @NonNull Paint paint, float degrees) {
         m2.reset();
