@@ -94,8 +94,7 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
         final float tickBandHeight = mWatchFaceState.getTickBandHeight(pc) * pc * mod;
         final float tickRadiusPositionDimen = tickBandStart + (tickBandHeight / 2f);
 
-        if (hasStateChanged(tickPaint, tickShape, tickSize, mod, tickWidth, tickSizeDimen,
-                tickBandStart, tickBandHeight, tickRadiusPositionDimen)) {
+        if (hasStateChanged()) {
             p.reset();
             p2.reset();
 

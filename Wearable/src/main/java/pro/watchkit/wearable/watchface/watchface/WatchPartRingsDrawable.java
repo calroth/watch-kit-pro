@@ -65,36 +65,42 @@ final class WatchPartRingsDrawable extends WatchPartDrawable {
             return;
         }
 
-        mRings.reset();
-        mHoles.reset();
-        mBackground.reset();
+        if (hasStateChanged()) {
+            mRings.reset();
+            mHoles.reset();
+            mBackground.reset();
 
-        float ringRadius = 1.05f;
-        float holeRadius = ringRadius - 0.04f;
-        float pathRadius = ringRadius - 0.02f;
+            final float ringRadius = 1.05f;
+            final float holeRadius = ringRadius - 0.04f;
+            final float pathRadius = ringRadius - 0.02f;
 
-        // Calculate our mRings and mHoles!
-        complications.stream()
-                .filter(c -> c.isForeground && c.getBounds() != null && (c.isActive || mDrawAllRings))
-                .forEach(c -> {
-                    Rect r = c.getBounds();
-                    mRings.addCircle(r.exactCenterX(), r.exactCenterY(),
-                            ringRadius * r.width() / 2f, getDirection());
-                    mHoles.addCircle(r.exactCenterX(), r.exactCenterY(),
-                            holeRadius * r.width() / 2f, getDirection());
-                    mPath.reset(); // Using "mPath" as a temporary variable here...
-                    mPath.addCircle(r.exactCenterX(), r.exactCenterY(),
-                            pathRadius * r.width() / 2f, getDirection());
-                    mBackground.op(mPath, Path.Op.UNION);
-                });
+            // Calculate our mRings and mHoles!
+            complications.stream()
+                    .filter(c -> c.isForeground && c.getBounds() != null && (c.isActive || mDrawAllRings))
+                    .forEach(c -> {
+                        Rect r = c.getBounds();
+                        mRings.addCircle(r.exactCenterX(), r.exactCenterY(),
+                                ringRadius * r.width() / 2f, getDirection());
+                        mHoles.addCircle(r.exactCenterX(), r.exactCenterY(),
+                                holeRadius * r.width() / 2f, getDirection());
+                        mPath.reset(); // Using "mPath" as a temporary variable here...
+                        mPath.addCircle(r.exactCenterX(), r.exactCenterY(),
+                                pathRadius * r.width() / 2f, getDirection());
+                        mBackground.op(mPath, Path.Op.UNION);
+                    });
+
+            mPath.reset();
+            mPath.op(mRings, Path.Op.UNION);
+            mPath.op(mHoles, Path.Op.DIFFERENCE);
+        }
 
         // If not ambient, actually draw our complication mRings.
         if (!mWatchFaceState.isAmbient()) {
-            Paint watchFacePaint = mWatchFaceState.getPaintBox().getPaintFromPreset(
+            final Paint watchFacePaint = mWatchFaceState.getPaintBox().getPaintFromPreset(
                     mWatchFaceState.getBackgroundStyle());
-            Paint backgroundPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(
+            final Paint backgroundPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(
                     mWatchFaceState.getComplicationBackgroundStyle());
-            Paint ringPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(
+            final Paint ringPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(
                     mWatchFaceState.getComplicationRingStyle());
 
             // Some optimisations.
@@ -110,9 +116,6 @@ final class WatchPartRingsDrawable extends WatchPartDrawable {
                 }
 
                 // Paint with our complication ring style.
-                mPath.reset();
-                mPath.op(mRings, Path.Op.UNION);
-                mPath.op(mHoles, Path.Op.DIFFERENCE);
                 drawPath(canvas, mPath, ringPaint);
             }
         }

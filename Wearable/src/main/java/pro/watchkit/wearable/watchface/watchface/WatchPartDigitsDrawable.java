@@ -63,7 +63,7 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
                 mWatchFaceState.getTickBandHeight(pc) : mWatchFaceState.getDigitBandHeight(pc));
         final float digitLocation = 50f - (digitBandStart + digitBandHeight);
 
-        if (hasStateChanged(labels, style, paint, digitBandStart, digitBandHeight, digitLocation)) {
+        if (hasStateChanged()) {
             mPath.reset();
             mExclusionPath.reset();
             for (int i = 0; i < 12; i++) {
