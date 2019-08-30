@@ -51,6 +51,7 @@ import android.support.wearable.watchface.WatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
 import android.util.Log;
 import android.view.SurfaceHolder;
+import android.view.WindowInsets;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -270,6 +271,13 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
         // Pulls all user's preferences for watch face appearance.
         private void loadSavedPreferences() {
             getWatchFaceState().setString(mSharedPref.getWatchFaceStateString());
+        }
+
+        @Override
+        public void onApplyWindowInsets(WindowInsets insets) {
+            super.onApplyWindowInsets(insets);
+            SharedPref.setIsRoundScreen(insets.isRound());
+            // cutoutSize = insets.getSystemWindowInsetBottom();
         }
 
         @Override

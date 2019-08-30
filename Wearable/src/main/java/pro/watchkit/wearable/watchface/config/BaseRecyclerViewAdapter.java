@@ -275,6 +275,12 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
             // Initialise complications, just enough to be able to draw rings.
             w.initializeComplications(mImageView.getContext(), this::onWatchFaceStateChanged);
+
+            mImageView.setOnApplyWindowInsetsListener((v, insets) -> {
+                SharedPref.setIsRoundScreen(insets.isRound());
+                // cutoutSize = insets.getSystemWindowInsetBottom();
+                return insets;
+            });
         }
 
         void setHighlightedCurrentSelection(@Nullable String watchFaceStateString) {
