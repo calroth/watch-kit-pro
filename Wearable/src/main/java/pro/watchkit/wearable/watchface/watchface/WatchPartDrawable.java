@@ -139,12 +139,12 @@ abstract class WatchPartDrawable extends Drawable {
     boolean hasStateChanged() {
         int currentSerial = Objects.hash(mWatchFaceState);
         if (currentSerial == mPreviousSerial) {
-            android.util.Log.d("hasStateChanged", "mPreviousSerial=" + currentSerial +
-                    " == " + mPreviousSerial + " (re-using cache)");
+//            android.util.Log.d("hasStateChanged", "mPreviousSerial=" + currentSerial +
+//                    " == " + mPreviousSerial + " (re-using cache)");
             return false;
         } else {
-            android.util.Log.d("hasStateChanged", "mPreviousSerial=" + currentSerial +
-                    " != " + mPreviousSerial + " (drawing)");
+//            android.util.Log.d("hasStateChanged", "mPreviousSerial=" + currentSerial +
+//                    " != " + mPreviousSerial + " (drawing)");
             mPreviousSerial = currentSerial;
             return true;
         }
