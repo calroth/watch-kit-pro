@@ -70,6 +70,8 @@ public final class PaintBox {
     @NonNull
     private static SparseArray<WeakReference<Bitmap>> mBitmapCache = new SparseArray<>();
     @NonNull
+    private static SparseArray<WeakReference<BitmapShader>> mBitmapShaderCache = new SparseArray<>();
+    @NonNull
     private GradientPaint mFillHighlightPaint = new GradientPaint();
     @NonNull
     private GradientPaint mAccentFillPaint = new GradientPaint();
@@ -836,26 +838,23 @@ public final class PaintBox {
                 case NONE:
                     break;
                 case SPUN:
-                    setShader(new BitmapShader(generateSpunEffect(),
-                            Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+                    setShader(generateSpunEffect());
                     break;
                 case WEAVE:
-                    setShader(new BitmapShader(generateWeaveEffect(),
-                            Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+                    setShader(generateWeaveEffect());
                     break;
                 case HEX:
-                    setShader(new BitmapShader(generateHexEffect(),
-                            Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+                    setShader(generateHexEffect());
                     break;
             }
         }
 
-        private Bitmap generateSpunEffect() {
-            // Attempt to return an existing bitmap from the cache if we have one.
-            WeakReference<Bitmap> cache = mBitmapCache.get(mCustomHashCode);
+        private BitmapShader generateSpunEffect() {
+            // Attempt to return an existing BitmapShader from the cache if we have one.
+            WeakReference<BitmapShader> cache = mBitmapShaderCache.get(mCustomHashCode);
             if (cache != null) {
-                // Well, we have an existing bitmap, but it may have been garbage collected...
-                Bitmap result = cache.get();
+                // Well, we have an existing BitmapShader, but it may have been garbage collected...
+                BitmapShader result = cache.get();
                 if (result != null) {
                     // It wasn't garbage collected! Return it.
                     return result;
@@ -865,9 +864,6 @@ public final class PaintBox {
             // Generate a new bitmap.
             Bitmap brushedEffectBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             Canvas brushedEffectCanvas = new Canvas(brushedEffectBitmap);
-
-            // Cache it for next time's use.
-            mBitmapCache.put(mCustomHashCode, new WeakReference<>(brushedEffectBitmap));
 
             float percent = mCenterX / 50f;
             float offset = 0.5f * percent;
@@ -903,15 +899,21 @@ public final class PaintBox {
                 mBrushedEffectPath.offset(-offset, -offset);
                 brushedEffectCanvas.drawPath(mBrushedEffectPath, this);
             }
-            return brushedEffectBitmap;
+
+            BitmapShader result = new BitmapShader(brushedEffectBitmap,
+                    Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+
+            // Cache it for next time's use.
+            mBitmapShaderCache.put(mCustomHashCode, new WeakReference<>(result));
+            return result;
         }
 
-        private Bitmap generateWeaveEffect() {
-            // Attempt to return an existing bitmap from the cache if we have one.
-            WeakReference<Bitmap> cache = mBitmapCache.get(mCustomHashCode);
+        private BitmapShader generateWeaveEffect() {
+            // Attempt to return an existing BitmapShader from the cache if we have one.
+            WeakReference<BitmapShader> cache = mBitmapShaderCache.get(mCustomHashCode);
             if (cache != null) {
-                // Well, we have an existing bitmap, but it may have been garbage collected...
-                Bitmap result = cache.get();
+                // Well, we have an existing BitmapShader, but it may have been garbage collected...
+                BitmapShader result = cache.get();
                 if (result != null) {
                     // It wasn't garbage collected! Return it.
                     return result;
@@ -921,9 +923,6 @@ public final class PaintBox {
             // Generate a new bitmap.
             Bitmap brushedEffectBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             Canvas brushedEffectCanvas = new Canvas(brushedEffectBitmap);
-
-            // Cache it for next time's use.
-            mBitmapCache.put(mCustomHashCode, new WeakReference<>(brushedEffectBitmap));
 
             float percent = mCenterX / 50f;
             float offset = 0.25f * percent;
@@ -1166,15 +1165,20 @@ public final class PaintBox {
 
             setAlpha(prevAlpha);
 
-            return brushedEffectBitmap;
+            BitmapShader result = new BitmapShader(brushedEffectBitmap,
+                    Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+
+            // Cache it for next time's use.
+            mBitmapShaderCache.put(mCustomHashCode, new WeakReference<>(result));
+            return result;
         }
 
-        private Bitmap generateHexEffect() {
-            // Attempt to return an existing bitmap from the cache if we have one.
-            WeakReference<Bitmap> cache = mBitmapCache.get(mCustomHashCode);
+        private BitmapShader generateHexEffect() {
+            // Attempt to return an existing BitmapShader from the cache if we have one.
+            WeakReference<BitmapShader> cache = mBitmapShaderCache.get(mCustomHashCode);
             if (cache != null) {
-                // Well, we have an existing bitmap, but it may have been garbage collected...
-                Bitmap result = cache.get();
+                // Well, we have an existing BitmapShader, but it may have been garbage collected...
+                BitmapShader result = cache.get();
                 if (result != null) {
                     // It wasn't garbage collected! Return it.
                     return result;
@@ -1184,9 +1188,6 @@ public final class PaintBox {
             // Generate a new bitmap.
             Bitmap hexEffectBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             Canvas hexEffectCanvas = new Canvas(hexEffectBitmap);
-
-            // Cache it for next time's use.
-            mBitmapCache.put(mCustomHashCode, new WeakReference<>(hexEffectBitmap));
 
             // Alpha value of the bezels.
             int alpha = 50;
@@ -1282,7 +1283,12 @@ public final class PaintBox {
             mBrushedEffectPathLower.op(mBrushedEffectPath, Path.Op.DIFFERENCE);
             hexEffectCanvas.drawPath(mBrushedEffectPathLower, mBrushedEffectPaint);
 
-            return hexEffectBitmap;
+            BitmapShader result = new BitmapShader(hexEffectBitmap,
+                    Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+
+            // Cache it for next time's use.
+            mBitmapShaderCache.put(mCustomHashCode, new WeakReference<>(result));
+            return result;
         }
     }
 }
