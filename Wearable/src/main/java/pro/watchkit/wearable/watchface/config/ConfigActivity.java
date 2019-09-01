@@ -242,7 +242,7 @@ public class ConfigActivity extends Activity {
         @DrawableRes
         final int mDrawableId; // Or -1 if not part of NavigationAdapter.
 
-        ConfigSubActivity(final Class<? extends ConfigData> c,
+        ConfigSubActivity(@NonNull final Class<? extends ConfigData> c,
                           @StringRes final int titleId, @DrawableRes final int drawableId) {
             mClass = c;
             mClassName = c.getSimpleName();
@@ -250,6 +250,7 @@ public class ConfigActivity extends Activity {
             mDrawableId = drawableId;
         }
 
+        @Nullable
         ConfigData getNewInstance() {
             try {
                 return mClass.newInstance();
@@ -286,6 +287,7 @@ public class ConfigActivity extends Activity {
                 ConfigSubActivity.WatchPartTicks
         };
 
+        @NonNull
         @Override
         public String getItemText(int index) {
             return mContext.getString(mSlotLabel) + " " +

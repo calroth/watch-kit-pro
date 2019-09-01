@@ -506,7 +506,7 @@ abstract class WatchPartDrawable extends Drawable {
      * @param offsetBottom Factor to move the bottom border, 1.0f is no change.
      */
     @Deprecated
-    void drawRectInset(Path path, float left, float top, float right, float bottom,
+    void drawRectInset(@NonNull Path path, float left, float top, float right, float bottom,
                        float offsetTop, float offsetBottom) {
         // Inset calculation:
         //   k = golden ratio 2nd term
@@ -589,7 +589,7 @@ abstract class WatchPartDrawable extends Drawable {
      * @param offsetBottom Factor to move the bottom border, 1.0f is no change.
      */
     @Deprecated
-    void drawRoundRectInset(Path path, float left, float top, float right, float bottom,
+    void drawRoundRectInset(@NonNull Path path, float left, float top, float right, float bottom,
                             float cornerRadius, float offsetTop, float offsetBottom) {
         // Inset calculation:
         //   k = golden ratio 2nd term

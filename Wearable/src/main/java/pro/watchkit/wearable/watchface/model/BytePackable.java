@@ -67,11 +67,11 @@ public abstract class BytePackable {
 
         private static final int bits = 2;
 
-        static TicksDisplay unpack(BytePacker bytePacker) {
+        static TicksDisplay unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
 
@@ -87,11 +87,11 @@ public abstract class BytePackable {
 
         private static final int bits = 2;
 
-        static HandShape unpack(BytePacker bytePacker) {
+        static HandShape unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
 
@@ -107,11 +107,11 @@ public abstract class BytePackable {
 
         private static final int bits = 2;
 
-        static HandLength unpack(BytePacker bytePacker) {
+        static HandLength unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
 
@@ -127,11 +127,11 @@ public abstract class BytePackable {
 
         private static final int bits = 2;
 
-        static HandThickness unpack(BytePacker bytePacker) {
+        static HandThickness unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
 
@@ -147,11 +147,11 @@ public abstract class BytePackable {
 
         private static final int bits = 2;
 
-        static HandStalk unpack(BytePacker bytePacker) {
+        static HandStalk unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
 
@@ -167,11 +167,11 @@ public abstract class BytePackable {
 
         private static final int bits = 2;
 
-        static HandCutout unpack(BytePacker bytePacker) {
+        static HandCutout unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
 
@@ -188,6 +188,7 @@ public abstract class BytePackable {
         TRIANGLE_THIN, TRIANGLE, TRIANGLE_CUTOUT,
         DIAMOND_THIN, DIAMOND, DIAMOND_CUTOUT;
 
+        @NonNull
         private static TickShape[] orderedValues = new TickShape[]{
                 SECTOR, DOT, TRIANGLE, DIAMOND,
                 SQUARE, BAR_1_2, BAR_1_4, BAR_1_8,
@@ -196,17 +197,17 @@ public abstract class BytePackable {
 
         private static final int bits = 4;
 
-        static TickShape unpack(BytePacker bytePacker) {
+        static TickShape unpack(@NonNull BytePacker bytePacker) {
 //            return values()[bytePacker.get(bits)];
             return orderedValues[bytePacker.get(bits)];
         }
 
-        static TickShape unpack2(BytePacker bytePacker) {
+        static TickShape unpack2(@NonNull BytePacker bytePacker) {
 //            return values()[bytePacker.get(2)];
             return orderedValues[bytePacker.get(2)];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
 //            bytePacker.put(bits, values(), this);
             bytePacker.put(bits, orderedValues, this);
         }
@@ -223,15 +224,15 @@ public abstract class BytePackable {
 
         private static final int bits = 3;
 
-        static TickSize unpack(BytePacker bytePacker) {
+        static TickSize unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        static TickSize unpack2(BytePacker bytePacker) {
+        static TickSize unpack2(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(2)];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
 
@@ -247,11 +248,11 @@ public abstract class BytePackable {
 
         private static final int bits = 2;
 
-        static TickMargin unpack(BytePacker bytePacker) {
+        static TickMargin unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
 
@@ -267,11 +268,11 @@ public abstract class BytePackable {
 
         private static final int bits = 2;
 
-        static DigitDisplay unpack(BytePacker bytePacker) {
+        static DigitDisplay unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
 
@@ -287,11 +288,11 @@ public abstract class BytePackable {
 
         private static final int bits = 2;
 
-        static DigitSize unpack(BytePacker bytePacker) {
+        static DigitSize unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
 
@@ -307,11 +308,11 @@ public abstract class BytePackable {
 
         private static final int bits = 1;
 
-        static DigitRotation unpack(BytePacker bytePacker) {
+        static DigitRotation unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
 
@@ -328,15 +329,15 @@ public abstract class BytePackable {
 
         private static final int bits = 3;
 
-        static DigitFormat unpack(BytePacker bytePacker) {
+        static DigitFormat unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        static DigitFormat unpack2(BytePacker bytePacker) {
+        static DigitFormat unpack2(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(2)];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
 
@@ -352,11 +353,11 @@ public abstract class BytePackable {
 
         private static final int bits = 2;
 
-        static TextStyle unpack(BytePacker bytePacker) {
+        static TextStyle unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
 
@@ -372,15 +373,15 @@ public abstract class BytePackable {
 
         private static final int bits = 2;
 
-        static Style unpack(BytePacker bytePacker) {
+        static Style unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        static Style unpack3(BytePacker bytePacker) {
+        static Style unpack3(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(3) % values().length];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
 
@@ -396,11 +397,11 @@ public abstract class BytePackable {
 
         private static final int bits = 2;
 
-        static StyleGradient unpack(BytePacker bytePacker) {
+        static StyleGradient unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
 
@@ -416,11 +417,11 @@ public abstract class BytePackable {
 
         private static final int bits = 2;
 
-        static StyleTexture unpack(BytePacker bytePacker) {
+        static StyleTexture unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
 
@@ -436,11 +437,11 @@ public abstract class BytePackable {
 
         private static final int bits = 2;
 
-        static ComplicationRotation unpack(BytePacker bytePacker) {
+        static ComplicationRotation unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
 
@@ -456,11 +457,11 @@ public abstract class BytePackable {
 
         private static final int bits = 2;
 
-        static ComplicationCount unpack(BytePacker bytePacker) {
+        static ComplicationCount unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
 
@@ -476,11 +477,11 @@ public abstract class BytePackable {
 
         private static final int bits = 2;
 
-        static ComplicationSize unpack(BytePacker bytePacker) {
+        static ComplicationSize unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
 
@@ -496,11 +497,11 @@ public abstract class BytePackable {
 
         private static final int bits = 2;
 
-        static ComplicationScale unpack(BytePacker bytePacker) {
+        static ComplicationScale unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
 
@@ -520,11 +521,11 @@ public abstract class BytePackable {
 
         private static final int bits = 4;
 
-        static Typeface unpack(BytePacker bytePacker) {
+        static Typeface unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        void pack(BytePacker bytePacker) {
+        void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
         }
 
@@ -630,7 +631,7 @@ public abstract class BytePackable {
             return byteArrayToString(mBytes);
         }
 
-        void setStringFast(String s) {
+        void setStringFast(@NonNull String s) {
             if (s.length() < mBytes.length * 2) {
                 throw new Error("Invalid length, expected " + (mBytes.length * 2) +
                         " or more hex digits");
@@ -681,7 +682,7 @@ public abstract class BytePackable {
         }
 
         @NonNull
-        private String byteArrayToString(byte[] a) {
+        private String byteArrayToString(@NonNull byte[] a) {
             StringBuilder sb = new StringBuilder(a.length * 2);
             for (byte b : a) {
                 sb.append(String.format("%02x", b));
@@ -778,7 +779,7 @@ public abstract class BytePackable {
             put(6, value);
         }
 
-        void put(int length, Object[] values, Object value) {
+        void put(int length, @NonNull Object[] values, Object value) {
             for (int i = 0; i < values.length; i++) {
                 if (values[i] == value) {
                     put(length, i);

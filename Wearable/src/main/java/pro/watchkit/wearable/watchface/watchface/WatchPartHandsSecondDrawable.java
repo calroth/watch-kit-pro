@@ -14,6 +14,7 @@ import pro.watchkit.wearable.watchface.model.BytePackable.HandThickness;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 
 final class WatchPartHandsSecondDrawable extends WatchPartHandsDrawable {
+    @NonNull
     @Override
     String getStatsName() {
         return "Second";
@@ -56,7 +57,7 @@ final class WatchPartHandsSecondDrawable extends WatchPartHandsDrawable {
     }
 
     @Override
-    void punchHub(Path active, Path ambient) {
+    void punchHub(@NonNull Path active, @NonNull Path ambient) {
         // Punch the hub out of the seconds hand in ambient and active modes.
         ambient.op(getHub(), Path.Op.DIFFERENCE);
         active.op(getHub(), Path.Op.DIFFERENCE);

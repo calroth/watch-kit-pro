@@ -32,6 +32,7 @@ import pro.watchkit.wearable.watchface.model.BytePackable.DigitRotation;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 
 final class WatchPartDigitsDrawable extends WatchPartDrawable {
+    @NonNull
     @Override
     String getStatsName() {
         return "Dig";

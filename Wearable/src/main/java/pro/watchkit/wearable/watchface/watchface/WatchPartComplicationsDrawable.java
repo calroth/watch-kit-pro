@@ -23,6 +23,7 @@ import android.graphics.Canvas;
 import androidx.annotation.NonNull;
 
 final class WatchPartComplicationsDrawable extends WatchPartDrawable {
+    @NonNull
     @Override
     String getStatsName() {
         return "Comps";

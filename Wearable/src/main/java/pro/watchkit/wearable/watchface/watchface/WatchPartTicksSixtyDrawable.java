@@ -1,10 +1,13 @@
 package pro.watchkit.wearable.watchface.watchface;
 
+import androidx.annotation.NonNull;
+
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickSize;
 
 final class WatchPartTicksSixtyDrawable extends WatchPartTicksDrawable {
+    @NonNull
     @Override
     String getStatsName() {
         return "Sixty";

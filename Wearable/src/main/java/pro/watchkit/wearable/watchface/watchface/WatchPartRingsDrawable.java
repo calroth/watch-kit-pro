@@ -50,6 +50,7 @@ final class WatchPartRingsDrawable extends WatchPartDrawable {
         mDrawAllRings = drawAllRings;
     }
 
+    @NonNull
     @Override
     String getStatsName() {
         return "Rings";

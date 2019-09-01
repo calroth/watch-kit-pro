@@ -167,6 +167,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
          *
          * @return Current watch face state
          */
+        @NonNull
         private WatchFaceState getWatchFaceState() {
             return mWatchFaceGlobalDrawable.getWatchFaceState();
         }
@@ -274,7 +275,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
         }
 
         @Override
-        public void onApplyWindowInsets(WindowInsets insets) {
+        public void onApplyWindowInsets(@NonNull WindowInsets insets) {
             super.onApplyWindowInsets(insets);
             SharedPref.setIsRoundScreen(insets.isRound());
             // cutoutSize = insets.getSystemWindowInsetBottom();

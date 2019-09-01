@@ -46,6 +46,7 @@ final class WatchPartNotificationsDrawable extends WatchPartDrawable {
     @NonNull
     private Path mExclusion = new Path();
 
+    @NonNull
     @Override
     String getStatsName() {
         return "Note";

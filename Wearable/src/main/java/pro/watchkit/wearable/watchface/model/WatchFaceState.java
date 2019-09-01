@@ -140,6 +140,7 @@ public class WatchFaceState {
      * @param resId Resource id for the string
      * @return The string from the application's resources..
      */
+    @NonNull
     String getStringResource(@StringRes int resId) {
         return mContext.getString(resId);
     }
@@ -311,7 +312,7 @@ public class WatchFaceState {
      *
      * @param bounds Bounds of drawable
      */
-    private void recalculateComplicationBounds(Rect bounds) {
+    private void recalculateComplicationBounds(@NonNull Rect bounds) {
         int width = bounds.width(), height = bounds.height();
         int currentBoundsSerial = Objects.hash(width, height, mSettings);
         if (width == 0 || height == 0 || mPreviousBoundsSerial == currentBoundsSerial) {
@@ -541,7 +542,7 @@ public class WatchFaceState {
      * @param b Second string to compare
      * @return Whether the strings are mostly equal
      */
-    public static boolean mostlyEquals(String a, String b) {
+    public static boolean mostlyEquals(@Nullable String a, @Nullable String b) {
         if (a == null || b == null) {
             // Don't even try comparing nulls, even to each other.
             return false;
@@ -598,6 +599,7 @@ public class WatchFaceState {
         regeneratePaints();
     }
 
+    @NonNull
     final private android.graphics.Typeface[] mTypefaceCache;
 
     @Nullable
@@ -606,7 +608,7 @@ public class WatchFaceState {
     }
 
     @Nullable
-    public android.graphics.Typeface getTypefaceObject(Typeface typeface) {
+    public android.graphics.Typeface getTypefaceObject(@Nullable Typeface typeface) {
         if (typeface == null) {
             return android.graphics.Typeface.DEFAULT;
         }
@@ -1712,7 +1714,7 @@ public class WatchFaceState {
         return result / pc; // Convert back from pixels to percentage
     }
 
-    public static float getTickHalfLength(TickShape tickShape, TickSize tickSize) {
+    public static float getTickHalfLength(@NonNull TickShape tickShape, @NonNull TickSize tickSize) {
         final float barLengthScale = 1.5f;
         // Height of an equilateral triangle.
         final float triangleFactor = (float) (Math.sqrt(3d) / 2d);
@@ -1820,7 +1822,7 @@ public class WatchFaceState {
         return result;
     }
 
-    public static float getTickThickness(TickShape tickShape, TickSize tickSize) {
+    public static float getTickThickness(@NonNull TickShape tickShape, @NonNull TickSize tickSize) {
         final float barThicknessScale = (float) (Math.PI / 120d);
 
         // Scaling factors for dot, triangle and diamond.
@@ -1928,7 +1930,7 @@ public class WatchFaceState {
         return result;
     }
 
-    public static float getHandLength(HandLength handLength) {
+    public static float getHandLength(@NonNull HandLength handLength) {
         // f0, f1, f2, f3 are a geometric series!
         final float f0 = (float) Math.pow(GOLDEN_RATIO, -1.0d);
         final float f1 = (float) Math.pow(GOLDEN_RATIO, 0.0d);
@@ -1960,7 +1962,7 @@ public class WatchFaceState {
         return result;
     }
 
-    public static float getHandThickness(HandShape handShape, HandThickness handThickness) {
+    public static float getHandThickness(@NonNull HandShape handShape, @NonNull HandThickness handThickness) {
         final float globalScale = 1.0f;
 
         // f0, f1, f2, f3 are a geometric series!

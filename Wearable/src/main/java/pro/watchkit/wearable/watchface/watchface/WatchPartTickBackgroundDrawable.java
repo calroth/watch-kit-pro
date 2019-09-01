@@ -47,6 +47,7 @@ class WatchPartTickBackgroundDrawable extends WatchPartDrawable {
     @NonNull
     private final Path p2 = new Path();
 
+    @NonNull
     @Override
     String getStatsName() {
         return "Tbg";

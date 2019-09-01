@@ -51,6 +51,7 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
     private Formatter mFormatter = new Formatter(mStringBuilder);
     private Path mTextPath;
 
+    @NonNull
     @Override
     String getStatsName() {
         return "Stats";
@@ -123,7 +124,7 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
     }
 
     private float drawStats(
-            WatchPartDrawable d, @NonNull Canvas canvas, Paint textPaint, float x, float y) {
+            @NonNull WatchPartDrawable d, @NonNull Canvas canvas, Paint textPaint, float x, float y) {
 
 //        mStringBuilder.setLength(0);
         mStringBuilder.append(d.getStatsName()).append(": ");

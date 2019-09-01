@@ -2,6 +2,8 @@ package pro.watchkit.wearable.watchface.watchface;
 
 import android.graphics.Path;
 
+import androidx.annotation.NonNull;
+
 import pro.watchkit.wearable.watchface.model.BytePackable.HandCutout;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandLength;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandShape;
@@ -10,6 +12,7 @@ import pro.watchkit.wearable.watchface.model.BytePackable.HandThickness;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 
 final class WatchPartHandsHourDrawable extends WatchPartHandsDrawable {
+    @NonNull
     @Override
     String getStatsName() {
         return "Hour";
@@ -46,7 +49,7 @@ final class WatchPartHandsHourDrawable extends WatchPartHandsDrawable {
     }
 
     @Override
-    void punchHub(Path active, Path ambient) {
+    void punchHub(@NonNull Path active, @NonNull Path ambient) {
         // Punch the hub out of the hour hand in ambient and active modes.
         ambient.op(getHub(), Path.Op.DIFFERENCE);
         active.op(getHub(), Path.Op.DIFFERENCE);

@@ -388,6 +388,7 @@ abstract public class ConfigData {
         final private int mNameResourceId;
         @DrawableRes
         final private int mIconResourceId;
+        @NonNull
         final private Class<WatchFaceSelectionActivity> mActivityToChoosePreference;
         @NonNull
         final private Mutator mWatchFaceStateMutator;
@@ -503,6 +504,7 @@ abstract public class ConfigData {
             return mIconResourceId;
         }
 
+        @NonNull
         public Class<WatchFaceSelectionActivity> getActivityToChoosePreference() {
             return mActivityToChoosePreference;
         }

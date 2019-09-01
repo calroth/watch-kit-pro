@@ -27,6 +27,7 @@ import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.util.SharedPref;
 
 final class WatchPartBackgroundDrawable extends WatchPartDrawable {
+    @NonNull
     @Override
     String getStatsName() {
         return "Bg";

@@ -87,6 +87,7 @@ public final class PaintBox {
 
     private static RenderScript mRenderScript;
     private static ScriptC_mapBitmap mScriptC_mapBitmap;
+    @Nullable
     private static WeakReference<Bitmap> mTriangleGradientBitmapRef;
 
 //    static {
@@ -173,7 +174,7 @@ public final class PaintBox {
      * @param cLUT   The array to put the results into
      */
     private static void getIntermediateColor(
-            @ColorInt int colorA, @ColorInt int colorB, @ColorInt int[] cLUT) {
+            @ColorInt int colorA, @ColorInt int colorB, @NonNull @ColorInt int[] cLUT) {
         double j = (double) (cLUT.length - 1);
 
         // The "long colors" feature is only available in SDK 26 onwards!
@@ -462,7 +463,7 @@ public final class PaintBox {
         setPaintTextAttributes(mBaseAccentPaint);
     }
 
-    private void setPaintTextAttributes(Paint paint) {
+    private void setPaintTextAttributes(@NonNull Paint paint) {
         paint.setTextSize(mTextSize);
         paint.setTypeface(mTypeface);
         paint.setTextAlign(Paint.Align.CENTER);

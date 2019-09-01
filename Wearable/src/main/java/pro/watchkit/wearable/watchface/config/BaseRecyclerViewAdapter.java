@@ -98,6 +98,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     private static final String TAG = BaseRecyclerViewAdapter.class.getSimpleName();
     @StringRes
     private final int mTitleLabel;
+    @NonNull
     private final String mSubActivityIntent;
 
     /**
@@ -430,7 +431,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             mVisibleLayoutWidth = itemView.getLayoutParams().width;
         }
 
-        void bind(ConfigData.LabelConfigItem configItem) {
+        void bind(@NonNull ConfigData.LabelConfigItem configItem) {
             mConfigItem = configItem;
             Resources r = itemView.getResources();
             mLabelTextView.setTypeface(null); // Set as default typeface by default!

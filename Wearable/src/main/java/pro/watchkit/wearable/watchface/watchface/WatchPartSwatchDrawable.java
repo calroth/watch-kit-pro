@@ -32,6 +32,7 @@ final class WatchPartSwatchDrawable extends WatchPartDrawable {
     private final Matrix mOriginalMatrix = new Matrix();
     private final Matrix mTranslateMatrix = new Matrix();
 
+    @NonNull
     @Override
     String getStatsName() {
         return "Swt";

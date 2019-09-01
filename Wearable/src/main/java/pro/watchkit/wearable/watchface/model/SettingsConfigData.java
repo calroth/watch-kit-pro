@@ -34,6 +34,7 @@
 
 package pro.watchkit.wearable.watchface.model;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.Arrays;
@@ -159,8 +160,9 @@ public class SettingsConfigData extends ConfigData {
                              *                    this case we'll ignore it...
                              * @return Default WatchFaceState strings for all slots
                              */
+                            @NonNull
                             @Override
-                            public String[] permute(WatchFaceState permutation) {
+                            public String[] permute(@NonNull WatchFaceState permutation) {
                                 return new String[]{
                                         permutation.getStringResource(
                                                 R.string.watch_kit_pro_a_default_string),

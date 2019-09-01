@@ -149,6 +149,7 @@ public final class ComplicationHolder implements Drawable.Callback {
         return Objects.hash(isForeground, isActive, id, mBounds);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Complication " + getId() + (isForeground ? " (foreground)" : " (background)");
@@ -300,6 +301,7 @@ public final class ComplicationHolder implements Drawable.Callback {
         mComplicationDrawable.setBurnInProtection(burnInProtection);
     }
 
+    @NonNull
     public int[] getSupportedComplicationTypes() {
         if (isForeground) {
             return new int[]{
