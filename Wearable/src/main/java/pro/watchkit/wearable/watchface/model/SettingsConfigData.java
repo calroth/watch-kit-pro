@@ -70,29 +70,29 @@ public class SettingsConfigData extends ConfigData {
                 // Data for Configure Colors and Styles sub-activity in settings Activity.
                 new ConfigActivityConfigItem(
                         R.string.config_configure_typeface,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_settings,
                         TypefaceConfigData.class,
                         ConfigActivity.class),
 
                 // Data for base color UX in settings Activity.
                 new ColorPickerConfigItem(
                         R.string.config_ambient_day_color_label,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_color_lens,
                         PaintBox.ColorType.AMBIENT_DAY,
                         ColorSelectionActivity.class),
 
                 // Data for base color UX in settings Activity.
                 new ColorPickerConfigItem(
                         R.string.config_ambient_night_color_label,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_color_lens,
                         PaintBox.ColorType.AMBIENT_NIGHT,
                         ColorSelectionActivity.class),
 
                 // Data for 'Developer Mode' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
                         R.string.config_developer_mode_label,
-                        R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp,
+                        R.drawable.ic_settings,
+                        R.drawable.ic_settings,
                         new BooleanMutator(WatchFaceState::setDeveloperMode)),
 
                 // Git hash.
@@ -106,46 +106,46 @@ public class SettingsConfigData extends ConfigData {
                 // Data for 'Stats' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
                         R.string.config_stats_label,
-                        R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp,
+                        R.drawable.ic_settings,
+                        R.drawable.ic_settings,
                         new BooleanMutator(WatchFaceState::setStats),
                         WatchFaceState::isDeveloperMode),
 
                 // Data for 'Stats (Detailed)' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
                         R.string.config_stats_detail_label,
-                        R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp,
+                        R.drawable.ic_settings,
+                        R.drawable.ic_settings,
                         new BooleanMutator(WatchFaceState::setStatsDetail),
                         WatchFaceState::isDeveloperMode),
 
                 // Data for 'Hide Ticks' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
                         R.string.config_hide_ticks_label,
-                        R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp,
+                        R.drawable.ic_settings,
+                        R.drawable.ic_settings,
                         new BooleanMutator(WatchFaceState::setHideTicks),
                         WatchFaceState::isDeveloperMode),
 
                 // Data for 'Hide Hands' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
                         R.string.config_hide_hands_label,
-                        R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp,
+                        R.drawable.ic_settings,
+                        R.drawable.ic_settings,
                         new BooleanMutator(WatchFaceState::setHideHands),
                         WatchFaceState::isDeveloperMode),
 
                 // Data for 'Alt Drawing' in settings Activity.
                 new ToggleConfigItem(
                         R.string.config_alt_drawing_label,
-                        R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp,
+                        R.drawable.ic_settings,
+                        R.drawable.ic_settings,
                         new BooleanMutator(WatchFaceState::setAltDrawing),
                         WatchFaceState::isDeveloperMode),
 
                 new PickerConfigItem(
                         R.string.config_reset_to_default,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_settings,
                         WatchFaceGlobalDrawable.PART_BACKGROUND |
                                 WatchFaceGlobalDrawable.PART_TICKS |
                                 WatchFaceGlobalDrawable.PART_HANDS |

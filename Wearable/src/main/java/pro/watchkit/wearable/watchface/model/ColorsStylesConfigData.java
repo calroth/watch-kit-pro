@@ -46,35 +46,35 @@ public class ColorsStylesConfigData extends ConfigData {
                 // Data for fill color UX in settings Activity.
                 new ColorPickerConfigItem(
                         R.string.config_fill_color_label,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_color_lens,
                         PaintBox.ColorType.FILL,
                         ColorSelectionActivity.class),
 
                 // Data for accent color UX in settings Activity.
                 new ColorPickerConfigItem(
                         R.string.config_accent_color_label,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_color_lens,
                         PaintBox.ColorType.ACCENT,
                         ColorSelectionActivity.class),
 
                 // Data for highlight/marker (second hand) color UX in settings Activity.
                 new ColorPickerConfigItem(
                         R.string.config_marker_color_label,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_color_lens,
                         PaintBox.ColorType.HIGHLIGHT,
                         ColorSelectionActivity.class),
 
                 // Data for base color UX in settings Activity.
                 new ColorPickerConfigItem(
                         R.string.config_base_color_label,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_color_lens,
                         PaintBox.ColorType.BASE,
                         ColorSelectionActivity.class),
 
                 // Data for fill highlight style gradient in settings Activity.
                 new PickerConfigItem(
                         R.string.config_preset_fill_highlight_style_gradient,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_color_lens,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         Style.FILL_HIGHLIGHT,
@@ -86,7 +86,7 @@ public class ColorsStylesConfigData extends ConfigData {
                 // Data for fill highlight style texture in settings Activity.
                 new PickerConfigItem(
                         R.string.config_preset_fill_highlight_style_texture,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_color_lens,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
@@ -97,7 +97,7 @@ public class ColorsStylesConfigData extends ConfigData {
                 // Data for accent fill style gradient in settings Activity.
                 new PickerConfigItem(
                         R.string.config_preset_accent_fill_style_gradient,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_color_lens,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         Style.ACCENT_FILL,
@@ -109,7 +109,7 @@ public class ColorsStylesConfigData extends ConfigData {
                 // Data for accent fill style texture in settings Activity.
                 new PickerConfigItem(
                         R.string.config_preset_accent_fill_style_texture,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_color_lens,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
@@ -120,7 +120,7 @@ public class ColorsStylesConfigData extends ConfigData {
                 // Data for accent highlight style gradient in settings Activity.
                 new PickerConfigItem(
                         R.string.config_preset_accent_highlight_style_gradient,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_color_lens,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         Style.ACCENT_HIGHLIGHT,
@@ -132,7 +132,7 @@ public class ColorsStylesConfigData extends ConfigData {
                 // Data for accent highlight style texture in settings Activity.
                 new PickerConfigItem(
                         R.string.config_preset_accent_highlight_style_texture,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_color_lens,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
@@ -143,7 +143,7 @@ public class ColorsStylesConfigData extends ConfigData {
                 // Data for base accent style gradient in settings Activity.
                 new PickerConfigItem(
                         R.string.config_preset_base_accent_style_gradient,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_color_lens,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         Style.BASE_ACCENT,
@@ -155,7 +155,7 @@ public class ColorsStylesConfigData extends ConfigData {
                 // Data for base accent style texture in settings Activity.
                 new PickerConfigItem(
                         R.string.config_preset_base_accent_style_texture,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_color_lens,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(

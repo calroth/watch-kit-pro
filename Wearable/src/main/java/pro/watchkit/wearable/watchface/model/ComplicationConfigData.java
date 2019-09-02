@@ -44,7 +44,7 @@ public class ComplicationConfigData extends ConfigData {
                 // Data for complication count in settings Activity.
                 new PickerConfigItem(
                         R.string.config_complication_count,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_complications,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
@@ -55,7 +55,7 @@ public class ComplicationConfigData extends ConfigData {
                 // Data for complication rotation in settings Activity.
                 new PickerConfigItem(
                         R.string.config_complication_rotation,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_complications,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
@@ -66,7 +66,7 @@ public class ComplicationConfigData extends ConfigData {
                 // Data for complication size in settings Activity.
                 new PickerConfigItem(
                         R.string.config_complication_size,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_complications,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
@@ -77,7 +77,7 @@ public class ComplicationConfigData extends ConfigData {
                 // Data for complication overlap in settings Activity.
                 new PickerConfigItem(
                         R.string.config_complication_scale,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_complications,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
@@ -88,7 +88,7 @@ public class ComplicationConfigData extends ConfigData {
                 // Data for complication text style in settings Activity.
                 new PickerConfigItem(
                         R.string.config_complication_text_style,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_complications,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
@@ -99,7 +99,7 @@ public class ComplicationConfigData extends ConfigData {
                 // Data for complication ring style in settings Activity.
                 new PickerConfigItem(
                         R.string.config_complication_ring_style,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_complications,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
@@ -110,7 +110,7 @@ public class ComplicationConfigData extends ConfigData {
                 // Data for complication background style in settings Activity.
                 new PickerConfigItem(
                         R.string.config_complication_background_style,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_complications,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(

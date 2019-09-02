@@ -539,9 +539,10 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         void bind(@NonNull ConfigData.ColorPickerConfigItem configItem) {
             mButton.setText(itemView.getResources().getString(configItem.getNameResourceId()));
+            Drawable left = itemView.getContext().getDrawable(configItem.getIconResourceId());
+            left.setTint(mButton.getCurrentTextColor());
             mButton.setCompoundDrawablesWithIntrinsicBounds(
-                    itemView.getResources().getDrawable(configItem.getIconResourceId()),
-                    null, mColorSwatchDrawable, null);
+                    left, null, mColorSwatchDrawable, null);
             mColorType = configItem.getType();
             mLaunchActivity = configItem.getActivityToChoosePreference();
         }
@@ -583,9 +584,9 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         void bind(@NonNull ConfigData.ConfigActivityConfigItem configItem) {
             mButton.setText(itemView.getResources().getString(configItem.getNameResourceId()));
-            mButton.setCompoundDrawablesWithIntrinsicBounds(
-                    itemView.getContext().getDrawable(configItem.getIconResourceId()),
-                    null, null, null);
+            Drawable left = itemView.getContext().getDrawable(configItem.getIconResourceId());
+            left.setTint(mButton.getCurrentTextColor());
+            mButton.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
             mConfigDataClass = configItem.getConfigDataClass();
             mLaunchActivity = configItem.getActivityToChoosePreference();
         }
@@ -706,9 +707,9 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             }
             mButton.setText(mConfigItem.getName(
                     mCurrentWatchFaceState, itemView.getContext()));
-            mButton.setCompoundDrawablesWithIntrinsicBounds(
-                    itemView.getContext().getDrawable(mConfigItem.getIconResourceId()),
-                    null, null, null);
+            Drawable left = itemView.getContext().getDrawable(mConfigItem.getIconResourceId());
+            left.setTint(mButton.getCurrentTextColor());
+            mButton.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
 
             if (mConfigItem.isVisible(mCurrentWatchFaceState)) {
                 itemView.getLayoutParams().height = mVisibleLayoutHeight;
@@ -861,8 +862,9 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             }
 
             mSwitch.setChecked(checked);
-            mSwitch.setCompoundDrawablesWithIntrinsicBounds(
-                    mSwitch.getContext().getDrawable(currentIconResourceId), null, null, null);
+            Drawable left = itemView.getContext().getDrawable(currentIconResourceId);
+            left.setTint(mSwitch.getCurrentTextColor());
+            mSwitch.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
         }
 
         @Override

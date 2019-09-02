@@ -36,6 +36,7 @@ package pro.watchkit.wearable.watchface.config;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.wearable.complications.ComplicationProviderInfo;
@@ -43,6 +44,7 @@ import android.support.wearable.complications.ProviderChooserIntent;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -154,16 +156,16 @@ public class ConfigActivity extends Activity {
         mAdapter = new ConfigRecyclerViewAdapter(this, watchFaceServiceClass,
                 mConfigData.getDataToPopulateAdapter());
 
-        WearableRecyclerView mWearableRecyclerView =
+        WearableRecyclerView wearableRecyclerView =
                 findViewById(R.id.wearable_recycler_view);
 
-        mWearableRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        wearableRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Because we can add or remove items dynamically, we set this to false.
         // It makes things a little slower as the RecyclerView can't optimise some things.
-        mWearableRecyclerView.setHasFixedSize(false);
+        wearableRecyclerView.setHasFixedSize(false);
 
-        mWearableRecyclerView.setAdapter(mAdapter);
+        wearableRecyclerView.setAdapter(mAdapter);
 
         mWearableNavigationDrawer = findViewById(R.id.top_navigation_drawer);
         // Only if we're part of the main navigation.
@@ -294,10 +296,17 @@ public class ConfigActivity extends Activity {
                     mContext.getString(mNavigationActivities[index].mTitleId);
         }
 
+        @ColorInt
+        private final static int mDrawableTint = Color.BLACK;
+
         @Nullable
         @Override
         public Drawable getItemDrawable(int index) {
-            return mContext.getDrawable(mNavigationActivities[index].mDrawableId);
+            Drawable result = mContext.getDrawable(mNavigationActivities[index].mDrawableId);
+            if (result != null) {
+                result.setTint(mDrawableTint);
+            }
+            return result;
         }
 
         @Override
