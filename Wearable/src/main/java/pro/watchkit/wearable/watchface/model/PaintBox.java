@@ -652,8 +652,8 @@ public final class PaintBox {
                 // Well, we have an existing bitmap, but it may have been garbage collected...
                 Bitmap result = cache.get();
                 if (result != null) {
-                    android.util.Log.d("Paint", "Returning cached triangle bitmap " +
-                            modifiedCustomHashCode);
+//                    android.util.Log.d("Paint", "Returning cached triangle bitmap " +
+//                            modifiedCustomHashCode);
                     // It wasn't garbage collected! Return it.
                     return result;
                 }
