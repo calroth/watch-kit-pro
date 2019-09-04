@@ -77,6 +77,7 @@ android {
 
         resValue "string", "git_hash", "${getGitHash()}"
         resValue "string", "git_date", "${getGitDate()}"
+        resValue "string", "version_name", versionName
 
         minSdkVersion 24
 

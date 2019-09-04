@@ -898,7 +898,7 @@ public class WatchFaceState {
         return mSettings.mInnerGlow;
     }
 
-    void setDeveloperMode(boolean developerMode) {
+    public void setDeveloperMode(boolean developerMode) {
         mSettings.mDeveloperMode = developerMode;
     }
 

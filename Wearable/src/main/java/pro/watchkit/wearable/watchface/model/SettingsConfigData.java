@@ -88,19 +88,27 @@ public class SettingsConfigData extends ConfigData {
                         PaintBox.ColorType.AMBIENT_NIGHT,
                         ColorSelectionActivity.class),
 
+                // About!
+                new LabelConfigItem(R.string.config_about_heading, R.string.version_name),
+
+                // Credits!
+                new LabelConfigItem(R.string.config_credits_1, R.string.config_credits_2),
+
+                // Australia Represent
+                new LabelConfigItem(R.string.config_country_1, R.string.config_country_2),
+
+                // Git hash.
+                new LabelConfigItem(R.string.config_git_hash, R.string.git_hash),
+
+                // Git date.
+                new LabelConfigItem(R.string.config_git_date, R.string.git_date),
+
                 // Data for 'Developer Mode' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
                         R.string.config_developer_mode_label,
                         R.drawable.ic_settings,
                         R.drawable.ic_settings,
-                        new BooleanMutator(WatchFaceState::setDeveloperMode)),
-
-                // Git hash.
-                new LabelConfigItem(R.string.config_git_hash, R.string.git_hash,
-                        WatchFaceState::isDeveloperMode),
-
-                // Git date.
-                new LabelConfigItem(R.string.config_git_date, R.string.git_date,
+                        new BooleanMutator(WatchFaceState::setDeveloperMode),
                         WatchFaceState::isDeveloperMode),
 
                 // Data for 'Stats' UX (toggle) in settings Activity.

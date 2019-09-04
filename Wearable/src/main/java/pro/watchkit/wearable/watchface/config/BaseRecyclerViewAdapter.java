@@ -416,7 +416,8 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
     }
 
-    class LabelViewHolder extends RecyclerView.ViewHolder implements WatchFaceStateListener {
+    class LabelViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, WatchFaceStateListener {
 
         private TextView mLabelTextView;
         private int mVisibleLayoutHeight, mVisibleLayoutWidth;
@@ -426,6 +427,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         LabelViewHolder(@NonNull final View view) {
             super(view);
             mLabelTextView = view.findViewById(R.id.config_item_textview_widget);
+            view.setOnClickListener(this);
 
             mVisibleLayoutHeight = itemView.getLayoutParams().height;
             mVisibleLayoutWidth = itemView.getLayoutParams().width;
@@ -478,7 +480,43 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             }
             itemView.setLayoutParams(param);
         }
+
+        @Override
+        public void onClick(@NonNull View view) {
+            if (mCurrentWatchFaceState.isDeveloperMode()) {
+                // Ignore if we're already in developer mode
+                return;
+            }
+            // If we spam clicks on the config git hash or date, enter developer mode.
+            if (mConfigItem.getTitleResourceId() == R.string.config_git_hash ||
+                    mConfigItem.getTitleResourceId() == R.string.config_git_date) {
+                mDeveloperModeEntry--;
+                if (mDeveloperModeEntry > 0 && mDeveloperModeEntry < 5) {
+                    Toaster.makeText(view.getContext(), "Entering developer mode in " +
+                            mDeveloperModeEntry + " clicks", Toaster.LENGTH_LONG);
+                } else if (mDeveloperModeEntry == 0) {
+                    Toaster.makeText(view.getContext(), "You are now a developer!",
+                            Toaster.LENGTH_LONG);
+                }
+                if (mDeveloperModeEntry <= 0) {
+                    // Enter developer mode!
+                    mCurrentWatchFaceState.setDeveloperMode(true);
+
+                    // Store the pref.
+                    mSharedPref.putWatchFaceStateString(mCurrentWatchFaceState.getString());
+
+                    // Notify everything else so we can show the UI.
+                    BaseRecyclerViewAdapter.this.onWatchFaceStateChanged();
+                }
+            }
+        }
     }
+
+    /**
+     * The number of clicks required to enter developer mode. Decrements by one on each click.
+     * If 0, we enter developer mode!
+     */
+    private static int mDeveloperModeEntry = 8;
 
     /**
      * Displays color options for the an item on the watch face. These could include marker color,

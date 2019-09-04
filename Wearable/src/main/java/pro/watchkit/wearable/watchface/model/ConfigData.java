@@ -117,6 +117,11 @@ abstract public class ConfigData {
         }
 
         LabelConfigItem(@StringRes final int titleResourceId,
+                        @StringRes final int labelResourceId) {
+            this(titleResourceId, labelResourceId, false, null);
+        }
+
+        LabelConfigItem(@StringRes final int titleResourceId,
                         @StringRes final int labelResourceId,
                         @Nullable Function<WatchFaceState, Boolean>
                                 configItemVisibilityCalculator) {
