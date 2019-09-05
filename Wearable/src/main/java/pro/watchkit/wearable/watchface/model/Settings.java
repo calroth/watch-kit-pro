@@ -40,6 +40,7 @@ final class Settings extends BytePackable {
     boolean mAltDrawing;
     boolean mHardwareAccelerationEnabled = true;
     boolean mInnerGlow = false;
+    boolean mDrawShadows = true;
 
     @Override
     public int hashCode() {

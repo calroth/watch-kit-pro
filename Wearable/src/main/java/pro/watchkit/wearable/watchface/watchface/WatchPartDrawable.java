@@ -158,7 +158,9 @@ abstract class WatchPartDrawable extends Drawable {
             // Here we treat "mIntersectionBezel" as a cheap throwaway path.
             p.transform(m2, mIntersectionBezel);
             // Shadow
-            canvas.drawPath(mIntersectionBezel, mWatchFaceState.getPaintBox().getShadowPaint());
+            if (mWatchFaceState.isDrawShadows()) {
+                canvas.drawPath(mIntersectionBezel, mWatchFaceState.getPaintBox().getShadowPaint());
+            }
 
             // The path.
             paint.setStyle(Paint.Style.FILL);

@@ -898,6 +898,14 @@ public class WatchFaceState {
         return mSettings.mInnerGlow;
     }
 
+    void setDrawShadows(boolean drawShadows) {
+        mSettings.mDrawShadows = drawShadows;
+    }
+
+    public boolean isDrawShadows() {
+        return mSettings.mDrawShadows;
+    }
+
     public void setDeveloperMode(boolean developerMode) {
         mSettings.mDeveloperMode = developerMode;
     }
