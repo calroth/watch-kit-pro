@@ -76,6 +76,20 @@
     <string name="config_country_2">Australia</string>
     <string name="config_git_hash">Revision 🎉</string>
     <string name="config_git_date">Date 📇</string>
+    <string name="config_scripture_0">&lt;br /&gt;✝️&lt;br /&gt;&lt;br /&gt;</string>
+    <string name="config_scripture_1">For God loved the world in this way: He gave his one and only
+        Son, so that everyone who believes in him will not perish but have eternal life.
+        &lt;br /&gt;(John 3:16, CSB)</string>
+    <string name="config_scripture_2">Jesus told him, “I am the way, the truth, and the life. No
+        one comes to the Father except through me. If you know me, you will also know my Father.
+        From now on you do know him and have seen him.”
+        &lt;br /&gt;(John 14:6-7, CSB)</string>
+    <string name="config_scripture_3">Go, therefore, and make disciples of all nations, baptizing
+        them in the name of the Father and of the Son and of the Holy Spirit,
+        &lt;br /&gt;(Matthew 28:19, CSB)</string>
+    <string name="config_scripture_4">For I know the plans I have for you”—this is the Lord’s
+        declaration—“plans for your well-being, not for disaster, to give you a future and a hope.
+        &lt;br /&gt;(Jeremiah 29:11, CSB)</string>
     <string name="config_stats_label">Show Statistics</string>
     <string name="config_stats_detail_label">Show Detailed Statistics</string>
     <string name="config_hide_ticks_label">Hide Ticks</string>

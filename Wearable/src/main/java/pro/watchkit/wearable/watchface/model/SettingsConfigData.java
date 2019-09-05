@@ -36,9 +36,11 @@ package pro.watchkit.wearable.watchface.model;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
@@ -49,6 +51,13 @@ import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 public class SettingsConfigData extends ConfigData {
     @Override
     public List<ConfigItemType> getDataToPopulateAdapter() {
+        @StringRes int[] scriptureVerses = new int[]{
+                R.string.config_scripture_1,
+                R.string.config_scripture_2,
+                R.string.config_scripture_3,
+                R.string.config_scripture_4};
+        @StringRes int randomScriptureVerse =
+                scriptureVerses[new Random().nextInt(scriptureVerses.length)];
         return Arrays.asList(
                 // Title.
                 new LabelConfigItem(R.string.config_configure_settings),
@@ -189,7 +198,10 @@ public class SettingsConfigData extends ConfigData {
                                 return null;
                             }
                         },
-                        WatchFaceState::isDeveloperMode)
+                        WatchFaceState::isDeveloperMode),
+
+                // Scripture.
+                new LabelConfigItem(R.string.config_scripture_0, randomScriptureVerse)
                 );
     }
 }
