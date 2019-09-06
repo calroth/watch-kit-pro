@@ -78,6 +78,8 @@ abstract class WatchPartDrawable extends Drawable {
     @NonNull
     private Path mSecondaryBezel = new Path();
     @NonNull
+    private Path mShapeCutout = new Path();
+    @NonNull
     private Path mIntersectionBezel = new Path();
     @NonNull
     private Path mInnerGlowPath = new Path();
@@ -830,21 +832,20 @@ abstract class WatchPartDrawable extends Drawable {
         path.close();
 
         // Top and bottom halves.
-        // Shamelessly re-use the "mPrimaryBezel" path for this.
         if (drawTopHalf && !drawBottomHalf) {
-            mPrimaryBezel.reset();
+            mShapeCutout.reset();
             // Make "mPrimaryBezel" a bit bigger than top half, then intersect with "path".
-            mPrimaryBezel.addRect(
+            mShapeCutout.addRect(
                     left - 1f * pc, top - 1 * pc,
                     right + 1f * pc, (top + bottom) / 2f, getDirection());
-            path.op(mPrimaryBezel, Path.Op.INTERSECT);
+            path.op(mShapeCutout, Path.Op.INTERSECT);
         } else if (drawBottomHalf && !drawTopHalf) {
-            mPrimaryBezel.reset();
+            mShapeCutout.reset();
             // Make "mPrimaryBezel" a bit bigger than bottom half, then intersect with "path".
-            mPrimaryBezel.addRect(
+            mShapeCutout.addRect(
                     left - 1f * pc, (top + bottom) / 2f,
                     right + 1f * pc, bottom + 1f * pc, getDirection());
-            path.op(mPrimaryBezel, Path.Op.INTERSECT);
+            path.op(mShapeCutout, Path.Op.INTERSECT);
         }
     }
 }
