@@ -1544,6 +1544,36 @@ public class WatchFaceState {
     }
 
     /**
+     * Get the given color name from our 6-bit (64-color) palette. Returns a String.
+     *
+     * @param colorType ColorType to get from our current WatchFacePreset.
+     * @return Name of color from our palette as a String
+     */
+    public String getColorName(@NonNull ColorType colorType) {
+        switch (colorType) {
+            case FILL: {
+                return mPaintBox.getColorName(getFillSixBitColor());
+            }
+            case ACCENT: {
+                return mPaintBox.getColorName(getAccentSixBitColor());
+            }
+            case HIGHLIGHT: {
+                return mPaintBox.getColorName(getHighlightSixBitColor());
+            }
+            case BASE: {
+                return mPaintBox.getColorName(getBaseSixBitColor());
+            }
+            case AMBIENT_DAY: {
+                return mPaintBox.getColorName(getAmbientDaySixBitColor());
+            }
+            default:
+            case AMBIENT_NIGHT: {
+                return mPaintBox.getColorName(getAmbientNightSixBitColor());
+            }
+        }
+    }
+
+    /**
      * Get the given color from our 6-bit (64-color) palette. Returns a ColorInt.
      *
      * @param textStyle ColorType to get from our current WatchFacePreset.

@@ -72,7 +72,6 @@ import java.util.concurrent.Executors;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.ConfigData;
-import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.util.SharedPref;
 import pro.watchkit.wearable.watchface.util.Toaster;
@@ -522,21 +521,21 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
      * Displays color options for the an item on the watch face. These could include marker color,
      * background color, etc.
      */
-    public class ColorPickerViewHolder
-            extends RecyclerView.ViewHolder implements View.OnClickListener, WatchFaceStateListener {
+    public class ColorPickerViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, WatchFaceStateListener {
 
+        private ConfigData.ColorPickerConfigItem mConfigItem;
         private Button mButton;
         private Class<ColorSelectionActivity> mLaunchActivity;
-        private PaintBox.ColorType mColorType;
         @NonNull
         private Drawable mColorSwatchDrawable = new Drawable() {
             private Paint mCirclePaint;
 
             @Override
             public void draw(@NonNull Canvas canvas) {
-                if (mColorType == null) return;
+                if (mConfigItem == null || mConfigItem.getType() == null) return;
 
-                @ColorInt int color = mCurrentWatchFaceState.getColor(mColorType);
+                @ColorInt int color = mCurrentWatchFaceState.getColor(mConfigItem.getType());
 
                 // Draw a circle that's 20px from right, top and left borders.
                 float radius = (canvas.getClipBounds().height() / 2f) - 20f;
@@ -576,16 +575,29 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
 
         void bind(@NonNull ConfigData.ColorPickerConfigItem configItem) {
-            mButton.setText(itemView.getResources().getString(configItem.getNameResourceId()));
-            Drawable left = itemView.getContext().getDrawable(configItem.getIconResourceId());
+            mConfigItem = configItem;
+            setTextAndVisibility();
+        }
+
+        private void setTextAndVisibility() {
+            String name = itemView.getResources().getString(mConfigItem.getNameResourceId());
+            if (mConfigItem == null || mConfigItem.getType() == null) {
+                mButton.setText(name);
+            } else {
+                String colorName = mCurrentWatchFaceState.getColorName(mConfigItem.getType());
+                CharSequence text = Html.fromHtml(name + "<br/><small>" +
+                        colorName + "</small>", Html.FROM_HTML_MODE_LEGACY);
+                mButton.setText(text);
+            }
+            Drawable left = itemView.getContext().getDrawable(mConfigItem.getIconResourceId());
             left.setTint(mButton.getCurrentTextColor());
             mButton.setCompoundDrawablesWithIntrinsicBounds(
                     left, null, mColorSwatchDrawable, null);
-            mColorType = configItem.getType();
-            mLaunchActivity = configItem.getActivityToChoosePreference();
+            mLaunchActivity = mConfigItem.getActivityToChoosePreference();
         }
 
         public void onWatchFaceStateChanged() {
+            setTextAndVisibility();
             itemView.invalidate();
         }
 
@@ -595,7 +607,9 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
 
                 // Pass shared preference name to save color value to.
-                launchIntent.putExtra(INTENT_EXTRA_COLOR, mColorType.name());
+                if (mConfigItem != null && mConfigItem.getType() != null) {
+                    launchIntent.putExtra(INTENT_EXTRA_COLOR, mConfigItem.getType().name());
+                }
                 launchIntent.putExtra(INTENT_EXTRA_SLOT, mWatchFaceComponentName.getClassName());
 
                 Activity activity = (Activity) view.getContext();
