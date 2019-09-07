@@ -57,15 +57,14 @@
     <string name="saved_most_recent_config_page">saved_most_recent_config_page</string>
     <string name="saved_background_color">saved_background_color</string>
 
-    <!-- Use of "\n" is to conserve horizontal space in config menu. -->
-    <string name="config_fill_color_label">Fill\nColor</string>
-    <string name="config_accent_color_label">Accent\nColor</string>
-    <string name="config_marker_color_label">Highlight\nColor</string>
-    <string name="config_base_color_label">Base\nColor</string>
-    <string name="config_background_color_label">Background\nColor</string>
-    <string name="config_unread_notifications_label">Unread\nNotifications</string>
-    <string name="config_background_image_complication_label">Background\nImage</string>
-    <string name="config_night_vision_label">Night\nVision</string>
+    <string name="config_fill_color_label">Fill Color</string>
+    <string name="config_accent_color_label">Accent Color</string>
+    <string name="config_marker_color_label">Highlight Color</string>
+    <string name="config_base_color_label">Base Color</string>
+    <string name="config_background_color_label">Background Color</string>
+    <string name="config_unread_notifications_label">Unread Notifications</string>
+    <string name="config_background_image_complication_label">Background Image</string>
+    <string name="config_night_vision_label">Night Vision</string>
     <string name="config_ambient_day_color_label">Ambient Day Color</string>
     <string name="config_ambient_night_color_label">Ambient Night Color</string>
     <string name="config_developer_mode_label">Developer Mode</string>
