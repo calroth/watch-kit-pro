@@ -26,7 +26,7 @@ import java.util.Objects;
 final class Settings extends BytePackable {
     Typeface mTypeface;
     boolean mShowUnreadNotifications;
-    boolean mNightVisionModeEnabled;
+    //    boolean mNightVisionModeEnabled;
     ComplicationCount mComplicationCount;
     ComplicationRotation mComplicationRotation;
     ComplicationSize mComplicationSize;
@@ -48,7 +48,7 @@ final class Settings extends BytePackable {
                 super.hashCode(),
                 mTypeface,
                 mShowUnreadNotifications,
-                mNightVisionModeEnabled,
+//                mNightVisionModeEnabled,
                 mComplicationCount,
                 mComplicationRotation,
                 mComplicationSize,
@@ -68,7 +68,7 @@ final class Settings extends BytePackable {
         mBytePacker.put(3, 2);
 
         mBytePacker.put(mShowUnreadNotifications);
-        mBytePacker.put(mNightVisionModeEnabled);
+        mBytePacker.put(true /*mNightVisionModeEnabled*/);
         mComplicationCount.pack(mBytePacker);
         mComplicationRotation.pack(mBytePacker);
         mBytePacker.put(6, mAmbientDaySixBitColor);
@@ -101,7 +101,8 @@ final class Settings extends BytePackable {
             }
             case 1: {
                 mShowUnreadNotifications = mBytePacker.getBoolean();
-                mNightVisionModeEnabled = mBytePacker.getBoolean();
+                /*mNightVisionModeEnabled =*/
+                mBytePacker.getBoolean();
                 mComplicationCount = ComplicationCount.unpack(mBytePacker);
                 mComplicationRotation = ComplicationRotation.unpack(mBytePacker);
                 mAmbientDaySixBitColor = mBytePacker.get(6);
@@ -123,7 +124,8 @@ final class Settings extends BytePackable {
             case 2:
             default: {
                 mShowUnreadNotifications = mBytePacker.getBoolean();
-                mNightVisionModeEnabled = mBytePacker.getBoolean();
+                /*mNightVisionModeEnabled =*/
+                mBytePacker.getBoolean();
                 mComplicationCount = ComplicationCount.unpack(mBytePacker);
                 mComplicationRotation = ComplicationRotation.unpack(mBytePacker);
                 mAmbientDaySixBitColor = mBytePacker.get(6);

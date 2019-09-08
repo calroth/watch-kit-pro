@@ -69,12 +69,12 @@ public class SettingsConfigData extends ConfigData {
                         R.drawable.ic_notifications_off_white_24dp,
                         new BooleanMutator(WatchFaceState::setShowUnreadNotifications)),
 
-                // Data for 'Night Vision' UX (toggle) in settings Activity.
-                new ToggleConfigItem(
-                        R.string.config_night_vision_label,
-                        R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp,
-                        new BooleanMutator(WatchFaceState::setNightVisionModeEnabled)),
+//                // Data for 'Night Vision' UX (toggle) in settings Activity.
+//                new ToggleConfigItem(
+//                        R.string.config_night_vision_label,
+//                        R.drawable.ic_notifications_white_24dp,
+//                        R.drawable.ic_notifications_off_white_24dp,
+//                        new BooleanMutator(WatchFaceState::setNightVisionModeEnabled)),
 
                 // Data for Configure Colors and Styles sub-activity in settings Activity.
                 new ConfigActivityConfigItem(
