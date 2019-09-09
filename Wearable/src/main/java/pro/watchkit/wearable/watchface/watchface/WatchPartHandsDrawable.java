@@ -34,6 +34,7 @@ import pro.watchkit.wearable.watchface.model.BytePackable.HandShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandStalk;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandThickness;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
+import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     private static final float HUB_RADIUS_PERCENT = 3f; // 3% // 1.5f; // 1.5%
@@ -152,8 +153,8 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         boolean isMinuteHand = isMinuteHand();
         boolean isSecondHand = isSecondHand();
 
-        float thickness = mWatchFaceState.getHandThickness(handShape, handThickness);
-        float length = mWatchFaceState.getHandLength(handLength);
+        float thickness = WatchFaceState.getHandThickness(handShape, handThickness);
+        float length = WatchFaceState.getHandLength(handLength);
         float top, bottom;
         if (isMinuteHand || isSecondHand) {
             length = length * 12.5f * pc; // 12.5%
@@ -175,7 +176,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         // in order that the union works OK without gaps.
         // For the stalk thickness, use the width of the Straight hand shape, but only half.
         final float stalkThickness = pc * 0.5f *
-                mWatchFaceState.getHandThickness(BytePackable.HandShape.STRAIGHT, handThickness);
+                WatchFaceState.getHandThickness(BytePackable.HandShape.STRAIGHT, handThickness);
 
         mStalk.reset();
         mStalkCutout.reset();
@@ -188,6 +189,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 bottom = mCenterY + HUB_RADIUS_PERCENT * pc * 2f;
                 break;
             }
+            default:
             case NONE: {
                 bottom = mCenterY;
                 break;
@@ -230,12 +232,6 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 drawRoundRectInset(mStalkCutout,
                         mCenterX - stalkThickness, stalkTop,
                         mCenterX + stalkThickness, stalkBottom, roundRectRadius, 1.0f, 1.0f);
-                break;
-            }
-            default: {
-                // Shouldn't happen!
-                // Make same as NONE
-                bottom = mCenterY;
                 break;
             }
         }
