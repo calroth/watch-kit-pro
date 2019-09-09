@@ -28,9 +28,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'androidx.legacy:legacy-support-v13:1.0.0'
 
-    compileOnly 'com.google.android.wearable:wearable:2.4.0'
+    compileOnly 'com.google.android.wearable:wearable:2.5.0'
 
-    implementation 'com.google.android.support:wearable:2.4.0'
+    implementation 'com.google.android.support:wearable:2.5.0'
     implementation 'net.e175.klaus:solarpositioning:0.0.9'
     implementation 'androidx.annotation:annotation:1.1.0'
     // The below was only needed since upgrading to Android build tools 3.5.0.
@@ -69,11 +69,11 @@ android {
 
     compileSdkVersion 28
 
-    buildToolsVersion "28.0.3"
+    buildToolsVersion "29.0.2"
 
     defaultConfig {
         versionCode 1
-        versionName "1.0"
+        versionName "0.1"
 
         resValue "string", "git_hash", "${getGitHash()}"
         resValue "string", "git_date", "${getGitDate()}"
@@ -85,11 +85,11 @@ android {
 
         multiDexEnabled true
 
-        externalNativeBuild {
-            cmake {
-                cppFlags ""
-            }
-        }
+//        externalNativeBuild {
+//            cmake {
+//                cppFlags ""
+//            }
+//        }
     }
 
     compileOptions {
