@@ -184,6 +184,9 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         mHandTopCutout.reset();
         mHandBottomCutout.reset();
 
+        // Golden ratio scale = 1 / sqrt(golden ratio)
+        final float cutoutScale = (float) (Math.sqrt(1d / 1.61803398875d / 1.61803398875d));
+
         switch (handStalk) {
             case NEGATIVE: {
                 bottom = mCenterY + HUB_RADIUS_PERCENT * pc * 2f;
@@ -206,12 +209,12 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 // Draw a stalk.
                 drawRoundRect(mStalk,
                         mCenterX - stalkThickness, stalkTop,
-                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 1.0f);
+                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 1f);
 
                 // Draw a cutout.
-                drawRoundRectInset(mStalkCutout,
+                drawRoundRect(mStalkCutout,
                         mCenterX - stalkThickness, stalkTop,
-                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 1.0f, 1.0f);
+                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, cutoutScale);
                 break;
             }
             case MEDIUM: {
@@ -226,12 +229,12 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 // Draw a stalk.
                 drawRoundRect(mStalk,
                         mCenterX - stalkThickness, stalkTop,
-                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 1.0f);
+                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 1f);
 
                 // Draw a cutout.
-                drawRoundRectInset(mStalkCutout,
+                drawRoundRect(mStalkCutout,
                         mCenterX - stalkThickness, stalkTop,
-                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, 1.0f, 1.0f);
+                        mCenterX + stalkThickness, stalkBottom, roundRectRadius, cutoutScale);
                 break;
             }
         }
@@ -242,26 +245,26 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         switch (handShape) {
             case STRAIGHT: {
                 // Draw a rectangle.
-                drawRect(p, left, top, right, bottom, 1.0f);
+                drawRect(p, left, top, right, bottom, 1f);
 
                 // Draw a cutout.
-                drawRectInset(mHandFullCutout, left, top, right, bottom, 1.0f, 1.0f);
-                drawRectInset(mHandTopCutout, left, top, right, bottom, 1.0f, 0.5f);
-                drawRectInset(mHandBottomCutout, left, top, right, bottom, 0.5f, 1.0f);
+                drawRect(mHandFullCutout, left, top, right, bottom, cutoutScale);
+                drawRect(mHandTopCutout, left, top, right, bottom, cutoutScale, true, false);
+                drawRect(mHandBottomCutout, left, top, right, bottom, cutoutScale, false, true);
                 break;
             }
             case ROUNDED: {
                 // Draw a round rect with double corner radius.
                 drawRoundRect(p, left, top, right, bottom,
-                        roundRectRadius * 2f, 1.0f);
+                        roundRectRadius * 2f, 1f);
 
                 // Draw a cutout.
-                drawRoundRectInset(mHandFullCutout, left, top, right, bottom,
-                        roundRectRadius * 2f, 1.0f, 1.0f);
-                drawRoundRectInset(mHandTopCutout, left, top, right, bottom,
-                        roundRectRadius * 2f, 1.0f, 0.5f);
-                drawRoundRectInset(mHandBottomCutout, left, top, right, bottom,
-                        roundRectRadius * 2f, 0.5f, 1.0f);
+                drawRoundRect(mHandFullCutout, left, top, right, bottom,
+                        roundRectRadius * 2f, cutoutScale);
+                drawRoundRect(mHandTopCutout, left, top, right, bottom,
+                        roundRectRadius * 2f, cutoutScale, true, false);
+                drawRoundRect(mHandBottomCutout, left, top, right, bottom,
+                        roundRectRadius * 2f, cutoutScale, false, true);
                 break;
             }
             case DIAMOND: {
@@ -274,15 +277,12 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 drawDiamond(p, left, diamondTop, right, diamondBottom, 1f,
                         HOUR_MINUTE_HAND_MIDPOINT);
 
-                // Golden ratio scale = 1 / sqrt(golden ratio)
-                final float scale = (float) (Math.sqrt(1d / 1.61803398875d / 1.61803398875d));
-
                 // Draw a cutout.
-                drawDiamond(mHandFullCutout, left, diamondTop, right, diamondBottom, scale,
+                drawDiamond(mHandFullCutout, left, diamondTop, right, diamondBottom, cutoutScale,
                         HOUR_MINUTE_HAND_MIDPOINT);
-                drawDiamond(mHandTopCutout, left, diamondTop, right, diamondBottom, scale,
+                drawDiamond(mHandTopCutout, left, diamondTop, right, diamondBottom, cutoutScale,
                         HOUR_MINUTE_HAND_MIDPOINT, true, false);
-                drawDiamond(mHandBottomCutout, left, diamondTop, right, diamondBottom, scale,
+                drawDiamond(mHandBottomCutout, left, diamondTop, right, diamondBottom, cutoutScale,
                         HOUR_MINUTE_HAND_MIDPOINT, false, true);
                 break;
             }
@@ -295,14 +295,11 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 // Draw a triangle.
                 drawTriangle(p, left, triangleTop, right, triangleBottom, 1f);
 
-                // Golden ratio scale = 1 / sqrt(golden ratio)
-                final float scale = (float) (Math.sqrt(1d / 1.61803398875d / 1.61803398875d));
-
                 // Draw a cutout.
-                drawTriangle(mHandFullCutout, left, triangleTop, right, triangleBottom, scale);
-                drawTriangle(mHandTopCutout, left, triangleTop, right, triangleBottom, scale,
+                drawTriangle(mHandFullCutout, left, triangleTop, right, triangleBottom, cutoutScale);
+                drawTriangle(mHandTopCutout, left, triangleTop, right, triangleBottom, cutoutScale,
                         true, false);
-                drawTriangle(mHandBottomCutout, left, triangleTop, right, triangleBottom, scale,
+                drawTriangle(mHandBottomCutout, left, triangleTop, right, triangleBottom, cutoutScale,
                         false, true);
                 break;
             }

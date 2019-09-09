@@ -473,6 +473,33 @@ abstract class WatchPartDrawable extends Drawable {
      */
     void drawRect(@NonNull Path path, float left, float top, float right, float bottom,
                   float scale) {
+        drawRect(path, left, top, right, bottom, scale, true, true);
+    }
+
+    /**
+     * Draw a rectangle into "path". The rect's dimensions are set by the given bounds "left",
+     * "top", "right" and "bottom".
+     * <p>
+     * At scale 1.0f this method draws a rectangle exactly up to these bounds.
+     * <p>
+     * At scales less than 1.0f this method draws a shape inset into a "1.0f shape" in such a way
+     * that each edge is a constant distance from the "1.0f shape", and at the same time, such that
+     * the shape's area is "scale" the size of the "1.0f shape".
+     * <p>
+     * At scales greater than 1.0f, it works the same way, except the shape drawn will be
+     * correspondingly larger (and outside of the bounds).
+     *
+     * @param path   The path to draw into
+     * @param left   Left bound
+     * @param top    Top bound
+     * @param right  Right bound
+     * @param bottom Bottom bound
+     * @param scale  Scale of the shape
+     * @param drawTopHalf Draw the top half of the shape, false for certain styles of cutout
+     * @param drawBottomHalf Draw the bottom half of the shape, false for certain styles of cutout
+     */
+    void drawRect(@NonNull Path path, float left, float top, float right, float bottom,
+                  float scale, boolean drawTopHalf, boolean drawBottomHalf) {
         // Inset calculation:
         //  xy = ((x - n)(y - n)) / scale
         //   n = (x + y − √( x² + y² + (4 * scale - 2)xy)) / 2
@@ -486,50 +513,49 @@ abstract class WatchPartDrawable extends Drawable {
 
         path.addRect(left + offset, top + offset,
                 right - offset, bottom - offset, getDirection());
+
+        // Top and bottom halves.
+        if (drawTopHalf && !drawBottomHalf) {
+            mShapeCutout.reset();
+            // Make "mPrimaryBezel" a bit bigger than top half, then intersect with "path".
+            mShapeCutout.addRect(
+                    left - 1f * pc, top - 1 * pc,
+                    right + 1f * pc, (top + bottom) / 2f, getDirection());
+            path.op(mShapeCutout, Path.Op.INTERSECT);
+        } else if (drawBottomHalf && !drawTopHalf) {
+            mShapeCutout.reset();
+            // Make "mPrimaryBezel" a bit bigger than bottom half, then intersect with "path".
+            mShapeCutout.addRect(
+                    left - 1f * pc, (top + bottom) / 2f,
+                    right + 1f * pc, bottom + 1f * pc, getDirection());
+            path.op(mShapeCutout, Path.Op.INTERSECT);
+        }
     }
 
     /**
-     * Better implementation of drawRect. Draws a rectangle in the specified bounds (or extending
-     * past them). Notionally the area of this rectangle is k of the area of the bounds. Plus it
-     * has a property that the inset is equal on all sides.
+     * Draw a round rect into "path". The rect's dimensions are set by the given bounds "left",
+     * "top", "right" and "bottom".
      * <p>
-     * Where "k" is the golden ratio 2nd term ≈ 0.38196601125...
+     * At scale 1.0f this method draws a round rect exactly up to these bounds.
      * <p>
-     * For example, pass in bounds of 6x4 (24 area) and it will calculate a rectangle of 4x2 (12
-     * area) with an inset of 1 on all sides.
+     * At scales less than 1.0f this method draws a shape inset into a "1.0f shape" in such a way
+     * that each edge is a constant distance from the "1.0f shape", and at the same time, such that
+     * the shape's area is "scale" the size of the "1.0f shape".
      * <p>
-     * If offsetTop or offsetBottom is 1.0, then it uses the calculations as specified. If it's
-     * greater than 1.0, the top or bottom is moved outwards. If less than 1.0, inwards.
+     * At scales greater than 1.0f, it works the same way, except the shape drawn will be
+     * correspondingly larger (and outside of the bounds).
      *
-     * @param path         Path to draw into
-     * @param left         Left boundary
-     * @param top          Top boundary
-     * @param right        Right boundary
-     * @param bottom       Bottom boundary
-     * @param offsetTop    Factor to move the top border, 1.0f is no change
-     * @param offsetBottom Factor to move the bottom border, 1.0f is no change.
+     * @param path         The path to draw into
+     * @param left         Left bound
+     * @param top          Top bound
+     * @param right        Right bound
+     * @param bottom       Bottom bound
+     * @param cornerRadius Corner radius of round rect
+     * @param scale        Scale of the shape
      */
-    @Deprecated
-    void drawRectInset(@NonNull Path path, float left, float top, float right, float bottom,
-                       float offsetTop, float offsetBottom) {
-        // Inset calculation:
-        //   k = golden ratio 2nd term
-        //     = (3 − √5) / 2
-        //     ≈ 0.38196601125...
-        //  xy = ((x - n)(y - n)) / k
-        //   n = (x + y − √( x² + y² + (4 − 2√5)xy)) / 2
-        // And then...
-        //   offset = n / 2
-        float x = (right - left);
-        float y = (bottom - top);
-        float n = (x + y - (float) Math.sqrt(x * x + y * y + (4f - 2f * Math.sqrt(5d)) * x * y)) * 0.5f;
-        float offset = n / 2f;
-
-        float newTop = bottom - (y * offsetTop);
-        float newBottom = top + (y * offsetBottom);
-
-        path.addRect(left + offset, newTop + offset,
-                right - offset, newBottom - offset, getDirection());
+    void drawRoundRect(@NonNull Path path, float left, float top, float right, float bottom,
+                       float cornerRadius, float scale) {
+        drawRoundRect(path, left, top, right, bottom, cornerRadius, scale, true, true);
     }
 
     /**
@@ -550,10 +576,14 @@ abstract class WatchPartDrawable extends Drawable {
      * @param top    Top bound
      * @param right  Right bound
      * @param bottom Bottom bound
+     * @param cornerRadius Corner radius of round rect
      * @param scale  Scale of the shape
+     * @param drawTopHalf Draw the top half of the shape, false for certain styles of cutout
+     * @param drawBottomHalf Draw the bottom half of the shape, false for certain styles of cutout
      */
     void drawRoundRect(@NonNull Path path, float left, float top, float right, float bottom,
-                       float cornerRadius, float scale) {
+                       float cornerRadius, float scale, boolean drawTopHalf,
+                       boolean drawBottomHalf) {
         // Inset calculation:
         //  xy = ((x - n)(y - n)) / scale
         //   n = (x + y − √( x² + y² + (4 * scale - 2)xy)) / 2
@@ -568,54 +598,23 @@ abstract class WatchPartDrawable extends Drawable {
 
         path.addRoundRect(left + offset, top + offset,
                 right - offset, bottom - offset, v, v, getDirection());
-    }
 
-    /**
-     * Better implementation of drawRoundRect. Draws a round rectangle in the specified bounds (or
-     * extending past them). Notionally the area of this round rectangle is k of the area of the
-     * bounds. Plus it has a property that the inset is equal on all sides.
-     * <p>
-     * Where "k" is the golden ratio 2nd term ≈ 0.38196601125...
-     * <p>
-     * For example, pass in bounds of 6x4 (24 area) and it will calculate a rectangle of 4x2 (12
-     * area) with an inset of 1 on all sides.
-     * <p>
-     * If offsetTop or offsetBottom is 1.0, then it uses the calculations as specified. If it's
-     * greater than 1.0, the top or bottom is moved outwards. If less than 1.0, inwards.
-     *
-     * @param path         Path to draw into
-     * @param left         Left boundary
-     * @param top          Top boundary
-     * @param right        Right boundary
-     * @param bottom       Bottom boundary
-     * @param cornerRadius Corner radius of round rectangle
-     * @param offsetTop    Factor to move the top border, 1.0f is no change
-     * @param offsetBottom Factor to move the bottom border, 1.0f is no change.
-     */
-    @Deprecated
-    void drawRoundRectInset(@NonNull Path path, float left, float top, float right, float bottom,
-                            float cornerRadius, float offsetTop, float offsetBottom) {
-        // Inset calculation:
-        //   k = golden ratio 2nd term
-        //     = (3 − √5) / 2
-        //     ≈ 0.38196601125...
-        //  xy = ((x - n)(y - n)) / k
-        //   n = (x + y − √( x² + y² + (4 − 2√5)xy)) / 2
-        // And then...
-        //   offset = n / 2
-        float x = (right - left);
-        float y = (bottom - top);
-        float n = (x + y - (float) Math.sqrt(x * x + y * y + (4f - 2f * Math.sqrt(5d)) * x * y)) * 0.5f;
-        float offset = n / 2f;
-
-        float newTop = bottom - (y * offsetTop);
-        float newBottom = top + (y * offsetBottom);
-
-        float v = cornerRadius - n;
-        v = v < 0 ? 0 : v; // Cap minimum at 0.
-
-        path.addRoundRect(left + offset, newTop + offset,
-                right - offset, newBottom - offset, v, v, getDirection());
+        // Top and bottom halves.
+        if (drawTopHalf && !drawBottomHalf) {
+            mShapeCutout.reset();
+            // Make "mPrimaryBezel" a bit bigger than top half, then intersect with "path".
+            mShapeCutout.addRect(
+                    left - 1f * pc, top - 1 * pc,
+                    right + 1f * pc, (top + bottom) / 2f, getDirection());
+            path.op(mShapeCutout, Path.Op.INTERSECT);
+        } else if (drawBottomHalf && !drawTopHalf) {
+            mShapeCutout.reset();
+            // Make "mPrimaryBezel" a bit bigger than bottom half, then intersect with "path".
+            mShapeCutout.addRect(
+                    left - 1f * pc, (top + bottom) / 2f,
+                    right + 1f * pc, bottom + 1f * pc, getDirection());
+            path.op(mShapeCutout, Path.Op.INTERSECT);
+        }
     }
 
     /**
