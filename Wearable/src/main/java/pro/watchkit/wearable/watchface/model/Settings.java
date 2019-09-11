@@ -41,6 +41,7 @@ final class Settings extends BytePackable {
     boolean mHardwareAccelerationEnabled = true;
     boolean mInnerGlow = false;
     boolean mDrawShadows = true;
+    boolean mTransparentBackground = false;
 
     @Override
     public int hashCode() {
@@ -57,7 +58,13 @@ final class Settings extends BytePackable {
                 mComplicationTextStyle,
                 mComplicationRingStyle, mComplicationBackgroundStyle,
                 mDeveloperMode,
-                mStats, mStatsDetail);
+                mStats, mStatsDetail,
+                mHideTicks, mHideHands,
+                mAltDrawing,
+                mHardwareAccelerationEnabled,
+                mInnerGlow,
+                mDrawShadows,
+                mTransparentBackground);
     }
 
     @Override

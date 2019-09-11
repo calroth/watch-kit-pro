@@ -906,6 +906,14 @@ public class WatchFaceState {
         return mSettings.mDrawShadows;
     }
 
+    public void setTransparentBackground(boolean transparentBackground) {
+        mSettings.mTransparentBackground = transparentBackground;
+    }
+
+    public boolean isTransparentBackground() {
+        return mSettings.mTransparentBackground;
+    }
+
     public void setDeveloperMode(boolean developerMode) {
         mSettings.mDeveloperMode = developerMode;
     }
