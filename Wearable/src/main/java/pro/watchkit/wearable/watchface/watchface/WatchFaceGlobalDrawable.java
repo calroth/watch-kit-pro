@@ -50,7 +50,7 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
     private Path mInnerGlowPath = new Path();
 
     public static final int PART_BACKGROUND = 1;
-    static final int PART_BACKGROUND_FULL_CANVAS = 2;
+    public static final int PART_BACKGROUND_FULL_CANVAS = 2;
     static final int PART_NOTIFICATIONS = 4;
     static final int PART_RINGS_ACTIVE = 8;
     public static final int PART_RINGS_ALL = 16;

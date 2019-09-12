@@ -160,6 +160,12 @@ public class SettingsConfigData extends ConfigData {
                         new BooleanMutator(WatchFaceState::setAltDrawing),
                         WatchFaceState::isDeveloperMode),
 
+                // Git date.
+                new LabelConfigItem(-1,
+                        R.string.config_generate_icon_files,
+                        true,
+                        WatchFaceState::isDeveloperMode),
+
                 new PickerConfigItem(
                         R.string.config_reset_to_default,
                         R.drawable.ic_settings,

@@ -50,6 +50,8 @@ final class WatchPartBackgroundDrawable extends WatchPartDrawable {
 
         if (mWatchFaceState.isAmbient()) {
             canvas.drawColor(Color.BLACK);
+        } else if (mWatchFaceState.isTransparentBackground()) {
+            canvas.drawColor(Color.TRANSPARENT); // Probably doesn't do anything?
         } else {
             final Paint p = mWatchFaceState.getPaintBox().getPaintFromPreset(
                     mWatchFaceState.getBackgroundStyle());
