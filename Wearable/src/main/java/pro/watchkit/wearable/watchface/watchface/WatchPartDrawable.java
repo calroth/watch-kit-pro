@@ -83,6 +83,8 @@ abstract class WatchPartDrawable extends Drawable {
     private Path mIntersectionBezel = new Path();
     @NonNull
     private Path mInnerGlowPath = new Path();
+    @NonNull
+    private Path mDrawPath = new Path();
 
     /**
      * Reset our current direction. Call this before starting any drawing, so we get consistency
@@ -249,7 +251,9 @@ abstract class WatchPartDrawable extends Drawable {
         }
     }
 
-    void drawPath(@NonNull Canvas canvas, @NonNull Path p, @NonNull Paint paint) {
+    void drawPath(@NonNull Canvas canvas, @NonNull Path path, @NonNull Paint paint) {
+        Path p = mDrawPath;
+        p.set(path);
         // Apply the exclusion path.
         p.op(mExclusionPath, Path.Op.INTERSECT);
 
@@ -391,14 +395,12 @@ abstract class WatchPartDrawable extends Drawable {
 
         mResetExclusionAmbientPath.reset();
         mResetExclusionAmbientPath.addPath(p5);
-        addExclusionPath(mResetExclusionAmbientPath, Path.Op.UNION);
 
         // For active, set an exclusion path of just the entire watchface.
         // Will need to revisit when we start supporting square devices.
 
         mResetExclusionActivePath.reset();
         mResetExclusionActivePath.addCircle(mCenterX, mCenterY, pc * 50f, getDirection());
-        addExclusionPath(mResetExclusionActivePath, Path.Op.UNION);
 
         // Reset "mInnerGlowPath" to our bounds, outset by 10%.
         mInnerGlowPath.reset();
