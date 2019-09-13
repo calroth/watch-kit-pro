@@ -23,9 +23,13 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable {
     private Bitmap mActiveCacheBitmap;
     private Bitmap mActiveHardwareCacheBitmap;
     private Canvas mActiveCacheCanvas;
+    private Path mActiveExclusionPath = new Path();
+    private Path mActiveInnerGlowPath = new Path();
     private Bitmap mAmbientCacheBitmap;
     private Bitmap mAmbientHardwareCacheBitmap;
     private Canvas mAmbientCacheCanvas;
+    private Path mAmbientExclusionPath = new Path();
+    private Path mAmbientInnerGlowPath = new Path();
     private Path mExclusionPath;
     private Path mInnerGlowPath;
     @NonNull
@@ -100,11 +104,15 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable {
             mCacheExclusionPath.reset();
             mWatchFaceState.setAmbient(true);
             super.draw(mAmbientCacheCanvas);
+            mAmbientExclusionPath.set(mCacheExclusionPath);
+            mAmbientInnerGlowPath.set(mCacheInnerGlowPath);
 
             // Pre-cache our active canvas.
             mCacheExclusionPath.reset();
             mWatchFaceState.setAmbient(false);
             super.draw(mActiveCacheCanvas);
+            mActiveExclusionPath.set(mCacheExclusionPath);
+            mActiveInnerGlowPath.set(mCacheInnerGlowPath);
 
             // And back to how we were.
             mWatchFaceState.setAmbient(currentAmbient);
@@ -120,8 +128,10 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable {
         }
 
         // Then copy our cache to the results!
-        mExclusionPath.set(mCacheExclusionPath);
-        mInnerGlowPath.set(mCacheInnerGlowPath);
+        mExclusionPath.set(
+                mWatchFaceState.isAmbient() ? mAmbientExclusionPath : mActiveExclusionPath);
+        mInnerGlowPath.set(
+                mWatchFaceState.isAmbient() ? mAmbientInnerGlowPath : mActiveInnerGlowPath);
         Bitmap mHardwareCacheBitmap = mWatchFaceState.isAmbient() ?
                 mAmbientHardwareCacheBitmap : mActiveHardwareCacheBitmap;
         Bitmap mCacheBitmap = mWatchFaceState.isAmbient() ?
