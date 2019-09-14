@@ -52,7 +52,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/preview_watch_kit_pro_a_circular"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name">
         <meta-data
             android:name="com.google.android.wearable.standalone"
