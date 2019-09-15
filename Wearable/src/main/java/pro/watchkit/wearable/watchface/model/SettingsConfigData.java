@@ -62,6 +62,10 @@ public class SettingsConfigData extends ConfigData {
                 // Title.
                 new LabelConfigItem(R.string.config_configure_settings),
 
+                // Beta software warning.
+                new LabelConfigItem(R.string.config_beta_alert_1,
+                        R.string.config_beta_alert_2),
+
                 // Data for 'Unread Notifications' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
                         R.string.config_unread_notifications_label,
