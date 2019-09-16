@@ -184,9 +184,9 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         mHandTopCutout.reset();
         mHandBottomCutout.reset();
 
-        // Golden ratio scale = 1 / sqrt(golden ratio)
-        final float cutoutScale = (float) (Math.sqrt(1d / 1.61803398875d / 1.61803398875d));
-
+        // Golden ratio scale = -2nd golden ratio term ~= 0.38196601125
+        final float cutoutScale = (float) (1d / 1.61803398875d / 1.61803398875d);
+        
         switch (handStalk) {
             case NEGATIVE: {
                 bottom = mCenterY + HUB_RADIUS_PERCENT * pc * 2f;
