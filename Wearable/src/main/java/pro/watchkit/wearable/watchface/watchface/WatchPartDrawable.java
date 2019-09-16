@@ -804,7 +804,7 @@ abstract class WatchPartDrawable extends Drawable {
         final boolean invert = bottom < top;
         // Scale factor. Ignored if scale == 0f
         final double h = invert ? top - bottom : bottom - top;
-        final double w = (double) (right - left);
+        final double w = (double) (right - left) * 0.5d;
         final double w1 = w - (w * Math.sqrt((double) scale));
         final double z = Math.sin(Math.atan(h / w) / 2d) * w1;
         final double z1 = h - (h * Math.sqrt((double) scale)) - z;
