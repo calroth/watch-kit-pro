@@ -131,6 +131,7 @@ public class ConfigActivity extends Activity {
             String configDataString = sharedPref.getMostRecentConfigPageString();
             Arrays.stream(ConfigSubActivity.values())
                     .filter(c -> c.mClassName.equals(configDataString))
+                    .filter(c -> c.mDrawableId != -1) // Filter these "non-navigation" activities
                     .findFirst()
                     .ifPresent(c -> mCurrentSubActivity = c);
         }
