@@ -230,10 +230,10 @@ public class ConfigActivity extends Activity {
         Settings(SettingsConfigData.class, R.string.config_configure_settings, R.drawable.ic_settings),
         Complications(ComplicationConfigData.class, R.string.config_configure_complications, R.drawable.ic_complications),
         WatchFacePresets(WatchFacePresetConfigData.class, R.string.config_configure_watch_face_preset, R.drawable.ic_hands_ticks),
-        ColorsStyles(ColorsStylesConfigData.class, R.string.config_configure_colors_styles, R.drawable.ic_color_lens),
-        WatchPartHands(WatchPartHandsConfigData.class, R.string.config_configure_hands, R.drawable.ic_hands),
-        WatchPartTicks(WatchPartTicksConfigData.class, R.string.config_configure_ticks, R.drawable.ic_ticks),
         // N.B. As a shortcut, put items NOT in the NavigationAdapter at the end of this list.
+        ColorsStyles(ColorsStylesConfigData.class, R.string.config_configure_colors_styles, -1),
+        WatchPartHands(WatchPartHandsConfigData.class, R.string.config_configure_hands, -1),
+        WatchPartTicks(WatchPartTicksConfigData.class, R.string.config_configure_ticks, -1),
         Typeface(TypefaceConfigData.class, R.string.config_configure_typeface, -1);
 
         @NonNull
@@ -282,10 +282,7 @@ public class ConfigActivity extends Activity {
         private final ConfigSubActivity[] mNavigationActivities = new ConfigSubActivity[]{
                 ConfigSubActivity.Settings,
                 ConfigSubActivity.Complications,
-                ConfigSubActivity.WatchFacePresets,
-                ConfigSubActivity.ColorsStyles,
-                ConfigSubActivity.WatchPartHands,
-                ConfigSubActivity.WatchPartTicks
+                ConfigSubActivity.WatchFacePresets
         };
 
         @NonNull
