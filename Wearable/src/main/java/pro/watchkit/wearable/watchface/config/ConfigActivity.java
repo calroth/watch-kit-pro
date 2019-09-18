@@ -257,9 +257,7 @@ public class ConfigActivity extends Activity {
         ConfigData getNewInstance() {
             try {
                 return mClass.newInstance();
-            } catch (IllegalAccessException e) {
-                return null;
-            } catch (InstantiationException e) {
+            } catch (IllegalAccessException | InstantiationException e) {
                 return null;
             }
         }
