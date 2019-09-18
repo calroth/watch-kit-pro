@@ -1757,7 +1757,7 @@ public class WatchFaceState {
             }
         }
 
-        return result / pc; // Convert back from pixels to percentage
+        return (result / pc) + 2f; // Convert back from pixels to percentage; add 2% padding
     }
 
     public static float getTickHalfLength(@NonNull TickShape tickShape, @NonNull TickSize tickSize) {
