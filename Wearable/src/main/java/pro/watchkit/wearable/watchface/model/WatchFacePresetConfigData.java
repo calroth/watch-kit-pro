@@ -17,6 +17,8 @@
 
 package pro.watchkit.wearable.watchface.model;
 
+import androidx.annotation.NonNull;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,6 +27,7 @@ import pro.watchkit.wearable.watchface.config.ConfigActivity;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 public class WatchFacePresetConfigData extends ConfigData {
+    @NonNull
     @Override
     public List<ConfigItemType> getDataToPopulateAdapter() {
         return Arrays.asList(

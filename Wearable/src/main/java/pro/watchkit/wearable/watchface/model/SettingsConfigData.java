@@ -49,6 +49,7 @@ import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 public class SettingsConfigData extends ConfigData {
+    @NonNull
     @Override
     public List<ConfigItemType> getDataToPopulateAdapter() {
         @StringRes int[] scriptureVerses = new int[]{
@@ -212,6 +213,6 @@ public class SettingsConfigData extends ConfigData {
 
                 // Scripture.
                 new LabelConfigItem(R.string.config_scripture_0, randomScriptureVerse)
-                );
+        );
     }
 }
