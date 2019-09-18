@@ -148,8 +148,11 @@ abstract class HardwareAcceleratedCanvasWatchFaceService extends CanvasWatchFace
         }
 
         private void drawHardwareAccelerated(@NonNull SurfaceHolder holder) {
-            Canvas canvas = Build.VERSION.SDK_INT >= 26
-                    ? holder.lockHardwareCanvas() : holder.lockCanvas();
+            Canvas canvas = null;
+            if (holder.getSurface() != null && holder.getSurface().isValid()) {
+                canvas = Build.VERSION.SDK_INT >= 26
+                        ? holder.lockHardwareCanvas() : holder.lockCanvas();
+            }
             if (canvas != null) {
                 try {
                     onDraw(canvas, holder.getSurfaceFrame());
