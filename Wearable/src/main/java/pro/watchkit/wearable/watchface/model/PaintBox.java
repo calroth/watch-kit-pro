@@ -799,7 +799,7 @@ public final class PaintBox {
             out.destroy();
 
             sb.append(" ~ p2.3: ").append((System.nanoTime() - time) / 1000000f);
-            android.util.Log.d("Paint", sb.toString());
+//            android.util.Log.d("Paint", sb.toString());
 
             return triangleBitmap;
         }
@@ -1212,14 +1212,14 @@ public final class PaintBox {
             final float offsetX = ((float) width - ((float) (cols - 1) * hexSpacingX)) / 2f;
             final float offsetY = ((float) height - ((float) (rows - 1) * hexSpacingY)) / 2f;
 
-            android.util.Log.d("Paint", "cols = " + cols +
-                    ", rows = " + rows +
-                    ", cols0 = " + cols0 +
-                    ", rows0 = " + rows0 +
-                    ", cols0 = " + ((double) hexSpacingX / (double) width) +
-                    ", rows0 = " + ((double) hexSpacingY / (double) height) +
-                    ", hexSpacingX = " + hexSpacingX +
-                    ", hexSpacingY = " + hexSpacingY);
+//            android.util.Log.d("Paint", "cols = " + cols +
+//                    ", rows = " + rows +
+//                    ", cols0 = " + cols0 +
+//                    ", rows0 = " + rows0 +
+//                    ", cols0 = " + ((double) hexSpacingX / (double) width) +
+//                    ", rows0 = " + ((double) hexSpacingY / (double) height) +
+//                    ", hexSpacingX = " + hexSpacingX +
+//                    ", hexSpacingY = " + hexSpacingY);
 
             mBrushedEffectPaint.reset();
             mBrushedEffectPaint.setStyle(Style.FILL);

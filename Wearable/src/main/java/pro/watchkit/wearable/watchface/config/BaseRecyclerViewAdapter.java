@@ -50,7 +50,6 @@ import android.support.wearable.complications.ComplicationHelperActivity;
 import android.support.wearable.complications.ComplicationProviderInfo;
 import android.support.wearable.complications.ProviderInfoRetriever;
 import android.text.Html;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -875,8 +874,8 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         @Override
         public void onClick(@NonNull View view) {
-            int position = getAdapterPosition();
-            Log.d(TAG, "Complication onClick() position: " + position);
+//            int position = getAdapterPosition();
+//            Log.d(TAG, "Complication onClick() position: " + position);
 
             if (mLaunchActivity != null) {
                 // Regenerate and grab our current permutations. Just in time!

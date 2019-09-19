@@ -25,7 +25,6 @@ import android.graphics.Rect;
 import android.graphics.Typeface.Builder;
 import android.os.Build;
 import android.support.wearable.complications.ComplicationData;
-import android.util.Log;
 
 import androidx.annotation.ArrayRes;
 import androidx.annotation.ColorInt;
@@ -318,8 +317,8 @@ public class WatchFaceState {
         if (width == 0 || height == 0 || mPreviousBoundsSerial == currentBoundsSerial) {
             return;
         }
-        Log.d(WatchFaceState.class.getSimpleName(), "recalculateComplicationBounds ("
-                + width + "," + height + ")");
+//        Log.d(WatchFaceState.class.getSimpleName(), "recalculateComplicationBounds ("
+//                + width + "," + height + ")");
         // Only take this code path if something has changed.
         mPreviousBoundsSerial = currentBoundsSerial;
 
