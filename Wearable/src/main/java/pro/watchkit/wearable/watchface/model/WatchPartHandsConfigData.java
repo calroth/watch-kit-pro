@@ -110,7 +110,7 @@ public class WatchPartHandsConfigData extends ConfigData {
 
                 // Data for hour hand cutout style in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_hour_hand_style,
+                        R.string.config_preset_hour_hand_cutout_style,
                         R.drawable.ic_hands,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
@@ -200,7 +200,7 @@ public class WatchPartHandsConfigData extends ConfigData {
 
                 // Data for minute hand cutout style in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_minute_hand_style,
+                        R.string.config_preset_minute_hand_cutout_style,
                         R.drawable.ic_hands,
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
