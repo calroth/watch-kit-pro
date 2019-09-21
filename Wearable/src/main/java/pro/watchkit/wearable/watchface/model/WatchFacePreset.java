@@ -28,6 +28,7 @@ final class WatchFacePreset extends BytePackable {
     HandStalk mHourHandStalk, mMinuteHandStalk;
     HandCutout mHourHandCutout, mMinuteHandCutout;
     Style mHourHandStyle, mMinuteHandStyle, mSecondHandStyle;
+    Style mHourHandCutoutStyle, mMinuteHandCutoutStyle;
     TicksDisplay mTicksDisplay;
     boolean mTwelveTickOverride, mSixtyTickOverride;
     TickShape mFourTickShape, mTwelveTickShape, mSixtyTickShape;
@@ -142,6 +143,9 @@ final class WatchFacePreset extends BytePackable {
         mBytePacker.putSixBitColor(mAccentSixBitColor);
         mBytePacker.putSixBitColor(mBaseSixBitColor);
 
+        mHourHandCutoutStyle.pack(mBytePacker);
+        mMinuteHandCutoutStyle.pack(mBytePacker);
+
         mBytePacker.finish();
     }
 
@@ -161,6 +165,7 @@ final class WatchFacePreset extends BytePackable {
                 mHourHandStalk = HandStalk.unpack(mBytePacker);
                 mHourHandCutout = HandCutout.unpack(mBytePacker);
                 mHourHandStyle = Style.unpack3(mBytePacker);
+                mHourHandCutoutStyle = Style.BASE_ACCENT;
 
                 mDigitStyle = Style.unpack3(mBytePacker);
                 mDigitDisplay = DigitDisplay.unpack(mBytePacker);
@@ -174,6 +179,7 @@ final class WatchFacePreset extends BytePackable {
                 mMinuteHandStalk = HandStalk.unpack(mBytePacker);
                 mMinuteHandCutout = HandCutout.unpack(mBytePacker);
                 mMinuteHandStyle = Style.unpack3(mBytePacker);
+                mMinuteHandCutoutStyle = Style.BASE_ACCENT;
 
                 mSecondHandOverride = mBytePacker.getBoolean();
                 mSecondHandShape = HandShape.STRAIGHT; // Hard-coded!
@@ -225,6 +231,7 @@ final class WatchFacePreset extends BytePackable {
                 mHourHandStalk = HandStalk.unpack(mBytePacker);
                 mHourHandCutout = HandCutout.unpack(mBytePacker);
                 mHourHandStyle = Style.unpack(mBytePacker);
+                mHourHandCutoutStyle = Style.BASE_ACCENT;
 
                 mDigitStyle = Style.unpack(mBytePacker);
                 mDigitDisplay = DigitDisplay.unpack(mBytePacker);
@@ -238,6 +245,7 @@ final class WatchFacePreset extends BytePackable {
                 mMinuteHandStalk = HandStalk.unpack(mBytePacker);
                 mMinuteHandCutout = HandCutout.unpack(mBytePacker);
                 mMinuteHandStyle = Style.unpack(mBytePacker);
+                mMinuteHandCutoutStyle = Style.BASE_ACCENT;
 
                 mSecondHandOverride = mBytePacker.getBoolean();
                 mSecondHandShape = HandShape.STRAIGHT; // Hard-coded!
@@ -293,6 +301,7 @@ final class WatchFacePreset extends BytePackable {
                 mHourHandStalk = HandStalk.unpack(mBytePacker);
                 mHourHandCutout = HandCutout.unpack(mBytePacker);
                 mHourHandStyle = Style.unpack(mBytePacker);
+                mHourHandCutoutStyle = Style.BASE_ACCENT;
 
                 mDigitStyle = Style.unpack(mBytePacker);
                 mDigitDisplay = DigitDisplay.unpack(mBytePacker);
@@ -307,6 +316,7 @@ final class WatchFacePreset extends BytePackable {
                 mMinuteHandStalk = HandStalk.unpack(mBytePacker);
                 mMinuteHandCutout = HandCutout.unpack(mBytePacker);
                 mMinuteHandStyle = Style.unpack(mBytePacker);
+                mMinuteHandCutoutStyle = Style.BASE_ACCENT;
 
                 mSecondHandOverride = mBytePacker.getBoolean();
                 mSecondHandShape = HandShape.STRAIGHT; // Hard-coded!
@@ -409,6 +419,9 @@ final class WatchFacePreset extends BytePackable {
                 mHighlightSixBitColor = mBytePacker.getSixBitColor();
                 mAccentSixBitColor = mBytePacker.getSixBitColor();
                 mBaseSixBitColor = mBytePacker.getSixBitColor();
+
+                mHourHandCutoutStyle = Style.unpack(mBytePacker);
+                mMinuteHandCutoutStyle = Style.unpack(mBytePacker);
                 break;
             }
         }

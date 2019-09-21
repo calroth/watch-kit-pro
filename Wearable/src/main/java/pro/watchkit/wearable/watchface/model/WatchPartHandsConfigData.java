@@ -108,6 +108,17 @@ public class WatchPartHandsConfigData extends ConfigData {
                                 WatchFaceState::setHourHandStyle,
                                 WatchFaceState::getHourHandStyle)),
 
+                // Data for hour hand cutout style in settings Activity.
+                new PickerConfigItem(
+                        R.string.config_preset_hour_hand_style,
+                        R.drawable.ic_hands,
+                        watchFaceGlobalDrawableFlagsStyle,
+                        WatchFaceSelectionActivity.class,
+                        new EnumMutator<>(
+                                BytePackable.Style.values(),
+                                WatchFaceState::setHourHandCutoutStyle,
+                                WatchFaceState::getHourHandCutoutStyle)),
+
                 // Data for minute hand override in settings Activity.
                 new ToggleConfigItem(
                         R.string.config_preset_minute_hand_override,
@@ -185,6 +196,18 @@ public class WatchPartHandsConfigData extends ConfigData {
                                 BytePackable.Style.values(),
                                 WatchFaceState::setMinuteHandStyle,
                                 WatchFaceState::getMinuteHandStyle),
+                        WatchFaceState::isMinuteHandOverridden),
+
+                // Data for minute hand cutout style in settings Activity.
+                new PickerConfigItem(
+                        R.string.config_preset_minute_hand_style,
+                        R.drawable.ic_hands,
+                        watchFaceGlobalDrawableFlagsStyle,
+                        WatchFaceSelectionActivity.class,
+                        new EnumMutator<>(
+                                BytePackable.Style.values(),
+                                WatchFaceState::setMinuteHandCutoutStyle,
+                                WatchFaceState::getMinuteHandCutoutStyle),
                         WatchFaceState::isMinuteHandOverridden),
 
                 // Data for second hand override in settings Activity.

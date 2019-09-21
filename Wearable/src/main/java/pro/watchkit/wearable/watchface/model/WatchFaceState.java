@@ -1136,6 +1136,14 @@ public class WatchFaceState {
         mWatchFacePreset.mHourHandStyle = hourHandStyle;
     }
 
+    public Style getHourHandCutoutStyle() {
+        return mWatchFacePreset.mHourHandCutoutStyle;
+    }
+
+    void setHourHandCutoutStyle(Style hourHandCutoutStyle) {
+        mWatchFacePreset.mHourHandCutoutStyle = hourHandCutoutStyle;
+    }
+
     public Style getMinuteHandStyle() {
         return mWatchFacePreset.mMinuteHandOverride ?
                 mWatchFacePreset.mMinuteHandStyle : mWatchFacePreset.mHourHandStyle;
@@ -1143,6 +1151,15 @@ public class WatchFaceState {
 
     void setMinuteHandStyle(Style minuteHandStyle) {
         mWatchFacePreset.mMinuteHandStyle = minuteHandStyle;
+    }
+
+    public Style getMinuteHandCutoutStyle() {
+        return mWatchFacePreset.mMinuteHandOverride ?
+                mWatchFacePreset.mMinuteHandCutoutStyle : mWatchFacePreset.mHourHandCutoutStyle;
+    }
+
+    void setMinuteHandCutoutStyle(Style minuteHandCutoutStyle) {
+        mWatchFacePreset.mMinuteHandCutoutStyle = minuteHandCutoutStyle;
     }
 
     void setBackgroundStyle(Style backgroundStyle) {
