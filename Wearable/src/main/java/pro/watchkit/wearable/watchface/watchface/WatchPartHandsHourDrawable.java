@@ -44,8 +44,13 @@ final class WatchPartHandsHourDrawable extends WatchPartHandsDrawable {
     }
 
     @Override
-    Style getStyle() {
+    Style getHandStyle() {
         return mWatchFaceState.getHourHandStyle();
+    }
+
+    @Override
+    Style getHandCutoutStyle() {
+        return mWatchFaceState.getHourHandCutoutStyle();
     }
 
     @Override

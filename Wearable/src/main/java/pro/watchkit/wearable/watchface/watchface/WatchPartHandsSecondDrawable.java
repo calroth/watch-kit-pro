@@ -52,7 +52,13 @@ final class WatchPartHandsSecondDrawable extends WatchPartHandsDrawable {
 
     @NonNull
     @Override
-    Style getStyle() {
+    Style getHandStyle() {
+        return mWatchFaceState.getSecondHandStyle();
+    }
+
+    @NonNull
+    @Override
+    Style getHandCutoutStyle() {
         return mWatchFaceState.getSecondHandStyle();
     }
 

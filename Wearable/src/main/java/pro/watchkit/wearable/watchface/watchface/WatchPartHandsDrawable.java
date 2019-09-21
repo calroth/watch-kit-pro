@@ -19,6 +19,7 @@
 package pro.watchkit.wearable.watchface.watchface;
 
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
@@ -47,6 +48,8 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     @NonNull
     private Path mHandActivePath = new Path();
     @NonNull
+    private Path mHandTwoToneCutoutPath = new Path();
+    @NonNull
     private Path mHandAmbientPath = new Path();
     private int mPreviousSerial = -1;
     @NonNull
@@ -59,6 +62,8 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     private Path mHandTopCutout = new Path();
     @NonNull
     private Path mHandBottomCutout = new Path();
+    @NonNull
+    private Matrix m2 = new Matrix();
 
     private float mLastDegrees = -360f;
 
@@ -72,7 +77,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         // Reset the exclusion path. We ignore it for this layer up!
         resetExclusionPath();
 
-        Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(getStyle());
+        Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(getHandStyle());
         Path path = getHandPath();
         float degrees = getDegreesRotation();
         if ((degrees - mLastDegrees) % 360f > 6f) {
@@ -81,6 +86,21 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
             mLastDegrees = degrees;
         }
         fastDrawPath(canvas, path, paint, degrees);
+
+        // Quick-and-dirty draw of the two-tone cutout.
+        // Only if if's not the hand style (in which case, there's no cutout)
+        // and if it's not the background style (in which case, don't need to go two-tone).
+        // And if we're not ambient.
+        Style handCutoutStyle = getHandCutoutStyle();
+        if (!mWatchFaceState.isAmbient() && !handCutoutStyle.equals(getHandStyle()) &&
+                !handCutoutStyle.equals(mWatchFaceState.getBackgroundStyle())) {
+            m2.reset();
+            m2.postRotate(degrees, mCenterX, mCenterY);
+            // Here we treat "mHandBottomCutout" as a cheap throwaway path.
+            mHandTwoToneCutoutPath.transform(m2, mHandBottomCutout);
+            canvas.drawPath(mHandBottomCutout,
+                    mWatchFaceState.getPaintBox().getPaintFromPreset(handCutoutStyle));
+        }
     }
 
     @Override
@@ -107,7 +127,9 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
     abstract HandCutout getHandCutout();
 
-    abstract Style getStyle();
+    abstract Style getHandStyle();
+
+    abstract Style getHandCutoutStyle();
 
     abstract float getDegreesRotation();
 
@@ -183,10 +205,11 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         mHandFullCutout.reset();
         mHandTopCutout.reset();
         mHandBottomCutout.reset();
+        mHandTwoToneCutoutPath.reset();
 
         // Golden ratio scale = -2nd golden ratio term ~= 0.38196601125
         final float cutoutScale = (float) (1d / 1.61803398875d / 1.61803398875d);
-        
+
         switch (handStalk) {
             case NEGATIVE: {
                 bottom = mCenterY + HUB_RADIUS_PERCENT * pc * 2f;
@@ -305,7 +328,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
             }
         }
 
-        if (handStalk == BytePackable.HandStalk.SHORT || handStalk == BytePackable.HandStalk.MEDIUM) {
+        if (handStalk == HandStalk.SHORT || handStalk == HandStalk.MEDIUM) {
             switch (handCutout) {
                 case NONE: {
                     p.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
@@ -314,10 +337,13 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 case HAND: {
                     p.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
                     p.op(mHandFullCutout, Path.Op.DIFFERENCE); // Remove the hand cutout.
+                    mHandTwoToneCutoutPath.op(mHandFullCutout, Path.Op.UNION); // Add to two-tone
                     break;
                 }
                 case STALK: {
                     mStalk.op(mStalkCutout, Path.Op.DIFFERENCE); // Remove the stalk cutout.
+                    mHandTwoToneCutoutPath.op(mStalkCutout, Path.Op.UNION); // Add to two-tone
+                    mHandTwoToneCutoutPath.op(p, Path.Op.DIFFERENCE); // Remove hand from two-tone
                     p.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
                     break;
                 }
@@ -325,24 +351,29 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                     p.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
                     p.op(mStalkCutout, Path.Op.DIFFERENCE); // Remove the stalk cutout.
                     p.op(mHandFullCutout, Path.Op.DIFFERENCE); // Remove the hand cutout.
+                    mHandTwoToneCutoutPath.op(mStalkCutout, Path.Op.UNION); // Add to two-tone
+                    mHandTwoToneCutoutPath.op(mHandFullCutout, Path.Op.UNION); // Add to two-tone
                     break;
                 }
             }
-        } else if (handStalk == BytePackable.HandStalk.NONE || handStalk == BytePackable.HandStalk.NEGATIVE) {
+        } else if (handStalk == HandStalk.NONE || handStalk == HandStalk.NEGATIVE) {
             switch (handCutout) {
                 case NONE: {
                     break;
                 }
                 case HAND: {
                     p.op(mHandTopCutout, Path.Op.DIFFERENCE); // Remove the top hand cutout.
+                    mHandTwoToneCutoutPath.op(mHandTopCutout, Path.Op.UNION); // Add to two-tone
                     break;
                 }
                 case STALK: {
                     p.op(mHandBottomCutout, Path.Op.DIFFERENCE); // Remove the bottom hand cutout.
+                    mHandTwoToneCutoutPath.op(mHandBottomCutout, Path.Op.UNION); // Add to two-tone
                     break;
                 }
                 case HAND_STALK: {
                     p.op(mHandFullCutout, Path.Op.DIFFERENCE); // Remove the full hand cutout.
+                    mHandTwoToneCutoutPath.op(mHandFullCutout, Path.Op.UNION); // Add to two-tone
                     break;
                 }
             }
