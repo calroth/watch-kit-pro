@@ -75,42 +75,6 @@ public class WatchPartTicksConfigData extends ConfigData {
                                 WatchFaceState::setTickBackgroundStyle,
                                 WatchFaceState::getTickBackgroundStyle)),
 
-                // Data for four tick shape in settings Activity.
-                new PickerConfigItem(
-                        R.string.config_preset_four_tick_shape,
-                        R.drawable.ic_ticks,
-                        watchFaceGlobalDrawableFlags,
-                        WatchFaceSelectionActivity.class,
-                        new EnumMutator<>(
-                                BytePackable.TickShape.values(),
-                                WatchFaceState::setFourTickShape,
-                                WatchFaceState::getFourTickShape),
-                        WatchFaceState::isFourTicksVisible),
-
-                // Data for four tick length in settings Activity.
-                new PickerConfigItem(
-                        R.string.config_preset_four_tick_size,
-                        R.drawable.ic_ticks,
-                        watchFaceGlobalDrawableFlags,
-                        WatchFaceSelectionActivity.class,
-                        new EnumMutator<>(
-                                BytePackable.TickSize.values(),
-                                WatchFaceState::setFourTickSize,
-                                WatchFaceState::getFourTickSize),
-                        WatchFaceState::isFourTicksVisible),
-
-                // Data for four tick style in settings Activity.
-                new PickerConfigItem(
-                        R.string.config_preset_four_tick_style,
-                        R.drawable.ic_ticks,
-                        watchFaceGlobalDrawableFlagsStyle,
-                        WatchFaceSelectionActivity.class,
-                        new EnumMutator<>(
-                                BytePackable.Style.values(),
-                                WatchFaceState::setFourTickStyle,
-                                WatchFaceState::getFourTickStyle),
-                        WatchFaceState::isFourTicksVisible),
-
                 // Data for digit display in settings Activity.
                 new PickerConfigItem(
                         R.string.config_preset_digit_display,
@@ -169,6 +133,42 @@ public class WatchPartTicksConfigData extends ConfigData {
                                 WatchFaceState::setDigitStyle,
                                 WatchFaceState::getDigitStyle),
                         WatchFaceState::isDigitVisible),
+
+                // Data for four tick shape in settings Activity.
+                new PickerConfigItem(
+                        R.string.config_preset_four_tick_shape,
+                        R.drawable.ic_ticks,
+                        watchFaceGlobalDrawableFlags,
+                        WatchFaceSelectionActivity.class,
+                        new EnumMutator<>(
+                                BytePackable.TickShape.values(),
+                                WatchFaceState::setFourTickShape,
+                                WatchFaceState::getFourTickShape),
+                        WatchFaceState::isFourTicksVisible),
+
+                // Data for four tick length in settings Activity.
+                new PickerConfigItem(
+                        R.string.config_preset_four_tick_size,
+                        R.drawable.ic_ticks,
+                        watchFaceGlobalDrawableFlags,
+                        WatchFaceSelectionActivity.class,
+                        new EnumMutator<>(
+                                BytePackable.TickSize.values(),
+                                WatchFaceState::setFourTickSize,
+                                WatchFaceState::getFourTickSize),
+                        WatchFaceState::isFourTicksVisible),
+
+                // Data for four tick style in settings Activity.
+                new PickerConfigItem(
+                        R.string.config_preset_four_tick_style,
+                        R.drawable.ic_ticks,
+                        watchFaceGlobalDrawableFlagsStyle,
+                        WatchFaceSelectionActivity.class,
+                        new EnumMutator<>(
+                                BytePackable.Style.values(),
+                                WatchFaceState::setFourTickStyle,
+                                WatchFaceState::getFourTickStyle),
+                        WatchFaceState::isFourTicksVisible),
 
                 // Data for twelve tick override in settings Activity.
                 new ToggleConfigItem(
