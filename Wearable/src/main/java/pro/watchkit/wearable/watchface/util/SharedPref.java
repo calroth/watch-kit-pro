@@ -25,6 +25,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 
@@ -97,8 +107,40 @@ public final class SharedPref {
      * @param value the WatchFaceState string to store
      */
     public void putWatchFaceStateString(@NonNull String value) {
+        // Get the history, so we can insert this value into the history too.
+        ArrayList<JSONObject> history = new ArrayList<>();
+        try {
+            JSONArray jsonArray = new JSONArray(mSharedPreferences.getString(
+                    mContext.getString(R.string.saved_watch_face_state_history), "[]"));
+            // Re-inflate our history.
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                // If our string value is in history, remove it (or rather, don't add it)...
+                if (!jsonObject.getString("value").equals(value)) {
+                    history.add(jsonObject);
+                }
+            }
+            // Then append our string value at the top with the current date.
+            {
+                JSONObject jsonObject = new JSONObject();
+                SimpleDateFormat iso8601 =
+                        new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
+                iso8601.setTimeZone(TimeZone.getTimeZone("UTC"));
+                jsonObject.put("date", iso8601.format(new Date()));
+                jsonObject.put("value", value);
+                history.add(0, jsonObject);
+            }
+        } catch (JSONException e) {
+            // No action, leave "history" blank (or however far we made it).
+        }
+
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(mContext.getString(R.string.saved_watch_face_state), value);
+        {
+            JSONArray jsonArray = new JSONArray(history);
+            editor.putString(mContext.getString(R.string.saved_watch_face_state_history),
+                    jsonArray.toString());
+        }
         editor.apply();
     }
 

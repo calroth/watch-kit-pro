@@ -54,6 +54,7 @@
     <string name="watch_kit_pro_c_default_string">35ed341c002e6bf430c12adfb8100001~577e85c0000000000000000000000001~0</string>
     <string name="watch_kit_pro_d_default_string">39403c1c0030e23c4b95dae1b42c2001~4cda1a2c000000000000000000000001~0</string>
     <string name="saved_watch_face_state">saved_watch_face_state</string>
+    <string name="saved_watch_face_state_history">saved_watch_face_state_history</string>
     <string name="saved_most_recent_config_page">saved_most_recent_config_page</string>
     <string name="saved_background_color">saved_background_color</string>
 
