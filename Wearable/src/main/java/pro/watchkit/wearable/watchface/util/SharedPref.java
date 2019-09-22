@@ -112,8 +112,8 @@ public final class SharedPref {
         try {
             JSONArray jsonArray = new JSONArray(mSharedPreferences.getString(
                     mContext.getString(R.string.saved_watch_face_state_history), "[]"));
-            // Re-inflate our history.
-            for (int i = 0; i < jsonArray.length(); i++) {
+            // Re-inflate our history. Max 255 entries.
+            for (int i = 0; i < jsonArray.length() && i < 256; i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 // If our string value is in history, remove it (or rather, don't add it)...
                 if (!jsonObject.getString("value").equals(value)) {
