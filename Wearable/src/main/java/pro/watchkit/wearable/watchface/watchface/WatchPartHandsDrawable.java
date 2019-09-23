@@ -29,7 +29,7 @@ import androidx.annotation.NonNull;
 import java.util.Objects;
 
 import pro.watchkit.wearable.watchface.model.BytePackable;
-import pro.watchkit.wearable.watchface.model.BytePackable.HandCutout;
+import pro.watchkit.wearable.watchface.model.BytePackable.HandCutoutShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandLength;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandStalk;
@@ -132,7 +132,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
     abstract HandStalk getHandStalk();
 
-    abstract HandCutout getHandCutout();
+    abstract HandCutoutShape getHandCutout();
 
     abstract Style getHandStyle();
 
@@ -178,7 +178,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         HandLength handLength = getHandLength();
         HandThickness handThickness = getHandThickness();
         HandStalk handStalk = getHandStalk();
-        HandCutout handCutout = getHandCutout();
+        HandCutoutShape handCutoutShape = getHandCutout();
 
         float thickness = WatchFaceState.getHandThickness(handShape, handThickness);
         float length = WatchFaceState.getHandLength(handLength);
@@ -334,8 +334,8 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         }
 
         if (handStalk == HandStalk.SHORT || handStalk == HandStalk.MEDIUM) {
-            switch (handCutout) {
-                case NONE: {
+            switch (handCutoutShape) {
+                case TIP: {
                     mHandActivePath.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
                     break;
                 }
@@ -371,8 +371,8 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 }
             }
         } else if (handStalk == HandStalk.NONE || handStalk == HandStalk.NEGATIVE) {
-            switch (handCutout) {
-                case NONE: {
+            switch (handCutoutShape) {
+                case TIP: {
                     break;
                 }
                 case HAND: {

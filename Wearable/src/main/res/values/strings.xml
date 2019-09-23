@@ -123,8 +123,8 @@
     <string name="config_preset_hour_hand_length">Hour Hand Length</string>
     <string name="config_preset_hour_hand_thickness">Hour Hand Thickness</string>
     <string name="config_preset_hour_hand_stalk">Hour Hand Stalk</string>
-    <string name="config_preset_hour_hand_cutout">Hour Hand Cutout</string>
     <string name="config_preset_hour_hand_style">Hour Hand Style</string>
+    <string name="config_preset_hour_hand_cutout_shape">Hour Hand Cutout Shape</string>
     <string name="config_preset_hour_hand_cutout_style">Hour Hand Cutout Style</string>
 
     <string name="config_preset_minute_hand_override">Minute Hand Override</string>
@@ -132,8 +132,8 @@
     <string name="config_preset_minute_hand_length">Minute Hand Length</string>
     <string name="config_preset_minute_hand_thickness">Minute Hand Thickness</string>
     <string name="config_preset_minute_hand_stalk">Minute Hand Stalk</string>
-    <string name="config_preset_minute_hand_cutout">Minute Hand Cutout</string>
     <string name="config_preset_minute_hand_style">Minute Hand Style</string>
+    <string name="config_preset_minute_hand_cutout_shape">Minute Hand Cutout Shape</string>
     <string name="config_preset_minute_hand_cutout_style">Minute Hand Cutout Style</string>
 
     <string name="config_preset_second_hand_override">Second Hand Override</string>
@@ -215,11 +215,30 @@
         <item>Medium</item>
     </string-array>
 
-    <string-array name="WatchFacePreset_HandCutout">
-        <item>None</item>
+    <string-array name="WatchFacePreset_HandCutoutShape">
+        <item>Tip</item>
         <item>Hand</item>
         <item>Stalk</item>
         <item>Hand + Stalk</item>
+    </string-array>
+
+    <string-array name="WatchFacePreset_HandCutoutPermutation">
+        <item>TIP_PLUS_ONE</item>
+        <item>TIP_PLUS_TWO</item>
+        <item>TIP_PLUS_THREE</item>
+        <item>HAND_PLUS_ONE</item>
+        <item>HAND_PLUS_TWO</item>
+        <item>HAND_PLUS_THREE</item>
+        <item>STALK_PLUS_ONE</item>
+        <item>STALK_PLUS_TWO</item>
+        <item>STALK_PLUS_THREE</item>
+        <item>HAND_STALK_PLUS_ONE</item>
+        <item>HAND_STALK_PLUS_TWO</item>
+        <item>HAND_STALK_PLUS_THREE</item>
+        <item>UNKNOWN_PLUS_ONE</item>
+        <item>UNKNOWN_PLUS_TWO</item>
+        <item>UNKNOWN_PLUS_THREE</item>
+        <item>NONE</item>
     </string-array>
 
     <string-array name="WatchFacePreset_TickShape">

@@ -4,7 +4,7 @@ import android.graphics.Path;
 
 import androidx.annotation.NonNull;
 
-import pro.watchkit.wearable.watchface.model.BytePackable.HandCutout;
+import pro.watchkit.wearable.watchface.model.BytePackable.HandCutoutShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandLength;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandStalk;
@@ -39,8 +39,8 @@ final class WatchPartHandsMinuteDrawable extends WatchPartHandsDrawable {
     }
 
     @Override
-    HandCutout getHandCutout() {
-        return mWatchFaceState.getMinuteHandCutout();
+    HandCutoutShape getHandCutout() {
+        return mWatchFaceState.getMinuteHandCutoutShape();
     }
 
     @Override

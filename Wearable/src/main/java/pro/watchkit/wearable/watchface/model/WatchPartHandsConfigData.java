@@ -86,17 +86,6 @@ public class WatchPartHandsConfigData extends ConfigData {
                                 WatchFaceState::setHourHandStalk,
                                 WatchFaceState::getHourHandStalk)),
 
-                // Data for hour hand cutout in settings Activity.
-                new PickerConfigItem(
-                        R.string.config_preset_hour_hand_cutout,
-                        R.drawable.ic_hands,
-                        watchFaceGlobalDrawableFlags,
-                        WatchFaceSelectionActivity.class,
-                        new EnumMutator<>(
-                                BytePackable.HandCutout.values(),
-                                WatchFaceState::setHourHandCutout,
-                                WatchFaceState::getHourHandCutout)),
-
                 // Data for hour hand style in settings Activity.
                 new PickerConfigItem(
                         R.string.config_preset_hour_hand_style,
@@ -107,6 +96,17 @@ public class WatchPartHandsConfigData extends ConfigData {
                                 BytePackable.Style.values(),
                                 WatchFaceState::setHourHandStyle,
                                 WatchFaceState::getHourHandStyle)),
+
+                // Data for hour hand cutout shape in settings Activity.
+                new PickerConfigItem(
+                        R.string.config_preset_hour_hand_cutout_shape,
+                        R.drawable.ic_hands,
+                        watchFaceGlobalDrawableFlags,
+                        WatchFaceSelectionActivity.class,
+                        new EnumMutator<>(
+                                BytePackable.HandCutoutShape.values(),
+                                WatchFaceState::setHourHandCutoutShape,
+                                WatchFaceState::getHourHandCutoutShape)),
 
                 // Data for hour hand cutout style in settings Activity.
                 new PickerConfigItem(
@@ -174,18 +174,6 @@ public class WatchPartHandsConfigData extends ConfigData {
                                 WatchFaceState::getMinuteHandStalk),
                         WatchFaceState::isMinuteHandOverridden),
 
-                // Data for minute hand cutout in settings Activity.
-                new PickerConfigItem(
-                        R.string.config_preset_minute_hand_cutout,
-                        R.drawable.ic_hands,
-                        watchFaceGlobalDrawableFlags,
-                        WatchFaceSelectionActivity.class,
-                        new EnumMutator<>(
-                                BytePackable.HandCutout.values(),
-                                WatchFaceState::setMinuteHandCutout,
-                                WatchFaceState::getMinuteHandCutout),
-                        WatchFaceState::isMinuteHandOverridden),
-
                 // Data for minute hand style in settings Activity.
                 new PickerConfigItem(
                         R.string.config_preset_minute_hand_style,
@@ -196,6 +184,18 @@ public class WatchPartHandsConfigData extends ConfigData {
                                 BytePackable.Style.values(),
                                 WatchFaceState::setMinuteHandStyle,
                                 WatchFaceState::getMinuteHandStyle),
+                        WatchFaceState::isMinuteHandOverridden),
+
+                // Data for minute hand cutout shape in settings Activity.
+                new PickerConfigItem(
+                        R.string.config_preset_minute_hand_cutout_shape,
+                        R.drawable.ic_hands,
+                        watchFaceGlobalDrawableFlags,
+                        WatchFaceSelectionActivity.class,
+                        new EnumMutator<>(
+                                BytePackable.HandCutoutShape.values(),
+                                WatchFaceState::setMinuteHandCutoutShape,
+                                WatchFaceState::getMinuteHandCutoutShape),
                         WatchFaceState::isMinuteHandOverridden),
 
                 // Data for minute hand cutout style in settings Activity.

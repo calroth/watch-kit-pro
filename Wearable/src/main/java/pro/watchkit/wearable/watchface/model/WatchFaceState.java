@@ -51,7 +51,8 @@ import pro.watchkit.wearable.watchface.model.BytePackable.DigitDisplay;
 import pro.watchkit.wearable.watchface.model.BytePackable.DigitFormat;
 import pro.watchkit.wearable.watchface.model.BytePackable.DigitRotation;
 import pro.watchkit.wearable.watchface.model.BytePackable.DigitSize;
-import pro.watchkit.wearable.watchface.model.BytePackable.HandCutout;
+import pro.watchkit.wearable.watchface.model.BytePackable.HandCutoutCombination;
+import pro.watchkit.wearable.watchface.model.BytePackable.HandCutoutShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandLength;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandStalk;
@@ -1136,12 +1137,215 @@ public class WatchFaceState {
         mWatchFacePreset.mHourHandStyle = hourHandStyle;
     }
 
+    @NonNull
+    private Style getStyle(
+            @NonNull Style handStyle, @NonNull HandCutoutCombination handCutoutCombination) {
+        int i;
+        switch (handStyle) {
+            default:
+            case FILL_HIGHLIGHT: {
+                i = 0;
+                break;
+            }
+            case ACCENT_FILL: {
+                i = 1;
+                break;
+            }
+            case ACCENT_HIGHLIGHT: {
+                i = 2;
+                break;
+            }
+            case BASE_ACCENT: {
+                i = 3;
+                break;
+            }
+        }
+
+        switch (handCutoutCombination) {
+            default:
+            case NONE: {
+                // No effect.
+                return Style.values()[i];
+            }
+            case TIP_PLUS_ONE:
+            case HAND_PLUS_ONE:
+            case STALK_PLUS_ONE:
+            case HAND_STALK_PLUS_ONE:
+            case UNKNOWN_PLUS_ONE: {
+                return Style.values()[(i + 1) % Style.values().length];
+            }
+            case TIP_PLUS_TWO:
+            case HAND_PLUS_TWO:
+            case STALK_PLUS_TWO:
+            case HAND_STALK_PLUS_TWO:
+            case UNKNOWN_PLUS_TWO: {
+                return Style.values()[(i + 2) % Style.values().length];
+            }
+            case TIP_PLUS_THREE:
+            case HAND_PLUS_THREE:
+            case STALK_PLUS_THREE:
+            case HAND_STALK_PLUS_THREE:
+            case UNKNOWN_PLUS_THREE: {
+                return Style.values()[(i + 3) % Style.values().length];
+            }
+        }
+    }
+
+    @NonNull
+    private HandCutoutCombination setHandCutoutCombination(
+            @NonNull HandCutoutShape handCutoutShape, @NonNull Style handStyle,
+            @NonNull Style handCutoutStyle) {
+        int i, j;
+        switch (handStyle) {
+            default:
+            case FILL_HIGHLIGHT: {
+                i = 0;
+                break;
+            }
+            case ACCENT_FILL: {
+                i = 1;
+                break;
+            }
+            case ACCENT_HIGHLIGHT: {
+                i = 2;
+                break;
+            }
+            case BASE_ACCENT: {
+                i = 3;
+                break;
+            }
+        }
+
+        switch (handCutoutStyle) {
+            default:
+            case FILL_HIGHLIGHT: {
+                j = 0;
+                break;
+            }
+            case ACCENT_FILL: {
+                j = 1;
+                break;
+            }
+            case ACCENT_HIGHLIGHT: {
+                j = 2;
+                break;
+            }
+            case BASE_ACCENT: {
+                j = 3;
+                break;
+            }
+        }
+
+        switch (j - i) {
+            default:
+            case 0: {
+                return HandCutoutCombination.NONE;
+            }
+            case -3:
+            case 1: {
+                switch (handCutoutShape) {
+                    default:
+                    case TIP: {
+                        return HandCutoutCombination.TIP_PLUS_ONE;
+                    }
+                    case HAND: {
+                        return HandCutoutCombination.HAND_PLUS_ONE;
+                    }
+                    case STALK: {
+                        return HandCutoutCombination.STALK_PLUS_ONE;
+                    }
+                    case HAND_STALK: {
+                        return HandCutoutCombination.HAND_STALK_PLUS_ONE;
+                    }
+//                    case UNKNOWN: {
+//                        return HandCutoutStyle.UNKNOWN_PLUS_ONE;
+//                    }
+                }
+            }
+            case -2:
+            case 2: {
+                switch (handCutoutShape) {
+                    default:
+                    case TIP: {
+                        return HandCutoutCombination.TIP_PLUS_TWO;
+                    }
+                    case HAND: {
+                        return HandCutoutCombination.HAND_PLUS_TWO;
+                    }
+                    case STALK: {
+                        return HandCutoutCombination.STALK_PLUS_TWO;
+                    }
+                    case HAND_STALK: {
+                        return HandCutoutCombination.HAND_STALK_PLUS_TWO;
+                    }
+//                    case UNKNOWN: {
+//                        return HandCutoutStyle.UNKNOWN_PLUS_TWO;
+//                    }
+                }
+            }
+            case -1:
+            case 3: {
+                switch (handCutoutShape) {
+                    default:
+                    case TIP: {
+                        return HandCutoutCombination.TIP_PLUS_THREE;
+                    }
+                    case HAND: {
+                        return HandCutoutCombination.HAND_PLUS_THREE;
+                    }
+                    case STALK: {
+                        return HandCutoutCombination.STALK_PLUS_THREE;
+                    }
+                    case HAND_STALK: {
+                        return HandCutoutCombination.HAND_STALK_PLUS_THREE;
+                    }
+//                    case UNKNOWN: {
+//                        return HandCutoutStyle.UNKNOWN_PLUS_THREE;
+//                    }
+                }
+            }
+        }
+    }
+
+    @NonNull
+    private HandCutoutShape getHandCutout(@NonNull HandCutoutCombination handCutoutCombination) {
+        switch (handCutoutCombination) {
+            default:
+            case TIP_PLUS_ONE:
+            case TIP_PLUS_TWO:
+            case TIP_PLUS_THREE:
+            case NONE: {
+                return HandCutoutShape.TIP;
+            }
+            case HAND_PLUS_ONE:
+            case HAND_PLUS_TWO:
+            case HAND_PLUS_THREE: {
+                return HandCutoutShape.HAND;
+            }
+            case STALK_PLUS_ONE:
+            case STALK_PLUS_TWO:
+            case STALK_PLUS_THREE: {
+                return HandCutoutShape.STALK;
+            }
+            case HAND_STALK_PLUS_ONE:
+            case HAND_STALK_PLUS_TWO:
+            case HAND_STALK_PLUS_THREE:
+            case UNKNOWN_PLUS_ONE:
+            case UNKNOWN_PLUS_TWO:
+            case UNKNOWN_PLUS_THREE: {
+                return HandCutoutShape.HAND_STALK;
+            }
+        }
+    }
+
     public Style getHourHandCutoutStyle() {
-        return mWatchFacePreset.mHourHandCutoutStyle;
+        return getStyle(mWatchFacePreset.mHourHandStyle, mWatchFacePreset.mHourHandCutoutCombination);
     }
 
     void setHourHandCutoutStyle(Style hourHandCutoutStyle) {
-        mWatchFacePreset.mHourHandCutoutStyle = hourHandCutoutStyle;
+        mWatchFacePreset.mHourHandCutoutCombination = setHandCutoutCombination(
+                getHandCutout(mWatchFacePreset.mHourHandCutoutCombination),
+                mWatchFacePreset.mHourHandStyle, hourHandCutoutStyle);
     }
 
     public Style getMinuteHandStyle() {
@@ -1154,12 +1358,14 @@ public class WatchFaceState {
     }
 
     public Style getMinuteHandCutoutStyle() {
-        return mWatchFacePreset.mMinuteHandOverride ?
-                mWatchFacePreset.mMinuteHandCutoutStyle : mWatchFacePreset.mHourHandCutoutStyle;
+        return mWatchFacePreset.mMinuteHandOverride ? getStyle(mWatchFacePreset.mMinuteHandStyle,
+                mWatchFacePreset.mMinuteHandCutoutCombination) : getHourHandCutoutStyle();
     }
 
     void setMinuteHandCutoutStyle(Style minuteHandCutoutStyle) {
-        mWatchFacePreset.mMinuteHandCutoutStyle = minuteHandCutoutStyle;
+        mWatchFacePreset.mMinuteHandCutoutCombination = setHandCutoutCombination(
+                getHandCutout(mWatchFacePreset.mMinuteHandCutoutCombination),
+                mWatchFacePreset.mMinuteHandStyle, minuteHandCutoutStyle);
     }
 
     void setBackgroundStyle(Style backgroundStyle) {
@@ -1468,21 +1674,25 @@ public class WatchFaceState {
         mWatchFacePreset.mMinuteHandStalk = minuteHandStalk;
     }
 
-    public HandCutout getHourHandCutout() {
-        return mWatchFacePreset.mHourHandCutout;
+    public HandCutoutShape getHourHandCutoutShape() {
+        return getHandCutout(mWatchFacePreset.mHourHandCutoutCombination);
     }
 
-    void setHourHandCutout(HandCutout hourHandCutout) {
-        mWatchFacePreset.mHourHandCutout = hourHandCutout;
+    void setHourHandCutoutShape(HandCutoutShape hourHandCutoutShape) {
+        mWatchFacePreset.mHourHandCutoutCombination = setHandCutoutCombination(hourHandCutoutShape,
+                mWatchFacePreset.mHourHandStyle, getStyle(mWatchFacePreset.mHourHandStyle,
+                        mWatchFacePreset.mHourHandCutoutCombination));
     }
 
-    public HandCutout getMinuteHandCutout() {
+    public HandCutoutShape getMinuteHandCutoutShape() {
         return mWatchFacePreset.mMinuteHandOverride ?
-                mWatchFacePreset.mMinuteHandCutout : mWatchFacePreset.mHourHandCutout;
+                getHandCutout(mWatchFacePreset.mMinuteHandCutoutCombination) : getHourHandCutoutShape();
     }
 
-    void setMinuteHandCutout(HandCutout minuteHandCutout) {
-        mWatchFacePreset.mMinuteHandCutout = minuteHandCutout;
+    void setMinuteHandCutoutShape(HandCutoutShape minuteHandCutoutShape) {
+        mWatchFacePreset.mMinuteHandCutoutCombination = setHandCutoutCombination(minuteHandCutoutShape,
+                mWatchFacePreset.mMinuteHandStyle, getStyle(mWatchFacePreset.mMinuteHandStyle,
+                        mWatchFacePreset.mMinuteHandCutoutCombination));
     }
 
     private int getFillSixBitColor() {

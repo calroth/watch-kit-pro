@@ -6,7 +6,7 @@ import android.graphics.Path;
 import androidx.annotation.NonNull;
 
 import pro.watchkit.wearable.watchface.model.BytePackable;
-import pro.watchkit.wearable.watchface.model.BytePackable.HandCutout;
+import pro.watchkit.wearable.watchface.model.BytePackable.HandCutoutShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandLength;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandStalk;
@@ -46,8 +46,8 @@ final class WatchPartHandsSecondDrawable extends WatchPartHandsDrawable {
 
     @NonNull
     @Override
-    HandCutout getHandCutout() {
-        return BytePackable.HandCutout.NONE; // Don't have this for the seconds hand either.
+    HandCutoutShape getHandCutout() {
+        return HandCutoutShape.TIP; // Don't have this for the seconds hand either.
     }
 
     @NonNull

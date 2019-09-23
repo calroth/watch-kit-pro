@@ -162,12 +162,12 @@ public abstract class BytePackable {
         }
     }
 
-    public enum HandCutout implements EnumResourceId {
-        NONE, HAND, STALK, HAND_STALK;
+    public enum HandCutoutShape implements EnumResourceId {
+        TIP, HAND, STALK, HAND_STALK;
 
         private static final int bits = 2;
 
-        static HandCutout unpack(@NonNull BytePacker bytePacker) {
+        static HandCutoutShape unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
@@ -178,7 +178,32 @@ public abstract class BytePackable {
         @Override
         @ArrayRes
         public int getNameResourceId() {
-            return R.array.WatchFacePreset_HandCutout;
+            return R.array.WatchFacePreset_HandCutoutShape;
+        }
+    }
+
+    public enum HandCutoutCombination implements EnumResourceId {
+        TIP_PLUS_ONE, TIP_PLUS_TWO, TIP_PLUS_THREE,
+        HAND_PLUS_ONE, HAND_PLUS_TWO, HAND_PLUS_THREE,
+        STALK_PLUS_ONE, STALK_PLUS_TWO, STALK_PLUS_THREE,
+        HAND_STALK_PLUS_ONE, HAND_STALK_PLUS_TWO, HAND_STALK_PLUS_THREE,
+        UNKNOWN_PLUS_ONE, UNKNOWN_PLUS_TWO, UNKNOWN_PLUS_THREE,
+        NONE;
+
+        private static final int bits = 4;
+
+        static HandCutoutCombination unpack(@NonNull BytePacker bytePacker) {
+            return values()[bytePacker.get(bits)];
+        }
+
+        void pack(@NonNull BytePacker bytePacker) {
+            bytePacker.put(bits, values(), this);
+        }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.WatchFacePreset_HandCutoutPermutation;
         }
     }
 
