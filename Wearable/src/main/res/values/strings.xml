@@ -215,6 +215,12 @@
         <item>Medium</item>
     </string-array>
 
+    <string-array name="WatchFacePreset_HandCutoutStyle">
+        <item>PLUS_ONE</item>
+        <item>PLUS_TWO</item>
+        <item>PLUS_THREE</item>
+    </string-array>
+
     <string-array name="WatchFacePreset_HandCutoutShape">
         <item>Tip</item>
         <item>Hand</item>

@@ -115,7 +115,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.Style.values(),
+                                BytePackable.HandCutoutStyle.values(),
                                 WatchFaceState::setHourHandCutoutStyle,
                                 WatchFaceState::getHourHandCutoutStyle)),
 
@@ -205,7 +205,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlagsStyle,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.Style.values(),
+                                BytePackable.HandCutoutStyle.values(),
                                 WatchFaceState::setMinuteHandCutoutStyle,
                                 WatchFaceState::getMinuteHandCutoutStyle),
                         WatchFaceState::isMinuteHandOverridden),

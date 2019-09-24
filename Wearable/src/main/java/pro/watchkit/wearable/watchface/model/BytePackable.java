@@ -162,6 +162,30 @@ public abstract class BytePackable {
         }
     }
 
+    public enum HandCutoutStyle implements EnumResourceId {
+        PLUS_ONE, PLUS_TWO, PLUS_THREE;
+
+        private static final int bits = 2;
+
+        static HandCutoutStyle unpack(@NonNull BytePacker bytePacker) {
+            return values()[bytePacker.get(bits)];
+        }
+
+        static HandCutoutStyle unpack3(@NonNull BytePacker bytePacker) {
+            return values()[bytePacker.get(3) % values().length];
+        }
+
+        void pack(@NonNull BytePacker bytePacker) {
+            bytePacker.put(bits, values(), this);
+        }
+
+        @Override
+        @ArrayRes
+        public int getNameResourceId() {
+            return R.array.WatchFacePreset_HandCutoutStyle;
+        }
+    }
+
     public enum HandCutoutShape implements EnumResourceId {
         TIP, HAND, STALK, HAND_STALK;
 
