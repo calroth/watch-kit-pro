@@ -124,6 +124,7 @@
     <string name="config_preset_hour_hand_thickness">Hour Hand Thickness</string>
     <string name="config_preset_hour_hand_stalk">Hour Hand Stalk</string>
     <string name="config_preset_hour_hand_style">Hour Hand Style</string>
+    <string name="config_preset_hour_hand_cutout">Hour Hand Cutout</string>
     <string name="config_preset_hour_hand_cutout_shape">Hour Hand Cutout Shape</string>
     <string name="config_preset_hour_hand_cutout_style">Hour Hand Cutout Style</string>
 
@@ -133,6 +134,7 @@
     <string name="config_preset_minute_hand_thickness">Minute Hand Thickness</string>
     <string name="config_preset_minute_hand_stalk">Minute Hand Stalk</string>
     <string name="config_preset_minute_hand_style">Minute Hand Style</string>
+    <string name="config_preset_minute_hand_cutout">Minute Hand Cutout</string>
     <string name="config_preset_minute_hand_cutout_shape">Minute Hand Cutout Shape</string>
     <string name="config_preset_minute_hand_cutout_style">Minute Hand Cutout Style</string>
 

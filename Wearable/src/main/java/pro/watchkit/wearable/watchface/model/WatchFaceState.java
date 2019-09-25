@@ -969,6 +969,10 @@ public class WatchFaceState {
         return mWatchFacePreset.mMinuteHandOverride;
     }
 
+    boolean isMinuteHandOverriddenAndCutout() {
+        return mWatchFacePreset.mMinuteHandOverride && isMinuteHandCutout();
+    }
+
     void setSecondHandOverride(boolean secondHandOverride) {
         mWatchFacePreset.mSecondHandOverride = secondHandOverride;
     }
@@ -1315,6 +1319,40 @@ public class WatchFaceState {
         }
     }
 
+    void setHourHandCutout(boolean hourHandCutout) {
+        if (hourHandCutout) {
+            // OK, we want a cutout.
+            // Restore it from previous value in settings.
+            mWatchFacePreset.mHourHandCutoutCombination =
+                    mSettings.mPreviousHourHandCutoutCombination;
+            if (mWatchFacePreset.mHourHandCutoutCombination.equals(
+                    HandCutoutCombination.NONE)) {
+                // Sanity check so we didn't restore HandCutoutCombination.NONE.
+                mWatchFacePreset.mHourHandCutoutCombination =
+                        HandCutoutCombination.TIP_PLUS_ONE;
+            }
+            // Clean out previous value in settings.
+            mSettings.mPreviousHourHandCutoutCombination = HandCutoutCombination.NONE;
+        } else {
+            // OK, we want no cutout.
+            // Save the previous value (if any).
+            mSettings.mPreviousHourHandCutoutCombination =
+                    mWatchFacePreset.mHourHandCutoutCombination;
+            if (mSettings.mPreviousHourHandCutoutCombination.equals(
+                    HandCutoutCombination.NONE)) {
+                // Sanity check so we didn't preserve HandCutoutCombination.NONE.
+                mSettings.mPreviousHourHandCutoutCombination =
+                        HandCutoutCombination.TIP_PLUS_ONE;
+            }
+            // Now clear the value so it draws none.
+            mWatchFacePreset.mHourHandCutoutCombination = HandCutoutCombination.NONE;
+        }
+    }
+
+    boolean isHourHandCutout() {
+        return !mWatchFacePreset.mHourHandCutoutCombination.equals(HandCutoutCombination.NONE);
+    }
+
     public Style getHourHandCutoutStyleAsStyle() {
         return getStyle(mWatchFacePreset.mHourHandStyle, mWatchFacePreset.mHourHandCutoutCombination);
     }
@@ -1336,6 +1374,40 @@ public class WatchFaceState {
 
     void setMinuteHandStyle(Style minuteHandStyle) {
         mWatchFacePreset.mMinuteHandStyle = minuteHandStyle;
+    }
+
+    void setMinuteHandCutout(boolean minuteHandCutout) {
+        if (minuteHandCutout) {
+            // OK, we want a cutout.
+            // Restore it from previous value in settings.
+            mWatchFacePreset.mMinuteHandCutoutCombination =
+                    mSettings.mPreviousMinuteHandCutoutCombination;
+            if (mWatchFacePreset.mMinuteHandCutoutCombination.equals(
+                    HandCutoutCombination.NONE)) {
+                // Sanity check so we didn't restore HandCutoutCombination.NONE.
+                mWatchFacePreset.mMinuteHandCutoutCombination =
+                        HandCutoutCombination.TIP_PLUS_ONE;
+            }
+            // Clean out previous value in settings.
+            mSettings.mPreviousMinuteHandCutoutCombination = HandCutoutCombination.NONE;
+        } else {
+            // OK, we want no cutout.
+            // Save the previous value (if any).
+            mSettings.mPreviousMinuteHandCutoutCombination =
+                    mWatchFacePreset.mMinuteHandCutoutCombination;
+            if (mSettings.mPreviousMinuteHandCutoutCombination.equals(
+                    HandCutoutCombination.NONE)) {
+                // Sanity check so we didn't preserve HandCutoutCombination.NONE.
+                mSettings.mPreviousMinuteHandCutoutCombination =
+                        HandCutoutCombination.TIP_PLUS_ONE;
+            }
+            // Now clear the value so it draws none.
+            mWatchFacePreset.mMinuteHandCutoutCombination = HandCutoutCombination.NONE;
+        }
+    }
+
+    boolean isMinuteHandCutout() {
+        return !mWatchFacePreset.mMinuteHandCutoutCombination.equals(HandCutoutCombination.NONE);
     }
 
     public Style getMinuteHandCutoutStyleAsStyle() {

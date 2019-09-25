@@ -42,6 +42,7 @@ final class Settings extends BytePackable {
     boolean mInnerGlow = false;
     boolean mDrawShadows = true;
     boolean mTransparentBackground = false;
+    HandCutoutCombination mPreviousHourHandCutoutCombination, mPreviousMinuteHandCutoutCombination;
 
     @Override
     public int hashCode() {
@@ -64,7 +65,8 @@ final class Settings extends BytePackable {
                 mHardwareAccelerationEnabled,
                 mInnerGlow,
                 mDrawShadows,
-                mTransparentBackground);
+                mTransparentBackground,
+                mPreviousHourHandCutoutCombination, mPreviousMinuteHandCutoutCombination);
     }
 
     @Override
@@ -93,6 +95,8 @@ final class Settings extends BytePackable {
         // TODO: rearrange these
         mComplicationSize.pack(mBytePacker);
         mComplicationScale.pack(mBytePacker);
+        mPreviousHourHandCutoutCombination.pack(mBytePacker);
+        mPreviousMinuteHandCutoutCombination.pack(mBytePacker);
 
         mBytePacker.finish();
     }
@@ -126,6 +130,8 @@ final class Settings extends BytePackable {
                 mTypeface = Typeface.SANS_BOLD;
                 mComplicationSize = ComplicationSize.X_LARGE;
                 mComplicationScale = ComplicationScale.MEDIUM;
+                mPreviousHourHandCutoutCombination = HandCutoutCombination.TIP_PLUS_ONE;
+                mPreviousMinuteHandCutoutCombination = HandCutoutCombination.TIP_PLUS_ONE;
                 break;
             }
             case 2:
@@ -149,6 +155,8 @@ final class Settings extends BytePackable {
                 mTypeface = Typeface.unpack(mBytePacker);
                 mComplicationSize = ComplicationSize.unpack(mBytePacker);
                 mComplicationScale = ComplicationScale.unpack(mBytePacker);
+                mPreviousHourHandCutoutCombination = HandCutoutCombination.unpack(mBytePacker);
+                mPreviousMinuteHandCutoutCombination = HandCutoutCombination.unpack(mBytePacker);
                 break;
             }
         }

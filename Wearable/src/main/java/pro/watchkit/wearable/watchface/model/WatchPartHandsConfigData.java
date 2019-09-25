@@ -97,6 +97,13 @@ public class WatchPartHandsConfigData extends ConfigData {
                                 WatchFaceState::setHourHandStyle,
                                 WatchFaceState::getHourHandStyle)),
 
+                // Data for hour hand cutout in settings Activity.
+                new ToggleConfigItem(
+                        R.string.config_preset_hour_hand_cutout,
+                        R.drawable.ic_notifications_white_24dp,
+                        R.drawable.ic_notifications_off_white_24dp,
+                        new BooleanMutator(WatchFaceState::setHourHandCutout)),
+
                 // Data for hour hand cutout shape in settings Activity.
                 new PickerConfigItem(
                         R.string.config_preset_hour_hand_cutout_shape,
@@ -106,7 +113,8 @@ public class WatchPartHandsConfigData extends ConfigData {
                         new EnumMutator<>(
                                 BytePackable.HandCutoutShape.values(),
                                 WatchFaceState::setHourHandCutoutShape,
-                                WatchFaceState::getHourHandCutoutShape)),
+                                WatchFaceState::getHourHandCutoutShape),
+                        WatchFaceState::isHourHandCutout),
 
                 // Data for hour hand cutout style in settings Activity.
                 new PickerConfigItem(
@@ -117,7 +125,8 @@ public class WatchPartHandsConfigData extends ConfigData {
                         new EnumMutator<>(
                                 BytePackable.HandCutoutStyle.values(),
                                 WatchFaceState::setHourHandCutoutStyle,
-                                WatchFaceState::getHourHandCutoutStyle)),
+                                WatchFaceState::getHourHandCutoutStyle),
+                        WatchFaceState::isHourHandCutout),
 
                 // Data for minute hand override in settings Activity.
                 new ToggleConfigItem(
@@ -186,6 +195,14 @@ public class WatchPartHandsConfigData extends ConfigData {
                                 WatchFaceState::getMinuteHandStyle),
                         WatchFaceState::isMinuteHandOverridden),
 
+                // Data for minute hand cutout in settings Activity.
+                new ToggleConfigItem(
+                        R.string.config_preset_minute_hand_cutout,
+                        R.drawable.ic_notifications_white_24dp,
+                        R.drawable.ic_notifications_off_white_24dp,
+                        new BooleanMutator(WatchFaceState::setMinuteHandCutout),
+                        WatchFaceState::isMinuteHandOverridden),
+
                 // Data for minute hand cutout shape in settings Activity.
                 new PickerConfigItem(
                         R.string.config_preset_minute_hand_cutout_shape,
@@ -196,7 +213,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                                 BytePackable.HandCutoutShape.values(),
                                 WatchFaceState::setMinuteHandCutoutShape,
                                 WatchFaceState::getMinuteHandCutoutShape),
-                        WatchFaceState::isMinuteHandOverridden),
+                        WatchFaceState::isMinuteHandOverriddenAndCutout),
 
                 // Data for minute hand cutout style in settings Activity.
                 new PickerConfigItem(
@@ -208,7 +225,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                                 BytePackable.HandCutoutStyle.values(),
                                 WatchFaceState::setMinuteHandCutoutStyle,
                                 WatchFaceState::getMinuteHandCutoutStyle),
-                        WatchFaceState::isMinuteHandOverridden),
+                        WatchFaceState::isMinuteHandOverriddenAndCutout),
 
                 // Data for second hand override in settings Activity.
                 new ToggleConfigItem(
