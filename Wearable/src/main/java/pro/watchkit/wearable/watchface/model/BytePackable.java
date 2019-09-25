@@ -51,6 +51,12 @@ public abstract class BytePackable {
         return mBytePacker.getStringFast();
     }
 
+    @NonNull
+    String getHash() {
+        pack();
+        return mBytePacker.getString().substring(0, 8); // First 8 digits.
+    }
+
     public void setString(@Nullable String s) {
         if (s == null || s.length() == 0) return;
         try {

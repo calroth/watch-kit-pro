@@ -590,6 +590,11 @@ public class WatchFaceState {
         return mStringBuilder.toString();
     }
 
+    @NonNull
+    public String getHash() {
+        return mWatchFacePreset.getHash();
+    }
+
     // region Settings
     Typeface getTypeface() {
         return mSettings.mTypeface;
