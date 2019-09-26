@@ -771,7 +771,7 @@ abstract class WatchPartDrawable extends Drawable {
      */
     void drawTriangle(@NonNull Path path, float left, float top, float right, float bottom,
                       float scale) {
-        drawTriangle(path, left, top, right, bottom, scale, true, true);
+        drawTriangle(path, left, top, right, bottom, scale, 0f, 0f);
     }
 
     /**
@@ -795,11 +795,11 @@ abstract class WatchPartDrawable extends Drawable {
      * @param right Right bound
      * @param bottom Bottom bound
      * @param scale Scale of the shape
-     * @param drawTopHalf Draw the top half of the shape, false for certain styles of cutout
-     * @param drawBottomHalf Draw the bottom half of the shape, false for certain styles of cutout
+     * @param offsetTop Percentage from top to start drawing; 0.0f for no offset
+     * @param offsetBottom Percentage to bottom to finish drawing; 0.0f for no offset
      */
     void drawTriangle(@NonNull Path path, float left, float top, float right, float bottom,
-                      float scale, boolean drawTopHalf, boolean drawBottomHalf) {
+                      float scale, float offsetTop, float offsetBottom) {
         // If bottom is above top, invert the triangle!
         final boolean invert = bottom < top;
         // Scale factor. Ignored if scale == 0f
@@ -809,43 +809,38 @@ abstract class WatchPartDrawable extends Drawable {
         final double z = Math.sin(Math.atan(h / w) / 2d) * w1;
         final double z1 = h - (h * Math.sqrt((double) scale)) - z;
 
-        if (invert) {
-            if (getDirection() == Path.Direction.CW) {
-                path.moveTo(left + (float) w1, bottom + (float) z); // Left
-                path.lineTo(mCenterX, top - (float) z1); // Top
-                path.lineTo(right - (float) w1, bottom + (float) z); // Right
-            } else {
-                path.moveTo(right - (float) w1, bottom + (float) z); // Right
-                path.lineTo(mCenterX, top - (float) z1); // Top
-                path.lineTo(left + (float) w1, bottom + (float) z); // Left
-            }
+        final float leftX = left + (float) w1;
+        final float rightX = right - (float) w1;
+        final float bottomY = invert ? bottom + (float) z : bottom - (float) z;
+        final float topX = mCenterX;
+        final float topY = invert ? top - (float) z1 : top + (float) z1;
+
+        if (getDirection() == Path.Direction.CW) {
+            path.moveTo(leftX, bottomY); // Left
+            path.lineTo(topX, topY); // Top
+            path.lineTo(rightX, bottomY); // Right
         } else {
-            if (getDirection() == Path.Direction.CW) {
-                path.moveTo(left + (float) w1, bottom - (float) z); // Left
-                path.lineTo(mCenterX, top + (float) z1); // Top
-                path.lineTo(right - (float) w1, bottom - (float) z); // Right
-            } else {
-                path.moveTo(right - (float) w1, bottom - (float) z); // Right
-                path.lineTo(mCenterX, top + (float) z1); // Top
-                path.lineTo(left + (float) w1, bottom - (float) z); // Left
-            }
+            path.moveTo(rightX, bottomY); // Right
+            path.lineTo(topX, topY); // Top
+            path.lineTo(leftX, bottomY); // Left
         }
         path.close();
 
-        // Top and bottom halves.
-        if (drawTopHalf && !drawBottomHalf) {
+        // Top and bottom halves
+        if (offsetTop != 0f || offsetBottom != 0f) {
+            float t = topY < bottomY ? topY : bottomY; // Top of inner shape
+            float b = topY < bottomY ? bottomY : topY; // Bottom of inner shape
+            float h2 = b - t; // Height of inner shape
+
+            // Apply the offsets. Because this is a triangle, apply the square root
+            // so that we keep the proportions of the triangle
+            t += h2 * (float) Math.sqrt(offsetTop);
+            b -= h2 * (1f - (float) Math.sqrt(1f - offsetBottom));
+
             mShapeCutout.reset();
-            // Make "mPrimaryBezel" a bit bigger than top half, then intersect with "path".
+            // Make "mShapeCutout" a bit wider than the shape, then intersect with "path".
             mShapeCutout.addRect(
-                    left - 1f * pc, top - 1 * pc,
-                    right + 1f * pc, (top + bottom) / 2f, getDirection());
-            path.op(mShapeCutout, Path.Op.INTERSECT);
-        } else if (drawBottomHalf && !drawTopHalf) {
-            mShapeCutout.reset();
-            // Make "mPrimaryBezel" a bit bigger than bottom half, then intersect with "path".
-            mShapeCutout.addRect(
-                    left - 1f * pc, (top + bottom) / 2f,
-                    right + 1f * pc, bottom + 1f * pc, getDirection());
+                    left - 1f * pc, t, right + 1f * pc, b, getDirection());
             path.op(mShapeCutout, Path.Op.INTERSECT);
         }
     }

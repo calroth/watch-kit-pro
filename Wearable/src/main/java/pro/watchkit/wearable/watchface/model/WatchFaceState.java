@@ -1157,10 +1157,10 @@ public class WatchFaceState {
                 return handStyle;
             }
             case TIP_PLUS_ONE:
+            case TIP_STALK_PLUS_ONE:
             case HAND_PLUS_ONE:
             case STALK_PLUS_ONE:
-            case HAND_STALK_PLUS_ONE:
-            case UNKNOWN_PLUS_ONE: {
+            case HAND_STALK_PLUS_ONE: {
                 if (handStyle.equals(Style.FILL_HIGHLIGHT)) {
                     return Style.ACCENT_FILL;
                 } else {
@@ -1168,10 +1168,10 @@ public class WatchFaceState {
                 }
             }
             case TIP_PLUS_TWO:
+            case TIP_STALK_PLUS_TWO:
             case HAND_PLUS_TWO:
             case STALK_PLUS_TWO:
-            case HAND_STALK_PLUS_TWO:
-            case UNKNOWN_PLUS_TWO: {
+            case HAND_STALK_PLUS_TWO: {
                 if (handStyle.equals(Style.FILL_HIGHLIGHT) ||
                         handStyle.equals(Style.ACCENT_FILL)) {
                     return Style.ACCENT_HIGHLIGHT;
@@ -1180,10 +1180,10 @@ public class WatchFaceState {
                 }
             }
             case TIP_PLUS_THREE:
+            case TIP_STALK_PLUS_THREE:
             case HAND_PLUS_THREE:
             case STALK_PLUS_THREE:
-            case HAND_STALK_PLUS_THREE:
-            case UNKNOWN_PLUS_THREE: {
+            case HAND_STALK_PLUS_THREE: {
                 if (handStyle.equals(Style.BASE_ACCENT)) {
                     return Style.ACCENT_HIGHLIGHT;
                 } else {
@@ -1205,6 +1205,9 @@ public class WatchFaceState {
                     case TIP: {
                         return HandCutoutCombination.TIP_PLUS_ONE;
                     }
+                    case TIP_STALK: {
+                        return HandCutoutCombination.TIP_STALK_PLUS_ONE;
+                    }
                     case HAND: {
                         return HandCutoutCombination.HAND_PLUS_ONE;
                     }
@@ -1214,9 +1217,6 @@ public class WatchFaceState {
                     case HAND_STALK: {
                         return HandCutoutCombination.HAND_STALK_PLUS_ONE;
                     }
-//                    case UNKNOWN: {
-//                        return HandCutoutStyle.UNKNOWN_PLUS_ONE;
-//                    }
                 }
             }
             case PLUS_TWO: {
@@ -1224,6 +1224,9 @@ public class WatchFaceState {
                     default:
                     case TIP: {
                         return HandCutoutCombination.TIP_PLUS_TWO;
+                    }
+                    case TIP_STALK: {
+                        return HandCutoutCombination.TIP_STALK_PLUS_TWO;
                     }
                     case HAND: {
                         return HandCutoutCombination.HAND_PLUS_TWO;
@@ -1234,9 +1237,6 @@ public class WatchFaceState {
                     case HAND_STALK: {
                         return HandCutoutCombination.HAND_STALK_PLUS_TWO;
                     }
-//                    case UNKNOWN: {
-//                        return HandCutoutStyle.UNKNOWN_PLUS_TWO;
-//                    }
                 }
             }
             case PLUS_THREE: {
@@ -1244,6 +1244,9 @@ public class WatchFaceState {
                     default:
                     case TIP: {
                         return HandCutoutCombination.TIP_PLUS_THREE;
+                    }
+                    case TIP_STALK: {
+                        return HandCutoutCombination.TIP_STALK_PLUS_THREE;
                     }
                     case HAND: {
                         return HandCutoutCombination.HAND_PLUS_THREE;
@@ -1254,9 +1257,6 @@ public class WatchFaceState {
                     case HAND_STALK: {
                         return HandCutoutCombination.HAND_STALK_PLUS_THREE;
                     }
-//                    case UNKNOWN: {
-//                        return HandCutoutStyle.UNKNOWN_PLUS_THREE;
-//                    }
                 }
             }
         }
@@ -1268,25 +1268,25 @@ public class WatchFaceState {
         switch (handCutoutCombination) {
             default:
             case TIP_PLUS_ONE:
+            case TIP_STALK_PLUS_ONE:
             case HAND_PLUS_ONE:
             case STALK_PLUS_ONE:
             case HAND_STALK_PLUS_ONE:
-            case UNKNOWN_PLUS_ONE:
             case NONE: {
                 return HandCutoutStyle.PLUS_ONE;
             }
             case TIP_PLUS_TWO:
+            case TIP_STALK_PLUS_TWO:
             case HAND_PLUS_TWO:
             case STALK_PLUS_TWO:
-            case HAND_STALK_PLUS_TWO:
-            case UNKNOWN_PLUS_TWO: {
+            case HAND_STALK_PLUS_TWO: {
                 return HandCutoutStyle.PLUS_TWO;
             }
             case TIP_PLUS_THREE:
+            case TIP_STALK_PLUS_THREE:
             case HAND_PLUS_THREE:
             case STALK_PLUS_THREE:
-            case HAND_STALK_PLUS_THREE:
-            case UNKNOWN_PLUS_THREE: {
+            case HAND_STALK_PLUS_THREE: {
                 return HandCutoutStyle.PLUS_THREE;
             }
         }
@@ -1303,6 +1303,11 @@ public class WatchFaceState {
             case NONE: {
                 return HandCutoutShape.TIP;
             }
+            case TIP_STALK_PLUS_ONE:
+            case TIP_STALK_PLUS_TWO:
+            case TIP_STALK_PLUS_THREE: {
+                return HandCutoutShape.TIP_STALK;
+            }
             case HAND_PLUS_ONE:
             case HAND_PLUS_TWO:
             case HAND_PLUS_THREE: {
@@ -1315,10 +1320,7 @@ public class WatchFaceState {
             }
             case HAND_STALK_PLUS_ONE:
             case HAND_STALK_PLUS_TWO:
-            case HAND_STALK_PLUS_THREE:
-            case UNKNOWN_PLUS_ONE:
-            case UNKNOWN_PLUS_TWO:
-            case UNKNOWN_PLUS_THREE: {
+            case HAND_STALK_PLUS_THREE: {
                 return HandCutoutShape.HAND_STALK;
             }
         }

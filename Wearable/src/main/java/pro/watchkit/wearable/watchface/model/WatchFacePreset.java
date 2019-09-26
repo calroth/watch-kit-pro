@@ -218,7 +218,7 @@ final class WatchFacePreset extends BytePackable {
                 mHourHandThickness = HandThickness.unpack(mBytePacker);
                 mHourHandStalk = HandStalk.unpack(mBytePacker);
                 /*mHourHandCutout =*/
-                HandCutoutShape.unpack(mBytePacker);
+                HandStalk.unpack(mBytePacker);
                 mHourHandStyle = Style.unpack(mBytePacker);
                 mHourHandCutoutCombination = HandCutoutCombination.NONE;
 
@@ -233,7 +233,7 @@ final class WatchFacePreset extends BytePackable {
                 mMinuteHandThickness = HandThickness.unpack(mBytePacker);
                 mMinuteHandStalk = HandStalk.unpack(mBytePacker);
                 /*mMinuteHandCutout =*/
-                HandCutoutShape.unpack(mBytePacker);
+                HandStalk.unpack(mBytePacker);
                 mMinuteHandStyle = Style.unpack(mBytePacker);
                 mMinuteHandCutoutCombination = HandCutoutCombination.NONE;
 
@@ -290,7 +290,7 @@ final class WatchFacePreset extends BytePackable {
                 mHourHandThickness = HandThickness.unpack(mBytePacker);
                 mHourHandStalk = HandStalk.unpack(mBytePacker);
                 /*mHourHandCutout =*/
-                HandCutoutShape.unpack(mBytePacker);
+                HandStalk.unpack(mBytePacker);
                 mHourHandStyle = Style.unpack(mBytePacker);
                 mHourHandCutoutCombination = HandCutoutCombination.NONE;
 
@@ -306,7 +306,7 @@ final class WatchFacePreset extends BytePackable {
                 mMinuteHandThickness = HandThickness.unpack(mBytePacker);
                 mMinuteHandStalk = HandStalk.unpack(mBytePacker);
                 /*mMinuteHandCutout =*/
-                HandCutoutShape.unpack(mBytePacker);
+                HandStalk.unpack(mBytePacker);
                 mMinuteHandStyle = Style.unpack(mBytePacker);
                 mMinuteHandCutoutCombination = HandCutoutCombination.NONE;
 
@@ -358,7 +358,7 @@ final class WatchFacePreset extends BytePackable {
                 mHourHandThickness = HandThickness.unpack(mBytePacker);
                 mHourHandStalk = HandStalk.unpack(mBytePacker);
                 /*mHourHandCutout =*/
-                HandCutoutShape.unpack(mBytePacker);
+                HandStalk.unpack(mBytePacker);
                 mHourHandStyle = Style.unpack(mBytePacker);
                 mHourHandCutoutCombination = HandCutoutCombination.NONE;
 
@@ -374,7 +374,7 @@ final class WatchFacePreset extends BytePackable {
                 mMinuteHandThickness = HandThickness.unpack(mBytePacker);
                 mMinuteHandStalk = HandStalk.unpack(mBytePacker);
                 /*mMinuteHandCutout =*/
-                HandCutoutShape.unpack(mBytePacker);
+                HandStalk.unpack(mBytePacker);
                 mMinuteHandStyle = Style.unpack(mBytePacker);
                 mMinuteHandCutoutCombination = HandCutoutCombination.NONE;
 

@@ -225,6 +225,7 @@
 
     <string-array name="WatchFacePreset_HandCutoutShape">
         <item>Tip</item>
+        <item>Tip + Stalk</item>
         <item>Hand</item>
         <item>Stalk</item>
         <item>Hand + Stalk</item>

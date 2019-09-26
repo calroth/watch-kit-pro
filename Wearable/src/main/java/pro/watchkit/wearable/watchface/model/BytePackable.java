@@ -171,20 +171,6 @@ public abstract class BytePackable {
     public enum HandCutoutStyle implements EnumResourceId {
         PLUS_ONE, PLUS_TWO, PLUS_THREE;
 
-        private static final int bits = 2;
-
-        static HandCutoutStyle unpack(@NonNull BytePacker bytePacker) {
-            return values()[bytePacker.get(bits)];
-        }
-
-        static HandCutoutStyle unpack3(@NonNull BytePacker bytePacker) {
-            return values()[bytePacker.get(3) % values().length];
-        }
-
-        void pack(@NonNull BytePacker bytePacker) {
-            bytePacker.put(bits, values(), this);
-        }
-
         @Override
         @ArrayRes
         public int getNameResourceId() {
@@ -193,17 +179,7 @@ public abstract class BytePackable {
     }
 
     public enum HandCutoutShape implements EnumResourceId {
-        TIP, HAND, STALK, HAND_STALK;
-
-        private static final int bits = 2;
-
-        static HandCutoutShape unpack(@NonNull BytePacker bytePacker) {
-            return values()[bytePacker.get(bits)];
-        }
-
-        void pack(@NonNull BytePacker bytePacker) {
-            bytePacker.put(bits, values(), this);
-        }
+        TIP, TIP_STALK, HAND, STALK, HAND_STALK;
 
         @Override
         @ArrayRes
@@ -214,10 +190,10 @@ public abstract class BytePackable {
 
     public enum HandCutoutCombination implements EnumResourceId {
         TIP_PLUS_ONE, TIP_PLUS_TWO, TIP_PLUS_THREE,
+        TIP_STALK_PLUS_ONE, TIP_STALK_PLUS_TWO, TIP_STALK_PLUS_THREE,
         HAND_PLUS_ONE, HAND_PLUS_TWO, HAND_PLUS_THREE,
         STALK_PLUS_ONE, STALK_PLUS_TWO, STALK_PLUS_THREE,
         HAND_STALK_PLUS_ONE, HAND_STALK_PLUS_TWO, HAND_STALK_PLUS_THREE,
-        UNKNOWN_PLUS_ONE, UNKNOWN_PLUS_TWO, UNKNOWN_PLUS_THREE,
         NONE;
 
         private static final int bits = 4;

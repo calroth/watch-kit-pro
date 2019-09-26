@@ -59,6 +59,8 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     @NonNull
     private Path mHandFullCutout = new Path();
     @NonNull
+    private Path mHandTipCutout = new Path();
+    @NonNull
     private Path mHandTopCutout = new Path();
     @NonNull
     private Path mHandBottomCutout = new Path();
@@ -218,6 +220,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         mStalk.reset();
         mStalkCutout.reset();
         mHandFullCutout.reset();
+        mHandTipCutout.reset();
         mHandTopCutout.reset();
         mHandBottomCutout.reset();
         mHandTwoToneCutoutPath.reset();
@@ -335,10 +338,12 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
                 // Draw a cutout.
                 drawTriangle(mHandFullCutout, left, triangleTop, right, triangleBottom, cutoutScale);
+                drawTriangle(mHandTipCutout, left, triangleTop, right, triangleBottom, cutoutScale,
+                        0f, 0.75f);
                 drawTriangle(mHandTopCutout, left, triangleTop, right, triangleBottom, cutoutScale,
-                        true, false);
+                        0f, 0.5f);
                 drawTriangle(mHandBottomCutout, left, triangleTop, right, triangleBottom, cutoutScale,
-                        false, true);
+                        0.5f, 0f);
                 break;
             }
         }
@@ -348,7 +353,30 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 mHandActivePath.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
             } else {
                 switch (handCutoutShape) {
-                    case TIP:
+                    case TIP: {
+                        mHandActivePath.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
+                        if (isTwoToneCutout()) {
+                            mHandTwoToneCutoutPath.op(mHandTopCutout, Path.Op.UNION); // Add to two-tone
+                        } else {
+                            mHandActivePath.op(mHandTopCutout, Path.Op.DIFFERENCE); // Remove the hand cutout.
+                        }
+                        break;
+                    }
+                    case TIP_STALK: {
+                        if (isTwoToneCutout()) {
+                            mHandTwoToneCutoutPath.op(mStalkCutout, Path.Op.UNION); // Add to two-tone
+                            mHandTwoToneCutoutPath.op(mHandActivePath, Path.Op.DIFFERENCE); // Remove hand from two-tone
+                        } else {
+                            mStalk.op(mStalkCutout, Path.Op.DIFFERENCE); // Remove the stalk cutout.
+                        }
+                        mHandActivePath.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
+                        if (isTwoToneCutout()) {
+                            mHandTwoToneCutoutPath.op(mHandTopCutout, Path.Op.UNION); // Add to two-tone
+                        } else {
+                            mHandActivePath.op(mHandTopCutout, Path.Op.DIFFERENCE); // Remove the hand cutout.
+                        }
+                        break;
+                    }
                     case HAND: {
                         mHandActivePath.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
                         if (isTwoToneCutout()) {
@@ -381,9 +409,26 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                     }
                 }
             }
-        } else if ((handStalk == HandStalk.NONE || handStalk == HandStalk.NEGATIVE) && !isCutout()) {
+        } else if ((handStalk == HandStalk.NONE || handStalk == HandStalk.NEGATIVE) && isCutout()) {
             switch (handCutoutShape) {
-                case TIP:
+                case TIP: {
+                    if (isTwoToneCutout()) {
+                        mHandTwoToneCutoutPath.op(mHandTipCutout, Path.Op.UNION); // Add to two-tone
+                    } else {
+                        mHandActivePath.op(mHandTipCutout, Path.Op.DIFFERENCE); // Remove the top hand cutout.
+                    }
+                    break;
+                }
+                case TIP_STALK: {
+                    if (isTwoToneCutout()) {
+                        mHandTwoToneCutoutPath.op(mHandTipCutout, Path.Op.UNION); // Add to two-tone
+                        mHandTwoToneCutoutPath.op(mHandBottomCutout, Path.Op.UNION); // Add to two-tone
+                    } else {
+                        mHandActivePath.op(mHandTipCutout, Path.Op.DIFFERENCE); // Remove the top hand cutout.
+                        mHandActivePath.op(mHandBottomCutout, Path.Op.DIFFERENCE); // Remove the bottom hand cutout.
+                    }
+                    break;
+                }
                 case HAND: {
                     if (isTwoToneCutout()) {
                         mHandTwoToneCutoutPath.op(mHandTopCutout, Path.Op.UNION); // Add to two-tone
