@@ -290,8 +290,9 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
                 // Draw a cutout.
                 drawRect(mHandFullCutout, left, top, right, bottom, cutoutScale);
-                drawRect(mHandTopCutout, left, top, right, bottom, cutoutScale, true, false);
-                drawRect(mHandBottomCutout, left, top, right, bottom, cutoutScale, false, true);
+                drawRect(mHandTipCutout, left, top, right, bottom, cutoutScale, 0f, 0.75f);
+                drawRect(mHandTopCutout, left, top, right, bottom, cutoutScale, 0f, 0.5f);
+                drawRect(mHandBottomCutout, left, top, right, bottom, cutoutScale, 0.5f, 0f);
                 break;
             }
             case ROUNDED: {
@@ -302,10 +303,12 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 // Draw a cutout.
                 drawRoundRect(mHandFullCutout, left, top, right, bottom,
                         roundRectRadius * 2f, cutoutScale);
+                drawRoundRect(mHandTipCutout, left, top, right, bottom,
+                        roundRectRadius * 2f, cutoutScale, 0f, 0.75f);
                 drawRoundRect(mHandTopCutout, left, top, right, bottom,
-                        roundRectRadius * 2f, cutoutScale, true, false);
+                        roundRectRadius * 2f, cutoutScale, 0f, 0.5f);
                 drawRoundRect(mHandBottomCutout, left, top, right, bottom,
-                        roundRectRadius * 2f, cutoutScale, false, true);
+                        roundRectRadius * 2f, cutoutScale, 0.5f, 0f);
                 break;
             }
             case DIAMOND: {
@@ -321,10 +324,12 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                 // Draw a cutout.
                 drawDiamond(mHandFullCutout, left, diamondTop, right, diamondBottom, cutoutScale,
                         HOUR_MINUTE_HAND_MIDPOINT);
+                drawDiamond(mHandTipCutout, left, diamondTop, right, diamondBottom, cutoutScale,
+                        HOUR_MINUTE_HAND_MIDPOINT, 0f, 0.75f);
                 drawDiamond(mHandTopCutout, left, diamondTop, right, diamondBottom, cutoutScale,
-                        HOUR_MINUTE_HAND_MIDPOINT, true, false);
+                        HOUR_MINUTE_HAND_MIDPOINT, 0f, 0.5f);
                 drawDiamond(mHandBottomCutout, left, diamondTop, right, diamondBottom, cutoutScale,
-                        HOUR_MINUTE_HAND_MIDPOINT, false, true);
+                        HOUR_MINUTE_HAND_MIDPOINT, 0.5f, 0f);
                 break;
             }
             case TRIANGLE: {
