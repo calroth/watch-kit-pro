@@ -361,9 +361,9 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                     case TIP: {
                         mHandActivePath.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
                         if (isTwoToneCutout()) {
-                            mHandTwoToneCutoutPath.op(mHandTopCutout, Path.Op.UNION); // Add to two-tone
+                            mHandTwoToneCutoutPath.op(mHandTipCutout, Path.Op.UNION); // Add to two-tone
                         } else {
-                            mHandActivePath.op(mHandTopCutout, Path.Op.DIFFERENCE); // Remove the hand cutout.
+                            mHandActivePath.op(mHandTipCutout, Path.Op.DIFFERENCE); // Remove the hand cutout.
                         }
                         break;
                     }
@@ -376,9 +376,9 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
                         }
                         mHandActivePath.op(mStalk, Path.Op.UNION); // Add the stalk to the hand.
                         if (isTwoToneCutout()) {
-                            mHandTwoToneCutoutPath.op(mHandTopCutout, Path.Op.UNION); // Add to two-tone
+                            mHandTwoToneCutoutPath.op(mHandTipCutout, Path.Op.UNION); // Add to two-tone
                         } else {
-                            mHandActivePath.op(mHandTopCutout, Path.Op.DIFFERENCE); // Remove the hand cutout.
+                            mHandActivePath.op(mHandTipCutout, Path.Op.DIFFERENCE); // Remove the hand cutout.
                         }
                         break;
                     }
