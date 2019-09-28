@@ -105,9 +105,6 @@ public class WatchFaceSelectionActivity extends Activity {
 
         WearableRecyclerView view = findViewById(R.id.wearable_recycler_view);
 
-        // Aligns the first and last items on the list vertically centered on the screen.
-        view.setEdgeItemsCenteringEnabled(true);
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         view.setLayoutManager(layoutManager);
 
@@ -118,7 +115,28 @@ public class WatchFaceSelectionActivity extends Activity {
         view.setAdapter(recyclerViewAdapter);
 
         // Attach a LinearSnapHelper to make it snap to each watch face!
-        SnapHelper snapHelper = new LinearSnapHelper();
+        // This LinearSnapHelper is custom: it allows us to "snap" to the first item too.
+        SnapHelper snapHelper = new LinearSnapHelper() {
+            /**
+             * Custom findSnapView.
+             * <p>
+             * If we're scrolled to the top, within half a height of the first item (the header),
+             * snap to the header instead! Otherwise use the default behaviour.
+             *
+             * @param layoutManager the RecyclerView.LayoutManager attached to the RecyclerView
+             * @return the target view which we want to snap to
+             */
+            @Override
+            public View findSnapView(RecyclerView.LayoutManager layoutManager) {
+                final View header = layoutManager.getChildAt(0);
+                if (header != null &&
+                        view.computeVerticalScrollOffset() < header.getMeasuredHeight() / 2) {
+                    return header;
+                } else {
+                    return super.findSnapView(layoutManager);
+                }
+            }
+        };
         snapHelper.attachToRecyclerView(view);
 
         // Add an OnScrollListener to the view.
