@@ -30,10 +30,7 @@
          WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
          See the License for the specific language governing permissions and
          limitations under the License.
-    --><!--<androidx.wear.widget.WearableRecyclerView--><!--xmlns:android="http://schemas.android.com/apk/res/android"--><!--xmlns:tools="http://schemas.android.com/tools"--><!--android:id="@+id/wearable_recycler_view"--><!--android:layout_width="match_parent"--><!--android:layout_height="match_parent"--><!--android:background="@color/dark_grey"--><!--android:paddingTop="10dp"--><!--android:paddingBottom="10dp"--><!--android:scrollbars="vertical"--><!--tools:context="pro.watchkit.wearable.watchface.config.ColorSelectionActivity">--><!--</androidx.wear.widget.WearableRecyclerView>-->
-
-<!--android:paddingLeft="@dimen/activity_horizontal_margin"--><!--android:paddingRight="@dimen/activity_horizontal_margin"-->
-
+    -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -42,12 +39,21 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/activity_config_padding">
+
+        <TextView
+            android:id="@+id/config_item_textview_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/white" />
 
         <ImageView
             android:id="@+id/color"
             android:layout_width="match_parent"
-            android:layout_height="540dp"
+            android:layout_height="500dp"
             android:scrollbars="vertical" />
     </LinearLayout>
 </ScrollView>

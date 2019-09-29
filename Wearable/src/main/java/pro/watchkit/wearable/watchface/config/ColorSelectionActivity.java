@@ -43,13 +43,16 @@ import android.graphics.PixelFormat;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.RecyclerView;
 
 import pro.watchkit.wearable.watchface.R;
@@ -70,16 +73,20 @@ public class ColorSelectionActivity extends Activity {
 
     static final String INTENT_EXTRA_COLOR =
             ColorSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_COLOR";
+    static final String INTENT_EXTRA_COLOR_LABEL =
+            ColorSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_COLOR_LABEL";
 
-    private int[][] mRows;
-    private RectF[][] mRectFs;
     private float mLastTouchX = -1f, mLastTouchY = -1f;
     private WatchFaceState mWatchFaceState;
     private SharedPref mSharedPref;
+    @StringRes
+    private int mNameLabel;
 
     private int calc(int a, int b, int c) {
         return (a * 16) + (b * 4) + c;
     }
+
+    private static final StringBuilder mStringBuilder = new StringBuilder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,18 +97,36 @@ public class ColorSelectionActivity extends Activity {
         // Try to get the watch face slot from our activity intent.
         String slot = getIntent().getStringExtra(INTENT_EXTRA_SLOT);
         Class watchFaceServiceClass;
+        @StringRes final int titleLabel;
         if (slot == null) {
             // Default: A
             watchFaceServiceClass = ProWatchFaceService.A.class;
+            titleLabel = R.string.watch_face_service_label_a;
         } else if (slot.equals(ProWatchFaceService.B.class.getName())) {
             watchFaceServiceClass = ProWatchFaceService.B.class;
+            titleLabel = R.string.watch_face_service_label_b;
         } else if (slot.equals(ProWatchFaceService.C.class.getName())) {
             watchFaceServiceClass = ProWatchFaceService.C.class;
+            titleLabel = R.string.watch_face_service_label_c;
         } else if (slot.equals(ProWatchFaceService.D.class.getName())) {
             watchFaceServiceClass = ProWatchFaceService.D.class;
+            titleLabel = R.string.watch_face_service_label_d;
         } else {
             watchFaceServiceClass = ProWatchFaceService.A.class;
+            titleLabel = R.string.watch_face_service_label_a;
         }
+
+        mNameLabel = getIntent().getIntExtra(INTENT_EXTRA_COLOR_LABEL, -1);
+
+        final TextView labelTextView = findViewById(R.id.config_item_textview_widget);
+        mStringBuilder.setLength(0);
+        mStringBuilder.append(getString(titleLabel));
+        if (mNameLabel != -1) {
+            mStringBuilder.append("<br>");
+            mStringBuilder.append(getString(mNameLabel));
+        }
+        labelTextView.setText(
+                Html.fromHtml(mStringBuilder.toString(), Html.FROM_HTML_MODE_LEGACY));
 
         // Reload our current WatchFacePreset.
         // So we can get our currently selected color.
@@ -109,7 +134,7 @@ public class ColorSelectionActivity extends Activity {
 
         mWatchFaceState.setString(mSharedPref.getWatchFaceStateString());
 
-        int[] row1 = new int[]{
+        final int[] row1 = new int[]{
                 -1,
                 calc(3, 2, 3),
                 calc(3, 1, 3),
@@ -124,7 +149,7 @@ public class ColorSelectionActivity extends Activity {
                 -1
         };
 
-        int[] row2 = new int[]{
+        final int[] row2 = new int[]{
                 -1,
                 calc(3, 1, 2),
                 calc(3, 0, 3),
@@ -139,7 +164,7 @@ public class ColorSelectionActivity extends Activity {
                 -1
         };
 
-        int[] row3 = new int[]{
+        final int[] row3 = new int[]{
                 calc(3, 0, 2),
                 calc(2, 1, 2),
                 calc(2, 0, 3),
@@ -154,7 +179,7 @@ public class ColorSelectionActivity extends Activity {
                 calc(3, 1, 1),
         };
 
-        int[] row4 = new int[]{
+        final int[] row4 = new int[]{
                 calc(3, 0, 1),
                 calc(2, 0, 2),
                 calc(1, 0, 3),
@@ -169,7 +194,7 @@ public class ColorSelectionActivity extends Activity {
                 calc(2, 1, 1),
         };
 
-        int[] row5 = new int[]{
+        final int[] row5 = new int[]{
                 -1,
                 calc(3, 0, 0),
                 calc(2, 0, 1),
@@ -184,7 +209,7 @@ public class ColorSelectionActivity extends Activity {
                 -1
         };
 
-        int[] row6 = new int[]{
+        final int[] row6 = new int[]{
                 -1,
                 calc(2, 0, 0),
                 calc(1, 0, 1),
@@ -199,8 +224,8 @@ public class ColorSelectionActivity extends Activity {
                 -1
         };
 
-        mRows = new int[][]{row1, row2, row3, row4, row5, row6};
-        mRectFs = new RectF[][]{
+        final int[][] mRows = new int[][]{row1, row2, row3, row4, row5, row6};
+        final RectF[][] mRectFs = new RectF[][]{
                 new RectF[row1.length],
                 new RectF[row2.length],
                 new RectF[row3.length],
@@ -252,7 +277,6 @@ public class ColorSelectionActivity extends Activity {
                     cx += spanRoot3;
                     // 0 for even cols, vertical offset for odd
                     float cy = (i % 2 == 0) ? span * 0.5f : span * 1.0f;
-                    cy += span; // Temporary
                     for (int j = 0; j < mRows[i].length; j++) {
                         RectF r = new RectF(cx - (1.5f * spanRoot3 / 2f),
                                 cy - (span / 2f),
@@ -300,15 +324,12 @@ public class ColorSelectionActivity extends Activity {
             }
         });
 
-        colorImageView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, @NonNull MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    mLastTouchX = event.getX();
-                    mLastTouchY = event.getY();
-                }
-                return false;
+        colorImageView.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                mLastTouchX = event.getX();
+                mLastTouchY = event.getY();
             }
+            return false;
         });
 
         colorImageView.setOnClickListener(v -> {
@@ -374,41 +395,8 @@ public class ColorSelectionActivity extends Activity {
     private void setSixBitColor(int sixBitColor) {
         String sharedPrefString = getIntent().getStringExtra(INTENT_EXTRA_COLOR);
         PaintBox.ColorType colorType = PaintBox.ColorType.valueOf(sharedPrefString);
-        String toastText;
 
         mWatchFaceState.setSixBitColor(colorType, sixBitColor);
-
-        switch (colorType) {
-            case FILL: {
-                toastText = getString(R.string.config_fill_color_label);
-                break;
-            }
-            case ACCENT: {
-                toastText = getString(R.string.config_accent_color_label);
-                break;
-            }
-            case HIGHLIGHT: {
-                toastText = getString(R.string.config_marker_color_label);
-                break;
-            }
-            case BASE: {
-                toastText = getString(R.string.config_base_color_label);
-                break;
-            }
-            case AMBIENT_DAY: {
-                toastText = getString(R.string.config_ambient_day_color_label);
-                break;
-            }
-            case AMBIENT_NIGHT: {
-                toastText = getString(R.string.config_ambient_night_color_label);
-                break;
-            }
-            default: {
-                // Should never happen...
-                toastText = "???\nColor";
-                break;
-            }
-        }
 
         mSharedPref.putWatchFaceStateString(mWatchFaceState.getString());
 
@@ -416,6 +404,7 @@ public class ColorSelectionActivity extends Activity {
         setResult(Activity.RESULT_OK);
 
         // Show a toast popup with the color we just selected.
+        String toastText = mNameLabel != -1 ? getString(mNameLabel) : "???\nColor";
         toastText = toastText.replace('\n', ' ') +
                 ":\n" + mWatchFaceState.getPaintBox().getColorName(sixBitColor);
         Toaster.makeText(this, toastText, Toaster.LENGTH_LONG);

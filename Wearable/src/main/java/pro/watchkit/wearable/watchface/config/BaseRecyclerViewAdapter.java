@@ -81,6 +81,7 @@ import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
+import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR_LABEL;
 import static pro.watchkit.wearable.watchface.config.ConfigActivity.CONFIG_DATA;
 import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_EXTRA_NAMES;
 import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_FLAGS;
@@ -688,6 +689,10 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 // Pass shared preference name to save color value to.
                 if (mConfigItem != null && mConfigItem.getType() != null) {
                     launchIntent.putExtra(INTENT_EXTRA_COLOR, mConfigItem.getType().name());
+                }
+                // And the name of the label, for the activity's title header.
+                if (mConfigItem != null) {
+                    launchIntent.putExtra(INTENT_EXTRA_COLOR_LABEL, mConfigItem.getNameResourceId());
                 }
                 launchIntent.putExtra(INTENT_EXTRA_SLOT, mWatchFaceComponentName.getClassName());
 
