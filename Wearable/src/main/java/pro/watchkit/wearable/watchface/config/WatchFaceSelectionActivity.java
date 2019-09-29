@@ -73,7 +73,7 @@ public class WatchFaceSelectionActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_watch_face_preset_selection_config);
+        setContentView(R.layout.activity_watch_face_selection);
 
         String[] watchFaceStateStrings = getIntent().getStringArrayExtra(INTENT_EXTRA_STATES);
         int flags = getIntent().getIntExtra(
