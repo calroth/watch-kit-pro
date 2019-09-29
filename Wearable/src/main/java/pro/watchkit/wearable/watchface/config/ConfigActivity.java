@@ -152,7 +152,7 @@ public class ConfigActivity extends Activity {
             mConfigData = mCurrentSubActivity.getNewInstance();
         }
 
-        setContentView(R.layout.activity_analog_complication_config);
+        setContentView(R.layout.activity_config);
 
         if (mConfigData != null) {
             mAdapter = new ConfigRecyclerViewAdapter(this, watchFaceServiceClass,
