@@ -84,7 +84,7 @@ public class ColorSelectionActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_color_selection_config);
+        setContentView(R.layout.activity_color_selection);
         mWatchFaceState = new WatchFaceState(this);
 
         // Try to get the watch face slot from our activity intent.
