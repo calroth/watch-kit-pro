@@ -38,6 +38,8 @@ import javax.crypto.spec.SecretKeySpec;
 import pro.watchkit.wearable.watchface.R;
 
 public abstract class BytePackable {
+    private static final String TAG = "BytePackable";
+
     @NonNull
     BytePacker mBytePacker = new BytePacker();
 
@@ -63,8 +65,8 @@ public abstract class BytePackable {
             mBytePacker.setStringFast(s);
             unpack();
         } catch (java.lang.StringIndexOutOfBoundsException e) {
-            Log.d(getClass().getSimpleName(), "setString failed: " + s);
-            Log.d(getClass().getSimpleName(), "setString failed: " + e.toString());
+            Log.d(TAG, "setString failed: " + s);
+            Log.d(TAG, "setString failed: " + e.toString());
         }
     }
 
@@ -598,8 +600,7 @@ public abstract class BytePackable {
          * the version string.
          */
         void finish() {
-//            Log.d(getClass().toString(), "finish() with " + mBytePtr +
-//                    " / " + (mBytes.length * 8 - 1) + " bits.");
+//            Log.d(TAG, "finish() with " + mBytePtr + " / " + (mBytes.length * 8 - 1) + " bits.");
             if (mBytePtr >= mBytes.length * 8 - 1) {
                 // Already finalized?
                 return;
@@ -652,7 +653,6 @@ public abstract class BytePackable {
                 // We just want a reversible hash that evenly distributes amongst buckets.
                 mCipher = Cipher.getInstance("AES/ECB/NoPadding");
             } catch (@NonNull NoSuchAlgorithmException | NoSuchPaddingException ex) {
-                String TAG = "AnalogWatchFace";
                 Log.d(TAG, "setKey: " + ex.toString());
             }
         }
@@ -677,7 +677,6 @@ public abstract class BytePackable {
 
         @NonNull
         public String getString() {
-            String TAG = "AnalogWatchFace";
             //        Log.d(TAG, "Unencrypted: " + byteArrayToString(mBytes));
             try {
                 mCipher.init(Cipher.ENCRYPT_MODE, mKey);
@@ -698,14 +697,14 @@ public abstract class BytePackable {
                         + Character.digit(s.charAt(i + 1), 16));
             }
 
-            String TAG = "AnalogWatchFace";
-            //        Log.d(TAG, "Encrypted: " + byteArrayToString(encrypted));
+            // Log.d(TAG, "Encrypted: " + byteArrayToString(encrypted));
 
             try {
                 mCipher.init(Cipher.DECRYPT_MODE, mKey);
                 mBytes = mCipher.doFinal(encrypted);
                 //            Log.d(TAG, "Decrypted: " + byteArrayToString(mBytes));
-            } catch (@NonNull IllegalBlockSizeException | BadPaddingException | InvalidKeyException ex) {
+            } catch (@NonNull IllegalBlockSizeException
+                    | BadPaddingException | InvalidKeyException ex) {
                 Log.d(TAG, "setString: " + ex.toString());
             }
 
@@ -884,7 +883,6 @@ public abstract class BytePackable {
 
         private void testGet(int length, int expected) {
             int actual = get(length);
-            String TAG = "AnalogWatchFaceZ";
             Log.d(TAG, "get start=" + mBytePtr + " length=" + length +
                     " expected=" + expected + " actual=" + actual +
                     (expected == actual ? " ✔" : ""));

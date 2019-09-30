@@ -38,6 +38,7 @@ import androidx.annotation.Nullable;
 import java.util.Objects;
 
 public final class ComplicationHolder implements Drawable.Callback {
+    private static final String TAG = "ComplicationHolder";
 
     private final static boolean highlightItWasMe = false;
     private static final boolean cacheImages = false;
@@ -260,7 +261,7 @@ public final class ComplicationHolder implements Drawable.Callback {
 
     @Override
     public void invalidateDrawable(@NonNull Drawable who) {
-//        Log.d("AnalogWatchFace", "invalidateDrawable() (" + getId() //+ "): " + mComplicationDescription);
+//        Log.d(TAG, "invalidateDrawable() (" + getId() //+ "): " + mComplicationDescription);
 //                + ")");
         itWasMe = System.currentTimeMillis();
         invalidate();
@@ -271,13 +272,13 @@ public final class ComplicationHolder implements Drawable.Callback {
 
     @Override
     public void scheduleDrawable(@NonNull Drawable who, @NonNull Runnable what, long when) {
-        Log.d("AnalogWatchFace", "scheduleDrawable() (" + getId() + "): " + when);
+        Log.d(TAG, "scheduleDrawable() (" + getId() + "): " + when);
         mHandler.postAtTime(what, who, when);
     }
 
     @Override
     public void unscheduleDrawable(@NonNull Drawable who, @NonNull Runnable what) {
-        Log.d("AnalogWatchFace", "unscheduleDrawable() (" + getId() + ")");
+        Log.d(TAG, "unscheduleDrawable() (" + getId() + ")");
         mHandler.removeCallbacks(what, who);
     }
 
@@ -349,13 +350,13 @@ public final class ComplicationHolder implements Drawable.Callback {
             mProviderIconDrawable.draw(canvas);
         } else {
 //            Drawable.Callback obj = mComplicationDrawable.getCallback();
-//            Log.d("AnalogWatchFace", "Complication draw (id=" + getId()
+//            Log.d(TAG, "Complication draw (id=" + getId()
 //                    + "): callback is " + (obj == null ? "null" : obj.toString()));
             if (highlightItWasMe && itWasMe > currentTimeMillis - 500) {
                 // if itWasMe triggered in the last 500 ms
                 mComplicationDrawable.setBorderStyleAmbient(ComplicationDrawable.BORDER_STYLE_DASHED);
                 mComplicationDrawable.setBorderColorAmbient(Color.WHITE);
-                Log.d("AnalogWatchFace", "invalidateDrawable(itWasMe) (" + getId() + ")");
+                Log.d(TAG, "invalidateDrawable(itWasMe) (" + getId() + ")");
             } else {
                 mComplicationDrawable.setBorderStyleAmbient(ComplicationDrawable.BORDER_STYLE_NONE);
             }

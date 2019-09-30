@@ -70,12 +70,7 @@ import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.util.SharedPref;
 
 public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatchFaceService {
-    //public class AnalogComplicationWatchFaceService extends WatchFaceService {
-    private static final String TAG = "AnalogWatchFace";
-
-    // Unique IDs for each complication. The settings activity that supports allowing users
-    // to select their complication data provider requires numbers to be >= 0.
-//    private static final int BACKGROUND_COMPLICATION_ID = 99;
+    private static final String TAG = "ProWatchFaceService";
 
     /*
      * Update rate in milliseconds for interactive mode. We update once a second to advance the

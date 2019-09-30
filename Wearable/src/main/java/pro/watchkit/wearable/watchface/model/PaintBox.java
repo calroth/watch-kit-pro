@@ -55,6 +55,7 @@ import pro.watchkit.wearable.watchface.model.BytePackable.StyleTexture;
 import pro.watchkit.wearable.watchface.model.BytePackable.TextStyle;
 
 public final class PaintBox {
+    // private static final String TAG = "PaintBox";
     private static final float AMBIENT_PAINT_STROKE_WIDTH_PERCENT = 0.333f; // 0.333%
     private static final float PAINT_STROKE_WIDTH_PERCENT = 0.5f; // 0.5%
     private int height = -1, width = -1;
@@ -652,8 +653,7 @@ public final class PaintBox {
                 // Well, we have an existing bitmap, but it may have been garbage collected...
                 Bitmap result = cache.get();
                 if (result != null) {
-//                    android.util.Log.d("Paint", "Returning cached triangle bitmap " +
-//                            modifiedCustomHashCode);
+//                    Log.d(TAG, "Returning cached triangle bitmap " + modifiedCustomHashCode);
                     // It wasn't garbage collected! Return it.
                     return result;
                 }
@@ -799,7 +799,7 @@ public final class PaintBox {
             out.destroy();
 
             sb.append(" ~ p2.3: ").append((System.nanoTime() - time) / 1000000f);
-//            android.util.Log.d("Paint", sb.toString());
+//            Log.d(TAG, sb.toString());
 
             return triangleBitmap;
         }
@@ -1072,7 +1072,7 @@ public final class PaintBox {
                     float right = centerJ + (widthJ / 2f);
 
                     if (i % 2 == j % 2) {
-//                        Log.d("Erasing", "(" + i + "," + j + ")");
+//                        Log.d(TAG, "Erasing (" + i + "," + j + ")");
                         // Only every 2nd square
                         mTempCanvas.drawRect(left, top, right, bottom, mBrushedEffectPaint);
                     }
@@ -1153,7 +1153,7 @@ public final class PaintBox {
                     float right = centerJ + (widthJ / 2f);
 
                     if (i % 2 != j % 2) { // Other!
-//                        Log.d("Erasing", "(" + i + "," + j + ")");
+//                        Log.d(TAG, "Erasing (" + i + "," + j + ")");
                         // Only every 2nd square
                         mTempCanvas.drawRect(left, top, right, bottom, mBrushedEffectPaint);
                     }
@@ -1212,7 +1212,7 @@ public final class PaintBox {
             final float offsetX = ((float) width - ((float) (cols - 1) * hexSpacingX)) / 2f;
             final float offsetY = ((float) height - ((float) (rows - 1) * hexSpacingY)) / 2f;
 
-//            android.util.Log.d("Paint", "cols = " + cols +
+//            Log.d(TAG, "cols = " + cols +
 //                    ", rows = " + rows +
 //                    ", cols0 = " + cols0 +
 //                    ", rows0 = " + rows0 +

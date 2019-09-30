@@ -319,8 +319,7 @@ public class WatchFaceState {
         if (width == 0 || height == 0 || mPreviousBoundsSerial == currentBoundsSerial) {
             return;
         }
-//        Log.d(WatchFaceState.class.getSimpleName(), "recalculateComplicationBounds ("
-//                + width + "," + height + ")");
+
         // Only take this code path if something has changed.
         mPreviousBoundsSerial = currentBoundsSerial;
 
