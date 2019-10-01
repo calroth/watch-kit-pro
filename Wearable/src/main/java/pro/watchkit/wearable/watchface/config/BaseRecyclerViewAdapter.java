@@ -491,10 +491,13 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 SharedPref.setIsRoundScreen(false); // Temporarily go square for the icon.
 
                 Context context = itemView.getContext();
+                SharedPref.mWriteLayersToDiskContext = context;
 
                 // Create our foreground drawable.
                 {
                     int flags = WatchFaceGlobalDrawable.PART_BACKGROUND_FULL_CANVAS |
+                            WatchFaceGlobalDrawable.PART_TICKS |
+                            WatchFaceGlobalDrawable.PART_HANDS |
                             WatchFaceGlobalDrawable.PART_RINGS_ALL;
 
                     WatchFaceGlobalDrawable drawable =
@@ -502,7 +505,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
                     WatchFaceState watchFaceState = drawable.getWatchFaceState();
                     watchFaceState.setString(mCurrentWatchFaceState.getString());
-                    watchFaceState.setTransparentBackground(true);
+//                    watchFaceState.setTransparentBackground(true);
                     watchFaceState.setNotifications(0, 0);
                     watchFaceState.setAmbient(false);
                     drawable.setBounds(0, 0, 384, 384);
@@ -528,38 +531,39 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                     }
                 }
 
-                // Create our background drawable.
-                {
-                    int flags = WatchFaceGlobalDrawable.PART_BACKGROUND_FULL_CANVAS;
-
-                    WatchFaceGlobalDrawable drawable =
-                            new WatchFaceGlobalDrawable(context, flags);
-
-                    WatchFaceState watchFaceState = drawable.getWatchFaceState();
-                    watchFaceState.setString(mCurrentWatchFaceState.getString());
-                    watchFaceState.setNotifications(0, 0);
-                    watchFaceState.setAmbient(false);
-                    drawable.setBounds(0, 0, 512, 512);
-
-                    // Create our canvas...
-                    Bitmap bitmap =
-                            Bitmap.createBitmap(512, 512, Bitmap.Config.ARGB_8888);
-                    Canvas canvas = new Canvas(bitmap);
-
-                    // Draw to the canvas!
-                    drawable.draw(canvas);
-
-                    try {
-                        FileOutputStream out = itemView.getContext().openFileOutput(
-                                "background.png", Context.MODE_PRIVATE);
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-                        out.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+//                // Create our background drawable.
+//                {
+//                    int flags = WatchFaceGlobalDrawable.PART_BACKGROUND_FULL_CANVAS;
+//
+//                    WatchFaceGlobalDrawable drawable =
+//                            new WatchFaceGlobalDrawable(context, flags);
+//
+//                    WatchFaceState watchFaceState = drawable.getWatchFaceState();
+//                    watchFaceState.setString(mCurrentWatchFaceState.getString());
+//                    watchFaceState.setNotifications(0, 0);
+//                    watchFaceState.setAmbient(false);
+//                    drawable.setBounds(0, 0, 512, 512);
+//
+//                    // Create our canvas...
+//                    Bitmap bitmap =
+//                            Bitmap.createBitmap(512, 512, Bitmap.Config.ARGB_8888);
+//                    Canvas canvas = new Canvas(bitmap);
+//
+//                    // Draw to the canvas!
+//                    drawable.draw(canvas);
+//
+//                    try {
+//                        FileOutputStream out = itemView.getContext().openFileOutput(
+//                                "background.png", Context.MODE_PRIVATE);
+//                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+//                        out.close();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
 
                 SharedPref.setIsRoundScreen(wasRound); // Restore our round screen pref.
+                SharedPref.mWriteLayersToDiskContext = null;
                 return;
             }
             if (mCurrentWatchFaceState.isDeveloperMode()) {

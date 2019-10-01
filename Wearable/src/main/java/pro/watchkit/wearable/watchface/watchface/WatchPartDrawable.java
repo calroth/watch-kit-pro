@@ -18,6 +18,7 @@
 
 package pro.watchkit.wearable.watchface.watchface;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -37,9 +38,12 @@ import android.os.SystemClock;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Objects;
 
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
+import pro.watchkit.wearable.watchface.util.SharedPref;
 
 abstract class WatchPartDrawable extends Drawable {
     WatchFaceState mWatchFaceState;
@@ -108,13 +112,45 @@ abstract class WatchPartDrawable extends Drawable {
     private Matrix m2 = new Matrix();
     // Stats end
 
+    private static Canvas mWriteCanvas;
+    private static Bitmap mWriteBitmap;
+
     @Override
     final public void draw(@NonNull Canvas canvas) {
         // Stats start
         long start = SystemClock.elapsedRealtimeNanos();
         // Stats end
 
-        draw2(canvas);
+        Rect bounds = canvas.getClipBounds();
+        if (SharedPref.mWriteLayersToDiskContext != null
+                && bounds.width() != 0 && bounds.height() != 0) {
+            // Create "mWriteBitmap" on first use or dimension change.
+            if (mWriteBitmap == null || bounds.width() != mWriteBitmap.getWidth() ||
+                    bounds.height() != mWriteBitmap.getHeight()) {
+                mWriteBitmap = Bitmap.createBitmap(
+                        bounds.height(), bounds.width(), Bitmap.Config.ARGB_8888);
+                mWriteCanvas = new Canvas(mWriteBitmap);
+            }
+
+            // Clear out "mWriteCanvas".
+            mWriteCanvas.drawColor(Color.BLACK, Mode.CLEAR);
+
+            // Draw to "mWriteCanvas" too!
+            draw2(mWriteCanvas);
+
+            try {
+                FileOutputStream out = SharedPref.mWriteLayersToDiskContext.openFileOutput(
+                        SystemClock.elapsedRealtimeNanos() +
+                                "-" + this.getClass().getSimpleName() +
+                                ".png", Context.MODE_PRIVATE);
+                mWriteBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            draw2(canvas);
+        }
 
         // Stats start
         mLastStatsTime = SystemClock.elapsedRealtimeNanos() - start;

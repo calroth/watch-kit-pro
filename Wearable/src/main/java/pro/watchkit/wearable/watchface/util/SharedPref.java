@@ -43,6 +43,7 @@ import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
  * and presents neat interfaces for getting and putting any preference we might want.
  */
 public final class SharedPref {
+    public static Context mWriteLayersToDiskContext;
     /**
      * Internal copy of our Context for future reference.
      */
