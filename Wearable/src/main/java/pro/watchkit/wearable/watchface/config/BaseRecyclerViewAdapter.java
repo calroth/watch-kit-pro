@@ -66,8 +66,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Comparator;
 import java.util.concurrent.Executors;
 
@@ -508,59 +506,19 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 //                    watchFaceState.setTransparentBackground(true);
                     watchFaceState.setNotifications(0, 0);
                     watchFaceState.setAmbient(false);
-                    drawable.setBounds(0, 0, 384, 384);
+                    drawable.setBounds(0, 0, 1024, 1024);
 
                     // Initialise complications, just enough to be able to draw rings.
                     watchFaceState.initializeComplications(context, null);
 
                     // Create our canvas...
                     Bitmap bitmap =
-                            Bitmap.createBitmap(384, 384, Bitmap.Config.ARGB_8888);
+                            Bitmap.createBitmap(1024, 1024, Bitmap.Config.ARGB_8888);
                     Canvas canvas = new Canvas(bitmap);
 
                     // Draw to the canvas!
                     drawable.draw(canvas);
-
-                    try {
-                        FileOutputStream out = itemView.getContext().openFileOutput(
-                                "foreground.png", Context.MODE_PRIVATE);
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-                        out.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 }
-
-//                // Create our background drawable.
-//                {
-//                    int flags = WatchFaceGlobalDrawable.PART_BACKGROUND_FULL_CANVAS;
-//
-//                    WatchFaceGlobalDrawable drawable =
-//                            new WatchFaceGlobalDrawable(context, flags);
-//
-//                    WatchFaceState watchFaceState = drawable.getWatchFaceState();
-//                    watchFaceState.setString(mCurrentWatchFaceState.getString());
-//                    watchFaceState.setNotifications(0, 0);
-//                    watchFaceState.setAmbient(false);
-//                    drawable.setBounds(0, 0, 512, 512);
-//
-//                    // Create our canvas...
-//                    Bitmap bitmap =
-//                            Bitmap.createBitmap(512, 512, Bitmap.Config.ARGB_8888);
-//                    Canvas canvas = new Canvas(bitmap);
-//
-//                    // Draw to the canvas!
-//                    drawable.draw(canvas);
-//
-//                    try {
-//                        FileOutputStream out = itemView.getContext().openFileOutput(
-//                                "background.png", Context.MODE_PRIVATE);
-//                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-//                        out.close();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
 
                 SharedPref.setIsRoundScreen(wasRound); // Restore our round screen pref.
                 SharedPref.mWriteLayersToDiskContext = null;
