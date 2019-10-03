@@ -100,10 +100,7 @@
                 android:resource="@xml/watch_face" />
             <meta-data
                 android:name="com.google.android.wearable.watchface.preview"
-                android:resource="@drawable/preview_analog_complication" />
-            <meta-data
-                android:name="com.google.android.wearable.watchface.preview_circular"
-                android:resource="@drawable/preview_watch_kit_pro_b_circular" />
+                android:resource="@drawable/preview_watch_kit_pro_b" />
             <meta-data
                 android:name="com.google.android.wearable.watchface.wearableConfigurationAction"
                 android:value="pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_B" />
