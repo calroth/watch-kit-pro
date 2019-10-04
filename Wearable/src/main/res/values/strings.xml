@@ -51,7 +51,7 @@
     <string name="watch_kit_pro_d_preference_file_key">pro.watchkit.wearable.watchface.WATCH_KIT_PRO_D_PREFERENCE_FILE_KEY</string>
     <string name="watch_kit_pro_a_default_string">3dc1594c0032a82755ba4469bf489000~56990024000000000000000000000000~0</string>
     <string name="watch_kit_pro_b_default_string">0cd71a20ef007c2008e2212a68384c01~5cda1b0c21f800000000000000000001~0</string>
-    <string name="watch_kit_pro_c_default_string">35ed341c002e6bf430c12adfb8100001~577e85c0000000000000000000000001~0</string>
+    <string name="watch_kit_pro_c_default_string">15db4120e0004274fb8601d8dfb81001~5f7e8580757800000000000000000001~0</string>
     <string name="watch_kit_pro_d_default_string">39403c1c0030e23c4b95dae1b42c2001~4cda1a2c000000000000000000000001~0</string>
     <string name="saved_watch_face_state">saved_watch_face_state</string>
     <string name="saved_watch_face_state_history">saved_watch_face_state_history</string>
