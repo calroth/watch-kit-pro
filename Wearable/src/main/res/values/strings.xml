@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright (C) 2018 Terence Tan
+ Copyright (C) 2018-2019 Terence Tan
 
   This file is free software: you may copy, redistribute and/or modify it
   under the terms of the GNU General Public License as published by the
@@ -52,7 +52,7 @@
     <string name="watch_kit_pro_a_default_string">3dc1594c0032a82755ba4469bf489000~56990024000000000000000000000000~0</string>
     <string name="watch_kit_pro_b_default_string">0cd71a20ef007c2008e2212a68384c01~5cda1b0c21f800000000000000000001~0</string>
     <string name="watch_kit_pro_c_default_string">15db4120e0004274fb8601d8dfb81001~5f7e8580757800000000000000000001~0</string>
-    <string name="watch_kit_pro_d_default_string">39403c1c0030e23c4b95dae1b42c2001~4cda1a2c000000000000000000000001~0</string>
+    <string name="watch_kit_pro_d_default_string">1d404b6a6f00665201a278c459bf4890~5a990004467800000000000000000000~0</string>
     <string name="saved_watch_face_state">saved_watch_face_state</string>
     <string name="saved_watch_face_state_history">saved_watch_face_state_history</string>
     <string name="saved_most_recent_config_page">saved_most_recent_config_page</string>
