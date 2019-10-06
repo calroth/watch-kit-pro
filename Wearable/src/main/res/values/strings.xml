@@ -49,10 +49,10 @@
     <string name="watch_kit_pro_b_preference_file_key">pro.watchkit.wearable.watchface.WATCH_KIT_PRO_B_PREFERENCE_FILE_KEY</string>
     <string name="watch_kit_pro_c_preference_file_key">pro.watchkit.wearable.watchface.WATCH_KIT_PRO_C_PREFERENCE_FILE_KEY</string>
     <string name="watch_kit_pro_d_preference_file_key">pro.watchkit.wearable.watchface.WATCH_KIT_PRO_D_PREFERENCE_FILE_KEY</string>
-    <string name="watch_kit_pro_a_default_string">3dc1594c0032a82755ba4469bf489000~56990024000000000000000000000000~0</string>
+    <string name="watch_kit_pro_a_default_string">049e1b40ef006610846065dcc6f81411~5cb7032c660000000000000000000001~0</string>
     <string name="watch_kit_pro_b_default_string">0cd71a20ef007c2008e2212a68384c01~5cda1b0c21f800000000000000000001~0</string>
     <string name="watch_kit_pro_c_default_string">15db4120e0004274fb8601d8dfb81001~5f7e8580757800000000000000000001~0</string>
-    <string name="watch_kit_pro_d_default_string">1d404b6a6f00665201a278c459bf4890~5a990004467800000000000000000000~0</string>
+    <string name="watch_kit_pro_d_default_string">1d404b6a6f00665201a278c459bf4ca0~5a990004467800000000000000000000~0</string>
     <string name="saved_watch_face_state">saved_watch_face_state</string>
     <string name="saved_watch_face_state_history">saved_watch_face_state_history</string>
     <string name="saved_most_recent_config_page">saved_most_recent_config_page</string>
