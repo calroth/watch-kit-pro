@@ -47,6 +47,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.support.wearable.complications.ComplicationData;
+import android.support.wearable.complications.SystemProviders;
 import android.support.wearable.watchface.WatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
 import android.util.Log;
@@ -77,6 +78,17 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
      * second hand.
      */
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
+
+    /**
+     * An array with all default complication providers. Done on a per-slot basis. An array
+     * of two-int pairs; the first is the provider, the second is the provider type (or
+     * ComplicationData.TYPE_NOT_CONFIGURED if blank). The first two-int pair is for the
+     * background complication; the remainder are for the foreground complications.
+     *
+     * @return Array with all default complication providers.
+     */
+    @NonNull
+    abstract int[][] getDefaultSystemComplicationProviders();
 
     @NonNull
     @Override
@@ -196,7 +208,23 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
             setHardwareAccelerationEnabled(getWatchFaceState().isHardwareAccelerationEnabled());
 
             // Initialise complications
-            setActiveComplications(getWatchFaceState().initializeComplications(context, this));
+            int[] complicationIds = getWatchFaceState().initializeComplications(context, this);
+            // Set our active complications
+            setActiveComplications(complicationIds);
+            // Set our default complications
+            int[][] defaultComplicationProviders = getDefaultSystemComplicationProviders();
+            for (int i = 0; i < complicationIds.length; i++) {
+                // For each active complication, check for a corresponding default complication.
+                // If it's there, set the system default complication provider accordingly.
+                if (i < defaultComplicationProviders.length) {
+                    int[] complicationProvider = defaultComplicationProviders[i];
+                    if (complicationProvider.length >= 2 &&
+                            complicationProvider[1] != ComplicationData.TYPE_NOT_CONFIGURED) {
+                        setDefaultSystemComplicationProvider(complicationIds[i],
+                                complicationProvider[0], complicationProvider[1]);
+                    }
+                }
+            }
 
             final FusedLocationProviderClient locationClient =
                     LocationServices.getFusedLocationProviderClient(context);
@@ -472,14 +500,90 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
     }
 
     public static final class A extends ProWatchFaceService {
+        /**
+         * An array with all default complication providers. Done on a per-slot basis. An array
+         * of two-int pairs; the first is the provider, the second is the provider type (or
+         * ComplicationData.TYPE_NOT_CONFIGURED if blank). The first two-int pair is for the
+         * background complication; the remainder are for the foreground complications.
+         *
+         * @return Array with all default complication providers.
+         */
+        @NonNull
+        int[][] getDefaultSystemComplicationProviders() {
+            return new int[][]{
+                    {0, ComplicationData.TYPE_NOT_CONFIGURED}, // Background
+                    {SystemProviders.WATCH_BATTERY, ComplicationData.TYPE_RANGED_VALUE},
+                    {0, ComplicationData.TYPE_NOT_CONFIGURED}, // Blank slot
+                    {SystemProviders.TIME_AND_DATE, ComplicationData.TYPE_SHORT_TEXT},
+            };
+        }
     }
 
     public static final class B extends ProWatchFaceService {
+        /**
+         * An array with all default complication providers. Done on a per-slot basis. An array
+         * of two-int pairs; the first is the provider, the second is the provider type (or
+         * ComplicationData.TYPE_NOT_CONFIGURED if blank). The first two-int pair is for the
+         * background complication; the remainder are for the foreground complications.
+         *
+         * @return Array with all default complication providers.
+         */
+        @NonNull
+        int[][] getDefaultSystemComplicationProviders() {
+            return new int[][]{
+                    {0, ComplicationData.TYPE_NOT_CONFIGURED}, // Background
+                    {SystemProviders.WATCH_BATTERY, ComplicationData.TYPE_RANGED_VALUE},
+                    {SystemProviders.TIME_AND_DATE, ComplicationData.TYPE_SHORT_TEXT},
+                    {SystemProviders.WORLD_CLOCK, ComplicationData.TYPE_SHORT_TEXT},
+            };
+        }
     }
 
     public static final class C extends ProWatchFaceService {
+        /**
+         * An array with all default complication providers. Done on a per-slot basis. An array
+         * of two-int pairs; the first is the provider, the second is the provider type (or
+         * ComplicationData.TYPE_NOT_CONFIGURED if blank). The first two-int pair is for the
+         * background complication; the remainder are for the foreground complications.
+         *
+         * @return Array with all default complication providers.
+         */
+        @NonNull
+        int[][] getDefaultSystemComplicationProviders() {
+            return new int[][]{
+                    {0, ComplicationData.TYPE_NOT_CONFIGURED}, // Background
+                    {SystemProviders.STEP_COUNT, ComplicationData.TYPE_SHORT_TEXT},
+                    {SystemProviders.TIME_AND_DATE, ComplicationData.TYPE_SHORT_TEXT},
+                    {0, ComplicationData.TYPE_NOT_CONFIGURED}, // Blank slot
+                    {SystemProviders.WATCH_BATTERY, ComplicationData.TYPE_RANGED_VALUE},
+                    {0, ComplicationData.TYPE_NOT_CONFIGURED}, // Blank slot
+                    {SystemProviders.WORLD_CLOCK, ComplicationData.TYPE_SHORT_TEXT},
+                    {SystemProviders.WORLD_CLOCK, ComplicationData.TYPE_SHORT_TEXT},
+                    {0, ComplicationData.TYPE_NOT_CONFIGURED}, // Blank slot
+            };
+        }
     }
 
     public static final class D extends ProWatchFaceService {
+        /**
+         * An array with all default complication providers. Done on a per-slot basis. An array
+         * of two-int pairs; the first is the provider, the second is the provider type (or
+         * ComplicationData.TYPE_NOT_CONFIGURED if blank). The first two-int pair is for the
+         * background complication; the remainder are for the foreground complications.
+         *
+         * @return Array with all default complication providers.
+         */
+        @NonNull
+        int[][] getDefaultSystemComplicationProviders() {
+            return new int[][]{
+                    {0, ComplicationData.TYPE_NOT_CONFIGURED}, // Background
+                    {SystemProviders.STEP_COUNT, ComplicationData.TYPE_SHORT_TEXT},
+                    {SystemProviders.TIME_AND_DATE, ComplicationData.TYPE_SHORT_TEXT},
+                    {SystemProviders.WORLD_CLOCK, ComplicationData.TYPE_SHORT_TEXT},
+                    {SystemProviders.MOST_RECENT_APP, ComplicationData.TYPE_SMALL_IMAGE},
+                    {SystemProviders.APP_SHORTCUT, ComplicationData.TYPE_SMALL_IMAGE},
+                    {SystemProviders.WATCH_BATTERY, ComplicationData.TYPE_RANGED_VALUE },
+            };
+        }
     }
 }
