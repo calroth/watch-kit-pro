@@ -198,6 +198,15 @@ public class WatchFaceState {
         mCalendar.setTimeInMillis(System.currentTimeMillis());
     }
 
+    /**
+     * Set the calendar's current time to the given time in milliseconds
+     *
+     * @param millis The time in UTC milliseconds since epoch
+     */
+    public void setCurrentTime(long millis) {
+        mCalendar.setTimeInMillis(millis);
+    }
+
     public void onAmbientModeChanged(boolean inAmbientMode) {
         mAmbient = inAmbientMode;
 

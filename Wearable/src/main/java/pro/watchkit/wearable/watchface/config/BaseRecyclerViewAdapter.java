@@ -46,8 +46,10 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.support.wearable.complications.ComplicationData;
 import android.support.wearable.complications.ComplicationHelperActivity;
 import android.support.wearable.complications.ComplicationProviderInfo;
+import android.support.wearable.complications.ComplicationText;
 import android.support.wearable.complications.ProviderInfoRetriever;
 import android.text.Html;
 import android.view.MotionEvent;
@@ -78,6 +80,7 @@ import pro.watchkit.wearable.watchface.util.Toaster;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
+import static android.support.wearable.complications.ComplicationData.TYPE_SHORT_TEXT;
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR_LABEL;
 import static pro.watchkit.wearable.watchface.config.ConfigActivity.CONFIG_DATA;
@@ -496,24 +499,41 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                     int flags = WatchFaceGlobalDrawable.PART_BACKGROUND_FULL_CANVAS |
                             WatchFaceGlobalDrawable.PART_TICKS |
                             WatchFaceGlobalDrawable.PART_HANDS |
-                            WatchFaceGlobalDrawable.PART_RINGS_ALL;
+                            WatchFaceGlobalDrawable.PART_RINGS_ACTIVE;
 
                     WatchFaceGlobalDrawable drawable =
                             new WatchFaceGlobalDrawable(context, flags);
 
                     WatchFaceState watchFaceState = drawable.getWatchFaceState();
                     watchFaceState.setString(mCurrentWatchFaceState.getString());
-//                    watchFaceState.setTransparentBackground(true);
+                    watchFaceState.setCurrentTime(1570365309000L); // 2019-10-06T23:35:09.000+1100
                     watchFaceState.setNotifications(0, 0);
                     watchFaceState.setAmbient(false);
-                    drawable.setBounds(0, 0, 1024, 1024);
+                    drawable.setBounds(0, 0, 960, 960);
 
                     // Initialise complications, just enough to be able to draw rings.
                     watchFaceState.initializeComplications(context, null);
 
+                    // Activate one ring per active complication.
+                    // Activate them with a dummy complication that won't be displayed.
+                    ComplicationData.Builder cb = new ComplicationData.Builder(TYPE_SHORT_TEXT);
+                    cb.setShortText(ComplicationText.plainText("x"));
+                    ComplicationData c = cb.build();
+                    int[] complicationIds = watchFaceState.getComplicationIds();
+                    // Rather than write code that figures out what complications we have active
+                    // (with callbacks and other annoyances)
+                    // Just hard-code it and edit the code each time...
+                    watchFaceState.onComplicationDataUpdate(complicationIds[0], c);
+                    watchFaceState.onComplicationDataUpdate(complicationIds[1], c);
+                    watchFaceState.onComplicationDataUpdate(complicationIds[2], c);
+                    watchFaceState.onComplicationDataUpdate(complicationIds[3], c);
+                    watchFaceState.onComplicationDataUpdate(complicationIds[4], c);
+                    watchFaceState.onComplicationDataUpdate(complicationIds[5], c);
+                    watchFaceState.onComplicationDataUpdate(complicationIds[6], c);
+
                     // Create our canvas...
                     Bitmap bitmap =
-                            Bitmap.createBitmap(1024, 1024, Bitmap.Config.ARGB_8888);
+                            Bitmap.createBitmap(960, 960, Bitmap.Config.ARGB_8888);
                     Canvas canvas = new Canvas(bitmap);
 
                     // Draw to the canvas!
