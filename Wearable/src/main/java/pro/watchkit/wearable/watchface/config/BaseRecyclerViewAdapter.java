@@ -80,6 +80,7 @@ import pro.watchkit.wearable.watchface.util.Toaster;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
+import static android.support.wearable.complications.ComplicationData.TYPE_NOT_CONFIGURED;
 import static android.support.wearable.complications.ComplicationData.TYPE_SHORT_TEXT;
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR_LABEL;
@@ -514,22 +515,42 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                     // Initialise complications, just enough to be able to draw rings.
                     watchFaceState.initializeComplications(context, null);
 
-                    // Activate one ring per active complication.
-                    // Activate them with a dummy complication that won't be displayed.
-                    ComplicationData.Builder cb = new ComplicationData.Builder(TYPE_SHORT_TEXT);
+                    // Quick-and-dirty code to get complication IDs.
+                    ProWatchFaceService p;
+                    if (mTitleLabel == R.string.watch_face_service_label_a) {
+                        p = new ProWatchFaceService.A();
+                    } else if (mTitleLabel == R.string.watch_face_service_label_b) {
+                        p = new ProWatchFaceService.B();
+                    } else if (mTitleLabel == R.string.watch_face_service_label_c) {
+                        p = new ProWatchFaceService.C();
+                    } else {
+                        p = new ProWatchFaceService.D();
+                    }
+
+                    // A dummy complication that won't be displayed.
+                    ComplicationData.Builder cb =
+                            new ComplicationData.Builder(TYPE_SHORT_TEXT);
                     cb.setShortText(ComplicationText.plainText("x"));
                     ComplicationData c = cb.build();
+
+                    // Get our complication IDs and default providers.
                     int[] complicationIds = watchFaceState.getComplicationIds();
-                    // Rather than write code that figures out what complications we have active
-                    // (with callbacks and other annoyances)
-                    // Just hard-code it and edit the code each time...
-                    watchFaceState.onComplicationDataUpdate(complicationIds[0], c);
-                    watchFaceState.onComplicationDataUpdate(complicationIds[1], c);
-                    watchFaceState.onComplicationDataUpdate(complicationIds[2], c);
-                    watchFaceState.onComplicationDataUpdate(complicationIds[3], c);
-                    watchFaceState.onComplicationDataUpdate(complicationIds[4], c);
-                    watchFaceState.onComplicationDataUpdate(complicationIds[5], c);
-                    watchFaceState.onComplicationDataUpdate(complicationIds[6], c);
+                    int[][] defaultComplicationProviders =
+                            p.getDefaultSystemComplicationProviders();
+
+                    for (int i = 0; i < complicationIds.length; i++) {
+                        // For each active complication, check for a corresponding default complication.
+                        // If it's there, set the system default complication provider accordingly.
+                        if (i < defaultComplicationProviders.length) {
+                            int[] complicationProvider = defaultComplicationProviders[i];
+                            if (complicationProvider.length >= 2 &&
+                                    complicationProvider[1] != TYPE_NOT_CONFIGURED) {
+                                // Activate one ring per active complication.
+                                // Activate them with a dummy complication that won't be displayed.
+                                watchFaceState.onComplicationDataUpdate(complicationIds[i], c);
+                            }
+                        }
+                    }
 
                     // Create our canvas...
                     Bitmap bitmap =

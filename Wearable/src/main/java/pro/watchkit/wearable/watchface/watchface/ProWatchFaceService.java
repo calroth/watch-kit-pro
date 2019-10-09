@@ -88,7 +88,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
      * @return Array with all default complication providers.
      */
     @NonNull
-    abstract int[][] getDefaultSystemComplicationProviders();
+    abstract public int[][] getDefaultSystemComplicationProviders();
 
     @NonNull
     @Override
@@ -509,7 +509,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
          * @return Array with all default complication providers.
          */
         @NonNull
-        int[][] getDefaultSystemComplicationProviders() {
+        public int[][] getDefaultSystemComplicationProviders() {
             return new int[][]{
                     {0, ComplicationData.TYPE_NOT_CONFIGURED}, // Background
                     {SystemProviders.WATCH_BATTERY, ComplicationData.TYPE_RANGED_VALUE},
@@ -529,7 +529,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
          * @return Array with all default complication providers.
          */
         @NonNull
-        int[][] getDefaultSystemComplicationProviders() {
+        public int[][] getDefaultSystemComplicationProviders() {
             return new int[][]{
                     {0, ComplicationData.TYPE_NOT_CONFIGURED}, // Background
                     {SystemProviders.WATCH_BATTERY, ComplicationData.TYPE_RANGED_VALUE},
@@ -549,7 +549,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
          * @return Array with all default complication providers.
          */
         @NonNull
-        int[][] getDefaultSystemComplicationProviders() {
+        public int[][] getDefaultSystemComplicationProviders() {
             return new int[][]{
                     {0, ComplicationData.TYPE_NOT_CONFIGURED}, // Background
                     {SystemProviders.STEP_COUNT, ComplicationData.TYPE_SHORT_TEXT},
@@ -574,7 +574,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
          * @return Array with all default complication providers.
          */
         @NonNull
-        int[][] getDefaultSystemComplicationProviders() {
+        public int[][] getDefaultSystemComplicationProviders() {
             return new int[][]{
                     {0, ComplicationData.TYPE_NOT_CONFIGURED}, // Background
                     {SystemProviders.STEP_COUNT, ComplicationData.TYPE_SHORT_TEXT},

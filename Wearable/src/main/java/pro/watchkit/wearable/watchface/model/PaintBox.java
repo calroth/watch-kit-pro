@@ -508,7 +508,7 @@ public final class PaintBox {
         } else if (mTempBitmap.getWidth() == width && mTempBitmap.getHeight() == height) {
             // Do nothing, our current bitmap is just right.
             return;
-        } else if (mTempBitmap.getAllocationByteCount() >= width * height) {
+        } else if (mTempBitmap.getAllocationByteCount() > width * height) {
             // Width and height changed and we can reconfigure to re-use this object.
             mTempCanvas.setBitmap(null);
             // Not sure above is technically needed but may cure esoteric bugs?
