@@ -73,30 +73,28 @@ final class Settings extends BytePackable {
     void pack() {
         mBytePacker.rewind();
 
-        // Version. 3-bits. Current version is v2.
-        mBytePacker.put(3, 2);
+        // Version. 3-bits. Current version is v0.
+        mBytePacker.put(3, 0);
 
         mBytePacker.put(mShowUnreadNotifications);
-        mBytePacker.put(true /*mNightVisionModeEnabled*/);
-        mComplicationCount.pack(mBytePacker);
-        mComplicationRotation.pack(mBytePacker);
         mBytePacker.put(6, mAmbientDaySixBitColor);
         mBytePacker.put(6, mAmbientNightSixBitColor);
+        mTypeface.pack(mBytePacker);
+        mPreviousHourHandCutoutCombination.pack(mBytePacker);
+        mPreviousMinuteHandCutoutCombination.pack(mBytePacker);
+        mComplicationCount.pack(mBytePacker);
+        mComplicationRotation.pack(mBytePacker);
         mComplicationRingStyle.pack(mBytePacker);
         mComplicationBackgroundStyle.pack(mBytePacker);
+        mComplicationSize.pack(mBytePacker);
+        mComplicationScale.pack(mBytePacker);
+        mComplicationTextStyle.pack(mBytePacker);
         mBytePacker.put(mDeveloperMode);
         mBytePacker.put(mStats);
         mBytePacker.put(mStatsDetail);
-        mComplicationTextStyle.pack(mBytePacker);
         mBytePacker.put(mHideTicks);
         mBytePacker.put(mHideHands);
         mBytePacker.put(mAltDrawing);
-        mTypeface.pack(mBytePacker);
-        // TODO: rearrange these
-        mComplicationSize.pack(mBytePacker);
-        mComplicationScale.pack(mBytePacker);
-        mPreviousHourHandCutoutCombination.pack(mBytePacker);
-        mPreviousMinuteHandCutoutCombination.pack(mBytePacker);
 
         mBytePacker.finish();
     }
@@ -107,7 +105,27 @@ final class Settings extends BytePackable {
 
         int version = mBytePacker.get(3);
         switch (version) {
-            case 0: {
+            case 0:
+            default: {
+                mShowUnreadNotifications = mBytePacker.getBoolean();
+                mAmbientDaySixBitColor = mBytePacker.get(6);
+                mAmbientNightSixBitColor = mBytePacker.get(6);
+                mTypeface = Typeface.unpack(mBytePacker);
+                mPreviousHourHandCutoutCombination = HandCutoutCombination.unpack(mBytePacker);
+                mPreviousMinuteHandCutoutCombination = HandCutoutCombination.unpack(mBytePacker);
+                mComplicationCount = ComplicationCount.unpack(mBytePacker);
+                mComplicationRotation = ComplicationRotation.unpack(mBytePacker);
+                mComplicationRingStyle = Style.unpack(mBytePacker);
+                mComplicationBackgroundStyle = Style.unpack(mBytePacker);
+                mComplicationSize = ComplicationSize.unpack(mBytePacker);
+                mComplicationScale = ComplicationScale.unpack(mBytePacker);
+                mComplicationTextStyle = TextStyle.unpack(mBytePacker);
+                mDeveloperMode = mBytePacker.getBoolean();
+                mStats = mBytePacker.getBoolean();
+                mStatsDetail = mBytePacker.getBoolean();
+                mHideTicks = mBytePacker.getBoolean();
+                mHideHands = mBytePacker.getBoolean();
+                mAltDrawing = mBytePacker.getBoolean();
                 break;
             }
             case 1: {
@@ -134,8 +152,7 @@ final class Settings extends BytePackable {
                 mPreviousMinuteHandCutoutCombination = HandCutoutCombination.TIP_PLUS_ONE;
                 break;
             }
-            case 2:
-            default: {
+            case 2: {
                 mShowUnreadNotifications = mBytePacker.getBoolean();
                 /*mNightVisionModeEnabled =*/
                 mBytePacker.getBoolean();
