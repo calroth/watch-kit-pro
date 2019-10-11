@@ -79,7 +79,7 @@ android {
         resValue "string", "git_date", "${getGitDate()}"
         resValue "string", "version_name", versionName
 
-        minSdkVersion 24
+        minSdkVersion 25 // Wear OS 2.0
 
         targetSdkVersion 28
 
