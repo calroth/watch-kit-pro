@@ -1,4 +1,4 @@
-Watch Kit Pro
+Watch Kit Pro <img src="Wearable/src/template/res/mipmap-xxxhdpi/ic_launcher.png" height="72" width="72" alt="Watch Kit Pro icon" />
 =============
 
 Watch face design kit for Wear OS
@@ -32,6 +32,7 @@ In addition, Watch Kit Pro:
 - Works with round and square smartwatches running Wear OS 2.0 or later
 - Is compatible with Android and iOS smartphones
 - Has no smartphone app; all configuration is done on your smartwatch
+- Is designed for readability and legibility
 - Is optimised for power efficiency to save battery energy
 - Is optimised for size; only a 1 MB download (give or take)
 - Uses emoji 😍
@@ -40,7 +41,8 @@ In addition, Watch Kit Pro:
 
 For support, documentation and interesting information, visit https://watchkit.pro/
 
-Watch Kit Pro was written by Terence Tan, a Christian ✝ living in Australia 🇦🇺
+Watch Kit Pro was written by [Terence Tan](https://github.com/calroth), a Christian ✝ living in
+Australia 🇦🇺
 
 Screenshots
 -----------
@@ -58,8 +60,8 @@ Developers!
 -----------
 
 If you're reading this, you're probably interested in the source code. Maybe you're interested in
-building it. Maybe you're interested in seeing how we solved a problem or how we implemented
-something of note. You're welcome to take a browse or a fork!
+building it. Maybe you're interested in seeing how we solved a problem, or how we implemented
+something of note, or what's changed recently. You're welcome to take a browse or a fork!
 
 Watch Kit Pro uses the Gradle build system. To build this project, use the
 "gradlew build" command or use "Import Project" in Android Studio.
@@ -74,7 +76,7 @@ pre-requisites. However they're probably:
 Support
 -------
 
-- Watch Kit Pro web site: https://watchkit.pro/
+The Watch Kit Pro web site: https://watchkit.pro/
 
 If you've found a defect in Watch Kit Pro, please file an issue:
 https://github.com/calroth/watch-kit-pro/issues
