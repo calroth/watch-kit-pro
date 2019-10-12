@@ -1,94 +1,118 @@
+Watch Kit Pro
+=============
 
-Android WatchFace Sample
-===================================
-
-A simple sample that demonstrates watch faces and complications for Wear 2.0.
+Watch face design kit for Wear OS
 
 Introduction
 ------------
 
-This sample demonstrates how to create watch faces for Android Wear.
+Watch Kit Pro allows you to custom-design your own watch faces for Wear OS smartwatches.
 
-The analog watch face covers best practices for Wear 2.0 including complications and a new
-configuration Activity for configuring both the watch face styles and the complications themselves.
-We recommend you reuse the configuration code and follow the UX patterns in your watch face's
-configuration activity. You can see a preview in the screenshots section of the README.
+It allows you to tweak the watch hands, ticks and background. There are millions of combinations
+for you to explore.
 
-The analog watch face has three main classes:
+Watch Kit Pro is free to download and own forever. You don't need to pay for it. There's no catch.
+There's no in-app purchases or paid upgrades. It's Free Software released to you under the GNU
+General Public License 3.0.
 
-- AnalogComplicationWatchFaceService.java (watchface folder) - Renders the watch face and active
-complications.
+Watch Kit Pro has the following features:
 
-- AnalogComplicationConfigActivity.java (config folder) - Allows user to adjust watch face settings
-(arm and background colors) and watch face complications.
+- Four watch face slots for you to store different watch faces
+- Choose between different watch hand shapes
+- Choose between different watch tick shapes, with optional digit display
+- Choose between different background styles
+- Choose four colors from a 64-color palette, and a multitude of style options
+- Choose the typeface used for drawing text
+- Configure up to 8 complications
+- Always-on watch faces (a.k.a. "ambient mode")
+- Choose day-time and night-time colors for always-on watch faces
 
-- AnalogComplicationConfigData.java (models folder) - Populates the configuration screen in the
-previous step by returning a list of items. Each item represents something you can customize on the
-watch face. Items include a preview of the watch face (where you can pick your complications),
-marker color, background color, unread notifications, and background image complication. You can
-extend this and add your own.
+In addition, Watch Kit Pro:
 
+- Works with round and square smartwatches running Wear OS 2.0 or later
+- Is compatible with Android and iOS smartphones
+- Has no smartphone app; all configuration is done on your smartwatch
+- Is optimised for power efficiency to save battery energy
+- Is optimised for size; only a 1 MB download (give or take)
+- Uses emoji 😍
+- Is free to download and own forever, with no in-app purchases or paid upgrades
+- Is Free Software (GPL 3.0), with source code available for your use
 
-We include several older watch faces to show best practices for Wear 1.0. If you are targeting
-older devices, you may want to review those watch faces (digital, opengl, and interactive).
+For support, documentation and interesting information, visit https://watchkit.pro/
 
-The digital watch face includes a watch-side and phone-side configuration example.
-
-This sample includes both a phone app and a wearable app.
-
-Because watch face apps do not have a default Activity in their project, you will need to set your
-Configurations to "Do not launch Activity" for both the Wear and Application modules. If you are
-unsure how to do this, please review the "Run Starter project" section in the
-[Google Watch Face Code Lab][1].
-
-[1]: https://codelabs.developers.google.com/codelabs/watchface/index.html
-
-Pre-requisites
---------------
-
-- Android SDK 27
-- Android Build Tools v27.0.2
-- Android Support Repository
+Watch Kit Pro was written by Terence Tan, a Christian ✝ living in Australia 🇦🇺
 
 Screenshots
--------------
+-----------
 
-<img src="screenshots/analog-face.png" height="400" alt="Screenshot"/> <img src="screenshots/analog-watch-side-config-all.png" height="400" alt="Screenshot"/> <img src="screenshots/analog-watch-side-config-1.png" height="400" alt="Screenshot"/> <img src="screenshots/analog-watch-side-config-2.png" height="400" alt="Screenshot"/> <img src="screenshots/digital-face.png" height="400" alt="Screenshot"/> <img src="screenshots/digital-phone-side-config.png" height="400" alt="Screenshot"/> <img src="screenshots/digital-watch-side-config.png" height="400" alt="Screenshot"/> <img src="screenshots/interactive-face.png" height="400" alt="Screenshot"/> <img src="screenshots/tilt-face.png" height="400" alt="Screenshot"/> 
+<img src="Wearable/src/main/res/drawable/preview_watch_kit_pro_a.webp" height="480" width="480" alt="Watch Kit Pro A" />
+<img src="Wearable/src/main/res/drawable/preview_watch_kit_pro_b.webp" height="480" width="480" alt="Watch Kit Pro B" />
+<img src="Wearable/src/main/res/drawable/preview_watch_kit_pro_c.webp" height="480" width="480" alt="Watch Kit Pro C" />
+<img src="Wearable/src/main/res/drawable/preview_watch_kit_pro_d.webp" height="480" width="480" alt="Watch Kit Pro D" />
 
-Getting Started
----------------
+(The above images are in [WebP](https://developers.google.com/speed/webp) format as they're taken
+from the source code directory; they're the same images compiled into the app. If you can't view
+them, try browsing this site in Mozilla Firefox, Google Chrome or Microsoft Edge.)
 
-This sample uses the Gradle build system. To build this project, use the
+Developers!
+-----------
+
+If you're reading this, you're probably interested in the source code. Maybe you're interested in
+building it. Maybe you're interested in seeing how we solved a problem or how we implemented
+something of note. You're welcome to take a browse or a fork!
+
+Watch Kit Pro uses the Gradle build system. To build this project, use the
 "gradlew build" command or use "Import Project" in Android Studio.
+
+Check the [Wearable/build.gradle](Wearable/build.gradle) file for the definitive version of the
+pre-requisites. However they're probably:
+
+- Android SDK 28
+- Android Build Tools 29.0.2
+- Android Support Repository
 
 Support
 -------
 
-- Google+ Community: https://plus.google.com/communities/105153134372062985968
-- Stack Overflow: http://stackoverflow.com/questions/tagged/android
+- Watch Kit Pro web site: https://watchkit.pro/
 
-If you've found an error in this sample, please file an issue:
-https://github.com/googlesamples/android-WatchFace
+If you've found a defect in Watch Kit Pro, please file an issue:
+https://github.com/calroth/watch-kit-pro/issues
 
 Patches are encouraged, and may be submitted by forking this project and
-submitting a pull request through GitHub. Please see CONTRIBUTING.md for more details.
+submitting a pull request: https://github.com/calroth/watch-kit-pro/pulls
 
 License
 -------
 
-Copyright 2017 The Android Open Source Project, Inc.
+Copyright (C) 2018-2019 Terence Tan
 
-Licensed to the Apache Software Foundation (ASF) under one or more contributor
-license agreements.  See the NOTICE file distributed with this work for
-additional information regarding copyright ownership.  The ASF licenses this
-file to you under the Apache License, Version 2.0 (the "License"); you may not
-use this file except in compliance with the License.  You may obtain a copy of
-the License at
+This file is free software: you may copy, redistribute and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or (at your
+option) any later version.
 
-http://www.apache.org/licenses/LICENSE-2.0
+This file is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
-License for the specific language governing permissions and limitations under
-the License.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+This file incorporates work covered by the following copyright and
+permission notice:
+
+> Copyright (C) 2017 The Android Open Source Project
+>
+> Licensed under the Apache License, Version 2.0 (the "License");
+> you may not use this file except in compliance with the License.
+> You may obtain a copy of the License at
+>
+> http://www.apache.org/licenses/LICENSE-2.0
+>
+> Unless required by applicable law or agreed to in writing, software
+> distributed under the License is distributed on an "AS IS" BASIS,
+> WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+> See the License for the specific language governing permissions and
+> limitations under the License.
