@@ -1,4 +1,4 @@
-Watch Kit Pro <img src="Wearable/src/template/res/mipmap-xxxhdpi/ic_launcher.png" height="72" width="72" alt="Watch Kit Pro icon" />
+Watch Kit Pro <img src="Wearable/src/template/res/mipmap-xhdpi/ic_launcher.png" height="48" width="48" alt="Watch Kit Pro icon" />
 =============
 
 Watch face design kit for Wear OS
