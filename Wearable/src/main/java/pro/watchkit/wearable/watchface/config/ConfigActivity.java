@@ -41,7 +41,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.wearable.complications.ComplicationProviderInfo;
 import android.support.wearable.complications.ProviderChooserIntent;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.ColorInt;
@@ -76,6 +75,7 @@ public class ConfigActivity extends Activity {
 
     static final int COMPLICATION_CONFIG_REQUEST_CODE = 1001;
     static final int UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE = 1002;
+    static final int UPDATED_CONFIG_REDRAW_NO_MATTER_WHAT_RESULT_CODE = 1003;
     static final String CONFIG_DATA =
             ConfigActivity.class.getSimpleName() + ".CONFIG_DATA";
     private static final String TAG = ConfigActivity.class.getSimpleName();
@@ -208,21 +208,21 @@ public class ConfigActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @NonNull Intent data) {
-        if (requestCode == COMPLICATION_CONFIG_REQUEST_CODE
-                && resultCode == RESULT_OK) {
-
+        if (requestCode == COMPLICATION_CONFIG_REQUEST_CODE && resultCode == RESULT_OK) {
             // Retrieves information for selected Complication provider.
             ComplicationProviderInfo complicationProviderInfo =
                     data.getParcelableExtra(ProviderChooserIntent.EXTRA_PROVIDER_INFO);
-            Log.d(TAG, "Provider: " + complicationProviderInfo);
 
             // Updates preview with new complication information for selected complication id.
             // Note: complication id is saved and tracked in the adapter class.
             mAdapter.updateSelectedComplication(complicationProviderInfo);
-
         } else if (requestCode == UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE
                 && resultCode == RESULT_OK) {
-
+            // Config has been updated. Redraw if the result code was successful.
+            // Updates highlight and background colors based on the user preference.
+            mAdapter.onWatchFaceStateChanged();
+        } else if (requestCode == UPDATED_CONFIG_REDRAW_NO_MATTER_WHAT_RESULT_CODE) {
+            // Config has been updated. Ignore the result code, and just redraw!
             // Updates highlight and background colors based on the user preference.
             mAdapter.onWatchFaceStateChanged();
         }

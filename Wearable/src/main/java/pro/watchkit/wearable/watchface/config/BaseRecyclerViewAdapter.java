@@ -99,7 +99,6 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     private final WatchFaceState mCurrentWatchFaceState;
     @NonNull
     private final SharedPref mSharedPref;
-    //    private static final String TAG = "BaseRecyclerViewAdapter";
     @StringRes
     private final int mTitleLabel;
     @NonNull
@@ -109,6 +108,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
      * The object that retrieves complication data for us to preview our complications with.
      */
     private ProviderInfoRetriever mProviderInfoRetriever;
+
     /**
      * The ComponentName of our WatchFaceService. We use this to find what complications have been
      * set for this WatchFaceService. It's different for slot A, B, C etc. as we allow the user to
@@ -116,6 +116,10 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
      */
     private ComponentName mWatchFaceComponentName;
 
+    /**
+     * Called when the WatchFaceState has changed. By default it does nothing, but override this
+     * to be notified if interested.
+     */
     void onWatchFaceStateChanged() {
     }
 
@@ -742,7 +746,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(
                         launchIntent,
-                        ConfigActivity.UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE);
+                        ConfigActivity.UPDATED_CONFIG_REDRAW_NO_MATTER_WHAT_RESULT_CODE);
             }
         }
     }
