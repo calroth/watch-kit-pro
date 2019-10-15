@@ -29,6 +29,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -102,34 +103,64 @@ public final class SharedPref {
                 mContext.getString(R.string.saved_watch_face_state), mDefaultWatchFaceStateString);
     }
 
+    private static SimpleDateFormat mIso8601 =
+            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
+
+    private static ArrayList<JSONObject> mWatchFaceStateHistory = new ArrayList<>();
+
     /**
      * Store the given WatchFaceState string into preferences
      *
      * @param value the WatchFaceState string to store
      */
     public void putWatchFaceStateString(@NonNull String value) {
-        // Get the history, so we can insert this value into the history too.
-        ArrayList<JSONObject> history = new ArrayList<>();
+        boolean historyNeedsUpdating = false;
+        // Get the history, so when we overwrite the old value, we store it in history first.
         try {
+            // Store the old value (that we're overwriting) into history for posterity.
             JSONArray jsonArray = new JSONArray(mSharedPreferences.getString(
                     mContext.getString(R.string.saved_watch_face_state_history), "[]"));
-            // Re-inflate our history. Max 255 entries.
-            for (int i = 0; i < jsonArray.length() && i < 256; i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                // If our string value is in history, remove it (or rather, don't add it)...
-                if (!jsonObject.getString("value").equals(value)) {
-                    history.add(jsonObject);
+            String oldValue = getWatchFaceStateString();
+
+            // Don't store the old value into history unless it's been more than 5 minutes.
+            // If we've made multiple changes, wait until we've had a stable value for 5 minutes
+            // before storing that in history.
+            if (jsonArray.length() > 0) {
+                // Get the time since the last change.
+                JSONObject jsonObject = jsonArray.getJSONObject(0);
+                try {
+                    Date lastChange = mIso8601.parse(jsonObject.getString("date"));
+                    long millis = System.currentTimeMillis() - lastChange.getTime();
+                    long FIVE_MINUTES_IN_MILLISECONDS = 5L * 60L * 1000L;
+                    historyNeedsUpdating = millis > FIVE_MINUTES_IN_MILLISECONDS;
+                } catch (ParseException e) {
+                    // Can't parse it? Don't worry about it.
+                } catch (JSONException e) {
+                    // Something weird with the JSON? Don't worry about this either.
                 }
+            } else {
+                // Nothing in history. Let this be our first!
+                historyNeedsUpdating = true;
             }
-            // Then append our string value at the top with the current date.
-            {
-                JSONObject jsonObject = new JSONObject();
-                SimpleDateFormat iso8601 =
-                        new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
-                iso8601.setTimeZone(TimeZone.getTimeZone("UTC"));
-                jsonObject.put("date", iso8601.format(new Date()));
-                jsonObject.put("value", value);
-                history.add(0, jsonObject);
+
+            if (historyNeedsUpdating) {
+                mWatchFaceStateHistory.clear();
+                // Re-inflate our history. Max 255 entries.
+                for (int i = 0; i < jsonArray.length() && i < 256; i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    // If our string value is in history, remove it (or rather, don't add it)...
+                    if (!jsonObject.getString("value").equals(oldValue)) {
+                        mWatchFaceStateHistory.add(jsonObject);
+                    }
+                }
+                // Then append our string value at the top with the current date.
+                {
+                    JSONObject jsonObject = new JSONObject();
+                    mIso8601.setTimeZone(TimeZone.getTimeZone("UTC"));
+                    jsonObject.put("date", mIso8601.format(new Date()));
+                    jsonObject.put("value", oldValue);
+                    mWatchFaceStateHistory.add(0, jsonObject);
+                }
             }
         } catch (JSONException e) {
             // No action, leave "history" blank (or however far we made it).
@@ -137,8 +168,8 @@ public final class SharedPref {
 
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(mContext.getString(R.string.saved_watch_face_state), value);
-        {
-            JSONArray jsonArray = new JSONArray(history);
+        if (historyNeedsUpdating) {
+            JSONArray jsonArray = new JSONArray(mWatchFaceStateHistory);
             editor.putString(mContext.getString(R.string.saved_watch_face_state_history),
                     jsonArray.toString());
         }
