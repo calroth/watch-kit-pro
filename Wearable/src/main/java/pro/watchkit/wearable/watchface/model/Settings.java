@@ -129,51 +129,6 @@ final class Settings extends BytePackable {
                 break;
             }
             case 1: {
-                mShowUnreadNotifications = mBytePacker.getBoolean();
-                /*mNightVisionModeEnabled =*/
-                mBytePacker.getBoolean();
-                mComplicationCount = ComplicationCount.unpack(mBytePacker);
-                mComplicationRotation = ComplicationRotation.unpack(mBytePacker);
-                mAmbientDaySixBitColor = mBytePacker.get(6);
-                mAmbientNightSixBitColor = mBytePacker.get(6);
-                mComplicationRingStyle = Style.unpack3(mBytePacker);
-                mComplicationBackgroundStyle = Style.unpack3(mBytePacker);
-                mDeveloperMode = mBytePacker.getBoolean();
-                mStats = mBytePacker.getBoolean();
-                mStatsDetail = mBytePacker.getBoolean();
-                mComplicationTextStyle = TextStyle.unpack(mBytePacker);
-                mHideTicks = mBytePacker.getBoolean();
-                mHideHands = mBytePacker.getBoolean();
-                mAltDrawing = mBytePacker.getBoolean();
-                mTypeface = Typeface.SANS_BOLD;
-                mComplicationSize = ComplicationSize.X_LARGE;
-                mComplicationScale = ComplicationScale.MEDIUM;
-                mPreviousHourHandCutoutCombination = HandCutoutCombination.TIP_PLUS_ONE;
-                mPreviousMinuteHandCutoutCombination = HandCutoutCombination.TIP_PLUS_ONE;
-                break;
-            }
-            case 2: {
-                mShowUnreadNotifications = mBytePacker.getBoolean();
-                /*mNightVisionModeEnabled =*/
-                mBytePacker.getBoolean();
-                mComplicationCount = ComplicationCount.unpack(mBytePacker);
-                mComplicationRotation = ComplicationRotation.unpack(mBytePacker);
-                mAmbientDaySixBitColor = mBytePacker.get(6);
-                mAmbientNightSixBitColor = mBytePacker.get(6);
-                mComplicationRingStyle = Style.unpack(mBytePacker);
-                mComplicationBackgroundStyle = Style.unpack(mBytePacker);
-                mDeveloperMode = mBytePacker.getBoolean();
-                mStats = mBytePacker.getBoolean();
-                mStatsDetail = mBytePacker.getBoolean();
-                mComplicationTextStyle = TextStyle.unpack(mBytePacker);
-                mHideTicks = mBytePacker.getBoolean();
-                mHideHands = mBytePacker.getBoolean();
-                mAltDrawing = mBytePacker.getBoolean();
-                mTypeface = Typeface.unpack(mBytePacker);
-                mComplicationSize = ComplicationSize.unpack(mBytePacker);
-                mComplicationScale = ComplicationScale.unpack(mBytePacker);
-                mPreviousHourHandCutoutCombination = HandCutoutCombination.unpack(mBytePacker);
-                mPreviousMinuteHandCutoutCombination = HandCutoutCombination.unpack(mBytePacker);
                 break;
             }
         }
