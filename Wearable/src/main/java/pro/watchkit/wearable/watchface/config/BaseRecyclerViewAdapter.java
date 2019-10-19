@@ -283,7 +283,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             mComplicationTextColor = w.getColor(w.getComplicationTextStyle());
 
             // Initialise complications, just enough to be able to draw rings.
-            w.initializeComplications(mImageView.getContext(), this::onWatchFaceStateChanged);
+            w.initializeComplications(mImageView.getContext());
 
             mImageView.setOnApplyWindowInsetsListener((v, insets) -> {
                 SharedPref.setIsRoundScreen(insets.isRound());
@@ -517,7 +517,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                     drawable.setBounds(0, 0, 960, 960);
 
                     // Initialise complications, just enough to be able to draw rings.
-                    watchFaceState.initializeComplications(context, null);
+                    watchFaceState.initializeComplications(context);
 
                     // Quick-and-dirty code to get complication IDs.
                     ProWatchFaceService p;

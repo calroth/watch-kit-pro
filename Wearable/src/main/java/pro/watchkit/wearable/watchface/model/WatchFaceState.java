@@ -283,7 +283,7 @@ public class WatchFaceState {
      * @param context Current application context
      * @return Array of complication IDs
      */
-    public int[] initializeComplications(Context context, ComplicationHolder.InvalidateCallback invalidateCallback) {
+    public int[] initializeComplications(Context context) {
         // Creates a ComplicationDrawable for each location where the user can render a
         // complication on the watch face. In this watch face, we create one for left, right,
         // and background, but you could add many more.
@@ -295,7 +295,6 @@ public class WatchFaceState {
             final ComplicationHolder b = new ComplicationHolder(context);
             b.isForeground = false;
             b.isActive = false;
-            b.setDrawableCallback(invalidateCallback);
             mComplications.add(b);
             mComplicationMap.put(b.getId(), b);
         }
@@ -303,7 +302,6 @@ public class WatchFaceState {
         for (int i = 0; i < getComplicationCountInt(); i++) {
             final ComplicationHolder f = new ComplicationHolder(context);
             f.isForeground = true;
-            f.setDrawableCallback(invalidateCallback);
             mComplications.add(f);
             mComplicationMap.put(f.getId(), f);
         }

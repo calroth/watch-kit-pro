@@ -66,7 +66,6 @@ import com.google.android.gms.location.LocationServices;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.TimeUnit;
 
-import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.util.SharedPref;
 
@@ -113,8 +112,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
         }
     }
 
-    private class Engine extends HardwareAcceleratedCanvasWatchFaceService.Engine
-            implements ComplicationHolder.InvalidateCallback {
+    private class Engine extends HardwareAcceleratedCanvasWatchFaceService.Engine {
 
         private static final int MSG_UPDATE_TIME = 0;
 
@@ -208,7 +206,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
             setHardwareAccelerationEnabled(getWatchFaceState().isHardwareAccelerationEnabled());
 
             // Initialise complications
-            int[] complicationIds = getWatchFaceState().initializeComplications(context, this);
+            int[] complicationIds = getWatchFaceState().initializeComplications(context);
             // Set our active complications
             setActiveComplications(complicationIds);
             // Set our default complications
