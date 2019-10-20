@@ -44,6 +44,7 @@ import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
  * and presents neat interfaces for getting and putting any preference we might want.
  */
 public final class SharedPref {
+    @Nullable
     public static Context mWriteLayersToDiskContext;
     /**
      * Internal copy of our Context for future reference.
@@ -103,9 +104,11 @@ public final class SharedPref {
                 mContext.getString(R.string.saved_watch_face_state), mDefaultWatchFaceStateString);
     }
 
+    @NonNull
     private static SimpleDateFormat mIso8601 =
             new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
 
+    @NonNull
     private static ArrayList<JSONObject> mWatchFaceStateHistory = new ArrayList<>();
 
     /**

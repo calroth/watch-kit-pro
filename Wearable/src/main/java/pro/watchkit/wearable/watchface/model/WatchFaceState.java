@@ -1366,15 +1366,17 @@ public class WatchFaceState {
         return !mWatchFacePreset.mHourHandCutoutCombination.equals(HandCutoutCombination.NONE);
     }
 
+    @NonNull
     public Style getHourHandCutoutStyleAsStyle() {
         return getStyle(mWatchFacePreset.mHourHandStyle, mWatchFacePreset.mHourHandCutoutCombination);
     }
 
+    @NonNull
     HandCutoutStyle getHourHandCutoutStyle() {
         return getHandCutoutStyle(mWatchFacePreset.mHourHandCutoutCombination);
     }
 
-    void setHourHandCutoutStyle(HandCutoutStyle hourHandCutoutStyle) {
+    void setHourHandCutoutStyle(@NonNull HandCutoutStyle hourHandCutoutStyle) {
         mWatchFacePreset.mHourHandCutoutCombination = setHandCutoutCombination(
                 getHandCutoutShape(mWatchFacePreset.mHourHandCutoutCombination),
                 hourHandCutoutStyle);
@@ -1423,6 +1425,7 @@ public class WatchFaceState {
         return !mWatchFacePreset.mMinuteHandCutoutCombination.equals(HandCutoutCombination.NONE);
     }
 
+    @NonNull
     public Style getMinuteHandCutoutStyleAsStyle() {
         return mWatchFacePreset.mMinuteHandOverride ?
                 getStyle(mWatchFacePreset.mMinuteHandStyle,
@@ -1430,13 +1433,14 @@ public class WatchFaceState {
                 getHourHandCutoutStyleAsStyle();
     }
 
+    @NonNull
     HandCutoutStyle getMinuteHandCutoutStyle() {
         return mWatchFacePreset.mMinuteHandOverride ?
                 getHandCutoutStyle(mWatchFacePreset.mMinuteHandCutoutCombination) :
                 getHourHandCutoutStyle();
     }
 
-    void setMinuteHandCutoutStyle(HandCutoutStyle minuteHandCutoutStyle) {
+    void setMinuteHandCutoutStyle(@NonNull HandCutoutStyle minuteHandCutoutStyle) {
         mWatchFacePreset.mMinuteHandCutoutCombination = setHandCutoutCombination(
                 getHandCutoutShape(mWatchFacePreset.mMinuteHandCutoutCombination),
                 minuteHandCutoutStyle);
@@ -1748,23 +1752,25 @@ public class WatchFaceState {
         mWatchFacePreset.mMinuteHandStalk = minuteHandStalk;
     }
 
+    @NonNull
     public HandCutoutShape getHourHandCutoutShape() {
         return getHandCutoutShape(mWatchFacePreset.mHourHandCutoutCombination);
     }
 
-    void setHourHandCutoutShape(HandCutoutShape hourHandCutoutShape) {
+    void setHourHandCutoutShape(@NonNull HandCutoutShape hourHandCutoutShape) {
         mWatchFacePreset.mHourHandCutoutCombination = setHandCutoutCombination(
                 hourHandCutoutShape,
                 getHandCutoutStyle(mWatchFacePreset.mHourHandCutoutCombination));
     }
 
+    @NonNull
     public HandCutoutShape getMinuteHandCutoutShape() {
         return mWatchFacePreset.mMinuteHandOverride ?
                 getHandCutoutShape(mWatchFacePreset.mMinuteHandCutoutCombination) :
                 getHourHandCutoutShape();
     }
 
-    void setMinuteHandCutoutShape(HandCutoutShape minuteHandCutoutShape) {
+    void setMinuteHandCutoutShape(@NonNull HandCutoutShape minuteHandCutoutShape) {
         mWatchFacePreset.mMinuteHandCutoutCombination = setHandCutoutCombination(
                 minuteHandCutoutShape,
                 getHandCutoutStyle(mWatchFacePreset.mMinuteHandCutoutCombination));

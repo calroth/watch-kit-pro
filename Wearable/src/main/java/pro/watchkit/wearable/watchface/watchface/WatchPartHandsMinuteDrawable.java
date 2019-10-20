@@ -38,6 +38,7 @@ final class WatchPartHandsMinuteDrawable extends WatchPartHandsDrawable {
         return mWatchFaceState.getMinuteHandStalk();
     }
 
+    @NonNull
     @Override
     HandCutoutShape getHandCutout() {
         return mWatchFaceState.getMinuteHandCutoutShape();
@@ -48,6 +49,7 @@ final class WatchPartHandsMinuteDrawable extends WatchPartHandsDrawable {
         return mWatchFaceState.getMinuteHandStyle();
     }
 
+    @NonNull
     @Override
     Style getHandCutoutStyle() {
         return mWatchFaceState.getMinuteHandCutoutStyleAsStyle();

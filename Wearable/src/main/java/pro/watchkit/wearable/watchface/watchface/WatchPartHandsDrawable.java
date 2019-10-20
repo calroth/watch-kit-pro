@@ -144,10 +144,12 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
     abstract HandStalk getHandStalk();
 
+    @NonNull
     abstract HandCutoutShape getHandCutout();
 
     abstract Style getHandStyle();
 
+    @NonNull
     abstract Style getHandCutoutStyle();
 
     abstract float getDegreesRotation();

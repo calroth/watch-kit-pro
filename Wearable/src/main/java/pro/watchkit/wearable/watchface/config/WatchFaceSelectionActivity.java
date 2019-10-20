@@ -127,7 +127,7 @@ public class WatchFaceSelectionActivity extends Activity {
              * @return the target view which we want to snap to
              */
             @Override
-            public View findSnapView(RecyclerView.LayoutManager layoutManager) {
+            public View findSnapView(@NonNull RecyclerView.LayoutManager layoutManager) {
                 final View header = layoutManager.getChildAt(0);
                 if (header != null &&
                         view.computeVerticalScrollOffset() < header.getMeasuredHeight() / 2) {

@@ -23,12 +23,16 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable {
     private Bitmap mActiveCacheBitmap;
     private Bitmap mActiveHardwareCacheBitmap;
     private Canvas mActiveCacheCanvas;
+    @NonNull
     private Path mActiveExclusionPath = new Path();
+    @NonNull
     private Path mActiveInnerGlowPath = new Path();
     private Bitmap mAmbientCacheBitmap;
     private Bitmap mAmbientHardwareCacheBitmap;
     private Canvas mAmbientCacheCanvas;
+    @NonNull
     private Path mAmbientExclusionPath = new Path();
+    @NonNull
     private Path mAmbientInnerGlowPath = new Path();
     private Path mExclusionPath;
     private Path mInnerGlowPath;
