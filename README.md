@@ -6,13 +6,13 @@ Custom-design your own watch faces. Millions of combinations. Free forever.
 Introduction
 ------------
 
-Watch Kit Pro is a custom watch face design kit for Wear OS. It allows you to custom-design your
+Watch Kit Pro is a custom watch face design kit for Wear OS. It allows you to customise your
 own watch faces for Wear OS smartwatches. You can tweak the watch hands, ticks and background.
 There are millions of combinations for you to explore.
 
 Watch Kit Pro is free to download and own forever. You don't need to pay for it. There's no catch.
 There's no in-app purchases or paid upgrades. It's Free Software released to you under the [GNU
-General Public License 3.0](https://www.gnu.org/licenses/gpl-3.0.en.html).
+General Public License 3.0](LICENSE).
 
 Watch Kit Pro has the following features:
 
@@ -100,7 +100,7 @@ WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
 General Public License for more details.
 
-You should have received a copy of the GNU General Public License
+You should have received a [copy of the GNU General Public License](LICENSE)
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 This file incorporates work covered by the following copyright and
