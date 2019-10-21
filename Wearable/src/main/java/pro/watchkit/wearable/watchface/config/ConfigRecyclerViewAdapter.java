@@ -231,7 +231,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
                         complicationConfigItem.getDefaultComplicationResourceId();
                 complicationViewHolder.setDefaultComplicationDrawable(
                         defaultComplicationResourceId);
-                complicationViewHolder.bind(complicationConfigItem);
+                complicationViewHolder.bind();
                 break;
             }
 
@@ -279,8 +279,10 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
      * Updates the selected complication id saved earlier with the new information.
      */
     void updateSelectedComplication(ComplicationProviderInfo complicationProviderInfo) {
-        mComplicationProviderInfoListeners.forEach(
-                c -> c.onComplicationProviderInfo(mSelectedComplication, complicationProviderInfo));
+        if (mSelectedComplication != null) {
+            mComplicationProviderInfoListeners.forEach(c -> c.onComplicationProviderInfo(
+                    mSelectedComplication, complicationProviderInfo));
+        }
     }
 
     @Override

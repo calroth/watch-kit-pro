@@ -34,6 +34,7 @@
 
 package pro.watchkit.wearable.watchface.config;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
@@ -320,9 +321,9 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                         public void onProviderInfoReceived(
                                 int id,
                                 @Nullable ComplicationProviderInfo providerInfo) {
-                            if (w.getComplicationWithId(id) != null) {
-                                onComplicationProviderInfo(
-                                        w.getComplicationWithId(id), providerInfo);
+                            ComplicationHolder h = w.getComplicationWithId(id);
+                            if (h != null) {
+                                onComplicationProviderInfo(h, providerInfo);
                             }
                         }
                     },
@@ -360,12 +361,10 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     class ComplicationViewHolder extends WatchFaceDrawableViewHolder {
-
-        private ConfigData.ComplicationConfigItem mConfigItem;
-
         private float mLastTouchX = -1f, mLastTouchY = -1f;
         private Activity mCurrentActivity;
 
+        @SuppressLint("ClickableViewAccessibility")
         ComplicationViewHolder(@NonNull final View view) {
             super(view);
             mCurrentActivity = (Activity) view.getContext();
@@ -402,9 +401,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             retrieveProviderInfo();
         }
 
-        void bind(ConfigData.ComplicationConfigItem configItem) {
-            mConfigItem = configItem;
-
+        void bind() {
             // Set the preset based on current settings.
             setPreset(mCurrentWatchFaceState.getString());
         }
@@ -677,9 +674,11 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 mButton.setText(text);
             }
             Drawable left = itemView.getContext().getDrawable(mConfigItem.getIconResourceId());
-            left.setTint(mButton.getCurrentTextColor());
-            mButton.setCompoundDrawablesWithIntrinsicBounds(
-                    left, null, mColorSwatchDrawable, null);
+            if (left != null) {
+                left.setTint(mButton.getCurrentTextColor());
+                mButton.setCompoundDrawablesWithIntrinsicBounds(
+                        left, null, mColorSwatchDrawable, null);
+            }
             mLaunchActivity = mConfigItem.getActivityToChoosePreference();
         }
 
@@ -728,8 +727,10 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         void bind(@NonNull ConfigData.ConfigActivityConfigItem configItem) {
             mButton.setText(itemView.getResources().getString(configItem.getNameResourceId()));
             Drawable left = itemView.getContext().getDrawable(configItem.getIconResourceId());
-            left.setTint(mButton.getCurrentTextColor());
-            mButton.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
+            if (left != null) {
+                left.setTint(mButton.getCurrentTextColor());
+                mButton.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
+            }
             mConfigDataClass = configItem.getConfigDataClass();
             mLaunchActivity = configItem.getActivityToChoosePreference();
         }
@@ -851,8 +852,10 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             mButton.setText(mConfigItem.getName(
                     mCurrentWatchFaceState, itemView.getContext()));
             Drawable left = itemView.getContext().getDrawable(mConfigItem.getIconResourceId());
-            left.setTint(mButton.getCurrentTextColor());
-            mButton.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
+            if (left != null) {
+                left.setTint(mButton.getCurrentTextColor());
+                mButton.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
+            }
 
             if (mConfigItem.isVisible(mCurrentWatchFaceState)) {
                 itemView.getLayoutParams().height = mVisibleLayoutHeight;
@@ -894,28 +897,31 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 String[] permutations =
                         mConfigItem.permute(mCurrentWatchFaceState, itemView.getContext());
 
-                String[] extraNames = new String[permutations.length];
-                String currentWatchFaceStateString = mCurrentWatchFaceState.getString();
-                for (int i = 0; i < permutations.length; i++) {
-                    mCurrentWatchFaceState.setString(permutations[i]);
-                    extraNames[i] = mConfigItem.getExtraName(
-                            mCurrentWatchFaceState, itemView.getContext());
+                if (permutations != null) {
+                    String[] extraNames = new String[permutations.length];
+                    String currentWatchFaceStateString = mCurrentWatchFaceState.getString();
+                    for (int i = 0; i < permutations.length; i++) {
+                        mCurrentWatchFaceState.setString(permutations[i]);
+                        extraNames[i] = mConfigItem.getExtraName(
+                                mCurrentWatchFaceState, itemView.getContext());
+                    }
+                    mCurrentWatchFaceState.setString(currentWatchFaceStateString);
+
+                    Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
+
+                    // Pass shared preference name to save color value to.
+                    launchIntent.putExtra(INTENT_EXTRA_STATES, permutations);
+                    launchIntent.putExtra(INTENT_EXTRA_FLAGS, mFlags);
+                    launchIntent.putExtra(INTENT_EXTRA_SLOT,
+                            mWatchFaceComponentName.getClassName());
+                    launchIntent.putExtra(INTENT_EXTRA_LABEL, mConfigItem.getNameResourceId());
+                    launchIntent.putExtra(INTENT_EXTRA_EXTRA_NAMES, extraNames);
+
+                    Activity activity = (Activity) view.getContext();
+                    activity.startActivityForResult(
+                            launchIntent,
+                            ConfigActivity.UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE);
                 }
-                mCurrentWatchFaceState.setString(currentWatchFaceStateString);
-
-                Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
-
-                // Pass shared preference name to save color value to.
-                launchIntent.putExtra(INTENT_EXTRA_STATES, permutations);
-                launchIntent.putExtra(INTENT_EXTRA_FLAGS, mFlags);
-                launchIntent.putExtra(INTENT_EXTRA_SLOT, mWatchFaceComponentName.getClassName());
-                launchIntent.putExtra(INTENT_EXTRA_LABEL, mConfigItem.getNameResourceId());
-                launchIntent.putExtra(INTENT_EXTRA_EXTRA_NAMES, extraNames);
-
-                Activity activity = (Activity) view.getContext();
-                activity.startActivityForResult(
-                        launchIntent,
-                        ConfigActivity.UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE);
             }
         }
     }
@@ -1006,8 +1012,10 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
             mSwitch.setChecked(checked);
             Drawable left = itemView.getContext().getDrawable(currentIconResourceId);
-            left.setTint(mSwitch.getCurrentTextColor());
-            mSwitch.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
+            if (left != null) {
+                left.setTint(mSwitch.getCurrentTextColor());
+                mSwitch.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
+            }
         }
 
         @Override
