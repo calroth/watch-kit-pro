@@ -78,7 +78,6 @@ public class ConfigActivity extends Activity {
     static final int UPDATED_CONFIG_REDRAW_NO_MATTER_WHAT_RESULT_CODE = 1003;
     static final String CONFIG_DATA =
             ConfigActivity.class.getSimpleName() + ".CONFIG_DATA";
-    private static final String TAG = ConfigActivity.class.getSimpleName();
     private ConfigRecyclerViewAdapter mAdapter;
     private ConfigSubActivity mCurrentSubActivity;
     @Nullable

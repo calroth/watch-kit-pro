@@ -34,6 +34,7 @@
 
 package pro.watchkit.wearable.watchface.config;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -88,6 +89,7 @@ public class ColorSelectionActivity extends Activity {
 
     private static final StringBuilder mStringBuilder = new StringBuilder();
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
