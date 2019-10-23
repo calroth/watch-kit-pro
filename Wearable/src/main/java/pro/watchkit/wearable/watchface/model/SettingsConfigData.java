@@ -42,6 +42,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import pro.watchkit.wearable.watchface.BuildConfig;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
@@ -165,11 +166,11 @@ public class SettingsConfigData extends ConfigData {
                         new BooleanMutator(WatchFaceState::setAltDrawing),
                         WatchFaceState::isDeveloperMode),
 
-                // Git date.
+                // Generate icon files.
                 new LabelConfigItem(-1,
                         R.string.config_generate_icon_files,
                         true,
-                        WatchFaceState::isDeveloperMode),
+                        watchFaceState -> BuildConfig.DEBUG && watchFaceState.isDeveloperMode()),
 
                 new PickerConfigItem(
                         R.string.config_reset_to_default,
