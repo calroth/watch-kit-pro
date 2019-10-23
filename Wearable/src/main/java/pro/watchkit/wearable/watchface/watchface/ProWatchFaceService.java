@@ -45,12 +45,10 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
 import android.support.wearable.complications.ComplicationData;
 import android.support.wearable.complications.SystemProviders;
 import android.support.wearable.watchface.WatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.WindowInsets;
 
@@ -177,6 +175,9 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
             return mWatchFaceGlobalDrawable.getWatchFaceState();
         }
 
+        @NonNull
+        private final LocationRequest mLocationRequest = new LocationRequest();
+
         @Override
         public void onCreate(SurfaceHolder holder) {
             super.onCreate(holder);
@@ -224,28 +225,16 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
                 }
             }
 
-            final FusedLocationProviderClient locationClient =
-                    LocationServices.getFusedLocationProviderClient(context);
-
-            // Set the default location to Terence's city.
-            // Remove for release...
-//            locationClient.setMockMode(true);
-            Location mockLocation = new Location("?");
-            mockLocation.setLatitude(-35d);
-            mockLocation.setLongitude(147d);
-            mockLocation.setAltitude(600d);
-            mockLocation.setAccuracy(100f);
-            mockLocation.setTime(System.currentTimeMillis());
-            mockLocation.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
-            updateLocation(mockLocation);
-//            locationClient.setMockLocation(mockLocation);
-
             if (context.checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
                     PackageManager.PERMISSION_GRANTED) {
-                LocationRequest req = new LocationRequest();
-                req.setInterval(1000 * 60 * 15);
-                req.setFastestInterval(1000 * 60);
-                req.setPriority(LocationRequest.PRIORITY_LOW_POWER);
+                // Set up our location request.
+                mLocationRequest.setInterval(1000 * 60 * 15); // 15 minutes
+                mLocationRequest.setFastestInterval(1000 * 60); // 60 seconds
+                mLocationRequest.setPriority(LocationRequest.PRIORITY_LOW_POWER); // "City" level
+
+                // Grab our location client...
+                final FusedLocationProviderClient locationClient =
+                        LocationServices.getFusedLocationProviderClient(context);
 
                 // Get the last location right away.
                 locationClient.getLastLocation().addOnCompleteListener(
@@ -253,38 +242,26 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
                 );
 
                 // Sign up for ongoing location reports.
-                locationClient.requestLocationUpdates(req, new LocationCallback() {
+                locationClient.requestLocationUpdates(
+                        mLocationRequest,
+                        new LocationCallback() {
                             @Override
                             public void onLocationResult(@Nullable LocationResult locationResult) {
-                                if (locationResult == null) {
-                                    Log.d(TAG, "onLocationResult: no locations (it's null)");
-                                } else {
+                                if (locationResult != null) {
                                     updateLocation(locationResult.getLastLocation());
                                 }
                             }
-                        },
-                        null).addOnCompleteListener(
-                        task -> {
-                            if (task.isSuccessful()) {
-                                // Task completed successfully
-                                Log.d(TAG, "requestLocationUpdates onComplete isSuccessful: " + task.getResult());
-                            } else {
-                                // Task failed with an exception
-                                Log.d(TAG, "requestLocationUpdates onComplete exception: ", task.getException());
-                            }
-                        });
+                        }, null);
             }
         }
 
         private void updateLocation(@Nullable Location location) {
             // Update UI with location data
             // ...
-            // Note: can be null in rare situations; handle accordingly.
-            Log.w(TAG, "onLocationResult: Got last location! It's " +
-                    (location == null ? "null..." : location.getLatitude() + " / " +
-                            location.getLongitude() + " / " + location.getAltitude()));
+            // Note: can be null if we don't have permissions, don't have GPS reception,
+            // or a number of other conditions; handle accordingly.
+            getWatchFaceState().getLocationCalculator().setLocation(location);
             if (location != null) {
-                getWatchFaceState().getLocationCalculator().setLocation(location);
                 WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_LOCATION;
                 postInvalidate();
             }
