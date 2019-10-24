@@ -36,6 +36,8 @@ package pro.watchkit.wearable.watchface.config;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -95,6 +97,8 @@ public class ColorSelectionActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_color_selection);
         mWatchFaceState = new WatchFaceState(this);
+
+        ensureLocationPermissions();
 
         // Try to get the watch face slot from our activity intent.
         String slot = getIntent().getStringExtra(INTENT_EXTRA_SLOT);
@@ -412,5 +416,69 @@ public class ColorSelectionActivity extends Activity {
         Toaster.makeText(this, toastText, Toaster.LENGTH_LONG);
 
         finish();
+    }
+
+    /**
+     * Request/return code for requesting coarse location permissions.
+     */
+    private final static int PERMISSION_ACCESS_COARSE_LOCATION = 0;
+
+    /**
+     * Request array for requesting coarse location permissions.
+     */
+    private final static String[] mPermissionsRequestArray =
+            new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION};
+
+    /**
+     * A wedge of code here. If we're looking for AMBIENT_NIGHT, make sure that we have
+     * coarse location permissions. If we don't, pop an alert dialog with an explanation of
+     * why we need these permissions. If the user accepts the explanation, request the
+     * permissions themselves.
+     */
+    private void ensureLocationPermissions() {
+        // Only for AMBIENT_NIGHT. For anything else, return.
+        String sharedPrefString = getIntent().getStringExtra(INTENT_EXTRA_COLOR);
+        PaintBox.ColorType colorType = PaintBox.ColorType.valueOf(sharedPrefString);
+        if (!colorType.equals(PaintBox.ColorType.AMBIENT_NIGHT)) {
+            return;
+        }
+
+        // Check if we have the permission or not.
+        if (checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED) {
+            // We don't have it. Pop a quick-and-dirty alert dialog with an explanation
+            // for why we need it. Dark theme: android.R.style.Theme_DeviceDefault_Dialog_Alert
+            new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert)
+                    .setIcon(android.R.drawable.ic_dialog_map)
+                    .setTitle(R.string.config_request_location_permissions_title)
+                    .setMessage(R.string.config_request_location_permissions_message)
+                    // User said "OK" to our explanation, so request the permission.
+                    .setPositiveButton(android.R.string.yes, (dialog, which) -> requestPermissions(
+                            mPermissionsRequestArray, PERMISSION_ACCESS_COARSE_LOCATION))
+                    // User said "Cancel" to our explanation, so finish this activity early.
+                    .setNegativeButton(android.R.string.no, (dialog, which) -> finish())
+                    // User dismissed our explanation, so finish this activity early.
+                    .setOnDismissListener(dialog -> finish())
+                    .show();
+        }
+    }
+
+    /**
+     * A callback for when the user decides to grant our permission or not.
+     *
+     * @param requestCode  The request code passed in
+     * @param permissions  The requested permissions
+     * @param grantResults The grant results for the corresponding permissions
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_ACCESS_COARSE_LOCATION) {
+            if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                // Permission denied. End this activity.
+                finish();
+            }
+            // Permission granted. Keep going!
+        }
     }
 }

@@ -182,6 +182,11 @@
 
     <string name="config_activity_label">Configure Watch Kit Pro</string>
 
+    <string name="config_request_location_permissions_title">The <b>Ambient Night Color</b> is used
+        between sunset and sunrise.</string>
+    <string name="config_request_location_permissions_message">To calculate these times, <b>Watch
+        Kit Pro</b> needs access to this device\'s approximate location.</string>
+
     <string-array name="WatchFacePreset_TicksDisplay">
         <item>None</item>
         <item>Quarters</item>
