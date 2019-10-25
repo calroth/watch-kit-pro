@@ -39,6 +39,7 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -75,6 +76,7 @@ import java.util.concurrent.Executors;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.ConfigData;
+import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.util.SharedPref;
 import pro.watchkit.wearable.watchface.util.Toaster;
@@ -665,7 +667,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         private void setTextAndVisibility() {
             String name = itemView.getResources().getString(mConfigItem.getNameResourceId());
-            if (mConfigItem == null || mConfigItem.getType() == null) {
+            if (mConfigItem == null || mConfigItem.getType() == null || needPermissions()) {
                 mButton.setText(name);
             } else {
                 String colorName = mCurrentWatchFaceState.getColorName(mConfigItem.getType());
@@ -676,10 +678,19 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             Drawable left = itemView.getContext().getDrawable(mConfigItem.getIconResourceId());
             if (left != null) {
                 left.setTint(mButton.getCurrentTextColor());
-                mButton.setCompoundDrawablesWithIntrinsicBounds(
-                        left, null, mColorSwatchDrawable, null);
             }
+            Drawable right = needPermissions() ?
+                    itemView.getContext().getDrawable(android.R.drawable.ic_dialog_info) :
+                    mColorSwatchDrawable;
+            mButton.setCompoundDrawablesWithIntrinsicBounds(left, null, right, null);
             mLaunchActivity = mConfigItem.getActivityToChoosePreference();
+        }
+
+        private boolean needPermissions() {
+            Activity a = (Activity) itemView.getContext();
+            return a.checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                    PackageManager.PERMISSION_GRANTED &&
+                    mConfigItem.getType().equals(PaintBox.ColorType.AMBIENT_NIGHT);
         }
 
         public void onWatchFaceStateChanged() {
@@ -705,7 +716,9 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(
                         launchIntent,
-                        ConfigActivity.UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE);
+                        needPermissions() ?
+                                ConfigActivity.UPDATED_CONFIG_REDRAW_NO_MATTER_WHAT_RESULT_CODE :
+                                ConfigActivity.UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE);
             }
         }
     }
@@ -729,8 +742,8 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             Drawable left = itemView.getContext().getDrawable(configItem.getIconResourceId());
             if (left != null) {
                 left.setTint(mButton.getCurrentTextColor());
-                mButton.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
             }
+            mButton.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
             mConfigDataClass = configItem.getConfigDataClass();
             mLaunchActivity = configItem.getActivityToChoosePreference();
         }
@@ -854,8 +867,8 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             Drawable left = itemView.getContext().getDrawable(mConfigItem.getIconResourceId());
             if (left != null) {
                 left.setTint(mButton.getCurrentTextColor());
-                mButton.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
             }
+            mButton.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
 
             if (mConfigItem.isVisible(mCurrentWatchFaceState)) {
                 itemView.getLayoutParams().height = mVisibleLayoutHeight;
@@ -1014,8 +1027,8 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             Drawable left = itemView.getContext().getDrawable(currentIconResourceId);
             if (left != null) {
                 left.setTint(mSwitch.getCurrentTextColor());
-                mSwitch.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
             }
+            mSwitch.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
         }
 
         @Override

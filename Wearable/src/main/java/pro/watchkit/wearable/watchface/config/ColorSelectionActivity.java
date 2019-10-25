@@ -449,7 +449,7 @@ public class ColorSelectionActivity extends Activity {
             // We don't have it. Pop a quick-and-dirty alert dialog with an explanation
             // for why we need it. Dark theme: android.R.style.Theme_DeviceDefault_Dialog_Alert
             new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert)
-                    .setIcon(android.R.drawable.ic_dialog_map)
+                    .setIcon(android.R.drawable.ic_dialog_info)
                     .setTitle(R.string.config_request_location_permissions_title)
                     .setMessage(R.string.config_request_location_permissions_message)
                     // User said "OK" to our explanation, so request the permission.
