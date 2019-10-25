@@ -457,8 +457,8 @@ public class ColorSelectionActivity extends Activity {
                             mPermissionsRequestArray, PERMISSION_ACCESS_COARSE_LOCATION))
                     // User said "Cancel" to our explanation, so finish this activity early.
                     .setNegativeButton(android.R.string.no, (dialog, which) -> finish())
-                    // User dismissed our explanation, so finish this activity early.
-                    .setOnDismissListener(dialog -> finish())
+                    // User swiped away our explanation, so finish this activity early.
+                    .setOnCancelListener(dialog -> finish())
                     .show();
         }
     }
