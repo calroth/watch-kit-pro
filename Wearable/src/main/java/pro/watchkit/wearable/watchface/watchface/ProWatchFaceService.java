@@ -175,9 +175,6 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
             return mWatchFaceGlobalDrawable.getWatchFaceState();
         }
 
-        @NonNull
-        private final LocationRequest mLocationRequest = new LocationRequest();
-
         @Override
         public void onCreate(SurfaceHolder holder) {
             super.onCreate(holder);
@@ -225,36 +222,72 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
                 }
             }
 
-            if (context.checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
-                    PackageManager.PERMISSION_GRANTED) {
+            setLocationListener();
+        }
+
+        /**
+         * Our location client. Has a value if we have permissions and are currently receiving
+         * location updates. Null otherwise.
+         */
+        private FusedLocationProviderClient mLocationClient = null;
+
+        /**
+         * Our location request, with our parameters for receiving updates.
+         */
+        @NonNull
+        private final LocationRequest mLocationRequest = new LocationRequest();
+
+        /**
+         * Our location callback, the chunk of code that runs when we receive a new location
+         * result, and shuffles it to our LocationCalculator.
+         */
+        @NonNull
+        private final LocationCallback mLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(@Nullable LocationResult locationResult) {
+                if (locationResult != null) {
+                    updateLocation(locationResult.getLastLocation());
+                }
+            }
+        };
+
+        /**
+         * Set our location listener for location updates if we have the permissions,
+         * or remove it if we don't have the permissions.
+         */
+        private void setLocationListener() {
+            Context context = getApplicationContext();
+            int permission = context.checkSelfPermission(
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION);
+            if (permission == PackageManager.PERMISSION_GRANTED && mLocationClient == null) {
                 // Set up our location request.
                 mLocationRequest.setInterval(1000 * 60 * 15); // 15 minutes
                 mLocationRequest.setFastestInterval(1000 * 60); // 60 seconds
                 mLocationRequest.setPriority(LocationRequest.PRIORITY_LOW_POWER); // "City" level
 
                 // Grab our location client...
-                final FusedLocationProviderClient locationClient =
-                        LocationServices.getFusedLocationProviderClient(context);
+                mLocationClient = LocationServices.getFusedLocationProviderClient(context);
 
                 // Get the last location right away.
-                locationClient.getLastLocation().addOnCompleteListener(
-                        task -> updateLocation(task.getResult())
-                );
+                mLocationClient.getLastLocation().addOnCompleteListener(
+                        task -> updateLocation(task.getResult()));
 
                 // Sign up for ongoing location reports.
-                locationClient.requestLocationUpdates(
-                        mLocationRequest,
-                        new LocationCallback() {
-                            @Override
-                            public void onLocationResult(@Nullable LocationResult locationResult) {
-                                if (locationResult != null) {
-                                    updateLocation(locationResult.getLastLocation());
-                                }
-                            }
-                        }, null);
+                mLocationClient.requestLocationUpdates(
+                        mLocationRequest, mLocationCallback, null);
+            } else if (permission == PackageManager.PERMISSION_DENIED && mLocationClient != null) {
+                // Permission previously granted but now revoked? Null out the location client.
+                // But first remove our location report update callback.
+                mLocationClient.removeLocationUpdates(mLocationCallback);
+                mLocationClient = null;
             }
         }
 
+        /**
+         * We've received a new location, or maybe null. Shuffle it to our LocationCalculator.
+         *
+         * @param location Our current location, or null if we don't know where we are
+         */
         private void updateLocation(@Nullable Location location) {
             // Update UI with location data
             // ...
@@ -410,6 +443,8 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
             if (visible) {
                 // Preferences might have changed since last time watch face was visible.
                 loadSavedPreferences();
+                // Location permissions might have been granted or revoked since last time.
+                setLocationListener();
                 setHardwareAccelerationEnabled(getWatchFaceState().isHardwareAccelerationEnabled());
 
                 // With the rest of the watch face, we update the paint colors based on
