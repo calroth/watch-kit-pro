@@ -26,7 +26,6 @@ import java.util.Objects;
 final class Settings extends BytePackable {
     Typeface mTypeface;
     boolean mShowUnreadNotifications;
-    //    boolean mNightVisionModeEnabled;
     ComplicationCount mComplicationCount;
     ComplicationRotation mComplicationRotation;
     ComplicationSize mComplicationSize;
@@ -50,7 +49,6 @@ final class Settings extends BytePackable {
                 super.hashCode(),
                 mTypeface,
                 mShowUnreadNotifications,
-//                mNightVisionModeEnabled,
                 mComplicationCount,
                 mComplicationRotation,
                 mComplicationSize,

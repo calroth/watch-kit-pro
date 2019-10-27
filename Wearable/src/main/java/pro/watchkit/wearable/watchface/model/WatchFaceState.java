@@ -836,18 +836,6 @@ public class WatchFaceState {
         mSettings.mShowUnreadNotifications = showUnreadNotifications;
     }
 
-//    @SuppressWarnings("unused")
-//    public boolean isNightVisionModeEnabled() {
-//        // I mean, technically this is unused. If we don't want night vision, just set the night
-//        // vision color to the same as day. But we need to find a place to request the location
-//        // permission. TODO...
-//        return mSettings.mNightVisionModeEnabled;
-//    }
-//
-//    void setNightVisionModeEnabled(boolean nightVisionModeEnabled) {
-//        mSettings.mNightVisionModeEnabled = nightVisionModeEnabled;
-//    }
-
     private int getAmbientDaySixBitColor() {
         return mSettings.mAmbientDaySixBitColor;
     }

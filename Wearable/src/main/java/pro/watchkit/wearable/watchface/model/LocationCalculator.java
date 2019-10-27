@@ -83,10 +83,10 @@ public final class LocationCalculator {
     }
 
     /**
-     * Get the night vision tint multiplier, between 0.0d and 1.0d.
+     * Get the ambient night tint multiplier, between 0.0d and 1.0d.
      * 0.0 means no tint. 1.0 means maximum tint.
      *
-     * @return Night vision tint multiplier
+     * @return Ambient night tint multiplier
      */
     double getDuskDawnMultiplier() {
         double altitude = getSunAltitude();

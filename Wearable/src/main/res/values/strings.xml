@@ -65,7 +65,6 @@
     <string name="config_background_color_label">Background Color</string>
     <string name="config_unread_notifications_label">Unread Notifications</string>
     <string name="config_background_image_complication_label">Background Image</string>
-    <string name="config_night_vision_label">Night Vision</string>
     <string name="config_ambient_day_color_label">Ambient Day Color</string>
     <string name="config_ambient_night_color_label">Ambient Night Color</string>
     <string name="config_developer_mode_label">Developer Mode</string>

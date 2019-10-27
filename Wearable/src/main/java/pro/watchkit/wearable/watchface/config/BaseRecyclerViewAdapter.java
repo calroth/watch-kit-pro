@@ -939,17 +939,6 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
     }
 
-    // This code is left over from Night Vision and we need to put it somewhere.
-    // It gets location permissions for our Night Vision check.
-//            if (newState && context.checkSelfPermission(
-//                    android.Manifest.permission.ACCESS_COARSE_LOCATION)
-//                    != PackageManager.PERMISSION_GRANTED) {
-//                Activity a = (Activity) context;
-//                a.requestPermissions(new String[]{
-//                                android.Manifest.permission.ACCESS_COARSE_LOCATION},
-//                        MY_PERMISSION_ACCESS_COURSE_LOCATION);
-//            }
-
     /**
      * Displays switch to indicate whether or not a boolean value is toggled on/off.
      */
