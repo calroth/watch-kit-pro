@@ -229,6 +229,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
          * Our location client. Has a value if we have permissions and are currently receiving
          * location updates. Null otherwise.
          */
+        @Nullable
         private FusedLocationProviderClient mLocationClient = null;
 
         /**
