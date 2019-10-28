@@ -111,6 +111,54 @@ public final class SharedPref {
     @NonNull
     private static ArrayList<JSONObject> mWatchFaceStateHistory = new ArrayList<>();
 
+    @NonNull
+    private final static StringBuilder mHistoryStringBuilder = new StringBuilder();
+
+    public String[] getWatchFaceStateHistory() {
+        // Grab the current string into "oldValue".
+        String currentValue = getWatchFaceStateString();
+        if (currentValue == null) {
+            return new String[0];
+        }
+        String[] split = currentValue.split("~");
+        if (split.length == 0) {
+            return new String[0];
+        }
+
+        ArrayList<String> result = new ArrayList<>();
+        result.add(currentValue);
+
+        // Get the history, so when we overwrite the old value, we store it in history first.
+        try {
+            // OK, get the history array from prefs.
+            JSONArray jsonArray = new JSONArray(mSharedPreferences.getString(
+                    mContext.getString(R.string.saved_watch_face_state_history), "[]"));
+
+            // Re-inflate our history. Max 255 entries.
+            for (int i = 0; i < jsonArray.length() && i < 256; i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                // If our string value is in history, remove it (or rather, don't add it)...
+                if (!jsonObject.getString("value").startsWith(split[0])) {
+                    mHistoryStringBuilder.setLength(0);
+                    // mHistoryStringBuilder.append(jsonObject.getString("value"));
+                    mHistoryStringBuilder.append(
+                            jsonObject.getString("value").split("~")[0]);
+                    // TODO: get rid of the above code once we're done with it.
+                    // Combine the history WatchFacePreset with the other
+                    // parts (Settings and extra) from the current WatchFaceState.
+                    for (int j = 1; j < split.length; j++) {
+                        mHistoryStringBuilder.append("~").append(split[j]);
+                    }
+                    result.add(mHistoryStringBuilder.toString());
+                }
+            }
+        } catch (JSONException e) {
+            // No action, leave "history" blank (or however far we made it).
+        }
+
+        return result.toArray(new String[0]);
+    }
+
     /**
      * Store the given WatchFaceState string into preferences
      *
@@ -121,9 +169,20 @@ public final class SharedPref {
         // Get the history, so when we overwrite the old value, we store it in history first.
         try {
             // Store the old value (that we're overwriting) into history for posterity.
+            String oldValue = getWatchFaceStateString();
+            if (oldValue == null) {
+                throw new JSONException("no old value?");
+            }
+            String[] split = oldValue.split("~");
+            if (split.length == 0) {
+                throw new JSONException("no usable old value?");
+            }
+            // Make "oldValue" just the WatchFacePreset component.
+            oldValue = split[0];
+
+            // OK, get the history array from prefs.
             JSONArray jsonArray = new JSONArray(mSharedPreferences.getString(
                     mContext.getString(R.string.saved_watch_face_state_history), "[]"));
-            String oldValue = getWatchFaceStateString();
 
             // Don't store the old value into history unless it's been more than 5 minutes.
             // If we've made multiple changes, wait until we've had a stable value for 5 minutes
@@ -134,7 +193,7 @@ public final class SharedPref {
                 try {
                     Date lastChange = mIso8601.parse(jsonObject.getString("date"));
                     long millis = System.currentTimeMillis() - lastChange.getTime();
-                    long FIVE_MINUTES_IN_MILLISECONDS = 5L * 60L * 1000L;
+                    long FIVE_MINUTES_IN_MILLISECONDS = 5L /* * 60L*/ * 1000L;
                     historyNeedsUpdating = millis > FIVE_MINUTES_IN_MILLISECONDS;
                 } catch (ParseException e) {
                     // Can't parse it? Don't worry about it.
@@ -152,7 +211,12 @@ public final class SharedPref {
                 for (int i = 0; i < jsonArray.length() && i < 256; i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     // If our string value is in history, remove it (or rather, don't add it)...
-                    if (!jsonObject.getString("value").equals(oldValue)) {
+                    if (!jsonObject.getString("value").startsWith(oldValue)) {
+                        // Strictly temporary code: only add the WatchFacePreset component.
+                        // Temporary because it's a migration from old code.
+                        jsonObject.put("value",
+                                jsonObject.getString("value").split("~")[0]);
+                        // TODO: get rid of the above code once we're done with it.
                         mWatchFaceStateHistory.add(jsonObject);
                     }
                 }
