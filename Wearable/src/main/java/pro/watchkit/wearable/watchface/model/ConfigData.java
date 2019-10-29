@@ -21,6 +21,7 @@ import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
 import pro.watchkit.wearable.watchface.model.BytePackable.Style;
 import pro.watchkit.wearable.watchface.model.BytePackable.TextStyle;
 import pro.watchkit.wearable.watchface.model.BytePackable.Typeface;
+import pro.watchkit.wearable.watchface.util.SharedPref;
 
 abstract public class ConfigData {
     /**
@@ -38,6 +39,12 @@ abstract public class ConfigData {
         int getConfigType();
     }
 
+    /**
+     * A Mutator object, which takes a WatchFaceState and mutates it in a number of ways,
+     * returning those mutations in an array of WatchFaceState strings. For example, a
+     * Mutator that works on hand shape may take a WatchFaceState, and return all related
+     * WatchFaceStates that differ only by their hand shape, with everything else the same.
+     */
     protected interface Mutator {
         /**
          * For the given WatchFaceState (which must be a clone, since we'll modify it in the
@@ -57,6 +64,20 @@ abstract public class ConfigData {
          */
         @Nullable
         Enum getCurrentValue(WatchFaceState currentPreset);
+    }
+
+    /**
+     * A Mutator object that requires access to a SharedPref object, possibly because it
+     * does its mutation based on what's currently in preferences.
+     */
+    protected interface MutatorWithPrefsAccess extends Mutator {
+        /**
+         * This Mutator is one that needs access to a SharedPref object. Implement this method
+         * to pass in such an object.
+         *
+         * @param sharedPref SharedPref object to access
+         */
+        void setSharedPref(@NonNull SharedPref sharedPref);
     }
 
     /**
@@ -521,10 +542,20 @@ abstract public class ConfigData {
         }
 
         @Nullable
-        public String[] permute(@NonNull WatchFaceState watchFaceState, Context context) {
+        public String[] permute(@NonNull WatchFaceState watchFaceState, Context context,
+                                @NonNull SharedPref sharedPref) {
+            if (mWatchFaceStateMutator instanceof MutatorWithPrefsAccess) {
+                MutatorWithPrefsAccess m = (MutatorWithPrefsAccess) mWatchFaceStateMutator;
+                m.setSharedPref(sharedPref);
+            }
             WatchFaceState deepCopy = new WatchFaceState(context);
             deepCopy.setString(watchFaceState.getString());
-            return mWatchFaceStateMutator.permute(deepCopy);
+//            return mWatchFaceStateMutator.permute(deepCopy);
+            String[] result = mWatchFaceStateMutator.permute(deepCopy);
+            if (mWatchFaceStateMutator instanceof MutatorWithPrefsAccess) {
+                Arrays.stream(result).forEach(s -> android.util.Log.d("permute", s));
+            }
+            return result;
         }
 
         public boolean isVisible(WatchFaceState watchFaceState) {

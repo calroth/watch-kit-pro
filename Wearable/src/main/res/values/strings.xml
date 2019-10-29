@@ -109,6 +109,7 @@
     <string name="config_configure_hands">Configure Hands</string>
     <string name="config_configure_ticks">Configure Ticks</string>
     <string name="config_configure_typeface">Configure Typeface</string>
+    <string name="config_view_history">View History</string>
 
     <string name="config_complication_count">Complication Count</string>
     <string name="config_complication_rotation">Complication Position</string>

@@ -902,13 +902,10 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         @Override
         public void onClick(@NonNull View view) {
-//            int position = getAdapterPosition();
-//            Log.d(TAG, "Complication onClick() position: " + position);
-
             if (mLaunchActivity != null) {
                 // Regenerate and grab our current permutations. Just in time!
-                String[] permutations =
-                        mConfigItem.permute(mCurrentWatchFaceState, itemView.getContext());
+                String[] permutations = mConfigItem.permute(mCurrentWatchFaceState,
+                        itemView.getContext(), mSharedPref);
 
                 if (permutations != null) {
                     String[] extraNames = new String[permutations.length];

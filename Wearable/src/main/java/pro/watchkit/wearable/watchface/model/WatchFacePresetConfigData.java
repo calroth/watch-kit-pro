@@ -18,12 +18,15 @@
 package pro.watchkit.wearable.watchface.model;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
+import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
+import pro.watchkit.wearable.watchface.util.SharedPref;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 public class WatchFacePresetConfigData extends ConfigData {
@@ -58,7 +61,50 @@ public class WatchFacePresetConfigData extends ConfigData {
                         R.string.config_configure_ticks,
                         R.drawable.ic_ticks,
                         WatchPartTicksConfigData.class,
-                        ConfigActivity.class)
+                        ConfigActivity.class),
+
+                // Data for View History sub-activity in settings Activity.
+                new PickerConfigItem(
+                        R.string.config_view_history,
+                        R.drawable.ic_history,
+                        WatchFaceGlobalDrawable.PART_BACKGROUND |
+                                WatchFaceGlobalDrawable.PART_TICKS |
+                                WatchFaceGlobalDrawable.PART_HANDS |
+                                WatchFaceGlobalDrawable.PART_RINGS_ALL,
+                        WatchFaceSelectionActivity.class,
+                        new MutatorWithPrefsAccess() {
+                            /**
+                             * A custom Mutotor which allows you to "view history" by offering
+                             * mutations corresponding every WatchFaceState in prefs history.
+                             *
+                             * @param permutation WatchFaceState, which must be a clone, but in
+                             *                    this case we'll ignore it...
+                             * @return Default WatchFaceState strings for all slots
+                             */
+                            @NonNull
+                            @Override
+                            public String[] permute(@NonNull WatchFaceState permutation) {
+                                if (mSharedPref != null) {
+                                    return mSharedPref.getWatchFaceStateHistory();
+                                } else {
+                                    return new String[0];
+                                }
+                            }
+
+                            @Nullable
+                            @Override
+                            public Enum getCurrentValue(WatchFaceState currentPreset) {
+                                return null;
+                            }
+
+                            @Nullable
+                            private SharedPref mSharedPref;
+
+                            @Override
+                            public void setSharedPref(@NonNull SharedPref sharedPref) {
+                                mSharedPref = sharedPref;
+                            }
+                        })
         );
     }
 }

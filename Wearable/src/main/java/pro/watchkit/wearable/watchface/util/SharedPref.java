@@ -193,7 +193,7 @@ public final class SharedPref {
                 try {
                     Date lastChange = mIso8601.parse(jsonObject.getString("date"));
                     long millis = System.currentTimeMillis() - lastChange.getTime();
-                    long FIVE_MINUTES_IN_MILLISECONDS = 5L /* * 60L*/ * 1000L;
+                    long FIVE_MINUTES_IN_MILLISECONDS = 5L * 60L * 1000L;
                     historyNeedsUpdating = millis > FIVE_MINUTES_IN_MILLISECONDS;
                 } catch (ParseException e) {
                     // Can't parse it? Don't worry about it.
