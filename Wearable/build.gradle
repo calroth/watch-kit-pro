@@ -54,7 +54,7 @@ def getGitDate = { ->
         commandLine 'git', 'show', '-s', '--format=%ci', 'HEAD'
         standardOutput = stdout
     }
-    return stdout.toString().trim()
+    return stdout.toString().trim().split(" ")[0]
 }
 
 android {
