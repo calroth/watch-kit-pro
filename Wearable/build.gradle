@@ -63,8 +63,8 @@ android {
 
     defaultConfig {
         // Ref: https://developer.android.com/training/wearables/apps/packaging#specify-a-version-code
-        versionCode 280020100
-        versionName "0.2r1"
+        versionCode 280030000
+        versionName "0.3"
 
         resValue "string", "git_hash", "${getGitHash()}"
         resValue "string", "git_date", "${getGitDate()}"
