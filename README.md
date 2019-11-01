@@ -1,12 +1,12 @@
 Watch Kit Pro <img src="Wearable/src/template/res/mipmap-xhdpi/ic_launcher.png" height="48" width="48" alt="Watch Kit Pro icon" />
 =============
 
-Custom-design your own watch faces. Thousands of combinations. Free forever.
+Craft your own watch faces ⌚ Thousands of combinations ✨ Free forever 💖
 
 Introduction
 ------------
 
-Watch Kit Pro is a custom watch face design kit for Wear OS. It allows you to customise your
+Watch Kit Pro is a custom watch face design kit for Wear OS. It allows you to craft your
 own watch faces for Wear OS smartwatches. You can tweak the watch hands, ticks and background.
 There are thousands of combinations for you to explore.
 
@@ -33,7 +33,7 @@ In addition, Watch Kit Pro:
 - Has no smartphone app; all configuration is done on your smartwatch
 - Is designed for readability and legibility
 - Is optimised for power efficiency to save battery energy
-- Is optimised for size; only a 1 MB download (give or take)
+- Is optimised for size, to download and install quickly: less than 1 MB!
 - Uses emoji 😍
 - Is free to download and own forever, with no in-app purchases or paid upgrades
 - Is Free Software (GNU GPL 3.0), with source code available for your use
