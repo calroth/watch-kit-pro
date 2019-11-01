@@ -1,14 +1,14 @@
 Watch Kit Pro <img src="Wearable/src/template/res/mipmap-xhdpi/ic_launcher.png" height="48" width="48" alt="Watch Kit Pro icon" />
 =============
 
-Custom-design your own watch faces. Millions of combinations. Free forever.
+Custom-design your own watch faces. Thousands of combinations. Free forever.
 
 Introduction
 ------------
 
 Watch Kit Pro is a custom watch face design kit for Wear OS. It allows you to customise your
 own watch faces for Wear OS smartwatches. You can tweak the watch hands, ticks and background.
-There are millions of combinations for you to explore.
+There are thousands of combinations for you to explore.
 
 Watch Kit Pro is free to download and own forever. You don't need to pay for it. There's no catch.
 There's no in-app purchases or paid upgrades. It's Free Software released to you under the [GNU
@@ -44,6 +44,13 @@ For developers, source code is available at https://github.com/calroth/watch-kit
 
 Watch Kit Pro was written by [Terence Tan](https://github.com/calroth), a Christian ✝ living in
 Australia 🇦🇺
+
+Download Me!
+------------
+
+Available at the Google Play Store: https://play.google.com/store/apps/details?id=pro.watchkit.wearable.watchface
+
+Or from your Wear OS device, search the Google Play Store for "watch kit pro".
 
 Screenshots
 -----------
