@@ -140,10 +140,7 @@ public final class SharedPref {
                 // If our string value is in history, remove it (or rather, don't add it)...
                 if (!jsonObject.getString("value").startsWith(split[0])) {
                     mHistoryStringBuilder.setLength(0);
-                    // mHistoryStringBuilder.append(jsonObject.getString("value"));
-                    mHistoryStringBuilder.append(
-                            jsonObject.getString("value").split("~")[0]);
-                    // TODO: get rid of the above code once we're done with it.
+                    mHistoryStringBuilder.append(jsonObject.getString("value"));
                     // Combine the history WatchFacePreset with the other
                     // parts (Settings and extra) from the current WatchFaceState.
                     for (int j = 1; j < split.length; j++) {
@@ -212,11 +209,6 @@ public final class SharedPref {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     // If our string value is in history, remove it (or rather, don't add it)...
                     if (!jsonObject.getString("value").startsWith(oldValue)) {
-                        // Strictly temporary code: only add the WatchFacePreset component.
-                        // Temporary because it's a migration from old code.
-                        jsonObject.put("value",
-                                jsonObject.getString("value").split("~")[0]);
-                        // TODO: get rid of the above code once we're done with it.
                         mWatchFaceStateHistory.add(jsonObject);
                     }
                 }
