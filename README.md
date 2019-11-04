@@ -11,7 +11,7 @@ own watch faces for Wear OS smartwatches. You can tweak the watch hands, ticks a
 There are thousands of combinations for you to explore.
 
 Watch Kit Pro is free to download and own forever. You don't need to pay for it. There's no catch.
-There's no in-app purchases or paid upgrades. It's Free Software released to you under the [GNU
+There's no ads, in-app purchases or paid upgrades. It's Free Software released to you under the [GNU
 General Public License 3.0](LICENSE).
 
 Watch Kit Pro has the following features:
@@ -35,7 +35,7 @@ In addition, Watch Kit Pro:
 - Is optimised for power efficiency to save battery energy
 - Is optimised for size, to download and install quickly: less than 1 MB!
 - Uses emoji 😍
-- Is free to download and own forever, with no in-app purchases or paid upgrades
+- Is free to download and own forever, with no ads, in-app purchases or paid upgrades
 - Is Free Software (GNU GPL 3.0), with source code available for your use
 
 For support, documentation and interesting information, visit https://watchkit.pro/
