@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Terence Tan
+ * Copyright (C) 2018-2020 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -801,6 +801,8 @@ public final class PaintBox {
             sb.append(" ~ p2.3: ").append((System.nanoTime() - time) / 1000000f);
 //            Log.d(TAG, sb.toString());
 
+            triangleBitmap.prepareToDraw();
+
             return triangleBitmap;
         }
 
@@ -900,6 +902,8 @@ public final class PaintBox {
                 mBrushedEffectPath.offset(-offset, -offset);
                 brushedEffectCanvas.drawPath(mBrushedEffectPath, this);
             }
+
+            brushedEffectBitmap.prepareToDraw();
 
             BitmapShader result = new BitmapShader(brushedEffectBitmap,
                     Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
@@ -1166,6 +1170,8 @@ public final class PaintBox {
 
             setAlpha(prevAlpha);
 
+            brushedEffectBitmap.prepareToDraw();
+
             BitmapShader result = new BitmapShader(brushedEffectBitmap,
                     Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
 
@@ -1283,6 +1289,8 @@ public final class PaintBox {
             mBrushedEffectPath.offset(bezelOffset, bezelOffset, mBrushedEffectPathLower);
             mBrushedEffectPathLower.op(mBrushedEffectPath, Path.Op.DIFFERENCE);
             hexEffectCanvas.drawPath(mBrushedEffectPathLower, mBrushedEffectPaint);
+
+            hexEffectBitmap.prepareToDraw();
 
             BitmapShader result = new BitmapShader(hexEffectBitmap,
                     Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);

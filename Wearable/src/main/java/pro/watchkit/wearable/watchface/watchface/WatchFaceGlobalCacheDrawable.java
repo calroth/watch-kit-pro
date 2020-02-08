@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2019-2020 Terence Tan
+ *
+ *  This file is free software: you may copy, redistribute and/or modify it
+ *  under the terms of the GNU General Public License as published by the
+ *  Free Software Foundation, either version 3 of the License, or (at your
+ *  option) any later version.
+ *
+ *  This file is distributed in the hope that it will be useful, but
+ *  WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 package pro.watchkit.wearable.watchface.watchface;
 
 import android.graphics.Bitmap;
@@ -128,7 +146,9 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable {
                 config = Bitmap.Config.HARDWARE;
             }
             mAmbientHardwareCacheBitmap = mAmbientCacheBitmap.copy(config, false);
+            mAmbientHardwareCacheBitmap.prepareToDraw();
             mActiveHardwareCacheBitmap = mActiveCacheBitmap.copy(config, false);
+            mActiveHardwareCacheBitmap.prepareToDraw();
         }
 
         // Then copy our cache to the results!
