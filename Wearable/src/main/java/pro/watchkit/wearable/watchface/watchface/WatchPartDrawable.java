@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Terence Tan
+ * Copyright (C) 2018-2020 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -20,7 +20,6 @@ package pro.watchkit.wearable.watchface.watchface;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
@@ -31,7 +30,6 @@ import android.graphics.PixelFormat;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
 
@@ -82,6 +80,10 @@ abstract class WatchPartDrawable extends Drawable {
     @NonNull
     private Path mSecondaryBezel = new Path();
     @NonNull
+    private Path mPrimaryBezel2 = new Path();
+    @NonNull
+    private Path mSecondaryBezel2 = new Path();
+    @NonNull
     private Path mShapeCutout = new Path();
     @NonNull
     private Path mIntersectionBezel = new Path();
@@ -102,9 +104,6 @@ abstract class WatchPartDrawable extends Drawable {
     private Matrix m1 = new Matrix();
 
     private final float mBevelOffset = 0.3333333f; // 0.33%
-
-    private static Canvas mBezelCanvas;
-    private static Paint mBezelBitmapPaint;
 
     // Stats start
     long mLastStatsTime = 0;
@@ -186,47 +185,43 @@ abstract class WatchPartDrawable extends Drawable {
         }
     }
 
-    void fastDrawPath(@NonNull Canvas canvas, @NonNull Path p, @NonNull Paint paint, float degrees) {
-        m2.reset();
-        m2.postRotate(degrees, mCenterX, mCenterY);
-
-        if (!mWatchFaceState.isAmbient()) {
-            // Here we treat "mIntersectionBezel" as a cheap throwaway path.
-            p.transform(m2, mIntersectionBezel);
-            // Shadow
-            if (mWatchFaceState.isDrawShadows()) {
-                canvas.drawPath(mIntersectionBezel, mWatchFaceState.getPaintBox().getShadowPaint());
-            }
-
-            // The path.
-            paint.setStyle(Paint.Style.FILL);
-            canvas.drawPath(mIntersectionBezel, paint);
-
-            // Retrieve our bezel paints and set them to fill.
-            Paint bezelPaint1 = mWatchFaceState.getPaintBox().getBezelPaint1();
-            Paint bezelPaint2 = mWatchFaceState.getPaintBox().getBezelPaint2();
-            bezelPaint1.setStyle(Paint.Style.FILL);
-            bezelPaint2.setStyle(Paint.Style.FILL);
-
-            // The bezels.
-            // Again we treat "mIntersectionBezel" as a cheap throwaway path.
-            mPrimaryBezel.transform(m2, mIntersectionBezel);
-            canvas.drawPath(mIntersectionBezel, bezelPaint1);
-            mSecondaryBezel.transform(m2, mIntersectionBezel);
-            canvas.drawPath(mIntersectionBezel, bezelPaint2);
-
-        } else {
-            // Ambient.
-            // The path itself.
-            Paint ambientPaint = mWatchFaceState.getPaintBox().getAmbientPaint();
-
-            // Here we treat "mIntersectionBezel" as a cheap throwaway path.
-            p.transform(m2, mIntersectionBezel);
-            canvas.drawPath(mIntersectionBezel, ambientPaint);
-        }
+    /**
+     * Do we draw shadows for our paths?
+     *
+     * @return Whether we draw shadows for our paths; false by default.
+     */
+    boolean enablePathShadows() {
+        return false;
     }
 
-    void generateBezels(@NonNull Path p, float degrees) {
+    private float mLastDegrees = -360f;
+
+    void regenerateBezels() {
+        mLastDegrees = -360f;
+    }
+
+    /**
+     * The degrees clockwise to rotate the paths in this drawable when drawing.
+     * <p>
+     * By default it's 0 (actually it's -360, but who's counting).
+     *
+     * @return The degrees clockwise to rotate the paths in this drawable
+     */
+    float getDegreesRotation() {
+        return -360f;
+    }
+
+    /**
+     * Pre-generate the bezels in "mPrimaryBezel" and "mSecondaryBezel" (and their alternates
+     * in "mPrimaryBezel2" and "mSecondaryBezel2").
+     * <p>
+     * This can be called on every draw, but it's expensive (lots of intersections and path
+     * manipulation) so it's been spun out into this method. Call it every time or not!
+     *
+     * @param p       The path to generate bezels for
+     * @param degrees Degrees clockwise to rotate "p", or 0f for no rotation
+     */
+    private void generateBezels(@NonNull Path p, float degrees) {
         if (mWatchFaceState.isAmbient()) {
             return;
         }
@@ -237,11 +232,12 @@ abstract class WatchPartDrawable extends Drawable {
         // By: rotating to the angle we want, offsetting them, then rotating back.
 
         m1.reset();
+        m2.reset();
+
         m1.postRotate(degrees, mCenterX, mCenterY);
         m1.postTranslate(-(mBevelOffset * pc), -(mBevelOffset * pc));
         m1.postRotate(-degrees, mCenterX, mCenterY);
 
-        m2.reset();
         m2.postRotate(degrees, mCenterX, mCenterY);
         m2.postTranslate(mBevelOffset * pc, mBevelOffset * pc);
         m2.postRotate(-degrees, mCenterX, mCenterY);
@@ -263,9 +259,38 @@ abstract class WatchPartDrawable extends Drawable {
         mPrimaryBezel.op(p, Path.Op.INTERSECT);
         mSecondaryBezel.op(p, Path.Op.INTERSECT);
 
-        // Right, all done, draw them!
-//        canvas.drawPath(mPrimaryBezel, bezelPaint1);
-//        canvas.drawPath(mSecondaryBezel, bezelPaint1);
+        boolean altDrawing = mWatchFaceState.isDeveloperMode() && mWatchFaceState.isAltDrawing();
+        if (!altDrawing) {
+            // Do it again: only this time for "mPrimaryBezel2" and "mSecondaryBezel2"
+
+            m1.reset();
+            m2.reset();
+
+            m1.postRotate(degrees, mCenterX, mCenterY);
+            m1.postTranslate(mBevelOffset * pc, -(mBevelOffset * pc));
+            m1.postRotate(-degrees, mCenterX, mCenterY);
+
+            m2.postRotate(degrees, mCenterX, mCenterY);
+            m2.postTranslate(-(mBevelOffset * pc), mBevelOffset * pc);
+            m2.postRotate(-degrees, mCenterX, mCenterY);
+
+            p.transform(m1, mPrimaryBezel2);
+            p.transform(m2, mSecondaryBezel2);
+
+            // Draw primary and secondary bezels as paths.
+
+            // Calculate the intersection of primary and secondary bezels.
+            mIntersectionBezel.set(mPrimaryBezel2);
+            mIntersectionBezel.op(mSecondaryBezel2, Path.Op.INTERSECT);
+
+            // Punch that intersection out of primary and secondary bevels.
+            mPrimaryBezel2.op(mIntersectionBezel, Path.Op.DIFFERENCE);
+            mSecondaryBezel2.op(mIntersectionBezel, Path.Op.DIFFERENCE);
+
+            // And clip the primary and secondary bezels to the original paths.
+            mPrimaryBezel2.op(p, Path.Op.INTERSECT);
+            mSecondaryBezel2.op(p, Path.Op.INTERSECT);
+        }
     }
 
     private Paint mInnerGlowPaint;
@@ -283,6 +308,9 @@ abstract class WatchPartDrawable extends Drawable {
         }
     }
 
+    private Paint mAltBezelPaint1 = new Paint();
+    private Paint mAltBezelPaint2 = new Paint();
+
     void drawPath(@NonNull Canvas canvas, @NonNull Path path, @NonNull Paint paint) {
         Path p = mDrawPath;
         p.set(path);
@@ -294,14 +322,26 @@ abstract class WatchPartDrawable extends Drawable {
             mInnerGlowPath.op(p, Path.Op.DIFFERENCE);
         }
 
+        // Regenerate the bezels if needed.
+        float degrees = getDegreesRotation();
+        if (degrees == -360f || (degrees - mLastDegrees) % 360f > 6f) {
+            // Generate a new bezel if the current one is more than 6 degrees (1 minute) out.
+            // Or, always generate a new bezel if it's -360f (the default).
+            generateBezels(p, degrees);
+            mLastDegrees = degrees;
+        }
+
+        m2.reset();
+        m2.postRotate(degrees, mCenterX, mCenterY);
+
 //        int seconds = (int)(mWatchFaceState.getSecondsDecimal());
 //        seconds = seconds % 2;
 
-        // 4 layers:
+        // 6 layers:
         // Shadow
-        // Primary bevel
-        // Secondary bevel
-        // And finally the path itself.
+        // The path itself
+        // Primary bevel 2 and secondary bevel 2, which are light and dark highlights
+        // Primary bevel and secondary bevel
         boolean altDrawing = mWatchFaceState.isDeveloperMode() && mWatchFaceState.isAltDrawing();
         if (!mWatchFaceState.isAmbient()) {
             // Shadow
@@ -309,60 +349,44 @@ abstract class WatchPartDrawable extends Drawable {
 
             // The path itself.
             paint.setStyle(Paint.Style.FILL);
-            canvas.drawPath(p, paint);
+            p.transform(m2, mIntersectionBezel);
+            // Shadow
+            if (enablePathShadows()) {
+                canvas.drawPath(mIntersectionBezel,
+                        mWatchFaceState.getPaintBox().getShadowPaint());
+            }
+            canvas.drawPath(mIntersectionBezel, paint);
 
-            // The bezels.
-
-            // Create our offset paths for our primary and secondary bezels.
-            p.offset(-(mBevelOffset * pc), -(mBevelOffset * pc), mPrimaryBezel);
-            p.offset((mBevelOffset * pc), (mBevelOffset * pc), mSecondaryBezel);
-
-            // Retrieve our paints and set them to fill.
-            Paint bezelPaint1 = mWatchFaceState.getPaintBox().getBezelPaint1();
-            Paint bezelPaint2 = mWatchFaceState.getPaintBox().getBezelPaint2();
-            bezelPaint1.setStyle(Paint.Style.FILL);
-            bezelPaint2.setStyle(Paint.Style.FILL);
+            // Draw primary2 and secondary2 bezels as paths.
+            // They're drawn first so they're overdrawn by "primary" and "secondary".
+            if (!altDrawing) {
+                // Right, all done, draw them!
+                mPrimaryBezel2.transform(m2, mIntersectionBezel);
+                canvas.drawPath(mIntersectionBezel, mAltBezelPaint1);
+                mSecondaryBezel2.transform(m2, mIntersectionBezel);
+                canvas.drawPath(mIntersectionBezel, mAltBezelPaint2);
+            }
 
             // Draw primary and secondary bezels as paths.
-            if (!altDrawing) {
-                // Calculate the intersection of primary and secondary bezels.
-                mIntersectionBezel.set(mPrimaryBezel);
-                mIntersectionBezel.op(mSecondaryBezel, Path.Op.INTERSECT);
-
-                // Punch that intersection out of primary and secondary bevels.
-                mPrimaryBezel.op(mIntersectionBezel, Path.Op.DIFFERENCE);
-                mSecondaryBezel.op(mIntersectionBezel, Path.Op.DIFFERENCE);
-
-                // And clip the primary and secondary bezels to the original paths.
-                mPrimaryBezel.op(p, Path.Op.INTERSECT);
-                mSecondaryBezel.op(p, Path.Op.INTERSECT);
+            {
+                // Retrieve our paints and set them to fill.
+                Paint bezelPaint1 = mWatchFaceState.getPaintBox().getBezelPaint1();
+                Paint bezelPaint2 = mWatchFaceState.getPaintBox().getBezelPaint2();
+                bezelPaint1.setStyle(Paint.Style.FILL);
+                bezelPaint2.setStyle(Paint.Style.FILL);
 
                 // Right, all done, draw them!
-                canvas.drawPath(mPrimaryBezel, bezelPaint1);
-                canvas.drawPath(mSecondaryBezel, bezelPaint2);
-            }
-            // Draw primary and secondary bevels as strokes from a bitmap-shader paint.
-            if (altDrawing) {
-                // Draw our bevels to a temporary bitmap.
-                // Clear the bezel canvas first.
-                mBezelCanvas.drawColor(Color.TRANSPARENT, Mode.CLEAR);
-
-                // And clip the primary and secondary bezels to the original paths.
-                mPrimaryBezel.op(p, Path.Op.INTERSECT);
-                mSecondaryBezel.op(p, Path.Op.INTERSECT);
-
-                // Draw primary and secondary bevels to temporary bitmap.
-                mBezelCanvas.drawPath(mPrimaryBezel, bezelPaint1);
-                mBezelCanvas.drawPath(mSecondaryBezel, bezelPaint2);
-
-                // Draw a stroke with our new bitmap-shader paint.
-                canvas.drawPath(p, mBezelBitmapPaint);
+                mPrimaryBezel.transform(m2, mIntersectionBezel);
+                canvas.drawPath(mIntersectionBezel, bezelPaint1);
+                mSecondaryBezel.transform(m2, mIntersectionBezel);
+                canvas.drawPath(mIntersectionBezel, bezelPaint2);
             }
         } else {
             // Ambient.
             // The path itself.
             Paint ambientPaint = mWatchFaceState.getPaintBox().getAmbientPaint();
-            canvas.drawPath(p, ambientPaint);
+            p.transform(m2, mIntersectionBezel);
+            canvas.drawPath(mIntersectionBezel, ambientPaint);
         }
     }
 
@@ -380,20 +404,6 @@ abstract class WatchPartDrawable extends Drawable {
          */
         mCenterX = width / 2f;
         mCenterY = height / 2f;
-
-        // Set up our bezel bitmap, canvas and paint structures.
-        if (width > 0 && height > 0) {
-            Bitmap bezelBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            mBezelCanvas = new Canvas(bezelBitmap);
-
-            // Create a new paint with our temporary bitmap as a shader.
-            mBezelBitmapPaint = new Paint();
-            mBezelBitmapPaint.setStyle(Paint.Style.STROKE);
-            mBezelBitmapPaint.setAntiAlias(true);
-            mBezelBitmapPaint.setShader(new BitmapShader(bezelBitmap,
-                    Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-            mBezelBitmapPaint.setStrokeWidth(mBevelOffset * pc * 2);
-        }
 
         // Check width and height.
         mWatchFaceState.getPaintBox().onWidthAndHeightChanged(width, height);
@@ -433,6 +443,15 @@ abstract class WatchPartDrawable extends Drawable {
         RectF boundsF = new RectF(bounds);
         boundsF.inset(-10f * pc, -10f * pc);
         mInnerGlowPath.addRect(boundsF, getDirection());
+
+        // Set up our alt bezel paints.
+        mAltBezelPaint1.setColor(Color.argb(127, 255, 255, 255));
+        mAltBezelPaint2.setColor(Color.argb(127, 0, 0, 0));
+
+        mAltBezelPaint1.setStyle(Paint.Style.FILL);
+        mAltBezelPaint2.setStyle(Paint.Style.FILL);
+        mAltBezelPaint1.setAntiAlias(true);
+        mAltBezelPaint2.setAntiAlias(true);
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Terence Tan
+ * Copyright (C) 2018-2020 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -72,52 +72,64 @@ final class WatchPartRingsDrawable extends WatchPartDrawable {
             mBackground.reset();
 
             final float ringRadius = 1.05f;
-            final float holeRadius = ringRadius - 0.04f;
-            final float pathRadius = ringRadius - 0.02f;
+            final float holeRadius = 0.95f;
+            final float backgroundRadius = (ringRadius + holeRadius) / 2f;
 
             // Calculate our mRings and mHoles!
             complications.stream()
                     .filter(c -> c.isForeground && c.getBounds() != null && (c.isActive || mDrawAllRings))
                     .forEach(c -> {
                         Rect r = c.getBounds();
-                        mRings.addCircle(r.exactCenterX(), r.exactCenterY(),
-                                ringRadius * r.width() / 2f, getDirection());
-                        mHoles.addCircle(r.exactCenterX(), r.exactCenterY(),
-                                holeRadius * r.width() / 2f, getDirection());
-                        mPath.reset(); // Using "mPath" as a temporary variable here...
+                        Path.Direction dir = getDirection();
+                        mPath.reset();
                         mPath.addCircle(r.exactCenterX(), r.exactCenterY(),
-                                pathRadius * r.width() / 2f, getDirection());
+                                ringRadius * r.width() / 2f, dir);
+                        mRings.op(mPath, Path.Op.UNION);
+                        mPath.reset();
+                        mPath.addCircle(r.exactCenterX(), r.exactCenterY(),
+                                holeRadius * r.width() / 2f, dir);
+                        mHoles.op(mPath, Path.Op.UNION);
+                        mPath.reset();
+                        mPath.addCircle(r.exactCenterX(), r.exactCenterY(),
+                                backgroundRadius * r.width() / 2f, dir);
                         mBackground.op(mPath, Path.Op.UNION);
                     });
-
-            mPath.reset();
-            mPath.op(mRings, Path.Op.UNION);
-            mPath.op(mHoles, Path.Op.DIFFERENCE);
+            mPath.set(mRings);
         }
 
         // If not ambient, actually draw our complication mRings.
         if (!mWatchFaceState.isAmbient()) {
-            final Paint watchFacePaint = mWatchFaceState.getPaintBox().getPaintFromPreset(
-                    mWatchFaceState.getBackgroundStyle());
-            final Paint backgroundPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(
-                    mWatchFaceState.getComplicationBackgroundStyle());
-            final Paint ringPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(
-                    mWatchFaceState.getComplicationRingStyle());
+            final Paint backgroundPaint = mWatchFaceState.getPaintBox()
+                    .getPaintFromPreset(mWatchFaceState.getBackgroundStyle());
+            final Paint complicationBackgroundPaint = mWatchFaceState.getPaintBox()
+                    .getPaintFromPreset(mWatchFaceState.getComplicationBackgroundStyle());
+            final Paint complicationRingPaint = mWatchFaceState.getPaintBox()
+                    .getPaintFromPreset(mWatchFaceState.getComplicationRingStyle());
 
             // Some optimisations.
-            if (ringPaint.equals(backgroundPaint) || ringPaint.equals(watchFacePaint)) {
-                // If the ring and complication mBackground paints are equal,
-                // or the ring and watch face mBackground paints are equal,
-                // draw the mRings but skip the mHoles.
-                drawPath(canvas, mBackground, backgroundPaint);
-            } else {
-                // Paint the mBackground if it's different.
-                if (!backgroundPaint.equals(watchFacePaint)) {
-                    drawPath(canvas, mBackground, backgroundPaint);
-                }
 
-                // Paint with our complication ring style.
-                drawPath(canvas, mPath, ringPaint);
+            // Paint the complication background, but only if it's different to the watch face
+            // background (otherwise why bother?)
+            if (!complicationBackgroundPaint.equals(backgroundPaint)) {
+                // We do a direct "canvas.drawPath" here to avoid drawing bezels,
+                // which are unnecessary as they'd be overdrawn by the rings anyway.
+                canvas.drawPath(mBackground, complicationBackgroundPaint);
+            }
+
+            // Paint the rings.
+            if (complicationBackgroundPaint.equals(complicationRingPaint)) {
+                // The complication background and ring paints are the same.
+                // Just draw the rings, but skip the holes.
+                if (!complicationBackgroundPaint.equals(backgroundPaint)) {
+                    drawPath(canvas, mPath, complicationRingPaint);
+                }
+                // If the complication background, complication ring, and watch face background
+                // paints are all the same then don't do anything!
+            } else {
+                // The complication background and complication ring paints are different.
+                // Draw the rings and the holes.
+                mPath.op(mHoles, Path.Op.DIFFERENCE);
+                drawPath(canvas, mPath, complicationRingPaint);
             }
         }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Terence Tan
+ * Copyright (C) 2018-2020 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -67,8 +67,6 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     @NonNull
     private Matrix m2 = new Matrix();
 
-    private float mLastDegrees = -360f;
-
     @Override
     public void draw2(@NonNull Canvas canvas) {
         if (mWatchFaceState.isDeveloperMode() && mWatchFaceState.isHideHands()) {
@@ -81,23 +79,22 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
         Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(getHandStyle());
         Path path = getHandPath();
-        float degrees = getDegreesRotation();
-        if ((degrees - mLastDegrees) % 360f > 6f) {
-            // Generate a new bezel if the current one is more than 6 degrees (1 minute) out.
-            generateBezels(path, degrees);
-            mLastDegrees = degrees;
-        }
-        fastDrawPath(canvas, path, paint, degrees);
+        drawPath(canvas, path, paint);
 
         // Quick-and-dirty draw of the two-tone cutout, if we're not ambient.
         if (!mWatchFaceState.isAmbient() && isTwoToneCutout()) {
             m2.reset();
-            m2.postRotate(degrees, mCenterX, mCenterY);
+            m2.postRotate(getDegreesRotation(), mCenterX, mCenterY);
             // Here we treat "mHandBottomCutout" as a cheap throwaway path.
             mHandTwoToneCutoutPath.transform(m2, mHandBottomCutout);
             canvas.drawPath(mHandBottomCutout,
                     mWatchFaceState.getPaintBox().getPaintFromPreset(getHandCutoutStyle()));
         }
+    }
+
+    @Override
+    boolean enablePathShadows() {
+        return mWatchFaceState.isDrawShadows();
     }
 
     /**
@@ -152,8 +149,6 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     @NonNull
     abstract Style getHandCutoutStyle();
 
-    abstract float getDegreesRotation();
-
     abstract void punchHub(Path active, Path ambient);
 
     boolean isMinuteHand() {
@@ -178,7 +173,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
             mHandAmbientPath.addPath(mHandActivePath);
             punchHub(mHandActivePath, mHandAmbientPath);
             // Regenerate our bezels too.
-            mLastDegrees = -360f;
+            regenerateBezels();
         }
 
         if (mWatchFaceState.isAmbient())
