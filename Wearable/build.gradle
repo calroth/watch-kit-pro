@@ -5,7 +5,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath 'com.android.tools.build:gradle:3.5.3'
     }
 }
 
@@ -27,7 +27,7 @@ dependencies {
     // The below was only needed since upgrading to Android build tools 3.5.0.
     // Not sure why we need it, only that we error out if we don't. Revisit this...
     // We can however make it only for debug. In release mode it's somehow not needed...
-    debugImplementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta3'
+    debugImplementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
 }
 
 // The sample build uses multiple directories to
@@ -59,7 +59,7 @@ def getGitDate = { ->
 
 android {
     compileSdkVersion 28
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
         // Ref: https://developer.android.com/training/wearables/apps/packaging#specify-a-version-code
