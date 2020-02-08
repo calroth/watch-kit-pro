@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Terence Tan
+ * Copyright (C) 2018-2020 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -101,7 +101,7 @@ public final class ComplicationHolder {
 
     void setAmbientMode(boolean inAmbientMode) {
         mComplicationDrawable.setInAmbientMode(inAmbientMode);
-        mComplicationDrawable.setRangedValueProgressHidden(inAmbientMode);
+        mComplicationDrawable.setRangedValueProgressHidden(false);
         mIsInAmbientMode = inAmbientMode;
     }
 
@@ -176,6 +176,7 @@ public final class ComplicationHolder {
             mComplicationDrawable.setTextColorAmbient(ambientColor);
             mComplicationDrawable.setTitleColorAmbient(fadedAmbientColor);
             mComplicationDrawable.setIconColorAmbient(fadedAmbientColor);
+            mComplicationDrawable.setRangedValuePrimaryColorAmbient(Color.BLACK);
             mComplicationDrawable.setTextTypefaceAmbient(typeface);
             mComplicationDrawable.setTitleTypefaceAmbient(typeface);
         }
