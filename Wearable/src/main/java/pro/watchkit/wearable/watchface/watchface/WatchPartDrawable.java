@@ -456,19 +456,18 @@ abstract class WatchPartDrawable extends Drawable {
 
     @Override
     public void setAlpha(int alpha) {
-        // TODO: fill this in
+        // No op.
     }
 
     @Override
     public void setColorFilter(@Nullable ColorFilter colorFilter) {
-        // TODO: fill this in
+        // No op.
     }
 
     @Override
     public int getOpacity() {
-        // TODO: fill this in
+        // No op.
         return PixelFormat.UNKNOWN;
-//        return 0;
     }
 
     void setWatchFaceState(@NonNull WatchFaceState watchFaceState, @NonNull Path exclusionPath,
