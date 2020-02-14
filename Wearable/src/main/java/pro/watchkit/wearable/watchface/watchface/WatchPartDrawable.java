@@ -86,7 +86,7 @@ abstract class WatchPartDrawable extends Drawable {
     @NonNull
     private Path mShapeCutout = new Path();
     @NonNull
-    private Path mIntersectionBezel = new Path();
+    private Path mTempPath = new Path();
     @NonNull
     private Path mInnerGlowPath = new Path();
     @NonNull
@@ -248,12 +248,12 @@ abstract class WatchPartDrawable extends Drawable {
         // Draw primary and secondary bezels as paths.
 
         // Calculate the intersection of primary and secondary bezels.
-        mIntersectionBezel.set(mPrimaryBezel);
-        mIntersectionBezel.op(mSecondaryBezel, Path.Op.INTERSECT);
+        mTempPath.set(mPrimaryBezel);
+        mTempPath.op(mSecondaryBezel, Path.Op.INTERSECT);
 
         // Punch that intersection out of primary and secondary bevels.
-        mPrimaryBezel.op(mIntersectionBezel, Path.Op.DIFFERENCE);
-        mSecondaryBezel.op(mIntersectionBezel, Path.Op.DIFFERENCE);
+        mPrimaryBezel.op(mTempPath, Path.Op.DIFFERENCE);
+        mSecondaryBezel.op(mTempPath, Path.Op.DIFFERENCE);
 
         // And clip the primary and secondary bezels to the original paths.
         mPrimaryBezel.op(p, Path.Op.INTERSECT);
@@ -280,12 +280,12 @@ abstract class WatchPartDrawable extends Drawable {
             // Draw primary and secondary bezels as paths.
 
             // Calculate the intersection of primary and secondary bezels.
-            mIntersectionBezel.set(mPrimaryBezel2);
-            mIntersectionBezel.op(mSecondaryBezel2, Path.Op.INTERSECT);
+            mTempPath.set(mPrimaryBezel2);
+            mTempPath.op(mSecondaryBezel2, Path.Op.INTERSECT);
 
             // Punch that intersection out of primary and secondary bevels.
-            mPrimaryBezel2.op(mIntersectionBezel, Path.Op.DIFFERENCE);
-            mSecondaryBezel2.op(mIntersectionBezel, Path.Op.DIFFERENCE);
+            mPrimaryBezel2.op(mTempPath, Path.Op.DIFFERENCE);
+            mSecondaryBezel2.op(mTempPath, Path.Op.DIFFERENCE);
 
             // And clip the primary and secondary bezels to the original paths.
             mPrimaryBezel2.op(p, Path.Op.INTERSECT);
@@ -349,22 +349,22 @@ abstract class WatchPartDrawable extends Drawable {
 
             // The path itself.
             paint.setStyle(Paint.Style.FILL);
-            p.transform(m2, mIntersectionBezel);
+            p.transform(m2, mTempPath);
             // Shadow
             if (enablePathShadows()) {
-                canvas.drawPath(mIntersectionBezel,
+                canvas.drawPath(mTempPath,
                         mWatchFaceState.getPaintBox().getShadowPaint());
             }
-            canvas.drawPath(mIntersectionBezel, paint);
+            canvas.drawPath(mTempPath, paint);
 
             // Draw primary2 and secondary2 bezels as paths.
             // They're drawn first so they're overdrawn by "primary" and "secondary".
             if (!altDrawing) {
                 // Right, all done, draw them!
-                mPrimaryBezel2.transform(m2, mIntersectionBezel);
-                canvas.drawPath(mIntersectionBezel, mAltBezelPaint1);
-                mSecondaryBezel2.transform(m2, mIntersectionBezel);
-                canvas.drawPath(mIntersectionBezel, mAltBezelPaint2);
+                mPrimaryBezel2.transform(m2, mTempPath);
+                canvas.drawPath(mTempPath, mAltBezelPaint1);
+                mSecondaryBezel2.transform(m2, mTempPath);
+                canvas.drawPath(mTempPath, mAltBezelPaint2);
             }
 
             // Draw primary and secondary bezels as paths.
@@ -376,17 +376,17 @@ abstract class WatchPartDrawable extends Drawable {
                 bezelPaint2.setStyle(Paint.Style.FILL);
 
                 // Right, all done, draw them!
-                mPrimaryBezel.transform(m2, mIntersectionBezel);
-                canvas.drawPath(mIntersectionBezel, bezelPaint1);
-                mSecondaryBezel.transform(m2, mIntersectionBezel);
-                canvas.drawPath(mIntersectionBezel, bezelPaint2);
+                mPrimaryBezel.transform(m2, mTempPath);
+                canvas.drawPath(mTempPath, bezelPaint1);
+                mSecondaryBezel.transform(m2, mTempPath);
+                canvas.drawPath(mTempPath, bezelPaint2);
             }
         } else {
             // Ambient.
             // The path itself.
             Paint ambientPaint = mWatchFaceState.getPaintBox().getAmbientPaint();
-            p.transform(m2, mIntersectionBezel);
-            canvas.drawPath(mIntersectionBezel, ambientPaint);
+            p.transform(m2, mTempPath);
+            canvas.drawPath(mTempPath, ambientPaint);
         }
     }
 
