@@ -34,7 +34,7 @@ import pro.watchkit.wearable.watchface.model.BytePackable.HandLength;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandStalk;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandThickness;
-import pro.watchkit.wearable.watchface.model.BytePackable.Style;
+import pro.watchkit.wearable.watchface.model.BytePackable.Material;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 abstract class WatchPartHandsDrawable extends WatchPartDrawable {
@@ -77,7 +77,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
         // Reset the exclusion path. We ignore it for this layer up!
         resetExclusionPath();
 
-        Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(getHandStyle());
+        Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(getHandMaterial());
         Path path = getHandPath();
         drawPath(canvas, path, paint);
 
@@ -88,7 +88,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
             // Here we treat "mHandBottomCutout" as a cheap throwaway path.
             mHandTwoToneCutoutPath.transform(m2, mHandBottomCutout);
             canvas.drawPath(mHandBottomCutout,
-                    mWatchFaceState.getPaintBox().getPaintFromPreset(getHandCutoutStyle()));
+                    mWatchFaceState.getPaintBox().getPaintFromPreset(getHandCutoutMaterial()));
         }
     }
 
@@ -99,24 +99,24 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
 
     /**
      * Does this hand have a cutout (two-tone or punched out)?
-     * Only if if's not the hand style (in which case, there's no cutout).
+     * Only if if's not the hand material (in which case, there's no cutout).
      *
      * @return Whether we have a cutout
      */
     private boolean isCutout() {
-        return !getHandCutoutStyle().equals(getHandStyle());
+        return !getHandCutoutMaterial().equals(getHandMaterial());
     }
 
     /**
      * Does this hand have a two-tone cutout?
-     * Only if if's not the hand style (in which case, there's no cutout)
-     * and if it's not the background style (in which case, don't need to go two-tone).
+     * Only if if's not the hand material (in which case, there's no cutout)
+     * and if it's not the background material (in which case, don't need to go two-tone).
      *
      * @return Whether we have a two-tone cutout
      */
     private boolean isTwoToneCutout() {
         return isCutout() &&
-                !getHandCutoutStyle().equals(mWatchFaceState.getBackgroundStyle());
+                !getHandCutoutMaterial().equals(mWatchFaceState.getBackgroundMaterial());
     }
 
     @Override
@@ -144,10 +144,10 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     @NonNull
     abstract HandCutoutShape getHandCutout();
 
-    abstract Style getHandStyle();
+    abstract Material getHandMaterial();
 
     @NonNull
-    abstract Style getHandCutoutStyle();
+    abstract Material getHandCutoutMaterial();
 
     abstract void punchHub(Path active, Path ambient);
 

@@ -27,7 +27,7 @@ import androidx.annotation.NonNull;
 
 import java.util.Formatter;
 
-import pro.watchkit.wearable.watchface.model.BytePackable.Style;
+import pro.watchkit.wearable.watchface.model.BytePackable.Material;
 
 final class WatchPartStatsDrawable extends WatchPartDrawable {
     static final String INVALID_COMPLICATION = "Complication";
@@ -66,7 +66,7 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
 
         Paint textPaint = mWatchFaceState.isAmbient() ?
                 mWatchFaceState.getPaintBox().getAmbientPaint() :
-                mWatchFaceState.getPaintBox().getPaintFromPreset(Style.FILL_HIGHLIGHT);
+                mWatchFaceState.getPaintBox().getPaintFromPreset(Material.FILL_HIGHLIGHT);
 
         float originalTextSize = textPaint.getTextSize();
         textPaint.setTextSize(3f * pc);

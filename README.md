@@ -19,8 +19,8 @@ Watch Kit Pro has the following features:
 - Four watch face slots for you to store different watch faces
 - Choose between different watch hand shapes
 - Choose between different watch tick shapes, with optional digit display
-- Choose between different background styles
-- Choose four colors from a 64-color palette, and a multitude of style options
+- Choose between different background materials
+- Choose four colors from a 64-color palette, and a multitude of material options
 - Choose the typeface used for drawing text
 - Configure up to 8 complications
 - Always-on watch faces (a.k.a. "ambient mode")

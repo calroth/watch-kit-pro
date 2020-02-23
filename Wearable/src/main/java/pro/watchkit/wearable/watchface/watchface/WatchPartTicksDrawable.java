@@ -41,7 +41,7 @@ import android.graphics.Path;
 
 import androidx.annotation.NonNull;
 
-import pro.watchkit.wearable.watchface.model.BytePackable.Style;
+import pro.watchkit.wearable.watchface.model.BytePackable.Material;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickSize;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
@@ -55,7 +55,7 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
 
     abstract protected TickSize getTickSize();
 
-    abstract protected Style getTickStyle();
+    abstract protected Material getTickStyle();
 
     @NonNull
     private final Path p = new Path();

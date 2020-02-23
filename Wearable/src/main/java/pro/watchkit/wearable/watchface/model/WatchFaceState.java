@@ -52,15 +52,15 @@ import pro.watchkit.wearable.watchface.model.BytePackable.DigitFormat;
 import pro.watchkit.wearable.watchface.model.BytePackable.DigitRotation;
 import pro.watchkit.wearable.watchface.model.BytePackable.DigitSize;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandCutoutCombination;
+import pro.watchkit.wearable.watchface.model.BytePackable.HandCutoutMaterial;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandCutoutShape;
-import pro.watchkit.wearable.watchface.model.BytePackable.HandCutoutStyle;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandLength;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandStalk;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandThickness;
-import pro.watchkit.wearable.watchface.model.BytePackable.Style;
-import pro.watchkit.wearable.watchface.model.BytePackable.StyleGradient;
-import pro.watchkit.wearable.watchface.model.BytePackable.StyleTexture;
+import pro.watchkit.wearable.watchface.model.BytePackable.Material;
+import pro.watchkit.wearable.watchface.model.BytePackable.MaterialGradient;
+import pro.watchkit.wearable.watchface.model.BytePackable.MaterialTexture;
 import pro.watchkit.wearable.watchface.model.BytePackable.TextStyle;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickMargin;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
@@ -306,7 +306,7 @@ public class WatchFaceState {
             mComplicationMap.put(f.getId(), f);
         }
 
-        // Adds new complications to a SparseArray to simplify setting styles and ambient
+        // Adds new complications to a SparseArray to simplify setting materials and ambient
         // properties for all complications, i.e., iterate over them all.
         setComplicationColors();
 
@@ -536,7 +536,7 @@ public class WatchFaceState {
 
     // region Ephemeral
     @Nullable
-    private Style mSwatchStyle;
+    private Material mSwatchMaterial;
     @Nullable
     private TextStyle mSwatchTextStyle;
 
@@ -568,23 +568,23 @@ public class WatchFaceState {
     public String getString() {
         // Turn "mSwatchTextStyle" or "mSwatchStyle" into an index.
         // I'm not proud of this code, by the way.
-        int swatchStyleIndex;
+        int swatchIndex;
         if (mSwatchTextStyle == TextStyle.FILL) {
-            swatchStyleIndex = 0;
+            swatchIndex = 0;
         } else if (mSwatchTextStyle == TextStyle.ACCENT) {
-            swatchStyleIndex = 1;
+            swatchIndex = 1;
         } else if (mSwatchTextStyle == TextStyle.HIGHLIGHT) {
-            swatchStyleIndex = 2;
+            swatchIndex = 2;
         } else if (mSwatchTextStyle == TextStyle.BASE) {
-            swatchStyleIndex = 3;
-        } else if (mSwatchStyle == Style.FILL_HIGHLIGHT) {
-            swatchStyleIndex = 4;
-        } else if (mSwatchStyle == Style.ACCENT_FILL) {
-            swatchStyleIndex = 5;
-        } else if (mSwatchStyle == Style.ACCENT_HIGHLIGHT) {
-            swatchStyleIndex = 6;
+            swatchIndex = 3;
+        } else if (mSwatchMaterial == Material.FILL_HIGHLIGHT) {
+            swatchIndex = 4;
+        } else if (mSwatchMaterial == Material.ACCENT_FILL) {
+            swatchIndex = 5;
+        } else if (mSwatchMaterial == Material.ACCENT_HIGHLIGHT) {
+            swatchIndex = 6;
         } else {
-            swatchStyleIndex = 7;
+            swatchIndex = 7;
         }
 
         mStringBuilder.setLength(0);
@@ -592,7 +592,7 @@ public class WatchFaceState {
                 .append("~")
                 .append(mSettings.getString())
                 .append("~")
-                .append(swatchStyleIndex);
+                .append(swatchIndex);
         return mStringBuilder.toString();
     }
 
@@ -862,20 +862,20 @@ public class WatchFaceState {
         mSettings.mComplicationTextStyle = complicationTextStyle;
     }
 
-    public Style getComplicationRingStyle() {
-        return mSettings.mComplicationRingStyle;
+    public Material getComplicationRingMaterial() {
+        return mSettings.mComplicationRingMaterial;
     }
 
-    void setComplicationRingStyle(Style complicationRingStyle) {
-        mSettings.mComplicationRingStyle = complicationRingStyle;
+    void setComplicationRingMaterial(Material complicationRingMaterial) {
+        mSettings.mComplicationRingMaterial = complicationRingMaterial;
     }
 
-    public Style getComplicationBackgroundStyle() {
-        return mSettings.mComplicationBackgroundStyle;
+    public Material getComplicationBackgroundMaterial() {
+        return mSettings.mComplicationBackgroundMaterial;
     }
 
-    void setComplicationBackgroundStyle(Style complicationBackgroundStyle) {
-        mSettings.mComplicationBackgroundStyle = complicationBackgroundStyle;
+    void setComplicationBackgroundMaterial(Material complicationBackgroundMaterial) {
+        mSettings.mComplicationBackgroundMaterial = complicationBackgroundMaterial;
     }
 
     public boolean isDeveloperMode() {
@@ -1007,36 +1007,36 @@ public class WatchFaceState {
             // There's probably a cleaner way of doing this. We'll come back to it...
             switch (split[2]) {
                 case "0": {
-                    setSwatchStyle(TextStyle.FILL);
+                    setSwatchTextStyle(TextStyle.FILL);
                     break;
                 }
                 case "1": {
-                    setSwatchStyle(TextStyle.ACCENT);
+                    setSwatchTextStyle(TextStyle.ACCENT);
                     break;
                 }
                 case "2": {
-                    setSwatchStyle(TextStyle.HIGHLIGHT);
+                    setSwatchTextStyle(TextStyle.HIGHLIGHT);
                     break;
                 }
                 case "3": {
-                    setSwatchStyle(TextStyle.BASE);
+                    setSwatchTextStyle(TextStyle.BASE);
                     break;
                 }
                 case "4": {
-                    setSwatchStyle(Style.FILL_HIGHLIGHT);
+                    setSwatchMaterial(Material.FILL_HIGHLIGHT);
                     break;
                 }
                 case "5": {
-                    setSwatchStyle(Style.ACCENT_FILL);
+                    setSwatchMaterial(Material.ACCENT_FILL);
                     break;
                 }
                 case "6": {
-                    setSwatchStyle(Style.ACCENT_HIGHLIGHT);
+                    setSwatchMaterial(Material.ACCENT_HIGHLIGHT);
                     break;
                 }
                 default:
                 case "7": {
-                    setSwatchStyle(Style.BASE_ACCENT);
+                    setSwatchMaterial(Material.BASE_ACCENT);
                     break;
                 }
             }
@@ -1045,8 +1045,8 @@ public class WatchFaceState {
     }
 
     @NonNull
-    public Style getBackgroundStyle() {
-        return Style.BASE_ACCENT; // Hard-coded!
+    public Material getBackgroundMaterial() {
+        return Material.BASE_ACCENT; // Hard-coded!
     }
 
     public HandShape getHourHandShape() {
@@ -1133,32 +1133,32 @@ public class WatchFaceState {
         mWatchFacePreset.mSecondHandThickness = secondHandThickness;
     }
 
-    public Style getHourHandStyle() {
-        return mWatchFacePreset.mHourHandStyle;
+    public Material getHourHandMaterial() {
+        return mWatchFacePreset.mHourHandMaterial;
     }
 
-    void setHourHandStyle(Style hourHandStyle) {
-        mWatchFacePreset.mHourHandStyle = hourHandStyle;
+    void setHourHandMaterial(Material hourHandMaterial) {
+        mWatchFacePreset.mHourHandMaterial = hourHandMaterial;
     }
 
     @NonNull
-    private Style getStyle(
-            @NonNull Style handStyle, @NonNull HandCutoutCombination handCutoutCombination) {
+    private Material getMaterial(
+            @NonNull Material handMaterial, @NonNull HandCutoutCombination handCutoutCombination) {
         switch (handCutoutCombination) {
             default:
             case NONE: {
                 // No effect.
-                return handStyle;
+                return handMaterial;
             }
             case TIP_PLUS_ONE:
             case TIP_STALK_PLUS_ONE:
             case HAND_PLUS_ONE:
             case STALK_PLUS_ONE:
             case HAND_STALK_PLUS_ONE: {
-                if (handStyle.equals(Style.FILL_HIGHLIGHT)) {
-                    return Style.ACCENT_FILL;
+                if (handMaterial.equals(Material.FILL_HIGHLIGHT)) {
+                    return Material.ACCENT_FILL;
                 } else {
-                    return Style.FILL_HIGHLIGHT;
+                    return Material.FILL_HIGHLIGHT;
                 }
             }
             case TIP_PLUS_TWO:
@@ -1166,11 +1166,11 @@ public class WatchFaceState {
             case HAND_PLUS_TWO:
             case STALK_PLUS_TWO:
             case HAND_STALK_PLUS_TWO: {
-                if (handStyle.equals(Style.FILL_HIGHLIGHT) ||
-                        handStyle.equals(Style.ACCENT_FILL)) {
-                    return Style.ACCENT_HIGHLIGHT;
+                if (handMaterial.equals(Material.FILL_HIGHLIGHT) ||
+                        handMaterial.equals(Material.ACCENT_FILL)) {
+                    return Material.ACCENT_HIGHLIGHT;
                 } else {
-                    return Style.ACCENT_FILL;
+                    return Material.ACCENT_FILL;
                 }
             }
             case TIP_PLUS_THREE:
@@ -1178,10 +1178,10 @@ public class WatchFaceState {
             case HAND_PLUS_THREE:
             case STALK_PLUS_THREE:
             case HAND_STALK_PLUS_THREE: {
-                if (handStyle.equals(Style.BASE_ACCENT)) {
-                    return Style.ACCENT_HIGHLIGHT;
+                if (handMaterial.equals(Material.BASE_ACCENT)) {
+                    return Material.ACCENT_HIGHLIGHT;
                 } else {
-                    return Style.BASE_ACCENT;
+                    return Material.BASE_ACCENT;
                 }
             }
         }
@@ -1190,8 +1190,8 @@ public class WatchFaceState {
     @NonNull
     private HandCutoutCombination setHandCutoutCombination(
             @NonNull HandCutoutShape handCutoutShape,
-            @NonNull HandCutoutStyle handCutoutStyle) {
-        switch (handCutoutStyle) {
+            @NonNull HandCutoutMaterial handCutoutMaterial) {
+        switch (handCutoutMaterial) {
             default:
             case PLUS_ONE: {
                 switch (handCutoutShape) {
@@ -1257,7 +1257,7 @@ public class WatchFaceState {
     }
 
     @NonNull
-    private HandCutoutStyle getHandCutoutStyle(
+    private HandCutoutMaterial getHandCutoutMaterial(
             @NonNull HandCutoutCombination handCutoutCombination) {
         switch (handCutoutCombination) {
             default:
@@ -1267,21 +1267,21 @@ public class WatchFaceState {
             case STALK_PLUS_ONE:
             case HAND_STALK_PLUS_ONE:
             case NONE: {
-                return HandCutoutStyle.PLUS_ONE;
+                return HandCutoutMaterial.PLUS_ONE;
             }
             case TIP_PLUS_TWO:
             case TIP_STALK_PLUS_TWO:
             case HAND_PLUS_TWO:
             case STALK_PLUS_TWO:
             case HAND_STALK_PLUS_TWO: {
-                return HandCutoutStyle.PLUS_TWO;
+                return HandCutoutMaterial.PLUS_TWO;
             }
             case TIP_PLUS_THREE:
             case TIP_STALK_PLUS_THREE:
             case HAND_PLUS_THREE:
             case STALK_PLUS_THREE:
             case HAND_STALK_PLUS_THREE: {
-                return HandCutoutStyle.PLUS_THREE;
+                return HandCutoutMaterial.PLUS_THREE;
             }
         }
     }
@@ -1355,28 +1355,28 @@ public class WatchFaceState {
     }
 
     @NonNull
-    public Style getHourHandCutoutStyleAsStyle() {
-        return getStyle(mWatchFacePreset.mHourHandStyle, mWatchFacePreset.mHourHandCutoutCombination);
+    public Material getHourHandCutoutMaterialAsMaterial() {
+        return getMaterial(mWatchFacePreset.mHourHandMaterial, mWatchFacePreset.mHourHandCutoutCombination);
     }
 
     @NonNull
-    HandCutoutStyle getHourHandCutoutStyle() {
-        return getHandCutoutStyle(mWatchFacePreset.mHourHandCutoutCombination);
+    HandCutoutMaterial getHourHandCutoutMaterial() {
+        return getHandCutoutMaterial(mWatchFacePreset.mHourHandCutoutCombination);
     }
 
-    void setHourHandCutoutStyle(@NonNull HandCutoutStyle hourHandCutoutStyle) {
+    void setHourHandCutoutMaterial(@NonNull HandCutoutMaterial hourHandCutoutMaterial) {
         mWatchFacePreset.mHourHandCutoutCombination = setHandCutoutCombination(
                 getHandCutoutShape(mWatchFacePreset.mHourHandCutoutCombination),
-                hourHandCutoutStyle);
+                hourHandCutoutMaterial);
     }
 
-    public Style getMinuteHandStyle() {
+    public Material getMinuteHandMaterial() {
         return mWatchFacePreset.mMinuteHandOverride ?
-                mWatchFacePreset.mMinuteHandStyle : mWatchFacePreset.mHourHandStyle;
+                mWatchFacePreset.mMinuteHandMaterial : mWatchFacePreset.mHourHandMaterial;
     }
 
-    void setMinuteHandStyle(Style minuteHandStyle) {
-        mWatchFacePreset.mMinuteHandStyle = minuteHandStyle;
+    void setMinuteHandMaterial(Material minuteHandMaterial) {
+        mWatchFacePreset.mMinuteHandMaterial = minuteHandMaterial;
     }
 
     void setMinuteHandCutout(boolean minuteHandCutout) {
@@ -1414,32 +1414,32 @@ public class WatchFaceState {
     }
 
     @NonNull
-    public Style getMinuteHandCutoutStyleAsStyle() {
+    public Material getMinuteHandCutoutMaterialAsMaterial() {
         return mWatchFacePreset.mMinuteHandOverride ?
-                getStyle(mWatchFacePreset.mMinuteHandStyle,
+                getMaterial(mWatchFacePreset.mMinuteHandMaterial,
                         mWatchFacePreset.mMinuteHandCutoutCombination) :
-                getHourHandCutoutStyleAsStyle();
+                getHourHandCutoutMaterialAsMaterial();
     }
 
     @NonNull
-    HandCutoutStyle getMinuteHandCutoutStyle() {
+    HandCutoutMaterial getMinuteHandCutoutMaterial() {
         return mWatchFacePreset.mMinuteHandOverride ?
-                getHandCutoutStyle(mWatchFacePreset.mMinuteHandCutoutCombination) :
-                getHourHandCutoutStyle();
+                getHandCutoutMaterial(mWatchFacePreset.mMinuteHandCutoutCombination) :
+                getHourHandCutoutMaterial();
     }
 
-    void setMinuteHandCutoutStyle(@NonNull HandCutoutStyle minuteHandCutoutStyle) {
+    void setMinuteHandCutoutMaterial(@NonNull HandCutoutMaterial minuteHandCutoutMaterial) {
         mWatchFacePreset.mMinuteHandCutoutCombination = setHandCutoutCombination(
                 getHandCutoutShape(mWatchFacePreset.mMinuteHandCutoutCombination),
-                minuteHandCutoutStyle);
+                minuteHandCutoutMaterial);
     }
 
-    void setBackgroundStyle(Style backgroundStyle) {
-//        mWatchFacePreset.mBackgroundStyle = backgroundStyle;
+    void setBackgroundMaterial(Material backgroundMaterial) {
+//        mWatchFacePreset.mBackgroundMaterial = backgroundMaterial;
     }
 
-    void setSecondHandStyle(Style secondHandStyle) {
-        mWatchFacePreset.mSecondHandStyle = secondHandStyle;
+    void setSecondHandMaterial(Material secondHandMaterial) {
+        mWatchFacePreset.mSecondHandMaterial = secondHandMaterial;
     }
 
     TicksDisplay getTicksDisplay() {
@@ -1523,50 +1523,50 @@ public class WatchFaceState {
         mWatchFacePreset.mTickMargin = tickMargin;
     }
 
-    public Style getFourTickStyle() {
-        return mWatchFacePreset.mFourTickStyle;
+    public Material getFourTickMaterial() {
+        return mWatchFacePreset.mFourTickMaterial;
     }
 
-    void setFourTickStyle(Style fourTickStyle) {
-        mWatchFacePreset.mFourTickStyle = fourTickStyle;
+    void setFourTickMaterial(Material fourTickMaterial) {
+        mWatchFacePreset.mFourTickMaterial = fourTickMaterial;
     }
 
-    public Style getTwelveTickStyle() {
+    public Material getTwelveTickMaterial() {
         return mWatchFacePreset.mTwelveTickOverride ?
-                mWatchFacePreset.mTwelveTickStyle : mWatchFacePreset.mFourTickStyle;
+                mWatchFacePreset.mTwelveTickMaterial : mWatchFacePreset.mFourTickMaterial;
     }
 
-    void setTwelveTickStyle(Style twelveTickStyle) {
-        mWatchFacePreset.mTwelveTickStyle = twelveTickStyle;
+    void setTwelveTickMaterial(Material twelveTickMaterial) {
+        mWatchFacePreset.mTwelveTickMaterial = twelveTickMaterial;
     }
 
-    public Style getSixtyTickStyle() {
+    public Material getSixtyTickMaterial() {
         return mWatchFacePreset.mSixtyTickOverride ?
-                mWatchFacePreset.mSixtyTickStyle : mWatchFacePreset.mFourTickStyle;
+                mWatchFacePreset.mSixtyTickMaterial : mWatchFacePreset.mFourTickMaterial;
     }
 
-    void setSixtyTickStyle(Style sixtyTickStyle) {
-        mWatchFacePreset.mSixtyTickStyle = sixtyTickStyle;
+    void setSixtyTickMaterial(Material sixtyTickMaterial) {
+        mWatchFacePreset.mSixtyTickMaterial = sixtyTickMaterial;
     }
 
-    public Style getTickBackgroundStyle() {
-        return mWatchFacePreset.mTickBackgroundStyle;
+    public Material getTickBackgroundMaterial() {
+        return mWatchFacePreset.mTickBackgroundMaterial;
     }
 
-    void setTickBackgroundStyle(Style tickBackgroundStyle) {
-        mWatchFacePreset.mTickBackgroundStyle = tickBackgroundStyle;
+    void setTickBackgroundMaterial(Material tickBackgroundMaterial) {
+        mWatchFacePreset.mTickBackgroundMaterial = tickBackgroundMaterial;
     }
 
     boolean isDigitVisible() {
         return getDigitDisplay() != DigitDisplay.NONE;
     }
 
-    public Style getDigitStyle() {
-        return mWatchFacePreset.mDigitStyle;
+    public Material getDigitMaterial() {
+        return mWatchFacePreset.mDigitMaterial;
     }
 
-    void setDigitStyle(Style digitStyle) {
-        mWatchFacePreset.mDigitStyle = digitStyle;
+    void setDigitMaterial(Material digitMaterial) {
+        mWatchFacePreset.mDigitMaterial = digitMaterial;
     }
 
     public DigitDisplay getDigitDisplay() {
@@ -1643,83 +1643,83 @@ public class WatchFaceState {
         mWatchFacePreset.mDigitFormat = digitFormat;
     }
 
-    StyleGradient getFillHighlightStyleGradient() {
-        return mWatchFacePreset.mFillHighlightStyleGradient;
+    MaterialGradient getFillHighlightMaterialGradient() {
+        return mWatchFacePreset.mFillHighlightMaterialGradient;
     }
 
-    void setFillHighlightStyleGradient(StyleGradient fillHighlightStyleGradient) {
-        mWatchFacePreset.mFillHighlightStyleGradient = fillHighlightStyleGradient;
-        setSwatchStyle(Style.FILL_HIGHLIGHT);
+    void setFillHighlightMaterialGradient(MaterialGradient fillHighlightMaterialGradient) {
+        mWatchFacePreset.mFillHighlightMaterialGradient = fillHighlightMaterialGradient;
+        setSwatchMaterial(Material.FILL_HIGHLIGHT);
         regeneratePaints();
     }
 
-    StyleGradient getAccentFillStyleGradient() {
-        return mWatchFacePreset.mAccentFillStyleGradient;
+    MaterialGradient getAccentFillMaterialGradient() {
+        return mWatchFacePreset.mAccentFillMaterialGradient;
     }
 
-    void setAccentFillStyleGradient(StyleGradient accentFillStyleGradient) {
-        mWatchFacePreset.mAccentFillStyleGradient = accentFillStyleGradient;
-        setSwatchStyle(Style.ACCENT_FILL);
+    void setAccentFillMaterialGradient(MaterialGradient accentFillMaterialGradient) {
+        mWatchFacePreset.mAccentFillMaterialGradient = accentFillMaterialGradient;
+        setSwatchMaterial(Material.ACCENT_FILL);
         regeneratePaints();
     }
 
-    StyleGradient getAccentHighlightStyleGradient() {
-        return mWatchFacePreset.mAccentHighlightStyleGradient;
+    MaterialGradient getAccentHighlightMaterialGradient() {
+        return mWatchFacePreset.mAccentHighlightMaterialGradient;
     }
 
-    void setAccentHighlightStyleGradient(StyleGradient accentHighlightStyleGradient) {
-        mWatchFacePreset.mAccentHighlightStyleGradient = accentHighlightStyleGradient;
-        setSwatchStyle(Style.ACCENT_HIGHLIGHT);
+    void setAccentHighlightMaterialGradient(MaterialGradient accentHighlightMaterialGradient) {
+        mWatchFacePreset.mAccentHighlightMaterialGradient = accentHighlightMaterialGradient;
+        setSwatchMaterial(Material.ACCENT_HIGHLIGHT);
         regeneratePaints();
     }
 
-    StyleGradient getBaseAccentStyleGradient() {
-        return mWatchFacePreset.mBaseAccentStyleGradient;
+    MaterialGradient getBaseAccentMaterialGradient() {
+        return mWatchFacePreset.mBaseAccentMaterialGradient;
     }
 
-    void setBaseAccentStyleGradient(StyleGradient baseAccentStyleGradient) {
-        mWatchFacePreset.mBaseAccentStyleGradient = baseAccentStyleGradient;
-        setSwatchStyle(Style.BASE_ACCENT);
+    void setBaseAccentMaterialGradient(MaterialGradient baseAccentMaterialGradient) {
+        mWatchFacePreset.mBaseAccentMaterialGradient = baseAccentMaterialGradient;
+        setSwatchMaterial(Material.BASE_ACCENT);
         regeneratePaints();
     }
 
-    StyleTexture getFillHighlightStyleTexture() {
-        return mWatchFacePreset.mFillHighlightStyleTexture;
+    MaterialTexture getFillHighlightMaterialTexture() {
+        return mWatchFacePreset.mFillHighlightMaterialTexture;
     }
 
-    void setFillHighlightStyleTexture(StyleTexture fillHighlightStyleTexture) {
-        mWatchFacePreset.mFillHighlightStyleTexture = fillHighlightStyleTexture;
-        setSwatchStyle(Style.FILL_HIGHLIGHT);
+    void setFillHighlightMaterialTexture(MaterialTexture fillHighlightMaterialTexture) {
+        mWatchFacePreset.mFillHighlightMaterialTexture = fillHighlightMaterialTexture;
+        setSwatchMaterial(Material.FILL_HIGHLIGHT);
         regeneratePaints();
     }
 
-    StyleTexture getAccentFillStyleTexture() {
-        return mWatchFacePreset.mAccentFillStyleTexture;
+    MaterialTexture getAccentFillMaterialTexture() {
+        return mWatchFacePreset.mAccentFillMaterialTexture;
     }
 
-    void setAccentFillStyleTexture(StyleTexture accentFillStyleTexture) {
-        mWatchFacePreset.mAccentFillStyleTexture = accentFillStyleTexture;
-        setSwatchStyle(Style.ACCENT_FILL);
+    void setAccentFillMaterialTexture(MaterialTexture accentFillMaterialTexture) {
+        mWatchFacePreset.mAccentFillMaterialTexture = accentFillMaterialTexture;
+        setSwatchMaterial(Material.ACCENT_FILL);
         regeneratePaints();
     }
 
-    StyleTexture getAccentHighlightStyleTexture() {
-        return mWatchFacePreset.mAccentHighlightStyleTexture;
+    MaterialTexture getAccentHighlightMaterialTexture() {
+        return mWatchFacePreset.mAccentHighlightMaterialTexture;
     }
 
-    void setAccentHighlightStyleTexture(StyleTexture accentHighlightStyleTexture) {
-        mWatchFacePreset.mAccentHighlightStyleTexture = accentHighlightStyleTexture;
-        setSwatchStyle(Style.ACCENT_HIGHLIGHT);
+    void setAccentHighlightMaterialTexture(MaterialTexture accentHighlightMaterialTexture) {
+        mWatchFacePreset.mAccentHighlightMaterialTexture = accentHighlightMaterialTexture;
+        setSwatchMaterial(Material.ACCENT_HIGHLIGHT);
         regeneratePaints();
     }
 
-    StyleTexture getBaseAccentStyleTexture() {
-        return mWatchFacePreset.mBaseAccentStyleTexture;
+    MaterialTexture getBaseAccentMaterialTexture() {
+        return mWatchFacePreset.mBaseAccentMaterialTexture;
     }
 
-    void setBaseAccentStyleTexture(StyleTexture baseAccentStyleTexture) {
-        mWatchFacePreset.mBaseAccentStyleTexture = baseAccentStyleTexture;
-        setSwatchStyle(Style.BASE_ACCENT);
+    void setBaseAccentMaterialTexture(MaterialTexture baseAccentMaterialTexture) {
+        mWatchFacePreset.mBaseAccentMaterialTexture = baseAccentMaterialTexture;
+        setSwatchMaterial(Material.BASE_ACCENT);
         regeneratePaints();
     }
 
@@ -1748,7 +1748,7 @@ public class WatchFaceState {
     void setHourHandCutoutShape(@NonNull HandCutoutShape hourHandCutoutShape) {
         mWatchFacePreset.mHourHandCutoutCombination = setHandCutoutCombination(
                 hourHandCutoutShape,
-                getHandCutoutStyle(mWatchFacePreset.mHourHandCutoutCombination));
+                getHandCutoutMaterial(mWatchFacePreset.mHourHandCutoutCombination));
     }
 
     @NonNull
@@ -1761,7 +1761,7 @@ public class WatchFaceState {
     void setMinuteHandCutoutShape(@NonNull HandCutoutShape minuteHandCutoutShape) {
         mWatchFacePreset.mMinuteHandCutoutCombination = setHandCutoutCombination(
                 minuteHandCutoutShape,
-                getHandCutoutStyle(mWatchFacePreset.mMinuteHandCutoutCombination));
+                getHandCutoutMaterial(mWatchFacePreset.mMinuteHandCutoutCombination));
     }
 
     private int getFillSixBitColor() {
@@ -1807,10 +1807,10 @@ public class WatchFaceState {
                 getFillSixBitColor(), getAccentSixBitColor(),
                 getHighlightSixBitColor(), getBaseSixBitColor(),
                 getAmbientDaySixBitColor(), getAmbientNightSixBitColor(),
-                getFillHighlightStyleGradient(), getAccentFillStyleGradient(),
-                getAccentHighlightStyleGradient(), getBaseAccentStyleGradient(),
-                getFillHighlightStyleTexture(), getAccentFillStyleTexture(),
-                getAccentHighlightStyleTexture(), getBaseAccentStyleTexture(),
+                getFillHighlightMaterialGradient(), getAccentFillMaterialGradient(),
+                getAccentHighlightMaterialGradient(), getBaseAccentMaterialGradient(),
+                getFillHighlightMaterialTexture(), getAccentFillMaterialTexture(),
+                getAccentHighlightMaterialTexture(), getBaseAccentMaterialTexture(),
                 getDigitSize(),
                 getTypefaceObject());
     }
@@ -1935,31 +1935,31 @@ public class WatchFaceState {
     // endregion
 
     @NonNull
-    public Style getSecondHandStyle() {
+    public Material getSecondHandMaterial() {
         // If not overridden, the default is just a plain and regular second hand.
         return mWatchFacePreset.mSecondHandOverride ?
-                mWatchFacePreset.mSecondHandStyle : Style.ACCENT_HIGHLIGHT;
+                mWatchFacePreset.mSecondHandMaterial : Material.ACCENT_HIGHLIGHT;
     }
 
     @NonNull
     public Paint getSwatchPaint() {
-        if (mSwatchStyle != null) {
-            return getPaintBox().getPaintFromPreset(mSwatchStyle);
+        if (mSwatchMaterial != null) {
+            return getPaintBox().getPaintFromPreset(mSwatchMaterial);
         } else if (mSwatchTextStyle != null) {
             return getPaintBox().getPaintFromPreset(mSwatchTextStyle);
         } else {
             // Default option...
-            return getPaintBox().getPaintFromPreset(Style.BASE_ACCENT);
+            return getPaintBox().getPaintFromPreset(Material.BASE_ACCENT);
         }
     }
 
-    void setSwatchStyle(@NonNull TextStyle swatchTextStyle) {
-        mSwatchStyle = null;
+    void setSwatchTextStyle(@NonNull TextStyle swatchTextStyle) {
+        mSwatchMaterial = null;
         mSwatchTextStyle = swatchTextStyle;
     }
 
-    void setSwatchStyle(@NonNull Style swatchStyle) {
-        mSwatchStyle = swatchStyle;
+    void setSwatchMaterial(@NonNull Material swatchMaterial) {
+        mSwatchMaterial = swatchMaterial;
         mSwatchTextStyle = null;
     }
     // endregion
@@ -2026,8 +2026,8 @@ public class WatchFaceState {
 
     public float getDigitBandHeight(float pc) {
         String[] labels = getDigitFormatLabels();
-        Style style = getDigitStyle();
-        Paint paint = getPaintBox().getPaintFromPreset(style);
+        Material material = getDigitMaterial();
+        Paint paint = getPaintBox().getPaintFromPreset(material);
         float result = 0f;
 
         for (int i = 0; i < 12; i++) {
@@ -2353,43 +2353,43 @@ public class WatchFaceState {
     // endregion
 
     @NonNull
-    List<String> getConfigItemLabelsSetToStyle(@Nullable Style style) {
+    List<String> getConfigItemLabelsSetToMaterial(@Nullable Material material) {
         List<String> result = new ArrayList<>();
-        if (getComplicationRingStyle() == style) {
-            result.add(getStringResource(R.string.config_complication_ring_style));
+        if (getComplicationRingMaterial() == material) {
+            result.add(getStringResource(R.string.config_complication_ring_material));
         }
-        if (getComplicationBackgroundStyle() == style) {
-            result.add(getStringResource(R.string.config_complication_background_style));
+        if (getComplicationBackgroundMaterial() == material) {
+            result.add(getStringResource(R.string.config_complication_background_material));
         }
-        if (Style.ACCENT_FILL == style) {
-            result.add(getStringResource(R.string.config_preset_bezel_style));
+        if (Material.ACCENT_FILL == material) {
+            result.add(getStringResource(R.string.config_preset_bezel_material));
         }
-        if (Style.BASE_ACCENT == style) {
-            result.add(getStringResource(R.string.config_preset_background_style));
+        if (Material.BASE_ACCENT == material) {
+            result.add(getStringResource(R.string.config_preset_background_material));
         }
-        if (getHourHandStyle() == style) {
-            result.add(getStringResource(R.string.config_preset_hour_hand_style));
+        if (getHourHandMaterial() == material) {
+            result.add(getStringResource(R.string.config_preset_hour_hand_material));
         }
-        if (getMinuteHandStyle() == style) {
-            result.add(getStringResource(R.string.config_preset_minute_hand_style));
+        if (getMinuteHandMaterial() == material) {
+            result.add(getStringResource(R.string.config_preset_minute_hand_material));
         }
-        if (getComplicationBackgroundStyle() == style) {
-            result.add(getStringResource(R.string.config_preset_second_hand_style));
+        if (getComplicationBackgroundMaterial() == material) {
+            result.add(getStringResource(R.string.config_preset_second_hand_material));
         }
-        if (getTickBackgroundStyle() == style) {
-            result.add(getStringResource(R.string.config_preset_tick_background_style));
+        if (getTickBackgroundMaterial() == material) {
+            result.add(getStringResource(R.string.config_preset_tick_background_material));
         }
-        if (getDigitStyle() == style) {
-            result.add(getStringResource(R.string.config_preset_digit_style));
+        if (getDigitMaterial() == material) {
+            result.add(getStringResource(R.string.config_preset_digit_material));
         }
-        if (getFourTickStyle() == style) {
-            result.add(getStringResource(R.string.config_preset_four_tick_style));
+        if (getFourTickMaterial() == material) {
+            result.add(getStringResource(R.string.config_preset_four_tick_material));
         }
-        if (getTwelveTickStyle() == style) {
-            result.add(getStringResource(R.string.config_preset_twelve_tick_style));
+        if (getTwelveTickMaterial() == material) {
+            result.add(getStringResource(R.string.config_preset_twelve_tick_material));
         }
-        if (getSixtyTickStyle() == style) {
-            result.add(getStringResource(R.string.config_preset_sixty_tick_style));
+        if (getSixtyTickMaterial() == material) {
+            result.add(getStringResource(R.string.config_preset_sixty_tick_material));
         }
         return result;
     }

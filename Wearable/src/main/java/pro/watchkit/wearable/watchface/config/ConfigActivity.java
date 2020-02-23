@@ -55,7 +55,7 @@ import androidx.wear.widget.drawer.WearableNavigationDrawerView;
 import java.util.Arrays;
 
 import pro.watchkit.wearable.watchface.R;
-import pro.watchkit.wearable.watchface.model.ColorsStylesConfigData;
+import pro.watchkit.wearable.watchface.model.ColorsMaterialsConfigData;
 import pro.watchkit.wearable.watchface.model.ComplicationConfigData;
 import pro.watchkit.wearable.watchface.model.ConfigData;
 import pro.watchkit.wearable.watchface.model.SettingsConfigData;
@@ -232,7 +232,7 @@ public class ConfigActivity extends Activity {
         WatchFacePresets(WatchFacePresetConfigData.class, R.string.config_configure_watch_face_preset, R.drawable.ic_hands_ticks),
         Complications(ComplicationConfigData.class, R.string.config_configure_complications, R.drawable.ic_complications),
         // N.B. As a shortcut, put items NOT in the NavigationAdapter at the end of this list.
-        ColorsStyles(ColorsStylesConfigData.class, R.string.config_configure_colors_styles, -1),
+        ColorsMaterials(ColorsMaterialsConfigData.class, R.string.config_configure_colors_materials, -1),
         WatchPartHands(WatchPartHandsConfigData.class, R.string.config_configure_hands, -1),
         WatchPartTicks(WatchPartTicksConfigData.class, R.string.config_configure_ticks, -1),
         Typeface(TypefaceConfigData.class, R.string.config_configure_typeface, -1);

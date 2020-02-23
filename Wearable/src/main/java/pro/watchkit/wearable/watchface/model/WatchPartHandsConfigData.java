@@ -32,7 +32,7 @@ public class WatchPartHandsConfigData extends ConfigData {
     public List<ConfigItemType> getDataToPopulateAdapter() {
         int watchFaceGlobalDrawableFlags = WatchFaceGlobalDrawable.PART_BACKGROUND |
                 WatchFaceGlobalDrawable.PART_HANDS;
-        int watchFaceGlobalDrawableFlagsStyle = watchFaceGlobalDrawableFlags |
+        int watchFaceGlobalDrawableFlagsSwatch = watchFaceGlobalDrawableFlags |
                 WatchFaceGlobalDrawable.PART_SWATCH;
 
         return Arrays.asList(
@@ -86,16 +86,16 @@ public class WatchPartHandsConfigData extends ConfigData {
                                 WatchFaceState::setHourHandStalk,
                                 WatchFaceState::getHourHandStalk)),
 
-                // Data for hour hand style in settings Activity.
+                // Data for hour hand material in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_hour_hand_style,
+                        R.string.config_preset_hour_hand_material,
                         R.drawable.ic_hands,
-                        watchFaceGlobalDrawableFlagsStyle,
+                        watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.Style.values(),
-                                WatchFaceState::setHourHandStyle,
-                                WatchFaceState::getHourHandStyle)),
+                                BytePackable.Material.values(),
+                                WatchFaceState::setHourHandMaterial,
+                                WatchFaceState::getHourHandMaterial)),
 
                 // Data for hour hand cutout in settings Activity.
                 new ToggleConfigItem(
@@ -116,16 +116,16 @@ public class WatchPartHandsConfigData extends ConfigData {
                                 WatchFaceState::getHourHandCutoutShape),
                         WatchFaceState::isHourHandCutout),
 
-                // Data for hour hand cutout style in settings Activity.
+                // Data for hour hand cutout material in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_hour_hand_cutout_style,
+                        R.string.config_preset_hour_hand_cutout_material,
                         R.drawable.ic_hands,
-                        watchFaceGlobalDrawableFlagsStyle,
+                        watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.HandCutoutStyle.values(),
-                                WatchFaceState::setHourHandCutoutStyle,
-                                WatchFaceState::getHourHandCutoutStyle),
+                                BytePackable.HandCutoutMaterial.values(),
+                                WatchFaceState::setHourHandCutoutMaterial,
+                                WatchFaceState::getHourHandCutoutMaterial),
                         WatchFaceState::isHourHandCutout),
 
                 // Data for minute hand override in settings Activity.
@@ -183,16 +183,16 @@ public class WatchPartHandsConfigData extends ConfigData {
                                 WatchFaceState::getMinuteHandStalk),
                         WatchFaceState::isMinuteHandOverridden),
 
-                // Data for minute hand style in settings Activity.
+                // Data for minute hand material in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_minute_hand_style,
+                        R.string.config_preset_minute_hand_material,
                         R.drawable.ic_hands,
-                        watchFaceGlobalDrawableFlagsStyle,
+                        watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.Style.values(),
-                                WatchFaceState::setMinuteHandStyle,
-                                WatchFaceState::getMinuteHandStyle),
+                                BytePackable.Material.values(),
+                                WatchFaceState::setMinuteHandMaterial,
+                                WatchFaceState::getMinuteHandMaterial),
                         WatchFaceState::isMinuteHandOverridden),
 
                 // Data for minute hand cutout in settings Activity.
@@ -215,16 +215,16 @@ public class WatchPartHandsConfigData extends ConfigData {
                                 WatchFaceState::getMinuteHandCutoutShape),
                         WatchFaceState::isMinuteHandOverriddenAndCutout),
 
-                // Data for minute hand cutout style in settings Activity.
+                // Data for minute hand cutout material in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_minute_hand_cutout_style,
+                        R.string.config_preset_minute_hand_cutout_material,
                         R.drawable.ic_hands,
-                        watchFaceGlobalDrawableFlagsStyle,
+                        watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.HandCutoutStyle.values(),
-                                WatchFaceState::setMinuteHandCutoutStyle,
-                                WatchFaceState::getMinuteHandCutoutStyle),
+                                BytePackable.HandCutoutMaterial.values(),
+                                WatchFaceState::setMinuteHandCutoutMaterial,
+                                WatchFaceState::getMinuteHandCutoutMaterial),
                         WatchFaceState::isMinuteHandOverriddenAndCutout),
 
                 // Data for second hand override in settings Activity.
@@ -271,16 +271,16 @@ public class WatchPartHandsConfigData extends ConfigData {
                                 WatchFaceState::getSecondHandThickness),
                         WatchFaceState::isSecondHandOverridden),
 
-                // Data for second hand style in settings Activity.
+                // Data for second hand material in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_second_hand_style,
+                        R.string.config_preset_second_hand_material,
                         R.drawable.ic_hands,
-                        watchFaceGlobalDrawableFlagsStyle,
+                        watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.Style.values(),
-                                WatchFaceState::setSecondHandStyle,
-                                WatchFaceState::getSecondHandStyle),
+                                BytePackable.Material.values(),
+                                WatchFaceState::setSecondHandMaterial,
+                                WatchFaceState::getSecondHandMaterial),
                         WatchFaceState::isSecondHandOverridden)
         );
     }

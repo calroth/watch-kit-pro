@@ -39,7 +39,7 @@ import android.graphics.Path;
 
 import androidx.annotation.NonNull;
 
-import pro.watchkit.wearable.watchface.model.BytePackable.Style;
+import pro.watchkit.wearable.watchface.model.BytePackable.Material;
 
 class WatchPartTickBackgroundDrawable extends WatchPartDrawable {
     @NonNull
@@ -61,7 +61,7 @@ class WatchPartTickBackgroundDrawable extends WatchPartDrawable {
         }
 
         // Draw the tick background ring if we asked for one!
-        if (mWatchFaceState.getTickBackgroundStyle() == Style.BASE_ACCENT) {
+        if (mWatchFaceState.getTickBackgroundMaterial() == Material.BASE_ACCENT) {
             // The overall watch background is Style.BASE_ACCENT.
             // If the tick ring is too, skip it. Otherwise draw something!
             return;
@@ -88,6 +88,6 @@ class WatchPartTickBackgroundDrawable extends WatchPartDrawable {
         // Punch the circle from the big rectangle and draw it.
         p.op(p2, Path.Op.DIFFERENCE);
         drawPath(canvas, p, mWatchFaceState.getPaintBox().getPaintFromPreset(
-                mWatchFaceState.getTickBackgroundStyle()));
+                mWatchFaceState.getTickBackgroundMaterial()));
     }
 }

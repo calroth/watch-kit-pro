@@ -105,7 +105,7 @@
     <string name="config_configure_settings">Configure Settings</string>
     <string name="config_configure_complications">Configure Complications</string>
     <string name="config_configure_watch_face_preset">Configure Watch Face Preset</string>
-    <string name="config_configure_colors_styles">Configure Colors and Styles</string>
+    <string name="config_configure_colors_materials">Configure Colors and Materials</string>
     <string name="config_configure_hands">Configure Hands</string>
     <string name="config_configure_ticks">Configure Ticks</string>
     <string name="config_configure_typeface">Configure Typeface</string>
@@ -116,69 +116,69 @@
     <string name="config_complication_size">Complication Size</string>
     <string name="config_complication_scale">Complication Scale</string>
     <string name="config_complication_text_style">Complication Text Style</string>
-    <string name="config_complication_ring_style">Complication Ring Style</string>
-    <string name="config_complication_background_style">Complication Background Style</string>
+    <string name="config_complication_ring_material">Complication Ring Material</string>
+    <string name="config_complication_background_material">Complication Background Material</string>
 
     <string name="config_preset_hour_hand_shape">Hour Hand Shape</string>
     <string name="config_preset_hour_hand_length">Hour Hand Length</string>
     <string name="config_preset_hour_hand_thickness">Hour Hand Thickness</string>
     <string name="config_preset_hour_hand_stalk">Hour Hand Stalk</string>
-    <string name="config_preset_hour_hand_style">Hour Hand Style</string>
+    <string name="config_preset_hour_hand_material">Hour Hand Material</string>
     <string name="config_preset_hour_hand_cutout">Hour Hand Cutout</string>
     <string name="config_preset_hour_hand_cutout_shape">Hour Hand Cutout Shape</string>
-    <string name="config_preset_hour_hand_cutout_style">Hour Hand Cutout Style</string>
+    <string name="config_preset_hour_hand_cutout_material">Hour Hand Cutout Material</string>
 
     <string name="config_preset_minute_hand_override">Minute Hand Override</string>
     <string name="config_preset_minute_hand_shape">Minute Hand Shape</string>
     <string name="config_preset_minute_hand_length">Minute Hand Length</string>
     <string name="config_preset_minute_hand_thickness">Minute Hand Thickness</string>
     <string name="config_preset_minute_hand_stalk">Minute Hand Stalk</string>
-    <string name="config_preset_minute_hand_style">Minute Hand Style</string>
+    <string name="config_preset_minute_hand_material">Minute Hand Material</string>
     <string name="config_preset_minute_hand_cutout">Minute Hand Cutout</string>
     <string name="config_preset_minute_hand_cutout_shape">Minute Hand Cutout Shape</string>
-    <string name="config_preset_minute_hand_cutout_style">Minute Hand Cutout Style</string>
+    <string name="config_preset_minute_hand_cutout_material">Minute Hand Cutout Material</string>
 
     <string name="config_preset_second_hand_override">Second Hand Override</string>
     <string name="config_preset_second_hand_shape">Second Hand Shape</string>
     <string name="config_preset_second_hand_length">Second Hand Length</string>
     <string name="config_preset_second_hand_thickness">Second Hand Thickness</string>
-    <string name="config_preset_second_hand_style">Second Hand Style</string>
+    <string name="config_preset_second_hand_material">Second Hand Material</string>
 
     <string name="config_preset_ticks_display">Ticks Display</string>
     <string name="config_preset_tick_margin">Tick Margin</string>
-    <string name="config_preset_tick_background_style">Tick Background Style</string>
+    <string name="config_preset_tick_background_material">Tick Background Material</string>
 
     <string name="config_preset_four_tick_shape">Four Tick Shape</string>
     <string name="config_preset_four_tick_size">Four Tick Size</string>
-    <string name="config_preset_four_tick_style">Four Tick Style</string>
+    <string name="config_preset_four_tick_material">Four Tick Material</string>
 
     <string name="config_preset_digit_display">Digit Display</string>
     <string name="config_preset_digit_size">Digit Size</string>
     <string name="config_preset_digit_rotation">Digit Rotation</string>
     <string name="config_preset_digit_format">Digit Format</string>
-    <string name="config_preset_digit_style">Digit Style</string>
+    <string name="config_preset_digit_material">Digit Material</string>
 
     <string name="config_preset_twelve_tick_override">Twelve Tick Override</string>
     <string name="config_preset_twelve_tick_shape">Twelve Tick Shape</string>
     <string name="config_preset_twelve_tick_size">Twelve Tick Size</string>
-    <string name="config_preset_twelve_tick_style">Twelve Tick Style</string>
+    <string name="config_preset_twelve_tick_material">Twelve Tick Material</string>
 
     <string name="config_preset_sixty_tick_override">Sixty Tick Override</string>
     <string name="config_preset_sixty_tick_shape">Sixty Tick Shape</string>
     <string name="config_preset_sixty_tick_size">Sixty Tick Size</string>
-    <string name="config_preset_sixty_tick_style">Sixty Tick Style</string>
+    <string name="config_preset_sixty_tick_material">Sixty Tick Material</string>
 
-    <string name="config_preset_bezel_style">Bezel Style</string>
-    <string name="config_preset_background_style">Background Style</string>
+    <string name="config_preset_bezel_material">Bezel Material</string>
+    <string name="config_preset_background_material">Background Material</string>
 
-    <string name="config_preset_fill_highlight_style_gradient">Fill Highlight Style Gradient</string>
-    <string name="config_preset_fill_highlight_style_texture">Fill Highlight Style Texture</string>
-    <string name="config_preset_accent_fill_style_gradient">Accent Fill Style Gradient</string>
-    <string name="config_preset_accent_fill_style_texture">Accent Fill Style Texture</string>
-    <string name="config_preset_accent_highlight_style_gradient">Accent Highlight Style Gradient</string>
-    <string name="config_preset_accent_highlight_style_texture">Accent Highlight Style Texture</string>
-    <string name="config_preset_base_accent_style_gradient">Base Accent Style Gradient</string>
-    <string name="config_preset_base_accent_style_texture">Base Accent Style Texture</string>
+    <string name="config_preset_fill_highlight_material_gradient">Fill Highlight Material Gradient</string>
+    <string name="config_preset_fill_highlight_material_texture">Fill Highlight Material Texture</string>
+    <string name="config_preset_accent_fill_material_gradient">Accent Fill Material Gradient</string>
+    <string name="config_preset_accent_fill_material_texture">Accent Fill Material Texture</string>
+    <string name="config_preset_accent_highlight_material_gradient">Accent Highlight Material Gradient</string>
+    <string name="config_preset_accent_highlight_material_texture">Accent Highlight Material Texture</string>
+    <string name="config_preset_base_accent_material_gradient">Base Accent Material Gradient</string>
+    <string name="config_preset_base_accent_material_texture">Base Accent Material Texture</string>
 
     <string name="config_activity_label">Configure Watch Kit Pro</string>
 
@@ -222,7 +222,7 @@
         <item>Medium</item>
     </string-array>
 
-    <string-array name="WatchFacePreset_HandCutoutStyle">
+    <string-array name="WatchFacePreset_HandCutoutMaterial">
         <item>PLUS_ONE</item>
         <item>PLUS_TWO</item>
         <item>PLUS_THREE</item>
@@ -449,21 +449,21 @@
         <item>Base</item>
     </string-array>
 
-    <string-array name="WatchFacePreset_Style">
+    <string-array name="WatchFacePreset_Material">
         <item>Fill + Highlight</item>
         <item>Accent + Fill</item>
         <item>Accent + Highlight</item>
         <item>Base + Accent</item>
     </string-array>
 
-    <string-array name="WatchFacePreset_StyleGradient">
+    <string-array name="WatchFacePreset_MaterialGradient">
         <item>Flat</item>
         <item>Sweep</item>
         <item>Radial</item>
         <item>Triangle</item>
     </string-array>
 
-    <string-array name="WatchFacePreset_StyleTexture">
+    <string-array name="WatchFacePreset_MaterialTexture">
         <item>None</item>
         <item>Spun</item>
         <item>Weave</item>

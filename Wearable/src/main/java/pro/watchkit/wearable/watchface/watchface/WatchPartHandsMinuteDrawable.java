@@ -27,7 +27,7 @@ import pro.watchkit.wearable.watchface.model.BytePackable.HandLength;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandStalk;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandThickness;
-import pro.watchkit.wearable.watchface.model.BytePackable.Style;
+import pro.watchkit.wearable.watchface.model.BytePackable.Material;
 
 final class WatchPartHandsMinuteDrawable extends WatchPartHandsDrawable {
     @NonNull
@@ -63,14 +63,14 @@ final class WatchPartHandsMinuteDrawable extends WatchPartHandsDrawable {
     }
 
     @Override
-    Style getHandStyle() {
-        return mWatchFaceState.getMinuteHandStyle();
+    Material getHandMaterial() {
+        return mWatchFaceState.getMinuteHandMaterial();
     }
 
     @NonNull
     @Override
-    Style getHandCutoutStyle() {
-        return mWatchFaceState.getMinuteHandCutoutStyleAsStyle();
+    Material getHandCutoutMaterial() {
+        return mWatchFaceState.getMinuteHandCutoutMaterialAsMaterial();
     }
 
     @Override

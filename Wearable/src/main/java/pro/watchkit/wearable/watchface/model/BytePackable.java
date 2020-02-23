@@ -170,13 +170,13 @@ public abstract class BytePackable {
         }
     }
 
-    public enum HandCutoutStyle implements EnumResourceId {
+    public enum HandCutoutMaterial implements EnumResourceId {
         PLUS_ONE, PLUS_TWO, PLUS_THREE;
 
         @Override
         @ArrayRes
         public int getNameResourceId() {
-            return R.array.WatchFacePreset_HandCutoutStyle;
+            return R.array.WatchFacePreset_HandCutoutMaterial;
         }
     }
 
@@ -401,16 +401,16 @@ public abstract class BytePackable {
         }
     }
 
-    public enum Style implements EnumResourceId {
+    public enum Material implements EnumResourceId {
         FILL_HIGHLIGHT, ACCENT_FILL, ACCENT_HIGHLIGHT, BASE_ACCENT;
 
         private static final int bits = 2;
 
-        static Style unpack(@NonNull BytePacker bytePacker) {
+        static Material unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        static Style unpack3(@NonNull BytePacker bytePacker) {
+        static Material unpack3(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(3) % values().length];
         }
 
@@ -421,16 +421,16 @@ public abstract class BytePackable {
         @Override
         @ArrayRes
         public int getNameResourceId() {
-            return R.array.WatchFacePreset_Style;
+            return R.array.WatchFacePreset_Material;
         }
     }
 
-    public enum StyleGradient implements EnumResourceId {
+    public enum MaterialGradient implements EnumResourceId {
         FLAT, SWEEP, RADIAL, TRIANGLE;
 
         private static final int bits = 2;
 
-        static StyleGradient unpack(@NonNull BytePacker bytePacker) {
+        static MaterialGradient unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
@@ -441,16 +441,16 @@ public abstract class BytePackable {
         @Override
         @ArrayRes
         public int getNameResourceId() {
-            return R.array.WatchFacePreset_StyleGradient;
+            return R.array.WatchFacePreset_MaterialGradient;
         }
     }
 
-    public enum StyleTexture implements EnumResourceId {
+    public enum MaterialTexture implements EnumResourceId {
         NONE, SPUN, WEAVE, HEX;
 
         private static final int bits = 2;
 
-        static StyleTexture unpack(@NonNull BytePacker bytePacker) {
+        static MaterialTexture unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
@@ -461,7 +461,7 @@ public abstract class BytePackable {
         @Override
         @ArrayRes
         public int getNameResourceId() {
-            return R.array.WatchFacePreset_StyleTexture;
+            return R.array.WatchFacePreset_MaterialTexture;
         }
     }
 

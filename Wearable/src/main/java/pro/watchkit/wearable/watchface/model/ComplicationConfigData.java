@@ -34,7 +34,7 @@ public class ComplicationConfigData extends ConfigData {
                 WatchFaceGlobalDrawable.PART_HANDS |
                 WatchFaceGlobalDrawable.PART_RINGS_ALL |
                 WatchFaceGlobalDrawable.PART_COMPLICATIONS;
-        int watchFaceGlobalDrawableFlagsStyle = watchFaceGlobalDrawableFlags |
+        int watchFaceGlobalDrawableFlagsSwatch = watchFaceGlobalDrawableFlags |
                 WatchFaceGlobalDrawable.PART_SWATCH;
 
         return Arrays.asList(
@@ -92,34 +92,34 @@ public class ComplicationConfigData extends ConfigData {
                 new PickerConfigItem(
                         R.string.config_complication_text_style,
                         R.drawable.ic_complications,
-                        watchFaceGlobalDrawableFlagsStyle,
+                        watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.TextStyle.values(),
                                 WatchFaceState::setComplicationTextStyle,
                                 WatchFaceState::getComplicationTextStyle)),
 
-                // Data for complication ring style in settings Activity.
+                // Data for complication ring material in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_complication_ring_style,
+                        R.string.config_complication_ring_material,
                         R.drawable.ic_complications,
-                        watchFaceGlobalDrawableFlagsStyle,
+                        watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.Style.values(),
-                                WatchFaceState::setComplicationRingStyle,
-                                WatchFaceState::getComplicationRingStyle)),
+                                BytePackable.Material.values(),
+                                WatchFaceState::setComplicationRingMaterial,
+                                WatchFaceState::getComplicationRingMaterial)),
 
-                // Data for complication background style in settings Activity.
+                // Data for complication background material in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_complication_background_style,
+                        R.string.config_complication_background_material,
                         R.drawable.ic_complications,
-                        watchFaceGlobalDrawableFlagsStyle,
+                        watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.Style.values(),
-                                WatchFaceState::setComplicationBackgroundStyle,
-                                WatchFaceState::getComplicationBackgroundStyle))
+                                BytePackable.Material.values(),
+                                WatchFaceState::setComplicationBackgroundMaterial,
+                                WatchFaceState::getComplicationBackgroundMaterial))
         );
     }
 }

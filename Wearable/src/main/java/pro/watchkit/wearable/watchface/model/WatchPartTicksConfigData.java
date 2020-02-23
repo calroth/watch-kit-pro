@@ -32,7 +32,7 @@ public class WatchPartTicksConfigData extends ConfigData {
     public List<ConfigItemType> getDataToPopulateAdapter() {
         int watchFaceGlobalDrawableFlags = WatchFaceGlobalDrawable.PART_BACKGROUND |
                 WatchFaceGlobalDrawable.PART_TICKS;
-        int watchFaceGlobalDrawableFlagsStyle = watchFaceGlobalDrawableFlags |
+        int watchFaceGlobalDrawableFlagsSwatch = watchFaceGlobalDrawableFlags |
                 WatchFaceGlobalDrawable.PART_SWATCH;
 
         return Arrays.asList(
@@ -64,16 +64,16 @@ public class WatchPartTicksConfigData extends ConfigData {
                                 WatchFaceState::setTickMargin,
                                 WatchFaceState::getTickMargin)),
 
-                // Data for tick background style in settings Activity.
+                // Data for tick background material in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_tick_background_style,
+                        R.string.config_preset_tick_background_material,
                         R.drawable.ic_ticks,
-                        watchFaceGlobalDrawableFlagsStyle,
+                        watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.Style.values(),
-                                WatchFaceState::setTickBackgroundStyle,
-                                WatchFaceState::getTickBackgroundStyle)),
+                                BytePackable.Material.values(),
+                                WatchFaceState::setTickBackgroundMaterial,
+                                WatchFaceState::getTickBackgroundMaterial)),
 
                 // Data for digit display in settings Activity.
                 new PickerConfigItem(
@@ -122,16 +122,16 @@ public class WatchPartTicksConfigData extends ConfigData {
                                 WatchFaceState::getDigitFormat),
                         WatchFaceState::isDigitVisible),
 
-                // Data for digit style in settings Activity.
+                // Data for digit material in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_digit_style,
+                        R.string.config_preset_digit_material,
                         R.drawable.ic_ticks,
-                        watchFaceGlobalDrawableFlagsStyle,
+                        watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.Style.values(),
-                                WatchFaceState::setDigitStyle,
-                                WatchFaceState::getDigitStyle),
+                                BytePackable.Material.values(),
+                                WatchFaceState::setDigitMaterial,
+                                WatchFaceState::getDigitMaterial),
                         WatchFaceState::isDigitVisible),
 
                 // Data for four tick shape in settings Activity.
@@ -158,16 +158,16 @@ public class WatchPartTicksConfigData extends ConfigData {
                                 WatchFaceState::getFourTickSize),
                         WatchFaceState::isFourTicksVisible),
 
-                // Data for four tick style in settings Activity.
+                // Data for four tick material in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_four_tick_style,
+                        R.string.config_preset_four_tick_material,
                         R.drawable.ic_ticks,
-                        watchFaceGlobalDrawableFlagsStyle,
+                        watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.Style.values(),
-                                WatchFaceState::setFourTickStyle,
-                                WatchFaceState::getFourTickStyle),
+                                BytePackable.Material.values(),
+                                WatchFaceState::setFourTickMaterial,
+                                WatchFaceState::getFourTickMaterial),
                         WatchFaceState::isFourTicksVisible),
 
                 // Data for twelve tick override in settings Activity.
@@ -202,16 +202,16 @@ public class WatchPartTicksConfigData extends ConfigData {
                                 WatchFaceState::getTwelveTickSize),
                         WatchFaceState::isTwelveTicksOverridden),
 
-                // Data for twelve tick style in settings Activity.
+                // Data for twelve tick material in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_twelve_tick_style,
+                        R.string.config_preset_twelve_tick_material,
                         R.drawable.ic_ticks,
-                        watchFaceGlobalDrawableFlagsStyle,
+                        watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.Style.values(),
-                                WatchFaceState::setTwelveTickStyle,
-                                WatchFaceState::getTwelveTickStyle),
+                                BytePackable.Material.values(),
+                                WatchFaceState::setTwelveTickMaterial,
+                                WatchFaceState::getTwelveTickMaterial),
                         WatchFaceState::isTwelveTicksOverridden),
 
                 // Data for sixty tick override in settings Activity.
@@ -246,28 +246,28 @@ public class WatchPartTicksConfigData extends ConfigData {
                                 WatchFaceState::getSixtyTickSize),
                         WatchFaceState::isSixtyTicksOverridden),
 
-                // Data for sixty tick style in settings Activity.
+                // Data for sixty tick material in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_sixty_tick_style,
+                        R.string.config_preset_sixty_tick_material,
                         R.drawable.ic_ticks,
-                        watchFaceGlobalDrawableFlagsStyle,
+                        watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.Style.values(),
-                                WatchFaceState::setSixtyTickStyle,
-                                WatchFaceState::getSixtyTickStyle),
+                                BytePackable.Material.values(),
+                                WatchFaceState::setSixtyTickMaterial,
+                                WatchFaceState::getSixtyTickMaterial),
                         WatchFaceState::isSixtyTicksOverridden),
 
-                // Data for background style in settings Activity.
+                // Data for background material in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_background_style,
+                        R.string.config_preset_background_material,
                         R.drawable.ic_ticks,
-                        watchFaceGlobalDrawableFlagsStyle,
+                        watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.Style.values(),
-                                WatchFaceState::setBackgroundStyle,
-                                WatchFaceState::getBackgroundStyle))
+                                BytePackable.Material.values(),
+                                WatchFaceState::setBackgroundMaterial,
+                                WatchFaceState::getBackgroundMaterial))
         );
     }
 }

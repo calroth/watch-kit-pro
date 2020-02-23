@@ -75,7 +75,7 @@ public class SettingsConfigData extends ConfigData {
                         R.drawable.ic_notifications_off_white_24dp,
                         new BooleanMutator(WatchFaceState::setShowUnreadNotifications)),
 
-                // Data for Configure Colors and Styles sub-activity in settings Activity.
+                // Data for Configure Typeface sub-activity in settings Activity.
                 new ConfigActivityConfigItem(
                         R.string.config_configure_typeface,
                         R.drawable.ic_settings,

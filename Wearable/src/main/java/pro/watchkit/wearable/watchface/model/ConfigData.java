@@ -18,7 +18,7 @@ import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
 import pro.watchkit.wearable.watchface.config.ConfigRecyclerViewAdapter;
 import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
-import pro.watchkit.wearable.watchface.model.BytePackable.Style;
+import pro.watchkit.wearable.watchface.model.BytePackable.Material;
 import pro.watchkit.wearable.watchface.model.BytePackable.TextStyle;
 import pro.watchkit.wearable.watchface.model.BytePackable.Typeface;
 import pro.watchkit.wearable.watchface.util.SharedPref;
@@ -387,12 +387,12 @@ abstract public class ConfigData {
             return Arrays.stream(mValues).map(h -> {
                 mSetter.accept(permutation, h);
                 // if (h instanceof StyleGradient || h instanceof StyleTexture)
-                // then we do the "setSwatchStyle" inline in their setters in WatchFaceState
+                // then we do the "setSwatchMaterial" inline in their setters in WatchFaceState
                 // else...
-                if (h instanceof Style) {
-                    permutation.setSwatchStyle((Style) h);
+                if (h instanceof Material) {
+                    permutation.setSwatchMaterial((Material) h);
                 } else if (h instanceof TextStyle) {
-                    permutation.setSwatchStyle((TextStyle) h);
+                    permutation.setSwatchTextStyle((TextStyle) h);
                 }
                 return permutation.getString();
             }).toArray(String[]::new);
@@ -423,7 +423,7 @@ abstract public class ConfigData {
         final private Function<WatchFaceState, Boolean> mConfigItemVisibilityCalculator;
         final private int mWatchFaceGlobalDrawableFlags;
         @Nullable
-        final private Style mStyle;
+        final private Material mMaterial;
 
         PickerConfigItem(
                 @StringRes int nameResourceId,
@@ -440,10 +440,10 @@ abstract public class ConfigData {
                 @DrawableRes int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
                 @NonNull Class<WatchFaceSelectionActivity> activityToChoosePreference,
-                @NonNull Style style,
+                @NonNull Material material,
                 @NonNull Mutator watchFaceStateMutator) {
             this(nameResourceId, iconResourceId, watchFaceGlobalDrawableFlags, activityToChoosePreference,
-                    style, watchFaceStateMutator, null);
+                    material, watchFaceStateMutator, null);
         }
 
         PickerConfigItem(
@@ -462,13 +462,13 @@ abstract public class ConfigData {
                 @DrawableRes int iconResourceId,
                 int watchFaceGlobalDrawableFlags,
                 @NonNull Class<WatchFaceSelectionActivity> activityToChoosePreference,
-                @Nullable Style style,
+                @Nullable Material material,
                 @NonNull Mutator watchFaceStateMutator,
                 @Nullable Function<WatchFaceState, Boolean> configItemVisibilityCalculator) {
             mNameResourceId = nameResourceId;
             mIconResourceId = iconResourceId;
             mActivityToChoosePreference = activityToChoosePreference;
-            mStyle = style;
+            mMaterial = material;
             mConfigItemVisibilityCalculator = configItemVisibilityCalculator;
             mWatchFaceGlobalDrawableFlags = watchFaceGlobalDrawableFlags;
             mWatchFaceStateMutator = watchFaceStateMutator;
@@ -497,7 +497,7 @@ abstract public class ConfigData {
                         .append(context.getResources().getStringArray(
                                 f.getNameResourceId())[e.ordinal()]).append("</small>");
                 // Append any settings whose style are set to this.
-                watchFaceState.getConfigItemLabelsSetToStyle(mStyle).forEach(
+                watchFaceState.getConfigItemLabelsSetToMaterial(mMaterial).forEach(
                         s -> mExtra.append("<br/><small> &bull; ").append(s).append("</small>"));
                 return Html.fromHtml(mExtra.toString(), Html.FROM_HTML_MODE_LEGACY);
             } else {

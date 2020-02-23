@@ -29,7 +29,7 @@ import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.model.BytePackable.DigitDisplay;
 import pro.watchkit.wearable.watchface.model.BytePackable.DigitFormat;
 import pro.watchkit.wearable.watchface.model.BytePackable.DigitRotation;
-import pro.watchkit.wearable.watchface.model.BytePackable.Style;
+import pro.watchkit.wearable.watchface.model.BytePackable.Material;
 
 final class WatchPartDigitsDrawable extends WatchPartDrawable {
     @NonNull
@@ -56,8 +56,8 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
         }
 
         final String[] labels = mWatchFaceState.getDigitFormatLabels();
-        final Style style = mWatchFaceState.getDigitStyle();
-        final Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(style);
+        final Material material = mWatchFaceState.getDigitMaterial();
+        final Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(material);
 
         final float digitBandStart = mWatchFaceState.getDigitBandStart(pc);
         final float digitBandHeight = 0.5f * (mWatchFaceState.getDigitDisplay() == DigitDisplay.OVER ?

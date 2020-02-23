@@ -42,11 +42,11 @@ public class WatchFacePresetConfigData extends ConfigData {
                         WatchFaceGlobalDrawable.PART_TICKS |
                         WatchFaceGlobalDrawable.PART_HANDS),
 
-                // Data for Configure Colors and Styles sub-activity in settings Activity.
+                // Data for Configure Colors and Materials sub-activity in settings Activity.
                 new ConfigActivityConfigItem(
-                        R.string.config_configure_colors_styles,
+                        R.string.config_configure_colors_materials,
                         R.drawable.icn_styles,
-                        ColorsStylesConfigData.class,
+                        ColorsMaterialsConfigData.class,
                         ConfigActivity.class),
 
                 // Data for Configure Hands sub-activity in settings Activity.

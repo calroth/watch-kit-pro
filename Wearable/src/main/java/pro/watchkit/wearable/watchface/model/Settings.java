@@ -32,7 +32,7 @@ final class Settings extends BytePackable {
     ComplicationScale mComplicationScale;
     int mAmbientDaySixBitColor, mAmbientNightSixBitColor;
     TextStyle mComplicationTextStyle;
-    Style mComplicationRingStyle, mComplicationBackgroundStyle;
+    Material mComplicationRingMaterial, mComplicationBackgroundMaterial;
     boolean mDeveloperMode;
     boolean mStats, mStatsDetail;
     boolean mHideTicks, mHideHands;
@@ -55,7 +55,7 @@ final class Settings extends BytePackable {
                 mComplicationScale,
                 mAmbientDaySixBitColor, mAmbientNightSixBitColor,
                 mComplicationTextStyle,
-                mComplicationRingStyle, mComplicationBackgroundStyle,
+                mComplicationRingMaterial, mComplicationBackgroundMaterial,
                 mDeveloperMode,
                 mStats, mStatsDetail,
                 mHideTicks, mHideHands,
@@ -82,8 +82,8 @@ final class Settings extends BytePackable {
         mPreviousMinuteHandCutoutCombination.pack(mBytePacker);
         mComplicationCount.pack(mBytePacker);
         mComplicationRotation.pack(mBytePacker);
-        mComplicationRingStyle.pack(mBytePacker);
-        mComplicationBackgroundStyle.pack(mBytePacker);
+        mComplicationRingMaterial.pack(mBytePacker);
+        mComplicationBackgroundMaterial.pack(mBytePacker);
         mComplicationSize.pack(mBytePacker);
         mComplicationScale.pack(mBytePacker);
         mComplicationTextStyle.pack(mBytePacker);
@@ -113,8 +113,8 @@ final class Settings extends BytePackable {
                 mPreviousMinuteHandCutoutCombination = HandCutoutCombination.unpack(mBytePacker);
                 mComplicationCount = ComplicationCount.unpack(mBytePacker);
                 mComplicationRotation = ComplicationRotation.unpack(mBytePacker);
-                mComplicationRingStyle = Style.unpack(mBytePacker);
-                mComplicationBackgroundStyle = Style.unpack(mBytePacker);
+                mComplicationRingMaterial = Material.unpack(mBytePacker);
+                mComplicationBackgroundMaterial = Material.unpack(mBytePacker);
                 mComplicationSize = ComplicationSize.unpack(mBytePacker);
                 mComplicationScale = ComplicationScale.unpack(mBytePacker);
                 mComplicationTextStyle = TextStyle.unpack(mBytePacker);

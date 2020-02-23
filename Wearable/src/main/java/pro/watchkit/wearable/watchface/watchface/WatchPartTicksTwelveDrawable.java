@@ -20,7 +20,7 @@ package pro.watchkit.wearable.watchface.watchface;
 
 import androidx.annotation.NonNull;
 
-import pro.watchkit.wearable.watchface.model.BytePackable.Style;
+import pro.watchkit.wearable.watchface.model.BytePackable.Material;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.TickSize;
 
@@ -57,7 +57,7 @@ final class WatchPartTicksTwelveDrawable extends WatchPartTicksDrawable {
     }
 
     @Override
-    protected Style getTickStyle() {
-        return mWatchFaceState.getTwelveTickStyle();
+    protected Material getTickStyle() {
+        return mWatchFaceState.getTwelveTickMaterial();
     }
 }

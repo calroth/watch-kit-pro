@@ -49,9 +49,9 @@ import java.util.Objects;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.BytePackable.DigitSize;
-import pro.watchkit.wearable.watchface.model.BytePackable.Style;
-import pro.watchkit.wearable.watchface.model.BytePackable.StyleGradient;
-import pro.watchkit.wearable.watchface.model.BytePackable.StyleTexture;
+import pro.watchkit.wearable.watchface.model.BytePackable.Material;
+import pro.watchkit.wearable.watchface.model.BytePackable.MaterialGradient;
+import pro.watchkit.wearable.watchface.model.BytePackable.MaterialTexture;
 import pro.watchkit.wearable.watchface.model.BytePackable.TextStyle;
 
 public final class PaintBox {
@@ -219,7 +219,7 @@ public final class PaintBox {
 
     private int mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor;
     private int mAmbientDaySixBitColor, mAmbientNightSixBitColor;
-    private StyleGradient mFillHighlightStyleGradient;
+    private MaterialGradient mFillHighlightMaterialGradient;
     private float mTextSize;
     @Nullable
     private Typeface mTypeface;
@@ -267,13 +267,13 @@ public final class PaintBox {
         return mContext.getResources().getStringArray(R.array.six_bit_color_names)[sixBitColor];
     }
 
-    private StyleGradient mAccentFillStyleGradient;
-    private StyleGradient mAccentHighlightStyleGradient;
-    private StyleGradient mBaseAccentStyleGradient;
-    private StyleTexture mFillHighlightStyleTexture;
-    private StyleTexture mAccentFillStyleTexture;
-    private StyleTexture mAccentHighlightStyleTexture;
-    private StyleTexture mBaseAccentStyleTexture;
+    private MaterialGradient mAccentFillMaterialGradient;
+    private MaterialGradient mAccentHighlightMaterialGradient;
+    private MaterialGradient mBaseAccentMaterialGradient;
+    private MaterialTexture mFillHighlightMaterialTexture;
+    private MaterialTexture mAccentFillMaterialTexture;
+    private MaterialTexture mAccentHighlightMaterialTexture;
+    private MaterialTexture mBaseAccentMaterialTexture;
 
     public Paint getAmbientPaint() {
         regeneratePaints2();
@@ -298,9 +298,9 @@ public final class PaintBox {
     }
 
     @NonNull
-    Paint getPaintFromPreset(@NonNull TextStyle style) {
+    Paint getPaintFromPreset(@NonNull TextStyle textStyle) {
         regeneratePaints2();
-        switch (style) {
+        switch (textStyle) {
             case FILL: {
                 return mFillPaint;
             }
@@ -318,9 +318,9 @@ public final class PaintBox {
     }
 
     @NonNull
-    public Paint getPaintFromPreset(@NonNull Style style) {
+    public Paint getPaintFromPreset(@NonNull Material material) {
         regeneratePaints2();
-        switch (style) {
+        switch (material) {
             case FILL_HIGHLIGHT: {
                 return mFillHighlightPaint;
             }
@@ -340,14 +340,14 @@ public final class PaintBox {
     void regeneratePaints(int fillSixBitColor, int accentSixBitColor,
                           int highlightSixBitColor, int baseSixBitColor,
                           int ambientDaySixBitColor, int ambientNightSixBitColor,
-                          @NonNull StyleGradient fillHighlightStyleGradient,
-                          @NonNull StyleGradient accentFillStyleGradient,
-                          @NonNull StyleGradient accentHighlightStyleGradient,
-                          @NonNull StyleGradient baseAccentStyleGradient,
-                          @NonNull StyleTexture fillHighlightStyleTexture,
-                          @NonNull StyleTexture accentFillStyleTexture,
-                          @NonNull StyleTexture accentHighlightStyleTexture,
-                          @NonNull StyleTexture baseAccentStyleTexture,
+                          @NonNull MaterialGradient fillHighlightMaterialGradient,
+                          @NonNull MaterialGradient accentFillMaterialGradient,
+                          @NonNull MaterialGradient accentHighlightMaterialGradient,
+                          @NonNull MaterialGradient baseAccentMaterialGradient,
+                          @NonNull MaterialTexture fillHighlightMaterialTexture,
+                          @NonNull MaterialTexture accentFillMaterialTexture,
+                          @NonNull MaterialTexture accentHighlightMaterialTexture,
+                          @NonNull MaterialTexture baseAccentMaterialTexture,
                           @NonNull DigitSize digitSize,
                           @Nullable Typeface typeface) {
         mFillSixBitColor = fillSixBitColor;
@@ -356,14 +356,14 @@ public final class PaintBox {
         mBaseSixBitColor = baseSixBitColor;
         mAmbientDaySixBitColor = ambientDaySixBitColor;
         mAmbientNightSixBitColor = ambientNightSixBitColor;
-        mFillHighlightStyleGradient = fillHighlightStyleGradient;
-        mAccentFillStyleGradient = accentFillStyleGradient;
-        mAccentHighlightStyleGradient = accentHighlightStyleGradient;
-        mBaseAccentStyleGradient = baseAccentStyleGradient;
-        mFillHighlightStyleTexture = fillHighlightStyleTexture;
-        mAccentFillStyleTexture = accentFillStyleTexture;
-        mAccentHighlightStyleTexture = accentHighlightStyleTexture;
-        mBaseAccentStyleTexture = baseAccentStyleTexture;
+        mFillHighlightMaterialGradient = fillHighlightMaterialGradient;
+        mAccentFillMaterialGradient = accentFillMaterialGradient;
+        mAccentHighlightMaterialGradient = accentHighlightMaterialGradient;
+        mBaseAccentMaterialGradient = baseAccentMaterialGradient;
+        mFillHighlightMaterialTexture = fillHighlightMaterialTexture;
+        mAccentFillMaterialTexture = accentFillMaterialTexture;
+        mAccentHighlightMaterialTexture = accentHighlightMaterialTexture;
+        mBaseAccentMaterialTexture = baseAccentMaterialTexture;
 
         // Set digit sizes.
         switch (digitSize) {
@@ -398,14 +398,14 @@ public final class PaintBox {
                 mBaseSixBitColor,
                 mAmbientDaySixBitColor,
                 mAmbientNightSixBitColor,
-                mFillHighlightStyleGradient,
-                mAccentFillStyleGradient,
-                mAccentHighlightStyleGradient,
-                mBaseAccentStyleGradient,
-                mFillHighlightStyleTexture,
-                mAccentFillStyleTexture,
-                mAccentHighlightStyleTexture,
-                mBaseAccentStyleTexture,
+                mFillHighlightMaterialGradient,
+                mAccentFillMaterialGradient,
+                mAccentHighlightMaterialGradient,
+                mBaseAccentMaterialGradient,
+                mFillHighlightMaterialTexture,
+                mAccentFillMaterialTexture,
+                mAccentHighlightMaterialTexture,
+                mBaseAccentMaterialTexture,
                 mTextSize,
                 mTypeface,
                 pc,
@@ -427,16 +427,16 @@ public final class PaintBox {
         mBasePaint.setColor(getColor(mBaseSixBitColor));
 
         mFillHighlightPaint.setColors(mFillSixBitColor, mHighlightSixBitColor,
-                mFillHighlightStyleGradient, mFillHighlightStyleTexture);
+                mFillHighlightMaterialGradient, mFillHighlightMaterialTexture);
         mAccentFillPaint.setColors(mAccentSixBitColor, mFillSixBitColor,
-                mAccentFillStyleGradient, mAccentFillStyleTexture);
+                mAccentFillMaterialGradient, mAccentFillMaterialTexture);
         mBezelPaint1 = mAccentFillPaint;
         mBezelPaint2.setColors(mFillSixBitColor, mAccentSixBitColor,
-                mAccentFillStyleGradient, mAccentFillStyleTexture);
+                mAccentFillMaterialGradient, mAccentFillMaterialTexture);
         mAccentHighlightPaint.setColors(mAccentSixBitColor, mHighlightSixBitColor,
-                mAccentHighlightStyleGradient, mAccentHighlightStyleTexture);
+                mAccentHighlightMaterialGradient, mAccentHighlightMaterialTexture);
         mBaseAccentPaint.setColors(mBaseSixBitColor, mAccentSixBitColor,
-                mBaseAccentStyleGradient, mBaseAccentStyleTexture);
+                mBaseAccentMaterialGradient, mBaseAccentMaterialTexture);
 
         mShadowPaint.setColor(getColor(mBaseSixBitColor));
         mShadowPaint.setShadowLayer(2f * pc, 0f, 0f, getColor(mBaseSixBitColor));
@@ -644,9 +644,9 @@ public final class PaintBox {
         }
 
         private Bitmap generateTriangleGradient(int colorA, int colorB) {
-            // Calculate a modified hash code where mStyleTexture == StyleTexture.NONE.
+            // Calculate a modified hash code where mMaterialTexture == MaterialTexture.NONE.
             int modifiedCustomHashCode = Objects.hash(
-                    colorA, colorB, StyleGradient.TRIANGLE, StyleTexture.NONE, height, width);
+                    colorA, colorB, MaterialGradient.TRIANGLE, MaterialTexture.NONE, height, width);
             // Attempt to return an existing bitmap from the cache if we have one.
             WeakReference<Bitmap> cache = mBitmapCache.get(modifiedCustomHashCode);
             if (cache != null) {
@@ -812,15 +812,15 @@ public final class PaintBox {
         }
 
         void setColors(int sixBitColorA, int sixBitColorB,
-                       @NonNull StyleGradient styleGradient,
-                       @NonNull StyleTexture styleTexture) {
+                       @NonNull MaterialGradient materialGradient,
+                       @NonNull MaterialTexture materialTexture) {
             @ColorInt int colorA = PaintBox.this.getColor(sixBitColorA);
             @ColorInt int colorB = PaintBox.this.getColor(sixBitColorB);
 
             mCustomHashCode = Objects.hash(
-                    colorA, colorB, styleGradient, styleTexture, height, width);
+                    colorA, colorB, materialGradient, materialTexture, height, width);
 
-            switch (styleGradient) {
+            switch (materialGradient) {
                 case FLAT:
                     // Set to "colorA", except if this is mAccentHighlightPaint.
                     // So our four paints have four distinct colors.
@@ -837,7 +837,7 @@ public final class PaintBox {
                     break;
             }
 
-            switch (styleTexture) {
+            switch (materialTexture) {
                 case NONE:
                     break;
                 case SPUN:
