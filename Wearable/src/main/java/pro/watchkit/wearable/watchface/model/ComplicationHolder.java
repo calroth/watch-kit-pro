@@ -177,6 +177,7 @@ public final class ComplicationHolder {
             mComplicationDrawable.setTitleColorAmbient(fadedAmbientColor);
             mComplicationDrawable.setIconColorAmbient(fadedAmbientColor);
             mComplicationDrawable.setRangedValuePrimaryColorAmbient(Color.BLACK);
+            mComplicationDrawable.setRangedValueSecondaryColorAmbient(Color.BLACK);
             mComplicationDrawable.setTextTypefaceAmbient(typeface);
             mComplicationDrawable.setTitleTypefaceAmbient(typeface);
         }
