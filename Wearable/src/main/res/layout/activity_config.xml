@@ -50,7 +50,13 @@
         android:paddingBottom="36dp"
         android:paddingStart="@dimen/activity_config_padding"
         android:paddingEnd="@dimen/activity_config_padding"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <requestFocus />
+
+    </androidx.wear.widget.WearableRecyclerView>
 
     <androidx.wear.widget.drawer.WearableNavigationDrawerView
         android:id="@+id/top_navigation_drawer"

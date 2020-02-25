@@ -23,4 +23,10 @@
     android:paddingTop="@dimen/activity_config_padding"
     android:paddingBottom="36dp"
     android:background="@color/dark_grey"
-    android:scrollbars="vertical" />
+    android:scrollbars="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <requestFocus />
+
+</androidx.wear.widget.WearableRecyclerView>
