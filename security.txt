@@ -1,0 +1,34 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+# Hi there! You've found my security.txt file. You must be quite leet.
+# 
+# I'd like to say that fame and fortune await you, but I'm not sure they do.
+# So have a blessing instead. God bless you!
+#
+# If you've found a security vulnerability in the Watch Kit Pro web site or
+# app, drop me a line. Cheers,
+#
+#  -Terence
+
+Canonical: https://watchkit.pro/.well-known/security.txt
+Contact: mailto:feedback@watchkit.pro
+Encryption: https://keybase.io/calroth
+Preferred-Languages: en
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEM6zy41HJOe0szEifegL1h5x87wsFAl3H0dAACgkQegL1h5x8
+7wv3UA/7Bbi11N7X1PRk79zENNzS0We+5pImC2+NzjOszbdqfVNCl7GwRuMvyL8/
+7Nd5WlYmjfWdjskcvwzv1sn59fArrhTIgisxVKENlF0tmppVigD8M/Ph1DJIdVk8
+hXNmw4bNWBc4tcdfnmrSzIUQeq1wfJ06PdzAB2wamTxNkX1Mz2VxBEPB8Eij2jx5
+ha9AxM5D73SqrhWfh2cZSMWsBrBr6o904YTV+8cQa8b5rAk2mlsE/jCUBbXnUUdr
+61nRI9dKESXB0VvN9TBk3PI7wE4mbk9WoR2x7IAoeD3p3iUSEnZAgQjaRVjYby5S
+8fHO857q/AGs3Oq4JJtLao2Q0MKRLwgJ4hDP1naYynfXSsG9aCnr+tg8iosGvhGJ
+svd8N7Pe21uw+MB9HDALwaTdXzEPfGhyc1/nqrqE0VnlOXR4IkrYuWyjR+e6Q+Kr
+MF7FXDNi3khfP4HaDuAKE0c7Ls5BtL5ISCImvIBvTfNfQO/Quj3Wi8Hw9Z5BbqRn
+ieEzrDYoxyBPStnSSZZ2jn1nzBbMtD0XVScyW5Vej4SVPoYeuDFqWOBcTaYQpc8e
+RajIxl7CLPJNpi2XLNVJfdJVRzGtjQmdaTiaYg96vpDHfs/nPbFwn3E5Wr9PdkpC
+wUvzhKxi2Ox2MICScasY9TWq5E30gK64/fznToXNOqpY+Z9iKxc=
+=uAjP
+-----END PGP SIGNATURE-----
