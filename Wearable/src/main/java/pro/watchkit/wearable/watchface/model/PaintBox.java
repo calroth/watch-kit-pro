@@ -1299,5 +1299,40 @@ public final class PaintBox {
             mBitmapShaderCache.put(mCustomHashCode, new WeakReference<>(result));
             return result;
         }
+
+        private BitmapShader generateSparkleEffect() {
+            // Attempt to return an existing BitmapShader from the cache if we have one.
+            WeakReference<BitmapShader> cache = mBitmapShaderCache.get(mCustomHashCode);
+            if (cache != null) {
+                // Well, we have an existing BitmapShader, but it may have been garbage collected...
+                BitmapShader result = cache.get();
+                if (result != null) {
+                    // It wasn't garbage collected! Return it.
+                    return result;
+                }
+            }
+
+            // Generate a new bitmap.
+            Bitmap sparkleEffectBitmap =
+                    Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            prepareTempBitmapForUse();
+            mTempCanvas.drawPaint(this);
+
+            Allocation in = Allocation.createFromBitmap(mRenderScript, mTempBitmap);
+            Allocation out = Allocation.createFromBitmap(mRenderScript, sparkleEffectBitmap);
+            mScriptC_mapBitmap.forEach_sparkle(in, out);
+            out.copyTo(sparkleEffectBitmap);
+            in.destroy();
+            out.destroy();
+
+            sparkleEffectBitmap.prepareToDraw();
+
+            BitmapShader result = new BitmapShader(sparkleEffectBitmap,
+                    Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+
+            // Cache it for next time's use.
+            mBitmapShaderCache.put(mCustomHashCode, new WeakReference<>(result));
+            return result;
+        }
     }
 }

@@ -40,3 +40,27 @@ void convertMapping(void) {
 uchar4 RS_KERNEL mapBitmap(uchar4 in) {
     return mapping2[in.b];
 }
+
+// For each pixel, we calculate the amount of sparkle by the lesser of
+// (pixel's distance to 0) and (pixel's distance to 255).
+// Then we lessen it further by bitshifting right by "SPARKLE_MAGNITUDE" bits.
+// 0 = full sparkle
+// 1 = half sparkle
+// 2 = quarter sparkle
+#define SPARKLE_MAGNITUDE 1
+
+uchar4 RS_KERNEL sparkle(uchar4 in) {
+    uchar4 result;
+    // Random sparkle. 0-5: sparkle. 6-23: no sparkle.
+    int rand = rsRand(24);
+    // Calculate the amount of sparkle for this pixel
+    uchar4 min4 = min((255 - in) >> SPARKLE_MAGNITUDE, in >> SPARKLE_MAGNITUDE);
+    // Alpha channel unchanged.
+    result.a = in.a;
+    // Apply the random sparkle to either the r, g, or b channel as needed,
+    // and as a highlight (add) or lowlight (subtract) as needed.
+    result.r = rand == 0 ? in.r - min4.r : (rand == 1 ? in.r + min4.r : in.r);
+    result.g = rand == 2 ? in.g - min4.g : (rand == 3 ? in.g + min4.g : in.g);
+    result.b = rand == 4 ? in.b - min4.b : (rand == 5 ? in.b + min4.b : in.b);
+    return result;
+}
