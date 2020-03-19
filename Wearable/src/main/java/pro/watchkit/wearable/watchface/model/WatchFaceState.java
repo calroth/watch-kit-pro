@@ -413,8 +413,7 @@ public class WatchFaceState {
                 float yc = ya + (float) Math.cos(degreesC) * radius;
 
                 // Their side lengths
-                float a = (float) Math.sqrt((double) (
-                        ((xb - xc) * (xb - xc)) + ((yb - yc) * (yb - yc))));
+                float a = (float) Math.sqrt(((xb - xc) * (xb - xc)) + ((yb - yc) * (yb - yc)));
                 float b = radius; // By definition.
                 float c = radius;
 
@@ -422,7 +421,7 @@ public class WatchFaceState {
                 float incentreX = (a * xa + b * xb + c * xc) / (a + b + c);
                 float incentreY = (a * ya + b * yb + c * yc) / (a + b + c);
                 float s = (a + b + c) / 2f;
-                float inradius = (float) Math.sqrt((double) (s * (s - a) * (s - b) * (s - c))) / s;
+                float inradius = (float) Math.sqrt(s * (s - a) * (s - b) * (s - c)) / s;
                 inradius *= complicationScale;
 
                 Rect b1 = new Rect((int) (incentreX - inradius), (int) (incentreY - inradius),
@@ -956,6 +955,14 @@ public class WatchFaceState {
 
     void setAltDrawing(boolean altDrawing) {
         mSettings.mAltDrawing = altDrawing;
+    }
+
+    private boolean isSparkleEffect() {
+        return mSettings.mSparkleEffect;
+    }
+
+    void setSparkleEffect(boolean sparkleEffect) {
+        mSettings.mSparkleEffect = sparkleEffect;
     }
     // endregion
 
@@ -1803,6 +1810,7 @@ public class WatchFaceState {
 
     // region PaintBox
     private void regeneratePaints() {
+        mPaintBox.setSparkleEffect(isDeveloperMode() && isSparkleEffect());
         mPaintBox.regeneratePaints(
                 getFillSixBitColor(), getAccentSixBitColor(),
                 getHighlightSixBitColor(), getBaseSixBitColor(),
@@ -2047,8 +2055,8 @@ public class WatchFaceState {
                 // For straight, take the band size as the diagonal length (worst-case scenario)
                 // = √(width² + height²)
                 result = Math.max(result, (float) Math.sqrt(
-                        (double) (mLabelRect.height() * mLabelRect.height() +
-                                mLabelRect.width() * mLabelRect.width())));
+                        mLabelRect.height() * mLabelRect.height() +
+                                mLabelRect.width() * mLabelRect.width()));
             }
         }
 

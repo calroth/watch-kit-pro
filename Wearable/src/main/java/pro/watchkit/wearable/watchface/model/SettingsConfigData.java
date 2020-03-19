@@ -159,6 +159,14 @@ public class SettingsConfigData extends ConfigData {
                         new BooleanMutator(WatchFaceState::setAltDrawing),
                         WatchFaceState::isDeveloperMode),
 
+                // Data for 'Sparkle Effect' in settings Activity.
+                new ToggleConfigItem(
+                        R.string.config_sparkle_effect_label,
+                        R.drawable.ic_settings,
+                        R.drawable.ic_settings,
+                        new BooleanMutator(WatchFaceState::setSparkleEffect),
+                        WatchFaceState::isDeveloperMode),
+
                 // Generate icon files.
                 new LabelConfigItem(-1,
                         R.string.config_generate_icon_files,

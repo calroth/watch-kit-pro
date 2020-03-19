@@ -473,6 +473,12 @@ public final class PaintBox {
     private static Bitmap mTempBitmap;
     private static Canvas mTempCanvas;
 
+    private boolean mSparkleEffect;
+
+    void setSparkleEffect(boolean sparkleEffect) {
+        mSparkleEffect = sparkleEffect;
+    }
+
     public enum ColorType {FILL, ACCENT, HIGHLIGHT, BASE, AMBIENT_DAY, AMBIENT_NIGHT}
 
     @NonNull
@@ -847,7 +853,7 @@ public final class PaintBox {
                     setShader(generateWeaveEffect());
                     break;
                 case HEX:
-                    setShader(generateHexEffect());
+                    setShader(mSparkleEffect ? generateSparkleEffect() : generateHexEffect());
                     break;
             }
         }
