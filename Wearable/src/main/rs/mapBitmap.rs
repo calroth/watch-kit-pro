@@ -47,12 +47,12 @@ uchar4 RS_KERNEL mapBitmap(uchar4 in) {
 // 0 = full sparkle
 // 1 = half sparkle
 // 2 = quarter sparkle
-#define SPARKLE_MAGNITUDE 1
+#define SPARKLE_MAGNITUDE 0
 
 uchar4 RS_KERNEL sparkle(uchar4 in) {
     uchar4 result;
-    // Random sparkle. 0-5: sparkle. 6-23: no sparkle.
-    int rand = rsRand(24);
+    // Random sparkle. 0-5: sparkle. 6-35: no sparkle.
+    int rand = rsRand(36);
     // Calculate the amount of sparkle for this pixel
     uchar4 min4 = min((255 - in) >> SPARKLE_MAGNITUDE, in >> SPARKLE_MAGNITUDE);
     // Alpha channel unchanged.
