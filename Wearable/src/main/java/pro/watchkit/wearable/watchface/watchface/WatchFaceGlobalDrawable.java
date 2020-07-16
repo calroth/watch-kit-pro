@@ -58,11 +58,11 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
     static final int PART_STATS = 64;
     private static final int PART_TICKS_BACKGROUND = 128;
     private static final int PART_DIGITS = 256;
-    private static final int PART_TICKS_FOUR = 512;
+    private static final int PART_TICKS_SIXTY = 512;
     private static final int PART_TICKS_TWELVE = 1024;
-    private static final int PART_TICKS_SIXTY = 2048;
-    public static final int PART_TICKS = PART_TICKS_BACKGROUND | PART_TICKS_FOUR |
-            PART_TICKS_TWELVE | PART_TICKS_SIXTY | PART_DIGITS;
+    private static final int PART_TICKS_FOUR = 2048;
+    public static final int PART_TICKS = PART_TICKS_BACKGROUND | PART_TICKS_SIXTY |
+            PART_TICKS_TWELVE | PART_TICKS_FOUR | PART_DIGITS;
     private static final int PART_HANDS_HOUR = 4096;
     private static final int PART_HANDS_MINUTE = 8192;
     private static final int PART_HANDS_SECOND = 16384;
@@ -152,14 +152,14 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
         if ((flags & PART_DIGITS) > 0) {
             d.add(new WatchPartDigitsDrawable());
         }
-        if ((flags & PART_TICKS_FOUR) > 0) {
-            d.add(new WatchPartTicksFourDrawable());
+        if ((flags & PART_TICKS_SIXTY) > 0) {
+            d.add(new WatchPartTicksSixtyDrawable());
         }
         if ((flags & PART_TICKS_TWELVE) > 0) {
             d.add(new WatchPartTicksTwelveDrawable());
         }
-        if ((flags & PART_TICKS_SIXTY) > 0) {
-            d.add(new WatchPartTicksSixtyDrawable());
+        if ((flags & PART_TICKS_FOUR) > 0) {
+            d.add(new WatchPartTicksFourDrawable());
         }
         if ((flags & PART_COMPLICATIONS) > 0) {
             d.add(new WatchPartComplicationsDrawable());
