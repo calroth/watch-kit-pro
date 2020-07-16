@@ -66,7 +66,7 @@ public final class PaintBox {
     private Paint mAccentPaint;
     private Paint mHighlightPaint;
     private Paint mBasePaint;
-    private Paint mAmbientPaint;
+    private Paint mAmbientPaint, mAmbientPaintFaded;
     private Paint mShadowPaint;
     @NonNull
     private static SparseArray<WeakReference<Bitmap>> mBitmapCache = new SparseArray<>();
@@ -108,6 +108,10 @@ public final class PaintBox {
         mAmbientPaint.setStyle(Paint.Style.STROKE);
         mAmbientPaint.setColor(Color.WHITE); // Ambient is always white, we'll tint it in post.
 //        mAmbientPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mBaseColor);
+
+        mAmbientPaintFaded = newDefaultPaint();
+        mAmbientPaintFaded.setStyle(Paint.Style.STROKE);
+        mAmbientPaintFaded.setColor(Color.GRAY); // Ambient dim is always gray.
 
         mShadowPaint = newDefaultPaint();
         mShadowPaint.setStyle(Paint.Style.FILL);
@@ -176,7 +180,7 @@ public final class PaintBox {
      */
     private static void getIntermediateColor(
             @ColorInt int colorA, @ColorInt int colorB, @NonNull @ColorInt int[] cLUT) {
-        double j = (double) (cLUT.length - 1);
+        double j = cLUT.length - 1;
 
         // The "long colors" feature is only available in SDK 26 onwards!
         if (Build.VERSION.SDK_INT >= 26) {
@@ -278,6 +282,11 @@ public final class PaintBox {
     public Paint getAmbientPaint() {
         regeneratePaints2();
         return mAmbientPaint;
+    }
+
+    public Paint getAmbientPaintFaded() {
+        regeneratePaints2();
+        return mAmbientPaintFaded;
     }
 
     public Paint getShadowPaint() {
@@ -448,12 +457,14 @@ public final class PaintBox {
         mAccentHighlightPaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
         mBaseAccentPaint.setStrokeWidth(PAINT_STROKE_WIDTH_PERCENT * pc);
         mAmbientPaint.setStrokeWidth(AMBIENT_PAINT_STROKE_WIDTH_PERCENT * pc);
+        mAmbientPaintFaded.setStrokeWidth(AMBIENT_PAINT_STROKE_WIDTH_PERCENT * pc);
 
         setPaintTextAttributes(mFillPaint);
         setPaintTextAttributes(mAccentPaint);
         setPaintTextAttributes(mHighlightPaint);
         setPaintTextAttributes(mBasePaint);
         setPaintTextAttributes(mAmbientPaint);
+        setPaintTextAttributes(mAmbientPaintFaded);
         setPaintTextAttributes(mShadowPaint);
 
         setPaintTextAttributes(mFillHighlightPaint);
