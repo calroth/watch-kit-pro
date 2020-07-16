@@ -384,10 +384,13 @@ abstract class WatchPartDrawable extends Drawable {
         } else {
             // Ambient.
             // The path itself.
-            Paint ambientPaint = mWatchFaceState.getPaintBox().getAmbientPaint();
             mDrawPath.transform(mTempMatrix2, mTempPath);
-            canvas.drawPath(mTempPath, ambientPaint);
+            canvas.drawPath(mTempPath, getAmbientPaint());
         }
+    }
+
+    protected Paint getAmbientPaint() {
+        return mWatchFaceState.getPaintBox().getAmbientPaint();
     }
 
     @Override
@@ -863,9 +866,9 @@ abstract class WatchPartDrawable extends Drawable {
         // Scale factor. Ignored if scale == 0f
         final double h = invert ? top - bottom : bottom - top;
         final double w = (double) (right - left) * 0.5d;
-        final double w1 = w - (w * Math.sqrt((double) scale));
+        final double w1 = w - (w * Math.sqrt(scale));
         final double z = Math.sin(Math.atan(h / w) / 2d) * w1;
-        final double z1 = h - (h * Math.sqrt((double) scale)) - z;
+        final double z1 = h - (h * Math.sqrt(scale)) - z;
 
         final float leftX = left + (float) w1;
         final float rightX = right - (float) w1;

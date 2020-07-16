@@ -18,6 +18,8 @@
 
 package pro.watchkit.wearable.watchface.watchface;
 
+import android.graphics.Paint;
+
 import androidx.annotation.NonNull;
 
 import pro.watchkit.wearable.watchface.model.BytePackable.Material;
@@ -59,5 +61,10 @@ final class WatchPartTicksSixtyDrawable extends WatchPartTicksDrawable {
     @Override
     protected Material getTickStyle() {
         return mWatchFaceState.getSixtyTickMaterial();
+    }
+
+    @Override
+    protected Paint getAmbientPaint() {
+        return mWatchFaceState.getPaintBox().getAmbientPaintFaded();
     }
 }
