@@ -66,6 +66,7 @@ import java.util.concurrent.TimeUnit;
 
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.util.SharedPref;
+import pro.watchkit.wearable.watchface.util.Toaster;
 
 public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatchFaceService {
     private static final String TAG = "ProWatchFaceService";
@@ -376,6 +377,11 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
 
             // Check and trigger whether or not timer should be running (only in active mode).
             updateTimer();
+
+            // Cancel any existing toast messages if we're going ambient.
+            if (inAmbientMode) {
+                Toaster.cancelCurrent();
+            }
 
             WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_AMBIENT;
             invalidate();

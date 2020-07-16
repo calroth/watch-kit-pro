@@ -36,7 +36,7 @@ public final class Toaster {
     public static final int LENGTH_SHORT = Toast.LENGTH_SHORT;
 
     /**
-     * Show the Toast for a short period of time. Defined to be Toast.LENGTH_LONG.
+     * Show the Toast for a long period of time. Defined to be Toast.LENGTH_LONG.
      */
     public static final int LENGTH_LONG = Toast.LENGTH_LONG;
 
@@ -46,15 +46,22 @@ public final class Toaster {
     private static Toast mCurrentToast;
 
     /**
-     * Make a standard Toast with the given text value, and pop it up. Dismiss any existing Toast.
+     * Make a standard Toast with the given text value, and pop it up. Replaces any existing Toast.
      */
     public static void makeText(Context context, CharSequence text, int duration) {
+        cancelCurrent();
+
+        mCurrentToast = Toast.makeText(context, text, duration);
+        mCurrentToast.show();
+    }
+
+    /**
+     * Cancel the current toast message if one is showing.
+     */
+    public static void cancelCurrent() {
         if (mCurrentToast != null) {
             // Cancel the current toast if showing.
             mCurrentToast.cancel();
         }
-
-        mCurrentToast = Toast.makeText(context, text, duration);
-        mCurrentToast.show();
     }
 }
