@@ -20,14 +20,14 @@ dependencies {
     implementation 'androidx.wear:wear:1.0.0'
     implementation 'com.google.android.gms:play-services-wearable:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
-    compileOnly 'com.google.android.wearable:wearable:2.5.0'
-    implementation 'com.google.android.support:wearable:2.5.0'
+    compileOnly 'com.google.android.wearable:wearable:2.7.0'
+    implementation 'com.google.android.support:wearable:2.7.0'
     implementation 'net.e175.klaus:solarpositioning:0.0.9'
     implementation 'androidx.annotation:annotation:1.1.0'
     // The below was only needed since upgrading to Android build tools 3.5.0.
     // Not sure why we need it, only that we error out if we don't. Revisit this...
     // We can however make it only for debug. In release mode it's somehow not needed...
-    debugImplementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta4'
+    debugImplementation 'androidx.constraintlayout:constraintlayout:2.0.0-rc1'
 }
 
 // The sample build uses multiple directories to
@@ -58,20 +58,20 @@ def getGitDate = { ->
 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
     defaultConfig {
         // Ref: https://developer.android.com/training/wearables/apps/packaging#specify-a-version-code
-        versionCode 280040000
-        versionName "0.4"
+        versionCode 290100000
+        versionName "1.0"
 
         resValue "string", "git_hash", "${getGitHash()}"
         resValue "string", "git_date", "${getGitDate()}"
         resValue "string", "version_name", versionName
 
         minSdkVersion 25 // Wear OS 2.0
-        targetSdkVersion 28
+        targetSdkVersion 29
 
         multiDexEnabled true
     }
