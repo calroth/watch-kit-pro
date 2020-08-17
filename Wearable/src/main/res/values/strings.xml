@@ -68,11 +68,6 @@
     <string name="config_ambient_day_color_label">Ambient Day Color</string>
     <string name="config_ambient_night_color_label">Ambient Night Color</string>
     <string name="config_developer_mode_label">Developer Mode</string>
-    <string name="config_beta_alert_1">&lt;br /&gt;⚠️</string>
-    <string name="config_beta_alert_2">This version of Watch Kit Pro is pre-release software.
-        &lt;br /&gt;
-        &lt;small&gt;Future updates may disrupt (or reset) your settings. (We’ll try not to, but
-        it’s pre-release software. Thanks for testing!)&lt;/small&gt;</string>
     <string name="config_about_heading">Watch Kit Pro ⌚</string>
     <string name="config_credits_1">Written by 💖</string>
     <string name="config_credits_2">️Terence Tan</string>
