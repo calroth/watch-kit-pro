@@ -324,7 +324,7 @@ abstract class WatchPartDrawable extends Drawable {
 
         // Regenerate the bezels if needed.
         float degrees = getDegreesRotation();
-        if (degrees == -360f || (degrees - mLastDegrees) % 360f > 6f) {
+        if (degrees == -360f || (degrees - mLastDegrees) % 360f > 6f || hasStateChanged()) {
             // Generate a new bezel if the current one is more than 6 degrees (1 minute) out.
             // Or, always generate a new bezel if it's -360f (the default).
             generateBezels(mDrawPath, degrees);
