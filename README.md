@@ -77,8 +77,8 @@ Watch Kit Pro uses the Gradle build system. To build this project, use the
 Check the [Wearable/build.gradle](Wearable/build.gradle) file for the definitive version of the
 pre-requisites. However they're probably:
 
-- Android SDK 28
-- Android Build Tools 29.0.2
+- Android SDK 29
+- Android Build Tools 29.0.3
 - Android Support Repository
 
 Support
@@ -95,7 +95,7 @@ submitting a pull request: https://github.com/calroth/watch-kit-pro/pulls
 License
 -------
 
-Copyright (C) 2018-2019 Terence Tan
+Copyright (C) 2018-2020 Terence Tan
 
 This file is free software: you may copy, redistribute and/or modify it
 under the terms of the GNU General Public License as published by the
