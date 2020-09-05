@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Terence Tan
+ * Copyright (C) 2018-2020 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -24,8 +24,7 @@ import java.util.List;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
-import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
-import pro.watchkit.wearable.watchface.model.BytePackable.Material;
+import pro.watchkit.wearable.watchface.config.ConfigActivity;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 public class ColorsMaterialsConfigData extends ConfigData {
@@ -36,8 +35,6 @@ public class ColorsMaterialsConfigData extends ConfigData {
                 WatchFaceGlobalDrawable.PART_TICKS |
                 WatchFaceGlobalDrawable.PART_RINGS_ALL |
                 WatchFaceGlobalDrawable.PART_HANDS;
-        int watchFaceGlobalDrawableFlagsSwatch = watchFaceGlobalDrawableFlags |
-                WatchFaceGlobalDrawable.PART_SWATCH;
 
         return Arrays.asList(
                 // Title.
@@ -74,97 +71,33 @@ public class ColorsMaterialsConfigData extends ConfigData {
                         PaintBox.ColorType.BASE,
                         ColorSelectionActivity.class),
 
-                // Data for fill highlight material gradient in settings Activity.
-                new PickerConfigItem(
-                        R.string.config_preset_fill_highlight_material_gradient,
-                        R.drawable.ic_color_lens,
-                        watchFaceGlobalDrawableFlagsSwatch,
-                        WatchFaceSelectionActivity.class,
-                        Material.FILL_HIGHLIGHT,
-                        new EnumMutator<>(
-                                BytePackable.MaterialGradient.values(),
-                                WatchFaceState::setFillHighlightMaterialGradient,
-                                WatchFaceState::getFillHighlightMaterialGradient)),
+                // Data for Fill Highlight Material sub-activity in settings Activity.
+                new ConfigActivityConfigItem(
+                        R.string.config_preset_fill_highlight_material,
+                        R.drawable.ic_settings,
+                        MaterialConfigData.FillHighlight.class,
+                        ConfigActivity.class),
 
-                // Data for fill highlight material texture in settings Activity.
-                new PickerConfigItem(
-                        R.string.config_preset_fill_highlight_material_texture,
-                        R.drawable.ic_color_lens,
-                        watchFaceGlobalDrawableFlagsSwatch,
-                        WatchFaceSelectionActivity.class,
-                        new EnumMutator<>(
-                                BytePackable.MaterialTexture.values(),
-                                WatchFaceState::setFillHighlightMaterialTexture,
-                                WatchFaceState::getFillHighlightMaterialTexture)),
+                // Data for Accent Fill Material sub-activity in settings Activity.
+                new ConfigActivityConfigItem(
+                        R.string.config_preset_accent_fill_material,
+                        R.drawable.ic_settings,
+                        MaterialConfigData.AccentFill.class,
+                        ConfigActivity.class),
 
-                // Data for accent fill material gradient in settings Activity.
-                new PickerConfigItem(
-                        R.string.config_preset_accent_fill_material_gradient,
-                        R.drawable.ic_color_lens,
-                        watchFaceGlobalDrawableFlagsSwatch,
-                        WatchFaceSelectionActivity.class,
-                        Material.ACCENT_FILL,
-                        new EnumMutator<>(
-                                BytePackable.MaterialGradient.values(),
-                                WatchFaceState::setAccentFillMaterialGradient,
-                                WatchFaceState::getAccentFillMaterialGradient)),
+                // Data for Accent Highlight Material sub-activity in settings Activity.
+                new ConfigActivityConfigItem(
+                        R.string.config_preset_accent_highlight_material,
+                        R.drawable.ic_settings,
+                        MaterialConfigData.AccentHighlight.class,
+                        ConfigActivity.class),
 
-                // Data for accent fill material texture in settings Activity.
-                new PickerConfigItem(
-                        R.string.config_preset_accent_fill_material_texture,
-                        R.drawable.ic_color_lens,
-                        watchFaceGlobalDrawableFlagsSwatch,
-                        WatchFaceSelectionActivity.class,
-                        new EnumMutator<>(
-                                BytePackable.MaterialTexture.values(),
-                                WatchFaceState::setAccentFillMaterialTexture,
-                                WatchFaceState::getAccentFillMaterialTexture)),
-
-                // Data for accent highlight material gradient in settings Activity.
-                new PickerConfigItem(
-                        R.string.config_preset_accent_highlight_material_gradient,
-                        R.drawable.ic_color_lens,
-                        watchFaceGlobalDrawableFlagsSwatch,
-                        WatchFaceSelectionActivity.class,
-                        Material.ACCENT_HIGHLIGHT,
-                        new EnumMutator<>(
-                                BytePackable.MaterialGradient.values(),
-                                WatchFaceState::setAccentHighlightMaterialGradient,
-                                WatchFaceState::getAccentHighlightMaterialGradient)),
-
-                // Data for accent highlight material texture in settings Activity.
-                new PickerConfigItem(
-                        R.string.config_preset_accent_highlight_material_texture,
-                        R.drawable.ic_color_lens,
-                        watchFaceGlobalDrawableFlagsSwatch,
-                        WatchFaceSelectionActivity.class,
-                        new EnumMutator<>(
-                                BytePackable.MaterialTexture.values(),
-                                WatchFaceState::setAccentHighlightMaterialTexture,
-                                WatchFaceState::getAccentHighlightMaterialTexture)),
-
-                // Data for base accent material gradient in settings Activity.
-                new PickerConfigItem(
-                        R.string.config_preset_base_accent_material_gradient,
-                        R.drawable.ic_color_lens,
-                        watchFaceGlobalDrawableFlagsSwatch,
-                        WatchFaceSelectionActivity.class,
-                        Material.BASE_ACCENT,
-                        new EnumMutator<>(
-                                BytePackable.MaterialGradient.values(),
-                                WatchFaceState::setBaseAccentMaterialGradient,
-                                WatchFaceState::getBaseAccentMaterialGradient)),
-
-                // Data for base accent material texture in settings Activity.
-                new PickerConfigItem(
-                        R.string.config_preset_base_accent_material_texture,
-                        R.drawable.ic_color_lens,
-                        watchFaceGlobalDrawableFlagsSwatch,
-                        WatchFaceSelectionActivity.class,
-                        new EnumMutator<>(
-                                BytePackable.MaterialTexture.values(),
-                                WatchFaceState::setBaseAccentMaterialTexture,
-                                WatchFaceState::getBaseAccentMaterialTexture))
+                // Data for Base Accent Material sub-activity in settings Activity.
+                new ConfigActivityConfigItem(
+                        R.string.config_preset_base_accent_material,
+                        R.drawable.ic_settings,
+                        MaterialConfigData.BaseAccent.class,
+                        ConfigActivity.class)
         );
     }
 }

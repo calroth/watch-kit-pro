@@ -102,6 +102,7 @@
     <string name="config_configure_complications">Configure Complications</string>
     <string name="config_configure_watch_face_preset">Configure Watch Face Preset</string>
     <string name="config_configure_colors_materials">Configure Colors and Materials</string>
+    <string name="config_configure_material">Configure Material</string>
     <string name="config_configure_hands">Configure Hands</string>
     <string name="config_configure_ticks">Configure Ticks</string>
     <string name="config_configure_typeface">Configure Typeface</string>
@@ -167,12 +168,16 @@
     <string name="config_preset_bezel_material">Bezel Material</string>
     <string name="config_preset_background_material">Background Material</string>
 
+    <string name="config_preset_fill_highlight_material">Fill Highlight Material</string>
     <string name="config_preset_fill_highlight_material_gradient">Fill Highlight Material Gradient</string>
     <string name="config_preset_fill_highlight_material_texture">Fill Highlight Material Texture</string>
+    <string name="config_preset_accent_fill_material">Accent Fill Material</string>
     <string name="config_preset_accent_fill_material_gradient">Accent Fill Material Gradient</string>
     <string name="config_preset_accent_fill_material_texture">Accent Fill Material Texture</string>
+    <string name="config_preset_accent_highlight_material">Accent Highlight Material</string>
     <string name="config_preset_accent_highlight_material_gradient">Accent Highlight Material Gradient</string>
     <string name="config_preset_accent_highlight_material_texture">Accent Highlight Material Texture</string>
+    <string name="config_preset_base_accent_material">Base Accent Material</string>
     <string name="config_preset_base_accent_material_gradient">Base Accent Material Gradient</string>
     <string name="config_preset_base_accent_material_texture">Base Accent Material Texture</string>
 
