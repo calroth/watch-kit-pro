@@ -108,6 +108,122 @@
     <string name="config_configure_typeface">Configure Typeface</string>
     <string name="config_view_history">View History</string>
 
+    <string name="config_configure_help">&lt;br /&gt;ℹ️️&lt;br /&gt;&lt;br /&gt;</string>
+    <string name="config_configure_settings_help">On this page, configure
+        &lt;i&gt;settings&lt;/i&gt; for how the watch face operates. You can
+        change:&lt;br /&gt;
+        &lt;br /&gt;
+        whether &lt;i&gt;unread notifications&lt;/i&gt; are indicated;&lt;br /&gt;
+        the &lt;i&gt;typeface&lt;/i&gt;; and&lt;br /&gt;
+        the colors for &lt;i&gt;ambient day&lt;/i&gt; and &lt;i&gt;ambient night&lt;/i&gt;
+        display.&lt;br /&gt;
+        &lt;br /&gt;
+        🃏️&lt;br /&gt;️</string>
+    <string name="config_configure_complications_help">A &lt;i&gt;complication&lt;/i&gt; on a
+        watch face is a customisable feature for showing information. Tap on a complication to
+        choose what it shows.&lt;br /&gt;
+        &lt;br /&gt;
+        In addition, on this page, the display may be customised for:&lt;br /&gt;
+        &lt;br /&gt;
+        &lt;i&gt;count&lt;/i&gt; (the number of complications);&lt;br /&gt;
+        &lt;i&gt;position&lt;/i&gt;, &lt;i&gt;size&lt;/i&gt; and &lt;i&gt;scale&lt;/i&gt;;&lt;br /&gt;
+        &lt;i&gt;text color&lt;/i&gt;; and&lt;br /&gt;
+        &lt;i&gt;ring&lt;/i&gt; and &lt;i&gt;background&lt;/i&gt; material.&lt;br /&gt;
+        &lt;br /&gt;
+        Your complication configuration is separate to the &lt;i&gt;watch face preset&lt;/i&gt;
+        you choose. You may select a new watch face preset, but your complications will remain as
+        you configured them.&lt;br /&gt;</string>
+    <string name="config_configure_watch_face_preset_help">A &lt;i&gt;watch face preset&lt;/i&gt;
+        is the visual design for a watch face. It consists of the following elements:&lt;br /&gt;
+        &lt;br /&gt;
+        &lt;i&gt;colors&lt;/i&gt;;&lt;br /&gt;
+        &lt;i&gt;materials&lt;/i&gt;;&lt;br /&gt;
+        &lt;i&gt;hands&lt;/i&gt;; and&lt;br /&gt;
+        &lt;i&gt;ticks&lt;/i&gt;.&lt;br /&gt;
+        &lt;br /&gt;
+        On this page, configure these or view a &lt;i&gt;visual history&lt;/i&gt; of previous watch
+        face presets.&lt;br /&gt;
+        &lt;br /&gt;
+        Your watch face preset is separate to the &lt;i&gt;complication configuration&lt;/i&gt; you
+        choose. You may select a new watch face preset, but your complications will remain as you
+        configured them.&lt;br /&gt;</string>
+    <string name="config_configure_colors_materials_help">On this page, configure the palette of
+        four &lt;i&gt;colors&lt;/i&gt; displayed in the watch face.&lt;br /&gt;
+        &lt;br /&gt;
+        The &lt;i&gt;fill color&lt;/i&gt; is the main color for elements of the watch face, such as
+        &lt;i&gt;hands&lt;/i&gt; and &lt;i&gt;ticks&lt;/i&gt;.&lt;br /&gt;
+        &lt;br /&gt;
+        The &lt;i&gt;accent color&lt;/i&gt; is a complimentary color that adds
+        variation.&lt;br /&gt;
+        &lt;br /&gt;
+        The &lt;i&gt;highlight color&lt;/i&gt; is an opposing color for
+        elements to stand out.&lt;br /&gt;
+        &lt;br /&gt;
+        The &lt;i&gt;background color&lt;/i&gt; is the main color for the watch face
+        background.&lt;br /&gt;
+        &lt;br /&gt;
+        Each element of the watch face has a &lt;i&gt;material&lt;/i&gt;, which determines what it
+        looks like. There are four materials:&lt;br /&gt;
+        &lt;br /&gt;
+        &lt;i&gt;fill highlight&lt;/i&gt;;&lt;br /&gt;
+        &lt;i&gt;accent fill&lt;/i&gt;;&lt;br /&gt;
+        &lt;i&gt;accent highlight&lt;/i&gt;; and&lt;br /&gt;
+        &lt;i&gt;base accent&lt;/i&gt;.&lt;br /&gt;</string>
+    <string name="config_configure_material_help">On this page, configure one of the
+        four &lt;i&gt;materials&lt;/i&gt; displayed in the watch face.&lt;br /&gt;
+        &lt;br /&gt;
+        Each material has the following attributes:&lt;br /&gt;
+        &lt;br /&gt;
+        two &lt;i&gt;colors&lt;/i&gt;;&lt;br /&gt;
+        one &lt;i&gt;gradient&lt;/i&gt;; and&lt;br /&gt;
+        one &lt;i&gt;texture&lt;/i&gt;.&lt;br /&gt;
+        &lt;br /&gt;
+        Each element of the watch face has a material, which determines what it looks
+        like. A list of elements which use this material is listed above.&lt;br /&gt;
+        &lt;br /&gt;
+        Note that the colors are shared among all four materials, so changing them here will
+        affect the watch face elsewhere.&lt;br /&gt;</string>
+    <string name="config_configure_hands_help">On this page, configure the:&lt;br /&gt;
+        &lt;br /&gt;
+        &lt;i&gt;hour hand&lt;/i&gt;;&lt;br /&gt;
+        &lt;i&gt;minute hand&lt;/i&gt;; and&lt;br /&gt;
+        &lt;i&gt;second hand&lt;/i&gt;.&lt;br /&gt;
+        &lt;br /&gt;
+        Each hand has the following attributes:&lt;br /&gt;
+        &lt;br /&gt;
+        hand &lt;i&gt;shape&lt;/i&gt;, &lt;i&gt;length&lt;/i&gt; and
+        &lt;i&gt;thickness&lt;/i&gt;;&lt;br /&gt;
+        hand &lt;i&gt;stalk&lt;/i&gt;;&lt;br /&gt;
+        hand &lt;i&gt;material&lt;/i&gt;; and&lt;br /&gt;
+        cutout &lt;i&gt;shape&lt;/i&gt; and &lt;i&gt;material&lt;/i&gt;.&lt;br /&gt;
+        &lt;br /&gt;
+        By default, the minute and second hands follow the style of the hour hand. To make them
+        different, use the &lt;i&gt;override&lt;/i&gt; switches.&lt;br /&gt;</string>
+    <string name="config_configure_ticks_help">On this page, configure the:&lt;br /&gt;
+        &lt;br /&gt;
+        tick area &lt;i&gt;margin&lt;/i&gt;;&lt;br /&gt;
+        tick area &lt;i&gt;background material&lt;/i&gt;;&lt;br /&gt;
+        digit &lt;i&gt;display&lt;/i&gt;;&lt;br /&gt;
+        digit &lt;i&gt;size&lt;/i&gt;;&lt;br /&gt;
+        digit &lt;i&gt;rotation&lt;/i&gt;;&lt;br /&gt;
+        digit &lt;i&gt;format&lt;/i&gt;;&lt;br /&gt;
+        digit &lt;i&gt;material&lt;/i&gt;; and&lt;br /&gt;
+        which &lt;i&gt;ticks&lt;/i&gt; to display, from the following:&lt;br /&gt;
+        &lt;i&gt;four ticks (at 12, 3, 6, 9)&lt;/i&gt;;&lt;br /&gt;
+        &lt;i&gt;twelve ticks (at 1+2, 4+5, 7+8, 10+11)&lt;/i&gt;; and&lt;br /&gt;
+        &lt;i&gt;sixty ticks&lt;/i&gt;.&lt;br /&gt;
+        &lt;br /&gt;
+        Each set of ticks has the following attributes:&lt;br /&gt;
+        &lt;br /&gt;
+        tick &lt;i&gt;shape&lt;/i&gt;;&lt;br /&gt;
+        tick &lt;i&gt;size&lt;/i&gt;; and&lt;br /&gt;
+        tick &lt;i&gt;material&lt;/i&gt;.&lt;br /&gt;
+        &lt;br /&gt;
+        By default, the twelve and sixty ticks follow the style of the four ticks. To make them
+        different, use the &lt;i&gt;override&lt;/i&gt; switches.&lt;br /&gt;</string>
+    <string name="config_configure_typeface_help">On this page, configure the
+        &lt;i&gt;typeface&lt;/i&gt; (or font) of all text on the watch face.&lt;br /&gt;</string>
+
     <string name="config_complication_count">Complication Count</string>
     <string name="config_complication_rotation">Complication Position</string>
     <string name="config_complication_size">Complication Size</string>

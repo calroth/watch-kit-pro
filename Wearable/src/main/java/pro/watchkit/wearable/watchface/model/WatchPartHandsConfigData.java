@@ -281,7 +281,11 @@ public class WatchPartHandsConfigData extends ConfigData {
                                 BytePackable.Material.values(),
                                 WatchFaceState::setSecondHandMaterial,
                                 WatchFaceState::getSecondHandMaterial),
-                        WatchFaceState::isSecondHandOverridden)
+                        WatchFaceState::isSecondHandOverridden),
+
+                // Help.
+                new LabelConfigItem(R.string.config_configure_help,
+                        R.string.config_configure_hands_help)
         );
     }
 }

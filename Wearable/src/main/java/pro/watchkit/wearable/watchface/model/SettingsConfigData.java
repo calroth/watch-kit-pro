@@ -92,6 +92,10 @@ public class SettingsConfigData extends ConfigData {
                         PaintBox.ColorType.AMBIENT_NIGHT,
                         ColorSelectionActivity.class),
 
+                // Help.
+                new LabelConfigItem(R.string.config_configure_help,
+                        R.string.config_configure_settings_help),
+
                 // About!
                 new LabelConfigItem(R.string.config_about_heading, R.string.version_name),
 

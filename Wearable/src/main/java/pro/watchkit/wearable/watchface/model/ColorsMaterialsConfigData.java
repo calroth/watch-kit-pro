@@ -97,7 +97,11 @@ public class ColorsMaterialsConfigData extends ConfigData {
                         R.string.config_preset_base_accent_material,
                         R.drawable.ic_settings,
                         MaterialConfigData.BaseAccent.class,
-                        ConfigActivity.class)
+                        ConfigActivity.class),
+
+                // Help.
+                new LabelConfigItem(R.string.config_configure_help,
+                        R.string.config_configure_colors_materials_help)
         );
     }
 }

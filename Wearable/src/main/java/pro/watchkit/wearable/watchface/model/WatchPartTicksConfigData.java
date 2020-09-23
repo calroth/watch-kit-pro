@@ -267,7 +267,11 @@ public class WatchPartTicksConfigData extends ConfigData {
                         new EnumMutator<>(
                                 BytePackable.Material.values(),
                                 WatchFaceState::setBackgroundMaterial,
-                                WatchFaceState::getBackgroundMaterial))
+                                WatchFaceState::getBackgroundMaterial)),
+
+                // Help.
+                new LabelConfigItem(R.string.config_configure_help,
+                        R.string.config_configure_ticks_help)
         );
     }
 }

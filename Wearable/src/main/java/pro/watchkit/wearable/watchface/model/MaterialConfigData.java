@@ -82,7 +82,11 @@ public abstract class MaterialConfigData extends ConfigData {
                         new EnumMutator<>(
                                 BytePackable.MaterialTexture.values(),
                                 getMaterialTextureSetter(),
-                                getMaterialTextureGetter()))
+                                getMaterialTextureGetter())),
+
+                // Help.
+                new LabelConfigItem(R.string.config_configure_help,
+                        R.string.config_configure_material_help)
         );
     }
 

@@ -119,7 +119,11 @@ public class ComplicationConfigData extends ConfigData {
                         new EnumMutator<>(
                                 BytePackable.Material.values(),
                                 WatchFaceState::setComplicationBackgroundMaterial,
-                                WatchFaceState::getComplicationBackgroundMaterial))
+                                WatchFaceState::getComplicationBackgroundMaterial)),
+
+                // Help.
+                new LabelConfigItem(R.string.config_configure_help,
+                        R.string.config_configure_complications_help)
         );
     }
 }

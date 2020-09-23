@@ -104,7 +104,11 @@ public class WatchFacePresetConfigData extends ConfigData {
                             public void setSharedPref(@NonNull SharedPref sharedPref) {
                                 mSharedPref = sharedPref;
                             }
-                        })
+                        }),
+
+                // Help.
+                new LabelConfigItem(R.string.config_configure_help,
+                        R.string.config_configure_watch_face_preset_help)
         );
     }
 }

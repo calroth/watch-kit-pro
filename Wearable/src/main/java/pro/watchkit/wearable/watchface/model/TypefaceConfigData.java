@@ -63,7 +63,11 @@ public class TypefaceConfigData extends ConfigData {
 
                 new TypefaceConfigItem(Typeface.PRODUCT_SANS_MEDIUM),
 
-                new TypefaceConfigItem(Typeface.PRODUCT_SANS_BOLD)
+                new TypefaceConfigItem(Typeface.PRODUCT_SANS_BOLD),
+
+                // Help.
+                new LabelConfigItem(R.string.config_configure_help,
+                        R.string.config_configure_typeface_help)
         );
     }
 }
