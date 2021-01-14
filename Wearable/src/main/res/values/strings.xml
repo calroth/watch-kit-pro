@@ -636,6 +636,140 @@
 
     <integer-array name="six_bit_colors">
         <item>0xFF000000</item>
+        <item>0xFF000076</item>
+        <item>0xFF0000B8</item>
+        <item>0xFF0000FF</item>
+        <item>0xFF005100</item>
+        <item>0xFF005F66</item>
+        <item>0xFF006DA5</item>
+        <item>0xFF0079E2</item>
+        <item>0xFF00A400</item>
+        <item>0xFF01AC7E</item>
+        <item>0xFF00B4BA</item>
+        <item>0xFF02BCF0</item>
+        <item>0xFF00FF00</item>
+        <item>0xFF00FF92</item>
+        <item>0xFF01FFCE</item>
+        <item>0xFF03FFFF</item>
+        <item>0xFF5F0000</item>
+        <item>0xFF720063</item>
+        <item>0xFF8200A7</item>
+        <item>0xFF8D00ED</item>
+        <item>0xFF796100</item>
+        <item>0xFF816B73</item>
+        <item>0xFF8874B1</item>
+        <item>0xFF8C7DEC</item>
+        <item>0xFF8CAE00</item>
+        <item>0xFF8FB485</item>
+        <item>0xFF91BAC2</item>
+        <item>0xFF92BFF6</item>
+        <item>0xFF94FF00</item>
+        <item>0xFF95FF93</item>
+        <item>0xFF95FFCF</item>
+        <item>0xFF96FFFF</item>
+        <item>0xFFAB0000</item>
+        <item>0xFFB80073</item>
+        <item>0xFFC201B4</item>
+        <item>0xFFC901F3</item>
+        <item>0xFFC26F00</item>
+        <item>0xFFC77680</item>
+        <item>0xFFCA7CBE</item>
+        <item>0xFFCA82F6</item>
+        <item>0xFFD0B800</item>
+        <item>0xFFD1BC8C</item>
+        <item>0xFFD0BFC9</item>
+        <item>0xFFCFC3FC</item>
+        <item>0xFFD0FF00</item>
+        <item>0xFFD0FF94</item>
+        <item>0xFFD1FFD0</item>
+        <item>0xFFD1FFFF</item>
+        <item>0xFFFF0000</item>
+        <item>0xFFFF0186</item>
+        <item>0xFFFF00C5</item>
+        <item>0xFFFF01FF</item>
+        <item>0xFFFF7C00</item>
+        <item>0xFFFF808D</item>
+        <item>0xFFFF83CB</item>
+        <item>0xFFFF87FF</item>
+        <item>0xFFFFC000</item>
+        <item>0xFFFFC292</item>
+        <item>0xFFFFC4CF</item>
+        <item>0xFFFFC6FF</item>
+        <item>0xFFFFFF00</item>
+        <item>0xFFFFFF94</item>
+        <item>0xFFFFFFD0</item>
+        <item>0xFFFFFFFF</item>
+    </integer-array>
+
+    <string-array name="six_bit_color_names">
+        <item>Black</item>
+        <item>Navy</item>
+        <item>Medium Blue</item>
+        <item>Blue</item>
+        <item>Emerald Green</item>
+        <item>Tropical Rain Forest</item>
+        <item>Sapphire Blue</item>
+        <item>True Blue</item>
+        <item>Office Green</item>
+        <item>Jade</item>
+        <item>Tiffany Blue</item>
+        <item>Blue Bolt</item>
+        <item>Electric Green</item>
+        <item>Medium Spring Green</item>
+        <item>Turquoise Blue</item>
+        <item>Aqua</item>
+        <item>Rosewood</item>
+        <item>Byzantium</item>
+        <item>Dark Magenta</item>
+        <item>Electric Violet</item>
+        <item>Bronze Yellow</item>
+        <item>Old Lavender</item>
+        <item>Purple Mountain Majesty</item>
+        <item>Medium Purple</item>
+        <item>Apple Green</item>
+        <item>Dark Sea Green</item>
+        <item>Dark Sky Blue</item>
+        <item>Jordy Blue</item>
+        <item>Mango Green</item>
+        <item>Mint Green</item>
+        <item>Aquamarine</item>
+        <item>Celeste</item>
+        <item>Dark Candy Apple Red</item>
+        <item>Flirt</item>
+        <item>Heliotrope Magenta</item>
+        <item>Vivid Orchid</item>
+        <item>Mustard Brown</item>
+        <item>Old Rose</item>
+        <item>Sky Magenta</item>
+        <item>Pale Violet</item>
+        <item>Neon Gold</item>
+        <item>Tan</item>
+        <item>Neon Silver</item>
+        <item>Lavender Blue</item>
+        <item>Volt</item>
+        <item>Menthol</item>
+        <item>Aero Blue</item>
+        <item>Light Cyan</item>
+        <item>Red</item>
+        <item>Bright Pink</item>
+        <item>Shocking Pink</item>
+        <item>Fuchsia</item>
+        <item>Heat Wave</item>
+        <item>Tulip</item>
+        <item>Princess Perfume</item>
+        <item>Fuchsia Pink</item>
+        <item>Amber</item>
+        <item>Peach-Orange</item>
+        <item>Bubble Gum</item>
+        <item>Brilliant Lavender</item>
+        <item>Yellow</item>
+        <item>Canary</item>
+        <item>Cream</item>
+        <item>White</item>
+    </string-array>
+
+    <integer-array name="six_bit_colors_v1">
+        <item>0xFF000000</item>
         <item>0xFF1E0F4F</item>
         <item>0xFF230FA3</item>
         <item>0xFF0100FF</item>
@@ -701,7 +835,7 @@
         <item>0xFFFFFFFF</item>
     </integer-array>
 
-    <string-array name="six_bit_color_names">
+    <string-array name="six_bit_color_names_v1">
         <item>Black</item>
         <item>Russian Violet</item>
         <item>Zaffre</item>
