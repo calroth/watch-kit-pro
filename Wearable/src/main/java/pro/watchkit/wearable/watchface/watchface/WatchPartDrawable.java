@@ -64,37 +64,37 @@ abstract class WatchPartDrawable extends Drawable {
     @NonNull
     private static Path.Direction mDirection = Path.Direction.CCW;
     @NonNull
-    private Path mResetExclusionActivePath = new Path();
+    private final Path mResetExclusionActivePath = new Path();
     @NonNull
-    private Path mResetExclusionAmbientPath = new Path();
+    private final Path mResetExclusionAmbientPath = new Path();
     @NonNull
-    private Path p5 = new Path();
+    private final Path p5 = new Path();
     @NonNull
-    private Path p6 = new Path();
+    private final Path p6 = new Path();
     @NonNull
-    private Path p7 = new Path();
+    private final Path p7 = new Path();
     @NonNull
-    private Path p8 = new Path();
+    private final Path p8 = new Path();
     @NonNull
-    private Path mNorthWestBezel = new Path();
+    private final Path mNorthWestBezel = new Path();
     @NonNull
-    private Path mSouthEastBezel = new Path();
+    private final Path mSouthEastBezel = new Path();
     @NonNull
-    private Path mNorthEastBezel = new Path();
+    private final Path mNorthEastBezel = new Path();
     @NonNull
-    private Path mSouthWestBezel = new Path();
+    private final Path mSouthWestBezel = new Path();
     @NonNull
-    private Path mShapeCutout = new Path();
+    private final Path mShapeCutout = new Path();
     @NonNull
-    private Path mTempPath = new Path();
+    private final Path mTempPath = new Path();
     @NonNull
     private Path mInnerGlowPath = new Path();
     @NonNull
-    private Path mDrawPath = new Path();
+    private final Path mDrawPath = new Path();
     @NonNull
-    private Paint mNorthEastBezelPaint = new Paint();
+    private final Paint mNorthEastBezelPaint = new Paint();
     @NonNull
-    private Paint mSouthWestBezelPaint = new Paint();
+    private final Paint mSouthWestBezelPaint = new Paint();
 
     /**
      * Reset our current direction. Call this before starting any drawing, so we get consistency
@@ -112,9 +112,9 @@ abstract class WatchPartDrawable extends Drawable {
     // Stats end
 
     @NonNull
-    private Matrix mTempMatrix1 = new Matrix();
+    private final Matrix mTempMatrix1 = new Matrix();
     @NonNull
-    private Matrix mTempMatrix2 = new Matrix();
+    private final Matrix mTempMatrix2 = new Matrix();
 
     private static Canvas mWriteCanvas;
     private static Bitmap mWriteBitmap;
@@ -263,38 +263,38 @@ abstract class WatchPartDrawable extends Drawable {
             mSouthEastBezel.op(p, Path.Op.INTERSECT);
         }
 
-        boolean altDrawing = mWatchFaceState.isDeveloperMode() && mWatchFaceState.isAltDrawing();
-        if (!altDrawing) {
-            // Do it again: only this time for NE and SW bezels
-
-            mTempMatrix1.reset();
-            mTempMatrix2.reset();
-
-            mTempMatrix1.postRotate(degrees, mCenterX, mCenterY);
-            mTempMatrix1.postTranslate(mBevelOffset * pc, -(mBevelOffset * pc));
-            mTempMatrix1.postRotate(-degrees, mCenterX, mCenterY);
-
-            mTempMatrix2.postRotate(degrees, mCenterX, mCenterY);
-            mTempMatrix2.postTranslate(-(mBevelOffset * pc), mBevelOffset * pc);
-            mTempMatrix2.postRotate(-degrees, mCenterX, mCenterY);
-
-            p.transform(mTempMatrix1, mNorthEastBezel);
-            p.transform(mTempMatrix2, mSouthWestBezel);
-
-            // Draw NW and SE bezels as paths.
-
-            // Calculate the intersection of NE and SW bezels.
-            mTempPath.set(mNorthEastBezel);
-            mTempPath.op(mSouthWestBezel, Path.Op.INTERSECT);
-
-            // Punch that intersection out of NE and SW bevels.
-            mNorthEastBezel.op(mTempPath, Path.Op.DIFFERENCE);
-            mSouthWestBezel.op(mTempPath, Path.Op.DIFFERENCE);
-
-            // And clip the NE and SW bezels to the original paths.
-            mNorthEastBezel.op(p, Path.Op.INTERSECT);
-            mSouthWestBezel.op(p, Path.Op.INTERSECT);
-        }
+//        boolean altDrawing = mWatchFaceState.isDeveloperMode() && mWatchFaceState.isAltDrawing();
+//        if (!altDrawing) {
+//            // Do it again: only this time for NE and SW bezels
+//
+//            mTempMatrix1.reset();
+//            mTempMatrix2.reset();
+//
+//            mTempMatrix1.postRotate(degrees, mCenterX, mCenterY);
+//            mTempMatrix1.postTranslate(mBevelOffset * pc, -(mBevelOffset * pc));
+//            mTempMatrix1.postRotate(-degrees, mCenterX, mCenterY);
+//
+//            mTempMatrix2.postRotate(degrees, mCenterX, mCenterY);
+//            mTempMatrix2.postTranslate(-(mBevelOffset * pc), mBevelOffset * pc);
+//            mTempMatrix2.postRotate(-degrees, mCenterX, mCenterY);
+//
+//            p.transform(mTempMatrix1, mNorthEastBezel);
+//            p.transform(mTempMatrix2, mSouthWestBezel);
+//
+//            // Draw NW and SE bezels as paths.
+//
+//            // Calculate the intersection of NE and SW bezels.
+//            mTempPath.set(mNorthEastBezel);
+//            mTempPath.op(mSouthWestBezel, Path.Op.INTERSECT);
+//
+//            // Punch that intersection out of NE and SW bevels.
+//            mNorthEastBezel.op(mTempPath, Path.Op.DIFFERENCE);
+//            mSouthWestBezel.op(mTempPath, Path.Op.DIFFERENCE);
+//
+//            // And clip the NE and SW bezels to the original paths.
+//            mNorthEastBezel.op(p, Path.Op.INTERSECT);
+//            mSouthWestBezel.op(p, Path.Op.INTERSECT);
+//        }
     }
 
     private Paint mInnerGlowPaint;
@@ -342,7 +342,7 @@ abstract class WatchPartDrawable extends Drawable {
         // The path itself
         // Primary bevel 2 and secondary bevel 2, which are light and dark highlights
         // Primary bevel and secondary bevel
-        boolean altDrawing = mWatchFaceState.isDeveloperMode() && mWatchFaceState.isAltDrawing();
+//        boolean altDrawing = mWatchFaceState.isDeveloperMode() && mWatchFaceState.isAltDrawing();
         if (!mWatchFaceState.isAmbient()) {
             // Shadow
 //            canvas.drawPath(p, mWatchFaceState.getPaintBox().getShadowPaint());
@@ -357,15 +357,15 @@ abstract class WatchPartDrawable extends Drawable {
             }
             canvas.drawPath(mTempPath, paint);
 
-            // Draw NE and SW bezels as paths.
-            // They're drawn first so they're overdrawn by NW and SE.
-            if (!altDrawing) {
-                // Right, all done, draw them!
-                mNorthEastBezel.transform(mTempMatrix2, mTempPath);
-                canvas.drawPath(mTempPath, mNorthEastBezelPaint);
-                mSouthWestBezel.transform(mTempMatrix2, mTempPath);
-                canvas.drawPath(mTempPath, mSouthWestBezelPaint);
-            }
+//            // Draw NE and SW bezels as paths.
+//            // They're drawn first so they're overdrawn by NW and SE.
+//            if (!altDrawing) {
+//                // Right, all done, draw them!
+//                mNorthEastBezel.transform(mTempMatrix2, mTempPath);
+//                canvas.drawPath(mTempPath, mNorthEastBezelPaint);
+//                mSouthWestBezel.transform(mTempMatrix2, mTempPath);
+//                canvas.drawPath(mTempPath, mSouthWestBezelPaint);
+//            }
 
             // Draw NW and SE bezels as paths.
             {

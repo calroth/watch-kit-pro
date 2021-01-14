@@ -124,7 +124,7 @@ public class WatchFaceState {
     }
 
     @NonNull
-    private StringBuilder mStringBuilder = new StringBuilder();
+    private final StringBuilder mStringBuilder = new StringBuilder();
 
     public WatchFaceState(Context context) {
         mPaintBox = new PaintBox(context);
@@ -1811,6 +1811,7 @@ public class WatchFaceState {
     // region PaintBox
     private void regeneratePaints() {
         mPaintBox.setSparkleEffect(isDeveloperMode() && isSparkleEffect());
+        mPaintBox.setUseLUV(isDeveloperMode() && isAltDrawing());
         mPaintBox.regeneratePaints(
                 getFillSixBitColor(), getAccentSixBitColor(),
                 getHighlightSixBitColor(), getBaseSixBitColor(),

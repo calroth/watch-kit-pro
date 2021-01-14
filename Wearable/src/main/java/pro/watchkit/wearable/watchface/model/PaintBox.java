@@ -62,29 +62,30 @@ public final class PaintBox {
 
     private float pc = 0f; // percent, set to 0.01f * height, all units are based on percent
     private float mCenterX, mCenterY;
-    private Paint mFillPaint;
-    private Paint mAccentPaint;
-    private Paint mHighlightPaint;
-    private Paint mBasePaint;
-    private Paint mAmbientPaint, mAmbientPaintFaded;
-    private Paint mShadowPaint;
+    private final Paint mFillPaint;
+    private final Paint mAccentPaint;
+    private final Paint mHighlightPaint;
+    private final Paint mBasePaint;
+    private final Paint mAmbientPaint;
+    private final Paint mAmbientPaintFaded;
+    private final Paint mShadowPaint;
     @NonNull
-    private static SparseArray<WeakReference<Bitmap>> mBitmapCache = new SparseArray<>();
+    private static final SparseArray<WeakReference<Bitmap>> mBitmapCache = new SparseArray<>();
     @NonNull
-    private static SparseArray<WeakReference<BitmapShader>> mBitmapShaderCache = new SparseArray<>();
+    private static final SparseArray<WeakReference<BitmapShader>> mBitmapShaderCache = new SparseArray<>();
     @NonNull
-    private GradientPaint mFillHighlightPaint = new GradientPaint();
+    private final GradientPaint mFillHighlightPaint = new GradientPaint();
     @NonNull
-    private GradientPaint mAccentFillPaint = new GradientPaint();
+    private final GradientPaint mAccentFillPaint = new GradientPaint();
     private GradientPaint mBezelPaint1;
     @NonNull
-    private GradientPaint mBezelPaint2 = new GradientPaint();
+    private final GradientPaint mBezelPaint2 = new GradientPaint();
     @NonNull
-    private GradientPaint mAccentHighlightPaint = new GradientPaint();
+    private final GradientPaint mAccentHighlightPaint = new GradientPaint();
     @NonNull
-    private GradientPaint mBaseAccentPaint = new GradientPaint();
+    private final GradientPaint mBaseAccentPaint = new GradientPaint();
     private int mPreviousSerial = -1;
-    private Context mContext;
+    private final Context mContext;
 
     private static RenderScript mRenderScript;
     private static ScriptC_mapBitmap mScriptC_mapBitmap;
@@ -118,6 +119,114 @@ public final class PaintBox {
     }
 
     /**
+     * Reference constants for the CIELUV colorspace conversions. D65 illuminant, 2 degrees.
+     */
+    private final static double Reference_X = 95.047d,
+            Reference_Y = 100.000d, Reference_Z = 108.883d;
+
+    /**
+     * Reference constant "ref_U" for the CIELUV colorspace conversions.
+     */
+    private final static double ref_U =
+            (4d * Reference_X) / (Reference_X + (15d * Reference_Y) + (3d * Reference_Z));
+
+    /**
+     * Reference constant "ref_V" for the CIELUV colorspace conversions.
+     */
+    private final static double ref_V =
+            (9d * Reference_Y) / (Reference_X + (15d * Reference_Y) + (3d * Reference_Z));
+
+    /**
+     * Converts the given color from the sRGB colorspace to CIELUV.
+     *
+     * @param color The color as an sRGB ColorInt
+     * @return The color in the CIELUV colorspace as a four-element array, representing alpha, L,
+     * u and v channels
+     */
+    private static double[] convertSRGBToLUV(@ColorInt int color) {
+        int sRGB_A = Color.alpha(color);
+        int sRGB_R = Color.red(color);
+        int sRGB_G = Color.green(color);
+        int sRGB_B = Color.blue(color);
+
+        // Shortcut -- black causes divide-by-zero, so just return zero.
+        if (sRGB_R + sRGB_G + sRGB_B == 0) {
+            return new double[]{(double) sRGB_A, 0d, 0d, 0d};
+        }
+
+        // Convert sRGB to XYZ...
+        double var_R = (double) sRGB_R / 255d;
+        double var_G = (double) sRGB_G / 255d;
+        double var_B = (double) sRGB_B / 255d;
+
+        var_R = 100d * (var_R > 0.04045d ?
+                Math.pow((var_R + 0.055d) / 1.055d, 2.4d) : var_R / 12.92d);
+        var_G = 100d * (var_G > 0.04045d ?
+                Math.pow((var_G + 0.055d) / 1.055d, 2.4d) : var_G / 12.92d);
+        var_B = 100d * (var_B > 0.04045d ?
+                Math.pow((var_B + 0.055d) / 1.055d, 2.4d) : var_B / 12.92d);
+
+        double X = var_R * 0.4124d + var_G * 0.3576d + var_B * 0.1805d;
+        double Y = var_R * 0.2126d + var_G * 0.7152d + var_B * 0.0722d;
+        double Z = var_R * 0.0193d + var_G * 0.1192d + var_B * 0.9505d;
+
+        // Convert XYZ to LUV...
+        double var_U = (4d * X) / (X + (15d * Y) + (3d * Z));
+        double var_V = (9d * Y) / (X + (15d * Y) + (3d * Z));
+
+        double var_Y = Y / 100d;
+        var_Y = var_Y > (216d / 24389d) ?
+                Math.pow(var_Y, 1d / 3d) : ((var_Y * 24389d / 3132d) + (16d / 116d));
+
+        double CIE_L = (116d * var_Y) - 16d;
+        double CIE_u = 13d * CIE_L * (var_U - ref_U);
+        double CIE_v = 13d * CIE_L * (var_V - ref_V);
+
+        return new double[]{(double) sRGB_A, CIE_L, CIE_u, CIE_v};
+    }
+
+    /**
+     * Converts the given color from the CIELUV colorspace to sRGB.
+     *
+     * @param LUV The color in the CIELUV colorspace as a four-element array, representing alpha,
+     *            L, u and v channels
+     * @return The color as an sRGB ColorInt
+     */
+    @ColorInt
+    private static int convertLUVToSRGB(double[] LUV) {
+        // Convert LUV to XYZ...
+        double var_Y = (LUV[1] + 16d) / 116d;
+        var_Y = Math.pow(var_Y, 3d) > (216d / 24389d) ?
+                Math.pow(var_Y, 3d) : ((var_Y - 16d / 116d) * 3132d / 24389d);
+
+        double var_U = LUV[2] / (13d * LUV[1]) + ref_U;
+        double var_V = LUV[3] / (13d * LUV[1]) + ref_V;
+
+        double Y = var_Y * 100d;
+        double X = 0d - (9d * Y * var_U) / ((var_U - 4d) * var_V - var_U * var_V);
+        double Z = (9d * Y - (15d * var_V * Y) - (var_V * X)) / (3d * var_V);
+
+        // Convert XYZ to sRGB...
+        double var_X = X / 100d;
+        var_Y = Y / 100d;
+        double var_Z = Z / 100d;
+
+        double var_R = var_X * 3.2406d + var_Y * -1.5372d + var_Z * -0.4986d;
+        double var_G = var_X * -0.9689d + var_Y * 1.8758d + var_Z * 0.0415d;
+        double var_B = var_X * 0.0557d + var_Y * -0.2040d + var_Z * 1.0570d;
+
+        var_R = var_R > 0.0031308d ?
+                1.055 * Math.pow(var_R, 1d / 2.4d) - 0.055d : 12.92d * var_R;
+        var_G = var_G > 0.0031308d ?
+                1.055 * Math.pow(var_G, 1d / 2.4d) - 0.055d : 12.92d * var_G;
+        var_B = var_B > 0.0031308d ?
+                1.055 * Math.pow(var_B, 1d / 2.4d) - 0.055d : 12.92d * var_B;
+
+        return Color.argb(
+                (int) LUV[0], (int) (var_R * 255d), (int) (var_G * 255d), (int) (var_B * 255d));
+    }
+
+    /**
      * Given two colors A and B, return an intermediate color between the two. The distance
      * between the two is given by "d"; 1.0 means return "colorA", 0.0 means return "colorB",
      * 0.5 means return something evenly between the two.
@@ -137,8 +246,17 @@ public final class PaintBox {
         else if (d > 1) d = 1;
         double e = 1d - d;
 
-        // The "long colors" feature is only available in SDK 26 onwards!
-        if (Build.VERSION.SDK_INT >= 26) {
+        if (mUseLUV) {
+            double[] colorA2 = convertSRGBToLUV(colorA);
+            double[] colorB2 = convertSRGBToLUV(colorB);
+            double[] colorC2 = {0d, 0d, 0d, 0d};
+            colorC2[0] = colorA2[0] * d + colorB2[0] * e;
+            colorC2[1] = colorA2[1] * d + colorB2[1] * e;
+            colorC2[2] = colorA2[2] * d + colorB2[2] * e;
+            colorC2[3] = colorA2[3] * d + colorB2[3] * e;
+            return convertLUVToSRGB(colorC2);
+        } else if (Build.VERSION.SDK_INT >= 26) {
+            // The "long colors" feature is only available in SDK 26 onwards!
             ColorSpace CIE_LAB = ColorSpace.get(ColorSpace.Named.CIE_LAB);
             ColorSpace sRGB = ColorSpace.get(ColorSpace.Named.SRGB);
 
@@ -182,8 +300,22 @@ public final class PaintBox {
             @ColorInt int colorA, @ColorInt int colorB, @NonNull @ColorInt int[] cLUT) {
         double j = cLUT.length - 1;
 
-        // The "long colors" feature is only available in SDK 26 onwards!
-        if (Build.VERSION.SDK_INT >= 26) {
+        if (mUseLUV) {
+            double[] colorA2 = convertSRGBToLUV(colorA);
+            double[] colorB2 = convertSRGBToLUV(colorB);
+            double[] colorC2 = {0d, 0d, 0d, 0d};
+
+            for (int i = 0; i < cLUT.length; i++) {
+                double d = (double) i / j;
+                double e = 1d - d;
+                colorC2[0] = colorA2[0] * d + colorB2[0] * e;
+                colorC2[1] = colorA2[1] * d + colorB2[1] * e;
+                colorC2[2] = colorA2[2] * d + colorB2[2] * e;
+                colorC2[3] = colorA2[3] * d + colorB2[3] * e;
+                cLUT[i] = convertLUVToSRGB(colorC2);
+            }
+        } else if (Build.VERSION.SDK_INT >= 26) {
+            // The "long colors" feature is only available in SDK 26 onwards!
             ColorSpace CIE_LAB = ColorSpace.get(ColorSpace.Named.CIE_LAB);
             ColorSpace sRGB = ColorSpace.get(ColorSpace.Named.SRGB);
 
@@ -258,7 +390,11 @@ public final class PaintBox {
      */
     @ColorInt
     public int getColor(int sixBitColor) {
-        return mContext.getResources().getIntArray(R.array.six_bit_colors)[sixBitColor];
+        if (mUseLUV) {
+            return mContext.getResources().getIntArray(R.array.six_bit_colors)[sixBitColor];
+        } else {
+            return mContext.getResources().getIntArray(R.array.six_bit_colors_v1)[sixBitColor];
+        }
     }
 
     /**
@@ -268,7 +404,13 @@ public final class PaintBox {
      * @return Name of the color from our palette as a ColorInt
      */
     public String getColorName(int sixBitColor) {
-        return mContext.getResources().getStringArray(R.array.six_bit_color_names)[sixBitColor];
+        if (mUseLUV) {
+            return mContext.getResources().getStringArray(
+                    R.array.six_bit_color_names)[sixBitColor];
+        } else {
+            return mContext.getResources().getStringArray(
+                    R.array.six_bit_color_names_v1)[sixBitColor];
+        }
     }
 
     private MaterialGradient mAccentFillMaterialGradient;
@@ -488,6 +630,12 @@ public final class PaintBox {
 
     void setSparkleEffect(boolean sparkleEffect) {
         mSparkleEffect = sparkleEffect;
+    }
+
+    private static boolean mUseLUV;
+
+    void setUseLUV(boolean useLUV) {
+        mUseLUV = useLUV;
     }
 
     public enum ColorType {FILL, ACCENT, HIGHLIGHT, BASE, AMBIENT_DAY, AMBIENT_NIGHT}
