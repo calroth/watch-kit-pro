@@ -278,6 +278,9 @@ public class ColorSelectionActivity extends Activity {
 
                 float radius = spanRoot3 * 0.45f;
                 float cx = 0f;
+//                android.util.Log.d("ColorSelectionActivity", String.format(
+//                        "<svg width=\"%f\" height=\"%f\">",
+//                        bounds.width(), bounds.height()));
 
                 for (int i = 0; i < mRows.length; i++) {
                     cx += spanRoot3;
@@ -302,18 +305,31 @@ public class ColorSelectionActivity extends Activity {
                             // Draw a white circle offset -0.2%, -0.2%
                             o.setColor(Color.WHITE);
                             canvas.drawCircle(cx - 0.2f * pc, cy - 0.2f * pc, radius2, o);
+//                            android.util.Log.d("ColorSelectionActivity", String.format(
+//                                    "<circle cx=\"%f\" cy=\"%f\" r=\"%f\" fill=\"#%06X\" />",
+//                                    cx - 0.2f * pc, cy - 0.2f * pc, radius,
+//                                    (0xFFFFFF & o.getColor())));
 
                             // Draw a black circle offset +0.2%, +0.2%
                             o.setColor(Color.BLACK);
                             canvas.drawCircle(cx + 0.2f * pc, cy + 0.2f * pc, radius2, o);
+//                            android.util.Log.d("ColorSelectionActivity", String.format(
+//                                    "<circle cx=\"%f\" cy=\"%f\" r=\"%f\" fill=\"#%06X\" />",
+//                                    cx + 0.2f * pc, cy + 0.2f, radius,
+//                                    (0xFFFFFF & o.getColor())));
 
                             // Now draw our swatch.
                             p.setColor(mWatchFaceState.getPaintBox().getColor(mRows[i][j]));
                             canvas.drawCircle(cx, cy, radius2, p);
+//                            android.util.Log.d("ColorSelectionActivity", String.format(
+//                                    "<circle cx=\"%f\" cy=\"%f\" r=\"%f\" fill=\"#%06X\" />",
+//                                    cx, cy, radius,
+//                                    (0xFFFFFF & p.getColor())));
                         }
                         cy += span;
                     }
                 }
+//                android.util.Log.d("ColorSelectionActivity", "</svg>");
             }
 
             @Override
