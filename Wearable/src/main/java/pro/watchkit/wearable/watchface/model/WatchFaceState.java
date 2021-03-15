@@ -949,20 +949,20 @@ public class WatchFaceState {
         mSettings.mHideHands = hideHands;
     }
 
-    public boolean isAltDrawing() {
-        return mSettings.mAltDrawing;
+    public boolean isUseLegacyColorDrawing() {
+        return mSettings.mUseLegacyColorDrawing;
     }
 
-    void setAltDrawing(boolean altDrawing) {
-        mSettings.mAltDrawing = altDrawing;
+    void setUseLegacyColorDrawing(boolean useLegacyColorInterpolation) {
+        mSettings.mUseLegacyColorDrawing = useLegacyColorInterpolation;
     }
 
-    private boolean isSparkleEffect() {
-        return mSettings.mSparkleEffect;
+    private boolean isUseLegacyEffects() {
+        return mSettings.mUseLegacyEffects;
     }
 
-    void setSparkleEffect(boolean sparkleEffect) {
-        mSettings.mSparkleEffect = sparkleEffect;
+    void setUseLegacyEffects(boolean useLegacyEffects) {
+        mSettings.mUseLegacyEffects = useLegacyEffects;
     }
     // endregion
 
@@ -1810,8 +1810,8 @@ public class WatchFaceState {
 
     // region PaintBox
     private void regeneratePaints() {
-        mPaintBox.setSparkleEffect(isDeveloperMode() && isSparkleEffect());
-        mPaintBox.setUseLUV(isDeveloperMode() && isAltDrawing());
+        mPaintBox.setUseLegacyEffects(isDeveloperMode() && isUseLegacyEffects());
+        mPaintBox.setUseLegacyColorDrawingNotLUV(isDeveloperMode() && isUseLegacyColorDrawing());
         mPaintBox.regeneratePaints(
                 getFillSixBitColor(), getAccentSixBitColor(),
                 getHighlightSixBitColor(), getBaseSixBitColor(),

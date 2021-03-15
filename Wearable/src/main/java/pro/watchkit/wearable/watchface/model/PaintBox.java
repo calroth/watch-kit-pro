@@ -38,6 +38,7 @@ import android.graphics.Xfermode;
 import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.RenderScript;
+import android.renderscript.Short4;
 import android.util.SparseArray;
 
 import androidx.annotation.ColorInt;
@@ -45,6 +46,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import pro.watchkit.wearable.watchface.R;
@@ -626,16 +629,16 @@ public final class PaintBox {
     private static Bitmap mTempBitmap;
     private static Canvas mTempCanvas;
 
-    private boolean mSparkleEffect;
+    private boolean mUseLegacyEffects;
 
-    void setSparkleEffect(boolean sparkleEffect) {
-        mSparkleEffect = sparkleEffect;
+    void setUseLegacyEffects(boolean useLegacyEffects) {
+        mUseLegacyEffects = useLegacyEffects;
     }
 
     private static boolean mUseLUV;
 
-    void setUseLUV(boolean useLUV) {
-        mUseLUV = useLUV;
+    void setUseLegacyColorDrawingNotLUV(boolean useLegacyColorDrawing) {
+        mUseLUV = !useLegacyColorDrawing;
     }
 
     public enum ColorType {FILL, ACCENT, HIGHLIGHT, BASE, AMBIENT_DAY, AMBIENT_NIGHT}
@@ -1009,10 +1012,10 @@ public final class PaintBox {
                     setShader(generateSpunEffect());
                     break;
                 case WEAVE:
-                    setShader(generateWeaveEffect());
+                    setShader(mUseLegacyEffects ? generateWeaveEffect() : generateCrosshatchEffect());
                     break;
                 case HEX:
-                    setShader(mSparkleEffect ? generateSparkleEffect() : generateHexEffect());
+                    setShader(mUseLegacyEffects ? generateHexEffect() : generateSparkleEffect());
                     break;
             }
         }
@@ -1066,6 +1069,63 @@ public final class PaintBox {
 
                 mBrushedEffectPath.offset(-offset, -offset);
                 brushedEffectCanvas.drawPath(mBrushedEffectPath, this);
+            }
+
+            brushedEffectBitmap.prepareToDraw();
+
+            BitmapShader result = new BitmapShader(brushedEffectBitmap,
+                    Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+
+            // Cache it for next time's use.
+            mBitmapShaderCache.put(mCustomHashCode, new WeakReference<>(result));
+            return result;
+        }
+
+        private BitmapShader generateCrosshatchEffect() {
+            // Attempt to return an existing BitmapShader from the cache if we have one.
+            WeakReference<BitmapShader> cache = mBitmapShaderCache.get(mCustomHashCode);
+            if (cache != null) {
+                // Well, we have an existing BitmapShader, but it may have been garbage collected...
+                BitmapShader result = cache.get();
+                if (result != null) {
+                    // It wasn't garbage collected! Return it.
+                    return result;
+                }
+            }
+
+            // Generate a new bitmap.
+            Bitmap brushedEffectBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Canvas brushedEffectCanvas = new Canvas(brushedEffectBitmap);
+
+            float percent = mCenterX / 50f;
+            float offset = 0.5f * percent;
+            int alpha = 20;
+
+            mBrushedEffectPaint.reset();
+            mBrushedEffectPaint.setStyle(Style.STROKE);
+            mBrushedEffectPaint.setStrokeWidth(offset);
+            mBrushedEffectPaint.setStrokeJoin(Join.ROUND);
+            mBrushedEffectPaint.setAntiAlias(true);
+
+            brushedEffectCanvas.drawPaint(this);
+
+            // Crosshatch!
+            for (float y = 0f - width; y <= height; y += height / 75f) {
+                // Draw top left to bottom right
+                mBrushedEffectPath.reset();
+                mBrushedEffectPath.moveTo(0, y);
+                mBrushedEffectPath.lineTo(width, y + width);
+                mBrushedEffectPaint.setColor(Math.random() < 0.5d ? Color.WHITE : Color.BLACK);
+                mBrushedEffectPaint.setAlpha(alpha);
+                brushedEffectCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
+
+                // Draw top right to bottom left
+                mBrushedEffectPath.reset();
+                mBrushedEffectPath.moveTo(width, y);
+                mBrushedEffectPath.lineTo(0, y + width);
+                mBrushedEffectPaint.setColor(Math.random() < 0.5d ? Color.BLACK : Color.WHITE);
+                mBrushedEffectPaint.setAlpha(alpha);
+                brushedEffectCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
             }
 
             brushedEffectBitmap.prepareToDraw();
@@ -1465,6 +1525,80 @@ public final class PaintBox {
             return result;
         }
 
+        private static final double SPARKLE_GAMMA = 1.0d;
+        private static final double SPARKLE_RANGE = 255d;
+
+        /**
+         * Convenience function to derive a sparkle mapping, based on gamma 2.2.
+         *
+         * @param i      sRGB value to map between 0 and 255
+         * @param offset Offset for luminance (brightness) between 0 and 1
+         * @return Short4 with x, y and z sRGB elements to map to
+         */
+        private Short4 deriveMultiSparkleMapping(int i, double offset) {
+            Short4 s4 = new Short4();
+            s4.z = deriveSparkleMapping(i, offset / 3d);
+            s4.y = deriveSparkleMapping(i, offset / 2d);
+            s4.x = deriveSparkleMapping(i, offset);
+            s4.w = 0; // Unused padding.
+            return s4;
+        }
+
+        /**
+         * Convenience function to derive a sparkle mapping, based on gamma 2.2.
+         *
+         * @param i      sRGB value to map between 0 and 255
+         * @param offset Offset for luminance (brightness) between 0 and 1
+         * @return sRGB value to map to
+         */
+        private short deriveSparkleMapping(int i, double offset) {
+            // Derive the luminance (brightness) by applying gamma function, then offset.
+            double lum = Math.pow((double) i / SPARKLE_RANGE, SPARKLE_GAMMA) + offset;
+            // Note we don't do "proper" sRGB transfer function, only low-effort Math.pow.
+
+            // Clamp to [0, 1]
+            if (lum < 0d)
+                lum = 0d;
+            else if (lum > 1d)
+                lum = 1d;
+
+            // Convert the luminance back to sRGB by applying reverse gamma.
+            return (short) (Math.pow(lum, 1d / SPARKLE_GAMMA) * SPARKLE_RANGE);
+        }
+
+        private boolean mIsSparkleEffectSetup = false;
+
+        /**
+         * Set up our sparkle effect by deriving all our mapping tables.
+         */
+        private void setupSparkleEffect() {
+            if (mIsSparkleEffectSetup)
+                return;
+
+            Short4[] mA = new Short4[256], mB = new Short4[256], mC = new Short4[256];
+            Short4[] mD = new Short4[256], mE = new Short4[256], mF = new Short4[256];
+
+            for (int i = 0; i < 256; i++) {
+                mA[i] = deriveMultiSparkleMapping(i, -0.48d);
+                mB[i] = deriveMultiSparkleMapping(i, -0.16d);
+                mC[i] = deriveMultiSparkleMapping(i, -0.08d);
+                mD[i] = deriveMultiSparkleMapping(i, 0.08d);
+                mE[i] = deriveMultiSparkleMapping(i, 0.16d);
+                mF[i] = deriveMultiSparkleMapping(i, 0.48d);
+
+//                android.util.Log.d("PaintBox", String.format(
+//                        "setupSparkleEffect: %d --> %d %d %d --> %d %d %d",
+//                        i, mA[i].x, mB[i].x, mC[i].x, mD[i].x, mE[i].x, mF[i].x));
+            }
+            mScriptC_mapBitmap.set_sparkleMappingA(mA);
+            mScriptC_mapBitmap.set_sparkleMappingB(mB);
+            mScriptC_mapBitmap.set_sparkleMappingC(mC);
+            mScriptC_mapBitmap.set_sparkleMappingD(mD);
+            mScriptC_mapBitmap.set_sparkleMappingE(mE);
+            mScriptC_mapBitmap.set_sparkleMappingF(mF);
+            mIsSparkleEffectSetup = true;
+        }
+
         private BitmapShader generateSparkleEffect() {
             // Attempt to return an existing BitmapShader from the cache if we have one.
             WeakReference<BitmapShader> cache = mBitmapShaderCache.get(mCustomHashCode);
@@ -1482,6 +1616,15 @@ public final class PaintBox {
                     Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             prepareTempBitmapForUse();
             mTempCanvas.drawPaint(this);
+
+            if (mRenderScript == null) {
+                mRenderScript = RenderScript.create(mContext);
+            }
+            if (mScriptC_mapBitmap == null) {
+                mScriptC_mapBitmap = new ScriptC_mapBitmap(mRenderScript);
+            }
+
+            setupSparkleEffect();
 
             Allocation in = Allocation.createFromBitmap(mRenderScript, mTempBitmap);
             Allocation out = Allocation.createFromBitmap(mRenderScript, sparkleEffectBitmap);

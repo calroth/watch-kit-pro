@@ -42,7 +42,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import pro.watchkit.wearable.watchface.BuildConfig;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
@@ -153,18 +152,18 @@ public class SettingsConfigData extends ConfigData {
 
                 // Data for 'Alt Drawing' in settings Activity.
                 new ToggleConfigItem(
-                        R.string.config_alt_drawing_label,
+                        R.string.config_use_legacy_color_drawing_label,
                         R.drawable.ic_settings,
                         R.drawable.ic_settings,
-                        new BooleanMutator(WatchFaceState::setAltDrawing),
+                        new BooleanMutator(WatchFaceState::setUseLegacyColorDrawing),
                         WatchFaceState::isDeveloperMode),
 
                 // Data for 'Sparkle Effect' in settings Activity.
                 new ToggleConfigItem(
-                        R.string.config_sparkle_effect_label,
+                        R.string.config_use_legacy_effects_label,
                         R.drawable.ic_settings,
                         R.drawable.ic_settings,
-                        new BooleanMutator(WatchFaceState::setSparkleEffect),
+                        new BooleanMutator(WatchFaceState::setUseLegacyEffects),
                         WatchFaceState::isDeveloperMode),
 
                 // Generate icon files.
