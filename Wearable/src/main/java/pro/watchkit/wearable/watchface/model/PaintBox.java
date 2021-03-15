@@ -618,6 +618,168 @@ public final class PaintBox {
         setPaintTextAttributes(mBezelPaint2);
         setPaintTextAttributes(mAccentHighlightPaint);
         setPaintTextAttributes(mBaseAccentPaint);
+
+//        android.util.Log.d("PaintBox", String.format(
+//                "regeneratePaints: %d %d %d %d --> #%03x%03x --> %s",
+//                mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor,
+//                (mFillSixBitColor << 6) + mAccentSixBitColor,
+//                (mHighlightSixBitColor << 6) + mBaseSixBitColor,
+//                getPaletteName(mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor)));
+    }
+
+    /**
+     * Our palette lookup table to map palette value to palette name.
+     */
+    private static Map<Integer, String> mPalettes;
+
+    /**
+     * Our hard-coded palette variant names.
+     */
+    private final static char[] mPaletteVariants = {
+            ' ', // Variant 0 isn't used as it's not a variant!
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+    };
+
+    /**
+     * Our hard-coded default palette names. Corresponds to the palette values.
+     * TODO: move this to resources.
+     */
+    private final static String[] mDefaultPaletteNames = {
+            "Pacific Sunset", "Amethyst Amber", "Country Club", "Orchid Sky"
+    };
+
+    /**
+     * Our hard-coded default palette values. Corresponds to the palette names.
+     * TODO: move this to resources.
+     */
+    private final static int[] mDefaultPaletteValues = {
+            0x6c5e01, 0x813e00, 0xf84e00, 0x993fca
+    };
+
+    /**
+     * Given a series of palette value, return its name if it has one, or a generic
+     * string if it hasn't.
+     *
+     * @param w Color 1 in the palette
+     * @param x Color 2 in the palette
+     * @param y Color 3 in the palette
+     * @param z Color 4 in the palette
+     * @return Name of palette
+     */
+    private static String getPaletteName(int w, int x, int y, int z) {
+        return getPaletteName(combinePalette(w, x, y, z));
+    }
+
+    /**
+     * Given a palette value, return its name if it has one, or a generic
+     * string if it hasn't/
+     *
+     * @param palette Palette to name
+     * @return Name of palette
+     */
+    private static String getPaletteName(int palette) {
+        if (mPalettes == null) {
+            // Initialise on first use
+            mPalettes = new HashMap<>();
+            StringBuilder sb = new StringBuilder();
+
+            // Loop through each default palette name and value.
+            // Add original named palettes first, before we add any permutations.
+            for (int i = 0; i < mDefaultPaletteNames.length; i++) {
+                mPalettes.putIfAbsent(mDefaultPaletteValues[i], mDefaultPaletteNames[i]);
+            }
+
+            // Loop through each default palette name and value.
+            // Add all permutations.
+            for (int i = 0; i < mDefaultPaletteNames.length; i++) {
+                // Generate heaps of permutations.
+                int[] p = getPalettePermutations(mDefaultPaletteValues[i]);
+                for (int j = 1; j < p.length; j++) {
+                    // We start j at 1, as 0 is the unmodified permutation (already added).
+                    sb.setLength(0); // Clear the StringBuilder
+                    // Generate the palette name plus permutations if applicable.
+                    sb.append(mDefaultPaletteNames[i]);
+                    // Append variant name.
+                    sb.append(" (variant ").append(mPaletteVariants[j]).append(')');
+                    mPalettes.putIfAbsent(p[j], sb.toString());
+                }
+            }
+
+//            sb.setLength(0);
+//            for (Map.Entry<Integer, String> e : mPalettes.entrySet()) {
+//                sb.append(String.format("#%06x", e.getKey()));
+//                sb.append(" --> ").append(e.getValue()).append(System.lineSeparator());
+//            }
+//            android.util.Log.d("PaintBox", sb.toString());
+        }
+
+        if (mPalettes.containsKey(palette)) {
+            return mPalettes.get(palette);
+        } else {
+            return String.format("#%06x", palette);
+        }
+    }
+
+    /**
+     * Given a palette value, return an array with it and the 23 other possible
+     * permutations of this palette
+     *
+     * @param palette Palette to permute
+     * @return Array of 24 palettes which are permutations of the input
+     */
+    private static int[] getPalettePermutations(int palette) {
+        // Separate "palette" into our 4 six-bit colours.
+        int a = (palette >> 18) & 63;
+        int b = (palette >> 12) & 63;
+        int c = (palette >> 6) & 63;
+        int d = palette & 63;
+
+        // The permutations below have a very particular order
+        // Each permutation swaps the position of two values from the permutation above,
+        // leaving two values unchanged.
+        // And, every every second permutation is a swap of 1&2, leaving 3&4 unchanged.
+        // That's important because 3&4 are the background, so the background won't change.
+
+        return new int[]{
+                palette, //    a, b, c, d              swap 2&3
+                combinePalette(b, a, c, d), // swap 1&2
+                combinePalette(d, a, c, b), //         swap 1&4
+                combinePalette(a, d, c, b), // swap 1&2
+                combinePalette(b, d, c, a), //         swap 1&4
+                combinePalette(d, b, c, a), // swap 1&2
+                combinePalette(c, b, d, a), //         swap 1&3
+                combinePalette(b, c, d, a), // swap 1&2
+                combinePalette(b, a, d, c), //         swap 2&4
+                combinePalette(a, b, d, c), // swap 1&2
+                combinePalette(a, c, d, b), //         swap 2&4
+                combinePalette(c, a, d, b), // swap 1&2
+                combinePalette(c, d, a, b), //         swap 2&3
+                combinePalette(d, c, a, b), // swap 1&2
+                combinePalette(b, c, a, d), //         swap 1&4
+                combinePalette(c, b, a, d), // swap 1&2
+                combinePalette(d, b, a, c), //         swap 1&4
+                combinePalette(b, d, a, c), // swap 1&2
+                combinePalette(a, d, b, c), //         swap 1&3
+                combinePalette(d, a, b, c), // swap 1&2
+                combinePalette(d, c, b, a), //         swap 2&4
+                combinePalette(c, d, b, a), // swap 1&2
+                combinePalette(c, a, b, d), //         swap 2&4
+                combinePalette(a, c, b, d)  // swap 1&2
+        };
+    }
+
+    /**
+     * Convenience function to pack w, x, y, z into a single 24-bit int for palettes.
+     *
+     * @param w Color 1 in the palette
+     * @param x Color 2 in the palette
+     * @param y Color 3 in the palette
+     * @param z Color 4 in the palette
+     * @return Packed palette value of w, x, y and z.
+     */
+    private static int combinePalette(int w, int x, int y, int z) {
+        return ((w << 18) + (x << 12) + (y << 6) + z) & 0xFFFFFF;
     }
 
     private void setPaintTextAttributes(@NonNull Paint paint) {
