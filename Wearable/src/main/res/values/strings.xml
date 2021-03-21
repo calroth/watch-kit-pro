@@ -91,7 +91,7 @@
         &lt;br /&gt;(Jeremiah 29:11, CSB)</string>
     <string name="config_stats_label">Show Statistics</string>
     <string name="config_stats_detail_label">Show Detailed Statistics</string>
-    <string name="config_hide_ticks_label">Hide Ticks</string>
+    <string name="config_hide_ticks_label">Hide Pips</string>
     <string name="config_hide_hands_label">Hide Hands</string>
     <string name="config_use_legacy_color_drawing_label">Use Legacy Color Drawing Mode</string>
     <string name="config_use_legacy_effects_label">Use Legacy Effects</string>
@@ -104,7 +104,7 @@
     <string name="config_configure_colors_materials">Configure Colors and Materials</string>
     <string name="config_configure_material">Configure Material</string>
     <string name="config_configure_hands">Configure Hands</string>
-    <string name="config_configure_ticks">Configure Ticks</string>
+    <string name="config_configure_ticks">Configure Pips</string>
     <string name="config_configure_typeface">Configure Typeface</string>
     <string name="config_view_history">View History</string>
 
@@ -139,7 +139,7 @@
         &lt;i&gt;colors&lt;/i&gt;;&lt;br /&gt;
         &lt;i&gt;materials&lt;/i&gt;;&lt;br /&gt;
         &lt;i&gt;hands&lt;/i&gt;; and&lt;br /&gt;
-        &lt;i&gt;ticks&lt;/i&gt;.&lt;br /&gt;
+        &lt;i&gt;pips&lt;/i&gt;.&lt;br /&gt;
         &lt;br /&gt;
         On this page, configure these or view a &lt;i&gt;visual history&lt;/i&gt; of previous watch
         face presets.&lt;br /&gt;
@@ -151,7 +151,7 @@
         four &lt;i&gt;colors&lt;/i&gt; displayed in the watch face.&lt;br /&gt;
         &lt;br /&gt;
         The &lt;i&gt;fill color&lt;/i&gt; is the main color for elements of the watch face, such as
-        &lt;i&gt;hands&lt;/i&gt; and &lt;i&gt;ticks&lt;/i&gt;.&lt;br /&gt;
+        &lt;i&gt;hands&lt;/i&gt; and &lt;i&gt;pips&lt;/i&gt;.&lt;br /&gt;
         &lt;br /&gt;
         The &lt;i&gt;accent color&lt;/i&gt; is a complimentary color that adds
         variation.&lt;br /&gt;
@@ -201,25 +201,25 @@
         different, use the &lt;i&gt;override&lt;/i&gt; switches.&lt;br /&gt;</string>
     <string name="config_configure_ticks_help">On this page, configure the:&lt;br /&gt;
         &lt;br /&gt;
-        tick area &lt;i&gt;margin&lt;/i&gt;;&lt;br /&gt;
-        tick area &lt;i&gt;background material&lt;/i&gt;;&lt;br /&gt;
+        pip area &lt;i&gt;margin&lt;/i&gt;;&lt;br /&gt;
+        pip area &lt;i&gt;background material&lt;/i&gt;;&lt;br /&gt;
         digit &lt;i&gt;display&lt;/i&gt;;&lt;br /&gt;
         digit &lt;i&gt;size&lt;/i&gt;;&lt;br /&gt;
         digit &lt;i&gt;rotation&lt;/i&gt;;&lt;br /&gt;
         digit &lt;i&gt;format&lt;/i&gt;;&lt;br /&gt;
         digit &lt;i&gt;material&lt;/i&gt;; and&lt;br /&gt;
-        which &lt;i&gt;ticks&lt;/i&gt; to display, from the following:&lt;br /&gt;
-        &lt;i&gt;four ticks (at 12, 3, 6, 9)&lt;/i&gt;;&lt;br /&gt;
-        &lt;i&gt;twelve ticks (at 1+2, 4+5, 7+8, 10+11)&lt;/i&gt;; and&lt;br /&gt;
-        &lt;i&gt;sixty ticks&lt;/i&gt;.&lt;br /&gt;
+        which &lt;i&gt;pips&lt;/i&gt; to display, from the following:&lt;br /&gt;
+        &lt;i&gt;three-hour pips (at 12, 3, 6, 9)&lt;/i&gt;;&lt;br /&gt;
+        &lt;i&gt;hour pips (at 1+2, 4+5, 7+8, 10+11)&lt;/i&gt;; and&lt;br /&gt;
+        &lt;i&gt;minute pips&lt;/i&gt;.&lt;br /&gt;
         &lt;br /&gt;
-        Each set of ticks has the following attributes:&lt;br /&gt;
+        Each set of pips has the following attributes:&lt;br /&gt;
         &lt;br /&gt;
-        tick &lt;i&gt;shape&lt;/i&gt;;&lt;br /&gt;
-        tick &lt;i&gt;size&lt;/i&gt;; and&lt;br /&gt;
-        tick &lt;i&gt;material&lt;/i&gt;.&lt;br /&gt;
+        pip &lt;i&gt;shape&lt;/i&gt;;&lt;br /&gt;
+        pip &lt;i&gt;size&lt;/i&gt;; and&lt;br /&gt;
+        pip &lt;i&gt;material&lt;/i&gt;.&lt;br /&gt;
         &lt;br /&gt;
-        By default, the twelve and sixty ticks follow the style of the four ticks. To make them
+        By default, the hour and minute pips follow the style of the three-hour pips. To make them
         different, use the &lt;i&gt;override&lt;/i&gt; switches.&lt;br /&gt;</string>
     <string name="config_configure_typeface_help">On this page, configure the
         &lt;i&gt;typeface&lt;/i&gt; (or font) of all text on the watch face.&lt;br /&gt;</string>
@@ -257,13 +257,13 @@
     <string name="config_preset_second_hand_thickness">Second Hand Thickness</string>
     <string name="config_preset_second_hand_material">Second Hand Material</string>
 
-    <string name="config_preset_ticks_display">Ticks Display</string>
-    <string name="config_preset_tick_margin">Tick Margin</string>
-    <string name="config_preset_tick_background_material">Tick Background Material</string>
+    <string name="config_preset_ticks_display">Pips Display</string>
+    <string name="config_preset_tick_margin">Pip Margin</string>
+    <string name="config_preset_tick_background_material">Pip Background Material</string>
 
-    <string name="config_preset_four_tick_shape">Four Tick Shape</string>
-    <string name="config_preset_four_tick_size">Four Tick Size</string>
-    <string name="config_preset_four_tick_material">Four Tick Material</string>
+    <string name="config_preset_four_tick_shape">Three-Hour Pip Shape</string>
+    <string name="config_preset_four_tick_size">Three-Hour Pip Size</string>
+    <string name="config_preset_four_tick_material">Three-Hour Pip Material</string>
 
     <string name="config_preset_digit_display">Digit Display</string>
     <string name="config_preset_digit_size">Digit Size</string>
@@ -271,15 +271,15 @@
     <string name="config_preset_digit_format">Digit Format</string>
     <string name="config_preset_digit_material">Digit Material</string>
 
-    <string name="config_preset_twelve_tick_override">Twelve Tick Override</string>
-    <string name="config_preset_twelve_tick_shape">Twelve Tick Shape</string>
-    <string name="config_preset_twelve_tick_size">Twelve Tick Size</string>
-    <string name="config_preset_twelve_tick_material">Twelve Tick Material</string>
+    <string name="config_preset_twelve_tick_override">Hour Pip Override</string>
+    <string name="config_preset_twelve_tick_shape">Hour Pip Shape</string>
+    <string name="config_preset_twelve_tick_size">Hour Pip Size</string>
+    <string name="config_preset_twelve_tick_material">Hour Pip Material</string>
 
-    <string name="config_preset_sixty_tick_override">Sixty Tick Override</string>
-    <string name="config_preset_sixty_tick_shape">Sixty Tick Shape</string>
-    <string name="config_preset_sixty_tick_size">Sixty Tick Size</string>
-    <string name="config_preset_sixty_tick_material">Sixty Tick Material</string>
+    <string name="config_preset_sixty_tick_override">Minute Pip Override</string>
+    <string name="config_preset_sixty_tick_shape">Minute Pip Shape</string>
+    <string name="config_preset_sixty_tick_size">Minute Pip Size</string>
+    <string name="config_preset_sixty_tick_material">Minute Pip Material</string>
 
     <string name="config_preset_bezel_material">Bezel Material</string>
     <string name="config_preset_background_material">Background Material</string>

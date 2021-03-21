@@ -7,7 +7,7 @@ Introduction
 ------------
 
 Watch Kit Pro is a custom watch face design kit for Wear OS. It allows you to craft your
-own watch faces for Wear OS smartwatches. You can tweak the watch hands, ticks and background.
+own watch faces for Wear OS smartwatches. You can tweak the watch hands, pips and background.
 There are thousands of combinations for you to explore.
 
 Watch Kit Pro is free to download and own forever. You don't need to pay for it. There's no catch.
@@ -18,7 +18,7 @@ Watch Kit Pro has the following features:
 
 - Four watch face slots for you to store different watch faces
 - Choose between different watch hand shapes
-- Choose between different watch tick shapes, with optional digit display
+- Choose between different watch pip shapes, with optional digit display
 - Choose between different background materials
 - Choose four colors from a 64-color palette, and a multitude of material options
 - Choose the typeface used for drawing text
@@ -95,7 +95,7 @@ submitting a pull request: https://github.com/calroth/watch-kit-pro/pulls
 License
 -------
 
-Copyright (C) 2018-2020 Terence Tan
+Copyright (C) 2018-2021 Terence Tan
 
 This file is free software: you may copy, redistribute and/or modify it
 under the terms of the GNU General Public License as published by the
