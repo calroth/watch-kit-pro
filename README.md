@@ -77,7 +77,7 @@ Watch Kit Pro uses the Gradle build system. To build this project, use the
 Check the [Wearable/build.gradle](Wearable/build.gradle) file for the definitive version of the
 pre-requisites. However they're probably:
 
-- Android SDK 29
+- Android SDK 30
 - Android Build Tools 29.0.3
 - Android Support Repository
 
