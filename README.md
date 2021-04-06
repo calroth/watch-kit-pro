@@ -1,4 +1,4 @@
-Watch Kit Pro <img src="Wearable/src/template/res/mipmap-xhdpi/ic_launcher.png" height="48" width="48" alt="Watch Kit Pro icon" />
+Watch Kit Pro <img src="Wearable/src/main/res/mipmap-xhdpi/ic_launcher.png" height="48" width="48" alt="Watch Kit Pro icon" />
 =============
 
 Craft your own watch faces ⌚ Thousands of combinations ✨ Free forever 💖
