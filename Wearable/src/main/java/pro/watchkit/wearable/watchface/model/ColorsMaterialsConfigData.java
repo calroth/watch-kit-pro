@@ -43,6 +43,10 @@ public class ColorsMaterialsConfigData extends ConfigData {
                 // A preview of the current watch face.
                 new WatchFaceDrawableConfigItem(watchFaceGlobalDrawableFlags),
 
+                // The name of the palette.
+                new LabelConfigItem(R.string.config_configure_colors_materials_palette,
+                        WatchFaceState::getPaletteName),
+
                 // Data for fill color UX in settings Activity.
                 new ColorPickerConfigItem(
                         R.string.config_fill_color_label,

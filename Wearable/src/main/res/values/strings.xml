@@ -102,6 +102,7 @@
     <string name="config_configure_complications">Configure Complications</string>
     <string name="config_configure_watch_face_preset">Configure Watch Face Preset</string>
     <string name="config_configure_colors_materials">Configure Colors and Materials</string>
+    <string name="config_configure_colors_materials_palette">Palette</string>
     <string name="config_configure_material">Configure Material</string>
     <string name="config_configure_hands">Configure Hands</string>
     <string name="config_configure_ticks">Configure Pips</string>
