@@ -95,7 +95,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
 
     ConfigRecyclerViewAdapter(
             @NonNull Context context,
-            @NonNull Class watchFaceServiceClass,
+            @NonNull Class<?> watchFaceServiceClass,
             @NonNull List<ConfigItemType> settingsDataSet) {
         super(context, watchFaceServiceClass);
         mSettingsDataSet = settingsDataSet;

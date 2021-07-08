@@ -102,7 +102,7 @@ public class ColorSelectionActivity extends Activity {
 
         // Try to get the watch face slot from our activity intent.
         String slot = getIntent().getStringExtra(INTENT_EXTRA_SLOT);
-        Class watchFaceServiceClass;
+        Class<?> watchFaceServiceClass;
         @StringRes final int titleLabel;
         if (slot == null) {
             // Default: A

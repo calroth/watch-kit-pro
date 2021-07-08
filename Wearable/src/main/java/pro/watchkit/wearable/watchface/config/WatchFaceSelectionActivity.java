@@ -76,6 +76,9 @@ public class WatchFaceSelectionActivity extends Activity {
         setContentView(R.layout.activity_watch_face_selection);
 
         String[] watchFaceStateStrings = getIntent().getStringArrayExtra(INTENT_EXTRA_STATES);
+        if (watchFaceStateStrings == null) {
+            watchFaceStateStrings = new String[]{};
+        }
         int flags = getIntent().getIntExtra(
                 INTENT_EXTRA_FLAGS, WatchFaceGlobalDrawable.PART_BACKGROUND);
         int nameResourceId = getIntent().getIntExtra(
@@ -83,7 +86,7 @@ public class WatchFaceSelectionActivity extends Activity {
 
         // Try to get the watch face slot from our activity intent.
         String slot = getIntent().getStringExtra(INTENT_EXTRA_SLOT);
-        Class watchFaceServiceClass;
+        Class<?> watchFaceServiceClass;
         if (slot == null) {
             // Default: A
             watchFaceServiceClass = ProWatchFaceService.A.class;
@@ -148,9 +151,10 @@ public class WatchFaceSelectionActivity extends Activity {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     View snapView = snapHelper.findSnapView(layoutManager);
-                    if (snapView != null) {
+                    if (snapView != null && extraNames != null) {
                         int i = layoutManager.getPosition(snapView);
-                        if (/* i != RecyclerView.NO_POSITION && */ i > 0) {
+                        if (/* i != RecyclerView.NO_POSITION && */ i > 0 &&
+                                i < extraNames.length) {
                             Toaster.makeText(getApplicationContext(), extraNames[i - 1],
                                     Toaster.LENGTH_SHORT);
                         }

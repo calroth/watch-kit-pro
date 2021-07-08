@@ -110,14 +110,14 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     /**
      * The object that retrieves complication data for us to preview our complications with.
      */
-    private ProviderInfoRetriever mProviderInfoRetriever;
+    private final ProviderInfoRetriever mProviderInfoRetriever;
 
     /**
      * The ComponentName of our WatchFaceService. We use this to find what complications have been
      * set for this WatchFaceService. It's different for slot A, B, C etc. as we allow the user to
      * have different complication setups per slot!
      */
-    private ComponentName mWatchFaceComponentName;
+    private final ComponentName mWatchFaceComponentName;
 
     /**
      * Called when the WatchFaceState has changed. By default it does nothing, but override this
@@ -133,7 +133,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     @Nullable
     ComplicationHolder mSelectedComplication;
 
-    BaseRecyclerViewAdapter(@NonNull Context context, @NonNull Class watchFaceServiceClass) {
+    BaseRecyclerViewAdapter(@NonNull Context context, @NonNull Class<?> watchFaceServiceClass) {
         super();
         mCurrentWatchFaceState = new WatchFaceState(context);
 
@@ -364,7 +364,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
     class ComplicationViewHolder extends WatchFaceDrawableViewHolder {
         private float mLastTouchX = -1f, mLastTouchY = -1f;
-        private Activity mCurrentActivity;
+        private final Activity mCurrentActivity;
 
         @SuppressLint("ClickableViewAccessibility")
         ComplicationViewHolder(@NonNull final View view) {
@@ -426,8 +426,8 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     class LabelViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, WatchFaceStateListener {
 
-        private TextView mLabelTextView;
-        private int mVisibleLayoutHeight, mVisibleLayoutWidth;
+        private final TextView mLabelTextView;
+        private final int mVisibleLayoutHeight, mVisibleLayoutWidth;
         private ConfigData.LabelConfigItem mConfigItem;
         private final StringBuilder mStringBuilder = new StringBuilder();
 
@@ -611,10 +611,10 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             implements View.OnClickListener, WatchFaceStateListener {
 
         private ConfigData.ColorPickerConfigItem mConfigItem;
-        private Button mButton;
+        private final Button mButton;
         private Class<ColorSelectionActivity> mLaunchActivity;
         @NonNull
-        private Drawable mColorSwatchDrawable = new Drawable() {
+        private final Drawable mColorSwatchDrawable = new Drawable() {
             private Paint mCirclePaint;
 
             @Override
@@ -726,7 +726,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     public class ConfigActivityViewHolder
             extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private Button mButton;
+        private final Button mButton;
         private Class<? extends ConfigData> mConfigDataClass;
         private Class<ConfigActivity> mLaunchActivity;
 
