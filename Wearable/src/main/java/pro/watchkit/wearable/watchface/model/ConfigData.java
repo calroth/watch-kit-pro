@@ -63,7 +63,7 @@ abstract public class ConfigData {
          * @return Value that it's currently set to
          */
         @Nullable
-        Enum getCurrentValue(WatchFaceState currentPreset);
+        Enum<?> getCurrentValue(WatchFaceState currentPreset);
     }
 
     /**
@@ -128,6 +128,8 @@ abstract public class ConfigData {
     public static class LabelConfigItem implements ConfigItemType {
         @StringRes
         final private int mLabelResourceId;
+        @Nullable
+        final private Function<WatchFaceState, String> mLabelGenerator;
         @StringRes
         final private int mTitleResourceId;
         final private boolean mWithTitle;
@@ -135,28 +137,36 @@ abstract public class ConfigData {
         final private Function<WatchFaceState, Boolean> mConfigItemVisibilityCalculator;
 
         public LabelConfigItem(@StringRes final int labelResourceId) {
-            this(-1, labelResourceId, true, null);
+            this(-1, labelResourceId, null, true, null);
         }
 
         LabelConfigItem(@StringRes final int titleResourceId,
                         @StringRes final int labelResourceId) {
-            this(titleResourceId, labelResourceId, false, null);
+            this(titleResourceId, labelResourceId, null, false, null);
+        }
+
+        LabelConfigItem(@StringRes final int titleResourceId,
+                        @NonNull Function<WatchFaceState, String> labelGenerator) {
+            this(titleResourceId, -1, labelGenerator, false, null);
         }
 
         LabelConfigItem(@StringRes final int titleResourceId,
                         @StringRes final int labelResourceId,
                         @Nullable Function<WatchFaceState, Boolean>
                                 configItemVisibilityCalculator) {
-            this(titleResourceId, labelResourceId, false,
+            this(titleResourceId, labelResourceId, null, titleResourceId != -1,
                     configItemVisibilityCalculator);
         }
 
-        LabelConfigItem(@StringRes final int titleResourceId,
-                        @StringRes final int labelResourceId, boolean withTitle,
-                        @Nullable Function<WatchFaceState, Boolean>
-                                configItemVisibilityCalculator) {
+        private LabelConfigItem(@StringRes final int titleResourceId,
+                                @StringRes final int labelResourceId,
+                                @Nullable final Function<WatchFaceState, String> labelGenerator,
+                                boolean withTitle,
+                                @Nullable Function<WatchFaceState, Boolean>
+                                        configItemVisibilityCalculator) {
             mTitleResourceId = titleResourceId;
             mLabelResourceId = labelResourceId;
+            mLabelGenerator = labelGenerator;
             mWithTitle = withTitle;
             mConfigItemVisibilityCalculator = configItemVisibilityCalculator;
         }
@@ -169,6 +179,11 @@ abstract public class ConfigData {
         @StringRes
         public int getLabelResourceId() {
             return mLabelResourceId;
+        }
+
+        @Nullable
+        public Function<WatchFaceState, String> getLabelGenerator() {
+            return mLabelGenerator;
         }
 
         public boolean getWithTitle() {
@@ -304,7 +319,7 @@ abstract public class ConfigData {
         /**
          * A lambda which sets (or applies) a boolean to the given WatchFaceState.
          */
-        private BiConsumer<WatchFaceState, Boolean> mSetter;
+        private final BiConsumer<WatchFaceState, Boolean> mSetter;
 
         /**
          * Create the given BooleanMutator.
@@ -341,26 +356,26 @@ abstract public class ConfigData {
          * @return Value that it's currently set to (always null for a BooleanMutator)
          */
         @Nullable
-        public Enum getCurrentValue(WatchFaceState currentPreset) {
+        public Enum<?> getCurrentValue(WatchFaceState currentPreset) {
             return null;
         }
     }
 
-    protected static class EnumMutator<E extends Enum> implements Mutator {
+    protected static class EnumMutator<E extends Enum<?>> implements Mutator {
         /**
          * All the possible Enum values of E.
          */
-        private E[] mValues;
+        private final E[] mValues;
 
         /**
          * A lambda which sets (or applies) setting E to the given WatchFaceState.
          */
-        private BiConsumer<WatchFaceState, E> mSetter;
+        private final BiConsumer<WatchFaceState, E> mSetter;
 
         /**
          * A lambda which gets and returns setting E from the given WatchFaceState.
          */
-        private Function<WatchFaceState, E> mGetter;
+        private final Function<WatchFaceState, E> mGetter;
 
         /**
          * Create the given EnumMutator for the E of type Enum.
@@ -483,7 +498,7 @@ abstract public class ConfigData {
 
         public CharSequence getName(
                 @NonNull WatchFaceState watchFaceState, @NonNull Context context) {
-            Enum e = mWatchFaceStateMutator.getCurrentValue(watchFaceState);
+            Enum<?> e = mWatchFaceStateMutator.getCurrentValue(watchFaceState);
 
             String name = context.getString(mNameResourceId);
 
@@ -509,7 +524,7 @@ abstract public class ConfigData {
 
         public String getExtraName(
                 @NonNull WatchFaceState watchFaceState, @NonNull Context context) {
-            Enum e = mWatchFaceStateMutator.getCurrentValue(watchFaceState);
+            Enum<?> e = mWatchFaceStateMutator.getCurrentValue(watchFaceState);
             String name = context.getString(mNameResourceId);
 
             if (e == null) {

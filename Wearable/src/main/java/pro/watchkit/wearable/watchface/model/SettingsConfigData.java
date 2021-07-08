@@ -170,7 +170,6 @@ public class SettingsConfigData extends ConfigData {
                 // Generate icon files.
                 new LabelConfigItem(-1,
                         R.string.config_generate_icon_files,
-                        true,
                         watchFaceState -> BuildConfig.DEBUG && watchFaceState.isDeveloperMode()),
 
                 new PickerConfigItem(
