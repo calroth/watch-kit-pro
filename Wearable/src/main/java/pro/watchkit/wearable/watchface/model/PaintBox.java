@@ -657,6 +657,12 @@ public final class PaintBox {
             0x6c5e01, 0x813e00, 0xf84e00, 0x993fca
     };
 
+    @NonNull
+    String getPaletteName() {
+        return PaintBox.getPaletteName(
+                mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor);
+    }
+
     /**
      * Given a series of palette value, return its name if it has one, or a generic
      * string if it hasn't.
@@ -667,6 +673,7 @@ public final class PaintBox {
      * @param z Color 4 in the palette
      * @return Name of palette
      */
+    @NonNull
     private static String getPaletteName(int w, int x, int y, int z) {
         return getPaletteName(combinePalette(w, x, y, z));
     }
@@ -678,6 +685,7 @@ public final class PaintBox {
      * @param palette Palette to name
      * @return Name of palette
      */
+    @NonNull
     private static String getPaletteName(int palette) {
         if (mPalettes == null) {
             // Initialise on first use
@@ -715,7 +723,7 @@ public final class PaintBox {
         }
 
         if (mPalettes.containsKey(palette)) {
-            return mPalettes.get(palette);
+            return Objects.requireNonNull(mPalettes.get(palette));
         } else {
             return String.format("#%06x", palette);
         }
@@ -837,6 +845,8 @@ public final class PaintBox {
             mTempCanvas = new Canvas(mTempBitmap);
         } else if (mTempBitmap.getWidth() == width && mTempBitmap.getHeight() == height) {
             // Do nothing, our current bitmap is just right.
+            // (Turn off overly nit-picky inspection. The logic reads better this way.)
+            //noinspection UnnecessaryReturnStatement
             return;
         } else if (mTempBitmap.getAllocationByteCount() > width * height) {
             // Width and height changed and we can reconfigure to re-use this object.

@@ -533,6 +533,11 @@ public class WatchFaceState {
         return mPaintBox;
     }
 
+    @NonNull
+    public String getPaletteName() {
+        return mPaintBox.getPaletteName();
+    }
+
     // region Ephemeral
     @Nullable
     private Material mSwatchMaterial;
