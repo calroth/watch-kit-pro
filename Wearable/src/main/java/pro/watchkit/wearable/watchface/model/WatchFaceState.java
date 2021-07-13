@@ -1446,9 +1446,9 @@ public class WatchFaceState {
                 minuteHandCutoutMaterial);
     }
 
-    void setBackgroundMaterial(Material backgroundMaterial) {
+//    void setBackgroundMaterial(Material backgroundMaterial) {
 //        mWatchFacePreset.mBackgroundMaterial = backgroundMaterial;
-    }
+//    }
 
     void setSecondHandMaterial(Material secondHandMaterial) {
         mWatchFacePreset.mSecondHandMaterial = secondHandMaterial;

@@ -258,16 +258,16 @@ public class WatchPartTicksConfigData extends ConfigData {
                                 WatchFaceState::getSixtyTickMaterial),
                         WatchFaceState::isSixtyTicksOverridden),
 
-                // Data for background material in settings Activity.
-                new PickerConfigItem(
-                        R.string.config_preset_background_material,
-                        R.drawable.ic_ticks,
-                        watchFaceGlobalDrawableFlagsSwatch,
-                        WatchFaceSelectionActivity.class,
-                        new EnumMutator<>(
-                                BytePackable.Material.values(),
-                                WatchFaceState::setBackgroundMaterial,
-                                WatchFaceState::getBackgroundMaterial)),
+//                // Data for background material in settings Activity.
+//                new PickerConfigItem(
+//                        R.string.config_preset_background_material,
+//                        R.drawable.ic_ticks,
+//                        watchFaceGlobalDrawableFlagsSwatch,
+//                        WatchFaceSelectionActivity.class,
+//                        new EnumMutator<>(
+//                                BytePackable.Material.values(),
+//                                WatchFaceState::setBackgroundMaterial,
+//                                WatchFaceState::getBackgroundMaterial)),
 
                 // Help.
                 new LabelConfigItem(R.string.config_configure_help,
