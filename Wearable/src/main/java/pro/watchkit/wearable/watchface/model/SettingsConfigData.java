@@ -182,7 +182,7 @@ public class SettingsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new Mutator() {
                             /**
-                             * A custom Mutotor which "resets to default" by offering mutations
+                             * A custom Mutator which "resets to default" by offering mutations
                              * corresponding to the default WatchFaceState for each slot
                              *
                              * @param permutation WatchFaceState, which must be a clone, but in
@@ -206,7 +206,7 @@ public class SettingsConfigData extends ConfigData {
 
                             @Nullable
                             @Override
-                            public Enum getCurrentValue(WatchFaceState currentPreset) {
+                            public Enum<?> getCurrentValue(WatchFaceState currentPreset) {
                                 return null;
                             }
                         },

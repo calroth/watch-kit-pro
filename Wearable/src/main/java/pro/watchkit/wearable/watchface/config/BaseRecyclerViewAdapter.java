@@ -133,7 +133,8 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     @Nullable
     ComplicationHolder mSelectedComplication;
 
-    BaseRecyclerViewAdapter(@NonNull Context context, @NonNull Class<?> watchFaceServiceClass) {
+    BaseRecyclerViewAdapter(@NonNull Context context,
+                            @NonNull Class<? extends ProWatchFaceService> watchFaceServiceClass) {
         super();
         mCurrentWatchFaceState = new WatchFaceState(context);
 

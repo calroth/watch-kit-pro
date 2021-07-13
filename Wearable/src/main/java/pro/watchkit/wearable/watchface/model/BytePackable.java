@@ -222,7 +222,7 @@ public abstract class BytePackable {
         DIAMOND_THIN, DIAMOND, DIAMOND_CUTOUT;
 
         @NonNull
-        private static TickShape[] orderedValues = new TickShape[]{
+        private static final TickShape[] orderedValues = new TickShape[]{
                 SECTOR, DOT, TRIANGLE, DIAMOND,
                 SQUARE, BAR_1_2, BAR_1_4, BAR_1_8,
                 SQUARE_WIDE, DOT_THIN, TRIANGLE_THIN, DIAMOND_THIN,
@@ -410,9 +410,9 @@ public abstract class BytePackable {
             return values()[bytePacker.get(bits)];
         }
 
-        static Material unpack3(@NonNull BytePacker bytePacker) {
-            return values()[bytePacker.get(3) % values().length];
-        }
+//        static Material unpack3(@NonNull BytePacker bytePacker) {
+//            return values()[bytePacker.get(3) % values().length];
+//        }
 
         void pack(@NonNull BytePacker bytePacker) {
             bytePacker.put(bits, values(), this);
@@ -582,7 +582,7 @@ public abstract class BytePackable {
      * We represent this data as 16-hex-digit strings that are reversibly
      * hashed for transport and packing.
      */
-    final class BytePacker {
+    static final class BytePacker {
         private static final int LENGTH = 16;
         private byte[] mBytes;
         private int mBytePtr;
@@ -609,7 +609,7 @@ public abstract class BytePackable {
             int remainingBits = (mBytes.length * 8) - mBytePtr - versionLength - 1; // Off by 1...
             // Write out "remainingBits" zeroes.
             while (remainingBits > 0) {
-                int length = remainingBits > 8 ? 8 : remainingBits;
+                int length = Math.min(remainingBits, 8);
                 put(length, 0);
                 remainingBits -= length;
             }

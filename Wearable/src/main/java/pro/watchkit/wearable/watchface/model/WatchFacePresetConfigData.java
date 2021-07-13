@@ -74,7 +74,7 @@ public class WatchFacePresetConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new MutatorWithPrefsAccess() {
                             /**
-                             * A custom Mutotor which allows you to "view history" by offering
+                             * A custom Mutator which allows you to "view history" by offering
                              * mutations corresponding every WatchFaceState in prefs history.
                              *
                              * @param permutation WatchFaceState, which must be a clone, but in
@@ -93,7 +93,7 @@ public class WatchFacePresetConfigData extends ConfigData {
 
                             @Nullable
                             @Override
-                            public Enum getCurrentValue(WatchFaceState currentPreset) {
+                            public Enum<?> getCurrentValue(WatchFaceState currentPreset) {
                                 return null;
                             }
 

@@ -28,7 +28,7 @@ import net.e175.klaus.solarpositioning.SPA;
 import java.util.GregorianCalendar;
 
 public final class LocationCalculator {
-    private GregorianCalendar mCalendar;
+    private final GregorianCalendar mCalendar;
     @Nullable
     private Location mLocation = null;
     private long previousSunAltitudeTime = 0;

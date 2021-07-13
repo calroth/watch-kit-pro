@@ -414,8 +414,9 @@ public class WatchFaceState {
 
                 // Their side lengths
                 float a = (float) Math.sqrt(((xb - xc) * (xb - xc)) + ((yb - yc) * (yb - yc)));
-                float b = radius; // By definition.
-                float c = radius;
+                @SuppressWarnings("UnnecessaryLocalVariable") float b = radius; // By definition.
+                @SuppressWarnings("UnnecessaryLocalVariable") float c = radius;
+                // (We suppressed the warnings as "b" and "c" mean something maths-wise.)
 
                 // The centre and radius of the incircle.
                 float incentreX = (a * xa + b * xb + c * xc) / (a + b + c);
@@ -886,25 +887,25 @@ public class WatchFaceState {
         return mSettings.mDeveloperMode;
     }
 
-    void setHardwareAccelerationEnabled(boolean hardwareAccelerationEnabled) {
-        mSettings.mHardwareAccelerationEnabled = hardwareAccelerationEnabled;
-    }
+//    void setHardwareAccelerationEnabled(boolean hardwareAccelerationEnabled) {
+//        mSettings.mHardwareAccelerationEnabled = hardwareAccelerationEnabled;
+//    }
 
     public boolean isHardwareAccelerationEnabled() {
         return mSettings.mHardwareAccelerationEnabled;
     }
 
-    void setInnerGlow(boolean innerGlow) {
-        mSettings.mInnerGlow = innerGlow;
-    }
+//    void setInnerGlow(boolean innerGlow) {
+//        mSettings.mInnerGlow = innerGlow;
+//    }
 
     public boolean isInnerGlow() {
         return mSettings.mInnerGlow;
     }
 
-    void setDrawShadows(boolean drawShadows) {
-        mSettings.mDrawShadows = drawShadows;
-    }
+//    void setDrawShadows(boolean drawShadows) {
+//        mSettings.mDrawShadows = drawShadows;
+//    }
 
     public boolean isDrawShadows() {
         return mSettings.mDrawShadows;

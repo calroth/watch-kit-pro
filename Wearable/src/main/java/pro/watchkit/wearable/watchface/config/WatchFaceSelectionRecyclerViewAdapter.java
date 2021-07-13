@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.ConfigData.LabelConfigItem;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 
 import static pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable.PART_COMPLICATIONS;
 
@@ -49,7 +50,8 @@ public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapt
     private static final int TYPE_LABEL_CONFIG = 1;
 
     WatchFaceSelectionRecyclerViewAdapter(
-            @NonNull Context context, @NonNull Class<?> watchFaceServiceClass,
+            @NonNull Context context,
+            @NonNull Class<? extends ProWatchFaceService> watchFaceServiceClass,
             @NonNull String[] watchFaceStateStrings, int flags, @StringRes int nameResourceId) {
         super(context, watchFaceServiceClass);
         mWatchFaceStateStrings = watchFaceStateStrings;

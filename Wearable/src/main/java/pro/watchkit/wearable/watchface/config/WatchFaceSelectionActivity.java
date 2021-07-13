@@ -86,7 +86,7 @@ public class WatchFaceSelectionActivity extends Activity {
 
         // Try to get the watch face slot from our activity intent.
         String slot = getIntent().getStringExtra(INTENT_EXTRA_SLOT);
-        Class<?> watchFaceServiceClass;
+        Class<? extends ProWatchFaceService> watchFaceServiceClass;
         if (slot == null) {
             // Default: A
             watchFaceServiceClass = ProWatchFaceService.A.class;

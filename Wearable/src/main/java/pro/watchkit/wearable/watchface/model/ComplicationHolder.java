@@ -39,9 +39,9 @@ public final class ComplicationHolder {
     public boolean isForeground = false;
     public boolean isActive = false;
     public ImageView background;
-    private int id;
+    private final int id;
     @NonNull
-    private ComplicationDrawable mComplicationDrawable;
+    private final ComplicationDrawable mComplicationDrawable;
     private boolean mIsInAmbientMode = false;
     private boolean mInset = false;
     private Rect mBounds, mInsetBounds;
@@ -108,8 +108,8 @@ public final class ComplicationHolder {
     public double distanceFrom(float x, float y) {
         // Return Pythagoras distance (x² + y²).
         // Don't bother with sqrt as we're just comparing relative values.
-        return Math.pow((double) (x - mBounds.exactCenterX()), 2d) +
-                Math.pow((double) (y - mBounds.exactCenterY()), 2d);
+        return Math.pow(x - mBounds.exactCenterX(), 2d) +
+                Math.pow(y - mBounds.exactCenterY(), 2d);
     }
 
     public Rect getBounds() {

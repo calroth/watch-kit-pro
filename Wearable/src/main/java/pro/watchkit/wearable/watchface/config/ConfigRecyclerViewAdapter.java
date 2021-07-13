@@ -57,6 +57,7 @@ import pro.watchkit.wearable.watchface.model.ConfigData.PickerConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.ToggleConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.TypefaceConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.WatchFaceDrawableConfigItem;
+import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 
 /**
  * Displays different layouts for configuring watch face's complications and appearance settings
@@ -95,7 +96,7 @@ public class ConfigRecyclerViewAdapter extends BaseRecyclerViewAdapter {
 
     ConfigRecyclerViewAdapter(
             @NonNull Context context,
-            @NonNull Class<?> watchFaceServiceClass,
+            @NonNull Class<? extends ProWatchFaceService> watchFaceServiceClass,
             @NonNull List<ConfigItemType> settingsDataSet) {
         super(context, watchFaceServiceClass);
         mSettingsDataSet = settingsDataSet;
