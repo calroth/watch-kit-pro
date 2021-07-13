@@ -283,6 +283,7 @@
     <string name="config_preset_sixty_tick_material">Minute Pip Material</string>
 
     <string name="config_preset_bezel_material">Bezel Material</string>
+    <string name="config_preset_background_material">Background Material</string>
 
     <string name="config_preset_fill_highlight_material">Fill Highlight Material</string>
     <string name="config_preset_fill_highlight_material_gradient">Fill Highlight Material Gradient</string>
