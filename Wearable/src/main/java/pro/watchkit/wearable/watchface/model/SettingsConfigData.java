@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Terence Tan
+ * Copyright (C) 2018-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -135,12 +135,12 @@ public class SettingsConfigData extends ConfigData {
                         new BooleanMutator(WatchFaceState::setStatsDetail),
                         WatchFaceState::isDeveloperMode),
 
-                // Data for 'Hide Ticks' UX (toggle) in settings Activity.
+                // Data for 'Hide Pips' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
-                        R.string.config_hide_ticks_label,
+                        R.string.config_hide_pips_label,
                         R.drawable.ic_settings,
                         R.drawable.ic_settings,
-                        new BooleanMutator(WatchFaceState::setHideTicks),
+                        new BooleanMutator(WatchFaceState::setHidePips),
                         WatchFaceState::isDeveloperMode),
 
                 // Data for 'Hide Hands' UX (toggle) in settings Activity.
@@ -176,7 +176,7 @@ public class SettingsConfigData extends ConfigData {
                         R.string.config_reset_to_default,
                         R.drawable.ic_settings,
                         WatchFaceGlobalDrawable.PART_BACKGROUND |
-                                WatchFaceGlobalDrawable.PART_TICKS |
+                                WatchFaceGlobalDrawable.PART_PIPS |
                                 WatchFaceGlobalDrawable.PART_HANDS |
                                 WatchFaceGlobalDrawable.PART_RINGS_ALL,
                         WatchFaceSelectionActivity.class,

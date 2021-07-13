@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Terence Tan
+ * Copyright (C) 2018-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -63,7 +63,7 @@ import pro.watchkit.wearable.watchface.model.SettingsConfigData;
 import pro.watchkit.wearable.watchface.model.TypefaceConfigData;
 import pro.watchkit.wearable.watchface.model.WatchFacePresetConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartHandsConfigData;
-import pro.watchkit.wearable.watchface.model.WatchPartTicksConfigData;
+import pro.watchkit.wearable.watchface.model.WatchPartPipsConfigData;
 import pro.watchkit.wearable.watchface.util.SharedPref;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 
@@ -230,7 +230,7 @@ public class ConfigActivity extends Activity {
 
     private enum ConfigSubActivity {
         Settings(SettingsConfigData.class, R.string.config_configure_settings, R.drawable.ic_settings),
-        WatchFacePresets(WatchFacePresetConfigData.class, R.string.config_configure_watch_face_preset, R.drawable.ic_hands_ticks),
+        WatchFacePresets(WatchFacePresetConfigData.class, R.string.config_configure_watch_face_preset, R.drawable.ic_hands_pips),
         Complications(ComplicationConfigData.class, R.string.config_configure_complications, R.drawable.ic_complications),
         // N.B. As a shortcut, put items NOT in the NavigationAdapter at the end of this list.
         ColorsMaterials(ColorsMaterialsConfigData.class, R.string.config_configure_colors_materials, -1),
@@ -239,7 +239,7 @@ public class ConfigActivity extends Activity {
         MaterialAccentHighlight(MaterialConfigData.AccentHighlight.class, R.string.config_configure_material, -1),
         MaterialBaseAccent(MaterialConfigData.BaseAccent.class, R.string.config_configure_material, -1),
         WatchPartHands(WatchPartHandsConfigData.class, R.string.config_configure_hands, -1),
-        WatchPartTicks(WatchPartTicksConfigData.class, R.string.config_configure_ticks, -1),
+        WatchPartPips(WatchPartPipsConfigData.class, R.string.config_configure_pips, -1),
         Typeface(TypefaceConfigData.class, R.string.config_configure_typeface, -1);
 
         @NonNull

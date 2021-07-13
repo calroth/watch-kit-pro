@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Terence Tan
+ * Copyright (C) 2019-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -41,7 +41,7 @@ import androidx.annotation.NonNull;
 
 import pro.watchkit.wearable.watchface.model.BytePackable.Material;
 
-class WatchPartTickBackgroundDrawable extends WatchPartDrawable {
+class WatchPartPipBackgroundDrawable extends WatchPartDrawable {
     @NonNull
     private final Path p = new Path();
     @NonNull
@@ -55,15 +55,15 @@ class WatchPartTickBackgroundDrawable extends WatchPartDrawable {
 
     @Override
     public void draw2(@NonNull Canvas canvas) {
-        if (mWatchFaceState.isDeveloperMode() && mWatchFaceState.isHideTicks()) {
-            // If we set developer mode "hide ticks", then just return!
+        if (mWatchFaceState.isDeveloperMode() && mWatchFaceState.isHidePips()) {
+            // If we set developer mode "hide pips", then just return!
             return;
         }
 
-        // Draw the tick background ring if we asked for one!
-        if (mWatchFaceState.getTickBackgroundMaterial() == Material.BASE_ACCENT) {
+        // Draw the pip background ring if we asked for one!
+        if (mWatchFaceState.getPipBackgroundMaterial() == Material.BASE_ACCENT) {
             // The overall watch background is Style.BASE_ACCENT.
-            // If the tick ring is too, skip it. Otherwise draw something!
+            // If the pip ring is too, skip it. Otherwise draw something!
             return;
         }
 
@@ -82,12 +82,12 @@ class WatchPartTickBackgroundDrawable extends WatchPartDrawable {
 
         // Get the inner circle. Inset it 1f percent for a bit of padding.
         p2.addCircle(mCenterX, mCenterY,
-                mCenter - (mWatchFaceState.getTickBandStart(pc) +
-                        mWatchFaceState.getTickBandHeight(pc) + 1f) * pc, getDirection());
+                mCenter - (mWatchFaceState.getPipBandStart(pc) +
+                        mWatchFaceState.getPipBandHeight(pc) + 1f) * pc, getDirection());
 
         // Punch the circle from the big rectangle and draw it.
         p.op(p2, Path.Op.DIFFERENCE);
         drawPath(canvas, p, mWatchFaceState.getPaintBox().getPaintFromPreset(
-                mWatchFaceState.getTickBackgroundMaterial()));
+                mWatchFaceState.getPipBackgroundMaterial()));
     }
 }

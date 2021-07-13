@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Terence Tan
+ * Copyright (C) 2019-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -46,8 +46,8 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
 
     @Override
     public void draw2(@NonNull Canvas canvas) {
-        if (mWatchFaceState.isDeveloperMode() && mWatchFaceState.isHideTicks()) {
-            // If we set developer mode "hide ticks", then just return!
+        if (mWatchFaceState.isDeveloperMode() && mWatchFaceState.isHidePips()) {
+            // If we set developer mode "Hide Pips", then just return!
             return;
         }
 
@@ -61,7 +61,7 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
 
         final float digitBandStart = mWatchFaceState.getDigitBandStart(pc);
         final float digitBandHeight = 0.5f * (mWatchFaceState.getDigitDisplay() == DigitDisplay.OVER ?
-                mWatchFaceState.getTickBandHeight(pc) : mWatchFaceState.getDigitBandHeight(pc));
+                mWatchFaceState.getPipBandHeight(pc) : mWatchFaceState.getDigitBandHeight(pc));
         final float digitLocation = 50f - (digitBandStart + digitBandHeight);
 
         if (hasStateChanged()) {

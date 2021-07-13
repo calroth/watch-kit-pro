@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Terence Tan
+ * Copyright (C) 2018-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -32,7 +32,7 @@ public class ColorsMaterialsConfigData extends ConfigData {
     @Override
     public List<ConfigItemType> getDataToPopulateAdapter() {
         int watchFaceGlobalDrawableFlags = WatchFaceGlobalDrawable.PART_BACKGROUND |
-                WatchFaceGlobalDrawable.PART_TICKS |
+                WatchFaceGlobalDrawable.PART_PIPS |
                 WatchFaceGlobalDrawable.PART_RINGS_ALL |
                 WatchFaceGlobalDrawable.PART_HANDS;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Terence Tan
+ * Copyright (C) 2018-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -70,12 +70,12 @@ public abstract class BytePackable {
         }
     }
 
-    public enum TicksDisplay implements EnumResourceId {
+    public enum PipsDisplay implements EnumResourceId {
         NONE, FOUR, FOUR_TWELVE, FOUR_TWELVE_60;
 
         private static final int bits = 2;
 
-        static TicksDisplay unpack(@NonNull BytePacker bytePacker) {
+        static PipsDisplay unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
@@ -86,7 +86,7 @@ public abstract class BytePackable {
         @Override
         @ArrayRes
         public int getNameResourceId() {
-            return R.array.WatchFacePreset_TicksDisplay;
+            return R.array.WatchFacePreset_PipsDisplay;
         }
     }
 
@@ -215,14 +215,14 @@ public abstract class BytePackable {
         }
     }
 
-    public enum TickShape implements EnumResourceId {
+    public enum PipShape implements EnumResourceId {
         SECTOR, SQUARE_WIDE, SQUARE, SQUARE_CUTOUT, BAR_1_2, BAR_1_4, BAR_1_8,
         DOT_THIN, DOT, DOT_CUTOUT,
         TRIANGLE_THIN, TRIANGLE, TRIANGLE_CUTOUT,
         DIAMOND_THIN, DIAMOND, DIAMOND_CUTOUT;
 
         @NonNull
-        private static final TickShape[] orderedValues = new TickShape[]{
+        private static final PipShape[] orderedValues = new PipShape[]{
                 SECTOR, DOT, TRIANGLE, DIAMOND,
                 SQUARE, BAR_1_2, BAR_1_4, BAR_1_8,
                 SQUARE_WIDE, DOT_THIN, TRIANGLE_THIN, DIAMOND_THIN,
@@ -230,12 +230,12 @@ public abstract class BytePackable {
 
         private static final int bits = 4;
 
-        static TickShape unpack(@NonNull BytePacker bytePacker) {
+        static PipShape unpack(@NonNull BytePacker bytePacker) {
 //            return values()[bytePacker.get(bits)];
             return orderedValues[bytePacker.get(bits)];
         }
 
-        static TickShape unpack2(@NonNull BytePacker bytePacker) {
+        static PipShape unpack2(@NonNull BytePacker bytePacker) {
 //            return values()[bytePacker.get(2)];
             return orderedValues[bytePacker.get(2)];
         }
@@ -248,20 +248,20 @@ public abstract class BytePackable {
         @Override
         @ArrayRes
         public int getNameResourceId() {
-            return R.array.WatchFacePreset_TickShape;
+            return R.array.WatchFacePreset_PipShape;
         }
     }
 
-    public enum TickSize implements EnumResourceId {
+    public enum PipSize implements EnumResourceId {
         XX_SHORT, X_SHORT, SHORT, MEDIUM, LONG, X_LONG, XX_LONG, XXX_LONG;
 
         private static final int bits = 3;
 
-        static TickSize unpack(@NonNull BytePacker bytePacker) {
+        static PipSize unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
-        static TickSize unpack2(@NonNull BytePacker bytePacker) {
+        static PipSize unpack2(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(2)];
         }
 
@@ -272,16 +272,16 @@ public abstract class BytePackable {
         @Override
         @ArrayRes
         public int getNameResourceId() {
-            return R.array.WatchFacePreset_TickSize;
+            return R.array.WatchFacePreset_PipSize;
         }
     }
 
-    public enum TickMargin implements EnumResourceId {
+    public enum PipMargin implements EnumResourceId {
         NONE, SMALL, MEDIUM, LARGE;
 
         private static final int bits = 2;
 
-        static TickMargin unpack(@NonNull BytePacker bytePacker) {
+        static PipMargin unpack(@NonNull BytePacker bytePacker) {
             return values()[bytePacker.get(bits)];
         }
 
@@ -292,7 +292,7 @@ public abstract class BytePackable {
         @Override
         @ArrayRes
         public int getNameResourceId() {
-            return R.array.WatchFacePreset_TickMargin;
+            return R.array.WatchFacePreset_PipMargin;
         }
     }
 

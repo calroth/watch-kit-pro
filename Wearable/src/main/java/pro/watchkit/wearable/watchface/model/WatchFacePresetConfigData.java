@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Terence Tan
+ * Copyright (C) 2018-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -39,7 +39,7 @@ public class WatchFacePresetConfigData extends ConfigData {
 
                 // A preview of the current watch face.
                 new WatchFaceDrawableConfigItem(WatchFaceGlobalDrawable.PART_BACKGROUND |
-                        WatchFaceGlobalDrawable.PART_TICKS |
+                        WatchFaceGlobalDrawable.PART_PIPS |
                         WatchFaceGlobalDrawable.PART_HANDS),
 
                 // Data for Configure Colors and Materials sub-activity in settings Activity.
@@ -56,11 +56,11 @@ public class WatchFacePresetConfigData extends ConfigData {
                         WatchPartHandsConfigData.class,
                         ConfigActivity.class),
 
-                // Data for Configure Ticks sub-activity in settings Activity.
+                // Data for Configure Pips sub-activity in settings Activity.
                 new ConfigActivityConfigItem(
-                        R.string.config_configure_ticks,
-                        R.drawable.ic_ticks,
-                        WatchPartTicksConfigData.class,
+                        R.string.config_configure_pips,
+                        R.drawable.ic_pips,
+                        WatchPartPipsConfigData.class,
                         ConfigActivity.class),
 
                 // Data for View History sub-activity in settings Activity.
@@ -68,7 +68,7 @@ public class WatchFacePresetConfigData extends ConfigData {
                         R.string.config_view_history,
                         R.drawable.ic_history,
                         WatchFaceGlobalDrawable.PART_BACKGROUND |
-                                WatchFaceGlobalDrawable.PART_TICKS |
+                                WatchFaceGlobalDrawable.PART_PIPS |
                                 WatchFaceGlobalDrawable.PART_HANDS |
                                 WatchFaceGlobalDrawable.PART_RINGS_ALL,
                         WatchFaceSelectionActivity.class,

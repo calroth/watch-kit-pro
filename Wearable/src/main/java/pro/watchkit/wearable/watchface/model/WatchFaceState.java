@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Terence Tan
+ * Copyright (C) 2019-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -61,11 +61,11 @@ import pro.watchkit.wearable.watchface.model.BytePackable.HandThickness;
 import pro.watchkit.wearable.watchface.model.BytePackable.Material;
 import pro.watchkit.wearable.watchface.model.BytePackable.MaterialGradient;
 import pro.watchkit.wearable.watchface.model.BytePackable.MaterialTexture;
+import pro.watchkit.wearable.watchface.model.BytePackable.PipMargin;
+import pro.watchkit.wearable.watchface.model.BytePackable.PipShape;
+import pro.watchkit.wearable.watchface.model.BytePackable.PipSize;
+import pro.watchkit.wearable.watchface.model.BytePackable.PipsDisplay;
 import pro.watchkit.wearable.watchface.model.BytePackable.TextStyle;
-import pro.watchkit.wearable.watchface.model.BytePackable.TickMargin;
-import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
-import pro.watchkit.wearable.watchface.model.BytePackable.TickSize;
-import pro.watchkit.wearable.watchface.model.BytePackable.TicksDisplay;
 import pro.watchkit.wearable.watchface.model.BytePackable.Typeface;
 import pro.watchkit.wearable.watchface.model.PaintBox.ColorType;
 
@@ -939,12 +939,12 @@ public class WatchFaceState {
         mSettings.mStatsDetail = statsDetail;
     }
 
-    public boolean isHideTicks() {
-        return mSettings.mHideTicks;
+    public boolean isHidePips() {
+        return mSettings.mHidePips;
     }
 
-    void setHideTicks(boolean hideTicks) {
-        mSettings.mHideTicks = hideTicks;
+    void setHidePips(boolean hidePips) {
+        mSettings.mHidePips = hidePips;
     }
 
     public boolean isHideHands() {
@@ -993,20 +993,20 @@ public class WatchFaceState {
         return mWatchFacePreset.mSecondHandOverride;
     }
 
-    void setTwelveTickOverride(boolean twelveTickOverride) {
-        mWatchFacePreset.mTwelveTickOverride = twelveTickOverride;
+    void setTwelvePipOverride(boolean twelvePipOverride) {
+        mWatchFacePreset.mTwelvePipOverride = twelvePipOverride;
     }
 
-    boolean isTwelveTicksOverridden() {
-        return isTwelveTicksVisible() && mWatchFacePreset.mTwelveTickOverride;
+    boolean isTwelvePipsOverridden() {
+        return isTwelvePipsVisible() && mWatchFacePreset.mTwelvePipOverride;
     }
 
-    void setSixtyTickOverride(boolean sixtyTickOverride) {
-        mWatchFacePreset.mSixtyTickOverride = sixtyTickOverride;
+    void setSixtyPipOverride(boolean sixtyPipOverride) {
+        mWatchFacePreset.mSixtyPipOverride = sixtyPipOverride;
     }
 
-    boolean isSixtyTicksOverridden() {
-        return isSixtyTicksVisible() && mWatchFacePreset.mSixtyTickOverride;
+    boolean isSixtyPipsOverridden() {
+        return isSixtyPipsVisible() && mWatchFacePreset.mSixtyPipOverride;
     }
 
     public void setString(@Nullable String s) {
@@ -1455,119 +1455,119 @@ public class WatchFaceState {
         mWatchFacePreset.mSecondHandMaterial = secondHandMaterial;
     }
 
-    TicksDisplay getTicksDisplay() {
-        return mWatchFacePreset.mTicksDisplay;
+    PipsDisplay getPipsDisplay() {
+        return mWatchFacePreset.mPipsDisplay;
     }
 
-    void setTicksDisplay(TicksDisplay ticksDisplay) {
-        mWatchFacePreset.mTicksDisplay = ticksDisplay;
+    void setPipsDisplay(PipsDisplay pipsDisplay) {
+        mWatchFacePreset.mPipsDisplay = pipsDisplay;
     }
 
-    public boolean isFourTicksVisible() {
-        return mWatchFacePreset.mTicksDisplay != TicksDisplay.NONE;
+    public boolean isFourPipsVisible() {
+        return mWatchFacePreset.mPipsDisplay != PipsDisplay.NONE;
     }
 
-    public boolean isTwelveTicksVisible() {
-        return mWatchFacePreset.mTicksDisplay == TicksDisplay.FOUR_TWELVE ||
-                mWatchFacePreset.mTicksDisplay == TicksDisplay.FOUR_TWELVE_60;
+    public boolean isTwelvePipsVisible() {
+        return mWatchFacePreset.mPipsDisplay == PipsDisplay.FOUR_TWELVE ||
+                mWatchFacePreset.mPipsDisplay == PipsDisplay.FOUR_TWELVE_60;
     }
 
-    public boolean isSixtyTicksVisible() {
-        return mWatchFacePreset.mTicksDisplay == TicksDisplay.FOUR_TWELVE_60;
+    public boolean isSixtyPipsVisible() {
+        return mWatchFacePreset.mPipsDisplay == PipsDisplay.FOUR_TWELVE_60;
     }
 
-    public TickShape getFourTickShape() {
-        return mWatchFacePreset.mFourTickShape;
+    public PipShape getFourPipShape() {
+        return mWatchFacePreset.mFourPipShape;
     }
 
-    void setFourTickShape(TickShape fourTickShape) {
-        mWatchFacePreset.mFourTickShape = fourTickShape;
+    void setFourPipShape(PipShape fourPipShape) {
+        mWatchFacePreset.mFourPipShape = fourPipShape;
     }
 
-    public TickShape getTwelveTickShape() {
-        return mWatchFacePreset.mTwelveTickOverride ?
-                mWatchFacePreset.mTwelveTickShape : mWatchFacePreset.mFourTickShape;
+    public PipShape getTwelvePipShape() {
+        return mWatchFacePreset.mTwelvePipOverride ?
+                mWatchFacePreset.mTwelvePipShape : mWatchFacePreset.mFourPipShape;
     }
 
-    void setTwelveTickShape(TickShape twelveTickShape) {
-        mWatchFacePreset.mTwelveTickShape = twelveTickShape;
+    void setTwelvePipShape(PipShape twelvePipShape) {
+        mWatchFacePreset.mTwelvePipShape = twelvePipShape;
     }
 
-    public TickShape getSixtyTickShape() {
-        return mWatchFacePreset.mSixtyTickOverride ?
-                mWatchFacePreset.mSixtyTickShape : mWatchFacePreset.mFourTickShape;
+    public PipShape getSixtyPipShape() {
+        return mWatchFacePreset.mSixtyPipOverride ?
+                mWatchFacePreset.mSixtyPipShape : mWatchFacePreset.mFourPipShape;
     }
 
-    void setSixtyTickShape(TickShape sixtyTickShape) {
-        mWatchFacePreset.mSixtyTickShape = sixtyTickShape;
+    void setSixtyPipShape(PipShape sixtyPipShape) {
+        mWatchFacePreset.mSixtyPipShape = sixtyPipShape;
     }
 
-    public TickSize getFourTickSize() {
-        return mWatchFacePreset.mFourTickSize;
+    public PipSize getFourPipSize() {
+        return mWatchFacePreset.mFourPipSize;
     }
 
-    void setFourTickSize(TickSize fourTickSize) {
-        mWatchFacePreset.mFourTickSize = fourTickSize;
+    void setFourPipSize(PipSize fourPipSize) {
+        mWatchFacePreset.mFourPipSize = fourPipSize;
     }
 
-    public TickSize getTwelveTickSize() {
-        return mWatchFacePreset.mTwelveTickOverride ?
-                mWatchFacePreset.mTwelveTickSize : mWatchFacePreset.mFourTickSize;
+    public PipSize getTwelvePipSize() {
+        return mWatchFacePreset.mTwelvePipOverride ?
+                mWatchFacePreset.mTwelvePipSize : mWatchFacePreset.mFourPipSize;
     }
 
-    void setTwelveTickSize(TickSize twelveTickSize) {
-        mWatchFacePreset.mTwelveTickSize = twelveTickSize;
+    void setTwelvePipSize(PipSize twelvePipSize) {
+        mWatchFacePreset.mTwelvePipSize = twelvePipSize;
     }
 
-    public TickSize getSixtyTickSize() {
-        return mWatchFacePreset.mSixtyTickOverride ?
-                mWatchFacePreset.mSixtyTickSize : mWatchFacePreset.mFourTickSize;
+    public PipSize getSixtyPipSize() {
+        return mWatchFacePreset.mSixtyPipOverride ?
+                mWatchFacePreset.mSixtyPipSize : mWatchFacePreset.mFourPipSize;
     }
 
-    void setSixtyTickSize(TickSize sixtyTickSize) {
-        mWatchFacePreset.mSixtyTickSize = sixtyTickSize;
+    void setSixtyPipSize(PipSize sixtyPipSize) {
+        mWatchFacePreset.mSixtyPipSize = sixtyPipSize;
     }
 
-    TickMargin getTickMargin() {
-        return mWatchFacePreset.mTickMargin;
+    PipMargin getPipMargin() {
+        return mWatchFacePreset.mPipMargin;
     }
 
-    void setTickMargin(TickMargin tickMargin) {
-        mWatchFacePreset.mTickMargin = tickMargin;
+    void setPipMargin(PipMargin pipMargin) {
+        mWatchFacePreset.mPipMargin = pipMargin;
     }
 
-    public Material getFourTickMaterial() {
-        return mWatchFacePreset.mFourTickMaterial;
+    public Material getFourPipMaterial() {
+        return mWatchFacePreset.mFourPipMaterial;
     }
 
-    void setFourTickMaterial(Material fourTickMaterial) {
-        mWatchFacePreset.mFourTickMaterial = fourTickMaterial;
+    void setFourPipMaterial(Material fourPipMaterial) {
+        mWatchFacePreset.mFourPipMaterial = fourPipMaterial;
     }
 
-    public Material getTwelveTickMaterial() {
-        return mWatchFacePreset.mTwelveTickOverride ?
-                mWatchFacePreset.mTwelveTickMaterial : mWatchFacePreset.mFourTickMaterial;
+    public Material getTwelvePipMaterial() {
+        return mWatchFacePreset.mTwelvePipOverride ?
+                mWatchFacePreset.mTwelvePipMaterial : mWatchFacePreset.mFourPipMaterial;
     }
 
-    void setTwelveTickMaterial(Material twelveTickMaterial) {
-        mWatchFacePreset.mTwelveTickMaterial = twelveTickMaterial;
+    void setTwelvePipMaterial(Material twelvePipMaterial) {
+        mWatchFacePreset.mTwelvePipMaterial = twelvePipMaterial;
     }
 
-    public Material getSixtyTickMaterial() {
-        return mWatchFacePreset.mSixtyTickOverride ?
-                mWatchFacePreset.mSixtyTickMaterial : mWatchFacePreset.mFourTickMaterial;
+    public Material getSixtyPipMaterial() {
+        return mWatchFacePreset.mSixtyPipOverride ?
+                mWatchFacePreset.mSixtyPipMaterial : mWatchFacePreset.mFourPipMaterial;
     }
 
-    void setSixtyTickMaterial(Material sixtyTickMaterial) {
-        mWatchFacePreset.mSixtyTickMaterial = sixtyTickMaterial;
+    void setSixtyPipMaterial(Material sixtyPipMaterial) {
+        mWatchFacePreset.mSixtyPipMaterial = sixtyPipMaterial;
     }
 
-    public Material getTickBackgroundMaterial() {
-        return mWatchFacePreset.mTickBackgroundMaterial;
+    public Material getPipBackgroundMaterial() {
+        return mWatchFacePreset.mPipBackgroundMaterial;
     }
 
-    void setTickBackgroundMaterial(Material tickBackgroundMaterial) {
-        mWatchFacePreset.mTickBackgroundMaterial = tickBackgroundMaterial;
+    void setPipBackgroundMaterial(Material pipBackgroundMaterial) {
+        mWatchFacePreset.mPipBackgroundMaterial = pipBackgroundMaterial;
     }
 
     boolean isDigitVisible() {
@@ -1982,7 +1982,7 @@ public class WatchFaceState {
     // region Dimensions
 
     private float getBandStart() {
-        switch (getTickMargin()) {
+        switch (getPipMargin()) {
             case NONE: {
                 return 0f;
             }
@@ -1999,7 +1999,7 @@ public class WatchFaceState {
         }
     }
 
-    public float getTickBandStart(float pc) {
+    public float getPipBandStart(float pc) {
         if (getDigitDisplay() == DigitDisplay.ABOVE) {
             return getBandStart() + getDigitBandHeight(pc);
         } else {
@@ -2009,26 +2009,26 @@ public class WatchFaceState {
 
     public float getDigitBandStart(float pc) {
         if (getDigitDisplay() == DigitDisplay.BELOW) {
-            return getBandStart() + getTickBandHeight(pc);
+            return getBandStart() + getPipBandHeight(pc);
         } else {
             return getBandStart();
         }
     }
 
     /**
-     * Get the tick band height, which is the longest of the four, twelve and sixty ticks (and the
+     * Get the pip band height, which is the longest of the four, twelve and sixty pips (and the
      * digits too if we're drawing them here).
      *
      * @param pc Current length of one percent
-     * @return Height of tick band
+     * @return Height of pip band
      */
-    public float getTickBandHeight(float pc) {
-        float fourTickHeight = getTickHalfLength(getFourTickShape(), getFourTickSize());
-        float twelveTickHeight = getTickHalfLength(getTwelveTickShape(), getTwelveTickSize());
-        float sixtyTickHeight = getTickHalfLength(getSixtyTickShape(), getSixtyTickSize());
+    public float getPipBandHeight(float pc) {
+        float fourPipHeight = getPipHalfLength(getFourPipShape(), getFourPipSize());
+        float twelvePipHeight = getPipHalfLength(getTwelvePipShape(), getTwelvePipSize());
+        float sixtyPipHeight = getPipHalfLength(getSixtyPipShape(), getSixtyPipSize());
 
         float result = 2f + // Add 2f padding, which is 1f on top and bottom
-                2f * Math.max(fourTickHeight, Math.max(twelveTickHeight, sixtyTickHeight));
+                2f * Math.max(fourPipHeight, Math.max(twelvePipHeight, sixtyPipHeight));
 
         if (getDigitDisplay() == DigitDisplay.OVER) {
             return Math.max(result, getDigitBandHeight(pc));
@@ -2070,7 +2070,7 @@ public class WatchFaceState {
         return (result / pc) + 2f; // Convert back from pixels to percentage; add 2% padding
     }
 
-    public static float getTickHalfLength(@NonNull TickShape tickShape, @NonNull TickSize tickSize) {
+    public static float getPipHalfLength(@NonNull PipShape pipShape, @NonNull PipSize pipSize) {
         final float barLengthScale = 1.5f;
         // Height of an equilateral triangle.
         final float triangleFactor = (float) (Math.sqrt(3d) / 2d);
@@ -2082,7 +2082,7 @@ public class WatchFaceState {
         final float diamondScale = (float) Math.sqrt(2d);
 
         float result;
-        switch (tickShape) {
+        switch (pipShape) {
             case SQUARE_WIDE: {
                 result = (float) Math.pow(GOLDEN_RATIO, -2d / 3d);
                 break;
@@ -2130,7 +2130,7 @@ public class WatchFaceState {
         }
 
         // For thin types, make their length more (and their thickness less)!
-        switch (tickShape) {
+        switch (pipShape) {
             case DOT_THIN:
             case TRIANGLE_THIN:
             case DIAMOND_THIN: {
@@ -2139,7 +2139,7 @@ public class WatchFaceState {
             }
         }
 
-        switch (tickSize) {
+        switch (pipSize) {
             case XX_SHORT: {
                 result *= (float) Math.pow(GOLDEN_RATIO, -1.5d);
                 break;
@@ -2178,7 +2178,7 @@ public class WatchFaceState {
         return result;
     }
 
-    public static float getTickThickness(@NonNull TickShape tickShape, @NonNull TickSize tickSize) {
+    public static float getPipThickness(@NonNull PipShape pipShape, @NonNull PipSize pipSize) {
         final float barThicknessScale = (float) (Math.PI / 120d);
 
         // Scaling factors for dot, triangle and diamond.
@@ -2188,7 +2188,7 @@ public class WatchFaceState {
         final float diamondScale = (float) Math.sqrt(2d);
 
         float result;
-        switch (tickShape) {
+        switch (pipShape) {
             case SQUARE_WIDE: {
                 result = (float) Math.pow(GOLDEN_RATIO, 2d / 3d);
                 break;
@@ -2236,7 +2236,7 @@ public class WatchFaceState {
         }
 
         // For thin types, make their thickness less (and their length more)!
-        switch (tickShape) {
+        switch (pipShape) {
             case DOT_THIN:
             case TRIANGLE_THIN:
             case DIAMOND_THIN: {
@@ -2245,8 +2245,8 @@ public class WatchFaceState {
             }
         }
 
-        if (tickShape != TickShape.SECTOR) {
-            switch (tickSize) {
+        if (pipShape != PipShape.SECTOR) {
+            switch (pipSize) {
                 case XX_SHORT: {
                     result *= (float) Math.pow(GOLDEN_RATIO, -1.5d);
                     break;
@@ -2391,20 +2391,20 @@ public class WatchFaceState {
         if (getComplicationBackgroundMaterial() == material) {
             result.add(getStringResource(R.string.config_preset_second_hand_material));
         }
-        if (getTickBackgroundMaterial() == material) {
-            result.add(getStringResource(R.string.config_preset_tick_background_material));
+        if (getPipBackgroundMaterial() == material) {
+            result.add(getStringResource(R.string.config_preset_pip_background_material));
         }
         if (getDigitMaterial() == material) {
             result.add(getStringResource(R.string.config_preset_digit_material));
         }
-        if (getFourTickMaterial() == material) {
-            result.add(getStringResource(R.string.config_preset_four_tick_material));
+        if (getFourPipMaterial() == material) {
+            result.add(getStringResource(R.string.config_preset_four_pip_material));
         }
-        if (getTwelveTickMaterial() == material) {
-            result.add(getStringResource(R.string.config_preset_twelve_tick_material));
+        if (getTwelvePipMaterial() == material) {
+            result.add(getStringResource(R.string.config_preset_twelve_pip_material));
         }
-        if (getSixtyTickMaterial() == material) {
-            result.add(getStringResource(R.string.config_preset_sixty_tick_material));
+        if (getSixtyPipMaterial() == material) {
+            result.add(getStringResource(R.string.config_preset_sixty_pip_material));
         }
         return result;
     }

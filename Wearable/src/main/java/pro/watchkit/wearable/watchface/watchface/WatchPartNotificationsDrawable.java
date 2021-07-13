@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Terence Tan
+ * Copyright (C) 2018-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -42,9 +42,9 @@ import androidx.annotation.NonNull;
 
 final class WatchPartNotificationsDrawable extends WatchPartDrawable {
     @NonNull
-    private Path mPath = new Path();
+    private final Path mPath = new Path();
     @NonNull
-    private Path mExclusion = new Path();
+    private final Path mExclusion = new Path();
 
     @NonNull
     @Override
@@ -66,10 +66,10 @@ final class WatchPartNotificationsDrawable extends WatchPartDrawable {
         mExclusion.reset();
 
         float mCenter = Math.min(mCenterX, mCenterY);
-        float tickRadiusPositionDimen = 6f * pc; // Draw at 6% from edge
-        float centerTickRadius = mCenter - tickRadiusPositionDimen;
+        float pipRadiusPositionDimen = 6f * pc; // Draw at 6% from edge
+        float centerPipRadius = mCenter - pipRadiusPositionDimen;
         float x = mCenterX;
-        float y = mCenterY + centerTickRadius;
+        float y = mCenterY + centerPipRadius;
 
         // Draw a circle of size 4%.
         mPath.addCircle(x, y, 4f * pc, getDirection());
@@ -84,10 +84,10 @@ final class WatchPartNotificationsDrawable extends WatchPartDrawable {
             mPath.addCircle(x, y, 2f * pc, getDirection());
         }
 
-        // Draw with our four tick style.
+        // Draw with our four pip style.
         // Maybe in the future, allow this to be customised.
         Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(
-                mWatchFaceState.getFourTickMaterial());
+                mWatchFaceState.getFourPipMaterial());
         drawPath(canvas, mPath, paint);
 
         // Add an exclusion zone of size 5%.

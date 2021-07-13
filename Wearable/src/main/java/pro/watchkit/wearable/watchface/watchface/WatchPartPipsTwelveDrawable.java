@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2020 Terence Tan
+ * Copyright (C) 2019-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -21,10 +21,10 @@ package pro.watchkit.wearable.watchface.watchface;
 import androidx.annotation.NonNull;
 
 import pro.watchkit.wearable.watchface.model.BytePackable.Material;
-import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
-import pro.watchkit.wearable.watchface.model.BytePackable.TickSize;
+import pro.watchkit.wearable.watchface.model.BytePackable.PipShape;
+import pro.watchkit.wearable.watchface.model.BytePackable.PipSize;
 
-final class WatchPartTicksTwelveDrawable extends WatchPartTicksDrawable {
+final class WatchPartPipsTwelveDrawable extends WatchPartPipsDrawable {
     @NonNull
     @Override
     String getStatsName() {
@@ -32,11 +32,11 @@ final class WatchPartTicksTwelveDrawable extends WatchPartTicksDrawable {
     }
 
     @Override
-    protected boolean isVisible(int tickIndex) {
-        if (tickIndex % 15 == 0)
+    protected boolean isVisible(int pipIndex) {
+        if (pipIndex % 15 == 0)
             return false;
-        else if (tickIndex % 5 == 0)
-            return mWatchFaceState.isTwelveTicksVisible();
+        else if (pipIndex % 5 == 0)
+            return mWatchFaceState.isTwelvePipsVisible();
         else
             return false;
     }
@@ -47,17 +47,17 @@ final class WatchPartTicksTwelveDrawable extends WatchPartTicksDrawable {
     }
 
     @Override
-    protected TickShape getTickShape() {
-        return mWatchFaceState.getTwelveTickShape();
+    protected PipShape getPipShape() {
+        return mWatchFaceState.getTwelvePipShape();
     }
 
     @Override
-    protected TickSize getTickSize() {
-        return mWatchFaceState.getTwelveTickSize();
+    protected PipSize getPipSize() {
+        return mWatchFaceState.getTwelvePipSize();
     }
 
     @Override
-    protected Material getTickStyle() {
-        return mWatchFaceState.getTwelveTickMaterial();
+    protected Material getPipStyle() {
+        return mWatchFaceState.getTwelvePipMaterial();
     }
 }

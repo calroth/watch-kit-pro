@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Terence Tan
+ * Copyright (C) 2018-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -28,12 +28,12 @@ final class WatchFacePreset extends BytePackable {
     HandStalk mHourHandStalk, mMinuteHandStalk;
     Material mHourHandMaterial, mMinuteHandMaterial, mSecondHandMaterial;
     HandCutoutCombination mHourHandCutoutCombination, mMinuteHandCutoutCombination;
-    TicksDisplay mTicksDisplay;
-    boolean mTwelveTickOverride, mSixtyTickOverride;
-    TickShape mFourTickShape, mTwelveTickShape, mSixtyTickShape;
-    TickSize mFourTickSize, mTwelveTickSize, mSixtyTickSize;
-    Material mFourTickMaterial, mTwelveTickMaterial, mSixtyTickMaterial, mDigitMaterial, mTickBackgroundMaterial;
-    TickMargin mTickMargin;
+    PipsDisplay mPipsDisplay;
+    boolean mTwelvePipOverride, mSixtyPipOverride;
+    PipShape mFourPipShape, mTwelvePipShape, mSixtyPipShape;
+    PipSize mFourPipSize, mTwelvePipSize, mSixtyPipSize;
+    Material mFourPipMaterial, mTwelvePipMaterial, mSixtyPipMaterial, mDigitMaterial, mPipBackgroundMaterial;
+    PipMargin mPipMargin;
     DigitDisplay mDigitDisplay;
     DigitSize mDigitSize;
     DigitRotation mDigitRotation;
@@ -55,12 +55,12 @@ final class WatchFacePreset extends BytePackable {
                 mHourHandStalk, mMinuteHandStalk,
                 mHourHandMaterial, mMinuteHandMaterial, mSecondHandMaterial,
                 mHourHandCutoutCombination, mMinuteHandCutoutCombination,
-                mTicksDisplay,
-                mTwelveTickOverride, mSixtyTickOverride,
-                mFourTickShape, mTwelveTickShape, mSixtyTickShape,
-                mFourTickSize, mTwelveTickSize, mSixtyTickSize,
-                mTickMargin,
-                mFourTickMaterial, mTwelveTickMaterial, mSixtyTickMaterial, mDigitMaterial, mTickBackgroundMaterial,
+                mPipsDisplay,
+                mTwelvePipOverride, mSixtyPipOverride,
+                mFourPipShape, mTwelvePipShape, mSixtyPipShape,
+                mFourPipSize, mTwelvePipSize, mSixtyPipSize,
+                mPipMargin,
+                mFourPipMaterial, mTwelvePipMaterial, mSixtyPipMaterial, mDigitMaterial, mPipBackgroundMaterial,
                 mDigitDisplay,
                 mDigitSize,
                 mDigitRotation,
@@ -107,26 +107,26 @@ final class WatchFacePreset extends BytePackable {
         mSecondHandThickness.pack(mBytePacker);
         mSecondHandMaterial.pack(mBytePacker);
 
-        mTicksDisplay.pack(mBytePacker);
-        mTickMargin.pack(mBytePacker);
-        mTickBackgroundMaterial.pack(mBytePacker);
+        mPipsDisplay.pack(mBytePacker);
+        mPipMargin.pack(mBytePacker);
+        mPipBackgroundMaterial.pack(mBytePacker);
 
-        mFourTickShape.pack(mBytePacker);
-        mFourTickSize.pack(mBytePacker);
-//        mFourTickThickness.pack(mBytePacker);
-        mFourTickMaterial.pack(mBytePacker);
+        mFourPipShape.pack(mBytePacker);
+        mFourPipSize.pack(mBytePacker);
+//        mFourPipThickness.pack(mBytePacker);
+        mFourPipMaterial.pack(mBytePacker);
 
-        mBytePacker.put(mTwelveTickOverride);
-        mTwelveTickShape.pack(mBytePacker);
-        mTwelveTickSize.pack(mBytePacker);
-//        mTwelveTickThickness.pack(mBytePacker);
-        mTwelveTickMaterial.pack(mBytePacker);
+        mBytePacker.put(mTwelvePipOverride);
+        mTwelvePipShape.pack(mBytePacker);
+        mTwelvePipSize.pack(mBytePacker);
+//        mTwelvePipThickness.pack(mBytePacker);
+        mTwelvePipMaterial.pack(mBytePacker);
 
-        mBytePacker.put(mSixtyTickOverride);
-        mSixtyTickShape.pack(mBytePacker);
-        mSixtyTickSize.pack(mBytePacker);
-//        mSixtyTickThickness.pack(mBytePacker);
-        mSixtyTickMaterial.pack(mBytePacker);
+        mBytePacker.put(mSixtyPipOverride);
+        mSixtyPipShape.pack(mBytePacker);
+        mSixtyPipSize.pack(mBytePacker);
+//        mSixtyPipThickness.pack(mBytePacker);
+        mSixtyPipMaterial.pack(mBytePacker);
 
         mFillHighlightMaterialGradient.pack(mBytePacker);
         mFillHighlightMaterialTexture.pack(mBytePacker);
@@ -179,23 +179,23 @@ final class WatchFacePreset extends BytePackable {
                 mSecondHandThickness = HandThickness.unpack(mBytePacker);
                 mSecondHandMaterial = Material.unpack(mBytePacker);
 
-                mTicksDisplay = TicksDisplay.unpack(mBytePacker);
-                mTickMargin = TickMargin.unpack(mBytePacker);
-                mTickBackgroundMaterial = Material.unpack(mBytePacker);
+                mPipsDisplay = PipsDisplay.unpack(mBytePacker);
+                mPipMargin = PipMargin.unpack(mBytePacker);
+                mPipBackgroundMaterial = Material.unpack(mBytePacker);
 
-                mFourTickShape = TickShape.unpack(mBytePacker);
-                mFourTickSize = TickSize.unpack(mBytePacker);
-                mFourTickMaterial = Material.unpack(mBytePacker);
+                mFourPipShape = PipShape.unpack(mBytePacker);
+                mFourPipSize = PipSize.unpack(mBytePacker);
+                mFourPipMaterial = Material.unpack(mBytePacker);
 
-                mTwelveTickOverride = mBytePacker.getBoolean();
-                mTwelveTickShape = TickShape.unpack(mBytePacker);
-                mTwelveTickSize = TickSize.unpack(mBytePacker);
-                mTwelveTickMaterial = Material.unpack(mBytePacker);
+                mTwelvePipOverride = mBytePacker.getBoolean();
+                mTwelvePipShape = PipShape.unpack(mBytePacker);
+                mTwelvePipSize = PipSize.unpack(mBytePacker);
+                mTwelvePipMaterial = Material.unpack(mBytePacker);
 
-                mSixtyTickOverride = mBytePacker.getBoolean();
-                mSixtyTickShape = TickShape.unpack(mBytePacker);
-                mSixtyTickSize = TickSize.unpack(mBytePacker);
-                mSixtyTickMaterial = Material.unpack(mBytePacker);
+                mSixtyPipOverride = mBytePacker.getBoolean();
+                mSixtyPipShape = PipShape.unpack(mBytePacker);
+                mSixtyPipSize = PipSize.unpack(mBytePacker);
+                mSixtyPipMaterial = Material.unpack(mBytePacker);
 
                 mFillHighlightMaterialGradient = MaterialGradient.unpack(mBytePacker);
                 mFillHighlightMaterialTexture = MaterialTexture.unpack(mBytePacker);
@@ -243,27 +243,27 @@ final class WatchFacePreset extends BytePackable {
                 mSecondHandThickness = HandThickness.unpack(mBytePacker);
                 mSecondHandMaterial = Material.unpack(mBytePacker);
 
-                mTicksDisplay = TicksDisplay.unpack(mBytePacker);
+                mPipsDisplay = PipsDisplay.unpack(mBytePacker);
 
-                mFourTickShape = TickShape.unpack2(mBytePacker);
-                mFourTickSize = TickSize.unpack2(mBytePacker);
-                mBytePacker.get(2); // mFourTickThickness
-                mBytePacker.get(2); // mFourTickRadiusPosition
-                mFourTickMaterial = Material.unpack(mBytePacker);
+                mFourPipShape = PipShape.unpack2(mBytePacker);
+                mFourPipSize = PipSize.unpack2(mBytePacker);
+                mBytePacker.get(2); // mFourPipThickness
+                mBytePacker.get(2); // mFourPipRadiusPosition
+                mFourPipMaterial = Material.unpack(mBytePacker);
 
-                mTwelveTickOverride = mBytePacker.getBoolean();
-                mTwelveTickShape = TickShape.unpack2(mBytePacker);
-                mTwelveTickSize = TickSize.unpack2(mBytePacker);
-                mBytePacker.get(2); // mTwelveTickThickness
-                mBytePacker.get(2); // mTwelveTickRadiusPosition
-                mTwelveTickMaterial = Material.unpack(mBytePacker);
+                mTwelvePipOverride = mBytePacker.getBoolean();
+                mTwelvePipShape = PipShape.unpack2(mBytePacker);
+                mTwelvePipSize = PipSize.unpack2(mBytePacker);
+                mBytePacker.get(2); // mTwelvePipThickness
+                mBytePacker.get(2); // mTwelvePipRadiusPosition
+                mTwelvePipMaterial = Material.unpack(mBytePacker);
 
-                mSixtyTickOverride = mBytePacker.getBoolean();
-                mSixtyTickShape = TickShape.unpack2(mBytePacker);
-                mSixtyTickSize = TickSize.unpack2(mBytePacker);
-                mBytePacker.get(2); // mSixtyTickThickness
-                mBytePacker.get(2); // mSixtyTickRadiusPosition;
-                mSixtyTickMaterial = Material.unpack(mBytePacker);
+                mSixtyPipOverride = mBytePacker.getBoolean();
+                mSixtyPipShape = PipShape.unpack2(mBytePacker);
+                mSixtyPipSize = PipSize.unpack2(mBytePacker);
+                mBytePacker.get(2); // mSixtyPipThickness
+                mBytePacker.get(2); // mSixtyPipRadiusPosition;
+                mSixtyPipMaterial = Material.unpack(mBytePacker);
 
                 mFillHighlightMaterialGradient = MaterialGradient.unpack(mBytePacker);
                 mFillHighlightMaterialTexture = MaterialTexture.unpack(mBytePacker);
@@ -279,8 +279,8 @@ final class WatchFacePreset extends BytePackable {
                 mAccentSixBitColor = mBytePacker.getSixBitColor();
                 mBaseSixBitColor = mBytePacker.getSixBitColor();
 
-                mTickMargin = TickMargin.unpack(mBytePacker);
-                mTickBackgroundMaterial = Material.unpack(mBytePacker);
+                mPipMargin = PipMargin.unpack(mBytePacker);
+                mPipBackgroundMaterial = Material.unpack(mBytePacker);
                 mDigitSize = DigitSize.unpack(mBytePacker);
                 break;
             }
@@ -316,26 +316,26 @@ final class WatchFacePreset extends BytePackable {
                 mSecondHandThickness = HandThickness.unpack(mBytePacker);
                 mSecondHandMaterial = Material.unpack(mBytePacker);
 
-                mTicksDisplay = TicksDisplay.unpack(mBytePacker);
-                mTickMargin = TickMargin.unpack(mBytePacker);
-                mTickBackgroundMaterial = Material.unpack(mBytePacker);
+                mPipsDisplay = PipsDisplay.unpack(mBytePacker);
+                mPipMargin = PipMargin.unpack(mBytePacker);
+                mPipBackgroundMaterial = Material.unpack(mBytePacker);
 
-                mFourTickShape = TickShape.unpack2(mBytePacker);
-                mFourTickSize = TickSize.unpack2(mBytePacker);
-                mBytePacker.get(2); // mFourTickThickness
-                mFourTickMaterial = Material.unpack(mBytePacker);
+                mFourPipShape = PipShape.unpack2(mBytePacker);
+                mFourPipSize = PipSize.unpack2(mBytePacker);
+                mBytePacker.get(2); // mFourPipThickness
+                mFourPipMaterial = Material.unpack(mBytePacker);
 
-                mTwelveTickOverride = mBytePacker.getBoolean();
-                mTwelveTickShape = TickShape.unpack2(mBytePacker);
-                mTwelveTickSize = TickSize.unpack2(mBytePacker);
-                mBytePacker.get(2); // mTwelveTickThickness
-                mTwelveTickMaterial = Material.unpack(mBytePacker);
+                mTwelvePipOverride = mBytePacker.getBoolean();
+                mTwelvePipShape = PipShape.unpack2(mBytePacker);
+                mTwelvePipSize = PipSize.unpack2(mBytePacker);
+                mBytePacker.get(2); // mTwelvePipThickness
+                mTwelvePipMaterial = Material.unpack(mBytePacker);
 
-                mSixtyTickOverride = mBytePacker.getBoolean();
-                mSixtyTickShape = TickShape.unpack2(mBytePacker);
-                mSixtyTickSize = TickSize.unpack2(mBytePacker);
-                mBytePacker.get(2); // mSixtyTickThickness
-                mSixtyTickMaterial = Material.unpack(mBytePacker);
+                mSixtyPipOverride = mBytePacker.getBoolean();
+                mSixtyPipShape = PipShape.unpack2(mBytePacker);
+                mSixtyPipSize = PipSize.unpack2(mBytePacker);
+                mBytePacker.get(2); // mSixtyPipThickness
+                mSixtyPipMaterial = Material.unpack(mBytePacker);
 
                 mFillHighlightMaterialGradient = MaterialGradient.unpack(mBytePacker);
                 mFillHighlightMaterialTexture = MaterialTexture.unpack(mBytePacker);
@@ -384,23 +384,23 @@ final class WatchFacePreset extends BytePackable {
                 mSecondHandThickness = HandThickness.unpack(mBytePacker);
                 mSecondHandMaterial = Material.unpack(mBytePacker);
 
-                mTicksDisplay = TicksDisplay.unpack(mBytePacker);
-                mTickMargin = TickMargin.unpack(mBytePacker);
-                mTickBackgroundMaterial = Material.unpack(mBytePacker);
+                mPipsDisplay = PipsDisplay.unpack(mBytePacker);
+                mPipMargin = PipMargin.unpack(mBytePacker);
+                mPipBackgroundMaterial = Material.unpack(mBytePacker);
 
-                mFourTickShape = TickShape.unpack(mBytePacker);
-                mFourTickSize = TickSize.unpack(mBytePacker);
-                mFourTickMaterial = Material.unpack(mBytePacker);
+                mFourPipShape = PipShape.unpack(mBytePacker);
+                mFourPipSize = PipSize.unpack(mBytePacker);
+                mFourPipMaterial = Material.unpack(mBytePacker);
 
-                mTwelveTickOverride = mBytePacker.getBoolean();
-                mTwelveTickShape = TickShape.unpack(mBytePacker);
-                mTwelveTickSize = TickSize.unpack(mBytePacker);
-                mTwelveTickMaterial = Material.unpack(mBytePacker);
+                mTwelvePipOverride = mBytePacker.getBoolean();
+                mTwelvePipShape = PipShape.unpack(mBytePacker);
+                mTwelvePipSize = PipSize.unpack(mBytePacker);
+                mTwelvePipMaterial = Material.unpack(mBytePacker);
 
-                mSixtyTickOverride = mBytePacker.getBoolean();
-                mSixtyTickShape = TickShape.unpack(mBytePacker);
-                mSixtyTickSize = TickSize.unpack(mBytePacker);
-                mSixtyTickMaterial = Material.unpack(mBytePacker);
+                mSixtyPipOverride = mBytePacker.getBoolean();
+                mSixtyPipShape = PipShape.unpack(mBytePacker);
+                mSixtyPipSize = PipSize.unpack(mBytePacker);
+                mSixtyPipMaterial = Material.unpack(mBytePacker);
 
                 mFillHighlightMaterialGradient = MaterialGradient.unpack(mBytePacker);
                 mFillHighlightMaterialTexture = MaterialTexture.unpack(mBytePacker);

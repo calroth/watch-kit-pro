@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2020 Terence Tan
+ * Copyright (C) 2019-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -18,53 +18,44 @@
 
 package pro.watchkit.wearable.watchface.watchface;
 
-import android.graphics.Paint;
-
 import androidx.annotation.NonNull;
 
 import pro.watchkit.wearable.watchface.model.BytePackable.Material;
-import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
-import pro.watchkit.wearable.watchface.model.BytePackable.TickSize;
+import pro.watchkit.wearable.watchface.model.BytePackable.PipShape;
+import pro.watchkit.wearable.watchface.model.BytePackable.PipSize;
 
-final class WatchPartTicksSixtyDrawable extends WatchPartTicksDrawable {
+final class WatchPartPipsFourDrawable extends WatchPartPipsDrawable {
     @NonNull
     @Override
     String getStatsName() {
-        return "Sixty";
+        return "Four";
     }
 
     @Override
-    protected boolean isVisible(int tickIndex) {
-        if (tickIndex % 15 == 0)
-            return false;
-        else if (tickIndex % 5 == 0)
-            return false;
+    protected boolean isVisible(int pipIndex) {
+        if (pipIndex % 15 == 0)
+            return mWatchFaceState.isFourPipsVisible();
         else
-            return mWatchFaceState.isSixtyTicksVisible();
+            return false;
     }
 
     @Override
     protected float getMod() {
-        return (float) Math.sqrt(0.5d);
+        return (float) Math.sqrt(2d);
     }
 
     @Override
-    protected TickShape getTickShape() {
-        return mWatchFaceState.getSixtyTickShape();
+    protected PipShape getPipShape() {
+        return mWatchFaceState.getFourPipShape();
     }
 
     @Override
-    protected TickSize getTickSize() {
-        return mWatchFaceState.getSixtyTickSize();
+    protected PipSize getPipSize() {
+        return mWatchFaceState.getFourPipSize();
     }
 
     @Override
-    protected Material getTickStyle() {
-        return mWatchFaceState.getSixtyTickMaterial();
-    }
-
-    @Override
-    protected Paint getAmbientPaint() {
-        return mWatchFaceState.getPaintBox().getAmbientPaintFaded();
+    protected Material getPipStyle() {
+        return mWatchFaceState.getFourPipMaterial();
     }
 }

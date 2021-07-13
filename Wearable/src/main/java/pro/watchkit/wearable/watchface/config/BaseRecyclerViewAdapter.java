@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Terence Tan
+ * Copyright (C) 2018-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -214,7 +214,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             super(view);
             view.setOnClickListener(this);
             setWatchFaceGlobalDrawableFlags(WatchFaceGlobalDrawable.PART_BACKGROUND |
-                    WatchFaceGlobalDrawable.PART_TICKS |
+                    WatchFaceGlobalDrawable.PART_PIPS |
                     WatchFaceGlobalDrawable.PART_HANDS);
         }
 
@@ -505,7 +505,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 // Create our foreground drawable.
                 {
                     int flags = WatchFaceGlobalDrawable.PART_BACKGROUND_FULL_CANVAS |
-                            WatchFaceGlobalDrawable.PART_TICKS |
+                            WatchFaceGlobalDrawable.PART_PIPS |
                             WatchFaceGlobalDrawable.PART_HANDS |
                             WatchFaceGlobalDrawable.PART_RINGS_ACTIVE;
 

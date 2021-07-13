@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Terence Tan
+ * Copyright (C) 2019-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -35,7 +35,7 @@ final class Settings extends BytePackable {
     Material mComplicationRingMaterial, mComplicationBackgroundMaterial;
     boolean mDeveloperMode;
     boolean mStats, mStatsDetail;
-    boolean mHideTicks, mHideHands;
+    boolean mHidePips, mHideHands;
     boolean mUseLegacyColorDrawing, mUseLegacyEffects;
     boolean mHardwareAccelerationEnabled = true;
     boolean mInnerGlow = false;
@@ -58,7 +58,7 @@ final class Settings extends BytePackable {
                 mComplicationRingMaterial, mComplicationBackgroundMaterial,
                 mDeveloperMode,
                 mStats, mStatsDetail,
-                mHideTicks, mHideHands,
+                mHidePips, mHideHands,
                 mUseLegacyColorDrawing, mUseLegacyEffects,
                 mHardwareAccelerationEnabled,
                 mInnerGlow,
@@ -90,7 +90,7 @@ final class Settings extends BytePackable {
         mBytePacker.put(mDeveloperMode);
         mBytePacker.put(mStats);
         mBytePacker.put(mStatsDetail);
-        mBytePacker.put(mHideTicks);
+        mBytePacker.put(mHidePips);
         mBytePacker.put(mHideHands);
         mBytePacker.put(mUseLegacyColorDrawing);
         mBytePacker.put(mUseLegacyEffects);
@@ -122,7 +122,7 @@ final class Settings extends BytePackable {
                 mDeveloperMode = mBytePacker.getBoolean();
                 mStats = mBytePacker.getBoolean();
                 mStatsDetail = mBytePacker.getBoolean();
-                mHideTicks = mBytePacker.getBoolean();
+                mHidePips = mBytePacker.getBoolean();
                 mHideHands = mBytePacker.getBoolean();
                 mUseLegacyColorDrawing = mBytePacker.getBoolean();
                 mUseLegacyEffects = mBytePacker.getBoolean();

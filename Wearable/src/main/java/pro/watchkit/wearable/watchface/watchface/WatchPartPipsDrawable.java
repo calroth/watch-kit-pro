@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Terence Tan
+ * Copyright (C) 2018-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -42,20 +42,20 @@ import android.graphics.Path;
 import androidx.annotation.NonNull;
 
 import pro.watchkit.wearable.watchface.model.BytePackable.Material;
-import pro.watchkit.wearable.watchface.model.BytePackable.TickShape;
-import pro.watchkit.wearable.watchface.model.BytePackable.TickSize;
+import pro.watchkit.wearable.watchface.model.BytePackable.PipShape;
+import pro.watchkit.wearable.watchface.model.BytePackable.PipSize;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
-abstract class WatchPartTicksDrawable extends WatchPartDrawable {
+abstract class WatchPartPipsDrawable extends WatchPartDrawable {
     abstract protected boolean isVisible(int tickIndex);
 
     abstract protected float getMod();
 
-    abstract protected TickShape getTickShape();
+    abstract protected PipShape getPipShape();
 
-    abstract protected TickSize getTickSize();
+    abstract protected PipSize getPipSize();
 
-    abstract protected Material getTickStyle();
+    abstract protected Material getPipStyle();
 
     @NonNull
     private final Path p = new Path();
@@ -72,59 +72,59 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
 
     @Override
     public void draw2(@NonNull Canvas canvas) {
-        if (mWatchFaceState.isDeveloperMode() && mWatchFaceState.isHideTicks()) {
-            // If we set developer mode "hide ticks", then just return!
+        if (mWatchFaceState.isDeveloperMode() && mWatchFaceState.isHidePips()) {
+            // If we set developer mode "hide pips", then just return!
             return;
         }
 
-        final Paint tickPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(getTickStyle());
+        final Paint pipPaint = mWatchFaceState.getPaintBox().getPaintFromPreset(getPipStyle());
 
-        final TickShape tickShape = getTickShape();
-        final TickSize tickSize = getTickSize();
-        // final TickThickness tickThickness = getTickThickness();
-        // Modifiers: four ticks are one size up; sixty ticks one size down.
+        final PipShape pipShape = getPipShape();
+        final PipSize pipSize = getPipSize();
+        // final PipThickness pipThickness = getPipThickness();
+        // Modifiers: four pips are one size up; sixty pips one size down.
         final float mod = getMod() / getMod(); // You know what, turn this off.
 
         // Get our dimensions.
-        final float tickWidth =
-                WatchFaceState.getTickThickness(tickShape, tickSize) * pc * mod;
-        final float tickSizeDimen =
-                WatchFaceState.getTickHalfLength(tickShape, tickSize) * pc * mod;
-        final float tickBandStart = mWatchFaceState.getTickBandStart(pc) * pc * mod;
-        final float tickBandHeight = mWatchFaceState.getTickBandHeight(pc) * pc * mod;
-        final float tickRadiusPositionDimen = tickBandStart + (tickBandHeight / 2f);
+        final float pipWidth =
+                WatchFaceState.getPipThickness(pipShape, pipSize) * pc * mod;
+        final float pipSizeDimen =
+                WatchFaceState.getPipHalfLength(pipShape, pipSize) * pc * mod;
+        final float pipBandStart = mWatchFaceState.getPipBandStart(pc) * pc * mod;
+        final float pipBandHeight = mWatchFaceState.getPipBandHeight(pc) * pc * mod;
+        final float pipRadiusPositionDimen = pipBandStart + (pipBandHeight / 2f);
 
         if (hasStateChanged()) {
             p.reset();
             p2.reset();
 
-            int numTicks = 60;
-            for (int tickIndex = 0; tickIndex < numTicks; tickIndex++) {
-                if (!isVisible(tickIndex)) {
-                    // Tick is not visible. Continue.
+            int numPips = 60;
+            for (int pipIndex = 0; pipIndex < numPips; pipIndex++) {
+                if (!isVisible(pipIndex)) {
+                    // Pip is not visible. Continue.
                     continue;
                 }
 
                 float mCenter = Math.min(mCenterX, mCenterY);
 
-                // Draw the tick.
+                // Draw the pip.
 
-                float centerTickRadius = mCenter - tickRadiusPositionDimen;
-                float tickDegrees = ((float) tickIndex / (float) numTicks) * 360f;
+                float centerPipRadius = mCenter - pipRadiusPositionDimen;
+                float pipDegrees = ((float) pipIndex / (float) numPips) * 360f;
 
                 float x = mCenterX;
-                float y = mCenterY - centerTickRadius;
+                float y = mCenterY - centerPipRadius;
 
                 temp.reset();
                 cutout.reset();
 
-                final float left = x - tickWidth;
-                final float right = x + tickWidth;
-                final float top = y - tickSizeDimen;
-                final float bottom = y + tickSizeDimen;
+                final float left = x - pipWidth;
+                final float right = x + pipWidth;
+                final float top = y - pipSizeDimen;
+                final float bottom = y + pipSizeDimen;
 
                 // Draw the object at 12 o'clock, then rotate it to desired location.
-                switch (tickShape) {
+                switch (pipShape) {
                     case SQUARE:
                     case SQUARE_WIDE:
                     case BAR_1_2:
@@ -145,9 +145,9 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
                         // circles to give us a wedge shape with arc top and bottom.
                         // Height "2 * mCenterY", centered on (mCenterX, mCenterY)
                         temp.moveTo(mCenterX, mCenterY);
-                        // Assume "tickWidth" is radians. Undo the multiplication by "pc".
+                        // Assume "pipWidth" is radians. Undo the multiplication by "pc".
                         // Also undo the multiplication by "mod". Assume we don't mod that.
-                        double offsetRadians = tickWidth / (pc * mod);
+                        double offsetRadians = pipWidth / (pc * mod);
                         float offsetX = (float) Math.sin(offsetRadians) * 2 * mCenterY;
                         if (getDirection() == Path.Direction.CW) {
                             // Line to top left.
@@ -166,11 +166,11 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
                         // Crop it with our top circle and bottom circle.
                         t2.reset();
                         t2.addCircle(mCenterX, mCenterY,
-                                mCenterY - y + tickSizeDimen, getDirection());
+                                mCenterY - y + pipSizeDimen, getDirection());
                         temp.op(t2, Path.Op.INTERSECT);
                         t2.reset();
                         t2.addCircle(mCenterX, mCenterY,
-                                mCenterY - y - tickSizeDimen, getDirection());
+                                mCenterY - y - pipSizeDimen, getDirection());
                         temp.op(t2, Path.Op.DIFFERENCE);
 
                         break;
@@ -216,13 +216,13 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
                 }
 
                 mTempMatrix.reset();
-                mTempMatrix.setRotate(tickDegrees, mCenterX, mCenterY);
+                mTempMatrix.setRotate(pipDegrees, mCenterX, mCenterY);
                 temp.transform(mTempMatrix);
 
-                if (tickIndex % 2 == 0) {
-                    // Draw every 2nd tick into p2. This makes it so the bezels don't "stick together"
+                if (pipIndex % 2 == 0) {
+                    // Draw every 2nd pip into p2. This makes it so the bezels don't "stick together"
                     // if butted up close to each other.
-                    // Generally this only happens for sixty ticks, but since the output is cached
+                    // Generally this only happens for sixty pips, but since the output is cached
                     // we don't mind making the other cases slower for code clarity.
                     p.op(temp, Path.Op.UNION);
                 } else {
@@ -231,7 +231,7 @@ abstract class WatchPartTicksDrawable extends WatchPartDrawable {
             }
         }
 
-        drawPath(canvas, p, tickPaint);
-        drawPath(canvas, p2, tickPaint);
+        drawPath(canvas, p, pipPaint);
+        drawPath(canvas, p2, pipPaint);
     }
 }

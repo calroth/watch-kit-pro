@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Terence Tan
+ * Copyright (C) 2018-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -196,7 +196,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
                             WatchFaceGlobalDrawable.PART_BACKGROUND_FULL_CANVAS |
                                     WatchFaceGlobalDrawable.PART_NOTIFICATIONS |
                                     WatchFaceGlobalDrawable.PART_RINGS_ACTIVE |
-                                    WatchFaceGlobalDrawable.PART_TICKS),
+                                    WatchFaceGlobalDrawable.PART_PIPS),
                     WatchFaceGlobalDrawable.PART_COMPLICATIONS |
                             WatchFaceGlobalDrawable.PART_HANDS |
                             WatchFaceGlobalDrawable.PART_STATS);

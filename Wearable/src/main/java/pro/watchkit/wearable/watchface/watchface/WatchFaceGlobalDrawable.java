@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Terence Tan
+ * Copyright (C) 2019-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -43,11 +43,11 @@ import pro.watchkit.wearable.watchface.model.WatchFaceState;
  */
 public class WatchFaceGlobalDrawable extends LayerDrawable {
     private WatchFaceState mWatchFaceState;
-    private Drawable[] mWatchPartDrawables;
+    private final Drawable[] mWatchPartDrawables;
     @NonNull
-    private Path mExclusionPath = new Path();
+    private final Path mExclusionPath = new Path();
     @NonNull
-    private Path mInnerGlowPath = new Path();
+    private final Path mInnerGlowPath = new Path();
 
     public static final int PART_BACKGROUND = 1;
     public static final int PART_BACKGROUND_FULL_CANVAS = 2;
@@ -56,13 +56,13 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
     public static final int PART_RINGS_ALL = 16;
     public static final int PART_COMPLICATIONS = 32;
     static final int PART_STATS = 64;
-    private static final int PART_TICKS_BACKGROUND = 128;
+    private static final int PART_PIPS_BACKGROUND = 128;
     private static final int PART_DIGITS = 256;
-    private static final int PART_TICKS_SIXTY = 512;
-    private static final int PART_TICKS_TWELVE = 1024;
-    private static final int PART_TICKS_FOUR = 2048;
-    public static final int PART_TICKS = PART_TICKS_BACKGROUND | PART_TICKS_SIXTY |
-            PART_TICKS_TWELVE | PART_TICKS_FOUR | PART_DIGITS;
+    private static final int PART_PIPS_SIXTY = 512;
+    private static final int PART_PIPS_TWELVE = 1024;
+    private static final int PART_PIPS_FOUR = 2048;
+    public static final int PART_PIPS = PART_PIPS_BACKGROUND | PART_PIPS_SIXTY |
+            PART_PIPS_TWELVE | PART_PIPS_FOUR | PART_DIGITS;
     private static final int PART_HANDS_HOUR = 4096;
     private static final int PART_HANDS_MINUTE = 8192;
     private static final int PART_HANDS_SECOND = 16384;
@@ -102,7 +102,7 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
     }
 
     @NonNull
-    private Paint mTint = new Paint();
+    private final Paint mTint = new Paint();
 
     private void setWatchFaceState(@NonNull Context context) {
         mWatchFaceState = new WatchFaceState(context);
@@ -124,7 +124,7 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
     }
 
     @NonNull
-    private Xfermode mTintXfermode = new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY);
+    private final Xfermode mTintXfermode = new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY);
 
     static Drawable[] buildDrawables(@Nullable Drawable cache, int flags) {
         List<Drawable> d = new ArrayList<>();
@@ -146,20 +146,20 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
         } else if ((flags & PART_RINGS_ALL) > 0) {
             d.add(new WatchPartRingsDrawable(true));
         }
-        if ((flags & PART_TICKS_BACKGROUND) > 0) {
-            d.add(new WatchPartTickBackgroundDrawable());
+        if ((flags & PART_PIPS_BACKGROUND) > 0) {
+            d.add(new WatchPartPipBackgroundDrawable());
         }
         if ((flags & PART_DIGITS) > 0) {
             d.add(new WatchPartDigitsDrawable());
         }
-        if ((flags & PART_TICKS_SIXTY) > 0) {
-            d.add(new WatchPartTicksSixtyDrawable());
+        if ((flags & PART_PIPS_SIXTY) > 0) {
+            d.add(new WatchPartPipsSixtyDrawable());
         }
-        if ((flags & PART_TICKS_TWELVE) > 0) {
-            d.add(new WatchPartTicksTwelveDrawable());
+        if ((flags & PART_PIPS_TWELVE) > 0) {
+            d.add(new WatchPartPipsTwelveDrawable());
         }
-        if ((flags & PART_TICKS_FOUR) > 0) {
-            d.add(new WatchPartTicksFourDrawable());
+        if ((flags & PART_PIPS_FOUR) > 0) {
+            d.add(new WatchPartPipsFourDrawable());
         }
         if ((flags & PART_COMPLICATIONS) > 0) {
             d.add(new WatchPartComplicationsDrawable());
