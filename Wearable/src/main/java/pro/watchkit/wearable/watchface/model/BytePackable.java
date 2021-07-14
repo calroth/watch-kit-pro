@@ -41,7 +41,7 @@ public abstract class BytePackable {
     private static final String TAG = "BytePackable";
 
     @NonNull
-    BytePacker mBytePacker = new BytePacker();
+    final BytePacker mBytePacker = new BytePacker();
 
     abstract void pack();
 

@@ -37,9 +37,9 @@ final class Settings extends BytePackable {
     boolean mStats, mStatsDetail;
     boolean mHidePips, mHideHands;
     boolean mUseLegacyColorDrawing, mUseLegacyEffects;
-    boolean mHardwareAccelerationEnabled = true;
-    boolean mInnerGlow = false;
-    boolean mDrawShadows = true;
+    final boolean mHardwareAccelerationEnabled = true;
+    final boolean mInnerGlow = false;
+    final boolean mDrawShadows = true;
     boolean mTransparentBackground = false;
     HandCutoutCombination mPreviousHourHandCutoutCombination, mPreviousMinuteHandCutoutCombination;
 

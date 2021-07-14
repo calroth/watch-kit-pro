@@ -242,7 +242,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     class WatchFaceDrawableViewHolder extends RecyclerView.ViewHolder
             implements WatchFaceStateListener, ComplicationProviderInfoListener {
 
-        ImageView mImageView;
+        final ImageView mImageView;
 
         WatchFaceGlobalDrawable mWatchFaceGlobalDrawable;
 

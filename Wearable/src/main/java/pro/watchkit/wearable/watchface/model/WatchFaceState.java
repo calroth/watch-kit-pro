@@ -1057,6 +1057,7 @@ public class WatchFaceState {
         regeneratePaints();
     }
 
+    @SuppressWarnings("SameReturnValue")
     @NonNull
     public Material getBackgroundMaterial() {
         return Material.BASE_ACCENT; // Hard-coded!
