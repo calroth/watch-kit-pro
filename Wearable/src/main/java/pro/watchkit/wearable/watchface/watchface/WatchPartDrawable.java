@@ -389,6 +389,7 @@ abstract class WatchPartDrawable extends Drawable {
         }
     }
 
+    @NonNull
     protected Paint getAmbientPaint() {
         return mWatchFaceState.getPaintBox().getAmbientPaint();
     }
@@ -480,7 +481,7 @@ abstract class WatchPartDrawable extends Drawable {
         mInnerGlowPath = innerGlowPath;
     }
 
-    void addExclusionPath(@NonNull Path path, Path.Op op) {
+    void addExclusionPath(@NonNull Path path, @NonNull Path.Op op) {
         mExclusionPath.op(path, op);
     }
 

@@ -36,6 +36,7 @@ import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 class WatchFaceGlobalCacheDrawable extends LayerDrawable {
     private WatchFaceState mWatchFaceState;
+    @NonNull
     private final Drawable[] mWatchPartDrawables;
     private int mPreviousSerial = -1;
     private Bitmap mActiveCacheBitmap;
@@ -84,6 +85,7 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable {
     }
 
     // Stats start
+    @NonNull
     Drawable[] getWatchPartDrawables() {
         return mWatchPartDrawables;
     }

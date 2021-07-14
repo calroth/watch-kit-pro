@@ -65,12 +65,19 @@ public final class PaintBox {
 
     private float pc = 0f; // percent, set to 0.01f * height, all units are based on percent
     private float mCenterX, mCenterY;
+    @NonNull
     private final Paint mFillPaint;
+    @NonNull
     private final Paint mAccentPaint;
+    @NonNull
     private final Paint mHighlightPaint;
+    @NonNull
     private final Paint mBasePaint;
+    @NonNull
     private final Paint mAmbientPaint;
+    @NonNull
     private final Paint mAmbientPaintFaded;
+    @NonNull
     private final Paint mShadowPaint;
     @NonNull
     private static final SparseArray<WeakReference<Bitmap>> mBitmapCache = new SparseArray<>();
@@ -146,6 +153,7 @@ public final class PaintBox {
      * @return The color in the CIELUV colorspace as a four-element array, representing alpha, L,
      * u and v channels
      */
+    @NonNull
     private static double[] convertSRGBToLUV(@ColorInt int color) {
         int sRGB_A = Color.alpha(color);
         int sRGB_R = Color.red(color);
@@ -424,16 +432,19 @@ public final class PaintBox {
     private MaterialTexture mAccentHighlightMaterialTexture;
     private MaterialTexture mBaseAccentMaterialTexture;
 
+    @NonNull
     public Paint getAmbientPaint() {
         regeneratePaints2();
         return mAmbientPaint;
     }
 
+    @NonNull
     public Paint getAmbientPaintFaded() {
         regeneratePaints2();
         return mAmbientPaintFaded;
     }
 
+    @NonNull
     public Paint getShadowPaint() {
         regeneratePaints2();
         return mShadowPaint;
@@ -736,6 +747,7 @@ public final class PaintBox {
      * @param palette Palette to permute
      * @return Array of 24 palettes which are permutations of the input
      */
+    @NonNull
     private static int[] getPalettePermutations(int palette) {
         // Separate "palette" into our 4 six-bit colours.
         int a = (palette >> 18) & 63;
@@ -1707,6 +1719,7 @@ public final class PaintBox {
          * @param offset Offset for luminance (brightness) between 0 and 1
          * @return Short4 with x, y and z sRGB elements to map to
          */
+        @NonNull
         private Short4 deriveMultiSparkleMapping(int i, double offset) {
             Short4 s4 = new Short4();
             s4.z = deriveSparkleMapping(i, offset / 3d);

@@ -43,6 +43,7 @@ import pro.watchkit.wearable.watchface.model.WatchFaceState;
  */
 public class WatchFaceGlobalDrawable extends LayerDrawable {
     private WatchFaceState mWatchFaceState;
+    @NonNull
     private final Drawable[] mWatchPartDrawables;
     @NonNull
     private final Path mExclusionPath = new Path();
@@ -126,6 +127,7 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
     @NonNull
     private final Xfermode mTintXfermode = new PorterDuffXfermode(PorterDuff.Mode.MULTIPLY);
 
+    @NonNull
     static Drawable[] buildDrawables(@Nullable Drawable cache, int flags) {
         List<Drawable> d = new ArrayList<>();
 

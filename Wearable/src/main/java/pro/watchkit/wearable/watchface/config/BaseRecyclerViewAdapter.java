@@ -110,6 +110,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     /**
      * The object that retrieves complication data for us to preview our complications with.
      */
+    @NonNull
     private final ProviderInfoRetriever mProviderInfoRetriever;
 
     /**
@@ -117,6 +118,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
      * set for this WatchFaceService. It's different for slot A, B, C etc. as we allow the user to
      * have different complication setups per slot!
      */
+    @NonNull
     private final ComponentName mWatchFaceComponentName;
 
     /**
@@ -365,6 +367,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
     class ComplicationViewHolder extends WatchFaceDrawableViewHolder {
         private float mLastTouchX = -1f, mLastTouchY = -1f;
+        @NonNull
         private final Activity mCurrentActivity;
 
         @SuppressLint("ClickableViewAccessibility")

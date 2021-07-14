@@ -152,6 +152,7 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
         addExclusionPath(mExclusionPath, Path.Op.DIFFERENCE);
     }
 
+    @NonNull
     @Override
     protected Paint getAmbientPaint() {
         return mWatchFaceState.getPaintBox().getAmbientPaintFaded();

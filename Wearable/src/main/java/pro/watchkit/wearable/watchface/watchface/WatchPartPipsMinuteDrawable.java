@@ -63,6 +63,7 @@ final class WatchPartPipsMinuteDrawable extends WatchPartPipsDrawable {
         return mWatchFaceState.getMinutePipMaterial();
     }
 
+    @NonNull
     @Override
     protected Paint getAmbientPaint() {
         return mWatchFaceState.getPaintBox().getAmbientPaintFaded();

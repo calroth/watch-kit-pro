@@ -61,6 +61,7 @@ public final class SharedPref {
     /**
      * The default WatchFaceState string for this slot.
      */
+    @NonNull
     private final String mDefaultWatchFaceStateString;
 
     /**
@@ -116,6 +117,7 @@ public final class SharedPref {
     @NonNull
     private final static StringBuilder mHistoryStringBuilder = new StringBuilder();
 
+    @NonNull
     public String[] getWatchFaceStateHistory() {
         // Grab the current string into "oldValue".
         String currentValue = getWatchFaceStateString();
@@ -196,7 +198,7 @@ public final class SharedPref {
                         long millis = System.currentTimeMillis() - lastChange.getTime();
                         historyNeedsUpdating = millis > FIVE_MINUTES_IN_MILLISECONDS;
                     }
-                } catch (ParseException | JSONException e) {
+                } catch (@NonNull ParseException | JSONException e) {
                     // Can't parse it? Don't worry about it.
                     // Something weird with the JSON? Don't worry about this either.
                 }
