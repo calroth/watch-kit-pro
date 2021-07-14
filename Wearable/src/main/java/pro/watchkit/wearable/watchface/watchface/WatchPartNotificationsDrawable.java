@@ -84,10 +84,10 @@ final class WatchPartNotificationsDrawable extends WatchPartDrawable {
             mPath.addCircle(x, y, 2f * pc, getDirection());
         }
 
-        // Draw with our four pip style.
+        // Draw with our quarter pip style.
         // Maybe in the future, allow this to be customised.
         Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(
-                mWatchFaceState.getFourPipMaterial());
+                mWatchFaceState.getQuarterPipMaterial());
         drawPath(canvas, mPath, paint);
 
         // Add an exclusion zone of size 5%.

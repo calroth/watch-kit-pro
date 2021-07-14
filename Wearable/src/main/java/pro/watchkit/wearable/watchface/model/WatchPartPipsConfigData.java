@@ -134,129 +134,129 @@ public class WatchPartPipsConfigData extends ConfigData {
                                 WatchFaceState::getDigitMaterial),
                         WatchFaceState::isDigitVisible),
 
-                // Data for four pip shape in settings Activity.
+                // Data for quarter pip shape in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_four_pip_shape,
+                        R.string.config_preset_quarter_pip_shape,
                         R.drawable.ic_pips,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.PipShape.values(),
-                                WatchFaceState::setFourPipShape,
-                                WatchFaceState::getFourPipShape),
-                        WatchFaceState::isFourPipsVisible),
+                                WatchFaceState::setQuarterPipShape,
+                                WatchFaceState::getQuarterPipShape),
+                        WatchFaceState::isQuarterPipsVisible),
 
-                // Data for four pip length in settings Activity.
+                // Data for quarter pip length in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_four_pip_size,
+                        R.string.config_preset_quarter_pip_size,
                         R.drawable.ic_pips,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.PipSize.values(),
-                                WatchFaceState::setFourPipSize,
-                                WatchFaceState::getFourPipSize),
-                        WatchFaceState::isFourPipsVisible),
+                                WatchFaceState::setQuarterPipSize,
+                                WatchFaceState::getQuarterPipSize),
+                        WatchFaceState::isQuarterPipsVisible),
 
-                // Data for four pip material in settings Activity.
+                // Data for quarter pip material in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_four_pip_material,
+                        R.string.config_preset_quarter_pip_material,
                         R.drawable.ic_pips,
                         watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.Material.values(),
-                                WatchFaceState::setFourPipMaterial,
-                                WatchFaceState::getFourPipMaterial),
-                        WatchFaceState::isFourPipsVisible),
+                                WatchFaceState::setQuarterPipMaterial,
+                                WatchFaceState::getQuarterPipMaterial),
+                        WatchFaceState::isQuarterPipsVisible),
 
-                // Data for twelve pip override in settings Activity.
+                // Data for hour pip override in settings Activity.
                 new ToggleConfigItem(
-                        R.string.config_preset_twelve_pip_override,
+                        R.string.config_preset_hour_pip_override,
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
-                        new BooleanMutator(WatchFaceState::setTwelvePipOverride),
-                        WatchFaceState::isTwelvePipsVisible),
+                        new BooleanMutator(WatchFaceState::setHourPipOverride),
+                        WatchFaceState::isHourPipsVisible),
 
-                // Data for twelve pip shape in settings Activity.
+                // Data for hour pip shape in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_twelve_pip_shape,
+                        R.string.config_preset_hour_pip_shape,
                         R.drawable.ic_pips,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.PipShape.values(),
-                                WatchFaceState::setTwelvePipShape,
-                                WatchFaceState::getTwelvePipShape),
-                        WatchFaceState::isTwelvePipsOverridden),
+                                WatchFaceState::setHourPipShape,
+                                WatchFaceState::getHourPipShape),
+                        WatchFaceState::isHourPipsOverridden),
 
-                // Data for twelve pip length in settings Activity.
+                // Data for hour pip length in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_twelve_pip_size,
+                        R.string.config_preset_hour_pip_size,
                         R.drawable.ic_pips,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.PipSize.values(),
-                                WatchFaceState::setTwelvePipSize,
-                                WatchFaceState::getTwelvePipSize),
-                        WatchFaceState::isTwelvePipsOverridden),
+                                WatchFaceState::setHourPipSize,
+                                WatchFaceState::getHourPipSize),
+                        WatchFaceState::isHourPipsOverridden),
 
-                // Data for twelve pip material in settings Activity.
+                // Data for hour pip material in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_twelve_pip_material,
+                        R.string.config_preset_hour_pip_material,
                         R.drawable.ic_pips,
                         watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.Material.values(),
-                                WatchFaceState::setTwelvePipMaterial,
-                                WatchFaceState::getTwelvePipMaterial),
-                        WatchFaceState::isTwelvePipsOverridden),
+                                WatchFaceState::setHourPipMaterial,
+                                WatchFaceState::getHourPipMaterial),
+                        WatchFaceState::isHourPipsOverridden),
 
-                // Data for sixty pip override in settings Activity.
+                // Data for minute pip override in settings Activity.
                 new ToggleConfigItem(
-                        R.string.config_preset_sixty_pip_override,
+                        R.string.config_preset_minute_pip_override,
                         R.drawable.ic_notifications_white_24dp,
                         R.drawable.ic_notifications_off_white_24dp,
-                        new BooleanMutator(WatchFaceState::setSixtyPipOverride),
-                        WatchFaceState::isSixtyPipsVisible),
+                        new BooleanMutator(WatchFaceState::setMinutePipOverride),
+                        WatchFaceState::isMinutePipsVisible),
 
-                // Data for sixty pip shape in settings Activity.
+                // Data for minute pip shape in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_sixty_pip_shape,
+                        R.string.config_preset_minute_pip_shape,
                         R.drawable.ic_pips,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.PipShape.values(),
-                                WatchFaceState::setSixtyPipShape,
-                                WatchFaceState::getSixtyPipShape),
-                        WatchFaceState::isSixtyPipsOverridden),
+                                WatchFaceState::setMinutePipShape,
+                                WatchFaceState::getMinutePipShape),
+                        WatchFaceState::isMinutePipsOverridden),
 
-                // Data for sixty pip length in settings Activity.
+                // Data for minute pip length in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_sixty_pip_size,
+                        R.string.config_preset_minute_pip_size,
                         R.drawable.ic_pips,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.PipSize.values(),
-                                WatchFaceState::setSixtyPipSize,
-                                WatchFaceState::getSixtyPipSize),
-                        WatchFaceState::isSixtyPipsOverridden),
+                                WatchFaceState::setMinutePipSize,
+                                WatchFaceState::getMinutePipSize),
+                        WatchFaceState::isMinutePipsOverridden),
 
-                // Data for sixty pip material in settings Activity.
+                // Data for minute pip material in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_preset_sixty_pip_material,
+                        R.string.config_preset_minute_pip_material,
                         R.drawable.ic_pips,
                         watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.Material.values(),
-                                WatchFaceState::setSixtyPipMaterial,
-                                WatchFaceState::getSixtyPipMaterial),
-                        WatchFaceState::isSixtyPipsOverridden),
+                                WatchFaceState::setMinutePipMaterial,
+                                WatchFaceState::getMinutePipMaterial),
+                        WatchFaceState::isMinutePipsOverridden),
 
 //                // Data for background material in settings Activity.
 //                new PickerConfigItem(

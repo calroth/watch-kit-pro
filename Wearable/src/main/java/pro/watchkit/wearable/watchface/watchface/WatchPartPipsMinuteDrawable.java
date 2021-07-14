@@ -18,44 +18,53 @@
 
 package pro.watchkit.wearable.watchface.watchface;
 
+import android.graphics.Paint;
+
 import androidx.annotation.NonNull;
 
 import pro.watchkit.wearable.watchface.model.BytePackable.Material;
 import pro.watchkit.wearable.watchface.model.BytePackable.PipShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.PipSize;
 
-final class WatchPartPipsFourDrawable extends WatchPartPipsDrawable {
+final class WatchPartPipsMinuteDrawable extends WatchPartPipsDrawable {
     @NonNull
     @Override
     String getStatsName() {
-        return "Four";
+        return "Minute";
     }
 
     @Override
     protected boolean isVisible(int pipIndex) {
         if (pipIndex % 15 == 0)
-            return mWatchFaceState.isFourPipsVisible();
-        else
             return false;
+        else if (pipIndex % 5 == 0)
+            return false;
+        else
+            return mWatchFaceState.isMinutePipsVisible();
     }
 
     @Override
     protected float getMod() {
-        return (float) Math.sqrt(2d);
+        return (float) Math.sqrt(0.5d);
     }
 
     @Override
     protected PipShape getPipShape() {
-        return mWatchFaceState.getFourPipShape();
+        return mWatchFaceState.getMinutePipShape();
     }
 
     @Override
     protected PipSize getPipSize() {
-        return mWatchFaceState.getFourPipSize();
+        return mWatchFaceState.getMinutePipSize();
     }
 
     @Override
     protected Material getPipStyle() {
-        return mWatchFaceState.getFourPipMaterial();
+        return mWatchFaceState.getMinutePipMaterial();
+    }
+
+    @Override
+    protected Paint getAmbientPaint() {
+        return mWatchFaceState.getPaintBox().getAmbientPaintFaded();
     }
 }

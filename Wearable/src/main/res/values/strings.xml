@@ -210,7 +210,7 @@
         digit &lt;i&gt;format&lt;/i&gt;;&lt;br /&gt;
         digit &lt;i&gt;material&lt;/i&gt;; and&lt;br /&gt;
         which &lt;i&gt;pips&lt;/i&gt; to display, from the following:&lt;br /&gt;
-        &lt;i&gt;three-hour pips (at 12, 3, 6, 9)&lt;/i&gt;;&lt;br /&gt;
+        &lt;i&gt;quarter pips (at 12, 3, 6, 9)&lt;/i&gt;;&lt;br /&gt;
         &lt;i&gt;hour pips (at 1+2, 4+5, 7+8, 10+11)&lt;/i&gt;; and&lt;br /&gt;
         &lt;i&gt;minute pips&lt;/i&gt;.&lt;br /&gt;
         &lt;br /&gt;
@@ -262,9 +262,9 @@
     <string name="config_preset_pip_margin">Pip Margin</string>
     <string name="config_preset_pip_background_material">Pip Background Material</string>
 
-    <string name="config_preset_four_pip_shape">Three-Hour Pip Shape</string>
-    <string name="config_preset_four_pip_size">Three-Hour Pip Size</string>
-    <string name="config_preset_four_pip_material">Three-Hour Pip Material</string>
+    <string name="config_preset_quarter_pip_shape">Quarter Pip Shape</string>
+    <string name="config_preset_quarter_pip_size">Quarter Pip Size</string>
+    <string name="config_preset_quarter_pip_material">Quarter Pip Material</string>
 
     <string name="config_preset_digit_display">Digit Display</string>
     <string name="config_preset_digit_size">Digit Size</string>
@@ -272,15 +272,15 @@
     <string name="config_preset_digit_format">Digit Format</string>
     <string name="config_preset_digit_material">Digit Material</string>
 
-    <string name="config_preset_twelve_pip_override">Hour Pip Override</string>
-    <string name="config_preset_twelve_pip_shape">Hour Pip Shape</string>
-    <string name="config_preset_twelve_pip_size">Hour Pip Size</string>
-    <string name="config_preset_twelve_pip_material">Hour Pip Material</string>
+    <string name="config_preset_hour_pip_override">Hour Pip Override</string>
+    <string name="config_preset_hour_pip_shape">Hour Pip Shape</string>
+    <string name="config_preset_hour_pip_size">Hour Pip Size</string>
+    <string name="config_preset_hour_pip_material">Hour Pip Material</string>
 
-    <string name="config_preset_sixty_pip_override">Minute Pip Override</string>
-    <string name="config_preset_sixty_pip_shape">Minute Pip Shape</string>
-    <string name="config_preset_sixty_pip_size">Minute Pip Size</string>
-    <string name="config_preset_sixty_pip_material">Minute Pip Material</string>
+    <string name="config_preset_minute_pip_override">Minute Pip Override</string>
+    <string name="config_preset_minute_pip_shape">Minute Pip Shape</string>
+    <string name="config_preset_minute_pip_size">Minute Pip Size</string>
+    <string name="config_preset_minute_pip_material">Minute Pip Material</string>
 
     <string name="config_preset_bezel_material">Bezel Material</string>
     <string name="config_preset_background_material">Background Material</string>

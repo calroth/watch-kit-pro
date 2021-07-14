@@ -24,40 +24,38 @@ import pro.watchkit.wearable.watchface.model.BytePackable.Material;
 import pro.watchkit.wearable.watchface.model.BytePackable.PipShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.PipSize;
 
-final class WatchPartPipsTwelveDrawable extends WatchPartPipsDrawable {
+final class WatchPartPipsQuarterDrawable extends WatchPartPipsDrawable {
     @NonNull
     @Override
     String getStatsName() {
-        return "Twelve";
+        return "Quarter";
     }
 
     @Override
     protected boolean isVisible(int pipIndex) {
         if (pipIndex % 15 == 0)
-            return false;
-        else if (pipIndex % 5 == 0)
-            return mWatchFaceState.isTwelvePipsVisible();
+            return mWatchFaceState.isQuarterPipsVisible();
         else
             return false;
     }
 
     @Override
     protected float getMod() {
-        return 1f;
+        return (float) Math.sqrt(2d);
     }
 
     @Override
     protected PipShape getPipShape() {
-        return mWatchFaceState.getTwelvePipShape();
+        return mWatchFaceState.getQuarterPipShape();
     }
 
     @Override
     protected PipSize getPipSize() {
-        return mWatchFaceState.getTwelvePipSize();
+        return mWatchFaceState.getQuarterPipSize();
     }
 
     @Override
     protected Material getPipStyle() {
-        return mWatchFaceState.getTwelvePipMaterial();
+        return mWatchFaceState.getQuarterPipMaterial();
     }
 }

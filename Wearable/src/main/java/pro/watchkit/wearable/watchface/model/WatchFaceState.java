@@ -993,20 +993,20 @@ public class WatchFaceState {
         return mWatchFacePreset.mSecondHandOverride;
     }
 
-    void setTwelvePipOverride(boolean twelvePipOverride) {
-        mWatchFacePreset.mTwelvePipOverride = twelvePipOverride;
+    void setHourPipOverride(boolean hourPipOverride) {
+        mWatchFacePreset.mHourPipOverride = hourPipOverride;
     }
 
-    boolean isTwelvePipsOverridden() {
-        return isTwelvePipsVisible() && mWatchFacePreset.mTwelvePipOverride;
+    boolean isHourPipsOverridden() {
+        return isHourPipsVisible() && mWatchFacePreset.mHourPipOverride;
     }
 
-    void setSixtyPipOverride(boolean sixtyPipOverride) {
-        mWatchFacePreset.mSixtyPipOverride = sixtyPipOverride;
+    void setMinutePipOverride(boolean minutePipOverride) {
+        mWatchFacePreset.mMinutePipOverride = minutePipOverride;
     }
 
-    boolean isSixtyPipsOverridden() {
-        return isSixtyPipsVisible() && mWatchFacePreset.mSixtyPipOverride;
+    boolean isMinutePipsOverridden() {
+        return isMinutePipsVisible() && mWatchFacePreset.mMinutePipOverride;
     }
 
     public void setString(@Nullable String s) {
@@ -1463,69 +1463,69 @@ public class WatchFaceState {
         mWatchFacePreset.mPipsDisplay = pipsDisplay;
     }
 
-    public boolean isFourPipsVisible() {
+    public boolean isQuarterPipsVisible() {
         return mWatchFacePreset.mPipsDisplay != PipsDisplay.NONE;
     }
 
-    public boolean isTwelvePipsVisible() {
+    public boolean isHourPipsVisible() {
         return mWatchFacePreset.mPipsDisplay == PipsDisplay.FOUR_TWELVE ||
                 mWatchFacePreset.mPipsDisplay == PipsDisplay.FOUR_TWELVE_60;
     }
 
-    public boolean isSixtyPipsVisible() {
+    public boolean isMinutePipsVisible() {
         return mWatchFacePreset.mPipsDisplay == PipsDisplay.FOUR_TWELVE_60;
     }
 
-    public PipShape getFourPipShape() {
-        return mWatchFacePreset.mFourPipShape;
+    public PipShape getQuarterPipShape() {
+        return mWatchFacePreset.mQuarterPipShape;
     }
 
-    void setFourPipShape(PipShape fourPipShape) {
-        mWatchFacePreset.mFourPipShape = fourPipShape;
+    void setQuarterPipShape(PipShape quarterPipShape) {
+        mWatchFacePreset.mQuarterPipShape = quarterPipShape;
     }
 
-    public PipShape getTwelvePipShape() {
-        return mWatchFacePreset.mTwelvePipOverride ?
-                mWatchFacePreset.mTwelvePipShape : mWatchFacePreset.mFourPipShape;
+    public PipShape getHourPipShape() {
+        return mWatchFacePreset.mHourPipOverride ?
+                mWatchFacePreset.mHourPipShape : mWatchFacePreset.mQuarterPipShape;
     }
 
-    void setTwelvePipShape(PipShape twelvePipShape) {
-        mWatchFacePreset.mTwelvePipShape = twelvePipShape;
+    void setHourPipShape(PipShape hourPipShape) {
+        mWatchFacePreset.mHourPipShape = hourPipShape;
     }
 
-    public PipShape getSixtyPipShape() {
-        return mWatchFacePreset.mSixtyPipOverride ?
-                mWatchFacePreset.mSixtyPipShape : mWatchFacePreset.mFourPipShape;
+    public PipShape getMinutePipShape() {
+        return mWatchFacePreset.mMinutePipOverride ?
+                mWatchFacePreset.mMinutePipShape : mWatchFacePreset.mQuarterPipShape;
     }
 
-    void setSixtyPipShape(PipShape sixtyPipShape) {
-        mWatchFacePreset.mSixtyPipShape = sixtyPipShape;
+    void setMinutePipShape(PipShape minutePipShape) {
+        mWatchFacePreset.mMinutePipShape = minutePipShape;
     }
 
-    public PipSize getFourPipSize() {
-        return mWatchFacePreset.mFourPipSize;
+    public PipSize getQuarterPipSize() {
+        return mWatchFacePreset.mQuarterPipSize;
     }
 
-    void setFourPipSize(PipSize fourPipSize) {
-        mWatchFacePreset.mFourPipSize = fourPipSize;
+    void setQuarterPipSize(PipSize quarterPipSize) {
+        mWatchFacePreset.mQuarterPipSize = quarterPipSize;
     }
 
-    public PipSize getTwelvePipSize() {
-        return mWatchFacePreset.mTwelvePipOverride ?
-                mWatchFacePreset.mTwelvePipSize : mWatchFacePreset.mFourPipSize;
+    public PipSize getHourPipSize() {
+        return mWatchFacePreset.mHourPipOverride ?
+                mWatchFacePreset.mHourPipSize : mWatchFacePreset.mQuarterPipSize;
     }
 
-    void setTwelvePipSize(PipSize twelvePipSize) {
-        mWatchFacePreset.mTwelvePipSize = twelvePipSize;
+    void setHourPipSize(PipSize hourPipSize) {
+        mWatchFacePreset.mHourPipSize = hourPipSize;
     }
 
-    public PipSize getSixtyPipSize() {
-        return mWatchFacePreset.mSixtyPipOverride ?
-                mWatchFacePreset.mSixtyPipSize : mWatchFacePreset.mFourPipSize;
+    public PipSize getMinutePipSize() {
+        return mWatchFacePreset.mMinutePipOverride ?
+                mWatchFacePreset.mMinutePipSize : mWatchFacePreset.mQuarterPipSize;
     }
 
-    void setSixtyPipSize(PipSize sixtyPipSize) {
-        mWatchFacePreset.mSixtyPipSize = sixtyPipSize;
+    void setMinutePipSize(PipSize minutePipSize) {
+        mWatchFacePreset.mMinutePipSize = minutePipSize;
     }
 
     PipMargin getPipMargin() {
@@ -1536,30 +1536,30 @@ public class WatchFaceState {
         mWatchFacePreset.mPipMargin = pipMargin;
     }
 
-    public Material getFourPipMaterial() {
-        return mWatchFacePreset.mFourPipMaterial;
+    public Material getQuarterPipMaterial() {
+        return mWatchFacePreset.mQuarterPipMaterial;
     }
 
-    void setFourPipMaterial(Material fourPipMaterial) {
-        mWatchFacePreset.mFourPipMaterial = fourPipMaterial;
+    void setQuarterPipMaterial(Material quarterPipMaterial) {
+        mWatchFacePreset.mQuarterPipMaterial = quarterPipMaterial;
     }
 
-    public Material getTwelvePipMaterial() {
-        return mWatchFacePreset.mTwelvePipOverride ?
-                mWatchFacePreset.mTwelvePipMaterial : mWatchFacePreset.mFourPipMaterial;
+    public Material getHourPipMaterial() {
+        return mWatchFacePreset.mHourPipOverride ?
+                mWatchFacePreset.mHourPipMaterial : mWatchFacePreset.mQuarterPipMaterial;
     }
 
-    void setTwelvePipMaterial(Material twelvePipMaterial) {
-        mWatchFacePreset.mTwelvePipMaterial = twelvePipMaterial;
+    void setHourPipMaterial(Material hourPipMaterial) {
+        mWatchFacePreset.mHourPipMaterial = hourPipMaterial;
     }
 
-    public Material getSixtyPipMaterial() {
-        return mWatchFacePreset.mSixtyPipOverride ?
-                mWatchFacePreset.mSixtyPipMaterial : mWatchFacePreset.mFourPipMaterial;
+    public Material getMinutePipMaterial() {
+        return mWatchFacePreset.mMinutePipOverride ?
+                mWatchFacePreset.mMinutePipMaterial : mWatchFacePreset.mQuarterPipMaterial;
     }
 
-    void setSixtyPipMaterial(Material sixtyPipMaterial) {
-        mWatchFacePreset.mSixtyPipMaterial = sixtyPipMaterial;
+    void setMinutePipMaterial(Material minutePipMaterial) {
+        mWatchFacePreset.mMinutePipMaterial = minutePipMaterial;
     }
 
     public Material getPipBackgroundMaterial() {
@@ -2016,19 +2016,19 @@ public class WatchFaceState {
     }
 
     /**
-     * Get the pip band height, which is the longest of the four, twelve and sixty pips (and the
+     * Get the pip band height, which is the longest of the quarter, hour and minute pips (and the
      * digits too if we're drawing them here).
      *
      * @param pc Current length of one percent
      * @return Height of pip band
      */
     public float getPipBandHeight(float pc) {
-        float fourPipHeight = getPipHalfLength(getFourPipShape(), getFourPipSize());
-        float twelvePipHeight = getPipHalfLength(getTwelvePipShape(), getTwelvePipSize());
-        float sixtyPipHeight = getPipHalfLength(getSixtyPipShape(), getSixtyPipSize());
+        float quarterPipHeight = getPipHalfLength(getQuarterPipShape(), getQuarterPipSize());
+        float hourPipHeight = getPipHalfLength(getHourPipShape(), getHourPipSize());
+        float minutePipHeight = getPipHalfLength(getMinutePipShape(), getMinutePipSize());
 
         float result = 2f + // Add 2f padding, which is 1f on top and bottom
-                2f * Math.max(fourPipHeight, Math.max(twelvePipHeight, sixtyPipHeight));
+                2f * Math.max(quarterPipHeight, Math.max(hourPipHeight, minutePipHeight));
 
         if (getDigitDisplay() == DigitDisplay.OVER) {
             return Math.max(result, getDigitBandHeight(pc));
@@ -2397,14 +2397,14 @@ public class WatchFaceState {
         if (getDigitMaterial() == material) {
             result.add(getStringResource(R.string.config_preset_digit_material));
         }
-        if (getFourPipMaterial() == material) {
-            result.add(getStringResource(R.string.config_preset_four_pip_material));
+        if (getQuarterPipMaterial() == material) {
+            result.add(getStringResource(R.string.config_preset_quarter_pip_material));
         }
-        if (getTwelvePipMaterial() == material) {
-            result.add(getStringResource(R.string.config_preset_twelve_pip_material));
+        if (getHourPipMaterial() == material) {
+            result.add(getStringResource(R.string.config_preset_hour_pip_material));
         }
-        if (getSixtyPipMaterial() == material) {
-            result.add(getStringResource(R.string.config_preset_sixty_pip_material));
+        if (getMinutePipMaterial() == material) {
+            result.add(getStringResource(R.string.config_preset_minute_pip_material));
         }
         return result;
     }

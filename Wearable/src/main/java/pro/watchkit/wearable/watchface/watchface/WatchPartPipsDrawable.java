@@ -82,7 +82,7 @@ abstract class WatchPartPipsDrawable extends WatchPartDrawable {
         final PipShape pipShape = getPipShape();
         final PipSize pipSize = getPipSize();
         // final PipThickness pipThickness = getPipThickness();
-        // Modifiers: four pips are one size up; sixty pips one size down.
+        // Modifiers: quarter pips are one size up; minute pips one size down.
         final float mod = getMod() / getMod(); // You know what, turn this off.
 
         // Get our dimensions.
@@ -222,7 +222,7 @@ abstract class WatchPartPipsDrawable extends WatchPartDrawable {
                 if (pipIndex % 2 == 0) {
                     // Draw every 2nd pip into p2. This makes it so the bezels don't "stick together"
                     // if butted up close to each other.
-                    // Generally this only happens for sixty pips, but since the output is cached
+                    // Generally this only happens for minute pips, but since the output is cached
                     // we don't mind making the other cases slower for code clarity.
                     p.op(temp, Path.Op.UNION);
                 } else {

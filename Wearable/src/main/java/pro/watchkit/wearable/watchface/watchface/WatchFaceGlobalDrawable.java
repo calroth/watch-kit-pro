@@ -153,13 +153,13 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
             d.add(new WatchPartDigitsDrawable());
         }
         if ((flags & PART_PIPS_SIXTY) > 0) {
-            d.add(new WatchPartPipsSixtyDrawable());
+            d.add(new WatchPartPipsMinuteDrawable());
         }
         if ((flags & PART_PIPS_TWELVE) > 0) {
-            d.add(new WatchPartPipsTwelveDrawable());
+            d.add(new WatchPartPipsHourDrawable());
         }
         if ((flags & PART_PIPS_FOUR) > 0) {
-            d.add(new WatchPartPipsFourDrawable());
+            d.add(new WatchPartPipsQuarterDrawable());
         }
         if ((flags & PART_COMPLICATIONS) > 0) {
             d.add(new WatchPartComplicationsDrawable());

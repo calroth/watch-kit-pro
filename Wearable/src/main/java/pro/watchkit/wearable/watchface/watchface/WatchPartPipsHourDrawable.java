@@ -18,19 +18,17 @@
 
 package pro.watchkit.wearable.watchface.watchface;
 
-import android.graphics.Paint;
-
 import androidx.annotation.NonNull;
 
 import pro.watchkit.wearable.watchface.model.BytePackable.Material;
 import pro.watchkit.wearable.watchface.model.BytePackable.PipShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.PipSize;
 
-final class WatchPartPipsSixtyDrawable extends WatchPartPipsDrawable {
+final class WatchPartPipsHourDrawable extends WatchPartPipsDrawable {
     @NonNull
     @Override
     String getStatsName() {
-        return "Sixty";
+        return "Hour";
     }
 
     @Override
@@ -38,33 +36,28 @@ final class WatchPartPipsSixtyDrawable extends WatchPartPipsDrawable {
         if (pipIndex % 15 == 0)
             return false;
         else if (pipIndex % 5 == 0)
-            return false;
+            return mWatchFaceState.isHourPipsVisible();
         else
-            return mWatchFaceState.isSixtyPipsVisible();
+            return false;
     }
 
     @Override
     protected float getMod() {
-        return (float) Math.sqrt(0.5d);
+        return 1f;
     }
 
     @Override
     protected PipShape getPipShape() {
-        return mWatchFaceState.getSixtyPipShape();
+        return mWatchFaceState.getHourPipShape();
     }
 
     @Override
     protected PipSize getPipSize() {
-        return mWatchFaceState.getSixtyPipSize();
+        return mWatchFaceState.getHourPipSize();
     }
 
     @Override
     protected Material getPipStyle() {
-        return mWatchFaceState.getSixtyPipMaterial();
-    }
-
-    @Override
-    protected Paint getAmbientPaint() {
-        return mWatchFaceState.getPaintBox().getAmbientPaintFaded();
+        return mWatchFaceState.getHourPipMaterial();
     }
 }
