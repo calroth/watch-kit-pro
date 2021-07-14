@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Terence Tan
+ * Copyright (C) 2018-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -46,9 +46,9 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
     @NonNull
     static String mInvalidTrigger = "";
     @NonNull
-    private StringBuffer mStringBuilder = new StringBuffer();
+    private final StringBuffer mStringBuilder = new StringBuffer();
     @NonNull
-    private Formatter mFormatter = new Formatter(mStringBuilder);
+    private final Formatter mFormatter = new Formatter(mStringBuilder);
     private Path mTextPath;
 
     @NonNull

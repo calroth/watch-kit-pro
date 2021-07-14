@@ -69,7 +69,7 @@ import pro.watchkit.wearable.watchface.util.SharedPref;
 import pro.watchkit.wearable.watchface.util.Toaster;
 
 public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatchFaceService {
-    private static final String TAG = "ProWatchFaceService";
+//    private static final String TAG = "ProWatchFaceService";
 
     /*
      * Update rate in milliseconds for interactive mode. We update once a second to advance the
@@ -103,7 +103,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
         }
 
         @Override
-        public void handleMessage(Message msg) {
+        public void handleMessage(@NonNull Message msg) {
             ProWatchFaceService.Engine engine = mWeakReference.get();
             if (engine != null) {
                 engine.updateTimeViaHandler();

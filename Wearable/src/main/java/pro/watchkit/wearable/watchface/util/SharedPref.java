@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Terence Tan
+ * Copyright (C) 2019-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -50,18 +50,18 @@ public final class SharedPref {
      * Internal copy of our Context for future reference.
      */
     @NonNull
-    private Context mContext;
+    private final Context mContext;
 
     /**
      * The SharedPreferences we're wrapping.
      */
     @NonNull
-    private SharedPreferences mSharedPreferences;
+    private final SharedPreferences mSharedPreferences;
 
     /**
      * The default WatchFaceState string for this slot.
      */
-    private String mDefaultWatchFaceStateString;
+    private final String mDefaultWatchFaceStateString;
 
     /**
      * Create a new SharedPref for the given watch face slot.
@@ -69,7 +69,8 @@ public final class SharedPref {
      * @param context               Context for our resource lookups
      * @param watchFaceServiceClass The watch face slot to access
      */
-    public SharedPref(@NonNull Context context, @NonNull Class watchFaceServiceClass) {
+    public SharedPref(@NonNull Context context,
+                      @NonNull Class<? extends ProWatchFaceService> watchFaceServiceClass) {
         mContext = context;
 
         @StringRes int prefFileKeyStringResId, prefDefaultStringResId;
@@ -104,12 +105,13 @@ public final class SharedPref {
                 mContext.getString(R.string.saved_watch_face_state), mDefaultWatchFaceStateString);
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     @NonNull
-    private static SimpleDateFormat mIso8601 =
+    private static final SimpleDateFormat mIso8601 =
             new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US);
 
     @NonNull
-    private static ArrayList<JSONObject> mWatchFaceStateHistory = new ArrayList<>();
+    private static final ArrayList<JSONObject> mWatchFaceStateHistory = new ArrayList<>();
 
     @NonNull
     private final static StringBuilder mHistoryStringBuilder = new StringBuilder();
@@ -189,12 +191,13 @@ public final class SharedPref {
                 JSONObject jsonObject = jsonArray.getJSONObject(0);
                 try {
                     Date lastChange = mIso8601.parse(jsonObject.getString("date"));
-                    long millis = System.currentTimeMillis() - lastChange.getTime();
-                    long FIVE_MINUTES_IN_MILLISECONDS = 5L * 60L * 1000L;
-                    historyNeedsUpdating = millis > FIVE_MINUTES_IN_MILLISECONDS;
-                } catch (ParseException e) {
+                    final long FIVE_MINUTES_IN_MILLISECONDS = 5L * 60L * 1000L;
+                    if (lastChange != null) {
+                        long millis = System.currentTimeMillis() - lastChange.getTime();
+                        historyNeedsUpdating = millis > FIVE_MINUTES_IN_MILLISECONDS;
+                    }
+                } catch (ParseException | JSONException e) {
                     // Can't parse it? Don't worry about it.
-                } catch (JSONException e) {
                     // Something weird with the JSON? Don't worry about this either.
                 }
             } else {

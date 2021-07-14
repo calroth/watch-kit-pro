@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Terence Tan
+ * Copyright (C) 2018-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -79,10 +79,10 @@ abstract class WatchPartDrawable extends Drawable {
     private final Path mNorthWestBezel = new Path();
     @NonNull
     private final Path mSouthEastBezel = new Path();
-    @NonNull
-    private final Path mNorthEastBezel = new Path();
-    @NonNull
-    private final Path mSouthWestBezel = new Path();
+    //    @NonNull
+//    private final Path mNorthEastBezel = new Path();
+//    @NonNull
+//    private final Path mSouthWestBezel = new Path();
     @NonNull
     private final Path mShapeCutout = new Path();
     @NonNull
@@ -776,23 +776,23 @@ abstract class WatchPartDrawable extends Drawable {
         final float topY = top + y1;
 
 
+        // Bottom: extend past the hub
         if (getDirection() == Path.Direction.CW) {
             path.moveTo(leftX, diamondMidpoint); // Left
             path.lineTo(mCenterX, topY); // Top
             path.lineTo(rightX, diamondMidpoint); // Right
-            path.lineTo(mCenterX, bottomY); // Bottom: extend past the hub
         } else {
             path.moveTo(rightX, diamondMidpoint); // Right
             path.lineTo(mCenterX, topY); // Top
             path.lineTo(leftX, diamondMidpoint); // Left
-            path.lineTo(mCenterX, bottomY); // Bottom: extend past the hub
         }
+        path.lineTo(mCenterX, bottomY); // Bottom: extend past the hub
         path.close();
 
         // Top and bottom halves
         if (offsetTop != 0f || offsetBottom != 0f) {
-            float t = topY < bottomY ? topY : bottomY; // Top of inner shape
-            float b = topY < bottomY ? bottomY : topY; // Bottom of inner shape
+            float t = Math.min(topY, bottomY); // Top of inner shape
+            float b = Math.max(topY, bottomY); // Bottom of inner shape
             float h2 = b - t; // Height of inner shape
 
             // Apply the offsets. Because this is a triangle, apply the square root
@@ -889,8 +889,8 @@ abstract class WatchPartDrawable extends Drawable {
 
         // Top and bottom halves
         if (offsetTop != 0f || offsetBottom != 0f) {
-            float t = topY < bottomY ? topY : bottomY; // Top of inner shape
-            float b = topY < bottomY ? bottomY : topY; // Bottom of inner shape
+            float t = Math.min(topY, bottomY); // Top of inner shape
+            float b = Math.max(topY, bottomY); // Bottom of inner shape
             float h2 = b - t; // Height of inner shape
 
             // Apply the offsets. Because this is a triangle, apply the square root

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Terence Tan
+ * Copyright (C) 2018-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -65,7 +65,7 @@ abstract class HardwareAcceleratedCanvasWatchFaceService extends CanvasWatchFace
         }
 
         // Our own private Choreographer which we can use to call hardware render.
-        private Choreographer mChoreographer = Choreographer.getInstance();
+        private final Choreographer mChoreographer = Choreographer.getInstance();
         // Track whether we've been invalidated; don't need to draw if we haven't.
         private int mInvalidated = 0;
 

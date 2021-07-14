@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2020 Terence Tan
+ * Copyright (C) 2019-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -36,28 +36,28 @@ import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 class WatchFaceGlobalCacheDrawable extends LayerDrawable {
     private WatchFaceState mWatchFaceState;
-    private Drawable[] mWatchPartDrawables;
+    private final Drawable[] mWatchPartDrawables;
     private int mPreviousSerial = -1;
     private Bitmap mActiveCacheBitmap;
     private Bitmap mActiveHardwareCacheBitmap;
     private Canvas mActiveCacheCanvas;
     @NonNull
-    private Path mActiveExclusionPath = new Path();
+    private final Path mActiveExclusionPath = new Path();
     @NonNull
-    private Path mActiveInnerGlowPath = new Path();
+    private final Path mActiveInnerGlowPath = new Path();
     private Bitmap mAmbientCacheBitmap;
     private Bitmap mAmbientHardwareCacheBitmap;
     private Canvas mAmbientCacheCanvas;
     @NonNull
-    private Path mAmbientExclusionPath = new Path();
+    private final Path mAmbientExclusionPath = new Path();
     @NonNull
-    private Path mAmbientInnerGlowPath = new Path();
+    private final Path mAmbientInnerGlowPath = new Path();
     private Path mExclusionPath;
     private Path mInnerGlowPath;
     @NonNull
-    private Path mCacheExclusionPath = new Path();
+    private final Path mCacheExclusionPath = new Path();
     @NonNull
-    private Path mCacheInnerGlowPath = new Path();
+    private final Path mCacheInnerGlowPath = new Path();
 
     WatchFaceGlobalCacheDrawable(int flags) {
         this(WatchFaceGlobalDrawable.buildDrawables(null, flags));

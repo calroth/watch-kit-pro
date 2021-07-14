@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Terence Tan
+ * Copyright (C) 2018-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -43,29 +43,29 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable {
     private static final float ROUND_RECT_RADIUS_PERCENT = 1.5f;
 
     @NonNull
-    private Path mHub = new Path();
+    private final Path mHub = new Path();
 
     @NonNull
-    private Path mHandActivePath = new Path();
+    private final Path mHandActivePath = new Path();
     @NonNull
-    private Path mHandTwoToneCutoutPath = new Path();
+    private final Path mHandTwoToneCutoutPath = new Path();
     @NonNull
-    private Path mHandAmbientPath = new Path();
+    private final Path mHandAmbientPath = new Path();
     private int mPreviousSerial = -1;
     @NonNull
-    private Path mStalk = new Path();
+    private final Path mStalk = new Path();
     @NonNull
-    private Path mStalkCutout = new Path();
+    private final Path mStalkCutout = new Path();
     @NonNull
-    private Path mHandFullCutout = new Path();
+    private final Path mHandFullCutout = new Path();
     @NonNull
-    private Path mHandTipCutout = new Path();
+    private final Path mHandTipCutout = new Path();
     @NonNull
-    private Path mHandTopCutout = new Path();
+    private final Path mHandTopCutout = new Path();
     @NonNull
-    private Path mHandBottomCutout = new Path();
+    private final Path mHandBottomCutout = new Path();
     @NonNull
-    private Matrix m2 = new Matrix();
+    private final Matrix m2 = new Matrix();
 
     @Override
     public void draw2(@NonNull Canvas canvas) {

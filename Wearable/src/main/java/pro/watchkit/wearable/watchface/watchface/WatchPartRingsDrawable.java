@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Terence Tan
+ * Copyright (C) 2018-2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -31,13 +31,13 @@ import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 
 final class WatchPartRingsDrawable extends WatchPartDrawable {
     @NonNull
-    private Path mPath = new Path();
+    private final Path mPath = new Path();
     @NonNull
-    private Path mRings = new Path();
+    private final Path mRings = new Path();
     @NonNull
-    private Path mHoles = new Path();
+    private final Path mHoles = new Path();
     @NonNull
-    private Path mBackground = new Path();
+    private final Path mBackground = new Path();
 
     private boolean mDrawAllRings = false;
 
