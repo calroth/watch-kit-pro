@@ -448,30 +448,6 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             mConfigItem = configItem;
             mLabelTextView.setTypeface(null); // Set as default typeface by default!
 
-            Resources r = itemView.getResources();
-            mStringBuilder.setLength(0);
-
-            // Generate the title if any.
-            if (configItem.getWithTitle()) {
-                mStringBuilder.append(r.getString(mTitleLabel)).append("<br>");
-            } else if (configItem.getTitleResourceId() != -1) {
-                mStringBuilder.append("<b>")
-                        .append(r.getString(configItem.getTitleResourceId()))
-                        .append("</b> ");
-            }
-
-            // Generate the label if any.
-            if (configItem.getLabelResourceId() != -1) {
-                mStringBuilder.append(r.getString(configItem.getLabelResourceId()));
-            } else if (configItem.getLabelGenerator() != null) {
-                mStringBuilder.append(
-                        configItem.getLabelGenerator().apply(mCurrentWatchFaceState));
-            }
-
-            // Set the text to the title and label!
-            mLabelTextView.setText(Html.fromHtml(mStringBuilder.toString(),
-                    Html.FROM_HTML_MODE_LEGACY));
-
             onWatchFaceStateChanged();
         }
 
@@ -480,6 +456,30 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             if (mConfigItem == null) {
                 return;
             }
+
+            Resources r = itemView.getResources();
+            mStringBuilder.setLength(0);
+
+            // Generate the title if any.
+            if (mConfigItem.getWithTitle()) {
+                mStringBuilder.append(r.getString(mTitleLabel)).append("<br>");
+            } else if (mConfigItem.getTitleResourceId() != -1) {
+                mStringBuilder.append("<b>")
+                        .append(r.getString(mConfigItem.getTitleResourceId()))
+                        .append("</b> ");
+            }
+
+            // Generate the label if any.
+            if (mConfigItem.getLabelResourceId() != -1) {
+                mStringBuilder.append(r.getString(mConfigItem.getLabelResourceId()));
+            } else if (mConfigItem.getLabelGenerator() != null) {
+                mStringBuilder.append(
+                        mConfigItem.getLabelGenerator().apply(mCurrentWatchFaceState));
+            }
+
+            // Set the text to the title and label!
+            mLabelTextView.setText(Html.fromHtml(mStringBuilder.toString(),
+                    Html.FROM_HTML_MODE_LEGACY));
 
             // Set visibility.
             ViewGroup.LayoutParams param = itemView.getLayoutParams();
