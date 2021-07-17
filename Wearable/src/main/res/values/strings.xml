@@ -635,6 +635,28 @@
         <item>Extra Large</item>
     </string-array>
 
+    <integer-array name="palette_colors">
+        <item>0x6c5e01</item>
+        <item>0xf41595</item>
+        <item>0x813e00</item>
+        <item>0x02aa55</item>
+        <item>0xf84e00</item>
+        <item>0x0e216e</item>
+        <item>0x993fca</item>
+        <item>0x329fcb</item>
+    </integer-array>
+
+    <string-array name="palette_names">
+        <item>Pacific Sunset</item>
+        <item>Via Dolce</item>
+        <item>Amethyst Amber</item>
+        <item>Palladium</item>
+        <item>Country Club</item>
+        <item>Bougainvillea</item>
+        <item>Orchid Sky</item>
+        <item>Biosphere</item>
+    </string-array>
+
     <integer-array name="six_bit_colors">
         <item>0xFF000000</item>
         <item>0xFF000076</item>

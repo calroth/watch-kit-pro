@@ -652,25 +652,9 @@ public final class PaintBox {
             'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
     };
 
-    /**
-     * Our hard-coded default palette names. Corresponds to the palette values.
-     * TODO: move this to resources.
-     */
-    private final static String[] mDefaultPaletteNames = {
-            "Pacific Sunset", "Amethyst Amber", "Country Club", "Orchid Sky"
-    };
-
-    /**
-     * Our hard-coded default palette values. Corresponds to the palette names.
-     * TODO: move this to resources.
-     */
-    private final static int[] mDefaultPaletteValues = {
-            0x6c5e01, 0x813e00, 0xf84e00, 0x993fca
-    };
-
     @NonNull
     String getPaletteName() {
-        return PaintBox.getPaletteName(
+        return getPaletteName(
                 mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor);
     }
 
@@ -685,7 +669,7 @@ public final class PaintBox {
      * @return Name of palette
      */
     @NonNull
-    private static String getPaletteName(int w, int x, int y, int z) {
+    private String getPaletteName(int w, int x, int y, int z) {
         return getPaletteName(combinePalette(w, x, y, z));
     }
 
@@ -697,28 +681,33 @@ public final class PaintBox {
      * @return Name of palette
      */
     @NonNull
-    private static String getPaletteName(int palette) {
+    private String getPaletteName(int palette) {
         if (mPalettes == null) {
             // Initialise on first use
             mPalettes = new HashMap<>();
             StringBuilder sb = new StringBuilder();
 
+            final String[] paletteNames =
+                    mContext.getResources().getStringArray(R.array.palette_names);
+            final int[] paletteColors =
+                    mContext.getResources().getIntArray(R.array.palette_colors);
+
             // Loop through each default palette name and value.
             // Add original named palettes first, before we add any permutations.
-            for (int i = 0; i < mDefaultPaletteNames.length; i++) {
-                mPalettes.putIfAbsent(mDefaultPaletteValues[i], mDefaultPaletteNames[i]);
+            for (int i = 0; i < paletteNames.length; i++) {
+                mPalettes.putIfAbsent(paletteColors[i], paletteNames[i]);
             }
 
             // Loop through each default palette name and value.
             // Add all permutations.
-            for (int i = 0; i < mDefaultPaletteNames.length; i++) {
+            for (int i = 0; i < paletteNames.length; i++) {
                 // Generate heaps of permutations.
-                int[] p = getPalettePermutations(mDefaultPaletteValues[i]);
+                int[] p = getPalettePermutations(paletteColors[i]);
                 for (int j = 1; j < p.length; j++) {
                     // We start j at 1, as 0 is the unmodified permutation (already added).
                     sb.setLength(0); // Clear the StringBuilder
                     // Generate the palette name plus permutations if applicable.
-                    sb.append(mDefaultPaletteNames[i]);
+                    sb.append(paletteNames[i]);
                     // Append variant name.
                     sb.append(" (variant ").append(mPaletteVariants[j]).append(')');
                     mPalettes.putIfAbsent(p[j], sb.toString());
