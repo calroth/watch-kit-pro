@@ -557,7 +557,7 @@ abstract public class ConfigData {
         }
 
         @Nullable
-        public String[] permute(@NonNull WatchFaceState watchFaceState, Context context,
+        public String[] permute(@NonNull WatchFaceState watchFaceState, @NonNull Context context,
                                 @NonNull SharedPref sharedPref) {
             if (mWatchFaceStateMutator instanceof MutatorWithPrefsAccess) {
                 MutatorWithPrefsAccess m = (MutatorWithPrefsAccess) mWatchFaceStateMutator;
@@ -634,7 +634,7 @@ abstract public class ConfigData {
             return ConfigRecyclerViewAdapter.TYPE_TOGGLE_CONFIG;
         }
 
-        public String[] permute(@NonNull WatchFaceState watchFaceState, Context context) {
+        public String[] permute(@NonNull WatchFaceState watchFaceState, @NonNull Context context) {
             WatchFaceState deepCopy = new WatchFaceState(context);
             deepCopy.setString(watchFaceState.getString());
             return mMutator.permute(deepCopy);

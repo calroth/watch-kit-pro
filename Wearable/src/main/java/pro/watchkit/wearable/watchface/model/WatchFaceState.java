@@ -109,6 +109,7 @@ public class WatchFaceState {
     private boolean mAmbient = false;
     private final GregorianCalendar mCalendar = new GregorianCalendar();
     private final LocationCalculator mLocationCalculator = new LocationCalculator(mCalendar);
+    @NonNull
     private final Context mContext;
     private static final double GOLDEN_RATIO = (1d + Math.sqrt(5d)) / 2d;
 
@@ -126,7 +127,7 @@ public class WatchFaceState {
     @NonNull
     private final StringBuilder mStringBuilder = new StringBuilder();
 
-    public WatchFaceState(Context context) {
+    public WatchFaceState(@NonNull Context context) {
         mPaintBox = new PaintBox(context);
         mContext = context;
         mTypefaceCache = new android.graphics.Typeface[Typeface.values().length];

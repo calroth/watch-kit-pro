@@ -95,6 +95,7 @@ public final class PaintBox {
     @NonNull
     private final GradientPaint mBaseAccentPaint = new GradientPaint();
     private int mPreviousSerial = -1;
+    @NonNull
     private final Context mContext;
 
     private static RenderScript mRenderScript;
@@ -108,7 +109,7 @@ public final class PaintBox {
 
 //    native void nativeMapBitmap(Bitmap bitmap, int[] cLUT);
 
-    PaintBox(Context context) {
+    PaintBox(@NonNull Context context) {
         mContext = context;
         mFillPaint = newDefaultPaint();
         mAccentPaint = newDefaultPaint();
