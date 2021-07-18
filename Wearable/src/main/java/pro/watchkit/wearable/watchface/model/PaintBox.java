@@ -405,7 +405,10 @@ public final class PaintBox {
 
     private int mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor;
     private int mAmbientDaySixBitColor, mAmbientNightSixBitColor;
-    private MaterialGradient mFillHighlightMaterialGradient;
+    private MaterialGradient mFillHighlightMaterialGradient, mAccentFillMaterialGradient,
+            mAccentHighlightMaterialGradient, mBaseAccentMaterialGradient;
+    private MaterialTexture mFillHighlightMaterialTexture, mAccentFillMaterialTexture,
+            mAccentHighlightMaterialTexture, mBaseAccentMaterialTexture;
     private float mTextSize;
     @Nullable
     private Typeface mTypeface;
@@ -530,14 +533,6 @@ public final class PaintBox {
             }
         }
     }
-
-    private MaterialGradient mAccentFillMaterialGradient;
-    private MaterialGradient mAccentHighlightMaterialGradient;
-    private MaterialGradient mBaseAccentMaterialGradient;
-    private MaterialTexture mFillHighlightMaterialTexture;
-    private MaterialTexture mAccentFillMaterialTexture;
-    private MaterialTexture mAccentHighlightMaterialTexture;
-    private MaterialTexture mBaseAccentMaterialTexture;
 
     @NonNull
     public Paint getAmbientPaint() {
