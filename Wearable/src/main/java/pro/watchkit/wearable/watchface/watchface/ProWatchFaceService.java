@@ -44,6 +44,7 @@ import android.graphics.Rect;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.wearable.complications.ComplicationData;
 import android.support.wearable.complications.SystemProviders;
@@ -98,7 +99,8 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
         @NonNull
         private final WeakReference<ProWatchFaceService.Engine> mWeakReference;
 
-        UpdateTimeHandler(ProWatchFaceService.Engine reference) {
+        UpdateTimeHandler(@NonNull ProWatchFaceService.Engine reference) {
+            super(Looper.getMainLooper());
             mWeakReference = new WeakReference<>(reference);
         }
 
@@ -237,7 +239,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
          * Our location request, with our parameters for receiving updates.
          */
         @NonNull
-        private final LocationRequest mLocationRequest = new LocationRequest();
+        private final LocationRequest mLocationRequest = LocationRequest.create();
 
         /**
          * Our location callback, the chunk of code that runs when we receive a new location
@@ -276,7 +278,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
 
                 // Sign up for ongoing location reports.
                 mLocationClient.requestLocationUpdates(
-                        mLocationRequest, mLocationCallback, null);
+                        mLocationRequest, mLocationCallback, Looper.getMainLooper());
             } else if (permission == PackageManager.PERMISSION_DENIED && mLocationClient != null) {
                 // Permission previously granted but now revoked? Null out the location client.
                 // But first remove our location report update callback.
