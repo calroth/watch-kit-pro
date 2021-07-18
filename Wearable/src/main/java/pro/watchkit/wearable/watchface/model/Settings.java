@@ -31,6 +31,7 @@ final class Settings extends BytePackable {
     ComplicationSize mComplicationSize;
     ComplicationScale mComplicationScale;
     int mAmbientDaySixBitColor, mAmbientNightSixBitColor;
+    // TODO: mComplicationTextStyle is now unused; remove it.
     TextStyle mComplicationTextStyle;
     Material mComplicationRingMaterial, mComplicationBackgroundMaterial;
     boolean mDeveloperMode;

@@ -451,7 +451,7 @@ public class WatchFaceState {
      * again if the user changes the highlight color via ConfigActivity.
      */
     public void setComplicationColors() {
-        @ColorInt int activeColor = getColor(getComplicationTextStyle());
+        @ColorInt int activeColor = getComplicationTextColor();
         @ColorInt int ambientColor = Color.WHITE;
         @Nullable android.graphics.Typeface typeface = getTypefaceObject();
 
@@ -860,12 +860,24 @@ public class WatchFaceState {
         regeneratePaints();
     }
 
-    public TextStyle getComplicationTextStyle() {
-        return mSettings.mComplicationTextStyle;
-    }
-
-    void setComplicationTextStyle(TextStyle complicationTextStyle) {
-        mSettings.mComplicationTextStyle = complicationTextStyle;
+    @ColorInt
+    public int getComplicationTextColor() {
+        Material complicationBackgroundMaterial = getComplicationBackgroundMaterial();
+        switch (complicationBackgroundMaterial) {
+            case FILL_HIGHLIGHT:
+                return mPaintBox.getContrastingColor(complicationBackgroundMaterial,
+                        getFillHighlightMaterialGradient());
+            case ACCENT_FILL:
+                return mPaintBox.getContrastingColor(complicationBackgroundMaterial,
+                        getAccentFillMaterialGradient());
+            case ACCENT_HIGHLIGHT:
+                return mPaintBox.getContrastingColor(complicationBackgroundMaterial,
+                        getAccentHighlightMaterialGradient());
+            case BASE_ACCENT:
+            default:
+                return mPaintBox.getContrastingColor(complicationBackgroundMaterial,
+                        getBaseAccentMaterialGradient());
+        }
     }
 
     public Material getComplicationRingMaterial() {
@@ -1893,30 +1905,30 @@ public class WatchFaceState {
         }
     }
 
-    /**
-     * Get the given color from our 6-bit (64-color) palette. Returns a ColorInt.
-     *
-     * @param textStyle ColorType to get from our current WatchFacePreset.
-     * @return Color from our palette as a ColorInt
-     */
-    @ColorInt
-    public int getColor(@NonNull TextStyle textStyle) {
-        switch (textStyle) {
-            case FILL: {
-                return getColor(ColorType.FILL);
-            }
-            case ACCENT: {
-                return getColor(ColorType.ACCENT);
-            }
-            case HIGHLIGHT: {
-                return getColor(ColorType.HIGHLIGHT);
-            }
-            default:
-            case BASE: {
-                return getColor(ColorType.BASE);
-            }
-        }
-    }
+//    /**
+//     * Get the given color from our 6-bit (64-color) palette. Returns a ColorInt.
+//     *
+//     * @param textStyle ColorType to get from our current WatchFacePreset.
+//     * @return Color from our palette as a ColorInt
+//     */
+//    @ColorInt
+//    public int getColor(@NonNull TextStyle textStyle) {
+//        switch (textStyle) {
+//            case FILL: {
+//                return getColor(ColorType.FILL);
+//            }
+//            case ACCENT: {
+//                return getColor(ColorType.ACCENT);
+//            }
+//            case HIGHLIGHT: {
+//                return getColor(ColorType.HIGHLIGHT);
+//            }
+//            default:
+//            case BASE: {
+//                return getColor(ColorType.BASE);
+//            }
+//        }
+//    }
 
     public void setSixBitColor(@NonNull ColorType colorType, @ColorInt int sixBitColor) {
         switch (colorType) {

@@ -286,7 +286,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             }
             w.setNotifications(0, 0);
             w.setAmbient(false);
-            mComplicationTextColor = w.getColor(w.getComplicationTextStyle());
+            mComplicationTextColor = w.getComplicationTextColor();
 
             // Initialise complications, just enough to be able to draw rings.
             w.initializeComplications(mImageView.getContext());

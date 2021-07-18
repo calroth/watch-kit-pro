@@ -365,6 +365,44 @@ public final class PaintBox {
         }
     }
 
+    /**
+     * Returns the distance between the two different colors. Lower distances mean closer colors.
+     * A result of 0 means the colors are equal. Don't treat the absolute value as important;
+     * it's relative to calls to this function with other colors.
+     *
+     * @param colorA One color to calculate
+     * @param colorB The other color
+     * @return The distance between the two colors
+     */
+    private double getDistance(@ColorInt int colorA, @ColorInt int colorB) {
+        if (mUseLUV) {
+            double[] colorA2 = convertSRGBToLUV(colorA);
+            double[] colorB2 = convertSRGBToLUV(colorB);
+
+            return Math.sqrt(Math.pow(colorA2[0] - colorB2[0], 2) +
+                    Math.pow(colorA2[1] - colorB2[1], 2) +
+                    Math.pow(colorA2[2] - colorB2[2], 2) +
+                    Math.pow(colorA2[3] - colorB2[3], 2));
+        } else if (Build.VERSION.SDK_INT >= 26) {
+            // The "long colors" feature is only available in SDK 26 onwards!
+            ColorSpace CIE_LAB = ColorSpace.get(ColorSpace.Named.CIE_LAB);
+
+            // Convert colors to LAB color space.
+            long colorAL = Color.convert(colorA, CIE_LAB);
+            long colorBL = Color.convert(colorB, CIE_LAB);
+
+            return Math.sqrt(Math.pow(Color.alpha(colorAL) - Color.alpha(colorBL), 2) +
+                    Math.pow(Color.red(colorAL) - Color.red(colorBL), 2) +
+                    Math.pow(Color.green(colorAL) - Color.green(colorBL), 2) +
+                    Math.pow(Color.blue(colorAL) - Color.blue(colorBL), 2));
+        } else {
+            return Math.sqrt(Math.pow(Color.alpha(colorA) - Color.alpha(colorB), 2) +
+                    Math.pow(Color.red(colorA) - Color.red(colorB), 2) +
+                    Math.pow(Color.green(colorA) - Color.green(colorB), 2) +
+                    Math.pow(Color.blue(colorA) - Color.blue(colorB), 2));
+        }
+    }
+
     private int mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor;
     private int mAmbientDaySixBitColor, mAmbientNightSixBitColor;
     private MaterialGradient mFillHighlightMaterialGradient;
@@ -422,6 +460,74 @@ public final class PaintBox {
         } else {
             return mContext.getResources().getStringArray(
                     R.array.six_bit_color_names_v1)[sixBitColor];
+        }
+    }
+
+    /**
+     * Given a Material, returns a color from our palette that's as distant (or contrasting)
+     * from that Material as we can find. So, anything printed in this color, against the
+     * given Material, will display with suitable contrast.
+     *
+     * @param material         The Material to return a contrasting color for
+     * @param materialGradient The MaterialGradient to return a contrasting color for
+     * @return Color from our palette as a ColorInt
+     */
+    @ColorInt
+    public int getContrastingColor(
+            @NonNull Material material, @NonNull MaterialGradient materialGradient) {
+        @ColorInt int colorA, colorB, colorC, colorD;
+        switch (material) {
+            case FILL_HIGHLIGHT:
+                colorA = getColor(mFillSixBitColor);
+                colorB = getColor(mHighlightSixBitColor);
+                colorC = getColor(mAccentSixBitColor);
+                colorD = getColor(mBaseSixBitColor);
+                break;
+            case ACCENT_FILL:
+                colorA = getColor(mAccentSixBitColor);
+                colorB = getColor(mFillSixBitColor);
+                colorC = getColor(mHighlightSixBitColor);
+                colorD = getColor(mBaseSixBitColor);
+                break;
+            case ACCENT_HIGHLIGHT:
+                colorA = getColor(mAccentSixBitColor);
+                colorB = getColor(mHighlightSixBitColor);
+                colorC = getColor(mFillSixBitColor);
+                colorD = getColor(mBaseSixBitColor);
+                break;
+            case BASE_ACCENT:
+            default:
+                colorA = getColor(mBaseSixBitColor);
+                colorB = getColor(mAccentSixBitColor);
+                colorC = getColor(mFillSixBitColor);
+                colorD = getColor(mHighlightSixBitColor);
+                break;
+        }
+
+        if (materialGradient == MaterialGradient.FLAT) {
+            // Choose between "colorB", "colorC" and "colorD".
+            // Select the color most distant from "colorA".
+            double diffB = getDistance(colorA, colorB);
+            double diffC = getDistance(colorA, colorC);
+            double diffD = getDistance(colorA, colorD);
+            if (diffB > diffC && diffB > diffD) {
+                return colorB;
+            } else if (diffC > diffD) {
+                return colorC;
+            } else {
+                return colorD;
+            }
+        } else {
+            // Choose between "colorC" and "colorD".
+            // Select the color most distant from a mix of "colorA" and "colorB".
+            int colorAB = getIntermediateColor(colorA, colorB, 0.5d);
+            double diffC = getDistance(colorAB, colorC);
+            double diffD = getDistance(colorAB, colorD);
+            if (diffC > diffD) {
+                return colorC;
+            } else {
+                return colorD;
+            }
         }
     }
 
