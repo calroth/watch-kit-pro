@@ -1262,11 +1262,15 @@ public final class PaintBox {
         void setColors(int sixBitColorA, int sixBitColorB,
                        @NonNull MaterialGradient materialGradient,
                        @NonNull MaterialTexture materialTexture) {
+            int customHashCode = Objects.hash(
+                    sixBitColorA, sixBitColorB, materialGradient, materialTexture, height, width);
+            if (customHashCode == mCustomHashCode) {
+                return; // If there's no change, don't update.
+            }
+            mCustomHashCode = customHashCode;
+
             @ColorInt int colorA = PaintBox.this.getColor(sixBitColorA);
             @ColorInt int colorB = PaintBox.this.getColor(sixBitColorB);
-
-            mCustomHashCode = Objects.hash(
-                    colorA, colorB, materialGradient, materialTexture, height, width);
 
             switch (materialGradient) {
                 case FLAT:
