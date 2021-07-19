@@ -1273,6 +1273,7 @@ public final class PaintBox {
                     // Set to "colorA", except if this is mAccentHighlightPaint.
                     // So our four paints have four distinct colors.
                     setColor(this == mAccentHighlightPaint ? colorB : colorA);
+                    setShader(null); // Clear out the shader the other gradients added!
                     break;
                 case SWEEP:
                     addSweepGradient(colorA, colorB);
