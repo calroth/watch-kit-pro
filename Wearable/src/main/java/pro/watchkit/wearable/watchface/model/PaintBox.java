@@ -234,6 +234,11 @@ public final class PaintBox {
         var_B = var_B > 0.0031308d ?
                 1.055 * Math.pow(var_B, 1d / 2.4d) - 0.055d : 12.92d * var_B;
 
+        // Clamp the final RGB values to [0, 1].
+        var_R = Math.max(0, Math.min(1, var_R));
+        var_G = Math.max(0, Math.min(1, var_G));
+        var_B = Math.max(0, Math.min(1, var_B));
+
         return Color.argb(
                 (int) LUV[0], (int) (var_R * 255d), (int) (var_G * 255d), (int) (var_B * 255d));
     }
