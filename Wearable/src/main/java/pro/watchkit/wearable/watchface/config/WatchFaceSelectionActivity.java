@@ -154,7 +154,7 @@ public class WatchFaceSelectionActivity extends Activity {
                     if (snapView != null && extraNames != null) {
                         int i = layoutManager.getPosition(snapView);
                         if (/* i != RecyclerView.NO_POSITION && */ i > 0 &&
-                                i < extraNames.length) {
+                                i <= extraNames.length) {
                             Toaster.makeText(getApplicationContext(), extraNames[i - 1],
                                     Toaster.LENGTH_SHORT);
                         }
