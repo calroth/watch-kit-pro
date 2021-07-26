@@ -50,8 +50,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.HandShape.values(),
-                                WatchFaceState::setHourHandShape,
-                                WatchFaceState::getHourHandShape)),
+                                WatchFaceState::setHourHandShape)),
 
                 // Data for hour hand length in settings Activity.
                 new PickerConfigItem(
@@ -61,8 +60,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.HandLength.values(),
-                                WatchFaceState::setHourHandLength,
-                                WatchFaceState::getHourHandLength)),
+                                WatchFaceState::setHourHandLength)),
 
                 // Data for hour hand thickness in settings Activity.
                 new PickerConfigItem(
@@ -72,8 +70,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.HandThickness.values(),
-                                WatchFaceState::setHourHandThickness,
-                                WatchFaceState::getHourHandThickness)),
+                                WatchFaceState::setHourHandThickness)),
 
                 // Data for hour hand stalk in settings Activity.
                 new PickerConfigItem(
@@ -83,8 +80,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.HandStalk.values(),
-                                WatchFaceState::setHourHandStalk,
-                                WatchFaceState::getHourHandStalk)),
+                                WatchFaceState::setHourHandStalk)),
 
                 // Data for hour hand material in settings Activity.
                 new PickerConfigItem(
@@ -94,8 +90,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.Material.values(),
-                                WatchFaceState::setHourHandMaterial,
-                                WatchFaceState::getHourHandMaterial)),
+                                WatchFaceState::setHourHandMaterial)),
 
                 // Data for hour hand cutout in settings Activity.
                 new ToggleConfigItem(
@@ -112,8 +107,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.HandCutoutShape.values(),
-                                WatchFaceState::setHourHandCutoutShape,
-                                WatchFaceState::getHourHandCutoutShape),
+                                WatchFaceState::setHourHandCutoutShape),
                         WatchFaceState::isHourHandCutout),
 
                 // Data for hour hand cutout material in settings Activity.
@@ -124,8 +118,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.HandCutoutMaterial.values(),
-                                WatchFaceState::setHourHandCutoutMaterial,
-                                WatchFaceState::getHourHandCutoutMaterial),
+                                WatchFaceState::setHourHandCutoutMaterial),
                         WatchFaceState::isHourHandCutout),
 
                 // Data for minute hand override in settings Activity.
@@ -143,8 +136,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.HandShape.values(),
-                                WatchFaceState::setMinuteHandShape,
-                                WatchFaceState::getMinuteHandShape),
+                                WatchFaceState::setMinuteHandShape),
                         WatchFaceState::isMinuteHandOverridden),
 
                 // Data for minute hand length in settings Activity.
@@ -155,8 +147,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.HandLength.values(),
-                                WatchFaceState::setMinuteHandLength,
-                                WatchFaceState::getMinuteHandLength),
+                                WatchFaceState::setMinuteHandLength),
                         WatchFaceState::isMinuteHandOverridden),
 
                 // Data for minute hand thickness in settings Activity.
@@ -167,8 +158,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.HandThickness.values(),
-                                WatchFaceState::setMinuteHandThickness,
-                                WatchFaceState::getMinuteHandThickness),
+                                WatchFaceState::setMinuteHandThickness),
                         WatchFaceState::isMinuteHandOverridden),
 
                 // Data for minute hand stalk in settings Activity.
@@ -179,8 +169,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.HandStalk.values(),
-                                WatchFaceState::setMinuteHandStalk,
-                                WatchFaceState::getMinuteHandStalk),
+                                WatchFaceState::setMinuteHandStalk),
                         WatchFaceState::isMinuteHandOverridden),
 
                 // Data for minute hand material in settings Activity.
@@ -191,8 +180,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.Material.values(),
-                                WatchFaceState::setMinuteHandMaterial,
-                                WatchFaceState::getMinuteHandMaterial),
+                                WatchFaceState::setMinuteHandMaterial),
                         WatchFaceState::isMinuteHandOverridden),
 
                 // Data for minute hand cutout in settings Activity.
@@ -211,8 +199,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.HandCutoutShape.values(),
-                                WatchFaceState::setMinuteHandCutoutShape,
-                                WatchFaceState::getMinuteHandCutoutShape),
+                                WatchFaceState::setMinuteHandCutoutShape),
                         WatchFaceState::isMinuteHandOverriddenAndCutout),
 
                 // Data for minute hand cutout material in settings Activity.
@@ -223,8 +210,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.HandCutoutMaterial.values(),
-                                WatchFaceState::setMinuteHandCutoutMaterial,
-                                WatchFaceState::getMinuteHandCutoutMaterial),
+                                WatchFaceState::setMinuteHandCutoutMaterial),
                         WatchFaceState::isMinuteHandOverriddenAndCutout),
 
                 // Data for second hand override in settings Activity.
@@ -242,8 +228,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.HandShape.values(),
-                                WatchFaceState::setSecondHandShape,
-                                WatchFaceState::getSecondHandShape),
+                                WatchFaceState::setSecondHandShape),
                         WatchFaceState::isSecondHandOverridden),
 
                 // Data for second hand length in settings Activity.
@@ -254,8 +239,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.HandLength.values(),
-                                WatchFaceState::setSecondHandLength,
-                                WatchFaceState::getSecondHandLength),
+                                WatchFaceState::setSecondHandLength),
                         WatchFaceState::isSecondHandOverridden),
 
 
@@ -267,8 +251,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.HandThickness.values(),
-                                WatchFaceState::setSecondHandThickness,
-                                WatchFaceState::getSecondHandThickness),
+                                WatchFaceState::setSecondHandThickness),
                         WatchFaceState::isSecondHandOverridden),
 
                 // Data for second hand material in settings Activity.
@@ -279,8 +262,7 @@ public class WatchPartHandsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.Material.values(),
-                                WatchFaceState::setSecondHandMaterial,
-                                WatchFaceState::getSecondHandMaterial),
+                                WatchFaceState::setSecondHandMaterial),
                         WatchFaceState::isSecondHandOverridden),
 
                 // Help.

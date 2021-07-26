@@ -148,6 +148,18 @@ public class WatchFaceState {
     }
 
     /**
+     * Returns the string from the application's resources.
+     * Convenience method for "mContext.getString(resId)".
+     *
+     * @param resId Resource id for the string
+     * @return The string from the application's resources..
+     */
+    @NonNull
+    String[] getStringArrayResource(@ArrayRes int resId) {
+        return mContext.getResources().getStringArray(resId);
+    }
+
+    /**
      * Get the current time as milliseconds from the calendar's time.
      *
      * @return Current number of milliseconds
@@ -1022,6 +1034,17 @@ public class WatchFaceState {
         return isMinutePipsVisible() && mWatchFacePreset.mMinutePipOverride;
     }
 
+    public boolean equalsWatchFacePreset(@NonNull String b) {
+        if (b.length() == 0) return false;
+
+        String[] splitB = b.split("~");
+        if (splitB.length >= 2) {
+            return mWatchFacePreset.getString().equals(splitB[0]);
+        } else {
+            return false;
+        }
+    }
+
     public void setString(@Nullable String s) {
         if (s == null || s.length() == 0) return;
         String[] split = s.split("~");
@@ -1386,10 +1409,10 @@ public class WatchFaceState {
         return getMaterial(mWatchFacePreset.mHourHandMaterial, mWatchFacePreset.mHourHandCutoutCombination);
     }
 
-    @NonNull
-    HandCutoutMaterial getHourHandCutoutMaterial() {
-        return getHandCutoutMaterial(mWatchFacePreset.mHourHandCutoutCombination);
-    }
+//    @NonNull
+//    HandCutoutMaterial getHourHandCutoutMaterial() {
+//        return getHandCutoutMaterial(mWatchFacePreset.mHourHandCutoutCombination);
+//    }
 
     void setHourHandCutoutMaterial(@NonNull HandCutoutMaterial hourHandCutoutMaterial) {
         mWatchFacePreset.mHourHandCutoutCombination = setHandCutoutCombination(
@@ -1448,12 +1471,12 @@ public class WatchFaceState {
                 getHourHandCutoutMaterialAsMaterial();
     }
 
-    @NonNull
-    HandCutoutMaterial getMinuteHandCutoutMaterial() {
-        return mWatchFacePreset.mMinuteHandOverride ?
-                getHandCutoutMaterial(mWatchFacePreset.mMinuteHandCutoutCombination) :
-                getHourHandCutoutMaterial();
-    }
+//    @NonNull
+//    HandCutoutMaterial getMinuteHandCutoutMaterial() {
+//        return mWatchFacePreset.mMinuteHandOverride ?
+//                getHandCutoutMaterial(mWatchFacePreset.mMinuteHandCutoutCombination) :
+//                getHourHandCutoutMaterial();
+//    }
 
     void setMinuteHandCutoutMaterial(@NonNull HandCutoutMaterial minuteHandCutoutMaterial) {
         mWatchFacePreset.mMinuteHandCutoutCombination = setHandCutoutCombination(
@@ -1469,9 +1492,9 @@ public class WatchFaceState {
         mWatchFacePreset.mSecondHandMaterial = secondHandMaterial;
     }
 
-    PipsDisplay getPipsDisplay() {
-        return mWatchFacePreset.mPipsDisplay;
-    }
+//    PipsDisplay getPipsDisplay() {
+//        return mWatchFacePreset.mPipsDisplay;
+//    }
 
     void setPipsDisplay(PipsDisplay pipsDisplay) {
         mWatchFacePreset.mPipsDisplay = pipsDisplay;

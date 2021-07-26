@@ -35,7 +35,6 @@
 package pro.watchkit.wearable.watchface.model;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
 import java.util.Arrays;
@@ -180,35 +179,31 @@ public class SettingsConfigData extends ConfigData {
                                 WatchFaceGlobalDrawable.PART_HANDS |
                                 WatchFaceGlobalDrawable.PART_RINGS_ALL,
                         WatchFaceSelectionActivity.class,
-                        new Mutator() {
-                            /**
-                             * A custom Mutator which "resets to default" by offering mutations
-                             * corresponding to the default WatchFaceState for each slot
-                             *
-                             * @param permutation WatchFaceState, which must be a clone, but in
-                             *                    this case we'll ignore it...
-                             * @return Default WatchFaceState strings for all slots
-                             */
-                            @NonNull
-                            @Override
-                            public String[] permute(@NonNull WatchFaceState permutation) {
-                                return new String[]{
-                                        permutation.getStringResource(
+                        w -> new Permutation[]{
+                                /*
+                                 * A custom Mutator which "resets to default" by offering mutations
+                                 * corresponding to the default WatchFaceState for each slot
+                                 */
+                                new Permutation(
+                                        w.getStringResource(
                                                 R.string.watch_kit_pro_a_default_string),
-                                        permutation.getStringResource(
+                                        w.getStringResource(
+                                                R.string.watch_face_service_label_a)),
+                                new Permutation(
+                                        w.getStringResource(
                                                 R.string.watch_kit_pro_b_default_string),
-                                        permutation.getStringResource(
+                                        w.getStringResource(
+                                                R.string.watch_face_service_label_b)),
+                                new Permutation(
+                                        w.getStringResource(
                                                 R.string.watch_kit_pro_c_default_string),
-                                        permutation.getStringResource(
-                                                R.string.watch_kit_pro_d_default_string)
-                                };
-                            }
-
-                            @Nullable
-                            @Override
-                            public Enum<?> getCurrentValue(WatchFaceState currentPreset) {
-                                return null;
-                            }
+                                        w.getStringResource(
+                                                R.string.watch_face_service_label_c)),
+                                new Permutation(
+                                        w.getStringResource(
+                                                R.string.watch_kit_pro_d_default_string),
+                                        w.getStringResource(
+                                                R.string.watch_face_service_label_d))
                         },
                         WatchFaceState::isDeveloperMode),
 

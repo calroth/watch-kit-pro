@@ -52,8 +52,7 @@ public class ComplicationConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.ComplicationCount.values(),
-                                WatchFaceState::setComplicationCount,
-                                WatchFaceState::getComplicationCount)),
+                                WatchFaceState::setComplicationCount)),
 
                 // Data for complication rotation in settings Activity.
                 new PickerConfigItem(
@@ -63,8 +62,7 @@ public class ComplicationConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.ComplicationRotation.values(),
-                                WatchFaceState::setComplicationRotation,
-                                WatchFaceState::getComplicationRotation)),
+                                WatchFaceState::setComplicationRotation)),
 
                 // Data for complication size in settings Activity.
                 new PickerConfigItem(
@@ -74,8 +72,7 @@ public class ComplicationConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.ComplicationSize.values(),
-                                WatchFaceState::setComplicationSize,
-                                WatchFaceState::getComplicationSize)),
+                                WatchFaceState::setComplicationSize)),
 
                 // Data for complication overlap in settings Activity.
                 new PickerConfigItem(
@@ -85,8 +82,7 @@ public class ComplicationConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.ComplicationScale.values(),
-                                WatchFaceState::setComplicationScale,
-                                WatchFaceState::getComplicationScale)),
+                                WatchFaceState::setComplicationScale)),
 
                 // Data for complication ring material in settings Activity.
                 new PickerConfigItem(
@@ -96,8 +92,7 @@ public class ComplicationConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.Material.values(),
-                                WatchFaceState::setComplicationRingMaterial,
-                                WatchFaceState::getComplicationRingMaterial)),
+                                WatchFaceState::setComplicationRingMaterial)),
 
                 // Data for complication background material in settings Activity.
                 new PickerConfigItem(
@@ -107,8 +102,7 @@ public class ComplicationConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.Material.values(),
-                                WatchFaceState::setComplicationBackgroundMaterial,
-                                WatchFaceState::getComplicationBackgroundMaterial)),
+                                WatchFaceState::setComplicationBackgroundMaterial)),
 
                 // Help.
                 new LabelConfigItem(R.string.config_configure_help,

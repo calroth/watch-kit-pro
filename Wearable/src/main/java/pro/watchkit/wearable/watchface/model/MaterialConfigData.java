@@ -67,11 +67,9 @@ public abstract class MaterialConfigData extends ConfigData {
                         R.drawable.ic_color_lens,
                         watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
-                        getMaterial(),
                         new EnumMutator<>(
                                 BytePackable.MaterialGradient.values(),
-                                getMaterialGradientSetter(),
-                                getMaterialGradientGetter())),
+                                getMaterialGradientSetter())),
 
                 // Data for material texture in settings Activity.
                 new PickerConfigItem(
@@ -81,8 +79,31 @@ public abstract class MaterialConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.MaterialTexture.values(),
-                                getMaterialTextureSetter(),
-                                getMaterialTextureGetter())),
+                                getMaterialTextureSetter())),
+
+//                // What it's used for.
+//                new LabelConfigItem(R.string.config_complication_ring_material,
+//                        w -> getMaterial() == w.getComplicationRingMaterial()),
+//                new LabelConfigItem(R.string.config_complication_background_material,
+//                        w -> getMaterial() == w.getComplicationBackgroundMaterial()),
+//                new LabelConfigItem(R.string.config_preset_bezel_material,
+//                        w -> getMaterial() == Material.ACCENT_FILL),
+//                new LabelConfigItem(R.string.config_preset_background_material,
+//                        w -> getMaterial() == Material.BASE_ACCENT),
+//                new LabelConfigItem(R.string.config_preset_hour_hand_material,
+//                        w -> getMaterial() == w.getHourHandMaterial()),
+//                new LabelConfigItem(R.string.config_preset_minute_hand_material,
+//                        w -> getMaterial() == w.getMinuteHandMaterial()),
+//                new LabelConfigItem(R.string.config_preset_pip_background_material,
+//                        w -> getMaterial() == w.getPipBackgroundMaterial()),
+//                new LabelConfigItem(R.string.config_preset_digit_material,
+//                        w -> getMaterial() == w.getDigitMaterial()),
+//                new LabelConfigItem(R.string.config_preset_quarter_pip_material,
+//                        w -> getMaterial() == w.getQuarterPipMaterial()),
+//                new LabelConfigItem(R.string.config_preset_hour_pip_material,
+//                        w -> getMaterial() == w.getHourPipMaterial()),
+//                new LabelConfigItem(R.string.config_preset_minute_pip_material,
+//                        w -> getMaterial() == w.getMinutePipMaterial()),
 
                 // Help.
                 new LabelConfigItem(R.string.config_configure_help,

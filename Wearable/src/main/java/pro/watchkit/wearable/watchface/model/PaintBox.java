@@ -748,7 +748,7 @@ public final class PaintBox {
     /**
      * Our palette lookup table to map palette value to palette name.
      */
-    private static Map<Integer, String> mPalettes;
+    private final static Map<Integer, String> mPalettes = new HashMap<>();
 
     /**
      * Our hard-coded palette variant names.
@@ -780,6 +780,26 @@ public final class PaintBox {
         return getPaletteName(combinePalette(w, x, y, z));
     }
 
+    @NonNull
+    private final static Map<Integer, String> mOriginalPalettes = new HashMap<>();
+
+    Map<Integer, String> getOriginalPalettes() {
+        if (mOriginalPalettes.size() == 0) {
+            // Initialise on first use
+            final String[] paletteNames =
+                    mContext.getResources().getStringArray(R.array.palette_names);
+            final int[] paletteColors =
+                    mContext.getResources().getIntArray(R.array.palette_colors);
+
+            // Loop through each default palette name and value.
+            // Add original named palettes first, before we add any permutations.
+            for (int i = 0; i < paletteNames.length; i++) {
+                mOriginalPalettes.putIfAbsent(paletteColors[i], paletteNames[i]);
+            }
+        }
+        return mOriginalPalettes;
+    }
+
     /**
      * Given a palette value, return its name if it has one, or a generic
      * string if it hasn't/
@@ -789,11 +809,8 @@ public final class PaintBox {
      */
     @NonNull
     private String getPaletteName(int palette) {
-        if (mPalettes == null) {
+        if (mPalettes.size() == 0) {
             // Initialise on first use
-            mPalettes = new HashMap<>();
-            StringBuilder sb = new StringBuilder();
-
             final String[] paletteNames =
                     mContext.getResources().getStringArray(R.array.palette_names);
             final int[] paletteColors =
@@ -807,6 +824,7 @@ public final class PaintBox {
 
             // Loop through each default palette name and value.
             // Add all permutations.
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < paletteNames.length; i++) {
                 // Generate heaps of permutations.
                 int[] p = getPalettePermutations(paletteColors[i]);

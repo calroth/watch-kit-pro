@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
@@ -77,24 +78,21 @@ public class WatchFacePresetConfigData extends ConfigData {
                              * A custom Mutator which allows you to "view history" by offering
                              * mutations corresponding every WatchFaceState in prefs history.
                              *
-                             * @param permutation WatchFaceState, which must be a clone, but in
-                             *                    this case we'll ignore it...
-                             * @return Default WatchFaceState strings for all slots
+                             * @param clone WatchFaceState, which must be a clone, but in
+                             *              this case we'll ignore it...
+                             * @return Default WatchFaceState permutations for all slots
                              */
                             @NonNull
                             @Override
-                            public String[] permute(@NonNull WatchFaceState permutation) {
+                            public Permutation[] getPermutations(@NonNull WatchFaceState clone) {
                                 if (mSharedPref != null) {
-                                    return mSharedPref.getWatchFaceStateHistory();
+                                    AtomicInteger i = new AtomicInteger();
+                                    return Arrays.stream(mSharedPref.getWatchFaceStateHistory())
+                                            .map(s -> new Permutation(s, "History " + i.getAndIncrement()))
+                                            .toArray(Permutation[]::new);
                                 } else {
-                                    return new String[0];
+                                    return new Permutation[0];
                                 }
-                            }
-
-                            @Nullable
-                            @Override
-                            public Enum<?> getCurrentValue(WatchFaceState currentPreset) {
-                                return null;
                             }
 
                             @Nullable

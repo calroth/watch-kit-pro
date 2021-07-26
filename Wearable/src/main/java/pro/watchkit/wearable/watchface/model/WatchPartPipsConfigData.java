@@ -50,8 +50,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.PipsDisplay.values(),
-                                WatchFaceState::setPipsDisplay,
-                                WatchFaceState::getPipsDisplay)),
+                                WatchFaceState::setPipsDisplay)),
 
                 // Data for pip margin in settings Activity.
                 new PickerConfigItem(
@@ -61,8 +60,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.PipMargin.values(),
-                                WatchFaceState::setPipMargin,
-                                WatchFaceState::getPipMargin)),
+                                WatchFaceState::setPipMargin)),
 
                 // Data for pip background material in settings Activity.
                 new PickerConfigItem(
@@ -72,8 +70,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.Material.values(),
-                                WatchFaceState::setPipBackgroundMaterial,
-                                WatchFaceState::getPipBackgroundMaterial)),
+                                WatchFaceState::setPipBackgroundMaterial)),
 
                 // Data for digit display in settings Activity.
                 new PickerConfigItem(
@@ -83,8 +80,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.DigitDisplay.values(),
-                                WatchFaceState::setDigitDisplay,
-                                WatchFaceState::getDigitDisplay)),
+                                WatchFaceState::setDigitDisplay)),
 
                 // Data for digit size in settings Activity.
                 new PickerConfigItem(
@@ -94,8 +90,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.DigitSize.values(),
-                                WatchFaceState::setDigitSize,
-                                WatchFaceState::getDigitSize),
+                                WatchFaceState::setDigitSize),
                         WatchFaceState::isDigitVisible),
 
                 // Data for digit rotation in settings Activity.
@@ -106,8 +101,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.DigitRotation.values(),
-                                WatchFaceState::setDigitRotation,
-                                WatchFaceState::getDigitRotation),
+                                WatchFaceState::setDigitRotation),
                         WatchFaceState::isDigitVisible),
 
                 // Data for digit format in settings Activity.
@@ -118,8 +112,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.DigitFormat.values(),
-                                WatchFaceState::setDigitFormat,
-                                WatchFaceState::getDigitFormat),
+                                WatchFaceState::setDigitFormat),
                         WatchFaceState::isDigitVisible),
 
                 // Data for digit material in settings Activity.
@@ -130,8 +123,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.Material.values(),
-                                WatchFaceState::setDigitMaterial,
-                                WatchFaceState::getDigitMaterial),
+                                WatchFaceState::setDigitMaterial),
                         WatchFaceState::isDigitVisible),
 
                 // Data for quarter pip shape in settings Activity.
@@ -142,8 +134,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.PipShape.values(),
-                                WatchFaceState::setQuarterPipShape,
-                                WatchFaceState::getQuarterPipShape),
+                                WatchFaceState::setQuarterPipShape),
                         WatchFaceState::isQuarterPipsVisible),
 
                 // Data for quarter pip length in settings Activity.
@@ -154,8 +145,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.PipSize.values(),
-                                WatchFaceState::setQuarterPipSize,
-                                WatchFaceState::getQuarterPipSize),
+                                WatchFaceState::setQuarterPipSize),
                         WatchFaceState::isQuarterPipsVisible),
 
                 // Data for quarter pip material in settings Activity.
@@ -166,8 +156,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.Material.values(),
-                                WatchFaceState::setQuarterPipMaterial,
-                                WatchFaceState::getQuarterPipMaterial),
+                                WatchFaceState::setQuarterPipMaterial),
                         WatchFaceState::isQuarterPipsVisible),
 
                 // Data for hour pip override in settings Activity.
@@ -186,8 +175,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.PipShape.values(),
-                                WatchFaceState::setHourPipShape,
-                                WatchFaceState::getHourPipShape),
+                                WatchFaceState::setHourPipShape),
                         WatchFaceState::isHourPipsOverridden),
 
                 // Data for hour pip length in settings Activity.
@@ -198,8 +186,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.PipSize.values(),
-                                WatchFaceState::setHourPipSize,
-                                WatchFaceState::getHourPipSize),
+                                WatchFaceState::setHourPipSize),
                         WatchFaceState::isHourPipsOverridden),
 
                 // Data for hour pip material in settings Activity.
@@ -210,8 +197,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.Material.values(),
-                                WatchFaceState::setHourPipMaterial,
-                                WatchFaceState::getHourPipMaterial),
+                                WatchFaceState::setHourPipMaterial),
                         WatchFaceState::isHourPipsOverridden),
 
                 // Data for minute pip override in settings Activity.
@@ -230,8 +216,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.PipShape.values(),
-                                WatchFaceState::setMinutePipShape,
-                                WatchFaceState::getMinutePipShape),
+                                WatchFaceState::setMinutePipShape),
                         WatchFaceState::isMinutePipsOverridden),
 
                 // Data for minute pip length in settings Activity.
@@ -242,8 +227,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.PipSize.values(),
-                                WatchFaceState::setMinutePipSize,
-                                WatchFaceState::getMinutePipSize),
+                                WatchFaceState::setMinutePipSize),
                         WatchFaceState::isMinutePipsOverridden),
 
                 // Data for minute pip material in settings Activity.
@@ -254,8 +238,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.Material.values(),
-                                WatchFaceState::setMinutePipMaterial,
-                                WatchFaceState::getMinutePipMaterial),
+                                WatchFaceState::setMinutePipMaterial),
                         WatchFaceState::isMinutePipsOverridden),
 
 //                // Data for background material in settings Activity.
@@ -266,8 +249,7 @@ public class WatchPartPipsConfigData extends ConfigData {
 //                        WatchFaceSelectionActivity.class,
 //                        new EnumMutator<>(
 //                                BytePackable.Material.values(),
-//                                WatchFaceState::setBackgroundMaterial,
-//                                WatchFaceState::getBackgroundMaterial)),
+//                                WatchFaceState::setBackgroundMaterial)),
 
                 // Help.
                 new LabelConfigItem(R.string.config_configure_help,
