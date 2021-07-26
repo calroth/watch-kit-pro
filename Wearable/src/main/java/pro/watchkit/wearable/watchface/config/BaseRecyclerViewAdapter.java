@@ -70,6 +70,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.concurrent.Executors;
 
@@ -859,18 +860,40 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         void bind(@NonNull ConfigData.PickerConfigItem configItem) {
             mConfigItem = configItem;
+            mConfigItem.setSharedPref(mSharedPref);
             mLaunchActivity = configItem.getActivityToChoosePreference();
             mFlags = configItem.getWatchFaceGlobalDrawableFlags();
 
             setTextAndVisibility();
         }
 
+        private final StringBuilder mExtra = new StringBuilder();
+
+        private CharSequence getButtonText() {
+            String name = itemView.getContext().getString(mConfigItem.getNameResourceId());
+            mExtra.setLength(0);
+            // Append mNameResourceId of current setting.
+            mExtra.append(name);
+
+            ConfigData.Permutation activePermutation = Arrays.stream(
+                    mConfigItem.getPermutations(mCurrentWatchFaceState, itemView.getContext()))
+                    .filter(s -> mCurrentWatchFaceState.equalsWatchFacePreset(s.getValue()))
+                    .findFirst().orElse(null);
+            if (activePermutation != null) {
+                mExtra.append("<br/><small>")
+                        .append(activePermutation.getName()).append("</small>");
+            } else {
+                mExtra.append("<br/><small>???</small>");
+            }
+
+            return Html.fromHtml(mExtra.toString(), Html.FROM_HTML_MODE_LEGACY);
+        }
+
         private void setTextAndVisibility() {
             if (mConfigItem == null) {
                 return;
             }
-            mButton.setText(mConfigItem.getName(
-                    mCurrentWatchFaceState, itemView.getContext()));
+            mButton.setText(getButtonText());
             Drawable left = itemView.getContext().getDrawable(mConfigItem.getIconResourceId());
             if (left != null) {
                 left.setTint(mButton.getCurrentTextColor());
@@ -911,34 +934,28 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         public void onClick(@NonNull View view) {
             if (mLaunchActivity != null) {
                 // Regenerate and grab our current permutations. Just in time!
-                String[] permutations = mConfigItem.permute(mCurrentWatchFaceState,
-                        itemView.getContext(), mSharedPref);
+                ConfigData.Permutation[] permutations = mConfigItem.getPermutations(
+                        mCurrentWatchFaceState, itemView.getContext());
 
-                if (permutations != null) {
-                    String[] extraNames = new String[permutations.length];
-                    String currentWatchFaceStateString = mCurrentWatchFaceState.getString();
-                    for (int i = 0; i < permutations.length; i++) {
-                        mCurrentWatchFaceState.setString(permutations[i]);
-                        extraNames[i] = mConfigItem.getExtraName(
-                                mCurrentWatchFaceState, itemView.getContext());
-                    }
-                    mCurrentWatchFaceState.setString(currentWatchFaceStateString);
+                String[] permutationValues = Arrays.stream(permutations)
+                        .map(ConfigData.Permutation::getValue).toArray(String[]::new);
+                String[] permutationNames = Arrays.stream(permutations)
+                        .map(ConfigData.Permutation::getName).toArray(String[]::new);
 
-                    Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
+                Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
 
-                    // Pass shared preference name to save color value to.
-                    launchIntent.putExtra(INTENT_EXTRA_STATES, permutations);
-                    launchIntent.putExtra(INTENT_EXTRA_FLAGS, mFlags);
-                    launchIntent.putExtra(INTENT_EXTRA_SLOT,
-                            mWatchFaceComponentName.getClassName());
-                    launchIntent.putExtra(INTENT_EXTRA_LABEL, mConfigItem.getNameResourceId());
-                    launchIntent.putExtra(INTENT_EXTRA_EXTRA_NAMES, extraNames);
+                // Pass shared preference name to save color value to.
+                launchIntent.putExtra(INTENT_EXTRA_STATES, permutationValues);
+                launchIntent.putExtra(INTENT_EXTRA_FLAGS, mFlags);
+                launchIntent.putExtra(INTENT_EXTRA_SLOT,
+                        mWatchFaceComponentName.getClassName());
+                launchIntent.putExtra(INTENT_EXTRA_LABEL, mConfigItem.getNameResourceId());
+                launchIntent.putExtra(INTENT_EXTRA_EXTRA_NAMES, permutationNames);
 
-                    Activity activity = (Activity) view.getContext();
-                    activity.startActivityForResult(
-                            launchIntent,
-                            ConfigActivity.UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE);
-                }
+                Activity activity = (Activity) view.getContext();
+                activity.startActivityForResult(
+                        launchIntent,
+                        ConfigActivity.UPDATED_CONFIG_REDRAW_PLEASE_REQUEST_CODE);
             }
         }
     }

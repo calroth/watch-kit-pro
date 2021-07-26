@@ -1,7 +1,6 @@
 package pro.watchkit.wearable.watchface.model;
 
 import android.content.Context;
-import android.text.Html;
 
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
@@ -78,7 +77,7 @@ abstract public class ConfigData {
      * Consists of its string value, i.e. its configuration as received
      * from WatchFaceState.getString(), and the name of the permutation.
      */
-    protected static class Permutation {
+    public static class Permutation {
         @NonNull
         private final String mValue, mName;
 
@@ -489,37 +488,9 @@ abstract public class ConfigData {
             mWatchFaceStateMutator = watchFaceStateMutator;
         }
 
-        private final StringBuilder mExtra = new StringBuilder();
-
         @StringRes
         public int getNameResourceId() {
             return mNameResourceId;
-        }
-
-        public CharSequence getName(
-                @NonNull WatchFaceState watchFaceState, @NonNull Context context) {
-            String name = context.getString(mNameResourceId);
-            mExtra.setLength(0);
-            // Append mNameResourceId of current setting.
-            mExtra.append(name).append("<br/><small>")
-                    .append(getExtraName(watchFaceState, context)).append("</small>");
-            return Html.fromHtml(mExtra.toString(), Html.FROM_HTML_MODE_LEGACY);
-        }
-
-        @NonNull
-        public String getExtraName(
-                @NonNull WatchFaceState watchFaceState, @NonNull Context context) {
-            WatchFaceState deepCopy = new WatchFaceState(context);
-            deepCopy.setString(watchFaceState.getString());
-            Permutation activePermutation = Arrays
-                    .stream(mWatchFaceStateMutator.getPermutations(deepCopy))
-                    .filter(s -> watchFaceState.equalsWatchFacePreset(s.getValue()))
-                    .findFirst().orElse(null);
-            if (activePermutation != null) {
-                return activePermutation.getName();
-            } else {
-                return "???";
-            }
         }
 
         public int getWatchFaceGlobalDrawableFlags() {
@@ -541,24 +512,25 @@ abstract public class ConfigData {
             return ConfigRecyclerViewAdapter.TYPE_PICKER_CONFIG;
         }
 
-        @NonNull
-        public String[] permute(@NonNull WatchFaceState watchFaceState, @NonNull Context context,
-                                @NonNull SharedPref sharedPref) {
+        public void setSharedPref(@NonNull SharedPref sharedPref) {
             if (mWatchFaceStateMutator instanceof MutatorWithPrefsAccess) {
                 MutatorWithPrefsAccess m = (MutatorWithPrefsAccess) mWatchFaceStateMutator;
                 m.setSharedPref(sharedPref);
             }
-            WatchFaceState deepCopy = new WatchFaceState(context);
-            deepCopy.setString(watchFaceState.getString());
-            return Arrays.stream(mWatchFaceStateMutator.getPermutations(deepCopy))
-                    .map(Permutation::getValue).toArray(String[]::new);
+        }
+
+        @NonNull
+        public Permutation[] getPermutations(
+                @NonNull WatchFaceState watchFaceState, @NonNull Context context) {
+            WatchFaceState clone = new WatchFaceState(context);
+            clone.setString(watchFaceState.getString());
+            return mWatchFaceStateMutator.getPermutations(clone);
         }
 
         public boolean isVisible(WatchFaceState watchFaceState) {
             return mConfigItemVisibilityCalculator.apply(watchFaceState);
         }
     }
-
     /**
      * Data for toggle config item in RecyclerView.
      */
