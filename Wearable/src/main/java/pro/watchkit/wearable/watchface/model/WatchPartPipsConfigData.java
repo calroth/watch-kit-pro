@@ -36,8 +36,8 @@ public class WatchPartPipsConfigData extends ConfigData {
                 WatchFaceGlobalDrawable.PART_SWATCH;
 
         return Arrays.asList(
-                // Title.
-                new LabelConfigItem(R.string.config_configure_pips),
+                // Heading.
+                new HeadingLabelConfigItem(R.string.config_configure_pips),
 
                 // A preview of the current watch face.
                 new WatchFaceDrawableConfigItem(watchFaceGlobalDrawableFlags),
@@ -252,8 +252,7 @@ public class WatchPartPipsConfigData extends ConfigData {
 //                                WatchFaceState::setBackgroundMaterial)),
 
                 // Help.
-                new LabelConfigItem(R.string.config_configure_help,
-                        R.string.config_configure_pips_help)
+                new HelpLabelConfigItem(R.string.config_configure_pips_help)
         );
     }
 }

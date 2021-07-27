@@ -461,12 +461,13 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             Resources r = itemView.getResources();
             mStringBuilder.setLength(0);
 
-            // Generate the title if any.
-            if (mConfigItem.getWithTitle()) {
+            // Generate the heading if any.
+            if (mConfigItem instanceof ConfigData.HeadingLabelConfigItem) {
                 mStringBuilder.append(r.getString(mTitleLabel)).append("<br>");
-            } else if (mConfigItem.getTitleResourceId() != -1) {
+            } else if (mConfigItem instanceof ConfigData.TitleLabelConfigItem) {
+                int t = ((ConfigData.TitleLabelConfigItem) mConfigItem).getTitleResourceId();
                 mStringBuilder.append("<b>")
-                        .append(r.getString(mConfigItem.getTitleResourceId()))
+                        .append(r.getString(t))
                         .append("</b> ");
             }
 
@@ -581,8 +582,11 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 return;
             }
             // If we spam clicks on the config git hash or date, enter developer mode.
-            if (mConfigItem.getTitleResourceId() == R.string.config_git_hash ||
-                    mConfigItem.getTitleResourceId() == R.string.config_git_date) {
+            if ((mConfigItem instanceof ConfigData.TitleLabelConfigItem) &&
+                    ((ConfigData.TitleLabelConfigItem) mConfigItem).getTitleResourceId() ==
+                            R.string.config_git_hash ||
+                    ((ConfigData.TitleLabelConfigItem) mConfigItem).getTitleResourceId() ==
+                            R.string.config_git_date) {
                 mDeveloperModeEntry--;
                 if (mDeveloperModeEntry > 0 && mDeveloperModeEntry < 5) {
                     Toaster.makeText(view.getContext(), "Entering developer mode in " +

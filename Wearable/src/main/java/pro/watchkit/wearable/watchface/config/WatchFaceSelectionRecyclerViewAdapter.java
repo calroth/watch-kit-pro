@@ -27,6 +27,7 @@ import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import pro.watchkit.wearable.watchface.R;
+import pro.watchkit.wearable.watchface.model.ConfigData.HeadingLabelConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.LabelConfigItem;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 
@@ -85,7 +86,7 @@ public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapt
         if (position == 0) {
             // The label.
             LabelViewHolder labelViewHolder = (LabelViewHolder) viewHolder;
-            LabelConfigItem labelConfigItem = new LabelConfigItem(mNameResourceId);
+            LabelConfigItem labelConfigItem = new HeadingLabelConfigItem(mNameResourceId);
             labelViewHolder.bind(labelConfigItem);
             return;
         }

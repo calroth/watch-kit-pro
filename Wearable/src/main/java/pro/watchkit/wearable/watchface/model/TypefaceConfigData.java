@@ -30,8 +30,8 @@ public class TypefaceConfigData extends ConfigData {
     @Override
     public List<ConfigItemType> getDataToPopulateAdapter() {
         return Arrays.asList(
-                // Title.
-                new LabelConfigItem(R.string.config_configure_typeface),
+                // Heading.
+                new HeadingLabelConfigItem(R.string.config_configure_typeface),
 
                 new TypefaceConfigItem(Typeface.SANS_THIN),
 
@@ -66,8 +66,7 @@ public class TypefaceConfigData extends ConfigData {
                 new TypefaceConfigItem(Typeface.PRODUCT_SANS_BOLD),
 
                 // Help.
-                new LabelConfigItem(R.string.config_configure_help,
-                        R.string.config_configure_typeface_help)
+                new HelpLabelConfigItem(R.string.config_configure_typeface_help)
         );
     }
 }

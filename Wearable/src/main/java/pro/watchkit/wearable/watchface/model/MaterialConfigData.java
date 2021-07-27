@@ -44,8 +44,8 @@ public abstract class MaterialConfigData extends ConfigData {
                 WatchFaceGlobalDrawable.PART_SWATCH;
 
         return Arrays.asList(
-                // Title.
-                new LabelConfigItem(getTitleResourceId()),
+                // Heading.
+                new HeadingLabelConfigItem(getTitleResourceId()),
 
                 // Data for primary color UX settings Activity.
                 new ColorPickerConfigItem(
@@ -106,8 +106,7 @@ public abstract class MaterialConfigData extends ConfigData {
 //                        w -> getMaterial() == w.getMinutePipMaterial()),
 
                 // Help.
-                new LabelConfigItem(R.string.config_configure_help,
-                        R.string.config_configure_material_help)
+                new HelpLabelConfigItem(R.string.config_configure_material_help)
         );
     }
 

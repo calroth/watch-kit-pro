@@ -35,8 +35,8 @@ public class WatchFacePresetConfigData extends ConfigData {
     @Override
     public List<ConfigItemType> getDataToPopulateAdapter() {
         return Arrays.asList(
-                // Title.
-                new LabelConfigItem(R.string.config_configure_watch_face_preset),
+                // Heading.
+                new HeadingLabelConfigItem(R.string.config_configure_watch_face_preset),
 
                 // A preview of the current watch face.
                 new WatchFaceDrawableConfigItem(WatchFaceGlobalDrawable.PART_BACKGROUND |
@@ -105,8 +105,7 @@ public class WatchFacePresetConfigData extends ConfigData {
                         }),
 
                 // Help.
-                new LabelConfigItem(R.string.config_configure_help,
-                        R.string.config_configure_watch_face_preset_help)
+                new HelpLabelConfigItem(R.string.config_configure_watch_face_preset_help)
         );
     }
 }

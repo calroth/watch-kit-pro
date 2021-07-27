@@ -40,8 +40,8 @@ public class ColorsMaterialsConfigData extends ConfigData {
                 WatchFaceGlobalDrawable.PART_HANDS;
 
         return Arrays.asList(
-                // Title.
-                new LabelConfigItem(R.string.config_configure_colors_materials),
+                // Heading.
+                new HeadingLabelConfigItem(R.string.config_configure_colors_materials),
 
                 // A preview of the current watch face.
                 new WatchFaceDrawableConfigItem(watchFaceGlobalDrawableFlags),
@@ -154,8 +154,7 @@ public class ColorsMaterialsConfigData extends ConfigData {
                         ConfigActivity.class),
 
                 // Help.
-                new LabelConfigItem(R.string.config_configure_help,
-                        R.string.config_configure_colors_materials_help)
+                new HelpLabelConfigItem(R.string.config_configure_colors_materials_help)
         );
     }
 }

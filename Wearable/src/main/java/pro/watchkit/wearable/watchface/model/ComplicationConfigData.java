@@ -38,8 +38,8 @@ public class ComplicationConfigData extends ConfigData {
                 WatchFaceGlobalDrawable.PART_SWATCH;
 
         return Arrays.asList(
-                // Title.
-                new LabelConfigItem(R.string.config_configure_complications),
+                // Heading.
+                new HeadingLabelConfigItem(R.string.config_configure_complications),
 
                 // Complication picker from watch face drawable.
                 new ComplicationConfigItem(R.drawable.add_complication),
@@ -105,8 +105,7 @@ public class ComplicationConfigData extends ConfigData {
                                 WatchFaceState::setComplicationBackgroundMaterial)),
 
                 // Help.
-                new LabelConfigItem(R.string.config_configure_help,
-                        R.string.config_configure_complications_help)
+                new HelpLabelConfigItem(R.string.config_configure_complications_help)
         );
     }
 }

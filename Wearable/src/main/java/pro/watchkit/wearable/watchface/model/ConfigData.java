@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
+import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
 import pro.watchkit.wearable.watchface.config.ConfigRecyclerViewAdapter;
@@ -163,55 +164,22 @@ abstract public class ConfigData {
         final private int mLabelResourceId;
         @Nullable
         final private Function<WatchFaceState, String> mLabelGenerator;
-        @StringRes
-        final private int mTitleResourceId;
-        final private boolean mWithTitle;
         @Nullable
         final private Function<WatchFaceState, Boolean> mConfigItemVisibilityCalculator;
 
-        public LabelConfigItem(@StringRes final int labelResourceId) {
-            this(-1, labelResourceId, null, true, null);
-        }
-
-//        LabelConfigItem(@StringRes final int labelResourceId,
-//                        @Nullable Function<WatchFaceState, Boolean> configItemVisibilityCalculator) {
-//            this(-1, labelResourceId, null, true, configItemVisibilityCalculator);
-//        }
-
-        LabelConfigItem(@StringRes final int titleResourceId,
-                        @StringRes final int labelResourceId) {
-            this(titleResourceId, labelResourceId, null, false, null);
-        }
-
-//        LabelConfigItem(@StringRes final int titleResourceId,
-//                        @NonNull Function<WatchFaceState, String> labelGenerator) {
-//            this(titleResourceId, -1, labelGenerator, false, null);
-//        }
-
-        LabelConfigItem(@StringRes final int titleResourceId,
-                        @StringRes final int labelResourceId,
+        LabelConfigItem(@StringRes final int labelResourceId,
                         @Nullable Function<WatchFaceState, Boolean>
                                 configItemVisibilityCalculator) {
-            this(titleResourceId, labelResourceId, null, titleResourceId != -1,
-                    configItemVisibilityCalculator);
+            this(labelResourceId, null, configItemVisibilityCalculator);
         }
 
-        private LabelConfigItem(@StringRes final int titleResourceId,
-                                @StringRes final int labelResourceId,
+        private LabelConfigItem(@StringRes final int labelResourceId,
                                 @Nullable final Function<WatchFaceState, String> labelGenerator,
-                                boolean withTitle,
                                 @Nullable Function<WatchFaceState, Boolean>
                                         configItemVisibilityCalculator) {
-            mTitleResourceId = titleResourceId;
             mLabelResourceId = labelResourceId;
             mLabelGenerator = labelGenerator;
-            mWithTitle = withTitle;
             mConfigItemVisibilityCalculator = configItemVisibilityCalculator;
-        }
-
-        @StringRes
-        public int getTitleResourceId() {
-            return mTitleResourceId;
         }
 
         @StringRes
@@ -224,10 +192,6 @@ abstract public class ConfigData {
             return mLabelGenerator;
         }
 
-        public boolean getWithTitle() {
-            return mWithTitle;
-        }
-
         @Override
         public int getConfigType() {
             return ConfigRecyclerViewAdapter.TYPE_LABEL_CONFIG;
@@ -236,6 +200,45 @@ abstract public class ConfigData {
         public boolean isVisible(WatchFaceState watchFaceState) {
             return mConfigItemVisibilityCalculator == null ||
                     mConfigItemVisibilityCalculator.apply(watchFaceState);
+        }
+    }
+
+    /**
+     * A LabelConfigItem that's designed for headers, at the top of the view. It just takes
+     * a label resource ID; the "header" part is implementation specific.
+     */
+    public static class HeadingLabelConfigItem extends LabelConfigItem {
+        public HeadingLabelConfigItem(@StringRes final int labelResourceId) {
+            super(labelResourceId, null, null);
+        }
+    }
+
+    /**
+     * A LabelConfigItem that's split into two parts: a title (perhaps in bold), followed
+     * by a label (perhaps on the same line). Any label that needs a title can use this.
+     */
+    public static class TitleLabelConfigItem extends LabelConfigItem {
+        public TitleLabelConfigItem(@StringRes final int titleResourceId,
+                                    @StringRes final int labelResourceId) {
+            super(labelResourceId, null, null);
+            mTitleResourceId = titleResourceId;
+        }
+
+        @StringRes
+        final private int mTitleResourceId;
+
+        @StringRes
+        public int getTitleResourceId() {
+            return mTitleResourceId;
+        }
+    }
+
+    /**
+     * A TitleLabelConfigItem where the title is always the Help title resource.
+     */
+    public static class HelpLabelConfigItem extends TitleLabelConfigItem {
+        public HelpLabelConfigItem(@StringRes final int labelResourceId) {
+            super(R.string.config_configure_help, labelResourceId);
         }
     }
 

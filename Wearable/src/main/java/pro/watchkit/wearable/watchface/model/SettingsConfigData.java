@@ -60,8 +60,8 @@ public class SettingsConfigData extends ConfigData {
         @StringRes int randomScriptureVerse =
                 scriptureVerses[new Random().nextInt(scriptureVerses.length)];
         return Arrays.asList(
-                // Title.
-                new LabelConfigItem(R.string.config_configure_settings),
+                // Heading.
+                new HeadingLabelConfigItem(R.string.config_configure_settings),
 
                 // Data for 'Unread Notifications' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
@@ -92,23 +92,22 @@ public class SettingsConfigData extends ConfigData {
                         ColorSelectionActivity.class),
 
                 // Help.
-                new LabelConfigItem(R.string.config_configure_help,
-                        R.string.config_configure_settings_help),
+                new HelpLabelConfigItem(R.string.config_configure_settings_help),
 
                 // About!
-                new LabelConfigItem(R.string.config_about_heading, R.string.version_name),
+                new TitleLabelConfigItem(R.string.config_about_heading, R.string.version_name),
 
                 // Credits!
-                new LabelConfigItem(R.string.config_credits_1, R.string.config_credits_2),
+                new TitleLabelConfigItem(R.string.config_credits_1, R.string.config_credits_2),
 
                 // Australia Represent
-                new LabelConfigItem(R.string.config_country_1, R.string.config_country_2),
+                new TitleLabelConfigItem(R.string.config_country_1, R.string.config_country_2),
 
                 // Git hash.
-                new LabelConfigItem(R.string.config_git_hash, R.string.git_hash),
+                new TitleLabelConfigItem(R.string.config_git_hash, R.string.git_hash),
 
                 // Git date.
-                new LabelConfigItem(R.string.config_git_date, R.string.git_date),
+                new TitleLabelConfigItem(R.string.config_git_date, R.string.git_date),
 
                 // Data for 'Developer Mode' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
@@ -167,8 +166,7 @@ public class SettingsConfigData extends ConfigData {
                         WatchFaceState::isDeveloperMode),
 
                 // Generate icon files.
-                new LabelConfigItem(-1,
-                        R.string.config_generate_icon_files,
+                new LabelConfigItem(R.string.config_generate_icon_files,
                         watchFaceState -> BuildConfig.DEBUG && watchFaceState.isDeveloperMode()),
 
                 new PickerConfigItem(
@@ -208,7 +206,7 @@ public class SettingsConfigData extends ConfigData {
                         WatchFaceState::isDeveloperMode),
 
                 // Scripture.
-                new LabelConfigItem(R.string.config_scripture_0, randomScriptureVerse)
+                new TitleLabelConfigItem(R.string.config_scripture_0, randomScriptureVerse)
         );
     }
 }
