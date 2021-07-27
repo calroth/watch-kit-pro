@@ -104,6 +104,7 @@
     <string name="config_configure_colors_materials">Configure Colors and Materials</string>
     <string name="config_configure_colors_materials_palette">Palette</string>
     <string name="config_configure_material">Configure Material</string>
+    <string name="config_configure_material_subtitle">is used for the following elements:</string>
     <string name="config_configure_hands">Configure Hands</string>
     <string name="config_configure_pips">Configure Pips</string>
     <string name="config_configure_typeface">Configure Typeface</string>
@@ -180,7 +181,7 @@
         one &lt;i&gt;texture&lt;/i&gt;.&lt;br /&gt;
         &lt;br /&gt;
         Each element of the watch face has a material, which determines what it looks
-        like. A list of elements which use this material is listed above.&lt;br /&gt;
+        like. The elements which use this material are listed above.&lt;br /&gt;
         &lt;br /&gt;
         Note that the colors are shared among all four materials, so changing them here will
         affect the watch face elsewhere.&lt;br /&gt;</string>

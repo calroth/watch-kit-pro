@@ -37,7 +37,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
@@ -2403,46 +2402,4 @@ public class WatchFaceState {
         return result;
     }
     // endregion
-
-    @NonNull
-    List<String> getConfigItemLabelsSetToMaterial(@Nullable Material material) {
-        List<String> result = new ArrayList<>();
-        if (getComplicationRingMaterial() == material) {
-            result.add(getStringResource(R.string.config_complication_ring_material));
-        }
-        if (getComplicationBackgroundMaterial() == material) {
-            result.add(getStringResource(R.string.config_complication_background_material));
-        }
-        if (Material.ACCENT_FILL == material) {
-            result.add(getStringResource(R.string.config_preset_bezel_material));
-        }
-        if (Material.BASE_ACCENT == material) {
-            result.add(getStringResource(R.string.config_preset_background_material));
-        }
-        if (getHourHandMaterial() == material) {
-            result.add(getStringResource(R.string.config_preset_hour_hand_material));
-        }
-        if (getMinuteHandMaterial() == material) {
-            result.add(getStringResource(R.string.config_preset_minute_hand_material));
-        }
-        if (getComplicationBackgroundMaterial() == material) {
-            result.add(getStringResource(R.string.config_preset_second_hand_material));
-        }
-        if (getPipBackgroundMaterial() == material) {
-            result.add(getStringResource(R.string.config_preset_pip_background_material));
-        }
-        if (getDigitMaterial() == material) {
-            result.add(getStringResource(R.string.config_preset_digit_material));
-        }
-        if (getQuarterPipMaterial() == material) {
-            result.add(getStringResource(R.string.config_preset_quarter_pip_material));
-        }
-        if (getHourPipMaterial() == material) {
-            result.add(getStringResource(R.string.config_preset_hour_pip_material));
-        }
-        if (getMinutePipMaterial() == material) {
-            result.add(getStringResource(R.string.config_preset_minute_pip_material));
-        }
-        return result;
-    }
 }

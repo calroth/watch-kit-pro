@@ -23,7 +23,6 @@ import androidx.annotation.StringRes;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Function;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
@@ -81,29 +80,31 @@ public abstract class MaterialConfigData extends ConfigData {
                                 BytePackable.MaterialTexture.values(),
                                 getMaterialTextureSetter())),
 
-//                // What it's used for.
-//                new LabelConfigItem(R.string.config_complication_ring_material,
-//                        w -> getMaterial() == w.getComplicationRingMaterial()),
-//                new LabelConfigItem(R.string.config_complication_background_material,
-//                        w -> getMaterial() == w.getComplicationBackgroundMaterial()),
-//                new LabelConfigItem(R.string.config_preset_bezel_material,
-//                        w -> getMaterial() == Material.ACCENT_FILL),
-//                new LabelConfigItem(R.string.config_preset_background_material,
-//                        w -> getMaterial() == Material.BASE_ACCENT),
-//                new LabelConfigItem(R.string.config_preset_hour_hand_material,
-//                        w -> getMaterial() == w.getHourHandMaterial()),
-//                new LabelConfigItem(R.string.config_preset_minute_hand_material,
-//                        w -> getMaterial() == w.getMinuteHandMaterial()),
-//                new LabelConfigItem(R.string.config_preset_pip_background_material,
-//                        w -> getMaterial() == w.getPipBackgroundMaterial()),
-//                new LabelConfigItem(R.string.config_preset_digit_material,
-//                        w -> getMaterial() == w.getDigitMaterial()),
-//                new LabelConfigItem(R.string.config_preset_quarter_pip_material,
-//                        w -> getMaterial() == w.getQuarterPipMaterial()),
-//                new LabelConfigItem(R.string.config_preset_hour_pip_material,
-//                        w -> getMaterial() == w.getHourPipMaterial()),
-//                new LabelConfigItem(R.string.config_preset_minute_pip_material,
-//                        w -> getMaterial() == w.getMinutePipMaterial()),
+                // What it's used for.
+                new TitleLabelConfigItem(getTitleResourceId(),
+                        R.string.config_configure_material_subtitle),
+                new LabelConfigItem(R.string.config_complication_ring_material,
+                        w -> getMaterial() == w.getComplicationRingMaterial()),
+                new LabelConfigItem(R.string.config_complication_background_material,
+                        w -> getMaterial() == w.getComplicationBackgroundMaterial()),
+                new LabelConfigItem(R.string.config_preset_bezel_material,
+                        w -> getMaterial() == Material.ACCENT_FILL),
+                new LabelConfigItem(R.string.config_preset_background_material,
+                        w -> getMaterial() == Material.BASE_ACCENT),
+                new LabelConfigItem(R.string.config_preset_hour_hand_material,
+                        w -> getMaterial() == w.getHourHandMaterial()),
+                new LabelConfigItem(R.string.config_preset_minute_hand_material,
+                        w -> getMaterial() == w.getMinuteHandMaterial()),
+                new LabelConfigItem(R.string.config_preset_pip_background_material,
+                        w -> getMaterial() == w.getPipBackgroundMaterial()),
+                new LabelConfigItem(R.string.config_preset_digit_material,
+                        w -> getMaterial() == w.getDigitMaterial()),
+                new LabelConfigItem(R.string.config_preset_quarter_pip_material,
+                        w -> getMaterial() == w.getQuarterPipMaterial()),
+                new LabelConfigItem(R.string.config_preset_hour_pip_material,
+                        w -> getMaterial() == w.getHourPipMaterial()),
+                new LabelConfigItem(R.string.config_preset_minute_pip_material,
+                        w -> getMaterial() == w.getMinutePipMaterial()),
 
                 // Help.
                 new HelpLabelConfigItem(R.string.config_configure_material_help)
@@ -175,14 +176,6 @@ public abstract class MaterialConfigData extends ConfigData {
     abstract BiConsumer<WatchFaceState, BytePackable.MaterialGradient> getMaterialGradientSetter();
 
     /**
-     * The function which does the getting of the material gradient
-     *
-     * @return a lambda which gets the MaterialGradient of the given WatchFaceState
-     */
-    @NonNull
-    abstract Function<WatchFaceState, BytePackable.MaterialGradient> getMaterialGradientGetter();
-
-    /**
      * The ResourceId for the material texture name's string.
      *
      * @return ResourceId for the material texture name's string
@@ -197,14 +190,6 @@ public abstract class MaterialConfigData extends ConfigData {
      */
     @NonNull
     abstract BiConsumer<WatchFaceState, BytePackable.MaterialTexture> getMaterialTextureSetter();
-
-    /**
-     * The function which does the getting of the material texture
-     *
-     * @return a lambda which gets the MaterialTexture of the given WatchFaceState
-     */
-    @NonNull
-    abstract Function<WatchFaceState, BytePackable.MaterialTexture> getMaterialTextureGetter();
 
     public static final class FillHighlight extends MaterialConfigData {
         @NonNull
@@ -251,12 +236,6 @@ public abstract class MaterialConfigData extends ConfigData {
             return WatchFaceState::setFillHighlightMaterialGradient;
         }
 
-        @NonNull
-        @Override
-        Function<WatchFaceState, BytePackable.MaterialGradient> getMaterialGradientGetter() {
-            return WatchFaceState::getFillHighlightMaterialGradient;
-        }
-
         @Override
         int getMaterialTextureNameResourceId() {
             return R.string.config_preset_fill_highlight_material_texture;
@@ -266,12 +245,6 @@ public abstract class MaterialConfigData extends ConfigData {
         @Override
         BiConsumer<WatchFaceState, BytePackable.MaterialTexture> getMaterialTextureSetter() {
             return WatchFaceState::setFillHighlightMaterialTexture;
-        }
-
-        @NonNull
-        @Override
-        Function<WatchFaceState, BytePackable.MaterialTexture> getMaterialTextureGetter() {
-            return WatchFaceState::getFillHighlightMaterialTexture;
         }
     }
 
@@ -320,12 +293,6 @@ public abstract class MaterialConfigData extends ConfigData {
             return WatchFaceState::setAccentFillMaterialGradient;
         }
 
-        @NonNull
-        @Override
-        Function<WatchFaceState, BytePackable.MaterialGradient> getMaterialGradientGetter() {
-            return WatchFaceState::getAccentFillMaterialGradient;
-        }
-
         @Override
         int getMaterialTextureNameResourceId() {
             return R.string.config_preset_accent_fill_material_texture;
@@ -335,12 +302,6 @@ public abstract class MaterialConfigData extends ConfigData {
         @Override
         BiConsumer<WatchFaceState, BytePackable.MaterialTexture> getMaterialTextureSetter() {
             return WatchFaceState::setAccentFillMaterialTexture;
-        }
-
-        @NonNull
-        @Override
-        Function<WatchFaceState, BytePackable.MaterialTexture> getMaterialTextureGetter() {
-            return WatchFaceState::getAccentFillMaterialTexture;
         }
     }
 
@@ -389,12 +350,6 @@ public abstract class MaterialConfigData extends ConfigData {
             return WatchFaceState::setAccentHighlightMaterialGradient;
         }
 
-        @NonNull
-        @Override
-        Function<WatchFaceState, BytePackable.MaterialGradient> getMaterialGradientGetter() {
-            return WatchFaceState::getAccentHighlightMaterialGradient;
-        }
-
         @Override
         int getMaterialTextureNameResourceId() {
             return R.string.config_preset_accent_highlight_material_texture;
@@ -404,12 +359,6 @@ public abstract class MaterialConfigData extends ConfigData {
         @Override
         BiConsumer<WatchFaceState, BytePackable.MaterialTexture> getMaterialTextureSetter() {
             return WatchFaceState::setAccentHighlightMaterialTexture;
-        }
-
-        @NonNull
-        @Override
-        Function<WatchFaceState, BytePackable.MaterialTexture> getMaterialTextureGetter() {
-            return WatchFaceState::getAccentHighlightMaterialTexture;
         }
     }
 
@@ -458,12 +407,6 @@ public abstract class MaterialConfigData extends ConfigData {
             return WatchFaceState::setBaseAccentMaterialGradient;
         }
 
-        @NonNull
-        @Override
-        Function<WatchFaceState, BytePackable.MaterialGradient> getMaterialGradientGetter() {
-            return WatchFaceState::getBaseAccentMaterialGradient;
-        }
-
         @Override
         int getMaterialTextureNameResourceId() {
             return R.string.config_preset_base_accent_material_texture;
@@ -473,12 +416,6 @@ public abstract class MaterialConfigData extends ConfigData {
         @Override
         BiConsumer<WatchFaceState, BytePackable.MaterialTexture> getMaterialTextureSetter() {
             return WatchFaceState::setBaseAccentMaterialTexture;
-        }
-
-        @NonNull
-        @Override
-        Function<WatchFaceState, BytePackable.MaterialTexture> getMaterialTextureGetter() {
-            return WatchFaceState::getBaseAccentMaterialTexture;
         }
     }
 }
