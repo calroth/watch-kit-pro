@@ -792,7 +792,7 @@ public final class PaintBox {
                     mContext.getResources().getIntArray(R.array.palette_colors);
 
             // Loop through each default palette name and value.
-            // Add original named palettes first, before we add any permutations.
+            // Add original named palettes first, before we add any variants.
             for (int i = 0; i < paletteNames.length; i++) {
                 mOriginalPalettes.putIfAbsent(paletteColors[i], paletteNames[i]);
             }
@@ -817,21 +817,21 @@ public final class PaintBox {
                     mContext.getResources().getIntArray(R.array.palette_colors);
 
             // Loop through each default palette name and value.
-            // Add original named palettes first, before we add any permutations.
+            // Add original named palettes first, before we add any variants.
             for (int i = 0; i < paletteNames.length; i++) {
                 mPalettes.putIfAbsent(paletteColors[i], paletteNames[i]);
             }
 
             // Loop through each default palette name and value.
-            // Add all permutations.
+            // Add all variants.
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < paletteNames.length; i++) {
-                // Generate heaps of permutations.
-                int[] p = getPalettePermutations(paletteColors[i]);
+                // Generate heaps of variants.
+                int[] p = getPaletteVariants(paletteColors[i]);
                 for (int j = 1; j < p.length; j++) {
-                    // We start j at 1, as 0 is the unmodified permutation (already added).
+                    // We start j at 1, as 0 is the unmodified variant (already added).
                     sb.setLength(0); // Clear the StringBuilder
-                    // Generate the palette name plus permutations if applicable.
+                    // Generate the palette name plus variant if applicable.
                     sb.append(paletteNames[i]);
                     // Append variant name.
                     sb.append(" (variant ").append(mPaletteVariants[j]).append(')');
@@ -854,25 +854,31 @@ public final class PaintBox {
         }
     }
 
+    @NonNull
+    int[] getPaletteVariants() {
+        return getPaletteVariants(combinePalette(
+                mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor));
+    }
+
     /**
      * Given a palette value, return an array with it and the 23 other possible
-     * permutations of this palette
+     * variants of this palette
      *
-     * @param palette Palette to permute
-     * @return Array of 24 palettes which are permutations of the input
+     * @param palette Palette to vary
+     * @return Array of 24 palettes which are variants of the input
      */
     @NonNull
-    private static int[] getPalettePermutations(int palette) {
+    private static int[] getPaletteVariants(int palette) {
         // Separate "palette" into our 4 six-bit colours.
         int a = (palette >> 18) & 63;
         int b = (palette >> 12) & 63;
         int c = (palette >> 6) & 63;
         int d = palette & 63;
 
-        // The permutations below have a very particular order
-        // Each permutation swaps the position of two values from the permutation above,
+        // The variants below have a very particular order
+        // Each variants swaps the position of two values from the variants above,
         // leaving two values unchanged.
-        // And, every every second permutation is a swap of 1&2, leaving 3&4 unchanged.
+        // And, every every second variants is a swap of 1&2, leaving 3&4 unchanged.
         // That's important because 3&4 are the background, so the background won't change.
 
         return new int[]{

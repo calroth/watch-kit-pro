@@ -97,6 +97,32 @@ public class ColorsMaterialsConfigData extends ConfigData {
                             }
                         }),
 
+                // Choose a new palette variant?
+                new PickerConfigItem(
+                        R.string.config_configure_colors_materials_variant,
+                        R.drawable.ic_settings,
+                        WatchFaceGlobalDrawable.PART_BACKGROUND |
+                                WatchFaceGlobalDrawable.PART_PIPS |
+                                WatchFaceGlobalDrawable.PART_HANDS |
+                                WatchFaceGlobalDrawable.PART_RINGS_ALL,
+                        WatchFaceSelectionActivity.class,
+                        w -> Arrays.stream(
+                                // Return an array with each permutation of color palette.
+                                // Iterate over "originalPalettes". Each key is a palette.
+                                // So for each key, mutate our WatchFaceState and get its string.
+                                w.getPaintBox().getPaletteVariants()).mapToObj(palette -> {
+                            w.setSixBitColor(
+                                    PaintBox.ColorType.FILL, (palette >> 18) & 63);
+                            w.setSixBitColor(
+                                    PaintBox.ColorType.ACCENT, (palette >> 12) & 63);
+                            w.setSixBitColor(
+                                    PaintBox.ColorType.HIGHLIGHT, (palette >> 6) & 63);
+                            w.setSixBitColor(
+                                    PaintBox.ColorType.BASE, palette & 63);
+
+                            return new Permutation(w.getString(), w.getPaletteName());
+                        }).toArray(Permutation[]::new)),
+
                 // Data for fill color UX in settings Activity.
                 new ColorPickerConfigItem(
                         R.string.config_fill_color_label,
