@@ -335,8 +335,15 @@ public class WatchFaceState {
     private void recalculateComplicationBounds(@NonNull Rect bounds) {
         int width = bounds.width(), height = bounds.height();
         int currentBoundsSerial = Objects.hash(width, height, mSettings);
-        if (width == 0 || height == 0 || mPreviousBoundsSerial == currentBoundsSerial) {
-            return;
+
+        // Count how many complications have null bounds.
+        // If any, we definitely want to recalculate them, so no early leaving this function.
+        long complicationsWithNullBounds =
+                mComplications.stream().filter(c -> c.getBounds() == null).count();
+        if (complicationsWithNullBounds == 0) {
+            if (width == 0 || height == 0 || mPreviousBoundsSerial == currentBoundsSerial) {
+                return;
+            }
         }
 
         // Only take this code path if something has changed.
@@ -935,9 +942,9 @@ public class WatchFaceState {
         return mSettings.mDrawShadows;
     }
 
-    public void setTransparentBackground(boolean transparentBackground) {
-        mSettings.mTransparentBackground = transparentBackground;
-    }
+//    public void setTransparentBackground(boolean transparentBackground) {
+//        mSettings.mTransparentBackground = transparentBackground;
+//    }
 
     public boolean isTransparentBackground() {
         return mSettings.mTransparentBackground;
