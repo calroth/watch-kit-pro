@@ -34,6 +34,8 @@
 
 package pro.watchkit.wearable.watchface.config;
 
+import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_SLOT;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -64,8 +66,6 @@ import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.util.SharedPref;
 import pro.watchkit.wearable.watchface.util.Toaster;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
-
-import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_SLOT;
 
 /**
  * Allows user to select color for something on the watch face (background, highlight,etc.) and
@@ -285,7 +285,7 @@ public class ColorSelectionActivity extends Activity {
                 for (int i = 0; i < mRows.length; i++) {
                     cx += spanRoot3;
                     // 0 for even cols, vertical offset for odd
-                    float cy = (i % 2 == 0) ? span * 0.5f : span * 1.0f;
+                    float cy = (i % 2 == 0) ? span * 0.5f : span /* * 1.0f */;
                     for (int j = 0; j < mRows[i].length; j++) {
                         RectF r = new RectF(cx - (1.5f * spanRoot3 / 2f),
                                 cy - (span / 2f),
