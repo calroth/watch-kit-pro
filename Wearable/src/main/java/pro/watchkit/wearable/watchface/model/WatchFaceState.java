@@ -1959,6 +1959,12 @@ public class WatchFaceState {
 //        }
 //    }
 
+    /**
+     * Set the given color from our 6-bit (64-color) palette.
+     *
+     * @param colorType   ColorType to set: fill, accent, highlight etc.
+     * @param sixBitColor Color to set
+     */
     public void setSixBitColor(@NonNull ColorType colorType, @ColorInt int sixBitColor) {
         switch (colorType) {
             case FILL: {
@@ -1989,6 +1995,20 @@ public class WatchFaceState {
                 break;
             }
         }
+    }
+
+    /**
+     * Set the current palette of fill, accent, highlight, and base six-bit colors. Requires a
+     * packed palette 24-bit int.
+     *
+     * @param palette Palette of colors, packed into a 24-bit int.
+     */
+    public void setPalette(int palette) {
+        // Separate "palette" into our 4 six-bit colours.
+        setFillSixBitColor((palette >> 18) & 63);
+        setAccentSixBitColor((palette >> 12) & 63);
+        setHighlightSixBitColor((palette >> 6) & 63);
+        setBaseSixBitColor(palette & 63);
     }
     // endregion
 

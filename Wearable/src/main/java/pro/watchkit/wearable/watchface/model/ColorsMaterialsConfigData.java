@@ -69,16 +69,8 @@ public class ColorsMaterialsConfigData extends ConfigData {
                             // So for each key, mutate our WatchFaceState and get its string.
                             Stream<Permutation> s = w.getPaintBox().getOriginalPalettes()
                                     .entrySet().stream().map(entry -> {
-                                        int palette = entry.getKey();
-                                        // Separate "palette" into our 4 six-bit colours.
-                                        w.setSixBitColor(
-                                                PaintBox.ColorType.FILL, (palette >> 18) & 63);
-                                        w.setSixBitColor(
-                                                PaintBox.ColorType.ACCENT, (palette >> 12) & 63);
-                                        w.setSixBitColor(
-                                                PaintBox.ColorType.HIGHLIGHT, (palette >> 6) & 63);
-                                        w.setSixBitColor(
-                                                PaintBox.ColorType.BASE, palette & 63);
+                                        // Set the palette with this entry.
+                                        w.setPalette(entry.getKey());
                                         // Mark "found" if this palette is our current palette.
                                         if (w.equalsWatchFacePreset(originalName)) {
                                             found.set(true);
@@ -110,18 +102,14 @@ public class ColorsMaterialsConfigData extends ConfigData {
                                 // Return an array with each permutation of color palette.
                                 // Iterate over "originalPalettes". Each key is a palette.
                                 // So for each key, mutate our WatchFaceState and get its string.
-                                w.getPaintBox().getPaletteVariants()).mapToObj(palette -> {
-                            w.setSixBitColor(
-                                    PaintBox.ColorType.FILL, (palette >> 18) & 63);
-                            w.setSixBitColor(
-                                    PaintBox.ColorType.ACCENT, (palette >> 12) & 63);
-                            w.setSixBitColor(
-                                    PaintBox.ColorType.HIGHLIGHT, (palette >> 6) & 63);
-                            w.setSixBitColor(
-                                    PaintBox.ColorType.BASE, palette & 63);
+                                w.getPaintBox().getPaletteVariants()).mapToObj(
+                                palette -> {
+                                    // Set the palette with this entry.
+                                    w.setPalette(palette);
 
-                            return new Permutation(w.getString(), w.getPaletteName());
-                        }).toArray(Permutation[]::new)),
+                                    return new Permutation(
+                                            w.getString(), w.getPaletteName());
+                                }).toArray(Permutation[]::new)),
 
                 // Data for fill color UX in settings Activity.
                 new ColorPickerConfigItem(
