@@ -17,12 +17,13 @@
 
 package pro.watchkit.wearable.watchface.model;
 
+import static java.util.stream.Collectors.toList;
+
 import androidx.annotation.NonNull;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Stream;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
@@ -67,26 +68,23 @@ public class ColorsMaterialsConfigData extends ConfigData {
                             // Return an array with each permutation of color palette.
                             // Iterate over "originalPalettes". Each key is a palette.
                             // So for each key, mutate our WatchFaceState and get its string.
-                            Stream<Permutation> s = w.getPaintBox().getOriginalPalettes()
+                            List<Permutation> s = w.getPaintBox().getOriginalPalettes()
                                     .entrySet().stream().map(entry -> {
                                         // Set the palette with this entry.
                                         w.setPalette(entry.getKey());
                                         // Mark "found" if this palette is our current palette.
-                                        if (w.equalsWatchFacePreset(originalName)) {
+                                        if (w.equalsWatchFacePreset(originalString)) {
                                             found.set(true);
                                         }
                                         return new Permutation(w.getString(), entry.getValue());
-                                    });
+                                    }).collect(toList());
 
-                            if (found.get()) {
-                                // Found. Return as-is.
-                                return s.toArray(Permutation[]::new);
-                            } else {
-                                // Not found. Prepend the current Permutation settings.
-                                return Stream.concat(Stream.of(
-                                        new Permutation(originalString, originalName)), s)
-                                        .toArray(Permutation[]::new);
+                            if (!found.get()) {
+                                // Our current palette isn't in the list. Put it at the top.
+                                s.add(0, new Permutation(originalString, originalName));
                             }
+
+                            return s.toArray(new Permutation[0]);
                         }),
 
                 // Choose a new palette variant?
