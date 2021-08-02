@@ -639,23 +639,31 @@
     <integer-array name="palette_colors">
         <item>0x6c5e01</item>
         <item>0xf41595</item>
+        <item>0x43faab</item>
         <item>0x813e00</item>
         <item>0x02aa55</item>
+        <item>0x458944</item>
         <item>0xf84e00</item>
         <item>0x0e216e</item>
+        <item>0xe44711</item>
         <item>0x993fca</item>
-        <item>0x329fcb</item>
+        <item>0x129fcb</item>
+        <item>0x414e40</item>
     </integer-array>
 
     <string-array name="palette_names">
         <item>Pacific Sunset</item>
         <item>Via Dolce</item>
+        <item>Lavender Rose</item>
         <item>Amethyst Amber</item>
         <item>Palladium</item>
+        <item>Guava</item>
         <item>Country Club</item>
         <item>Bougainvillea</item>
+        <item>Venus Flytrap</item>
         <item>Orchid Sky</item>
-        <item>Biosphere</item>
+        <item>Mutagen</item>
+        <item>Medallion</item>
     </string-array>
 
     <integer-array name="six_bit_colors">
