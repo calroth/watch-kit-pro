@@ -146,10 +146,17 @@ public final class ComplicationHolder {
             // Set the default to black, in case the user-defined image takes a while to load.
             mComplicationDrawable.setBackgroundColorActive(Color.BLACK);
         } else {
-            // Generate a faded ambient color that is exactly the same as "ambientColor"
+            // Generate a faded active color that is exactly the same as "activeColor"
             // only the alpha is 2/3 the value.
             @ColorInt int fadedActiveColor = Color.argb(
-                    (int) (Color.alpha(activeColor) * 0.66666666666667f),
+                    (int) ((double) Color.alpha(activeColor) * 2d / 3d),
+                    Color.red(activeColor),
+                    Color.green(activeColor),
+                    Color.blue(activeColor));
+
+            // And a super faded active color that's 1/3 the value.
+            @ColorInt int superFadedActiveColor = Color.argb(
+                    (int) ((double) Color.alpha(activeColor) / 3d),
                     Color.red(activeColor),
                     Color.green(activeColor),
                     Color.blue(activeColor));
@@ -160,13 +167,14 @@ public final class ComplicationHolder {
             mComplicationDrawable.setTitleColorActive(fadedActiveColor);
             mComplicationDrawable.setIconColorActive(fadedActiveColor);
             mComplicationDrawable.setRangedValuePrimaryColorActive(activeColor);
+            mComplicationDrawable.setRangedValueSecondaryColorActive(superFadedActiveColor);
             mComplicationDrawable.setTextTypefaceActive(typeface);
             mComplicationDrawable.setTitleTypefaceActive(typeface);
 
             // Generate a faded ambient color that is exactly the same as "ambientColor"
             // only the alpha is 2/3 the value.
             @ColorInt int fadedAmbientColor = Color.argb(
-                    (int) (Color.alpha(ambientColor) * 0.66666666666667f),
+                    (int) ((double) Color.alpha(ambientColor) * 2d / 3d),
                     Color.red(ambientColor),
                     Color.green(ambientColor),
                     Color.blue(ambientColor));
