@@ -437,10 +437,11 @@ abstract class WatchPartDrawable extends Drawable {
         mResetExclusionAmbientPath.addPath(p5);
 
         // For active, set an exclusion path of just the entire watchface.
-        // Will need to revisit when we start supporting square devices.
+        // Set it as a rect that's 1% bigger than the screen on all sides.
+        // This should cater for rectangular and circular screens alike.
 
         mResetExclusionActivePath.reset();
-        mResetExclusionActivePath.addCircle(mCenterX, mCenterY, pc * 50f, getDirection());
+        mResetExclusionActivePath.addRect(-pc, -pc, width + pc, height + pc, getDirection());
 
         // Reset "mInnerGlowPath" to our bounds, outset by 10%.
         mInnerGlowPath.reset();
