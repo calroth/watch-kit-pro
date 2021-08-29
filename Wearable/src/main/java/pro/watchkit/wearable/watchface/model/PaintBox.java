@@ -384,10 +384,7 @@ public final class PaintBox {
             double[] colorA2 = convertSRGBToLUV(colorA);
             double[] colorB2 = convertSRGBToLUV(colorB);
 
-            return Math.sqrt(Math.pow(colorA2[0] - colorB2[0], 2) +
-                    Math.pow(colorA2[1] - colorB2[1], 2) +
-                    Math.pow(colorA2[2] - colorB2[2], 2) +
-                    Math.pow(colorA2[3] - colorB2[3], 2));
+            return Math.abs(colorA2[1] - colorB2[1]); // Distance in lightness.
         } else if (Build.VERSION.SDK_INT >= 26) {
             // The "long colors" feature is only available in SDK 26 onwards!
             ColorSpace CIE_LAB = ColorSpace.get(ColorSpace.Named.CIE_LAB);
@@ -396,11 +393,9 @@ public final class PaintBox {
             long colorAL = Color.convert(colorA, CIE_LAB);
             long colorBL = Color.convert(colorB, CIE_LAB);
 
-            return Math.sqrt(Math.pow(Color.alpha(colorAL) - Color.alpha(colorBL), 2) +
-                    Math.pow(Color.red(colorAL) - Color.red(colorBL), 2) +
-                    Math.pow(Color.green(colorAL) - Color.green(colorBL), 2) +
-                    Math.pow(Color.blue(colorAL) - Color.blue(colorBL), 2));
+            return Math.abs(Color.red(colorAL) - Color.red(colorBL)); // Distance in lightness.
         } else {
+            // Don't bother calculating lightness here, just use general distance.
             return Math.sqrt(Math.pow(Color.alpha(colorA) - Color.alpha(colorB), 2) +
                     Math.pow(Color.red(colorA) - Color.red(colorB), 2) +
                     Math.pow(Color.green(colorA) - Color.green(colorB), 2) +
