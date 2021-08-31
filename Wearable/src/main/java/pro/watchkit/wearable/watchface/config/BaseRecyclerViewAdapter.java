@@ -34,6 +34,17 @@
 
 package pro.watchkit.wearable.watchface.config;
 
+import static android.support.wearable.complications.ComplicationData.TYPE_NOT_CONFIGURED;
+import static android.support.wearable.complications.ComplicationData.TYPE_SHORT_TEXT;
+import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
+import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR_LABEL;
+import static pro.watchkit.wearable.watchface.config.ConfigActivity.CONFIG_DATA;
+import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_EXTRA_NAMES;
+import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_FLAGS;
+import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_LABEL;
+import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_SLOT;
+import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_STATES;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
@@ -83,17 +94,6 @@ import pro.watchkit.wearable.watchface.util.SharedPref;
 import pro.watchkit.wearable.watchface.util.Toaster;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
-
-import static android.support.wearable.complications.ComplicationData.TYPE_NOT_CONFIGURED;
-import static android.support.wearable.complications.ComplicationData.TYPE_SHORT_TEXT;
-import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR;
-import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR_LABEL;
-import static pro.watchkit.wearable.watchface.config.ConfigActivity.CONFIG_DATA;
-import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_EXTRA_NAMES;
-import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_FLAGS;
-import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_LABEL;
-import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_SLOT;
-import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_STATES;
 
 abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     /**
@@ -275,7 +275,9 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         void setPreset(@Nullable String watchFaceStateString) {
             if (mWatchFaceGlobalDrawable == null) {
                 mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(
-                        mImageView.getContext(), mWatchFaceGlobalDrawableFlags);
+                        mImageView.getContext(),
+                        // Always set PART_CLIP for this ImageView.
+                        mWatchFaceGlobalDrawableFlags | WatchFaceGlobalDrawable.PART_CLIP);
                 mImageView.setImageDrawable(mWatchFaceGlobalDrawable);
                 // Set layer type to hardware. We promise not to update this any more,
                 // so now Android can render this to a texture and leave it there.
@@ -291,12 +293,6 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
             // Initialise complications, just enough to be able to draw rings.
             w.initializeComplications(mImageView.getContext());
-
-            mImageView.setOnApplyWindowInsetsListener((v, insets) -> {
-                SharedPref.setIsRoundScreen(insets.isRound());
-                // cutoutSize = insets.getSystemWindowInsetBottom();
-                return insets;
-            });
         }
 
         void setHighlightedCurrentSelection(@Nullable String watchFaceStateString) {
@@ -501,15 +497,12 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         public void onClick(@NonNull View view) {
             // Temporary code to generate an icon?
             if (mConfigItem.getLabelResourceId() == R.string.config_generate_icon_files) {
-                boolean wasRound = SharedPref.isRoundScreen();
-                SharedPref.setIsRoundScreen(false); // Temporarily go square for the icon.
-
                 Context context = itemView.getContext();
                 SharedPref.mWriteLayersToDiskContext = context;
 
                 // Create our foreground drawable.
                 {
-                    int flags = WatchFaceGlobalDrawable.PART_BACKGROUND_FULL_CANVAS |
+                    int flags = WatchFaceGlobalDrawable.PART_BACKGROUND |
                             WatchFaceGlobalDrawable.PART_PIPS |
                             WatchFaceGlobalDrawable.PART_HANDS |
                             WatchFaceGlobalDrawable.PART_RINGS_ACTIVE;
@@ -573,7 +566,6 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                     drawable.draw(canvas);
                 }
 
-                SharedPref.setIsRoundScreen(wasRound); // Restore our round screen pref.
                 SharedPref.mWriteLayersToDiskContext = null;
                 return;
             }

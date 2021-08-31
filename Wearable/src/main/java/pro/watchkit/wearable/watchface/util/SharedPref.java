@@ -261,18 +261,4 @@ public final class SharedPref {
         editor.putString(mContext.getString(R.string.saved_most_recent_config_page), value);
         editor.apply();
     }
-
-    /**
-     * Are we using a device with a round screen? Static shared preference as it's unlikely
-     * to change...
-     */
-    private static boolean mIsRoundScreen = true;
-
-    public static boolean isRoundScreen() {
-        return mIsRoundScreen;
-    }
-
-    public static void setIsRoundScreen(boolean isRoundScreen) {
-        mIsRoundScreen = isRoundScreen;
-    }
 }

@@ -50,8 +50,8 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
     @NonNull
     private final Path mInnerGlowPath = new Path();
 
-    public static final int PART_BACKGROUND = 1;
-    public static final int PART_BACKGROUND_FULL_CANVAS = 2;
+    public static final int PART_CLIP = 1;
+    public static final int PART_BACKGROUND = 2;
     static final int PART_NOTIFICATIONS = 4;
     public static final int PART_RINGS_ACTIVE = 8;
     public static final int PART_RINGS_ALL = 16;
@@ -135,10 +135,11 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
             d.add(cache);
         }
 
+        if ((flags & PART_CLIP) > 0) {
+            d.add(new WatchPartClipDrawable());
+        }
         if ((flags & PART_BACKGROUND) > 0) {
-            d.add(new WatchPartBackgroundDrawable(false));
-        } else if ((flags & PART_BACKGROUND_FULL_CANVAS) > 0) {
-            d.add(new WatchPartBackgroundDrawable(true));
+            d.add(new WatchPartBackgroundDrawable());
         }
         if ((flags & PART_NOTIFICATIONS) > 0) {
             d.add(new WatchPartNotificationsDrawable());

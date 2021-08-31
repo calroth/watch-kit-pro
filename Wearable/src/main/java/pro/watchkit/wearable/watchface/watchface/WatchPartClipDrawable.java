@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Terence Tan
+ * Copyright (C) 2021 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -19,29 +19,37 @@
 package pro.watchkit.wearable.watchface.watchface;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
+import android.graphics.Path;
 
 import androidx.annotation.NonNull;
 
-final class WatchPartBackgroundDrawable extends WatchPartDrawable {
+final class WatchPartClipDrawable extends WatchPartDrawable {
+    @NonNull
+    private final Path mScreenShapePath = new Path();
+
     @NonNull
     @Override
     String getStatsName() {
-        return "Bg";
+        return "Clp";
     }
 
     @Override
     public void draw2(@NonNull Canvas canvas) {
-        // As the bottom-most layer of the draw stack, reset our exclusion paths now.
-        resetExclusionPath();
-
-        if (mWatchFaceState.isAmbient()) {
-            canvas.drawColor(Color.BLACK);
-        } else if (mWatchFaceState.isTransparentBackground()) {
-            canvas.drawColor(Color.TRANSPARENT); // Probably doesn't do anything?
+        // Set the screen shape path.
+        mScreenShapePath.reset();
+        final float r = Math.min(mCenterX, mCenterY);
+        if (mWatchFaceState.isScreenRound()) {
+            // Round screen, make it a circle.
+            mScreenShapePath.addCircle(mCenterX, mCenterY, r, getDirection());
+            // Deal with cutouts here?
         } else {
-            canvas.drawPaint(mWatchFaceState.getPaintBox().getPaintFromPreset(
-                    mWatchFaceState.getBackgroundMaterial()));
+            // Square screen, make it a rectangle.
+            mScreenShapePath.addRect(mCenterX - r, mCenterY - r,
+                    mCenterX + r, mCenterY + r, getDirection());
+            // Deal with rectangular screens here?
         }
+
+        // OK, set the canvas clip to the shape of the screen.
+        canvas.clipPath(mScreenShapePath);
     }
 }

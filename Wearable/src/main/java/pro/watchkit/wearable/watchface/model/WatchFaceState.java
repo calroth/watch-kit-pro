@@ -2428,5 +2428,9 @@ public class WatchFaceState {
 
         return result;
     }
+
+    public boolean isScreenRound() {
+        return mContext.getResources().getConfiguration().isScreenRound();
+    }
     // endregion
 }

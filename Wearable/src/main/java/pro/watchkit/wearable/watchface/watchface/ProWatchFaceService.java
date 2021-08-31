@@ -51,7 +51,6 @@ import android.support.wearable.complications.SystemProviders;
 import android.support.wearable.watchface.WatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
 import android.view.SurfaceHolder;
-import android.view.WindowInsets;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -195,7 +194,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
 
             mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(context,
                     new WatchFaceGlobalCacheDrawable(
-                            WatchFaceGlobalDrawable.PART_BACKGROUND_FULL_CANVAS |
+                            WatchFaceGlobalDrawable.PART_BACKGROUND |
                                     WatchFaceGlobalDrawable.PART_NOTIFICATIONS |
                                     WatchFaceGlobalDrawable.PART_RINGS_ACTIVE |
                                     WatchFaceGlobalDrawable.PART_PIPS),
@@ -309,12 +308,12 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
             getWatchFaceState().setString(mSharedPref.getWatchFaceStateString());
         }
 
-        @Override
-        public void onApplyWindowInsets(@NonNull WindowInsets insets) {
-            super.onApplyWindowInsets(insets);
-            SharedPref.setIsRoundScreen(insets.isRound());
-            // cutoutSize = insets.getSystemWindowInsetBottom();
-        }
+//        @Override
+//        public void onApplyWindowInsets(@NonNull WindowInsets insets) {
+//            super.onApplyWindowInsets(insets);
+//            SharedPref.setIsRoundScreen(insets.isRound());
+//            // cutoutSize = insets.getSystemWindowInsetBottom();
+//        }
 
         @Override
         public void onPropertiesChanged(@NonNull Bundle properties) {
