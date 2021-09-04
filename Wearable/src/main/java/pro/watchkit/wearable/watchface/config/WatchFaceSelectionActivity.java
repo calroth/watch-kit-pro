@@ -173,7 +173,9 @@ public class WatchFaceSelectionActivity extends Activity {
             for (int i = 0; i < watchFaceStateStrings.length; i++) {
                 if (WatchFaceState.mostlyEquals(watchFaceStateStrings[i], currentWatchFaceState)) {
                     // We found it! Scroll to this item.
-                    // This doesn't work, why? // layoutManager.scrollToPosition(i);
+                    // "scrollToPosition" gets us into the vicinity.
+                    layoutManager.scrollToPosition(i);
+                    // "smoothScrollToPosition" gets us to the exact place and pops up the toast.
                     layoutManager.smoothScrollToPosition(view, null, i + 1);
                     break;
                 }
