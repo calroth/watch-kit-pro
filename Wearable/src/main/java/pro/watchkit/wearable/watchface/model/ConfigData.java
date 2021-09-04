@@ -437,7 +437,17 @@ abstract public class ConfigData {
         @NonNull
         public Permutation[] getPermutations(@NonNull WatchFaceState clone) {
             return Arrays.stream(mValues).map(h -> {
+                // Call "mSetter" on "clone" with enum value "h".
                 mSetter.accept(clone, h);
+
+                // And, if it's a swatch, set the swatch material or text style.
+                if (h instanceof BytePackable.Material) {
+                    clone.setSwatchMaterial((BytePackable.Material) h);
+                } else if (h instanceof BytePackable.TextStyle) {
+                    clone.setSwatchTextStyle((BytePackable.TextStyle) h);
+                }
+
+                // Generate the name of this permutation.
                 String name;
                 if (h == null) {
                     name = "???";
