@@ -49,6 +49,8 @@ final class WatchPartClipDrawable extends WatchPartDrawable {
             // Deal with rectangular screens here?
         }
 
+        // Save the (non-existent) clip state of the canvas before we start clipping.
+        canvas.save();
         // OK, set the canvas clip to the shape of the screen.
         canvas.clipPath(mScreenShapePath);
     }

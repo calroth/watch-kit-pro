@@ -40,6 +40,9 @@ final class WatchPartSwatchDrawable extends WatchPartDrawable {
 
     @Override
     public void draw2(@NonNull Canvas canvas) {
+        // Remove the clip state of the canvas.
+        canvas.restore();
+
         // Reset our exclusion path totally. We'll draw indiscriminately over everything!
         resetExclusionPathTotally();
 
