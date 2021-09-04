@@ -55,7 +55,6 @@ import pro.watchkit.wearable.watchface.model.BytePackable.DigitSize;
 import pro.watchkit.wearable.watchface.model.BytePackable.Material;
 import pro.watchkit.wearable.watchface.model.BytePackable.MaterialGradient;
 import pro.watchkit.wearable.watchface.model.BytePackable.MaterialTexture;
-import pro.watchkit.wearable.watchface.model.BytePackable.TextStyle;
 
 public final class PaintBox {
     // private static final String TAG = "PaintBox";
@@ -562,26 +561,6 @@ public final class PaintBox {
     public Paint getBezelPaint2() {
         regeneratePaints2();
         return mBezelPaint2;
-    }
-
-    @NonNull
-    Paint getPaintFromPreset(@NonNull TextStyle textStyle) {
-        regeneratePaints2();
-        switch (textStyle) {
-            case FILL: {
-                return mFillPaint;
-            }
-            case ACCENT: {
-                return mAccentPaint;
-            }
-            case HIGHLIGHT: {
-                return mHighlightPaint;
-            }
-            default:
-            case BASE: {
-                return mBasePaint;
-            }
-        }
     }
 
     @NonNull

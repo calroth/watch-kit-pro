@@ -64,7 +64,6 @@ import pro.watchkit.wearable.watchface.model.BytePackable.PipMargin;
 import pro.watchkit.wearable.watchface.model.BytePackable.PipShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.PipSize;
 import pro.watchkit.wearable.watchface.model.BytePackable.PipsDisplay;
-import pro.watchkit.wearable.watchface.model.BytePackable.TextStyle;
 import pro.watchkit.wearable.watchface.model.BytePackable.Typeface;
 import pro.watchkit.wearable.watchface.model.PaintBox.ColorType;
 
@@ -561,8 +560,6 @@ public class WatchFaceState {
     // region Ephemeral
     @Nullable
     private Material mSwatchMaterial;
-    @Nullable
-    private TextStyle mSwatchTextStyle;
 
     /**
      * Determines whether the two given WatchFaceState strings are mostly equal. That is, whether
@@ -590,18 +587,10 @@ public class WatchFaceState {
 
     @NonNull
     public String getString() {
-        // Turn "mSwatchTextStyle" or "mSwatchStyle" into an index.
+        // Turn "mSwatchMaterial" into an index.
         // I'm not proud of this code, by the way.
         int swatchIndex;
-        if (mSwatchTextStyle == TextStyle.FILL) {
-            swatchIndex = 0;
-        } else if (mSwatchTextStyle == TextStyle.ACCENT) {
-            swatchIndex = 1;
-        } else if (mSwatchTextStyle == TextStyle.HIGHLIGHT) {
-            swatchIndex = 2;
-        } else if (mSwatchTextStyle == TextStyle.BASE) {
-            swatchIndex = 3;
-        } else if (mSwatchMaterial == Material.FILL_HIGHLIGHT) {
+        if (mSwatchMaterial == Material.FILL_HIGHLIGHT) {
             swatchIndex = 4;
         } else if (mSwatchMaterial == Material.ACCENT_FILL) {
             swatchIndex = 5;
@@ -1061,22 +1050,6 @@ public class WatchFaceState {
         if (split.length >= 3) {
             // There's probably a cleaner way of doing this. We'll come back to it...
             switch (split[2]) {
-                case "0": {
-                    setSwatchTextStyle(TextStyle.FILL);
-                    break;
-                }
-                case "1": {
-                    setSwatchTextStyle(TextStyle.ACCENT);
-                    break;
-                }
-                case "2": {
-                    setSwatchTextStyle(TextStyle.HIGHLIGHT);
-                    break;
-                }
-                case "3": {
-                    setSwatchTextStyle(TextStyle.BASE);
-                    break;
-                }
                 case "4": {
                     setSwatchMaterial(Material.FILL_HIGHLIGHT);
                     break;
@@ -1934,31 +1907,6 @@ public class WatchFaceState {
         }
     }
 
-//    /**
-//     * Get the given color from our 6-bit (64-color) palette. Returns a ColorInt.
-//     *
-//     * @param textStyle ColorType to get from our current WatchFacePreset.
-//     * @return Color from our palette as a ColorInt
-//     */
-//    @ColorInt
-//    public int getColor(@NonNull TextStyle textStyle) {
-//        switch (textStyle) {
-//            case FILL: {
-//                return getColor(ColorType.FILL);
-//            }
-//            case ACCENT: {
-//                return getColor(ColorType.ACCENT);
-//            }
-//            case HIGHLIGHT: {
-//                return getColor(ColorType.HIGHLIGHT);
-//            }
-//            default:
-//            case BASE: {
-//                return getColor(ColorType.BASE);
-//            }
-//        }
-//    }
-
     /**
      * Set the given color from our 6-bit (64-color) palette.
      *
@@ -2023,22 +1971,14 @@ public class WatchFaceState {
     public Paint getSwatchPaint() {
         if (mSwatchMaterial != null) {
             return getPaintBox().getPaintFromPreset(mSwatchMaterial);
-        } else if (mSwatchTextStyle != null) {
-            return getPaintBox().getPaintFromPreset(mSwatchTextStyle);
         } else {
             // Default option...
             return getPaintBox().getPaintFromPreset(Material.BASE_ACCENT);
         }
     }
 
-    void setSwatchTextStyle(@NonNull TextStyle swatchTextStyle) {
-        mSwatchMaterial = null;
-        mSwatchTextStyle = swatchTextStyle;
-    }
-
     void setSwatchMaterial(@NonNull Material swatchMaterial) {
         mSwatchMaterial = swatchMaterial;
-        mSwatchTextStyle = null;
     }
     // endregion
 

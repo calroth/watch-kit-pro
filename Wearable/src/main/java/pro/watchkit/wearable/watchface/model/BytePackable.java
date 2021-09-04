@@ -381,26 +381,6 @@ public abstract class BytePackable {
         }
     }
 
-    public enum TextStyle implements EnumResourceId {
-        FILL, ACCENT, HIGHLIGHT, BASE;
-
-        private static final int bits = 2;
-
-        static TextStyle unpack(@NonNull BytePacker bytePacker) {
-            return values()[bytePacker.get(bits)];
-        }
-
-        void pack(@NonNull BytePacker bytePacker) {
-            bytePacker.put(bits, values(), this);
-        }
-
-        @Override
-        @ArrayRes
-        public int getNameResourceId() {
-            return R.array.WatchFacePreset_TextStyle;
-        }
-    }
-
     public enum Material implements EnumResourceId {
         FILL_HIGHLIGHT, ACCENT_FILL, ACCENT_HIGHLIGHT, BASE_ACCENT;
 

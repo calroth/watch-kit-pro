@@ -440,11 +440,9 @@ abstract public class ConfigData {
                 // Call "mSetter" on "clone" with enum value "h".
                 mSetter.accept(clone, h);
 
-                // And, if it's a swatch, set the swatch material or text style.
+                // And, if it's a swatch, set the swatch material.
                 if (h instanceof BytePackable.Material) {
                     clone.setSwatchMaterial((BytePackable.Material) h);
-                } else if (h instanceof BytePackable.TextStyle) {
-                    clone.setSwatchTextStyle((BytePackable.TextStyle) h);
                 }
 
                 // Generate the name of this permutation.

@@ -561,13 +561,6 @@
         <item>🕚</item>
     </string-array>
 
-    <string-array name="WatchFacePreset_TextStyle">
-        <item>Fill</item>
-        <item>Accent</item>
-        <item>Highlight</item>
-        <item>Base</item>
-    </string-array>
-
     <string-array name="WatchFacePreset_Material">
         <item>Fill + Highlight</item>
         <item>Accent + Fill</item>

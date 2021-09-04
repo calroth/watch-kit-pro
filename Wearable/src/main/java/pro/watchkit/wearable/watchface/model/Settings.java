@@ -31,8 +31,6 @@ final class Settings extends BytePackable {
     ComplicationSize mComplicationSize;
     ComplicationScale mComplicationScale;
     int mAmbientDaySixBitColor, mAmbientNightSixBitColor;
-    // TODO: mComplicationTextStyle is now unused; remove it.
-    TextStyle mComplicationTextStyle;
     Material mComplicationRingMaterial, mComplicationBackgroundMaterial;
     boolean mDeveloperMode;
     boolean mStats, mStatsDetail;
@@ -55,7 +53,6 @@ final class Settings extends BytePackable {
                 mComplicationSize,
                 mComplicationScale,
                 mAmbientDaySixBitColor, mAmbientNightSixBitColor,
-                mComplicationTextStyle,
                 mComplicationRingMaterial, mComplicationBackgroundMaterial,
                 mDeveloperMode,
                 mStats, mStatsDetail,
@@ -87,7 +84,7 @@ final class Settings extends BytePackable {
         mComplicationBackgroundMaterial.pack(mBytePacker);
         mComplicationSize.pack(mBytePacker);
         mComplicationScale.pack(mBytePacker);
-        mComplicationTextStyle.pack(mBytePacker);
+        mBytePacker.put(2, 0); // mComplicationTextStyle.pack
         mBytePacker.put(mDeveloperMode);
         mBytePacker.put(mStats);
         mBytePacker.put(mStatsDetail);
@@ -119,7 +116,7 @@ final class Settings extends BytePackable {
                 mComplicationBackgroundMaterial = Material.unpack(mBytePacker);
                 mComplicationSize = ComplicationSize.unpack(mBytePacker);
                 mComplicationScale = ComplicationScale.unpack(mBytePacker);
-                mComplicationTextStyle = TextStyle.unpack(mBytePacker);
+                mBytePacker.get(2); // mComplicationTextStyle = TextStyle.unpack
                 mDeveloperMode = mBytePacker.getBoolean();
                 mStats = mBytePacker.getBoolean();
                 mStatsDetail = mBytePacker.getBoolean();
