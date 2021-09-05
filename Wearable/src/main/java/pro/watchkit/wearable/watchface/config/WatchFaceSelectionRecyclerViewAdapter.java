@@ -17,6 +17,8 @@
 
 package pro.watchkit.wearable.watchface.config;
 
+import static pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable.PART_COMPLICATIONS;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
@@ -31,8 +33,6 @@ import pro.watchkit.wearable.watchface.model.ConfigData.HeadingLabelConfigItem;
 import pro.watchkit.wearable.watchface.model.ConfigData.LabelConfigItem;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 
-import static pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable.PART_COMPLICATIONS;
-
 /**
  * Provides a binding from WatchFacePreset selection data set to views that are displayed within
  * {@link WatchFaceSelectionActivity}.
@@ -43,6 +43,8 @@ import static pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable.
 public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapter {
     @NonNull
     final private String[] mWatchFaceStateStrings;
+    @NonNull
+    final private int[] mWatchFaceStateSwatches;
     private final int mFlags;
     @StringRes
     private final int mNameResourceId;
@@ -53,9 +55,11 @@ public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapt
     WatchFaceSelectionRecyclerViewAdapter(
             @NonNull Context context,
             @NonNull Class<? extends ProWatchFaceService> watchFaceServiceClass,
-            @NonNull String[] watchFaceStateStrings, int flags, @StringRes int nameResourceId) {
+            @NonNull String[] watchFaceStateStrings,
+            @NonNull int[] watchFaceStateSwatches, int flags, @StringRes int nameResourceId) {
         super(context, watchFaceServiceClass);
         mWatchFaceStateStrings = watchFaceStateStrings;
+        mWatchFaceStateSwatches = watchFaceStateSwatches;
         mFlags = flags;
         mNameResourceId = nameResourceId;
     }
@@ -91,11 +95,12 @@ public class WatchFaceSelectionRecyclerViewAdapter extends BaseRecyclerViewAdapt
             return;
         }
         String watchFaceStateString = mWatchFaceStateStrings.length > position - 1 ?
-                        mWatchFaceStateStrings[position - 1] : null;
+                mWatchFaceStateStrings[position - 1] : null;
+        int swatch = watchFaceStateString == null ? -1 : mWatchFaceStateSwatches[position - 1];
 
         WatchFacePresetSelectionViewHolder holder = (WatchFacePresetSelectionViewHolder) viewHolder;
         holder.setWatchFaceGlobalDrawableFlags(mFlags);
-        holder.setPreset(watchFaceStateString);
+        holder.setPreset(watchFaceStateString, swatch);
         holder.setHighlightedCurrentSelection(watchFaceStateString);
 
         if ((mFlags & PART_COMPLICATIONS) > 0) {

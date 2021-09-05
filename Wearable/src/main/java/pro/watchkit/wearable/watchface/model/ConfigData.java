@@ -81,6 +81,7 @@ abstract public class ConfigData {
     public static class Permutation {
         @NonNull
         private final String mValue, mName;
+        private final int mSwatch;
 
         /**
          * Construct the Permutation with the given string value and name.
@@ -89,8 +90,20 @@ abstract public class ConfigData {
          * @param name  Name of this Permutation
          */
         Permutation(@NonNull String value, @NonNull String name) {
+            this(value, name, -1);
+        }
+
+        /**
+         * Construct the Permutation with the given string value and name.
+         *
+         * @param value  String value as received from WatchFaceState.getString()
+         * @param name   Name of this Permutation
+         * @param swatch Swatch to display for this Permutation, or -1 if not applicable
+         */
+        Permutation(@NonNull String value, @NonNull String name, int swatch) {
             mValue = value;
             mName = name;
+            mSwatch = swatch;
         }
 
         /**
@@ -111,6 +124,15 @@ abstract public class ConfigData {
         @NonNull
         public String getName() {
             return mName;
+        }
+
+        /**
+         * Gets the swatch of this Permutation, or -1 if not applicable.
+         *
+         * @return the swatch of this Permutation.
+         */
+        public int getSwatch() {
+            return mSwatch;
         }
     }
 
@@ -441,9 +463,7 @@ abstract public class ConfigData {
                 mSetter.accept(clone, h);
 
                 // And, if it's a swatch, set the swatch material.
-                if (h instanceof BytePackable.Material) {
-                    clone.setSwatchMaterial((BytePackable.Material) h);
-                }
+                int swatch = h instanceof BytePackable.Material ? h.ordinal() : -1;
 
                 // Generate the name of this permutation.
                 String name;
@@ -456,7 +476,7 @@ abstract public class ConfigData {
                     name = h.name();
                 }
 
-                return new Permutation(clone.getString(), name);
+                return new Permutation(clone.getString(), name, swatch);
             }).toArray(Permutation[]::new);
         }
     }

@@ -69,6 +69,8 @@ public class WatchFaceSelectionActivity extends Activity {
             WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_LABEL";
     static final String INTENT_EXTRA_EXTRA_NAMES =
             WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_EXTRA_NAMES";
+    static final String INTENT_EXTRA_EXTRA_SWATCHES =
+            WatchFaceSelectionActivity.class.getSimpleName() + "INTENT_EXTRA_EXTRA_SWATCHES";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,10 +103,14 @@ public class WatchFaceSelectionActivity extends Activity {
         }
 
         String[] extraNames = getIntent().getStringArrayExtra(INTENT_EXTRA_EXTRA_NAMES);
+        int[] extraSwatches = getIntent().getIntArrayExtra(INTENT_EXTRA_EXTRA_SWATCHES);
+        if (extraSwatches == null) {
+            extraSwatches = new int[watchFaceStateStrings.length];
+        }
 
         WatchFaceSelectionRecyclerViewAdapter recyclerViewAdapter =
                 new WatchFaceSelectionRecyclerViewAdapter(this, watchFaceServiceClass,
-                        watchFaceStateStrings, flags, nameResourceId);
+                        watchFaceStateStrings, extraSwatches, flags, nameResourceId);
 
         WearableRecyclerView view = findViewById(R.id.wearable_recycler_view);
 

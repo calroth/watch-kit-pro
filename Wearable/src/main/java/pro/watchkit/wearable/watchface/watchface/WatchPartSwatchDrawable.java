@@ -40,6 +40,12 @@ final class WatchPartSwatchDrawable extends WatchPartDrawable {
 
     @Override
     public void draw2(@NonNull Canvas canvas) {
+        Paint paint = mWatchFaceState.getSwatchPaint();
+        if (paint == null) {
+            // No swatch? No draw.
+            return;
+        }
+
         // Remove the clip state of the canvas.
         canvas.restore();
 
@@ -50,7 +56,6 @@ final class WatchPartSwatchDrawable extends WatchPartDrawable {
         mPath.addCircle(mCenterX * 1.6666f, mCenterY * 0.4166f, mCenterX * 0.3333f,
                 getDirection());
 
-        Paint paint = mWatchFaceState.getSwatchPaint();
         Shader shader = paint.getShader();
         mOriginalMatrix.reset();
         if (shader != null) {

@@ -1047,28 +1047,6 @@ public class WatchFaceState {
             mWatchFacePreset.setString(split[0]);
             mSettings.setString(split[1]);
         }
-        if (split.length >= 3) {
-            // There's probably a cleaner way of doing this. We'll come back to it...
-            switch (split[2]) {
-                case "4": {
-                    setSwatchMaterial(Material.FILL_HIGHLIGHT);
-                    break;
-                }
-                case "5": {
-                    setSwatchMaterial(Material.ACCENT_FILL);
-                    break;
-                }
-                case "6": {
-                    setSwatchMaterial(Material.ACCENT_HIGHLIGHT);
-                    break;
-                }
-                default:
-                case "7": {
-                    setSwatchMaterial(Material.BASE_ACCENT);
-                    break;
-                }
-            }
-        }
         regeneratePaints();
     }
 
@@ -1678,7 +1656,6 @@ public class WatchFaceState {
 
     void setFillHighlightMaterialGradient(MaterialGradient fillHighlightMaterialGradient) {
         mWatchFacePreset.mFillHighlightMaterialGradient = fillHighlightMaterialGradient;
-        setSwatchMaterial(Material.FILL_HIGHLIGHT);
         regeneratePaints();
     }
 
@@ -1688,7 +1665,6 @@ public class WatchFaceState {
 
     void setAccentFillMaterialGradient(MaterialGradient accentFillMaterialGradient) {
         mWatchFacePreset.mAccentFillMaterialGradient = accentFillMaterialGradient;
-        setSwatchMaterial(Material.ACCENT_FILL);
         regeneratePaints();
     }
 
@@ -1698,7 +1674,6 @@ public class WatchFaceState {
 
     void setAccentHighlightMaterialGradient(MaterialGradient accentHighlightMaterialGradient) {
         mWatchFacePreset.mAccentHighlightMaterialGradient = accentHighlightMaterialGradient;
-        setSwatchMaterial(Material.ACCENT_HIGHLIGHT);
         regeneratePaints();
     }
 
@@ -1708,7 +1683,6 @@ public class WatchFaceState {
 
     void setBaseAccentMaterialGradient(MaterialGradient baseAccentMaterialGradient) {
         mWatchFacePreset.mBaseAccentMaterialGradient = baseAccentMaterialGradient;
-        setSwatchMaterial(Material.BASE_ACCENT);
         regeneratePaints();
     }
 
@@ -1718,7 +1692,6 @@ public class WatchFaceState {
 
     void setFillHighlightMaterialTexture(MaterialTexture fillHighlightMaterialTexture) {
         mWatchFacePreset.mFillHighlightMaterialTexture = fillHighlightMaterialTexture;
-        setSwatchMaterial(Material.FILL_HIGHLIGHT);
         regeneratePaints();
     }
 
@@ -1728,7 +1701,6 @@ public class WatchFaceState {
 
     void setAccentFillMaterialTexture(MaterialTexture accentFillMaterialTexture) {
         mWatchFacePreset.mAccentFillMaterialTexture = accentFillMaterialTexture;
-        setSwatchMaterial(Material.ACCENT_FILL);
         regeneratePaints();
     }
 
@@ -1738,7 +1710,6 @@ public class WatchFaceState {
 
     void setAccentHighlightMaterialTexture(MaterialTexture accentHighlightMaterialTexture) {
         mWatchFacePreset.mAccentHighlightMaterialTexture = accentHighlightMaterialTexture;
-        setSwatchMaterial(Material.ACCENT_HIGHLIGHT);
         regeneratePaints();
     }
 
@@ -1748,7 +1719,6 @@ public class WatchFaceState {
 
     void setBaseAccentMaterialTexture(MaterialTexture baseAccentMaterialTexture) {
         mWatchFacePreset.mBaseAccentMaterialTexture = baseAccentMaterialTexture;
-        setSwatchMaterial(Material.BASE_ACCENT);
         regeneratePaints();
     }
 
@@ -1967,17 +1937,12 @@ public class WatchFaceState {
                 mWatchFacePreset.mSecondHandMaterial : Material.ACCENT_HIGHLIGHT;
     }
 
-    @NonNull
+    @Nullable
     public Paint getSwatchPaint() {
-        if (mSwatchMaterial != null) {
-            return getPaintBox().getPaintFromPreset(mSwatchMaterial);
-        } else {
-            // Default option...
-            return getPaintBox().getPaintFromPreset(Material.BASE_ACCENT);
-        }
+        return mSwatchMaterial != null ? getPaintBox().getPaintFromPreset(mSwatchMaterial) : null;
     }
 
-    void setSwatchMaterial(@NonNull Material swatchMaterial) {
+    public void setSwatchMaterial(@Nullable Material swatchMaterial) {
         mSwatchMaterial = swatchMaterial;
     }
     // endregion

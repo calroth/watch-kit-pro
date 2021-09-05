@@ -40,6 +40,7 @@ import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTE
 import static pro.watchkit.wearable.watchface.config.ColorSelectionActivity.INTENT_EXTRA_COLOR_LABEL;
 import static pro.watchkit.wearable.watchface.config.ConfigActivity.CONFIG_DATA;
 import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_EXTRA_NAMES;
+import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_EXTRA_SWATCHES;
 import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_FLAGS;
 import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_LABEL;
 import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.INTENT_EXTRA_SLOT;
@@ -86,6 +87,7 @@ import java.util.Comparator;
 import java.util.concurrent.Executors;
 
 import pro.watchkit.wearable.watchface.R;
+import pro.watchkit.wearable.watchface.model.BytePackable;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
 import pro.watchkit.wearable.watchface.model.ConfigData;
 import pro.watchkit.wearable.watchface.model.PaintBox;
@@ -272,7 +274,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             mWatchFaceGlobalDrawableFlags = WatchFaceGlobalDrawableFlags;
         }
 
-        void setPreset(@Nullable String watchFaceStateString) {
+        void setPreset(@Nullable String watchFaceStateString, int swatch) {
             if (mWatchFaceGlobalDrawable == null) {
                 mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(
                         mImageView.getContext(),
@@ -286,6 +288,11 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             WatchFaceState w = mWatchFaceGlobalDrawable.getWatchFaceState();
             if (watchFaceStateString != null) {
                 w.setString(watchFaceStateString);
+                // Sanity check on the value of swatch.
+                if (swatch >= BytePackable.Material.values().length || swatch < -1) {
+                    swatch = -1;
+                }
+                w.setSwatchMaterial(swatch == -1 ? null : BytePackable.Material.values()[swatch]);
             }
             w.setNotifications(0, 0);
             w.setAmbient(false);
@@ -293,6 +300,10 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
             // Initialise complications, just enough to be able to draw rings.
             w.initializeComplications(mImageView.getContext());
+        }
+
+        void setPreset(@Nullable String watchFaceStateString) {
+            setPreset(watchFaceStateString, -1);
         }
 
         void setHighlightedCurrentSelection(@Nullable String watchFaceStateString) {
@@ -937,6 +948,8 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                         .map(ConfigData.Permutation::getValue).toArray(String[]::new);
                 String[] permutationNames = Arrays.stream(permutations)
                         .map(ConfigData.Permutation::getName).toArray(String[]::new);
+                int[] permutationSwatches = Arrays.stream(permutations)
+                        .mapToInt(ConfigData.Permutation::getSwatch).toArray();
 
                 Intent launchIntent = new Intent(view.getContext(), mLaunchActivity);
 
@@ -947,6 +960,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                         mWatchFaceComponentName.getClassName());
                 launchIntent.putExtra(INTENT_EXTRA_LABEL, mConfigItem.getNameResourceId());
                 launchIntent.putExtra(INTENT_EXTRA_EXTRA_NAMES, permutationNames);
+                launchIntent.putExtra(INTENT_EXTRA_EXTRA_SWATCHES, permutationSwatches);
 
                 Activity activity = (Activity) view.getContext();
                 activity.startActivityForResult(
