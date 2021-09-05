@@ -68,7 +68,8 @@ public abstract class MaterialConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.MaterialGradient.values(),
-                                getMaterialGradientSetter())),
+                                getMaterialGradientSetter(),
+                                getMaterial())),
 
                 // Data for material texture in settings Activity.
                 new PickerConfigItem(
@@ -78,7 +79,8 @@ public abstract class MaterialConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
                                 BytePackable.MaterialTexture.values(),
-                                getMaterialTextureSetter())),
+                                getMaterialTextureSetter(),
+                                getMaterial())),
 
                 // What it's used for.
                 new TitleLabelConfigItem(getTitleResourceId(),

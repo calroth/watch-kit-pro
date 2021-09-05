@@ -439,14 +439,33 @@ abstract public class ConfigData {
         private final BiConsumer<WatchFaceState, E> mSetter;
 
         /**
+         * The Material which will be displayed as a swatch, if non-null.
+         */
+        @Nullable
+        private final BytePackable.Material mSwatchMaterial;
+
+        /**
          * Create the given EnumMutator for the E of type Enum.
          *
          * @param values all possible enumeration values of E
          * @param setter a lambda which sets (or applies) setting E to the given WatchFaceState
          */
         EnumMutator(@NonNull E[] values, @NonNull BiConsumer<WatchFaceState, E> setter) {
+            this(values, setter, null);
+        }
+
+        /**
+         * Create the given EnumMutator for the E of type Enum.
+         *
+         * @param values         all possible enumeration values of E
+         * @param setter         a lambda which sets (or applies) setting E to the given WatchFaceState
+         * @param swatchMaterial a Material which will be displayed as a swatch
+         */
+        EnumMutator(@NonNull E[] values, @NonNull BiConsumer<WatchFaceState, E> setter,
+                    @Nullable BytePackable.Material swatchMaterial) {
             mValues = values;
             mSetter = setter;
+            mSwatchMaterial = swatchMaterial;
         }
 
         /**
@@ -463,7 +482,12 @@ abstract public class ConfigData {
                 mSetter.accept(clone, h);
 
                 // And, if it's a swatch, set the swatch material.
-                int swatch = h instanceof BytePackable.Material ? h.ordinal() : -1;
+                int swatch = -1;
+                if (h instanceof BytePackable.Material) {
+                    swatch = h.ordinal();
+                } else if (mSwatchMaterial != null) {
+                    swatch = mSwatchMaterial.ordinal();
+                }
 
                 // Generate the name of this permutation.
                 String name;
