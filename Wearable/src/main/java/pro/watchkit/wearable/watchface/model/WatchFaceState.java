@@ -562,13 +562,13 @@ public class WatchFaceState {
     private Material mSwatchMaterial;
 
     /**
-     * Determines whether the two given WatchFaceState strings are mostly equal. That is, whether
-     * they're equal in all things such as WatchFacePreset and Settings, but don't compare
-     * ephemeral settings that don't matter.
+     * Determines whether the two given WatchFaceState strings are mostly equal.
+     * That is, whether they're equal in all things such as WatchFacePreset and Settings,
+     * but don't compare ephemeral settings that don't matter.
      *
      * @param a First string to compare
      * @param b Second string to compare
-     * @return Whether the strings are mostly equal
+     * @return Whether the objects are mostly equal
      */
     public static boolean mostlyEquals(@Nullable String a, @Nullable String b) {
         if (a == null || b == null) {
@@ -578,34 +578,88 @@ public class WatchFaceState {
 
         String[] aSplit = a.split("~");
         String[] bSplit = b.split("~");
+        if (aSplit.length < 2 || bSplit.length < 2) {
+            return false;
+        }
 
-        if (aSplit.length < 2 || bSplit.length < 2) return false;
+        // Essentially this works by unpacking "a" and "b", repacking them
+        // and comparing the output. By doing this, we sidestep issues such
+        // as old versions of the packed string formats; everything is up-to-date.
 
-        return aSplit[0].equals(bSplit[0]) && aSplit[1].equals(bSplit[1]);
+        WatchFacePreset aPreset = new WatchFacePreset(), bPreset = new WatchFacePreset();
+        Settings aSettings = new Settings(), bSettings = new Settings();
+
+        aPreset.setString(aSplit[0]);
+        aSettings.setString(aSplit[1]);
+        bPreset.setString(bSplit[0]);
+        bSettings.setString(bSplit[1]);
+
+        return aPreset.getString().equals(bPreset.getString()) &&
+                aSettings.getString().equals(bSettings.getString());
     }
+
+    /**
+     * Determines whether the given WatchFaceState is mostly equal to this object.
+     * That is, whether they're equal in all things such as WatchFacePreset and Settings,
+     * but don't compare ephemeral settings that don't matter.
+     *
+     * @param b The other string to compare
+     * @return Whether the objects are mostly equal
+     */
+    public boolean mostlyEquals(@Nullable String b) {
+        if (b == null) {
+            // "b" is null; this object isn't null... so false!
+            return false;
+        }
+
+        String[] bSplit = b.split("~");
+        if (bSplit.length < 2) {
+            return false;
+        }
+
+        // Essentially this works by unpacking "b", repacking "this" and "b"
+        // and comparing the output. By doing this, we sidestep issues such
+        // as old versions of the packed string formats; everything is up-to-date.
+
+        WatchFacePreset bPreset = new WatchFacePreset();
+        Settings bSettings = new Settings();
+
+        bPreset.setString(bSplit[0]);
+        bSettings.setString(bSplit[1]);
+
+        return mWatchFacePreset.getString().equals(bPreset.getString()) &&
+                mSettings.getString().equals(bSettings.getString());
+    }
+
+//    /**
+//     * Determines whether the given WatchFaceState is mostly equal to this object.
+//     * That is, whether they're equal in all things such as WatchFacePreset and Settings,
+//     * but don't compare ephemeral settings that don't matter.
+//     *
+//     * @param b The other WatchFaceState to compare
+//     * @return Whether the objects are mostly equal
+//     */
+//    public boolean mostlyEquals(@Nullable WatchFaceState b) {
+//        if (b == null) {
+//            // "b" is null; this object isn't null... so false!
+//            return false;
+//        }
+//
+//        // Essentially this works by repacking "this" and "b"
+//        // and comparing the output. By doing this, we sidestep issues such
+//        // as old versions of the packed string formats; everything is up-to-date.
+//
+//        return mWatchFacePreset.getString().equals(b.mWatchFacePreset.getString()) &&
+//                mSettings.getString().equals(b.mSettings.getString());
+//    }
     // endregion
 
     @NonNull
     public String getString() {
-        // Turn "mSwatchMaterial" into an index.
-        // I'm not proud of this code, by the way.
-        int swatchIndex;
-        if (mSwatchMaterial == Material.FILL_HIGHLIGHT) {
-            swatchIndex = 4;
-        } else if (mSwatchMaterial == Material.ACCENT_FILL) {
-            swatchIndex = 5;
-        } else if (mSwatchMaterial == Material.ACCENT_HIGHLIGHT) {
-            swatchIndex = 6;
-        } else {
-            swatchIndex = 7;
-        }
-
         mStringBuilder.setLength(0);
         mStringBuilder.append(mWatchFacePreset.getString())
                 .append("~")
-                .append(mSettings.getString())
-                .append("~")
-                .append(swatchIndex);
+                .append(mSettings.getString());
         return mStringBuilder.toString();
     }
 
@@ -1027,17 +1081,6 @@ public class WatchFaceState {
 
     boolean isMinutePipsOverridden() {
         return isMinutePipsVisible() && mWatchFacePreset.mMinutePipOverride;
-    }
-
-    public boolean equalsWatchFacePreset(@NonNull String b) {
-        if (b.length() == 0) return false;
-
-        String[] splitB = b.split("~");
-        if (splitB.length >= 2) {
-            return mWatchFacePreset.getString().equals(splitB[0]);
-        } else {
-            return false;
-        }
     }
 
     public void setString(@Nullable String s) {

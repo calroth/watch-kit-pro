@@ -884,7 +884,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
             ConfigData.Permutation activePermutation = Arrays.stream(
                     mConfigItem.getPermutations(mCurrentWatchFaceState, itemView.getContext()))
-                    .filter(s -> mCurrentWatchFaceState.equalsWatchFacePreset(s.getValue()))
+                    .filter(s -> mCurrentWatchFaceState.mostlyEquals(s.getValue()))
                     .findFirst().orElse(null);
             if (activePermutation != null) {
                 mExtra.append("<br/><small>")

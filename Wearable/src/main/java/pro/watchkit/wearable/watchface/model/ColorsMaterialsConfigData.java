@@ -73,7 +73,7 @@ public class ColorsMaterialsConfigData extends ConfigData {
                                         // Set the palette with this entry.
                                         w.setPalette(entry.getKey());
                                         // Mark "found" if this palette is our current palette.
-                                        if (w.equalsWatchFacePreset(originalString)) {
+                                        if (w.mostlyEquals(originalString)) {
                                             found.set(true);
                                         }
                                         return new Permutation(w.getString(), entry.getValue());
