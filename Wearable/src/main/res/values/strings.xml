@@ -431,8 +431,8 @@
     </string-array>
 
     <string-array name="WatchFacePreset_DigitFormat">
-        <item>12, 1, 2, 3 … 11</item>
         <item>12, 3, 6, 9</item>
+        <item>12, 1, 2, 3 … 11</item>
         <item>00, 05, 10, 15 … 55</item>
         <item>Ⅻ, Ⅰ, Ⅱ, Ⅲ … Ⅺ</item>
         <item>⑫, ①, ②, ③ … ⑪</item>
