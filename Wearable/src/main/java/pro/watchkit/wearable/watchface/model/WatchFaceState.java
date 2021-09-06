@@ -1677,8 +1677,8 @@ public class WatchFaceState {
                 break;
             }
             default:
-            case CLOCK_FACES: {
-                labelRes = R.array.WatchFacePreset_DigitFormat_CLOCK_FACES;
+            case LOCALISED: {
+                labelRes = R.array.WatchFacePreset_DigitFormat_LOCALISED;
                 break;
             }
         }

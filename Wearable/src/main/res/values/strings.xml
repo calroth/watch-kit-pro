@@ -438,7 +438,7 @@
         <item>⑫, ①, ②, ③ … ⑪</item>
         <item>⓬, ❶, ❷, ❸ … ⓫</item>
         <item>𝟙𝟚, 𝟙, 𝟚, 𝟛 … 𝟙𝟙</item>
-        <item>🕛, 🕐, 🕑, 🕒 … 🕚</item>
+        <item>十二, 一, 二, 三 … 十一</item>
     </string-array>
 
     <string-array name="WatchFacePreset_DigitFormat_NUMERALS_12_4">
@@ -546,19 +546,19 @@
         <item>𝟙𝟙</item>
     </string-array>
 
-    <string-array name="WatchFacePreset_DigitFormat_CLOCK_FACES">
-        <item>🕛</item>
-        <item>🕐</item>
-        <item>🕑</item>
-        <item>🕒</item>
-        <item>🕓</item>
-        <item>🕔</item>
-        <item>🕕</item>
-        <item>🕖</item>
-        <item>🕗</item>
-        <item>🕘</item>
-        <item>🕙</item>
-        <item>🕚</item>
+    <string-array name="WatchFacePreset_DigitFormat_LOCALISED">
+        <item>十二</item>
+        <item>一</item>
+        <item>二</item>
+        <item>三</item>
+        <item>四</item>
+        <item>五</item>
+        <item>六</item>
+        <item>七</item>
+        <item>八</item>
+        <item>九</item>
+        <item>十</item>
+        <item>十一</item>
     </string-array>
 
     <string-array name="WatchFacePreset_Material">
