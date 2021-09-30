@@ -32,6 +32,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -653,6 +655,10 @@ public class WatchFaceState {
 //                mSettings.getString().equals(b.mSettings.getString());
 //    }
     // endregion
+
+    public FileOutputStream openFileOutput(String s) throws FileNotFoundException {
+        return mContext.openFileOutput(s, Context.MODE_PRIVATE);
+    }
 
     @NonNull
     public String getString() {

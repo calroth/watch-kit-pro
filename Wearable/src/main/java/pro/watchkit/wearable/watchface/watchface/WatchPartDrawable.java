@@ -18,7 +18,6 @@
 
 package pro.watchkit.wearable.watchface.watchface;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -126,8 +125,7 @@ abstract class WatchPartDrawable extends Drawable {
         // Stats end
 
         Rect bounds = canvas.getClipBounds();
-        if (SharedPref.mWriteLayersToDiskContext != null
-                && bounds.width() != 0 && bounds.height() != 0) {
+        if (SharedPref.mWriteLayersToDisk && bounds.width() != 0 && bounds.height() != 0) {
             // Create "mWriteBitmap" on first use or dimension change.
             if (mWriteBitmap == null || bounds.width() != mWriteBitmap.getWidth() ||
                     bounds.height() != mWriteBitmap.getHeight()) {
@@ -143,10 +141,10 @@ abstract class WatchPartDrawable extends Drawable {
             draw2(mWriteCanvas);
 
             try {
-                FileOutputStream out = SharedPref.mWriteLayersToDiskContext.openFileOutput(
+                FileOutputStream out = mWatchFaceState.openFileOutput(
                         SystemClock.elapsedRealtimeNanos() +
                                 "-" + this.getClass().getSimpleName() +
-                                ".png", Context.MODE_PRIVATE);
+                                ".png");
                 mWriteBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
                 out.close();
             } catch (IOException e) {

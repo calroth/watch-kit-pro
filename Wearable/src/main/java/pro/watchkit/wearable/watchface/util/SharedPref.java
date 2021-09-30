@@ -44,8 +44,13 @@ import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
  * and presents neat interfaces for getting and putting any preference we might want.
  */
 public final class SharedPref {
-    @Nullable
-    public static Context mWriteLayersToDiskContext;
+    /**
+     * Should we draw all our layers to PNG files and write them to disk?
+     * A useful thing to do if we're debugging or writing our web site.
+     * Not useful during general use.
+     */
+    public static boolean mWriteLayersToDisk = false;
+
     /**
      * Internal copy of our Context for future reference.
      */

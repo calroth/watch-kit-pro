@@ -509,7 +509,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             // Temporary code to generate an icon?
             if (mConfigItem.getLabelResourceId() == R.string.config_generate_icon_files) {
                 Context context = itemView.getContext();
-                SharedPref.mWriteLayersToDiskContext = context;
+                SharedPref.mWriteLayersToDisk = true;
 
                 // Create our foreground drawable.
                 {
@@ -577,7 +577,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                     drawable.draw(canvas);
                 }
 
-                SharedPref.mWriteLayersToDiskContext = null;
+                SharedPref.mWriteLayersToDisk = false;
                 return;
             }
             if (mCurrentWatchFaceState.isDeveloperMode()) {
