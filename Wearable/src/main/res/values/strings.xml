@@ -443,17 +443,17 @@
 
     <string-array name="WatchFacePreset_DigitFormat_NUMERALS_12_4">
         <item>12</item>
-        <item></item>
-        <item></item>
+        <item />
+        <item />
         <item>3</item>
-        <item></item>
-        <item></item>
+        <item />
+        <item />
         <item>6</item>
-        <item></item>
-        <item></item>
+        <item />
+        <item />
         <item>9</item>
-        <item></item>
-        <item></item>
+        <item />
+        <item />
     </string-array>
 
     <string-array name="WatchFacePreset_DigitFormat_NUMERALS_12_12">
@@ -633,30 +633,52 @@
         <item>0x6c5e01</item>
         <item>0xf41595</item>
         <item>0x43faab</item>
+        <item>0xe15a00</item>
+        <!-- <item>0xPlaceholder A</item> -->
+
         <item>0x813e00</item>
         <item>0x02aa55</item>
         <item>0x458944</item>
+        <item>0x10f157</item>
+        <!-- <item>0xe24150</item> -->
+
         <item>0xf84e00</item>
         <item>0x0e216e</item>
         <item>0xe44711</item>
+        <item>0xc000c0</item>
+        <!-- <item>0xPlaceholder C</item> -->
+
         <item>0x993fca</item>
         <item>0x129fcb</item>
         <item>0x414e40</item>
+        <item>0x22012d</item>
+        <!-- <item>0xPlaceholder D</item> -->
     </integer-array>
 
     <string-array name="palette_names">
         <item>Pacific Sunset</item>
         <item>Via Lactea</item>
         <item>Lavender Rose</item>
+        <item>Hawk</item>
+        <!-- <item>Placeholder A</item> -->
+
         <item>Amethyst Amber</item>
         <item>Palladium</item>
         <item>Guava</item>
+        <item>Neon Eyes</item>>
+        <!-- <item>Applied Patina</item> -->
+
         <item>Country Club</item>
         <item>Bougainvillea</item>
         <item>Venus Flytrap</item>
+        <item>Tactician</item>
+        <!-- <item>Placeholder C</item> -->
+
         <item>Orchid Sky</item>
         <item>Mutagen</item>
         <item>Medallion</item>
+        <item>Strawberry</item>
+        <!-- <item>Placeholder D</item> -->
     </string-array>
 
     <integer-array name="six_bit_colors">
