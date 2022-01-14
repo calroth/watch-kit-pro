@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2020 Terence Tan
+ * Copyright (C) 2019-2022 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -97,5 +97,15 @@ final class WatchPartHandsMinuteDrawable extends WatchPartHandsDrawable {
     @Override
     boolean isMinuteHand() {
         return true;
+    }
+
+    /**
+     * The number of degrees per day that this watch hand rotates.
+     *
+     * @return the number of degrees
+     */
+    @Override
+    float getDegreesPerDay() {
+        return 360f * 2f * 12f;
     }
 }
