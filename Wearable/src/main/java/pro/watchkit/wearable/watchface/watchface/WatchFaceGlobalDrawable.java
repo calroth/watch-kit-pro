@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2021 Terence Tan
+ * Copyright (C) 2019-2022 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -28,12 +28,15 @@ import android.graphics.Xfermode;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.SystemClock;
+import android.support.wearable.watchface.decomposition.WatchFaceDecomposition;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
@@ -215,5 +218,75 @@ public class WatchFaceGlobalDrawable extends LayerDrawable {
         // Stats start
         WatchPartStatsDrawable.total = SystemClock.elapsedRealtimeNanos() - start;
         // Stats end
+    }
+
+    /**
+     * Does this watch face have a decomposition update available? Has the decomposition
+     * changed since last time? (We want to avoid having to send unnecessary updates to
+     * the offload processor.)
+     *
+     * @return Whether the decomposition has changed since the last call
+     */
+    public boolean hasDecompositionUpdateAvailable() {
+        long currentTimeMillis = mWatchFaceState.getTimeInMillis();
+        // Call "hasUpdateAvailable" on each component.
+        // If any are true, return true, else return false.
+        return Arrays.stream(mWatchPartDrawables)
+                .filter(d -> d instanceof WatchFaceDecompositionComponent)
+                .map(d -> ((WatchFaceDecompositionComponent) d)
+                        .hasDecompositionUpdateAvailable(currentTimeMillis))
+                .reduce(false, (a, b) -> a || b);
+    }
+
+    /**
+     * Build the watch face decomposition into "builder". This watch face decomposition is
+     * composed of multiple components (hence it's called a "decomposition"); this method
+     * will build them all in order. (In fact in the same order we draw with the regular
+     * draw path: background first, then rings, pips, complications, hands; i.e. the
+     * order defined in "buildDrawables".)
+     *
+     * @param builder WatchFaceDecomposition builder to build into.
+     * @return The time at which this decomposition expires, at which point (or before),
+     * call this again
+     */
+    public long buildDecomposition(WatchFaceDecomposition.Builder builder) {
+        AtomicInteger idA = new AtomicInteger(0);
+        // Call "buildWatchFaceDecompositionComponents" on each component.
+        // Return the earliest time of all returned times, or Long.MAX_VALUE.
+        return Arrays.stream(mWatchPartDrawables)
+                .filter(d -> d instanceof WatchFaceDecompositionComponent)
+                .mapToLong(d -> ((WatchFaceDecompositionComponent) d)
+                        .buildWatchFaceDecompositionComponents(builder, idA))
+                .min().orElse(Long.MAX_VALUE);
+    }
+
+    /**
+     * This is a component in a watch face decomposition. Components include background graphics,
+     * hands, complications etc. We have a list of components which we call in order (back to
+     * front); for each component, we pass a WatchFaceDecomposition.Builder and each component
+     * builds itself using that Builder. (Only those WatchPartDrawables which implement this
+     * interface will be called as part of the decomposition building.)
+     */
+    interface WatchFaceDecompositionComponent {
+        /**
+         * Build this watch face decomposition component into "builder".
+         *
+         * @param builder WatchFaceDecomposition builder to build into.
+         * @param idA     AtomicInteger for the component ID, which we will increment
+         * @return The time at which this component expires, at which point (or before),
+         * call this again
+         */
+        long buildWatchFaceDecompositionComponents(
+                @NonNull WatchFaceDecomposition.Builder builder, @NonNull AtomicInteger idA);
+
+        /**
+         * Does this WatchFaceDecomposition component have an update available? We ask because if
+         * there are no updates available, we want to avoid sending updates to the offload
+         * processor.
+         *
+         * @param currentTimeMillis The time when we're asking if there's an update available
+         * @return Whether the update is available?
+         */
+        boolean hasDecompositionUpdateAvailable(long currentTimeMillis);
     }
 }

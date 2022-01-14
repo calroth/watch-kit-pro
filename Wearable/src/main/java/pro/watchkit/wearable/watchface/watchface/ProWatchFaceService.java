@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2021 Terence Tan
+ * Copyright (C) 2018-2022 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -34,6 +34,8 @@
 
 package pro.watchkit.wearable.watchface.watchface;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -50,6 +52,7 @@ import android.support.wearable.complications.ComplicationData;
 import android.support.wearable.complications.SystemProviders;
 import android.support.wearable.watchface.WatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
+import android.support.wearable.watchface.decomposition.WatchFaceDecomposition;
 import android.view.SurfaceHolder;
 
 import androidx.annotation.NonNull;
@@ -225,7 +228,67 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
             }
 
             setLocationListener();
+
+            mDecomposableUpdatePendingIntent = PendingIntent.getBroadcast(
+                    context, 0, new Intent(DECOMPOSABLE_UPDATE_ACTION),
+                    PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         }
+
+        /**
+         * Schedule the next alarm for our decomposition update. We only have one alarm at a time,
+         * so cancels the current alarm if active.
+         *
+         * @param nextUpdateTime Time to schedule for.
+         */
+        private void scheduleNextUpdateDecomposableAlarm(long nextUpdateTime) {
+            // Cancel if it's set, we'll reset.
+            mDecomposableUpdateAlarmManager.cancel(mDecomposableUpdatePendingIntent);
+            mDecomposableUpdateAlarmManager.setAlarmClock(
+                    new AlarmManager.AlarmClockInfo(
+                            nextUpdateTime, mDecomposableUpdatePendingIntent),
+                    mDecomposableUpdatePendingIntent);
+        }
+
+        /**
+         * Our action for updating our decomposition.
+         */
+        @NonNull
+        private static final String DECOMPOSABLE_UPDATE_ACTION =
+                "pro.watchkit.wearable.watchface.action.DECOMPOSABLE_UPDATE";
+
+        /**
+         * Our IntentFilter for registering "mDecomposableUpdateBroadcastReceiver".
+         */
+        @NonNull
+        private final IntentFilter mDecomposableUpdateIntentFilter =
+                new IntentFilter(DECOMPOSABLE_UPDATE_ACTION);
+
+        /**
+         * Our AlarmManager for waking up the device to update the decomposition.
+         */
+        @NonNull
+        private final AlarmManager mDecomposableUpdateAlarmManager =
+                (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        /**
+         * Our Intent that we raise when we need to update the decomposition.
+         */
+        @Nullable
+        private PendingIntent mDecomposableUpdatePendingIntent;
+
+        /**
+         * Our BroadcastReceiver which runs when our Intent fires to update the decomposition.
+         */
+        @NonNull
+        private final BroadcastReceiver mDecomposableUpdateBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                android.util.Log.d("ProWatchFaceService",
+                        "mDecomposableUpdateBroadcastReceiver: Received broadcast!");
+                WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_ALARM;
+                invalidate();
+            }
+        };
 
         /**
          * Our location client. Has a value if we have permissions and are currently receiving
@@ -267,6 +330,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
                 mLocationRequest.setInterval(1000 * 60 * 15); // 15 minutes
                 mLocationRequest.setFastestInterval(1000 * 60); // 60 seconds
                 mLocationRequest.setPriority(LocationRequest.PRIORITY_LOW_POWER); // "City" level
+                mLocationRequest.setSmallestDisplacement(10000f); // 10 kilometres
 
                 // Grab our location client...
                 mLocationClient = LocationServices.getFusedLocationProviderClient(context);
@@ -299,7 +363,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
             getWatchFaceState().getLocationCalculator().setLocation(location);
             if (location != null) {
                 WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_LOCATION;
-                postInvalidate();
+                invalidate();
             }
         }
 
@@ -374,7 +438,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
         public void onAmbientModeChanged(boolean inAmbientMode) {
             super.onAmbientModeChanged(inAmbientMode);
 
-            getWatchFaceState().onAmbientModeChanged(inAmbientMode);
+            getWatchFaceState().setAmbient(inAmbientMode);
 
             // Check and trigger whether or not timer should be running (only in active mode).
             updateTimer();
@@ -436,7 +500,17 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
 
             // Propagate our size to our drawable. Turns out this isn't as slow as I imagined.
             mWatchFaceGlobalDrawable.setBounds(bounds);
-            mWatchFaceGlobalDrawable.draw(canvas);
+            if (isVisible()) {
+                mWatchFaceGlobalDrawable.draw(canvas);
+            } else if (getWatchFaceState().isDecomposable()
+                    && mWatchFaceGlobalDrawable.hasDecompositionUpdateAvailable()) {
+                WatchFaceDecomposition.Builder builder = new WatchFaceDecomposition.Builder();
+                // Build and update the decomposition.
+                long nextUpdateTime = mWatchFaceGlobalDrawable.buildDecomposition(builder);
+                updateDecomposition(builder.build());
+                // Reschedule the alarm; we don't need it for another n milliseconds.
+                scheduleNextUpdateDecomposableAlarm(nextUpdateTime);
+            }
 
             if (prevAmbient != getWatchFaceState().isAmbient()) {
                 WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_WTF;
@@ -480,6 +554,20 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
 
             /* Check and trigger whether or not timer should be running (only in active mode). */
             updateTimer();
+
+            // Update our decomposable alarm: start or stop it as required.
+            if (visible) {
+                try {
+                    unregisterReceiver(mDecomposableUpdateBroadcastReceiver);
+                } catch (IllegalArgumentException e) {
+                    // No action -- it wasn't registered yet.
+                }
+                mDecomposableUpdateAlarmManager.cancel(mDecomposableUpdatePendingIntent);
+            } else {
+                registerReceiver(
+                        mDecomposableUpdateBroadcastReceiver, mDecomposableUpdateIntentFilter);
+                invalidate();
+            }
         }
 
         @Override

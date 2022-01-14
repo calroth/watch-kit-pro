@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2021 Terence Tan
+ * Copyright (C) 2019-2022 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -206,6 +206,11 @@ public class WatchFaceState {
     /**
      * Set the calendar's current time to now. An excellent thing to do before showing or
      * calculating the time.
+     * <p>
+     * We make this one static reference time, rather than just using the system realtime
+     * clock, as it takes time to run our code... we don't want to be calculating our
+     * hour hand at 00:01, our minute hand at 00:02, our second hand at 00:03 etc. and
+     * having different elements out of sync with each other.
      */
     public void setCurrentTimeToNow() {
         mCalendar.setTimeInMillis(System.currentTimeMillis());
@@ -218,15 +223,6 @@ public class WatchFaceState {
      */
     public void setCurrentTime(long millis) {
         mCalendar.setTimeInMillis(millis);
-    }
-
-    public void onAmbientModeChanged(boolean inAmbientMode) {
-        mAmbient = inAmbientMode;
-
-        // Update drawable complications' ambient state.
-        // Note: ComplicationDrawable handles switching between active/ambient colors, we just
-        // have to inform it to enter ambient mode.
-        mComplications.forEach(c -> c.setAmbientMode(inAmbientMode));
     }
 
     public void onComplicationDataUpdate(
@@ -533,6 +529,11 @@ public class WatchFaceState {
 
     public void setAmbient(boolean ambient) {
         mAmbient = ambient;
+
+        // Update drawable complications' ambient state.
+        // Note: ComplicationDrawable handles switching between active/ambient colors, we just
+        // have to inform it to enter ambient mode.
+        mComplications.forEach(c -> c.setAmbientMode(ambient));
     }
 
     public int getUnreadNotifications() {
@@ -961,6 +962,10 @@ public class WatchFaceState {
 
     void setComplicationBackgroundMaterial(Material complicationBackgroundMaterial) {
         mSettings.mComplicationBackgroundMaterial = complicationBackgroundMaterial;
+    }
+
+    public boolean isDecomposable() {
+        return false;
     }
 
     public boolean isDeveloperMode() {

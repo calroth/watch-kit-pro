@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2021 Terence Tan
+ * Copyright (C) 2018-2022 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -39,6 +39,7 @@ final class WatchPartStatsDrawable extends WatchPartDrawable {
     static final String INVALID_INTERRUPTION = "Interruption Filter";
     static final String INVALID_SURFACE = "Surface Change";
     static final String INVALID_NOTIFICATION = "Notification Change";
+    static final String INVALID_ALARM = "Alarm";
     static final String INVALID_WTF = "WTF?";
     static long total;
     static int invalid = 0;
