@@ -556,8 +556,8 @@ public class WatchFaceState {
     }
 
     @NonNull
-    public String getPaletteName() {
-        return mPaintBox.getPaletteName();
+    public String getColorwayName() {
+        return mPaintBox.getColorwayName();
     }
 
     // region Ephemeral
@@ -1970,17 +1970,17 @@ public class WatchFaceState {
     }
 
     /**
-     * Set the current palette of fill, accent, highlight, and base six-bit colors. Requires a
-     * packed palette 24-bit int.
+     * Set the current colorway of fill, accent, highlight, and base six-bit colors. Requires a
+     * packed colorway 24-bit int.
      *
-     * @param palette Palette of colors, packed into a 24-bit int.
+     * @param colorway Colorway of colors, packed into a 24-bit int.
      */
-    public void setPalette(int palette) {
-        // Separate "palette" into our 4 six-bit colours.
-        setFillSixBitColor((palette >> 18) & 63);
-        setAccentSixBitColor((palette >> 12) & 63);
-        setHighlightSixBitColor((palette >> 6) & 63);
-        setBaseSixBitColor(palette & 63);
+    public void setColorway(int colorway) {
+        // Separate "colorway" into our 4 six-bit colours.
+        setFillSixBitColor((colorway >> 18) & 63);
+        setAccentSixBitColor((colorway >> 12) & 63);
+        setHighlightSixBitColor((colorway >> 6) & 63);
+        setBaseSixBitColor(colorway & 63);
     }
     // endregion
 

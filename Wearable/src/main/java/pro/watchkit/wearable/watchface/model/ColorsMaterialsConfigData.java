@@ -47,13 +47,13 @@ public class ColorsMaterialsConfigData extends ConfigData {
                 // A preview of the current watch face.
                 new WatchFaceDrawableConfigItem(watchFaceGlobalDrawableFlags),
 
-//                // The name of the palette.
-//                new LabelConfigItem(R.string.config_configure_colors_materials_palette,
-//                        WatchFaceState::getPaletteName),
+//                // The name of the colorway.
+//                new LabelConfigItem(R.string.config_configure_colors_materials_colorway,
+//                        WatchFaceState::getColorwayName),
 
-                // Choose a new palette?
+                // Choose a new colorway?
                 new PickerConfigItem(
-                        R.string.config_configure_colors_materials_palette,
+                        R.string.config_configure_colors_materials_colorway,
                         R.drawable.ic_settings,
                         WatchFaceGlobalDrawable.PART_BACKGROUND |
                                 WatchFaceGlobalDrawable.PART_PIPS |
@@ -62,17 +62,17 @@ public class ColorsMaterialsConfigData extends ConfigData {
                         WatchFaceSelectionActivity.class,
                         w -> {
                             String originalString = w.getString();
-                            String originalName = w.getPaletteName();
-                            // Have we found the current palette in our list of original palettes?
+                            String originalName = w.getColorwayName();
+                            // Have we found the current colorway in our list of original colorways?
                             AtomicBoolean found = new AtomicBoolean(false);
-                            // Return an array with each permutation of color palette.
-                            // Iterate over "originalPalettes". Each key is a palette.
+                            // Return an array with each permutation of colorway.
+                            // Iterate over "originalColorways". Each key is a colorway.
                             // So for each key, mutate our WatchFaceState and get its string.
-                            List<Permutation> s = w.getPaintBox().getOriginalPalettes()
+                            List<Permutation> s = w.getPaintBox().getOriginalColorways()
                                     .entrySet().stream().map(entry -> {
-                                        // Set the palette with this entry.
-                                        w.setPalette(entry.getKey());
-                                        // Mark "found" if this palette is our current palette.
+                                        // Set the colorway with this entry.
+                                        w.setColorway(entry.getKey());
+                                        // Mark "found" if this colorway is our current colorway.
                                         if (w.mostlyEquals(originalString)) {
                                             found.set(true);
                                         }
@@ -80,14 +80,14 @@ public class ColorsMaterialsConfigData extends ConfigData {
                                     }).collect(toList());
 
                             if (!found.get()) {
-                                // Our current palette isn't in the list. Put it at the top.
+                                // Our current colorway isn't in the list. Put it at the top.
                                 s.add(0, new Permutation(originalString, originalName));
                             }
 
                             return s.toArray(new Permutation[0]);
                         }),
 
-                // Choose a new palette variant?
+                // Choose a new colorway variant?
                 new PickerConfigItem(
                         R.string.config_configure_colors_materials_variant,
                         R.drawable.ic_settings,
@@ -97,16 +97,16 @@ public class ColorsMaterialsConfigData extends ConfigData {
                                 WatchFaceGlobalDrawable.PART_RINGS_ALL,
                         WatchFaceSelectionActivity.class,
                         w -> Arrays.stream(
-                                // Return an array with each permutation of color palette.
-                                // Iterate over "originalPalettes". Each key is a palette.
+                                // Return an array with each permutation of colorway.
+                                // Iterate over "originalColorway". Each key is a colorway.
                                 // So for each key, mutate our WatchFaceState and get its string.
-                                w.getPaintBox().getPaletteVariants()).mapToObj(
-                                palette -> {
-                                    // Set the palette with this entry.
-                                    w.setPalette(palette);
+                                w.getPaintBox().getColorwayVariants()).mapToObj(
+                                colorway -> {
+                                    // Set the colorway with this entry.
+                                    w.setColorway(colorway);
 
                                     return new Permutation(
-                                            w.getString(), w.getPaletteName());
+                                            w.getString(), w.getColorwayName());
                                 }).toArray(Permutation[]::new)),
 
                 // Data for fill color UX in settings Activity.

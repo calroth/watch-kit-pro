@@ -20,7 +20,8 @@ Watch Kit Pro has the following features:
 - Choose between different watch hand shapes
 - Choose between different watch pip shapes, with optional digit display
 - Choose between different background materials
-- Choose four colors from a 64-color palette, and a multitude of material options
+- Choose between many built-in colorways, each with four colors
+- Customise your own colorways from a 64-color palette
 - Choose the typeface used for drawing text
 - Configure up to 8 complications
 - Always-on watch faces (a.k.a. "ambient mode")

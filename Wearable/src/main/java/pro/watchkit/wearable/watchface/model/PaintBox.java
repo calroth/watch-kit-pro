@@ -466,13 +466,13 @@ public final class PaintBox {
     }
 
     /**
-     * Given a Material, returns a color from our palette that's as distant (or contrasting)
+     * Given a Material, returns a color from our colorway that's as distant (or contrasting)
      * from that Material as we can find. So, anything printed in this color, against the
      * given Material, will display with suitable contrast.
      *
      * @param material         The Material to return a contrasting color for
      * @param materialGradient The MaterialGradient to return a contrasting color for
-     * @return Color from our palette as a ColorInt
+     * @return Color from our colorway as a ColorInt
      */
     @ColorInt
     public int getContrastingColor(
@@ -716,138 +716,138 @@ public final class PaintBox {
 //                mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor,
 //                (mFillSixBitColor << 6) + mAccentSixBitColor,
 //                (mHighlightSixBitColor << 6) + mBaseSixBitColor,
-//                getPaletteName(mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor)));
+//                getColorwayName(mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor)));
     }
 
     /**
-     * Our palette lookup table to map palette value to palette name.
+     * Our colorway lookup table to map colorway value to colorway name.
      */
-    private final static Map<Integer, String> mPalettes = new HashMap<>();
+    private final static Map<Integer, String> mColorways = new HashMap<>();
 
     /**
-     * Our hard-coded palette variant names.
+     * Our hard-coded colorway variant names.
      */
-    private final static char[] mPaletteVariants = {
+    private final static char[] mColorwayVariants = {
             ' ', // Variant 0 isn't used as it's not a variant!
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
             'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
     };
 
     @NonNull
-    String getPaletteName() {
-        return getPaletteName(
+    String getColorwayName() {
+        return getColorwayName(
                 mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor);
     }
 
     /**
-     * Given a series of palette value, return its name if it has one, or a generic
+     * Given a series of colors, return its colorway name if it has one, or a generic
      * string if it hasn't.
      *
-     * @param w Color 1 in the palette
-     * @param x Color 2 in the palette
-     * @param y Color 3 in the palette
-     * @param z Color 4 in the palette
-     * @return Name of palette
+     * @param w Color 1 in the colorway
+     * @param x Color 2 in the colorway
+     * @param y Color 3 in the colorway
+     * @param z Color 4 in the colorway
+     * @return Name of colorway
      */
     @NonNull
-    private String getPaletteName(int w, int x, int y, int z) {
-        return getPaletteName(combinePalette(w, x, y, z));
+    private String getColorwayName(int w, int x, int y, int z) {
+        return getColorwayName(combineColorway(w, x, y, z));
     }
 
     @NonNull
-    private final static Map<Integer, String> mOriginalPalettes = new HashMap<>();
+    private final static Map<Integer, String> mOriginalColorways = new HashMap<>();
 
-    Map<Integer, String> getOriginalPalettes() {
-        if (mOriginalPalettes.size() == 0) {
+    Map<Integer, String> getOriginalColorways() {
+        if (mOriginalColorways.size() == 0) {
             // Initialise on first use
-            final String[] paletteNames =
-                    mContext.getResources().getStringArray(R.array.palette_names);
-            final int[] paletteColors =
-                    mContext.getResources().getIntArray(R.array.palette_colors);
+            final String[] colorwayNames =
+                    mContext.getResources().getStringArray(R.array.colorway_names);
+            final int[] colorwayColors =
+                    mContext.getResources().getIntArray(R.array.colorway_colors);
 
-            // Loop through each default palette name and value.
-            // Add original named palettes first, before we add any variants.
-            for (int i = 0; i < paletteNames.length; i++) {
-                mOriginalPalettes.putIfAbsent(paletteColors[i], paletteNames[i]);
+            // Loop through each default colorway name and value.
+            // Add original named colorways first, before we add any variants.
+            for (int i = 0; i < colorwayNames.length; i++) {
+                mOriginalColorways.putIfAbsent(colorwayColors[i], colorwayNames[i]);
             }
         }
-        return mOriginalPalettes;
+        return mOriginalColorways;
     }
 
     /**
-     * Given a palette value, return its name if it has one, or a generic
+     * Given a colorway value, return its name if it has one, or a generic
      * string if it hasn't/
      *
-     * @param palette Palette to name
-     * @return Name of palette
+     * @param colorway Colorway to name
+     * @return Name of colorway
      */
     @NonNull
-    private String getPaletteName(int palette) {
-        if (mPalettes.size() == 0) {
+    private String getColorwayName(int colorway) {
+        if (mColorways.size() == 0) {
             // Initialise on first use
-            final String[] paletteNames =
-                    mContext.getResources().getStringArray(R.array.palette_names);
-            final int[] paletteColors =
-                    mContext.getResources().getIntArray(R.array.palette_colors);
+            final String[] colorwayNames =
+                    mContext.getResources().getStringArray(R.array.colorway_names);
+            final int[] colorwayColors =
+                    mContext.getResources().getIntArray(R.array.colorway_colors);
 
-            // Loop through each default palette name and value.
-            // Add original named palettes first, before we add any variants.
-            for (int i = 0; i < paletteNames.length; i++) {
-                mPalettes.putIfAbsent(paletteColors[i], paletteNames[i]);
+            // Loop through each default colorway name and value.
+            // Add original named colorways first, before we add any variants.
+            for (int i = 0; i < colorwayNames.length; i++) {
+                mColorways.putIfAbsent(colorwayColors[i], colorwayNames[i]);
             }
 
-            // Loop through each default palette name and value.
+            // Loop through each default colorway name and value.
             // Add all variants.
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < paletteNames.length; i++) {
+            for (int i = 0; i < colorwayNames.length; i++) {
                 // Generate heaps of variants.
-                int[] p = getPaletteVariants(paletteColors[i]);
+                int[] p = getColorwayVariants(colorwayColors[i]);
                 for (int j = 1; j < p.length; j++) {
                     // We start j at 1, as 0 is the unmodified variant (already added).
                     sb.setLength(0); // Clear the StringBuilder
-                    // Generate the palette name plus variant if applicable.
-                    sb.append(paletteNames[i]);
+                    // Generate the colorway name plus variant if applicable.
+                    sb.append(colorwayNames[i]);
                     // Append variant name.
-                    sb.append(" (variant ").append(mPaletteVariants[j]).append(')');
-                    mPalettes.putIfAbsent(p[j], sb.toString());
+                    sb.append(" (variant ").append(mColorwayVariants[j]).append(')');
+                    mColorways.putIfAbsent(p[j], sb.toString());
                 }
             }
 
 //            sb.setLength(0);
-//            for (Map.Entry<Integer, String> e : mPalettes.entrySet()) {
+//            for (Map.Entry<Integer, String> e : mColorways.entrySet()) {
 //                sb.append(String.format("#%06x", e.getKey()));
 //                sb.append(" --> ").append(e.getValue()).append(System.lineSeparator());
 //            }
 //            android.util.Log.d("PaintBox", sb.toString());
         }
 
-        if (mPalettes.containsKey(palette)) {
-            return Objects.requireNonNull(mPalettes.get(palette));
+        if (mColorways.containsKey(colorway)) {
+            return Objects.requireNonNull(mColorways.get(colorway));
         } else {
-            return String.format("#%06x", palette);
+            return String.format("#%06x", colorway);
         }
     }
 
     @NonNull
-    int[] getPaletteVariants() {
-        return getPaletteVariants(combinePalette(
+    int[] getColorwayVariants() {
+        return getColorwayVariants(combineColorway(
                 mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor));
     }
 
     /**
-     * Given a palette value, return an array with it and the 23 other possible
-     * variants of this palette
+     * Given a colorway value, return an array with it and the 23 other possible
+     * variants of this colorway
      *
-     * @param palette Palette to vary
-     * @return Array of 24 palettes which are variants of the input
+     * @param colorway Colorway to vary
+     * @return Array of 24 colorways which are variants of the input
      */
     @NonNull
-    private static int[] getPaletteVariants(int palette) {
-        // Separate "palette" into our 4 six-bit colours.
-        int a = (palette >> 18) & 63;
-        int b = (palette >> 12) & 63;
-        int c = (palette >> 6) & 63;
-        int d = palette & 63;
+    private static int[] getColorwayVariants(int colorway) {
+        // Separate "colorway" into our 4 six-bit colours.
+        int a = (colorway >> 18) & 63;
+        int b = (colorway >> 12) & 63;
+        int c = (colorway >> 6) & 63;
+        int d = colorway & 63;
 
         // The variants below have a very particular order
         // Each variants swaps the position of two values from the variants above,
@@ -856,43 +856,43 @@ public final class PaintBox {
         // That's important because 3&4 are the background, so the background won't change.
 
         return new int[]{
-                palette, //    a, b, c, d              swap 2&3
-                combinePalette(b, a, c, d), // swap 1&2
-                combinePalette(d, a, c, b), //         swap 1&4
-                combinePalette(a, d, c, b), // swap 1&2
-                combinePalette(b, d, c, a), //         swap 1&4
-                combinePalette(d, b, c, a), // swap 1&2
-                combinePalette(c, b, d, a), //         swap 1&3
-                combinePalette(b, c, d, a), // swap 1&2
-                combinePalette(b, a, d, c), //         swap 2&4
-                combinePalette(a, b, d, c), // swap 1&2
-                combinePalette(a, c, d, b), //         swap 2&4
-                combinePalette(c, a, d, b), // swap 1&2
-                combinePalette(c, d, a, b), //         swap 2&3
-                combinePalette(d, c, a, b), // swap 1&2
-                combinePalette(b, c, a, d), //         swap 1&4
-                combinePalette(c, b, a, d), // swap 1&2
-                combinePalette(d, b, a, c), //         swap 1&4
-                combinePalette(b, d, a, c), // swap 1&2
-                combinePalette(a, d, b, c), //         swap 1&3
-                combinePalette(d, a, b, c), // swap 1&2
-                combinePalette(d, c, b, a), //         swap 2&4
-                combinePalette(c, d, b, a), // swap 1&2
-                combinePalette(c, a, b, d), //         swap 2&4
-                combinePalette(a, c, b, d)  // swap 1&2
+                colorway, //    a, b, c, d              swap 2&3
+                combineColorway(b, a, c, d), // swap 1&2
+                combineColorway(d, a, c, b), //         swap 1&4
+                combineColorway(a, d, c, b), // swap 1&2
+                combineColorway(b, d, c, a), //         swap 1&4
+                combineColorway(d, b, c, a), // swap 1&2
+                combineColorway(c, b, d, a), //         swap 1&3
+                combineColorway(b, c, d, a), // swap 1&2
+                combineColorway(b, a, d, c), //         swap 2&4
+                combineColorway(a, b, d, c), // swap 1&2
+                combineColorway(a, c, d, b), //         swap 2&4
+                combineColorway(c, a, d, b), // swap 1&2
+                combineColorway(c, d, a, b), //         swap 2&3
+                combineColorway(d, c, a, b), // swap 1&2
+                combineColorway(b, c, a, d), //         swap 1&4
+                combineColorway(c, b, a, d), // swap 1&2
+                combineColorway(d, b, a, c), //         swap 1&4
+                combineColorway(b, d, a, c), // swap 1&2
+                combineColorway(a, d, b, c), //         swap 1&3
+                combineColorway(d, a, b, c), // swap 1&2
+                combineColorway(d, c, b, a), //         swap 2&4
+                combineColorway(c, d, b, a), // swap 1&2
+                combineColorway(c, a, b, d), //         swap 2&4
+                combineColorway(a, c, b, d)  // swap 1&2
         };
     }
 
     /**
-     * Convenience function to pack w, x, y, z into a single 24-bit int for palettes.
+     * Convenience function to pack w, x, y, z into a single 24-bit int for colorways.
      *
-     * @param w Color 1 in the palette
-     * @param x Color 2 in the palette
-     * @param y Color 3 in the palette
-     * @param z Color 4 in the palette
-     * @return Packed palette value of w, x, y and z.
+     * @param w Color 1 in the colorway
+     * @param x Color 2 in the colorway
+     * @param y Color 3 in the colorway
+     * @param z Color 4 in the colorway
+     * @return Packed colorway value of w, x, y and z.
      */
-    private static int combinePalette(int w, int x, int y, int z) {
+    private static int combineColorway(int w, int x, int y, int z) {
         return ((w << 18) + (x << 12) + (y << 6) + z) & 0xFFFFFF;
     }
 
