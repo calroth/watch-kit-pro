@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Terence Tan
+ * Copyright (C) 2018-2022 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -967,6 +967,97 @@ public final class PaintBox {
             mTempBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             mTempCanvas.setBitmap(mTempBitmap);
         }
+    }
+
+    /**
+     * Fill a cLUT with gradient of 8 colors, starting with black and ending in "colorA".
+     * Each color in the cLUT will be from the RGB332 palette.
+     * Then map sourceBitmap to destBitmap, using the cLUT. This has the effect of
+     * down-sampling the colors in destBitmap, just the thing for decomposable mode.
+     *
+     * @param colorA       Brightest color in the palette
+     * @param sourceBitmap Source of the image to map from
+     * @param destBitmap   Destination of the image to map to
+     */
+    public void mapBitmapWith8LevelsFromBlack(
+            @ColorInt int colorA, @NonNull Bitmap sourceBitmap, @NonNull Bitmap destBitmap) {
+        mapBitmapWith8LevelsFromX(colorA, Color.BLACK, sourceBitmap, destBitmap);
+    }
+
+    /**
+     * Fill a cLUT with gradient of 8 colors, starting with transparent and ending in "colorA".
+     * Each color in the cLUT will be from the RGB332 palette.
+     * Then map sourceBitmap to destBitmap, using the cLUT. This has the effect of
+     * down-sampling the colors in destBitmap, just the thing for decomposable mode.
+     *
+     * @param colorA       Brightest color in the palette
+     * @param sourceBitmap Source of the image to map from
+     * @param destBitmap   Destination of the image to map to
+     */
+    public void mapBitmapWith8LevelsFromTransparent(
+            @ColorInt int colorA, @NonNull Bitmap sourceBitmap, @NonNull Bitmap destBitmap) {
+        mapBitmapWith8LevelsFromX(colorA, Color.TRANSPARENT, sourceBitmap, destBitmap);
+    }
+
+    /**
+     * Fill a cLUT with gradient of 8 colors, starting with "colorX" and ending in "colorA".
+     * Each color in the cLUT will be from the RGB332 palette.
+     * Then map sourceBitmap to destBitmap, using the cLUT. This has the effect of
+     * down-sampling the colors in destBitmap, just the thing for decomposable mode.
+     * N.B. We say "8" colors but it's tweak-able and at the moment we're tweaking it!
+     *
+     * @param colorA       Brightest color in the palette
+     * @param colorX       Black or transparent
+     * @param sourceBitmap Source of the image to map from
+     * @param destBitmap   Destination of the image to map to
+     */
+    private void mapBitmapWith8LevelsFromX(
+            @ColorInt int colorA, @ColorInt int colorX,
+            @NonNull Bitmap sourceBitmap, @NonNull Bitmap destBitmap) {
+        int size = 15; // Let's bump this up to MAX QUALITY for now; nominally it should be // 8;
+        // First: fill an int[] with 'size' intermediate colors.
+        @ColorInt int[] cLUT8 = new int[size];
+        getIntermediateColor(colorA, Color.BLACK, cLUT8);
+        cLUT8[0] = colorX;
+
+        // Post-process fix up... start at 1, since 0 is already OK.
+        for (int i = 1; i < size; i++) {
+            // Map each color to RGB332 format. Like we used in the Macintosh System 7 days.
+            // SidekickService can do it, but complains. So we'll do it for ourselves.
+            int c = cLUT8[i];
+            int r = Math.round(255f * Math.round((float) Color.red(c) * 7f / 255f) / 7f);
+            int g = Math.round(255f * Math.round((float) Color.green(c) * 7f / 255f) / 7f);
+            int b = Math.round(255f * Math.round((float) Color.blue(c) * 3f / 255f) / 3f);
+            cLUT8[i] = Color.argb(255, r, g, b);
+        }
+
+        // Next: expand that int[8] into int[256] as follows:
+        // cLUT256[0..31] := cLUT8[0]
+        // cLUT256[32..63] := cLUT8[1]
+        // ...
+        // cLUT256[224..255] := cLUT8[7] // assuming size of 8, but it may be different!
+        @ColorInt int[] cLUT256 = new int[256];
+        for (int i = 0; i < 256; i++) {
+            cLUT256[i] = cLUT8[(int) Math.floor((double) (i * size) / 256d)];
+        }
+
+        // Finally: map that cLUT onto the destination bitmap with "mapBitmap".
+        if (mRenderScript == null) {
+            mRenderScript = RenderScript.create(mContext);
+        }
+        if (mScriptC_mapBitmap == null) {
+            mScriptC_mapBitmap = new ScriptC_mapBitmap(mRenderScript);
+        }
+
+        mScriptC_mapBitmap.set_mapping(cLUT256);
+        mScriptC_mapBitmap.invoke_convertMapping();
+
+        Allocation in = Allocation.createFromBitmap(mRenderScript, sourceBitmap);
+        Allocation out = Allocation.createFromBitmap(mRenderScript, destBitmap);
+        mScriptC_mapBitmap.forEach_mapBitmap(in, out);
+        out.copyTo(destBitmap);
+        in.destroy();
+        out.destroy();
     }
 
     private class GradientPaint extends Paint {
