@@ -508,9 +508,6 @@ public final class ComplicationHolder {
         mComplicationDrawable.setComplicationData(complicationData);
         mComplicationData = complicationData;
         mHasUpdatedComplicationDataObject = true;
-        android.util.Log.d("ProWatchFaceService",
-                "ComplicationHolder " + getId() + " setComplicationData: " +
-                        complicationData.toString());
     }
 
     /**
@@ -578,7 +575,6 @@ public final class ComplicationHolder {
             // Temporarily switch ambient mode to true for decomposition drawing.
             setAmbientMode(true);
             mComplicationDrawable.setLowBitAmbient(false);
-            long time = System.nanoTime();
 
             // Clear out our ambient cache.
             mAmbientCacheCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
@@ -596,13 +592,7 @@ public final class ComplicationHolder {
 
             // OK, we've gone to the trouble of pre-drawing our complication into a cache.
             // Now, let's see if it's the same as our old one...
-            long time1 = System.nanoTime();
             boolean same = mAmbientCacheBitmap.sameAs(mAmbientCacheBitmap2);
-            android.util.Log.d("ProWatchFaceService",
-                    "ComplicationHolder " + getId() + " checkUpdatedComplicationData " +
-                            (same ? "UNCHANGED (" : "CHANGED (") +
-                            ((time1 - time) / 1000000f) + " + " +
-                            ((System.nanoTime() - time1) / 1000000f) + " ms)");
             if (!same) {
                 // Wear OS sent us an "updated" ComplicationData which really did change.
                 // Swap intermediate bitmaps.
