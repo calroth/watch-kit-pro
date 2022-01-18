@@ -283,8 +283,6 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
         private final BroadcastReceiver mDecomposableUpdateBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                android.util.Log.d("ProWatchFaceService",
-                        "mDecomposableUpdateBroadcastReceiver: Received broadcast!");
                 WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_ALARM;
                 invalidate();
             }
