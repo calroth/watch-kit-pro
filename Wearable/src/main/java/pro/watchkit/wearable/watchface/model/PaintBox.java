@@ -1014,7 +1014,7 @@ public final class PaintBox {
     private void mapBitmapWith8LevelsFromX(
             @ColorInt int colorA, @ColorInt int colorX,
             @NonNull Bitmap sourceBitmap, @NonNull Bitmap destBitmap) {
-        int size = 15; // Let's bump this up to MAX QUALITY for now; nominally it should be // 8;
+        int size = 8;
         // First: fill an int[] with 'size' intermediate colors.
         @ColorInt int[] cLUT8 = new int[size];
         getIntermediateColor(colorA, Color.BLACK, cLUT8);
