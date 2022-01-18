@@ -231,50 +231,10 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable
     @Override
     public long buildWatchFaceDecompositionComponents(
             @NonNull WatchFaceDecomposition.Builder builder, @NonNull AtomicInteger idA) {
-        int baseId = idA.getAndIncrement();
-
-        // OK, build and add our ImageComponent to the decomposition.
-        builder.addImageComponents(new ImageComponent.Builder()
-                .setComponentId(baseId)
-                .setZOrder(baseId)
-                .setImage(Icon.createWithBitmap(mDecompositionDestBitmap))
-                .setBounds(new RectF(0f, 0f, 1f, 1f)) // Entire screen
-                .build());
-
-        // This doesn't need updating on a schedule.
-        return Long.MAX_VALUE;
-    }
-
-    /**
-     * Does this WatchFaceDecomposition component have an update available? We ask because if
-     * there are no updates available, we want to avoid sending updates to the offload
-     * processor.
-     *
-     * @param currentTimeMillis The time when we're asking if there's an update available
-     * @return Whether the update is available?
-     */
-    @Override
-    public boolean hasDecompositionUpdateAvailable(long currentTimeMillis) {
-        // Are there any updated non-time-dependent complications?
-        boolean hasUpdatedComplicationData = mWatchFaceState.getComplications().stream()
-                .filter(c -> c.isForeground && !c.isTimeDependent())
-                .map(c -> c.checkUpdatedComplicationData(currentTimeMillis))
-                .reduce(false, (a, b) -> a || b);
-
-        // Regenerate our cache bitmaps; if there's nothing to do, this returns quickly.
-        regenerateCacheBitmaps();
-
-        // Regenerate the decomposition if our (non-time-dependent) complications have changed.
-        // Regenerate the decomposition if the ambient cache bitmap (ticks & digits) has changed.
-        // Regenerate the decomposition if our ambient tint color has changed (this happens
-        // regularly during dusk and dawn).
-        boolean updateAvailable = hasUpdatedComplicationData || mIsAmbientCacheBitmapDirty ||
-                mCurrentAmbientTint != mWatchFaceState.getAmbientTint();
-
         // Our generated decomposition image goes into mDecompositionDestBitmap.
         // Regenerate it if there are updates available? Skip if unnecessary.
-        if (updateAvailable) {
-            // Create a new Bitmap which is a bastardised form of "mAmbientCacheBitmap".
+        if (hasDecompositionUpdateAvailable(mWatchFaceState.getTimeInMillis())) {
+            // Copy "mAmbientCacheBitmap" into an intermediate Bitmap we can draw all over.
             if (mDecompositionIntermediateBitmap == null ||
                     mDecompositionDestBitmap == null ||
                     mDecompositionIntermediateCanvas == null ||
@@ -325,6 +285,46 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable
             mIsAmbientCacheBitmapDirty = false;
         }
 
-        return updateAvailable;
+        int baseId = idA.getAndIncrement();
+
+        // OK, build and add our ImageComponent to the decomposition.
+        builder.addImageComponents(new ImageComponent.Builder()
+                .setComponentId(baseId)
+                .setZOrder(baseId)
+                .setImage(Icon.createWithBitmap(mDecompositionDestBitmap))
+                .setBounds(new RectF(0f, 0f, 1f, 1f)) // Entire screen
+                .build());
+
+        // This doesn't need updating on a schedule.
+        return Long.MAX_VALUE;
+    }
+
+    /**
+     * Does this WatchFaceDecomposition component have an update available? We ask because if
+     * there are no updates available, we want to avoid sending updates to the offload
+     * processor.
+     *
+     * @param currentTimeMillis The time when we're asking if there's an update available
+     * @return Whether the update is available?
+     */
+    @Override
+    public boolean hasDecompositionUpdateAvailable(long currentTimeMillis) {
+        // Are there any updated non-time-dependent complications?
+        boolean hasUpdatedComplicationData = mWatchFaceState.getComplications().stream()
+                .filter(c -> c.isForeground && !c.isTimeDependent())
+                .map(c -> c.checkUpdatedComplicationData(currentTimeMillis))
+                .reduce(false, (a, b) -> a || b);
+
+        // Regenerate our cache bitmaps; if there's nothing to do, this returns quickly.
+        regenerateCacheBitmaps();
+
+        // Regenerate the decomposition if our (non-time-dependent) complications have changed.
+        // Regenerate the decomposition if the ambient cache bitmap (ticks & digits) has changed.
+        // Regenerate the decomposition if our ambient tint color has changed (this happens
+        // regularly during dusk and dawn).
+        // Regenerate the decomposition if we've never drawn it before!
+        return hasUpdatedComplicationData || mIsAmbientCacheBitmapDirty ||
+                mCurrentAmbientTint != mWatchFaceState.getAmbientTint() ||
+                mDecompositionDestBitmap == null;
     }
 }
