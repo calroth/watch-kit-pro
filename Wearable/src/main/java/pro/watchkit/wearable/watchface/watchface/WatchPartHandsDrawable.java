@@ -45,6 +45,7 @@ import pro.watchkit.wearable.watchface.model.BytePackable.HandStalk;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandThickness;
 import pro.watchkit.wearable.watchface.model.BytePackable.Material;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
+import pro.watchkit.wearable.watchface.util.SharedPref;
 
 abstract class WatchPartHandsDrawable extends WatchPartDrawable
         implements WatchFaceGlobalDrawable.WatchFaceDecompositionComponent {
@@ -345,7 +346,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable
             punchHub(mHandActivePath, mHandAmbientPath);
             // Regenerate our bezels too.
             regenerateBezels();
-            if (mWatchFaceState.isDecomposable()) {
+            if (mWatchFaceState.getUseDecomposition() && SharedPref.isOffloadSupported()) {
                 regenerateDecomposition();
             }
         }

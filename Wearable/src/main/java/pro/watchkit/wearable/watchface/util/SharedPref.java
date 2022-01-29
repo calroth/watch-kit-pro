@@ -37,6 +37,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import pro.watchkit.wearable.watchface.R;
+import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 
 /**
@@ -265,5 +266,41 @@ public final class SharedPref {
         SharedPreferences.Editor editor = mSharedPreferences.edit();
         editor.putString(mContext.getString(R.string.saved_most_recent_config_page), value);
         editor.apply();
+    }
+
+    /**
+     * Whether we support sending code to the device's offload processor. We keep our own
+     * static version here, since it's flagged by WatchFaceService, but required by other
+     * Activities that aren't WatchFaceService.
+     */
+    private static boolean mIsOffloadSupported = false;
+
+    /**
+     * Set whether we support sending code to the device's offload processor.
+     *
+     * @param isOffloadSupported Do we support sending code to the device's offload processor?
+     */
+    public static void setIsOffloadSupported(boolean isOffloadSupported) {
+        mIsOffloadSupported = isOffloadSupported;
+    }
+
+    /**
+     * Do we support sending code to the device's offload processor?
+     *
+     * @return Whether we support sending code to the device's offload processor
+     */
+    public static boolean isOffloadSupported() {
+        return mIsOffloadSupported;
+    }
+
+    /**
+     * Do we support sending code to the device's offload processor?
+     *
+     * @param watchFaceState the WatchFaceState (unused)
+     * @return Whether we support sending code to the device's offload processor
+     */
+    public static boolean isOffloadSupported(
+            @SuppressWarnings("unused") WatchFaceState watchFaceState) {
+        return isOffloadSupported();
     }
 }

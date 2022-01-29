@@ -46,6 +46,7 @@ import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
 import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
+import pro.watchkit.wearable.watchface.util.SharedPref;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 public class SettingsConfigData extends ConfigData {
@@ -90,6 +91,15 @@ public class SettingsConfigData extends ConfigData {
                         R.drawable.ic_color_lens,
                         PaintBox.ColorType.AMBIENT_NIGHT,
                         ColorSelectionActivity.class),
+
+                // Second Hand in Ambient Mode
+                new ToggleConfigItem(
+                        R.string.config_ambient_second_label,
+                        R.string.config_ambient_second_alert_message,
+                        R.drawable.ic_settings_outline,
+                        R.drawable.ic_settings,
+                        new BooleanMutator(WatchFaceState::setUseDecomposition),
+                        SharedPref::isOffloadSupported),
 
                 // Help.
                 new HelpLabelConfigItem(R.string.config_configure_settings_help),

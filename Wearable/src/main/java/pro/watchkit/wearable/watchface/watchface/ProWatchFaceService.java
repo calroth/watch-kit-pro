@@ -250,6 +250,11 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
         }
 
         /**
+         * Has a decomposition been sent to the offload processor?
+         */
+        private boolean mHasDecompositionBeenSent = false;
+
+        /**
          * Our action for updating our decomposition.
          */
         @NonNull
@@ -384,6 +389,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
             // The properties that matter to us.
             boolean lowBitAmbient = properties.getBoolean(PROPERTY_LOW_BIT_AMBIENT, false);
             boolean burnInProtection = properties.getBoolean(PROPERTY_BURN_IN_PROTECTION, false);
+            boolean offloadSupported = properties.getBoolean(PROPERTY_OFFLOAD_SUPPORTED, false);
 
             // Set low-bit ambient on our ambient watch face paint as required.
             getWatchFaceState().getPaintBox().getAmbientPaint().setAntiAlias(!lowBitAmbient);
@@ -391,6 +397,9 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
             // Set low-bit ambient and burn-in protection on our complications as required.
             getWatchFaceState().getComplications().forEach(
                     c -> c.setLowBitAmbientBurnInProtection(lowBitAmbient, burnInProtection));
+
+            // Set offload support!
+            SharedPref.setIsOffloadSupported(offloadSupported);
         }
 
         /*
@@ -483,6 +492,15 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
             invalidate();
         }
 
+        /**
+         * Can we draw a decomposition?
+         *
+         * @return Whether the hardware supports offload and the user has opted in to decomposition
+         */
+        private boolean canDrawDecomposition() {
+            return SharedPref.isOffloadSupported() && getWatchFaceState().getUseDecomposition();
+        }
+
         @Override
         public void onDraw(@NonNull Canvas canvas, @NonNull Rect bounds) {
             boolean prevAmbient = getWatchFaceState().isAmbient();
@@ -499,15 +517,24 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
             // Propagate our size to our drawable. Turns out this isn't as slow as I imagined.
             mWatchFaceGlobalDrawable.setBounds(bounds);
             if (isVisible()) {
+                // Draw to the canvas if we're in active or ambient modes.
                 mWatchFaceGlobalDrawable.draw(canvas);
-            } else if (getWatchFaceState().isDecomposable()
-                    && mWatchFaceGlobalDrawable.hasDecompositionUpdateAvailable()) {
+            }
+
+            if (canDrawDecomposition() && (!mHasDecompositionBeenSent ||
+                    mWatchFaceGlobalDrawable.hasDecompositionUpdateAvailable())) {
+                // If we can draw a decomposition, and we have something new to send...
                 WatchFaceDecomposition.Builder builder = new WatchFaceDecomposition.Builder();
                 // Build and update the decomposition.
                 long nextUpdateTime = mWatchFaceGlobalDrawable.buildDecomposition(builder);
                 updateDecomposition(builder.build());
                 // Reschedule the alarm; we don't need it for another n milliseconds.
                 scheduleNextUpdateDecomposableAlarm(nextUpdateTime);
+                mHasDecompositionBeenSent = true;
+            } else if (!canDrawDecomposition() && mHasDecompositionBeenSent) {
+                // Remove any decomposition we may have had.
+                updateDecomposition(null);
+                mHasDecompositionBeenSent = false;
             }
 
             if (prevAmbient != getWatchFaceState().isAmbient()) {
@@ -554,7 +581,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
             updateTimer();
 
             // Update our decomposable alarm: start or stop it as required.
-            if (visible) {
+            if (visible || !canDrawDecomposition()) {
                 try {
                     unregisterReceiver(mDecomposableUpdateBroadcastReceiver);
                 } catch (IllegalArgumentException e) {

@@ -36,6 +36,7 @@ final class Settings extends BytePackable {
     boolean mStats, mStatsDetail;
     boolean mHidePips, mHideHands;
     boolean mUseLegacyColorDrawing, mUseLegacyEffects;
+    boolean mUseDecomposition;
     final boolean mHardwareAccelerationEnabled = true;
     final boolean mInnerGlow = false;
     final boolean mDrawShadows = true;
@@ -92,6 +93,7 @@ final class Settings extends BytePackable {
         mBytePacker.put(mHideHands);
         mBytePacker.put(mUseLegacyColorDrawing);
         mBytePacker.put(mUseLegacyEffects);
+        mBytePacker.put(mUseDecomposition);
 
         mBytePacker.finish();
     }
@@ -124,6 +126,7 @@ final class Settings extends BytePackable {
                 mHideHands = mBytePacker.getBoolean();
                 mUseLegacyColorDrawing = mBytePacker.getBoolean();
                 mUseLegacyEffects = mBytePacker.getBoolean();
+                mUseDecomposition = mBytePacker.getBoolean();
                 break;
             }
             case 1: {

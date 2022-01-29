@@ -964,8 +964,12 @@ public class WatchFaceState {
         mSettings.mComplicationBackgroundMaterial = complicationBackgroundMaterial;
     }
 
-    public boolean isDecomposable() {
-        return false;
+    public boolean getUseDecomposition() {
+        return mSettings.mUseDecomposition;
+    }
+
+    public void setUseDecomposition(boolean useDecomposition) {
+        mSettings.mUseDecomposition = useDecomposition;
     }
 
     public boolean isDeveloperMode() {

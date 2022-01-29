@@ -70,6 +70,10 @@
     <string name="config_request_location_permissions_message">The <b>Ambient Night Color</b> is
         used between sunset and sunrise.\n\nTo calculate these times, <b>Watch Kit Pro</b> needs
         access to this device’s approximate location.</string>
+    <string name="config_ambient_second_label">[EXPERIMENTAL] Show Second Hand in Ambient</string>
+    <string name="config_ambient_second_alert_message">The <b>Show Second Hand in Ambient</b>
+        setting is <i>experimental</i>.\n\nIf it does not function or has defects, turn this
+        setting off and reboot your device.</string>
     <string name="config_developer_mode_label">Developer Mode</string>
     <string name="config_about_heading">Watch Kit Pro ⌚</string>
     <string name="config_credits_1">Written by 💖</string>
