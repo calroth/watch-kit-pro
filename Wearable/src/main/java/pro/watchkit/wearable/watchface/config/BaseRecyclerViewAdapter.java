@@ -48,6 +48,7 @@ import static pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity.
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -1058,6 +1059,38 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         @Override
         public void onClick(View view) {
+            if (mConfigItem.getAlertMessageResourceId() != -1 && isChecked()) {
+                // Regenerate and grab our current permutations. Just in time!
+                String[] permutations =
+                        mConfigItem.permute(mCurrentWatchFaceState, mSwitch.getContext());
+                String yesSetting = permutations[1];
+                String noSetting = permutations[0];
+
+                BaseRecyclerViewAdapter.this.onWatchFaceStateChanged();
+                // Pop an alert dialog with the given alert message.
+                new AlertDialog.Builder(view.getContext(), android.R.style.Theme_DeviceDefault_Dialog_Alert)
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .setTitle(mConfigItem.getNameResourceId())
+                        .setMessage(mConfigItem.getAlertMessageResourceId())
+                        // User said "OK" to our explanation, so use the "yes" option.
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                            mSharedPref.putWatchFaceStateString(yesSetting);
+                            BaseRecyclerViewAdapter.this.onWatchFaceStateChanged();
+                        })
+                        // User said "Cancel" to our explanation, so use the "no" option.
+                        .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
+                            mSharedPref.putWatchFaceStateString(noSetting);
+                            BaseRecyclerViewAdapter.this.onWatchFaceStateChanged();
+                        })
+                        // User swiped away our explanation, so use the "no" option.
+                        .setOnCancelListener(dialog -> {
+                            mSharedPref.putWatchFaceStateString(noSetting);
+                            BaseRecyclerViewAdapter.this.onWatchFaceStateChanged();
+                        })
+                        .show();
+                return;
+            }
+
             // Regenerate and grab our current permutations. Just in time!
             String[] permutations =
                     mConfigItem.permute(mCurrentWatchFaceState, mSwitch.getContext());

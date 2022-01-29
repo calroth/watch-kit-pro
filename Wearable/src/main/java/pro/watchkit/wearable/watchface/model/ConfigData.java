@@ -586,6 +586,7 @@ abstract public class ConfigData {
             return mConfigItemVisibilityCalculator.apply(watchFaceState);
         }
     }
+
     /**
      * Data for toggle config item in RecyclerView.
      */
@@ -593,6 +594,8 @@ abstract public class ConfigData {
 
         @StringRes
         final private int mNameResourceId;
+        @StringRes
+        final private int mAlertMessageResourceId;
         @DrawableRes
         final private int mIconEnabledResourceId;
         @DrawableRes
@@ -614,7 +617,19 @@ abstract public class ConfigData {
                 @DrawableRes int iconDisabledResourceId,
                 Mutator mutator,
                 Function<WatchFaceState, Boolean> configItemVisibilityCalculator) {
+            this(nameResourceId, -1, iconEnabledResourceId,
+                    iconDisabledResourceId, mutator, configItemVisibilityCalculator);
+        }
+
+        ToggleConfigItem(
+                @StringRes int nameResourceId,
+                @StringRes int alertMessageResourceId,
+                @DrawableRes int iconEnabledResourceId,
+                @DrawableRes int iconDisabledResourceId,
+                Mutator mutator,
+                Function<WatchFaceState, Boolean> configItemVisibilityCalculator) {
             mNameResourceId = nameResourceId;
+            mAlertMessageResourceId = alertMessageResourceId;
             mIconEnabledResourceId = iconEnabledResourceId;
             mIconDisabledResourceId = iconDisabledResourceId;
             mMutator = mutator;
@@ -624,6 +639,11 @@ abstract public class ConfigData {
         @StringRes
         public int getNameResourceId() {
             return mNameResourceId;
+        }
+
+        @StringRes
+        public int getAlertMessageResourceId() {
+            return mAlertMessageResourceId;
         }
 
         @DrawableRes
