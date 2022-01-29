@@ -466,7 +466,7 @@ public class ColorSelectionActivity extends Activity {
             // for why we need it. Dark theme: android.R.style.Theme_DeviceDefault_Dialog_Alert
             new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert)
                     .setIcon(android.R.drawable.ic_dialog_info)
-                    .setTitle(R.string.config_request_location_permissions_title)
+                    .setTitle(R.string.config_ambient_night_color_label)
                     .setMessage(R.string.config_request_location_permissions_message)
                     // User said "OK" to our explanation, so request the permission.
                     .setPositiveButton(android.R.string.yes, (dialog, which) -> requestPermissions(

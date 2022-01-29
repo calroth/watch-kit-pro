@@ -67,6 +67,9 @@
     <string name="config_background_image_complication_label">Background Image</string>
     <string name="config_ambient_day_color_label">Ambient Day Color</string>
     <string name="config_ambient_night_color_label">Ambient Night Color</string>
+    <string name="config_request_location_permissions_message">The <b>Ambient Night Color</b> is
+        used between sunset and sunrise.\n\nTo calculate these times, <b>Watch Kit Pro</b> needs
+        access to this device’s approximate location.</string>
     <string name="config_developer_mode_label">Developer Mode</string>
     <string name="config_about_heading">Watch Kit Pro ⌚</string>
     <string name="config_credits_1">Written by 💖</string>
@@ -300,11 +303,6 @@
     <string name="config_preset_base_accent_material_texture">Base Accent Material Texture</string>
 
     <string name="config_activity_label">Configure Watch Kit Pro</string>
-
-    <string name="config_request_location_permissions_title">Ambient Night Color</string>
-    <string name="config_request_location_permissions_message">The <b>Ambient Night Color</b> is
-        used between sunset and sunrise.\n\nTo calculate these times, <b>Watch Kit Pro</b> needs
-        access to this device’s approximate location.</string>
 
     <string-array name="WatchFacePreset_PipsDisplay">
         <item>None</item>
