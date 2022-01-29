@@ -120,6 +120,11 @@ public final class ComplicationHolder {
     private boolean mHasUpdatedComplicationDataObject = false;
 
     /**
+     * Has "mAmbientCacheBitmap2" been updated since last we checked?
+     */
+    private boolean mIsAmbientCacheBitmap2Dirty = false;
+
+    /**
      * The time of the most recent time-dependent frame we've rendered. Updated
      * when we render a new strip of time-dependent frames.
      */
@@ -519,6 +524,7 @@ public final class ComplicationHolder {
         if (mAmbientCacheBitmap2 != null) {
             canvas.drawBitmap(mAmbientCacheBitmap2, mBounds.left, mBounds.top, null);
         }
+        mIsAmbientCacheBitmap2Dirty = false;
     }
 
     /**
@@ -527,10 +533,10 @@ public final class ComplicationHolder {
      * @return Whether this complication has updated data
      */
     public boolean checkUpdatedComplicationData(long currentTimeMillis) {
-        boolean result = mHasUpdatedComplicationDataObject;
         if (isTimeDependent()) {
             // Also if we're time-dependent, compare the current frame time 0 to the last one.
-            result |= getTimeDependentFrameTime0(currentTimeMillis) >= mLastTimeDependentFrameTime0;
+            return mHasUpdatedComplicationDataObject ||
+                    getTimeDependentFrameTime0(currentTimeMillis) >= mLastTimeDependentFrameTime0;
         } else if (mHasUpdatedComplicationDataObject) {
             // For non-time-dependent complications, some more logic follows...
 
@@ -605,12 +611,11 @@ public final class ComplicationHolder {
                 mAmbientCacheCanvas2 = c;
             }
 
-            // Return what we actually have.
-            result = !same;
             // Don't take this code path again; "mAmbientCacheBitmap2" is now accurate.
             mHasUpdatedComplicationDataObject = false;
+            mIsAmbientCacheBitmap2Dirty = true;
         }
-        return result;
+        return mIsAmbientCacheBitmap2Dirty;
     }
 
     public void setLowBitAmbientBurnInProtection(boolean lowBitAmbient, boolean burnInProtection) {
