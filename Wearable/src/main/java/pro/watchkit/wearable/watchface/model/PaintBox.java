@@ -1196,8 +1196,7 @@ public final class PaintBox {
                 }
             }
 
-            long time = System.nanoTime();
-            StringBuilder sb = new StringBuilder();
+            DebugTiming.start("PaintBox.generateTriangleGradient");
 
             // Generate a new bitmap.
             // Extra padding to make width mod 4, for RenderScript.
@@ -1275,14 +1274,12 @@ public final class PaintBox {
                 triangleCanvas.drawPaint(mBrushedEffectPaint);
             }
 
-            sb.append("Gradient: ").append((System.nanoTime() - time) / 1000000f);
-            time = System.nanoTime();
+            DebugTiming.checkpoint("Gradient");
 
             @ColorInt int[] cLUT = new int[256];
             getIntermediateColor(colorB, colorA, cLUT);
 
-            sb.append(" ~ cLUT: ").append((System.nanoTime() - time) / 1000000f);
-            time = System.nanoTime();
+            DebugTiming.checkpoint("cLUT");
 
 //            nativeMapBitmap(triangleBitmap, cLUT);
 
@@ -1306,9 +1303,8 @@ public final class PaintBox {
 //                        });
 //                triangleBitmap.setPixels(pixels, 0, width, 0, j, width, 1);
 //            });
-
-            sb.append(" ~ p1: ").append((System.nanoTime() - time) / 1000000f);
-            time = System.nanoTime();
+//
+//            DebugTiming.log("p1");
 
             if (mRenderScript == null) {
                 mRenderScript = RenderScript.create(mContext);
@@ -1316,17 +1312,14 @@ public final class PaintBox {
             if (mScriptC_mapBitmap == null) {
                 mScriptC_mapBitmap = new ScriptC_mapBitmap(mRenderScript);
             }
-            sb.append(" ~ p2.0: ").append((System.nanoTime() - time) / 1000000f);
-            time = System.nanoTime();
+            DebugTiming.checkpoint("p2.0");
             mScriptC_mapBitmap.set_mapping(cLUT);
-            sb.append(" ~ p2.1: ").append((System.nanoTime() - time) / 1000000f);
-            time = System.nanoTime();
+            DebugTiming.checkpoint("p2.1");
             mScriptC_mapBitmap.invoke_convertMapping();
 //            for (int i = 0; i < 256; i++) {
 //                mScriptC_mapBitmap.invoke_setMapping(i, cLUT[i]);
 //            }
-            sb.append(" ~ p2.2: ").append((System.nanoTime() - time) / 1000000f);
-            time = System.nanoTime();
+            DebugTiming.checkpoint("p2.2");
 
             Allocation in = Allocation.createFromBitmap(mRenderScript, triangleGradientBitmap);
             Allocation out = Allocation.createFromBitmap(mRenderScript, triangleBitmap);
@@ -1335,8 +1328,8 @@ public final class PaintBox {
             in.destroy();
             out.destroy();
 
-            sb.append(" ~ p2.3: ").append((System.nanoTime() - time) / 1000000f);
-//            Log.d(TAG, sb.toString());
+            DebugTiming.checkpoint("p2.3");
+            DebugTiming.endAndWrite();
 
             triangleBitmap.prepareToDraw();
 
