@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright (C) 2018-2019 Terence Tan
+ Copyright (C) 2018-2022 Terence Tan
 
   This file is free software: you may copy, redistribute and/or modify it
   under the terms of the GNU General Public License as published by the
@@ -46,10 +46,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dark_grey"
-        android:paddingTop="@dimen/activity_config_padding"
-        android:paddingBottom="36dp"
-        android:paddingStart="@dimen/activity_config_padding"
-        android:paddingEnd="@dimen/activity_config_padding"
+        android:paddingTop="@dimen/activity_config_top_padding"
+        android:paddingBottom="@dimen/activity_config_bottom_padding"
+        android:paddingStart="@dimen/activity_config_sides_padding"
+        android:paddingEnd="@dimen/activity_config_sides_padding"
         android:scrollbars="vertical"
         android:focusable="true"
         android:focusableInTouchMode="true">

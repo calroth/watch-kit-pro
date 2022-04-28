@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-     Copyright (C) 2019 Terence Tan
+ Copyright (C) 2019-2022 Terence Tan
 
-      This file is free software: you may copy, redistribute and/or modify it
-      under the terms of the GNU General Public License as published by the
-      Free Software Foundation, either version 3 of the License, or (at your
-      option) any later version.
+  This file is free software: you may copy, redistribute and/or modify it
+  under the terms of the GNU General Public License as published by the
+  Free Software Foundation, either version 3 of the License, or (at your
+  option) any later version.
 
-      This file is distributed in the hope that it will be useful, but
-      WITHOUT ANY WARRANTY; without even the implied warranty of
-      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-      General Public License for more details.
+  This file is distributed in the hope that it will be useful, but
+  WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  General Public License for more details.
 
-      You should have received a copy of the GNU General Public License
-      along with this program.  If not, see <http://www.gnu.org/licenses/>.
-    -->
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <androidx.wear.widget.WearableRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/wearable_recycler_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_config_padding"
-    android:paddingBottom="36dp"
+    android:paddingTop="@dimen/activity_config_top_padding"
+    android:paddingBottom="@dimen/activity_config_bottom_padding"
+    android:paddingLeft="@dimen/activity_config_sides_padding"
+    android:paddingRight="@dimen/activity_config_sides_padding"
     android:background="@color/dark_grey"
     android:scrollbars="vertical"
     android:focusable="true"

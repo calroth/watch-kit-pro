@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
- Copyright (C) 2018-2019 Terence Tan
+ Copyright (C) 2018-2022 Terence Tan
 
   This file is free software: you may copy, redistribute and/or modify it
   under the terms of the GNU General Public License as published by the
@@ -18,5 +18,7 @@
     android:id="@+id/config_item_textview_widget"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingStart="@dimen/activity_config_sides_padding"
+    android:paddingEnd="@dimen/activity_config_sides_padding"
     android:gravity="center"
     android:textColor="@color/white" />
