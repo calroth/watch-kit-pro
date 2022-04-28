@@ -455,7 +455,6 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         void bind(@NonNull ConfigData.LabelConfigItem configItem) {
             mConfigItem = configItem;
-            mLabelTextView.setTypeface(null); // Set as default typeface by default!
 
             onWatchFaceStateChanged();
         }
