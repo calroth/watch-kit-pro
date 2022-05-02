@@ -470,8 +470,10 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
             // Generate the heading if any.
             if (mConfigItem instanceof ConfigData.HeadingLabelConfigItem) {
+                mLabelTextView.setTextAppearance(R.style.TextAppearance_AppCompat_Large_Inverse);
                 mStringBuilder.append(r.getString(mTitleLabel)).append("<br>");
             } else if (mConfigItem instanceof ConfigData.TitleLabelConfigItem) {
+                mLabelTextView.setTextAppearance(R.style.TextAppearance_AppCompat_Small_Inverse);
                 int t = ((ConfigData.TitleLabelConfigItem) mConfigItem).getTitleResourceId();
                 mStringBuilder.append("<b>")
                         .append(r.getString(t))
