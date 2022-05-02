@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2021 Terence Tan
+ * Copyright (C) 2018-2022 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -588,10 +588,10 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             }
             // If we spam clicks on the config git hash or date, enter developer mode.
             if ((mConfigItem instanceof ConfigData.TitleLabelConfigItem) &&
-                    ((ConfigData.TitleLabelConfigItem) mConfigItem).getTitleResourceId() ==
+                    (((ConfigData.TitleLabelConfigItem) mConfigItem).getTitleResourceId() ==
                             R.string.config_git_hash ||
-                    ((ConfigData.TitleLabelConfigItem) mConfigItem).getTitleResourceId() ==
-                            R.string.config_git_date) {
+                            ((ConfigData.TitleLabelConfigItem) mConfigItem).getTitleResourceId() ==
+                                    R.string.config_git_date)) {
                 mDeveloperModeEntry--;
                 if (mDeveloperModeEntry > 0 && mDeveloperModeEntry < 5) {
                     Toaster.makeText(view.getContext(), "Entering developer mode in " +
