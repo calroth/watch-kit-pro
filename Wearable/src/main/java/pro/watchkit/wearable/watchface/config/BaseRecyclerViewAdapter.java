@@ -473,7 +473,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 mLabelTextView.setTextAppearance(R.style.TextAppearance_AppCompat_Large_Inverse);
                 mStringBuilder.append(r.getString(mTitleLabel)).append("<br>");
             } else if (mConfigItem instanceof ConfigData.TitleLabelConfigItem) {
-                mLabelTextView.setTextAppearance(R.style.TextAppearance_AppCompat_Small_Inverse);
+                mLabelTextView.setTextAppearance(R.style.TextAppearance_AppCompat_Medium_Inverse);
                 int t = ((ConfigData.TitleLabelConfigItem) mConfigItem).getTitleResourceId();
                 mStringBuilder.append("<b>")
                         .append(r.getString(t))
