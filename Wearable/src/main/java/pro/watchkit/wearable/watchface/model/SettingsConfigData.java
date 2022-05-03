@@ -74,7 +74,7 @@ public class SettingsConfigData extends ConfigData {
                 // Data for Configure Typeface sub-activity in settings Activity.
                 new ConfigActivityConfigItem(
                         R.string.config_configure_typeface,
-                        R.drawable.ic_settings,
+                        R.drawable.ic_font,
                         TypefaceConfigData.class,
                         ConfigActivity.class),
 

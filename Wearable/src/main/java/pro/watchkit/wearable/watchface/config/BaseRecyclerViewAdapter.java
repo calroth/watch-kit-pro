@@ -803,6 +803,11 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         void bind(@NonNull ConfigData.TypefaceConfigItem configItem) {
             mConfigItem = configItem;
+            Drawable left = itemView.getContext().getDrawable(R.drawable.ic_font);
+            if (left != null) {
+                left.setTint(mButton.getCurrentTextColor());
+            }
+            mButton.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
 
             setTextAndVisibility();
         }

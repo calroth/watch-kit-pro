@@ -46,7 +46,7 @@ public class WatchFacePresetConfigData extends ConfigData {
                 // Data for Configure Colors and Materials sub-activity in settings Activity.
                 new ConfigActivityConfigItem(
                         R.string.config_configure_colors_materials,
-                        R.drawable.icn_styles,
+                        R.drawable.ic_color_lens,
                         ColorsMaterialsConfigData.class,
                         ConfigActivity.class),
 
