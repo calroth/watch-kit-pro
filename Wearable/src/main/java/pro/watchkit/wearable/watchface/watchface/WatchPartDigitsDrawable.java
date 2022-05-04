@@ -155,6 +155,12 @@ final class WatchPartDigitsDrawable extends WatchPartDrawable {
     @NonNull
     @Override
     protected Paint getAmbientPaint() {
-        return mWatchFaceState.getPaintBox().getAmbientPaintFaded();
+        if (mWatchFaceState.getDigitDisplay() == DigitDisplay.OVER) {
+            // If we're displaying digits over, they replace the hour pips. Draw them bright.
+            return super.getAmbientPaint();
+        } else {
+            // Otherwise draw them faded.
+            return mWatchFaceState.getPaintBox().getAmbientPaintFaded();
+        }
     }
 }
