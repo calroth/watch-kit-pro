@@ -161,10 +161,10 @@ public class SettingsConfigData extends ConfigData {
 
                 // Data for 'Alt Drawing' in settings Activity.
                 new ToggleConfigItem(
-                        R.string.config_use_legacy_color_drawing_label,
+                        R.string.config_use_legacy_material_drawing_label,
                         R.drawable.ic_settings,
                         R.drawable.ic_settings,
-                        new BooleanMutator(WatchFaceState::setUseLegacyColorDrawing),
+                        new BooleanMutator(WatchFaceState::setUseLegacyMaterialDrawing),
                         WatchFaceState::isDeveloperMode),
 
                 // Data for 'Sparkle Effect' in settings Activity.

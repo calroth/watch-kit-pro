@@ -1044,12 +1044,12 @@ public class WatchFaceState {
         mSettings.mHideHands = hideHands;
     }
 
-    public boolean isUseLegacyColorDrawing() {
-        return mSettings.mUseLegacyColorDrawing;
+    public boolean isUseLegacyMaterialDrawing() {
+        return mSettings.mUseLegacyMaterialDrawing;
     }
 
-    void setUseLegacyColorDrawing(boolean useLegacyColorInterpolation) {
-        mSettings.mUseLegacyColorDrawing = useLegacyColorInterpolation;
+    void setUseLegacyMaterialDrawing(boolean useLegacyMaterialDrawing) {
+        mSettings.mUseLegacyMaterialDrawing = useLegacyMaterialDrawing;
     }
 
     private boolean isUseLegacyEffects() {
@@ -1861,7 +1861,7 @@ public class WatchFaceState {
     // region PaintBox
     private void regeneratePaints() {
         mPaintBox.setUseLegacyEffects(isDeveloperMode() && isUseLegacyEffects());
-        mPaintBox.setUseLegacyColorDrawingNotLUV(isDeveloperMode() && isUseLegacyColorDrawing());
+        mPaintBox.setUseLegacyMaterialDrawing(isDeveloperMode() && isUseLegacyMaterialDrawing());
         mPaintBox.regeneratePaints(
                 getFillSixBitColor(), getAccentSixBitColor(),
                 getHighlightSixBitColor(), getBaseSixBitColor(),

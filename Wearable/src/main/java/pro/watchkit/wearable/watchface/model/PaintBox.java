@@ -911,10 +911,11 @@ public final class PaintBox {
         mUseLegacyEffects = useLegacyEffects;
     }
 
-    private static boolean mUseLUV;
+    private static final boolean mUseLUV = true;
+    private static boolean mUseLegacyMaterialDrawing = false;
 
-    void setUseLegacyColorDrawingNotLUV(boolean useLegacyColorDrawing) {
-        mUseLUV = !useLegacyColorDrawing;
+    void setUseLegacyMaterialDrawing(boolean useLegacyColorDrawing) {
+        mUseLegacyMaterialDrawing = useLegacyColorDrawing;
     }
 
     public enum ColorType {FILL, ACCENT, HIGHLIGHT, BASE, AMBIENT_DAY, AMBIENT_NIGHT}

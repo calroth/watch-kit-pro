@@ -35,7 +35,7 @@ final class Settings extends BytePackable {
     boolean mDeveloperMode;
     boolean mStats, mStatsDetail;
     boolean mHidePips, mHideHands;
-    boolean mUseLegacyColorDrawing, mUseLegacyEffects;
+    boolean mUseLegacyMaterialDrawing, mUseLegacyEffects;
     boolean mUseDecomposition;
     final boolean mHardwareAccelerationEnabled = true;
     final boolean mInnerGlow = false;
@@ -58,7 +58,7 @@ final class Settings extends BytePackable {
                 mDeveloperMode,
                 mStats, mStatsDetail,
                 mHidePips, mHideHands,
-                mUseLegacyColorDrawing, mUseLegacyEffects,
+                mUseLegacyMaterialDrawing, mUseLegacyEffects,
                 mHardwareAccelerationEnabled,
                 mInnerGlow,
                 mDrawShadows,
@@ -91,7 +91,7 @@ final class Settings extends BytePackable {
         mBytePacker.put(mStatsDetail);
         mBytePacker.put(mHidePips);
         mBytePacker.put(mHideHands);
-        mBytePacker.put(mUseLegacyColorDrawing);
+        mBytePacker.put(mUseLegacyMaterialDrawing);
         mBytePacker.put(mUseLegacyEffects);
         mBytePacker.put(mUseDecomposition);
 
@@ -124,7 +124,7 @@ final class Settings extends BytePackable {
                 mStatsDetail = mBytePacker.getBoolean();
                 mHidePips = mBytePacker.getBoolean();
                 mHideHands = mBytePacker.getBoolean();
-                mUseLegacyColorDrawing = mBytePacker.getBoolean();
+                mUseLegacyMaterialDrawing = mBytePacker.getBoolean();
                 mUseLegacyEffects = mBytePacker.getBoolean();
                 mUseDecomposition = mBytePacker.getBoolean();
                 break;
