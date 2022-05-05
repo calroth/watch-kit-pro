@@ -37,8 +37,11 @@ import android.graphics.Typeface;
 import android.graphics.Xfermode;
 import android.os.Build;
 import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.Float3;
 import android.renderscript.RenderScript;
 import android.renderscript.Short4;
+import android.renderscript.Type;
 import android.util.SparseArray;
 
 import androidx.annotation.ColorInt;
@@ -55,6 +58,7 @@ import pro.watchkit.wearable.watchface.model.BytePackable.DigitSize;
 import pro.watchkit.wearable.watchface.model.BytePackable.Material;
 import pro.watchkit.wearable.watchface.model.BytePackable.MaterialGradient;
 import pro.watchkit.wearable.watchface.model.BytePackable.MaterialTexture;
+import pro.watchkit.wearable.watchface.util.DebugTiming;
 
 public final class PaintBox {
     // private static final String TAG = "PaintBox";
@@ -102,11 +106,348 @@ public final class PaintBox {
     @Nullable
     private static WeakReference<Bitmap> mTriangleGradientBitmapRef;
 
-//    static {
-//        System.loadLibrary("native-lib");
-//    }
+    /**
+     * A gradient or a texture. Effectively an 8-bit greyscale mask that is used as a lookup to a
+     * LUV palette. The same size as the watch face, however as a static field, is shared amongst
+     * all materials in the PaintBox. (So it's only generated once, which makes it fast.)
+     */
+    private abstract static class GradTex {
+        /**
+         * The height we've currently set this GradTex to.
+         */
+        int mInternalWidth = -1;
 
-//    native void nativeMapBitmap(Bitmap bitmap, int[] cLUT);
+        /**
+         * The width we've currently set this GradTex to.
+         */
+        int mInternalHeight = -1;
+
+        /**
+         * The RenderScript allocation of this GradTex, which holds the graphics data.
+         */
+        Allocation m8BitAllocation;
+
+        /**
+         * Bitmap representation of this GradTex, backed by the Allocation.
+         */
+        Bitmap m8BitBitmap;
+
+        /**
+         * A Canvas for drawing operations to the Bitmap.
+         */
+        Canvas m8BitCanvas;
+
+        /**
+         * Generate this GradTex. Override and put class-specific drawing code here.
+         */
+        abstract void generate();
+
+        /**
+         * Finalize this GradTex; dispose of its allocation.
+         */
+        @Override
+        protected void finalize() {
+            if (m8BitAllocation != null) {
+                m8BitAllocation.destroy();
+            }
+        }
+
+        /**
+         * Get the current Allocation for drawing and/or compositing a material. Will internally
+         * call "generate" if not already done or if the height/width changed.
+         *
+         * @param currentHeight The requested height
+         * @param currentWidth  The requested width
+         * @return an Allocation that can be used to draw a material, or null
+         */
+        Allocation getAllocation(int currentHeight, int currentWidth) {
+            if (currentHeight <= 0 || currentWidth <= 0 || mRenderScript == null) {
+                return null;
+            } else if (currentHeight != mInternalHeight || currentWidth != mInternalWidth) {
+                // Height or width have changed or were set for the first time.
+                // Create or regenerate ourselves.
+                mInternalHeight = currentHeight;
+                mInternalWidth = currentWidth;
+
+                // Initialise bitmap and canvas with new width and height.
+                if (m8BitBitmap != null) {
+                    m8BitBitmap.recycle();
+                }
+
+                // Note: should use Bitmap.Config.ALPHA_8, if we can modify our Canvas ops to suit.
+                m8BitBitmap = Bitmap.createBitmap(
+                        currentWidth, currentHeight, Bitmap.Config.ARGB_8888);
+                m8BitCanvas = new Canvas(m8BitBitmap);
+                if (m8BitAllocation != null) {
+                    m8BitAllocation.destroy();
+                }
+                m8BitAllocation = Allocation.createFromBitmap(mRenderScript, m8BitBitmap);
+
+                generate();
+                m8BitBitmap.prepareToDraw();
+                m8BitAllocation.copyFrom(m8BitBitmap);
+            }
+
+            return m8BitAllocation;
+        }
+    }
+
+    /**
+     * A flat gradient, mapped to the first color ("colorA").
+     */
+    static GradTex mFlatGradA = new GradTex() {
+        @Override
+        void generate() {
+            m8BitBitmap.eraseColor(0xFF000000);
+        }
+    };
+
+    /**
+     * A flat gradient, mapped to the second color ("colorB").
+     */
+    static GradTex mFlatGradB = new GradTex() {
+        @Override
+        void generate() {
+            m8BitBitmap.eraseColor(0xFFFFFFFF);
+        }
+    };
+
+    /**
+     * A sweep gradient.
+     */
+    static GradTex mSweepGrad = new GradTex() {
+        @Override
+        void generate() {
+            @ColorInt int colorA = Color.WHITE;
+            @ColorInt int colorB = Color.BLACK;
+
+            int[] gradient = new int[]{
+                    getIntermediateColorFast(colorA, colorB, 1.0d), // Original
+                    getIntermediateColorFast(colorA, colorB, 0.8d),
+                    getIntermediateColorFast(colorA, colorB, 0.6d),
+                    getIntermediateColorFast(colorA, colorB, 0.4d),
+                    getIntermediateColorFast(colorA, colorB, 0.2d),
+                    getIntermediateColorFast(colorA, colorB, 0.0d), // Original
+                    getIntermediateColorFast(colorA, colorB, 0.2d),
+                    getIntermediateColorFast(colorA, colorB, 0.4d),
+                    getIntermediateColorFast(colorA, colorB, 0.6d),
+                    getIntermediateColorFast(colorA, colorB, 0.8d),
+                    getIntermediateColorFast(colorA, colorB, 1.0d), // Original
+                    getIntermediateColorFast(colorA, colorB, 0.8d),
+                    getIntermediateColorFast(colorA, colorB, 0.6d),
+                    getIntermediateColorFast(colorA, colorB, 0.4d),
+                    getIntermediateColorFast(colorA, colorB, 0.2d),
+                    getIntermediateColorFast(colorA, colorB, 0.0d), // Original
+                    getIntermediateColorFast(colorA, colorB, 0.2d),
+                    getIntermediateColorFast(colorA, colorB, 0.4d),
+                    getIntermediateColorFast(colorA, colorB, 0.6d),
+                    getIntermediateColorFast(colorA, colorB, 0.8d),
+                    getIntermediateColorFast(colorA, colorB, 1.0d), // Original
+            };
+
+            float height = (float) mInternalHeight;
+            float width = (float) mInternalWidth;
+            float mCenterX = width / 2f;
+            float mCenterY = height / 2f;
+            mBrushedEffectPaint.reset();
+            mBrushedEffectPaint.setStyle(Paint.Style.FILL);
+            mBrushedEffectPaint.setShader(new SweepGradient(mCenterX, mCenterY, gradient, null));
+            m8BitCanvas.drawPaint(mBrushedEffectPaint);
+            m8BitBitmap.prepareToDraw();
+        }
+    };
+
+    /**
+     * A radial gradient.
+     */
+    static GradTex mRadialGrad = new GradTex() {
+        @Override
+        void generate() {
+            @ColorInt int colorA = Color.WHITE;
+            @ColorInt int colorB = Color.BLACK;
+
+            int[] gradient = new int[]{
+                    colorB, // Original
+                    colorB,
+                    colorB,
+                    colorB,
+                    colorB,
+                    colorB, // Original
+                    colorB,
+                    colorB,
+                    getIntermediateColorFast(colorA, colorB, 0.025d), // Taper it in
+                    getIntermediateColorFast(colorA, colorB, 0.05d),
+                    getIntermediateColorFast(colorA, colorB, 0.1d), // Not original
+                    getIntermediateColorFast(colorA, colorB, 0.2d),
+                    getIntermediateColorFast(colorA, colorB, 0.4d),
+                    getIntermediateColorFast(colorA, colorB, 0.6d),
+                    getIntermediateColorFast(colorA, colorB, 0.8d),
+                    getIntermediateColorFast(colorA, colorB, 0.9d), // Not original
+                    getIntermediateColorFast(colorA, colorB, 0.95d),
+                    getIntermediateColorFast(colorA, colorB, 0.975d), // Taper it out
+                    colorA,
+                    colorA,
+                    colorA // Original
+            };
+
+            float height = (float) mInternalHeight;
+            float width = (float) mInternalWidth;
+            float mCenterX = width / 2f;
+            float mCenterY = height / 2f;
+            mBrushedEffectPaint.reset();
+            mBrushedEffectPaint.setStyle(Paint.Style.FILL);
+            mBrushedEffectPaint.setShader(new RadialGradient(
+                    mCenterX, mCenterY, mCenterY, gradient, null, Shader.TileMode.CLAMP));
+            m8BitCanvas.drawPaint(mBrushedEffectPaint);
+        }
+    };
+
+    /**
+     * A gradient which looks like three triangles next to each other.
+     */
+    static GradTex mTriangleGrad = new GradTex() {
+        @Override
+        void generate() {
+            // A new bitmap for the triangle gradient pattern.
+            // Unlike the triangle bitmap above (which will be transformed with our colors),
+            // this triangle gradient bitmap doesn't change from run to run. Therefore we cache it.
+
+            // Slow version which uses CIE LAB gradients, which look excellent. We draw
+            // a black-to-white gradient then map that to a cLUT with the CIE LAB gradient.
+            // The constants here can be tweaked a lot. Here's an initial implementation.
+            // Colors range from between Color.WHITE and Color.TRANSPARENT.
+            int[] gradient = new int[]{
+                    Color.argb((int) (0.9f * 255f + 0.5f), 255, 255, 255),
+                    Color.argb((int) (1.0f * 255f + 0.5f), 255, 255, 255), // Original
+                    Color.argb((int) (0.9f * 255f + 0.5f), 255, 255, 255),
+                    Color.argb((int) (0.7f * 255f + 0.5f), 255, 255, 255),
+                    Color.argb((int) (0.8f * 255f + 0.5f), 255, 255, 255),
+                    Color.argb((int) (0.6f * 255f + 0.5f), 255, 255, 255),
+                    Color.argb((int) (0.4f * 255f + 0.5f), 255, 255, 255), // Ripples!
+                    Color.argb((int) (0.5f * 255f + 0.5f), 255, 255, 255),
+                    Color.argb((int) (0.2f * 255f + 0.5f), 255, 255, 255), // Slightly out
+                    Color.argb((int) (0.3f * 255f + 0.5f), 255, 255, 255), // of place!
+                    Color.argb((int) (0.1f * 255f + 0.5f), 255, 255, 255),
+                    Color.argb((int) (0.0f * 255f + 0.5f), 255, 255, 255), // Original
+                    Color.argb((int) (0.0f * 255f + 0.5f), 255, 255, 255) // Original
+            };
+            float height = (float) mInternalHeight;
+            float width = (float) mInternalWidth;
+            float mCenterX = width / 2f;
+            float mCenterY = height / 2f;
+            float x1 = mCenterX - (mCenterX * (float) Math.sqrt(3) / 2f);
+            float x2 = mCenterX + (mCenterX * (float) Math.sqrt(3) / 2f);
+            float y = mCenterY + (mCenterY / 2f);
+            float radius = mCenterY * 1.33333333333f;
+            // Gradients A, B and C have an origin at the 12, 4 and 8 o'clock positions.
+            Shader gradientA = new RadialGradient(
+                    mCenterX, 0f, radius, gradient, null, Shader.TileMode.CLAMP);
+            Shader gradientB = new RadialGradient(
+                    x1, y, radius, gradient, null, Shader.TileMode.CLAMP);
+            Shader gradientC = new RadialGradient(
+                    x2, y, radius, gradient, null, Shader.TileMode.CLAMP);
+
+            mBrushedEffectPaint.reset();
+            mBrushedEffectPaint.setShader(new ComposeShader(gradientA, new ComposeShader(
+                    gradientB, gradientC, Mode.OVERLAY), Mode.OVERLAY));
+
+            // Draw the gradient to the temp bitmap.
+            m8BitCanvas.drawColor(Color.BLACK);
+            m8BitCanvas.drawPaint(mBrushedEffectPaint);
+        }
+    };
+
+    /**
+     * A flat texture.
+     */
+    static GradTex mNoneTex = new GradTex() {
+        @Override
+        void generate() {
+            // Just use the middle grey, so no highlights or lowlights.
+            m8BitBitmap.eraseColor(0xFF7F7F7F);
+        }
+    };
+
+    /**
+     * A texture which resembles spun metal.
+     */
+    static GradTex mSpunTex = new GradTex() {
+        @Override
+        void generate() {
+            // Start from middle grey, so no highlights or lowlights.
+            m8BitBitmap.eraseColor(0xFF7F7F7F);
+
+            float height = (float) mInternalHeight;
+            float width = (float) mInternalWidth;
+            float mCenterX = width / 2f;
+            float mCenterY = height / 2f;
+            float percent = mCenterX / 50f;
+            float offset = 0.5f * percent;
+            float mCenter = Math.min(mCenterX, mCenterY);
+
+            mBrushedEffectPaint.reset();
+            mBrushedEffectPaint.setStyle(Paint.Style.STROKE);
+            mBrushedEffectPaint.setStrokeWidth(offset);
+            mBrushedEffectPaint.setStrokeJoin(Paint.Join.ROUND);
+            mBrushedEffectPaint.setAntiAlias(true);
+
+            // Spun metal circles?
+            // 71 to cover the entire surface to the corners of a square device.
+            float sqrt2 = (float) (Math.sqrt(2d));
+            for (float max = 71f, i = max; i > 0f; i--) {
+                mBrushedEffectPath.reset();
+                mBrushedEffectPath.addCircle(mCenterX, mCenterY,
+                        mCenter * sqrt2 * (i - 0.5f) / max, Path.Direction.CW);
+
+                mBrushedEffectPath.offset(-offset, -offset);
+                mBrushedEffectPaint.setColor(Color.WHITE);
+                m8BitCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
+
+                mBrushedEffectPath.offset(2f * offset, 2f * offset);
+                mBrushedEffectPaint.setColor(Color.BLACK);
+                m8BitCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
+            }
+        }
+    };
+
+    /**
+     * A texture which resembles metal brushed in two diagonal directions.
+     */
+    static GradTex mCrosshatchTex = new GradTex() {
+        @Override
+        void generate() {
+            m8BitBitmap.eraseColor(0xFF7F7F7F);
+
+            float height = (float) mInternalHeight;
+            float width = (float) mInternalWidth;
+            float mCenterX = width / 2f;
+            float percent = mCenterX / 50f;
+            float offset = 0.5f * percent;
+
+            mBrushedEffectPaint.reset();
+            mBrushedEffectPaint.setStyle(Paint.Style.STROKE);
+            mBrushedEffectPaint.setStrokeWidth(offset);
+            mBrushedEffectPaint.setStrokeJoin(Paint.Join.ROUND);
+            mBrushedEffectPaint.setAntiAlias(true);
+
+            // Crosshatch!
+            for (float y = 0f - width; y <= height; y += height / 75f) {
+                // Draw top left to bottom right
+                mBrushedEffectPath.reset();
+                mBrushedEffectPath.moveTo(0, y);
+                mBrushedEffectPath.lineTo(width, y + width);
+                mBrushedEffectPaint.setColor(Math.random() < 0.5d ? Color.WHITE : Color.BLACK);
+                m8BitCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
+
+                // Draw top right to bottom left
+                mBrushedEffectPath.reset();
+                mBrushedEffectPath.moveTo(width, y);
+                mBrushedEffectPath.lineTo(0, y + width);
+                mBrushedEffectPaint.setColor(Math.random() < 0.5d ? Color.BLACK : Color.WHITE);
+                m8BitCanvas.drawPath(mBrushedEffectPath, mBrushedEffectPaint);
+            }
+        }
+    };
 
     PaintBox(@NonNull Context context) {
         mContext = context;
@@ -126,6 +467,12 @@ public final class PaintBox {
 
         mShadowPaint = newDefaultPaint();
         mShadowPaint.setStyle(Paint.Style.FILL);
+
+        // Initialise RenderScript access objects.
+        if (mRenderScript == null || mScriptC_mapBitmap == null) {
+            mRenderScript = RenderScript.create(mContext);
+            mScriptC_mapBitmap = new ScriptC_mapBitmap(mRenderScript);
+        }
     }
 
     /**
@@ -298,6 +645,35 @@ public final class PaintBox {
             // And return
             return Color.argb(a, r, g, b);
         }
+    }
+
+    /**
+     * Given two colors A and B, return an intermediate color between the two. The distance
+     * between the two is given by "d"; 1.0 means return "colorA", 0.0 means return "colorB",
+     * 0.5 means return something evenly between the two.
+     * <p>
+     * This method is fast, it runs entirely in linear sRGB. Use it for grayscale.
+     *
+     * @param colorA One color to calculate
+     * @param colorB The other color
+     * @param d      The distance from colorB, between 0.0 and 1.0
+     * @return A color between colorA and colorB
+     */
+    @ColorInt
+    static int getIntermediateColorFast(@ColorInt int colorA, @ColorInt int colorB, double d) {
+        // Clamp to [0, 1]
+        if (d < 0) d = 0;
+        else if (d > 1) d = 1;
+        double e = 1d - d;
+
+        // Generate a new color that is between the two.
+        int a = (int) (Color.alpha(colorA) * d + Color.alpha(colorB) * e);
+        int r = (int) (Color.red(colorA) * d + Color.red(colorB) * e);
+        int g = (int) (Color.green(colorA) * d + Color.green(colorB) * e);
+        int b = (int) (Color.blue(colorA) * d + Color.blue(colorB) * e);
+
+        // And return
+        return Color.argb(a, r, g, b);
     }
 
     /**
@@ -921,9 +1297,9 @@ public final class PaintBox {
     public enum ColorType {FILL, ACCENT, HIGHLIGHT, BASE, AMBIENT_DAY, AMBIENT_NIGHT}
 
     @NonNull
-    private final Paint mBrushedEffectPaint = new Paint();
+    private final static Paint mBrushedEffectPaint = new Paint();
     @NonNull
-    private final Path mBrushedEffectPath = new Path();
+    private final static Path mBrushedEffectPath = new Path();
     @NonNull
     private final Path mBrushedEffectPathUpper = new Path();
     @NonNull
@@ -1043,13 +1419,6 @@ public final class PaintBox {
         }
 
         // Finally: map that cLUT onto the destination bitmap with "mapBitmap".
-        if (mRenderScript == null) {
-            mRenderScript = RenderScript.create(mContext);
-        }
-        if (mScriptC_mapBitmap == null) {
-            mScriptC_mapBitmap = new ScriptC_mapBitmap(mRenderScript);
-        }
-
         mScriptC_mapBitmap.set_mapping(cLUT256);
         mScriptC_mapBitmap.invoke_convertMapping();
 
@@ -1307,12 +1676,6 @@ public final class PaintBox {
 //
 //            DebugTiming.log("p1");
 
-            if (mRenderScript == null) {
-                mRenderScript = RenderScript.create(mContext);
-            }
-            if (mScriptC_mapBitmap == null) {
-                mScriptC_mapBitmap = new ScriptC_mapBitmap(mRenderScript);
-            }
             DebugTiming.checkpoint("p2.0");
             mScriptC_mapBitmap.set_mapping(cLUT);
             DebugTiming.checkpoint("p2.1");
@@ -1355,36 +1718,163 @@ public final class PaintBox {
             @ColorInt int colorA = PaintBox.this.getColor(sixBitColorA);
             @ColorInt int colorB = PaintBox.this.getColor(sixBitColorB);
 
-            switch (materialGradient) {
-                case FLAT:
-                    // Set to "colorA", except if this is mAccentHighlightPaint.
-                    // So our four paints have four distinct colors.
-                    setColor(this == mAccentHighlightPaint ? colorB : colorA);
-                    setShader(null); // Clear out the shader the other gradients added!
-                    break;
-                case SWEEP:
-                    addSweepGradient(colorA, colorB);
-                    break;
-                case RADIAL:
-                    addRadialGradient(colorA, colorB);
-                    break;
-                case TRIANGLE:
-                    addTriangleGradient(colorA, colorB);
-                    break;
-            }
+            if (mUseLegacyMaterialDrawing) {
+                DebugTiming.start("PaintBox$GradientPaint.setColors() legacy");
 
-            switch (materialTexture) {
-                case NONE:
-                    break;
-                case SPUN:
-                    setShader(generateSpunEffect());
-                    break;
-                case WEAVE:
-                    setShader(mUseLegacyEffects ? generateWeaveEffect() : generateCrosshatchEffect());
-                    break;
-                case HEX:
-                    setShader(mUseLegacyEffects ? generateHexEffect() : generateSparkleEffect());
-                    break;
+                switch (materialGradient) {
+                    case FLAT:
+                        // Set to "colorA", except if this is mAccentHighlightPaint.
+                        // So our four paints have four distinct colors.
+                        setColor(this == mAccentHighlightPaint ? colorB : colorA);
+                        setShader(null); // Clear out the shader the other gradients added!
+                        DebugTiming.checkpoint("MaterialGradient.FLAT");
+                        break;
+                    case SWEEP:
+                        addSweepGradient(colorA, colorB);
+                        DebugTiming.checkpoint("MaterialGradient.SWEEP");
+                        break;
+                    case RADIAL:
+                        addRadialGradient(colorA, colorB);
+                        DebugTiming.checkpoint("MaterialGradient.RADIAL");
+                        break;
+                    case TRIANGLE:
+                        addTriangleGradient(colorA, colorB);
+                        DebugTiming.checkpoint("MaterialGradient.TRIANGLE");
+                        break;
+                }
+
+                switch (materialTexture) {
+                    case NONE:
+                        DebugTiming.checkpoint("MaterialTexture.NONE");
+                        break;
+                    case SPUN:
+                        setShader(generateSpunEffect());
+                        DebugTiming.checkpoint("MaterialTexture.SPUN");
+                        break;
+                    case WEAVE:
+                        setShader(mUseLegacyEffects ? generateWeaveEffect() : generateCrosshatchEffect());
+                        DebugTiming.checkpoint("MaterialTexture.WEAVE");
+                        break;
+                    case HEX:
+                        setShader(mUseLegacyEffects ? generateHexEffect() : generateSparkleEffect());
+                        DebugTiming.checkpoint("MaterialTexture.HEX");
+                        break;
+                }
+            } else {
+                DebugTiming.start("PaintBox$GradientPaint.setColors()");
+                // Initialise LUV palette.
+                if (mLuvPaletteAllocation == null) {
+                    // Create with uchar4 elements, size 256x256.
+                    mLuvPaletteAllocation = Allocation.createTyped(mRenderScript,
+                            Type.createXY(mRenderScript, Element.U8_4(mRenderScript), 64, 32));
+                }
+
+                // Initialise output objects.
+                if (mOutputAllocation == null || mOutputBitmap == null) {
+                    mOutputBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+                    if (mOutputAllocation != null) {
+                        mOutputAllocation.destroy();
+                    }
+                    mOutputAllocation = Allocation.createFromBitmap(mRenderScript, mOutputBitmap);
+                }
+                DebugTiming.checkpoint("init");
+
+                // Generate our LUV palette.
+                double[] cA = convertSRGBToLUV(colorA);
+                double[] cB = convertSRGBToLUV(colorB);
+
+                mScriptC_mapBitmap.invoke_prepareLuvPalette(
+                        new Float3((float) cA[1], (float) cA[2], (float) cA[3]),
+                        new Float3((float) cB[1], (float) cB[2], (float) cB[3]));
+
+                mScriptC_mapBitmap.forEach_generateLuvPalette(mLuvPaletteAllocation);
+                DebugTiming.checkpoint("generateLuvPalette");
+
+                // Get Allocations for our material gradient and material texture.
+                Allocation gradientAllocation, textureAllocation;
+                switch (materialGradient) {
+                    case FLAT:
+                        // Set to "colorA", except if this is mAccentHighlightPaint.
+                        // So our four paints have four distinct colors.
+                        GradTex g = (this == mAccentHighlightPaint ? mFlatGradB : mFlatGradA);
+                        gradientAllocation = g.getAllocation(height, width);
+                        DebugTiming.checkpoint("MaterialGradient.FLAT");
+                        break;
+                    case SWEEP:
+                        gradientAllocation = mSweepGrad.getAllocation(height, width);
+                        DebugTiming.checkpoint("MaterialGradient.SWEEP");
+                        break;
+                    case RADIAL:
+                        gradientAllocation = mRadialGrad.getAllocation(height, width);
+                        DebugTiming.checkpoint("MaterialGradient.RADIAL");
+                        break;
+                    default:
+                    case TRIANGLE:
+                        gradientAllocation = mTriangleGrad.getAllocation(height, width);
+                        DebugTiming.checkpoint("MaterialGradient.TRIANGLE");
+                        break;
+                }
+                switch (materialTexture) {
+                    case NONE:
+                        textureAllocation = mNoneTex.getAllocation(height, width);
+                        DebugTiming.checkpoint("MaterialTexture.NONE");
+                        break;
+                    case SPUN:
+                        textureAllocation = mSpunTex.getAllocation(height, width);
+                        DebugTiming.checkpoint("MaterialTexture.SPUN");
+                        break;
+                    case WEAVE:
+                        textureAllocation = mCrosshatchTex.getAllocation(height, width);
+                        DebugTiming.checkpoint("MaterialTexture.WEAVE");
+                        break;
+                    default:
+                    case HEX:
+                        textureAllocation = null;
+                        // We don't use a texture allocation for HEX. See below for what we do...
+                        setupSparkleEffect();
+                        DebugTiming.checkpoint("MaterialTexture.HEX");
+                        break;
+                }
+
+                // We've generated our gradient and our texture.
+                // We've generated our LUV palette with our selected colors.
+                // Now combine these to get an output!
+                mScriptC_mapBitmap.invoke_prepareLuvTransform(mLuvPaletteAllocation);
+                if (materialTexture != MaterialTexture.HEX) {
+                    // RenderScript transform the material according to our gradient and texture.
+                    mScriptC_mapBitmap.forEach_generateLuvTransform(
+                            gradientAllocation, textureAllocation, mOutputAllocation);
+                } else {
+                    // For HEX, we run a special RenderScript code path to make it sparkle.
+                    mScriptC_mapBitmap.forEach_generateLuvTransformAndSparkle(
+                            gradientAllocation, mOutputAllocation);
+                }
+                DebugTiming.checkpoint("prepare+generateLuvTransform");
+
+                // RenderScript has done its magic. Copy the result back to our bitmap.
+                mOutputAllocation.copyTo(mOutputBitmap);
+
+                // And use this bitmap as a shader for our paint.
+                setShader(new BitmapShader(mOutputBitmap,
+                        Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+                DebugTiming.checkpoint("copyTo+setShader");
+            }
+            DebugTiming.endAndWrite();
+        }
+
+        private Allocation mLuvPaletteAllocation;
+        private Bitmap mOutputBitmap;
+        private Allocation mOutputAllocation;
+
+        @Override
+        protected void finalize() throws Throwable {
+            super.finalize();
+
+            if (mLuvPaletteAllocation != null) {
+                mLuvPaletteAllocation.destroy();
+            }
+            if (mOutputAllocation != null) {
+                mOutputAllocation.destroy();
             }
         }
 
@@ -1893,81 +2383,6 @@ public final class PaintBox {
             return result;
         }
 
-        private static final double SPARKLE_GAMMA = 1.0d;
-        private static final double SPARKLE_RANGE = 255d;
-
-        /**
-         * Convenience function to derive a sparkle mapping, based on gamma 2.2.
-         *
-         * @param i      sRGB value to map between 0 and 255
-         * @param offset Offset for luminance (brightness) between 0 and 1
-         * @return Short4 with x, y and z sRGB elements to map to
-         */
-        @NonNull
-        private Short4 deriveMultiSparkleMapping(int i, double offset) {
-            Short4 s4 = new Short4();
-            s4.z = deriveSparkleMapping(i, offset / 3d);
-            s4.y = deriveSparkleMapping(i, offset / 2d);
-            s4.x = deriveSparkleMapping(i, offset);
-            s4.w = 0; // Unused padding.
-            return s4;
-        }
-
-        /**
-         * Convenience function to derive a sparkle mapping, based on gamma 2.2.
-         *
-         * @param i      sRGB value to map between 0 and 255
-         * @param offset Offset for luminance (brightness) between 0 and 1
-         * @return sRGB value to map to
-         */
-        private short deriveSparkleMapping(int i, double offset) {
-            // Derive the luminance (brightness) by applying gamma function, then offset.
-            double lum = Math.pow((double) i / SPARKLE_RANGE, SPARKLE_GAMMA) + offset;
-            // Note we don't do "proper" sRGB transfer function, only low-effort Math.pow.
-
-            // Clamp to [0, 1]
-            if (lum < 0d)
-                lum = 0d;
-            else if (lum > 1d)
-                lum = 1d;
-
-            // Convert the luminance back to sRGB by applying reverse gamma.
-            return (short) (Math.pow(lum, 1d / SPARKLE_GAMMA) * SPARKLE_RANGE);
-        }
-
-        private boolean mIsSparkleEffectSetup = false;
-
-        /**
-         * Set up our sparkle effect by deriving all our mapping tables.
-         */
-        private void setupSparkleEffect() {
-            if (mIsSparkleEffectSetup)
-                return;
-
-            Short4[] mA = new Short4[256], mB = new Short4[256], mC = new Short4[256];
-            Short4[] mD = new Short4[256], mE = new Short4[256], mF = new Short4[256];
-
-            for (int i = 0; i < 256; i++) {
-                mA[i] = deriveMultiSparkleMapping(i, -0.48d);
-                mB[i] = deriveMultiSparkleMapping(i, -0.16d);
-                mC[i] = deriveMultiSparkleMapping(i, -0.08d);
-                mD[i] = deriveMultiSparkleMapping(i, 0.08d);
-                mE[i] = deriveMultiSparkleMapping(i, 0.16d);
-                mF[i] = deriveMultiSparkleMapping(i, 0.48d);
-
-//                android.util.Log.d("PaintBox", String.format(
-//                        "setupSparkleEffect: %d --> %d %d %d --> %d %d %d",
-//                        i, mA[i].x, mB[i].x, mC[i].x, mD[i].x, mE[i].x, mF[i].x));
-            }
-            mScriptC_mapBitmap.set_sparkleMappingA(mA);
-            mScriptC_mapBitmap.set_sparkleMappingB(mB);
-            mScriptC_mapBitmap.set_sparkleMappingC(mC);
-            mScriptC_mapBitmap.set_sparkleMappingD(mD);
-            mScriptC_mapBitmap.set_sparkleMappingE(mE);
-            mScriptC_mapBitmap.set_sparkleMappingF(mF);
-            mIsSparkleEffectSetup = true;
-        }
-
         private BitmapShader generateSparkleEffect() {
             // Attempt to return an existing BitmapShader from the cache if we have one.
             WeakReference<BitmapShader> cache = mBitmapShaderCache.get(mCustomHashCode);
@@ -1985,13 +2400,6 @@ public final class PaintBox {
                     Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             prepareTempBitmapForUse();
             mTempCanvas.drawPaint(this);
-
-            if (mRenderScript == null) {
-                mRenderScript = RenderScript.create(mContext);
-            }
-            if (mScriptC_mapBitmap == null) {
-                mScriptC_mapBitmap = new ScriptC_mapBitmap(mRenderScript);
-            }
 
             setupSparkleEffect();
 
@@ -2011,5 +2419,78 @@ public final class PaintBox {
             mBitmapShaderCache.put(mCustomHashCode, new WeakReference<>(result));
             return result;
         }
+    }
+
+    private static final double SPARKLE_GAMMA = 1.0d;
+    private static final double SPARKLE_RANGE = 255d;
+
+    /**
+     * Convenience function to derive a sparkle mapping, based on gamma 2.2.
+     *
+     * @param i      sRGB value to map between 0 and 255
+     * @param offset Offset for luminance (brightness) between 0 and 1
+     * @return Short4 with x, y and z sRGB elements to map to
+     */
+    @NonNull
+    private static Short4 deriveMultiSparkleMapping(int i, double offset) {
+        Short4 s4 = new Short4();
+        s4.z = deriveSparkleMapping(i, offset / 3d);
+        s4.y = deriveSparkleMapping(i, offset / 2d);
+        s4.x = deriveSparkleMapping(i, offset);
+        s4.w = 0; // Unused padding.
+        return s4;
+    }
+
+    /**
+     * Convenience function to derive a sparkle mapping, based on gamma 2.2.
+     *
+     * @param i      sRGB value to map between 0 and 255
+     * @param offset Offset for luminance (brightness) between 0 and 1
+     * @return sRGB value to map to
+     */
+    private static short deriveSparkleMapping(int i, double offset) {
+        // Derive the luminance (brightness) by applying gamma function, then offset.
+        double lum = Math.pow((double) i / SPARKLE_RANGE, SPARKLE_GAMMA) + offset;
+        // Note we don't do "proper" sRGB transfer function, only low-effort Math.pow.
+
+        // Clamp to [0, 1]
+        if (lum < 0d)
+            lum = 0d;
+        else if (lum > 1d)
+            lum = 1d;
+
+        // Convert the luminance back to sRGB by applying reverse gamma.
+        return (short) (Math.pow(lum, 1d / SPARKLE_GAMMA) * SPARKLE_RANGE);
+    }
+
+    private static boolean mIsSparkleEffectSetup = false;
+
+    /**
+     * Set up our sparkle effect by deriving all our mapping tables.
+     */
+    private static void setupSparkleEffect() {
+        if (mIsSparkleEffectSetup)
+            return;
+
+        Short4[] mA = new Short4[256], mB = new Short4[256], mC = new Short4[256];
+        Short4[] mD = new Short4[256], mE = new Short4[256], mF = new Short4[256];
+
+        for (int i = 0; i < 256; i++) {
+            mA[i] = deriveMultiSparkleMapping(i, -0.48d);
+            mB[i] = deriveMultiSparkleMapping(i, -0.16d);
+            mC[i] = deriveMultiSparkleMapping(i, -0.08d);
+            mD[i] = deriveMultiSparkleMapping(i, 0.08d);
+            mE[i] = deriveMultiSparkleMapping(i, 0.16d);
+            mF[i] = deriveMultiSparkleMapping(i, 0.48d);
+        }
+
+        mScriptC_mapBitmap.set_sparkleMappingA(mA);
+        mScriptC_mapBitmap.set_sparkleMappingB(mB);
+        mScriptC_mapBitmap.set_sparkleMappingC(mC);
+        mScriptC_mapBitmap.set_sparkleMappingD(mD);
+        mScriptC_mapBitmap.set_sparkleMappingE(mE);
+        mScriptC_mapBitmap.set_sparkleMappingF(mF);
+
+        mIsSparkleEffectSetup = true;
     }
 }
