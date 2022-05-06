@@ -354,10 +354,11 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 if (complicationProviderInfo != null &&
                         complicationProviderInfo.providerIcon != null) {
                     complicationProviderInfo.providerIcon.setTint(mComplicationTextColor);
-                    complication.setProviderIconDrawable(
-                            complicationProviderInfo.providerIcon.loadDrawable(
-                                    itemView.getContext()),
-                            true);
+                    Drawable icon = complicationProviderInfo.providerIcon.loadDrawable(
+                            itemView.getContext());
+                    if (icon != null) {
+                        complication.setProviderIconDrawable(icon, true);
+                    }
                     // TODO: make that async
 
                     itemView.invalidate();
