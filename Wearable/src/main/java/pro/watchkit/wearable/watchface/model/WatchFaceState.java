@@ -130,7 +130,7 @@ public class WatchFaceState {
     public WatchFaceState(@NonNull Context context) {
         mPaintBox = new PaintBox(context);
         mContext = context;
-        mTypefaceCache = new android.graphics.Typeface[Typeface.values().length];
+        mTypefaceCache = new android.graphics.Typeface[Typeface.finalValues.length];
         // Hmm. Strictly temporary: how about a default setting?
         // setString("fcd81c000c0100000006c06a60000001~3cda1cc0000000000000000000000001");
     }

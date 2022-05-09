@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2021 Terence Tan
+ * Copyright (C) 2018-2022 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -49,7 +49,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.PipsDisplay.values(),
+                                BytePackable.PipsDisplay.finalValues,
                                 WatchFaceState::setPipsDisplay)),
 
                 // Data for pip margin in settings Activity.
@@ -59,7 +59,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.PipMargin.values(),
+                                BytePackable.PipMargin.finalValues,
                                 WatchFaceState::setPipMargin)),
 
                 // Data for pip background material in settings Activity.
@@ -69,7 +69,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.Material.values(),
+                                BytePackable.Material.finalValues,
                                 WatchFaceState::setPipBackgroundMaterial)),
 
                 // Data for digit display in settings Activity.
@@ -79,7 +79,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.DigitDisplay.values(),
+                                BytePackable.DigitDisplay.finalValues,
                                 WatchFaceState::setDigitDisplay)),
 
                 // Data for digit size in settings Activity.
@@ -89,7 +89,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.DigitSize.values(),
+                                BytePackable.DigitSize.finalValues,
                                 WatchFaceState::setDigitSize),
                         WatchFaceState::isDigitVisible),
 
@@ -100,7 +100,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.DigitRotation.values(),
+                                BytePackable.DigitRotation.finalValues,
                                 WatchFaceState::setDigitRotation),
                         WatchFaceState::isDigitVisible),
 
@@ -111,7 +111,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.DigitFormat.values(),
+                                BytePackable.DigitFormat.finalValues,
                                 WatchFaceState::setDigitFormat),
                         WatchFaceState::isDigitVisible),
 
@@ -122,7 +122,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.Material.values(),
+                                BytePackable.Material.finalValues,
                                 WatchFaceState::setDigitMaterial),
                         WatchFaceState::isDigitVisible),
 
@@ -133,7 +133,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.PipShape.values(),
+                                BytePackable.PipShape.finalValues,
                                 WatchFaceState::setQuarterPipShape),
                         WatchFaceState::isQuarterPipsVisible),
 
@@ -144,7 +144,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.PipSize.values(),
+                                BytePackable.PipSize.finalValues,
                                 WatchFaceState::setQuarterPipSize),
                         WatchFaceState::isQuarterPipsVisible),
 
@@ -155,7 +155,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.Material.values(),
+                                BytePackable.Material.finalValues,
                                 WatchFaceState::setQuarterPipMaterial),
                         WatchFaceState::isQuarterPipsVisible),
 
@@ -174,7 +174,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.PipShape.values(),
+                                BytePackable.PipShape.finalValues,
                                 WatchFaceState::setHourPipShape),
                         WatchFaceState::isHourPipsOverridden),
 
@@ -185,7 +185,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.PipSize.values(),
+                                BytePackable.PipSize.finalValues,
                                 WatchFaceState::setHourPipSize),
                         WatchFaceState::isHourPipsOverridden),
 
@@ -196,7 +196,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.Material.values(),
+                                BytePackable.Material.finalValues,
                                 WatchFaceState::setHourPipMaterial),
                         WatchFaceState::isHourPipsOverridden),
 
@@ -215,7 +215,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.PipShape.values(),
+                                BytePackable.PipShape.finalValues,
                                 WatchFaceState::setMinutePipShape),
                         WatchFaceState::isMinutePipsOverridden),
 
@@ -226,7 +226,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.PipSize.values(),
+                                BytePackable.PipSize.finalValues,
                                 WatchFaceState::setMinutePipSize),
                         WatchFaceState::isMinutePipsOverridden),
 
@@ -237,7 +237,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.Material.values(),
+                                BytePackable.Material.finalValues,
                                 WatchFaceState::setMinutePipMaterial),
                         WatchFaceState::isMinutePipsOverridden),
 
@@ -248,7 +248,7 @@ public class WatchPartPipsConfigData extends ConfigData {
 //                        watchFaceGlobalDrawableFlagsSwatch,
 //                        WatchFaceSelectionActivity.class,
 //                        new EnumMutator<>(
-//                                BytePackable.Material.values(),
+//                                BytePackable.Material.finalValues,
 //                                WatchFaceState::setBackgroundMaterial)),
 
                 // Help.

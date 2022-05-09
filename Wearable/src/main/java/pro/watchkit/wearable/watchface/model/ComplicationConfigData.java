@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Terence Tan
+ * Copyright (C) 2018-2022 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -51,7 +51,7 @@ public class ComplicationConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.ComplicationCount.values(),
+                                BytePackable.ComplicationCount.finalValues,
                                 WatchFaceState::setComplicationCount)),
 
                 // Data for complication rotation in settings Activity.
@@ -61,7 +61,7 @@ public class ComplicationConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.ComplicationRotation.values(),
+                                BytePackable.ComplicationRotation.finalValues,
                                 WatchFaceState::setComplicationRotation)),
 
                 // Data for complication size in settings Activity.
@@ -71,7 +71,7 @@ public class ComplicationConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.ComplicationSize.values(),
+                                BytePackable.ComplicationSize.finalValues,
                                 WatchFaceState::setComplicationSize)),
 
                 // Data for complication overlap in settings Activity.
@@ -81,7 +81,7 @@ public class ComplicationConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.ComplicationScale.values(),
+                                BytePackable.ComplicationScale.finalValues,
                                 WatchFaceState::setComplicationScale)),
 
                 // Data for complication ring material in settings Activity.
@@ -91,7 +91,7 @@ public class ComplicationConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.Material.values(),
+                                BytePackable.Material.finalValues,
                                 WatchFaceState::setComplicationRingMaterial)),
 
                 // Data for complication background material in settings Activity.
@@ -101,7 +101,7 @@ public class ComplicationConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.Material.values(),
+                                BytePackable.Material.finalValues,
                                 WatchFaceState::setComplicationBackgroundMaterial)),
 
                 // Help.

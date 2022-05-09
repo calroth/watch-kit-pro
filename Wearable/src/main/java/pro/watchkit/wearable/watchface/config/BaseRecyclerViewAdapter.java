@@ -290,10 +290,11 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             if (watchFaceStateString != null) {
                 w.setString(watchFaceStateString);
                 // Sanity check on the value of swatch.
-                if (swatch >= BytePackable.Material.values().length || swatch < -1) {
+                if (swatch >= BytePackable.Material.finalValues.length || swatch < -1) {
                     swatch = -1;
                 }
-                w.setSwatchMaterial(swatch == -1 ? null : BytePackable.Material.values()[swatch]);
+                w.setSwatchMaterial(
+                        swatch == -1 ? null : BytePackable.Material.finalValues[swatch]);
             }
             w.setNotifications(0, 0);
             w.setAmbient(false);

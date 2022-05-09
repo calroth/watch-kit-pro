@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020-2021 Terence Tan
+ * Copyright (C) 2020-2022 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -67,7 +67,7 @@ public abstract class MaterialConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.MaterialGradient.values(),
+                                BytePackable.MaterialGradient.finalValues,
                                 getMaterialGradientSetter(),
                                 getMaterial())),
 
@@ -78,7 +78,7 @@ public abstract class MaterialConfigData extends ConfigData {
                         watchFaceGlobalDrawableFlagsSwatch,
                         WatchFaceSelectionActivity.class,
                         new EnumMutator<>(
-                                BytePackable.MaterialTexture.values(),
+                                BytePackable.MaterialTexture.finalValues,
                                 getMaterialTextureSetter(),
                                 getMaterial())),
 
