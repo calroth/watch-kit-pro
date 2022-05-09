@@ -67,8 +67,8 @@ public class SettingsConfigData extends ConfigData {
                 // Data for 'Unread Notifications' UX (toggle) in settings Activity.
                 new ToggleConfigItem(
                         R.string.config_unread_notifications_label,
-                        R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp,
+                        R.drawable.ic_notifications,
+                        R.drawable.ic_notifications_off,
                         new BooleanMutator(WatchFaceState::setShowUnreadNotifications)),
 
                 // Data for Configure Typeface sub-activity in settings Activity.

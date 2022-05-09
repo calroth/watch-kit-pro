@@ -162,8 +162,8 @@ public class WatchPartPipsConfigData extends ConfigData {
                 // Data for hour pip override in settings Activity.
                 new ToggleConfigItem(
                         R.string.config_preset_hour_pip_override,
-                        R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp,
+                        R.drawable.ic_notifications,
+                        R.drawable.ic_notifications_off,
                         new BooleanMutator(WatchFaceState::setHourPipOverride),
                         WatchFaceState::isHourPipsVisible),
 
@@ -203,8 +203,8 @@ public class WatchPartPipsConfigData extends ConfigData {
                 // Data for minute pip override in settings Activity.
                 new ToggleConfigItem(
                         R.string.config_preset_minute_pip_override,
-                        R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp,
+                        R.drawable.ic_notifications,
+                        R.drawable.ic_notifications_off,
                         new BooleanMutator(WatchFaceState::setMinutePipOverride),
                         WatchFaceState::isMinutePipsVisible),
 

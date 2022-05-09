@@ -95,8 +95,8 @@ public class WatchPartHandsConfigData extends ConfigData {
                 // Data for hour hand cutout in settings Activity.
                 new ToggleConfigItem(
                         R.string.config_preset_hour_hand_cutout,
-                        R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp,
+                        R.drawable.ic_notifications,
+                        R.drawable.ic_notifications_off,
                         new BooleanMutator(WatchFaceState::setHourHandCutout)),
 
                 // Data for hour hand cutout shape in settings Activity.
@@ -124,8 +124,8 @@ public class WatchPartHandsConfigData extends ConfigData {
                 // Data for minute hand override in settings Activity.
                 new ToggleConfigItem(
                         R.string.config_preset_minute_hand_override,
-                        R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp,
+                        R.drawable.ic_notifications,
+                        R.drawable.ic_notifications_off,
                         new BooleanMutator(WatchFaceState::setMinuteHandOverride)),
 
                 // Data for minute hand shape in settings Activity.
@@ -186,8 +186,8 @@ public class WatchPartHandsConfigData extends ConfigData {
                 // Data for minute hand cutout in settings Activity.
                 new ToggleConfigItem(
                         R.string.config_preset_minute_hand_cutout,
-                        R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp,
+                        R.drawable.ic_notifications,
+                        R.drawable.ic_notifications_off,
                         new BooleanMutator(WatchFaceState::setMinuteHandCutout),
                         WatchFaceState::isMinuteHandOverridden),
 
@@ -216,8 +216,8 @@ public class WatchPartHandsConfigData extends ConfigData {
                 // Data for second hand override in settings Activity.
                 new ToggleConfigItem(
                         R.string.config_preset_second_hand_override,
-                        R.drawable.ic_notifications_white_24dp,
-                        R.drawable.ic_notifications_off_white_24dp,
+                        R.drawable.ic_notifications,
+                        R.drawable.ic_notifications_off,
                         new BooleanMutator(WatchFaceState::setSecondHandOverride)),
 
                 // Data for second hand shape in settings Activity.
