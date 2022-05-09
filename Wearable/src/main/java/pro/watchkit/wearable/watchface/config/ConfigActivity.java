@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2021 Terence Tan
+ * Copyright (C) 2018-2022 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -120,7 +120,7 @@ public class ConfigActivity extends Activity {
         // Try to get mCurrentSubActivity from our activity intent.
         if (mCurrentSubActivity == null) {
             String configDataString = getIntent().getStringExtra(CONFIG_DATA);
-            Arrays.stream(ConfigSubActivity.values())
+            Arrays.stream(ConfigSubActivity.finalValues)
                     .filter(c -> c.mClassName.equals(configDataString))
                     .findFirst()
                     .ifPresent(c -> mCurrentSubActivity = c);
@@ -129,7 +129,7 @@ public class ConfigActivity extends Activity {
         // If we couldn't get mCurrentSubActivity, try to get it from preferences.
         if (mCurrentSubActivity == null) {
             String configDataString = sharedPref.getMostRecentConfigPageString();
-            Arrays.stream(ConfigSubActivity.values())
+            Arrays.stream(ConfigSubActivity.finalValues)
                     .filter(c -> c.mClassName.equals(configDataString))
                     .filter(c -> c.mDrawableId != -1) // Filter these "non-navigation" activities
                     .findFirst()
@@ -177,7 +177,7 @@ public class ConfigActivity extends Activity {
             mWearableNavigationDrawer.setAdapter(new NavigationAdapter(this, slotLabel));
             mWearableNavigationDrawer.setCurrentItem(mCurrentSubActivity.ordinal(), false);
             mWearableNavigationDrawer.addOnItemSelectedListener(pos -> {
-                String configData = ConfigSubActivity.values()[pos].mClassName;
+                String configData = ConfigSubActivity.finalValues[pos].mClassName;
 
                 Intent launchIntent =
                         new Intent(mWearableNavigationDrawer.getContext(), ConfigActivity.class);
@@ -241,6 +241,9 @@ public class ConfigActivity extends Activity {
         WatchPartHands(WatchPartHandsConfigData.class, R.string.config_configure_hands, -1),
         WatchPartPips(WatchPartPipsConfigData.class, R.string.config_configure_pips, -1),
         Typeface(TypefaceConfigData.class, R.string.config_configure_typeface, -1);
+
+        @NonNull
+        static final ConfigSubActivity[] finalValues = values();
 
         @NonNull
         final String mClassName;
