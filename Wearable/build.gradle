@@ -50,6 +50,7 @@ def getGitDate = { ->
 }
 
 android {
+    namespace 'pro.watchkit.wearable.watchface'
     compileSdkVersion 31
 
     defaultConfig {

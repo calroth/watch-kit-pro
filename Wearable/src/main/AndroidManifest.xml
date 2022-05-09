@@ -32,10 +32,9 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<manifest package="pro.watchkit.wearable.watchface"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-feature android:name="android.hardware.type.watch"/>
+    <uses-feature android:name="android.hardware.type.watch" />
 
     <!-- Required to act as a custom watch face. -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
