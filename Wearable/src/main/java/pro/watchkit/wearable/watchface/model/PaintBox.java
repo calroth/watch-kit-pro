@@ -883,6 +883,13 @@ public final class PaintBox {
         }
 
         if (materialGradient == MaterialGradient.FLAT) {
+            if (material == Material.ACCENT_HIGHLIGHT) {
+                // For Material.ACCENT_HIGHLIGHT, if MaterialGradient.FLAT, the base color
+                // is actually colorB. So swap colorA and colorB for the logic below to work.
+                @ColorInt int temp = colorB;
+                colorB = colorA;
+                colorA = temp;
+            }
             // Choose between "colorB", "colorC" and "colorD".
             // Select the color most distant from "colorA".
             double diffB = getDistance(colorA, colorB);
