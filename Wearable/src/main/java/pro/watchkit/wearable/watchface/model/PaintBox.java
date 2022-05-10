@@ -198,7 +198,7 @@ public final class PaintBox {
     static GradTex mFlatGradA = new GradTex() {
         @Override
         void generate() {
-            m8BitBitmap.eraseColor(0xFF000000);
+            m8BitBitmap.eraseColor(0xFFFFFFFF);
         }
     };
 
@@ -208,7 +208,7 @@ public final class PaintBox {
     static GradTex mFlatGradB = new GradTex() {
         @Override
         void generate() {
-            m8BitBitmap.eraseColor(0xFFFFFFFF);
+            m8BitBitmap.eraseColor(0xFF000000);
         }
     };
 
