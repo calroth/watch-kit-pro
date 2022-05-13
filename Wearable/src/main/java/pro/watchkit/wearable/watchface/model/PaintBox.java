@@ -38,7 +38,6 @@ import android.graphics.Xfermode;
 import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
-import android.renderscript.Float3;
 import android.renderscript.RenderScript;
 import android.renderscript.Short4;
 import android.renderscript.Type;
@@ -1791,8 +1790,8 @@ public final class PaintBox {
                 double[] cB = convertSRGBToLUV(colorB);
 
                 mScriptC_mapBitmap.invoke_prepareLuvPalette(
-                        new Float3((float) cA[1], (float) cA[2], (float) cA[3]),
-                        new Float3((float) cB[1], (float) cB[2], (float) cB[3]));
+                        (float) cA[1], (float) cA[2], (float) cA[3],
+                        (float) cB[1], (float) cB[2], (float) cB[3]);
 
                 mScriptC_mapBitmap.forEach_generateLuvPalette(mLuvPaletteAllocation);
                 DebugTiming.checkpoint("generateLuvPalette");

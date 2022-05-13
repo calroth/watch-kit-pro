@@ -140,7 +140,7 @@ float ref_U, ref_V;
 // Our LUV colors to interpolate between to generate a palette.
 float3 luvColorA, luvColorB;
 
-void prepareLuvPalette(float3 colorA, float3 colorB) {
+void prepareLuvPalette(float ar, float ag, float ab, float br, float bg, float bb) {
     // Reference constants for the CIELUV colorspace conversions. D65 illuminant, 2 degrees.
     float Reference_X = 95.047f, Reference_Y = 100.000f, Reference_Z = 108.883f;
 
@@ -150,8 +150,12 @@ void prepareLuvPalette(float3 colorA, float3 colorB) {
     // Reference constant "ref_V" for the CIELUV colorspace conversions.
     ref_V = (9.0f * Reference_Y) / (Reference_X + (15.0f * Reference_Y) + (3.0f * Reference_Z));
 
-    luvColorA = colorA;
-    luvColorB = colorB;
+    luvColorA.r = ar;
+    luvColorA.g = ag;
+    luvColorA.b = ab;
+    luvColorB.r = br;
+    luvColorB.g = bg;
+    luvColorB.b = bb;
 }
 
 uchar4 RS_KERNEL generateLuvPalette(uint32_t x, uint32_t y) {
