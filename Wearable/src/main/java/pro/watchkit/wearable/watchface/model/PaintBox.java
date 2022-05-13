@@ -421,7 +421,7 @@ public final class PaintBox {
             float width = (float) mInternalWidth;
             float mCenterX = width / 2f;
             float percent = mCenterX / 50f;
-            float offset = 0.5f * percent;
+            float offset = 0.25f * percent;
 
             mBrushedEffectPaint.reset();
             mBrushedEffectPaint.setStyle(Paint.Style.STROKE);
