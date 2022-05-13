@@ -117,6 +117,7 @@
     <string name="config_configure_pips">Configure Pips</string>
     <string name="config_configure_typeface">Configure Typeface</string>
     <string name="config_view_history">View History</string>
+    <string name="config_view_random_watch_face_presets">Random Watch Face Presets!</string>
 
     <string name="config_configure_help">&lt;br /&gt;ℹ️️&lt;br /&gt;&lt;br /&gt;</string>
     <string name="config_configure_settings_help">On this page, configure

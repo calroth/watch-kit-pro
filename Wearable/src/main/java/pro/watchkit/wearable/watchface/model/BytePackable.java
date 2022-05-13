@@ -79,6 +79,14 @@ public abstract class BytePackable {
         public static final PipsDisplay[] finalValues = values();
 
         @NonNull
+        public static final PipsDisplay[] randomValues = new PipsDisplay[]{
+                NONE,
+                FOUR, FOUR,
+                FOUR_TWELVE, FOUR_TWELVE,
+                FOUR_TWELVE_60, FOUR_TWELVE_60, FOUR_TWELVE_60, FOUR_TWELVE_60
+        };
+
+        @NonNull
         static PipsDisplay unpack(@NonNull BytePacker bytePacker) {
             return finalValues[bytePacker.get(bits)];
         }
@@ -101,6 +109,9 @@ public abstract class BytePackable {
 
         @NonNull
         public static final HandShape[] finalValues = values();
+
+        @NonNull
+        public static final HandShape[] randomValues = finalValues;
 
         @NonNull
         static HandShape unpack(@NonNull BytePacker bytePacker) {
@@ -127,6 +138,14 @@ public abstract class BytePackable {
         public static final HandLength[] finalValues = values();
 
         @NonNull
+        public static final HandLength[] randomValues = new HandLength[]{
+                SHORT,
+                MEDIUM, MEDIUM,
+                LONG, LONG, LONG,
+                X_LONG
+        };
+
+        @NonNull
         static HandLength unpack(@NonNull BytePacker bytePacker) {
             return finalValues[bytePacker.get(bits)];
         }
@@ -149,6 +168,14 @@ public abstract class BytePackable {
 
         @NonNull
         public static final HandThickness[] finalValues = values();
+
+        @NonNull
+        public static final HandThickness[] randomValues = new HandThickness[]{
+                THIN,
+                REGULAR, REGULAR, REGULAR,
+                THICK, THICK,
+                X_THICK
+        };
 
         @NonNull
         static HandThickness unpack(@NonNull BytePacker bytePacker) {
@@ -175,6 +202,9 @@ public abstract class BytePackable {
         public static final HandStalk[] finalValues = values();
 
         @NonNull
+        public static final HandStalk[] randomValues = finalValues;
+
+        @NonNull
         static HandStalk unpack(@NonNull BytePacker bytePacker) {
             return finalValues[bytePacker.get(bits)];
         }
@@ -196,6 +226,9 @@ public abstract class BytePackable {
         @NonNull
         public static final HandCutoutMaterial[] finalValues = values();
 
+        @NonNull
+        public static final HandCutoutMaterial[] randomValues = finalValues;
+
         @Override
         @ArrayRes
         public int getNameResourceId() {
@@ -208,6 +241,9 @@ public abstract class BytePackable {
 
         @NonNull
         public static final HandCutoutShape[] finalValues = values();
+
+        @NonNull
+        public static final HandCutoutShape[] randomValues = finalValues;
 
         @Override
         @ArrayRes
@@ -228,6 +264,9 @@ public abstract class BytePackable {
 
         @NonNull
         public static final HandCutoutCombination[] finalValues = values();
+
+        @NonNull
+        public static final HandCutoutCombination[] randomValues = finalValues;
 
         static HandCutoutCombination unpack(@NonNull BytePacker bytePacker) {
             return finalValues[bytePacker.get(bits)];
@@ -257,7 +296,20 @@ public abstract class BytePackable {
                 SECTOR, DOT, TRIANGLE, DIAMOND,
                 SQUARE, BAR_1_2, BAR_1_4, BAR_1_8,
                 SQUARE_WIDE, DOT_THIN, TRIANGLE_THIN, DIAMOND_THIN,
-                SQUARE_CUTOUT, DOT_CUTOUT, TRIANGLE_CUTOUT, DIAMOND_CUTOUT};
+                SQUARE_CUTOUT, DOT_CUTOUT, TRIANGLE_CUTOUT, DIAMOND_CUTOUT
+        };
+
+        @NonNull
+        public static final PipShape[] randomValues = new PipShape[]{
+                SECTOR, DOT, TRIANGLE, DIAMOND,
+                SECTOR, DOT, TRIANGLE, DIAMOND,
+                SECTOR, DOT, TRIANGLE, DIAMOND,
+                SECTOR, DOT, TRIANGLE, DIAMOND,
+                SQUARE, BAR_1_2, BAR_1_4, BAR_1_8,
+                SQUARE, BAR_1_2, BAR_1_4, BAR_1_8,
+                SQUARE_WIDE, DOT_THIN, TRIANGLE_THIN, DIAMOND_THIN,
+                SQUARE_CUTOUT, DOT_CUTOUT, TRIANGLE_CUTOUT, DIAMOND_CUTOUT
+        };
 
         @NonNull
         static PipShape unpack(@NonNull BytePacker bytePacker) {
@@ -286,6 +338,18 @@ public abstract class BytePackable {
 
         @NonNull
         public static final PipSize[] finalValues = values();
+
+        @NonNull
+        public static final PipSize[] randomValues = new PipSize[]{
+                XX_SHORT,
+                X_SHORT, X_SHORT,
+                SHORT, SHORT, SHORT,
+                MEDIUM, MEDIUM, MEDIUM, MEDIUM,
+                LONG, LONG, LONG, LONG, LONG,
+                X_LONG, X_LONG, X_LONG, X_LONG,
+                XX_LONG, XX_LONG, XX_LONG,
+                XXX_LONG, XXX_LONG
+        };
 
         @NonNull
         static PipSize unpack(@NonNull BytePacker bytePacker) {
@@ -317,6 +381,14 @@ public abstract class BytePackable {
         public static final PipMargin[] finalValues = values();
 
         @NonNull
+        public static final PipMargin[] randomValues = new PipMargin[]{
+                NONE, NONE, NONE, NONE, NONE, NONE,
+                SMALL, SMALL, SMALL,
+                MEDIUM, MEDIUM,
+                LARGE
+        };
+
+        @NonNull
         static PipMargin unpack(@NonNull BytePacker bytePacker) {
             return finalValues[bytePacker.get(bits)];
         }
@@ -339,6 +411,9 @@ public abstract class BytePackable {
 
         @NonNull
         public static final DigitDisplay[] finalValues = values();
+
+        @NonNull
+        public static final DigitDisplay[] randomValues = finalValues;
 
         @NonNull
         static DigitDisplay unpack(@NonNull BytePacker bytePacker) {
@@ -365,6 +440,14 @@ public abstract class BytePackable {
         public static final DigitSize[] finalValues = values();
 
         @NonNull
+        public static final DigitSize[] randomValues = new DigitSize[]{
+                SMALL, SMALL, SMALL, SMALL,
+                MEDIUM, MEDIUM, MEDIUM,
+                LARGE, LARGE,
+                X_LARGE
+        };
+
+        @NonNull
         static DigitSize unpack(@NonNull BytePacker bytePacker) {
             return finalValues[bytePacker.get(bits)];
         }
@@ -387,6 +470,9 @@ public abstract class BytePackable {
 
         @NonNull
         public static final DigitRotation[] finalValues = values();
+
+        @NonNull
+        public static final DigitRotation[] randomValues = finalValues;
 
         @NonNull
         static DigitRotation unpack(@NonNull BytePacker bytePacker) {
@@ -412,6 +498,17 @@ public abstract class BytePackable {
 
         @NonNull
         public static final DigitFormat[] finalValues = values();
+
+        @NonNull
+        public static final DigitFormat[] randomValues = new DigitFormat[]{
+                NUMERALS_12_4, NUMERALS_12_12,
+                NUMERALS_12_4, NUMERALS_12_12,
+                NUMERALS_12_4, NUMERALS_12_12,
+                NUMERALS_12_4, NUMERALS_12_12,
+                NUMERALS_60, ROMAN,
+                NUMERALS_60, ROMAN,
+                CIRCLED, NEGATIVE_CIRCLED, DOUBLE_STRUCK
+        };
 
         @NonNull
         static DigitFormat unpack(@NonNull BytePacker bytePacker) {
@@ -443,6 +540,9 @@ public abstract class BytePackable {
         public static final Material[] finalValues = values();
 
         @NonNull
+        public static final Material[] randomValues = finalValues;
+
+        @NonNull
         static Material unpack(@NonNull BytePacker bytePacker) {
             return finalValues[bytePacker.get(bits)];
         }
@@ -472,6 +572,9 @@ public abstract class BytePackable {
         public static final MaterialGradient[] finalValues = values();
 
         @NonNull
+        public static final MaterialGradient[] randomValues = finalValues;
+
+        @NonNull
         static MaterialGradient unpack(@NonNull BytePacker bytePacker) {
             return finalValues[bytePacker.get(bits)];
         }
@@ -494,6 +597,9 @@ public abstract class BytePackable {
 
         @NonNull
         public static final MaterialTexture[] finalValues = values();
+
+        @NonNull
+        public static final MaterialTexture[] randomValues = finalValues;
 
         @NonNull
         static MaterialTexture unpack(@NonNull BytePacker bytePacker) {
@@ -520,6 +626,9 @@ public abstract class BytePackable {
         public static final ComplicationRotation[] finalValues = values();
 
         @NonNull
+        public static final ComplicationRotation[] randomValues = finalValues;
+
+        @NonNull
         static ComplicationRotation unpack(@NonNull BytePacker bytePacker) {
             return finalValues[bytePacker.get(bits)];
         }
@@ -542,6 +651,9 @@ public abstract class BytePackable {
 
         @NonNull
         public static final ComplicationCount[] finalValues = values();
+
+        @NonNull
+        public static final ComplicationCount[] randomValues = finalValues;
 
         @NonNull
         static ComplicationCount unpack(@NonNull BytePacker bytePacker) {
@@ -568,6 +680,9 @@ public abstract class BytePackable {
         public static final ComplicationSize[] finalValues = values();
 
         @NonNull
+        public static final ComplicationSize[] randomValues = finalValues;
+
+        @NonNull
         static ComplicationSize unpack(@NonNull BytePacker bytePacker) {
             return finalValues[bytePacker.get(bits)];
         }
@@ -590,6 +705,9 @@ public abstract class BytePackable {
 
         @NonNull
         public static final ComplicationScale[] finalValues = values();
+
+        @NonNull
+        public static final ComplicationScale[] randomValues = finalValues;
 
         @NonNull
         static ComplicationScale unpack(@NonNull BytePacker bytePacker) {
@@ -618,6 +736,9 @@ public abstract class BytePackable {
 
         @NonNull
         public static final Typeface[] finalValues = values();
+
+        @NonNull
+        public static final Typeface[] randomValues = finalValues;
 
         @NonNull
         static Typeface unpack(@NonNull BytePacker bytePacker) {

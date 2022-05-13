@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2021 Terence Tan
+ * Copyright (C) 2018-2022 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -22,6 +22,8 @@ import androidx.annotation.Nullable;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import pro.watchkit.wearable.watchface.R;
@@ -103,6 +105,190 @@ public class WatchFacePresetConfigData extends ConfigData {
                                 mSharedPref = sharedPref;
                             }
                         }),
+
+                // Data for Random sub-activity in settings Activity.
+                new PickerConfigItem(
+                        R.string.config_view_random_watch_face_presets,
+                        R.drawable.ic_filter_tilt_shift,
+                        WatchFaceGlobalDrawable.PART_BACKGROUND |
+                                WatchFaceGlobalDrawable.PART_PIPS |
+                                WatchFaceGlobalDrawable.PART_HANDS |
+                                WatchFaceGlobalDrawable.PART_RINGS_ALL,
+                        WatchFaceSelectionActivity.class,
+                        new Mutator() {
+                            final Random r = new Random();
+
+                            /**
+                             * A custom Mutator which offers random WatchFaceState permutations!
+                             *
+                             * @param clone WatchFaceState, which must be a clone, but in
+                             *              this case we'll ignore it...
+                             * @return A set of random permutations, good luck, have fun!
+                             */
+                            @NonNull
+                            @Override
+                            public Permutation[] getPermutations(@NonNull WatchFaceState clone) {
+                                final int SIZE = 16;
+                                Permutation[] p = new Permutation[SIZE];
+                                Set<Integer> colorways =
+                                        clone.getPaintBox().getOriginalColorways().keySet();
+
+                                // Slot 0 is the current selection.
+                                p[0] = new Permutation(clone.getString(), "Current Watch Face");
+
+                                // Roll the dice and generate a bunch of random watch faces!
+                                for (int i = 1; i < SIZE; i++) {
+                                    String name = "Random Watch Face " + i;
+
+                                    // Permute colorway. Get a random element of "colorways",
+                                    // or (if it fails for whatever reason) a random number.
+                                    clone.setColorway(colorways.stream()
+                                            .skip(r.nextInt(colorways.size()))
+                                            .findFirst().orElse(r.nextInt()));
+
+                                    if (r.nextInt(100) < 75) {
+                                        // 75% chance of using a colorway variant.
+                                        int[] variants = clone.getPaintBox().getColorwayVariants();
+                                        clone.setColorway(variants[r.nextInt(variants.length)]);
+                                    }
+
+                                    // Permute materials.
+                                    clone.setFillHighlightMaterialGradient(
+                                            random(BytePackable.MaterialGradient.randomValues));
+                                    clone.setFillHighlightMaterialTexture(
+                                            random(BytePackable.MaterialTexture.randomValues));
+                                    clone.setAccentFillMaterialGradient(
+                                            random(BytePackable.MaterialGradient.randomValues));
+                                    clone.setAccentFillMaterialTexture(
+                                            random(BytePackable.MaterialTexture.randomValues));
+                                    clone.setAccentHighlightMaterialGradient(
+                                            random(BytePackable.MaterialGradient.randomValues));
+                                    clone.setAccentHighlightMaterialTexture(
+                                            random(BytePackable.MaterialTexture.randomValues));
+                                    clone.setBaseAccentMaterialGradient(
+                                            random(BytePackable.MaterialGradient.randomValues));
+                                    clone.setBaseAccentMaterialTexture(
+                                            random(BytePackable.MaterialTexture.randomValues));
+
+                                    // Permute hands.
+                                    // Hour hand.
+                                    clone.setHourHandShape(
+                                            random(BytePackable.HandShape.randomValues));
+                                    clone.setHourHandLength(
+                                            random(BytePackable.HandLength.randomValues));
+                                    clone.setHourHandThickness(
+                                            random(BytePackable.HandThickness.randomValues));
+                                    clone.setHourHandStalk(
+                                            random(BytePackable.HandStalk.randomValues));
+                                    clone.setHourHandMaterial(
+                                            random(BytePackable.Material.randomValues));
+                                    clone.setHourHandCutout(randomBoolean());
+                                    clone.setHourHandCutoutShape(
+                                            random(BytePackable.HandCutoutShape.randomValues));
+                                    clone.setHourHandCutoutMaterial(
+                                            random(BytePackable.HandCutoutMaterial.randomValues));
+                                    // Minute hand.
+                                    clone.setMinuteHandOverride(false); // Normie!
+                                    // Second hand.
+                                    clone.setSecondHandOverride(false); // Normie!
+
+                                    // Permute pips.
+                                    // General pip settings.
+                                    clone.setPipsDisplay(
+                                            random(BytePackable.PipsDisplay.randomValues));
+                                    clone.setPipMargin(
+                                            random(BytePackable.PipMargin.randomValues));
+                                    if (r.nextInt(100) < 25) {
+                                        // 25% chance of having a pip "ring".
+                                        clone.setPipBackgroundMaterial(
+                                                random(BytePackable.Material.randomValues));
+                                    } else {
+                                        // 75% chance of having no pip "ring".
+                                        clone.setPipBackgroundMaterial(
+                                                BytePackable.Material.BASE_ACCENT); // Background
+                                    }
+                                    // Digits.
+                                    clone.setDigitDisplay(
+                                            random(BytePackable.DigitDisplay.randomValues));
+                                    clone.setDigitSize(
+                                            random(BytePackable.DigitSize.randomValues));
+                                    clone.setDigitRotation(
+                                            random(BytePackable.DigitRotation.randomValues));
+                                    clone.setDigitFormat(
+                                            random(BytePackable.DigitFormat.randomValues));
+                                    clone.setDigitMaterial(
+                                            random(BytePackable.Material.randomValues));
+                                    // Quarter pips.
+                                    clone.setQuarterPipShape(
+                                            random(BytePackable.PipShape.randomValues));
+                                    clone.setQuarterPipSize(
+                                            random(BytePackable.PipSize.randomValues));
+                                    clone.setQuarterPipMaterial(
+                                            random(BytePackable.Material.randomValues));
+                                    // Hour pips.
+                                    clone.setHourPipOverride(true);
+                                    clone.setHourPipShape(
+                                            clone.getQuarterPipShape());
+                                    clone.setHourPipSize(
+                                            nextSizeDown(clone.getQuarterPipSize()));
+                                    clone.setHourPipMaterial(
+                                            random(BytePackable.Material.randomValues));
+                                    // Minute pips.
+                                    clone.setMinutePipOverride(true);
+                                    clone.setMinutePipShape(
+                                            clone.getHourPipShape());
+                                    clone.setMinutePipSize(
+                                            nextSizeDown(clone.getHourPipSize()));
+                                    clone.setMinutePipMaterial(
+                                            random(BytePackable.Material.randomValues));
+
+                                    p[i] = new Permutation(clone.getString(), name);
+                                }
+                                return p;
+                            }
+
+                            private BytePackable.PipSize nextSizeDown(BytePackable.PipSize p) {
+                                switch (p) {
+                                    case XXX_LONG:
+                                        return BytePackable.PipSize.XX_LONG;
+                                    case XX_LONG:
+                                        return BytePackable.PipSize.X_LONG;
+                                    case X_LONG:
+                                        return BytePackable.PipSize.LONG;
+                                    case LONG:
+                                        return BytePackable.PipSize.MEDIUM;
+                                    case MEDIUM:
+                                        return BytePackable.PipSize.SHORT;
+                                    case SHORT:
+                                        return BytePackable.PipSize.X_SHORT;
+                                    case X_SHORT:
+                                    case XX_SHORT:
+                                    default:
+                                        return BytePackable.PipSize.XX_SHORT;
+                                }
+                            }
+
+                            /**
+                             * Flip a coin! True or false?
+                             *
+                             * @return True or false at random.
+                             */
+                            private boolean randomBoolean() {
+                                return r.nextBoolean();
+                            }
+
+                            /**
+                             * Pick a random element from "finalValues" and return it.
+                             * Generic edition!
+                             *
+                             * @param finalValues Array of all values
+                             * @param <T>         Type of "finalValues" elements
+                             * @return Random element from "FinalValues"
+                             */
+                            private <T> T random(T[] finalValues) {
+                                return finalValues[r.nextInt(finalValues.length)];
+                            }
+                        }, WatchFaceState::isDeveloperMode),
 
                 // Help.
                 new HelpLabelConfigItem(R.string.config_configure_watch_face_preset_help)
