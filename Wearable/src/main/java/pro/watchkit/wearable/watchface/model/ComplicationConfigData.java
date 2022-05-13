@@ -42,7 +42,7 @@ public class ComplicationConfigData extends ConfigData {
                 new HeadingLabelConfigItem(R.string.config_configure_complications),
 
                 // Complication picker from watch face drawable.
-                new ComplicationConfigItem(R.drawable.add_complication),
+                new ComplicationConfigItem(R.drawable.ic_add_complication),
 
                 // Data for complication count in settings Activity.
                 new PickerConfigItem(
