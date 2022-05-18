@@ -1612,6 +1612,9 @@ public final class PaintBox {
                 // a black-to-white gradient then map that to a cLUT with the CIE LAB gradient.
                 // The constants here can be tweaked a lot. Here's an initial implementation.
                 // Colors range from between Color.BLACK and Color.TRANSPARENT.
+                @SuppressWarnings({"ConstantConditions", "PointlessArithmeticExpression"})
+                // (Suppress warnings; I prefer having code clarity. Besides, if the
+                // compiler doesn't convert these into constants, what is it even doing?)
                 int[] gradient = new int[]{
                         Color.argb((int) (0.9f * 255f + 0.5f), 0, 0, 0),
                         Color.argb((int) (1.0f * 255f + 0.5f), 0, 0, 0), // Original
@@ -1877,10 +1880,18 @@ public final class PaintBox {
             super.finalize();
 
             if (mLuvPaletteAllocation != null) {
-                mLuvPaletteAllocation.destroy();
+                try {
+                    mLuvPaletteAllocation.destroy();
+                } catch (android.renderscript.RSInvalidStateException ignored) {
+                    // Don't worry if already destroyed.
+                }
             }
             if (mOutputAllocation != null) {
-                mOutputAllocation.destroy();
+                try {
+                    mOutputAllocation.destroy();
+                } catch (android.renderscript.RSInvalidStateException ignored) {
+                    // Don't worry if already destroyed.
+                }
             }
         }
 
