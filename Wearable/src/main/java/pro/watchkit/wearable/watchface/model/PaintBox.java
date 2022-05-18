@@ -51,6 +51,7 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.BytePackable.DigitSize;
@@ -822,6 +823,47 @@ public final class PaintBox {
         } else {
             return mContext.getResources().getIntArray(R.array.six_bit_colors_v1)[sixBitColor];
         }
+    }
+
+    /**
+     * Doesn't get the given color from our 6-bit (64-color) palette.
+     * But gets a random color that's perceptually close! Returns a ColorInt.
+     *
+     * @param color Color to get something close to
+     * @param r     A random number generator
+     * @return Color from our palette as a six bit color
+     */
+    public int getNearbySixBitColor(@ColorInt int color, Random r) {
+        double weight = 0d;
+        int size = mContext.getResources().getIntArray(R.array.six_bit_colors).length;
+
+        // Calculate all our palette numbers as a weight.
+        double[] weights = new double[size];
+        for (int i = 0; i < size; i++) {
+            int target = getColor(i);
+
+            double[] colorA2 = convertSRGBToLUV(color);
+            double[] colorB2 = convertSRGBToLUV(target);
+
+            double distance = Math.abs(colorA2[1] - colorB2[1]) +
+                    Math.abs(colorA2[2] - colorB2[2]) +
+                    Math.abs(colorA2[3] - colorB2[3]);
+
+            // The weight at this index is between 0 and 1. Bigger means closer.
+            weight += distance == 0d ? 0d : Math.pow(1d / distance, 3d);
+            weights[i] = weight;
+        }
+        // "weights" is an array of 64 elements, starting at 0 and ending in "weight".
+
+        // OK, select a random color.
+        double rand = r.nextDouble() * weight;
+        for (int i = 0; i < size; i++) {
+            if (weights[i] > rand) {
+                return i;
+            }
+        }
+        // This should never be reached. We got confused. Just return a random color...
+        return r.nextInt(size);
     }
 
     /**
