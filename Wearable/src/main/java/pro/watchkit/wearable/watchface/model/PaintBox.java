@@ -23,7 +23,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorSpace;
 import android.graphics.ComposeShader;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
@@ -35,7 +34,6 @@ import android.graphics.Shader;
 import android.graphics.SweepGradient;
 import android.graphics.Typeface;
 import android.graphics.Xfermode;
-import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
@@ -316,6 +314,9 @@ public final class PaintBox {
             // a black-to-white gradient then map that to a cLUT with the CIE LAB gradient.
             // The constants here can be tweaked a lot. Here's an initial implementation.
             // Colors range from between Color.WHITE and Color.TRANSPARENT.
+            @SuppressWarnings({"ConstantConditions", "PointlessArithmeticExpression"})
+            // (Suppress warnings; I prefer having code clarity. Besides, if the
+            // compiler doesn't convert these into constants, what is it even doing?)
             int[] gradient = new int[]{
                     Color.argb((int) (0.9f * 255f + 0.5f), 255, 255, 255),
                     Color.argb((int) (1.0f * 255f + 0.5f), 255, 255, 255), // Original
@@ -609,42 +610,14 @@ public final class PaintBox {
         else if (d > 1) d = 1;
         double e = 1d - d;
 
-        if (mUseLUV) {
-            double[] colorA2 = convertSRGBToLUV(colorA);
-            double[] colorB2 = convertSRGBToLUV(colorB);
-            double[] colorC2 = {0d, 0d, 0d, 0d};
-            colorC2[0] = colorA2[0] * d + colorB2[0] * e;
-            colorC2[1] = colorA2[1] * d + colorB2[1] * e;
-            colorC2[2] = colorA2[2] * d + colorB2[2] * e;
-            colorC2[3] = colorA2[3] * d + colorB2[3] * e;
-            return convertLUVToSRGB(colorC2);
-        } else if (Build.VERSION.SDK_INT >= 26) {
-            // The "long colors" feature is only available in SDK 26 onwards!
-            ColorSpace CIE_LAB = ColorSpace.get(ColorSpace.Named.CIE_LAB);
-            ColorSpace sRGB = ColorSpace.get(ColorSpace.Named.SRGB);
-
-            // Convert colors to LAB color space.
-            long colorAL = Color.convert(colorA, CIE_LAB);
-            long colorBL = Color.convert(colorB, CIE_LAB);
-
-            // Generate a new color that is between the two.
-            float a = (float) (Color.alpha(colorAL) * d + Color.alpha(colorBL) * e);
-            float r = (float) (Color.red(colorAL) * d + Color.red(colorBL) * e);
-            float g = (float) (Color.green(colorAL) * d + Color.green(colorBL) * e);
-            float b = (float) (Color.blue(colorAL) * d + Color.blue(colorBL) * e);
-
-            // Convert back to sRGB and return.
-            return Color.toArgb(Color.convert(r, g, b, a, CIE_LAB, sRGB));
-        } else {
-            // Generate a new color that is between the two.
-            int a = (int) (Color.alpha(colorA) * d + Color.alpha(colorB) * e);
-            int r = (int) (Color.red(colorA) * d + Color.red(colorB) * e);
-            int g = (int) (Color.green(colorA) * d + Color.green(colorB) * e);
-            int b = (int) (Color.blue(colorA) * d + Color.blue(colorB) * e);
-
-            // And return
-            return Color.argb(a, r, g, b);
-        }
+        double[] colorA2 = convertSRGBToLUV(colorA);
+        double[] colorB2 = convertSRGBToLUV(colorB);
+        double[] colorC2 = {0d, 0d, 0d, 0d};
+        colorC2[0] = colorA2[0] * d + colorB2[0] * e;
+        colorC2[1] = colorA2[1] * d + colorB2[1] * e;
+        colorC2[2] = colorA2[2] * d + colorB2[2] * e;
+        colorC2[3] = colorA2[3] * d + colorB2[3] * e;
+        return convertLUVToSRGB(colorC2);
     }
 
     /**
@@ -692,61 +665,24 @@ public final class PaintBox {
             @ColorInt int colorA, @ColorInt int colorB, @NonNull @ColorInt int[] cLUT) {
         double j = cLUT.length - 1;
 
-        if (mUseLUV) {
-            double[] colorA2 = convertSRGBToLUV(colorA);
-            double[] colorB2 = convertSRGBToLUV(colorB);
-            double[] colorC2 = {0d, 0d, 0d, 0d};
+        double[] colorA2 = convertSRGBToLUV(colorA);
+        double[] colorB2 = convertSRGBToLUV(colorB);
+        double[] colorC2 = {0d, 0d, 0d, 0d};
 
-            for (int i = 0; i < cLUT.length; i++) {
-                double d = (double) i / j;
-                double e = 1d - d;
-                colorC2[0] = colorA2[0] * d + colorB2[0] * e;
-                colorC2[1] = colorA2[1] * d + colorB2[1] * e;
-                colorC2[2] = colorA2[2] * d + colorB2[2] * e;
-                colorC2[3] = colorA2[3] * d + colorB2[3] * e;
-                cLUT[i] = convertLUVToSRGB(colorC2);
-            }
-        } else if (Build.VERSION.SDK_INT >= 26) {
-            // The "long colors" feature is only available in SDK 26 onwards!
-            ColorSpace CIE_LAB = ColorSpace.get(ColorSpace.Named.CIE_LAB);
-            ColorSpace sRGB = ColorSpace.get(ColorSpace.Named.SRGB);
-
-            // Convert colors to LAB color space.
-            long colorAL = Color.convert(colorA, CIE_LAB);
-            long colorBL = Color.convert(colorB, CIE_LAB);
-
-            for (int i = 0; i < cLUT.length; i++) {
-                double d = (double) i / j;
-                double e = 1d - d;
-
-                // Generate a new color that is between the two.
-                float a = (float) (Color.alpha(colorAL) * d + Color.alpha(colorBL) * e);
-                float r = (float) (Color.red(colorAL) * d + Color.red(colorBL) * e);
-                float g = (float) (Color.green(colorAL) * d + Color.green(colorBL) * e);
-                float b = (float) (Color.blue(colorAL) * d + Color.blue(colorBL) * e);
-
-                // Convert back to sRGB.
-                cLUT[i] = Color.toArgb(Color.convert(r, g, b, a, CIE_LAB, sRGB));
-            }
-        } else {
-            for (int i = 0; i < cLUT.length; i++) {
-                double d = (double) i / j;
-                double e = 1d - d;
-
-                // Generate a new color that is between the two.
-                int a = (int) (Color.alpha(colorA) * d + Color.alpha(colorB) * e);
-                int r = (int) (Color.red(colorA) * d + Color.red(colorB) * e);
-                int g = (int) (Color.green(colorA) * d + Color.green(colorB) * e);
-                int b = (int) (Color.blue(colorA) * d + Color.blue(colorB) * e);
-
-                // And add to array.
-                cLUT[i] = Color.argb(a, r, g, b);
-            }
+        for (int i = 0; i < cLUT.length; i++) {
+            double d = (double) i / j;
+            double e = 1d - d;
+            colorC2[0] = colorA2[0] * d + colorB2[0] * e;
+            colorC2[1] = colorA2[1] * d + colorB2[1] * e;
+            colorC2[2] = colorA2[2] * d + colorB2[2] * e;
+            colorC2[3] = colorA2[3] * d + colorB2[3] * e;
+            cLUT[i] = convertLUVToSRGB(colorC2);
         }
     }
 
     /**
-     * Returns the distance between the two different colors. Lower distances mean closer colors.
+     * Returns the distance between the two different colors.
+     * Lower distances mean closer colors.
      * A result of 0 means the colors are equal. Don't treat the absolute value as important;
      * it's relative to calls to this function with other colors.
      *
@@ -755,27 +691,29 @@ public final class PaintBox {
      * @return The distance between the two colors
      */
     private double getDistance(@ColorInt int colorA, @ColorInt int colorB) {
-        if (mUseLUV) {
-            double[] colorA2 = convertSRGBToLUV(colorA);
-            double[] colorB2 = convertSRGBToLUV(colorB);
+        double[] colorA2 = convertSRGBToLUV(colorA);
+        double[] colorB2 = convertSRGBToLUV(colorB);
 
-            return Math.abs(colorA2[1] - colorB2[1]); // Distance in lightness.
-        } else if (Build.VERSION.SDK_INT >= 26) {
-            // The "long colors" feature is only available in SDK 26 onwards!
-            ColorSpace CIE_LAB = ColorSpace.get(ColorSpace.Named.CIE_LAB);
+        return Math.abs(colorA2[1] - colorB2[1]) +
+                Math.abs(colorA2[2] - colorB2[2]) +
+                Math.abs(colorA2[3] - colorB2[3]); // Distance in colors; Manhattan distance.
+    }
 
-            // Convert colors to LAB color space.
-            long colorAL = Color.convert(colorA, CIE_LAB);
-            long colorBL = Color.convert(colorB, CIE_LAB);
+    /**
+     * Returns the contrast (distance in lightness) between the two different colors.
+     * Lower distances mean closer colors.
+     * A result of 0 means the colors are equal. Don't treat the absolute value as important;
+     * it's relative to calls to this function with other colors.
+     *
+     * @param colorA One color to calculate
+     * @param colorB The other color
+     * @return The contrast between the two colors
+     */
+    private double getContrast(@ColorInt int colorA, @ColorInt int colorB) {
+        double[] colorA2 = convertSRGBToLUV(colorA);
+        double[] colorB2 = convertSRGBToLUV(colorB);
 
-            return Math.abs(Color.red(colorAL) - Color.red(colorBL)); // Distance in lightness.
-        } else {
-            // Don't bother calculating lightness here, just use general distance.
-            return Math.sqrt(Math.pow(Color.alpha(colorA) - Color.alpha(colorB), 2) +
-                    Math.pow(Color.red(colorA) - Color.red(colorB), 2) +
-                    Math.pow(Color.green(colorA) - Color.green(colorB), 2) +
-                    Math.pow(Color.blue(colorA) - Color.blue(colorB), 2));
-        }
+        return Math.abs(colorA2[1] - colorB2[1]); // Distance in lightness.
     }
 
     private int mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor;
@@ -818,11 +756,7 @@ public final class PaintBox {
      */
     @ColorInt
     public int getColor(int sixBitColor) {
-        if (mUseLUV) {
-            return mContext.getResources().getIntArray(R.array.six_bit_colors)[sixBitColor];
-        } else {
-            return mContext.getResources().getIntArray(R.array.six_bit_colors_v1)[sixBitColor];
-        }
+        return mContext.getResources().getIntArray(R.array.six_bit_colors)[sixBitColor];
     }
 
     /**
@@ -841,15 +775,10 @@ public final class PaintBox {
         double[] weights = new double[size];
         for (int i = 0; i < size; i++) {
             int target = getColor(i);
-
-            double[] colorA2 = convertSRGBToLUV(color);
-            double[] colorB2 = convertSRGBToLUV(target);
-
-            double distance = Math.abs(colorA2[1] - colorB2[1]) +
-                    Math.abs(colorA2[2] - colorB2[2]) +
-                    Math.abs(colorA2[3] - colorB2[3]);
+            double distance = getDistance(color, target);
 
             // The weight at this index is between 0 and 1. Bigger means closer.
+            // We cube the weight (Math.pow) to favour nearer values.
             weight += distance == 0d ? 0d : Math.pow(1d / distance, 3d);
             weights[i] = weight;
         }
@@ -873,13 +802,7 @@ public final class PaintBox {
      * @return Name of the color from our palette as a ColorInt
      */
     public String getColorName(int sixBitColor) {
-        if (mUseLUV) {
-            return mContext.getResources().getStringArray(
-                    R.array.six_bit_color_names)[sixBitColor];
-        } else {
-            return mContext.getResources().getStringArray(
-                    R.array.six_bit_color_names_v1)[sixBitColor];
-        }
+        return mContext.getResources().getStringArray(R.array.six_bit_color_names)[sixBitColor];
     }
 
     /**
@@ -933,9 +856,9 @@ public final class PaintBox {
             }
             // Choose between "colorB", "colorC" and "colorD".
             // Select the color most distant from "colorA".
-            double diffB = getDistance(colorA, colorB);
-            double diffC = getDistance(colorA, colorC);
-            double diffD = getDistance(colorA, colorD);
+            double diffB = getContrast(colorA, colorB);
+            double diffC = getContrast(colorA, colorC);
+            double diffD = getContrast(colorA, colorD);
             if (diffB > diffC && diffB > diffD) {
                 return colorB;
             } else if (diffC > diffD) {
@@ -947,8 +870,8 @@ public final class PaintBox {
             // Choose between "colorC" and "colorD".
             // Select the color most distant from a mix of "colorA" and "colorB".
             int colorAB = getIntermediateColor(colorA, colorB, 0.5d);
-            double diffC = getDistance(colorAB, colorC);
-            double diffD = getDistance(colorAB, colorD);
+            double diffC = getContrast(colorAB, colorC);
+            double diffD = getContrast(colorAB, colorD);
             if (diffC > diffD) {
                 return colorC;
             } else {
@@ -1335,7 +1258,6 @@ public final class PaintBox {
         mUseLegacyEffects = useLegacyEffects;
     }
 
-    private static final boolean mUseLUV = true;
     private static boolean mUseLegacyMaterialDrawing = false;
 
     void setUseLegacyMaterialDrawing(boolean useLegacyColorDrawing) {
