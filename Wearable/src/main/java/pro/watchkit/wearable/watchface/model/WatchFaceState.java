@@ -676,7 +676,7 @@ public class WatchFaceState {
     }
 
     // region Settings
-    Typeface getTypeface() {
+    public Typeface getTypeface() {
         return mSettings.mTypeface;
     }
 
@@ -689,7 +689,7 @@ public class WatchFaceState {
     final private android.graphics.Typeface[] mTypefaceCache;
 
     @Nullable
-    private android.graphics.Typeface getTypefaceObject() {
+    public android.graphics.Typeface getTypefaceObject() {
         return getTypefaceObject(getTypeface());
     }
 

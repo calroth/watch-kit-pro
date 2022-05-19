@@ -758,6 +758,26 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         void bind(@NonNull ConfigData.ConfigActivityConfigItem configItem) {
             mButton.setText(itemView.getResources().getString(configItem.getNameResourceId()));
+
+            // This is a bit of a hack to display the current typeface name.
+            // In future, we can generalise this to display any subtitle.
+            if (configItem.getNameResourceId() != R.string.config_configure_typeface) {
+                mButton.setText(itemView.getResources().getString(configItem.getNameResourceId()));
+            } else {
+                String title = itemView.getResources().getString(configItem.getNameResourceId());
+                String subtitle;
+                if (mCurrentWatchFaceState.getTypefaceObject() != null) {
+                    BytePackable.Typeface t = mCurrentWatchFaceState.getTypeface();
+                    String[] typefaces =
+                            itemView.getResources().getStringArray(t.getNameResourceId());
+                    subtitle = "<br/><small>" + typefaces[t.ordinal()] + "</small>";
+                } else {
+                    subtitle = "";
+                }
+                CharSequence text = Html.fromHtml(title + subtitle, Html.FROM_HTML_MODE_LEGACY);
+                mButton.setText(text);
+            }
+
             Drawable left = itemView.getContext().getDrawable(configItem.getIconResourceId());
             if (left != null) {
                 left.setTint(mButton.getCurrentTextColor());
@@ -833,6 +853,14 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 itemView.getLayoutParams().height = 0;
                 itemView.getLayoutParams().width = 0;
                 itemView.setVisibility(View.GONE);
+            }
+
+            // Set highlighted or not based on whether this is our current selection!
+            if (t != null && t == mCurrentWatchFaceState.getTypefaceObject()) {
+                itemView.setBackground(itemView.getContext().
+                        getDrawable(android.R.drawable.screen_background_dark_transparent));
+            } else {
+                itemView.setBackground(null);
             }
         }
 
