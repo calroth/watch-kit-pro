@@ -81,6 +81,7 @@
     <string name="config_country_1">Product of 🇦🇺</string>
     <string name="config_country_2">Australia</string>
     <string name="config_git_hash">Revision 🎉</string>
+    <string name="config_git_debug">Revision 🐛</string>
     <string name="config_git_date">Date 📇</string>
     <string name="config_scripture_0">&lt;br /&gt;✝️&lt;br /&gt;&lt;br /&gt;</string>
     <string name="config_scripture_1">For God loved the world in this way: He gave his one and only

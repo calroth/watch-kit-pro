@@ -114,7 +114,9 @@ public class SettingsConfigData extends ConfigData {
                 new TitleLabelConfigItem(R.string.config_country_1, R.string.config_country_2),
 
                 // Git hash.
-                new TitleLabelConfigItem(R.string.config_git_hash, R.string.git_hash),
+                new TitleLabelConfigItem(
+                        BuildConfig.DEBUG ? R.string.config_git_debug : R.string.config_git_hash,
+                        R.string.git_hash),
 
                 // Git date.
                 new TitleLabelConfigItem(R.string.config_git_date, R.string.git_date),
