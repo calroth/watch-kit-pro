@@ -1882,27 +1882,7 @@ public class WatchFaceState {
      */
     @ColorInt
     public int getColor(@NonNull ColorType colorType) {
-        switch (colorType) {
-            case FILL: {
-                return mPaintBox.getColor(getFillSixBitColor());
-            }
-            case ACCENT: {
-                return mPaintBox.getColor(getAccentSixBitColor());
-            }
-            case HIGHLIGHT: {
-                return mPaintBox.getColor(getHighlightSixBitColor());
-            }
-            case BASE: {
-                return mPaintBox.getColor(getBaseSixBitColor());
-            }
-            case AMBIENT_DAY: {
-                return mPaintBox.getColor(getAmbientDaySixBitColor());
-            }
-            default:
-            case AMBIENT_NIGHT: {
-                return mPaintBox.getColor(getAmbientNightSixBitColor());
-            }
-        }
+        return mPaintBox.getColor(getSixBitColor(colorType));
     }
 
     /**
@@ -1912,25 +1892,35 @@ public class WatchFaceState {
      * @return Name of color from our palette as a String
      */
     public String getColorName(@NonNull ColorType colorType) {
+        return mPaintBox.getColorName(getSixBitColor(colorType));
+    }
+
+    /**
+     * Get the given color from our 6-bit (64-color) palette. Returns a 6-bit color.
+     *
+     * @param colorType ColorType to get from our current WatchFacePreset.
+     * @return Color from our palette as a 6-bit color
+     */
+    public int getSixBitColor(@NonNull ColorType colorType) {
         switch (colorType) {
             case FILL: {
-                return mPaintBox.getColorName(getFillSixBitColor());
+                return getFillSixBitColor();
             }
             case ACCENT: {
-                return mPaintBox.getColorName(getAccentSixBitColor());
+                return getAccentSixBitColor();
             }
             case HIGHLIGHT: {
-                return mPaintBox.getColorName(getHighlightSixBitColor());
+                return getHighlightSixBitColor();
             }
             case BASE: {
-                return mPaintBox.getColorName(getBaseSixBitColor());
+                return getBaseSixBitColor();
             }
             case AMBIENT_DAY: {
-                return mPaintBox.getColorName(getAmbientDaySixBitColor());
+                return getAmbientDaySixBitColor();
             }
             default:
             case AMBIENT_NIGHT: {
-                return mPaintBox.getColorName(getAmbientNightSixBitColor());
+                return getAmbientNightSixBitColor();
             }
         }
     }

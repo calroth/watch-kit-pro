@@ -763,11 +763,12 @@ public final class PaintBox {
      * Doesn't get the given color from our 6-bit (64-color) palette.
      * But gets a random color that's perceptually close! Returns a ColorInt.
      *
-     * @param color Color to get something close to
-     * @param r     A random number generator
+     * @param sixBitColor Six-bit color to get something close to
+     * @param r           A random number generator
      * @return Color from our palette as a six bit color
      */
-    public int getNearbySixBitColor(@ColorInt int color, Random r) {
+    public int getNearbySixBitColor(int sixBitColor, Random r) {
+        @ColorInt int color = getColor(sixBitColor);
         double weight = 0d;
         int size = mContext.getResources().getIntArray(R.array.six_bit_colors).length;
 

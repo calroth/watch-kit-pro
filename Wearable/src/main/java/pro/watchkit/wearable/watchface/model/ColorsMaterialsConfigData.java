@@ -19,7 +19,6 @@ package pro.watchkit.wearable.watchface.model;
 
 import static java.util.stream.Collectors.toList;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
 import java.util.Arrays;
@@ -165,9 +164,9 @@ public class ColorsMaterialsConfigData extends ConfigData {
                                     }
 
                                     // Mutate the color and set it.
-                                    @ColorInt int color = clone.getColor(colorType);
-                                    int newSixBitColor =
-                                            clone.getPaintBox().getNearbySixBitColor(color, r);
+                                    int sixBitColor = clone.getSixBitColor(colorType);
+                                    int newSixBitColor = clone.getPaintBox().
+                                            getNearbySixBitColor(sixBitColor, r);
                                     clone.setSixBitColor(colorType, newSixBitColor);
 
                                     p[i] = new Permutation(clone.getString(), name);

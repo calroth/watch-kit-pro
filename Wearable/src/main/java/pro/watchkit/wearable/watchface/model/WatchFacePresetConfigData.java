@@ -145,12 +145,37 @@ public class WatchFacePresetConfigData extends ConfigData {
                                     clone.setColorway(colorways.stream()
                                             .skip(r.nextInt(colorways.size()))
                                             .findFirst().orElse(r.nextInt()));
-
-                                    if (r.nextInt(100) < 75) {
-                                        // 75% chance of using a colorway variant.
-                                        int[] variants = clone.getPaintBox().getColorwayVariants();
-                                        clone.setColorway(variants[r.nextInt(variants.length)]);
+                                    // Permute to a variant...
+                                    int[] variants = clone.getPaintBox().getColorwayVariants();
+                                    clone.setColorway(variants[r.nextInt(variants.length)]);
+                                    // Then permute that variant further!
+                                    int fillSixBitColor =
+                                            clone.getSixBitColor(PaintBox.ColorType.FILL);
+                                    int accentSixBitColor =
+                                            clone.getSixBitColor(PaintBox.ColorType.ACCENT);
+                                    int highlightSixBitColor =
+                                            clone.getSixBitColor(PaintBox.ColorType.HIGHLIGHT);
+                                    int baseSixBitColor =
+                                            clone.getSixBitColor(PaintBox.ColorType.BASE);
+                                    // Roll a dice. On 4 or less, permute colors and roll again...
+                                    while (r.nextInt(6) < 4) {
+                                        fillSixBitColor = clone.getPaintBox().
+                                                getNearbySixBitColor(fillSixBitColor, r);
+                                        accentSixBitColor = clone.getPaintBox().
+                                                getNearbySixBitColor(accentSixBitColor, r);
+                                        highlightSixBitColor = clone.getPaintBox().
+                                                getNearbySixBitColor(highlightSixBitColor, r);
+                                        baseSixBitColor = clone.getPaintBox().
+                                                getNearbySixBitColor(baseSixBitColor, r);
                                     }
+                                    clone.setSixBitColor(
+                                            PaintBox.ColorType.FILL, fillSixBitColor);
+                                    clone.setSixBitColor(
+                                            PaintBox.ColorType.ACCENT, accentSixBitColor);
+                                    clone.setSixBitColor(
+                                            PaintBox.ColorType.HIGHLIGHT, highlightSixBitColor);
+                                    clone.setSixBitColor(
+                                            PaintBox.ColorType.BASE, baseSixBitColor);
 
                                     // Permute materials.
                                     clone.setFillHighlightMaterialGradient(
