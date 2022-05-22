@@ -90,8 +90,6 @@ public class ConfigActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        Log.d(TAG, "Intent: " + getIntent().getAction());
-
         // Try to get the watch face slot from our activity intent.
         Class<? extends ProWatchFaceService> watchFaceServiceClass = ProWatchFaceService.A.class;
         @StringRes int slotLabel = R.string.watch_face_service_short_label_a;

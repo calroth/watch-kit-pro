@@ -182,6 +182,11 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
      */
     void regenerateCurrentWatchFaceState() {
         mCurrentWatchFaceState.setString(mSharedPref.getWatchFaceStateString());
+
+        if (mCurrentWatchFaceState.isDeveloperMode()) {
+            android.util.Log.d("BaseRecyclerViewAdapter",
+                    mSubActivityIntent + " ~ " + mCurrentWatchFaceState.getString());
+        }
     }
 
     /**
