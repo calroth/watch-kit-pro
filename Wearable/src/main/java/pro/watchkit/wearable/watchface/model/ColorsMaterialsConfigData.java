@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2021 Terence Tan
+ * Copyright (C) 2018-2022 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -23,7 +23,6 @@ import androidx.annotation.NonNull;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import pro.watchkit.wearable.watchface.R;
@@ -110,71 +109,6 @@ public class ColorsMaterialsConfigData extends ConfigData {
                                             w.getString(), w.getColorwayName());
                                 }).toArray(Permutation[]::new)),
 
-                // Mutate our colorways!.
-                new PickerConfigItem(
-                        R.string.config_configure_colors_materials_mutation,
-                        R.drawable.ic_filter_tilt_shift,
-                        WatchFaceGlobalDrawable.PART_BACKGROUND |
-                                WatchFaceGlobalDrawable.PART_PIPS |
-                                WatchFaceGlobalDrawable.PART_HANDS |
-                                WatchFaceGlobalDrawable.PART_RINGS_ALL,
-                        WatchFaceSelectionActivity.class,
-                        new Mutator() {
-                            final Random r = new Random();
-
-                            /**
-                             * A custom Mutator which offers random WatchFaceState permutations!
-                             *
-                             * @param clone WatchFaceState, which must be a clone, but in
-                             *              this case we'll ignore it...
-                             * @return A set of random permutations, good luck, have fun!
-                             */
-                            @NonNull
-                            @Override
-                            public Permutation[] getPermutations(@NonNull WatchFaceState clone) {
-                                final int SIZE = 16;
-                                Permutation[] p = new Permutation[SIZE];
-
-                                // Slot 0 is the current selection.
-                                p[0] = new Permutation(clone.getString(), clone.getColorwayName());
-
-                                int colorTypeShift = r.nextInt(4);
-
-                                // Roll the dice and generate a bunch of random watch faces!
-                                for (int i = 1; i < SIZE; i++) {
-                                    String name = "Mutated Colorway " + i +
-                                            " (" + clone.getColorwayName() + ")";
-
-                                    // Take turns shifting the various color types.
-                                    PaintBox.ColorType colorType;
-                                    switch ((i + colorTypeShift) % 4) {
-                                        case 0:
-                                            colorType = PaintBox.ColorType.FILL;
-                                            break;
-                                        case 1:
-                                            colorType = PaintBox.ColorType.ACCENT;
-                                            break;
-                                        case 2:
-                                            colorType = PaintBox.ColorType.HIGHLIGHT;
-                                            break;
-                                        case 3:
-                                        default:
-                                            colorType = PaintBox.ColorType.BASE;
-                                            break;
-                                    }
-
-                                    // Mutate the color and set it.
-                                    int sixBitColor = clone.getSixBitColor(colorType);
-                                    int newSixBitColor = clone.getPaintBox().
-                                            getNearbySixBitColor(sixBitColor, r);
-                                    clone.setSixBitColor(colorType, newSixBitColor);
-
-                                    p[i] = new Permutation(clone.getString(), name);
-                                }
-                                return p;
-                            }
-                        }, WatchFaceState::isDeveloperMode),
-
                 // Data for fill color UX in settings Activity.
                 new ColorPickerConfigItem(
                         R.string.config_fill_color_label,
@@ -202,6 +136,66 @@ public class ColorsMaterialsConfigData extends ConfigData {
                         R.drawable.ic_color_lens,
                         PaintBox.ColorType.BASE,
                         ColorSelectionActivity.class),
+
+                // Mutate our colorways!.
+                new PickerConfigItem(
+                        R.string.config_configure_colors_materials_mutation,
+                        R.drawable.ic_filter_tilt_shift,
+                        WatchFaceGlobalDrawable.PART_BACKGROUND |
+                                WatchFaceGlobalDrawable.PART_PIPS |
+                                WatchFaceGlobalDrawable.PART_HANDS |
+                                WatchFaceGlobalDrawable.PART_RINGS_ALL,
+                        WatchFaceSelectionActivity.class,
+                        new RandomMutator() {
+                            /**
+                             * A custom Mutator which offers random WatchFaceState permutations!
+                             *
+                             * @param clone WatchFaceState, which must be a clone, but in
+                             *              this case we'll ignore it...
+                             * @return A set of random permutations, good luck, have fun!
+                             */
+                            @NonNull
+                            @Override
+                            public Permutation[] getPermutations(@NonNull WatchFaceState clone) {
+                                final int SIZE = 16;
+                                Permutation[] p = new Permutation[SIZE];
+
+                                // Slot 0 is the current selection.
+                                p[0] = new Permutation(clone.getString(), clone.getColorwayName());
+
+                                int colorTypeShift = r.nextInt(4);
+
+                                // Roll the dice and generate a bunch of random watch faces!
+                                for (int i = 1; i < SIZE; i++) {
+                                    String name = "Mutated Colorway " + i +
+                                            " (" + clone.getColorwayName() + ")";
+
+                                    // Take turns shifting the various color types.
+                                    switch ((i + colorTypeShift) % 4) {
+                                        case 0:
+                                            permuteRandomColorType(clone,
+                                                    PaintBox.ColorType.FILL);
+                                            break;
+                                        case 1:
+                                            permuteRandomColorType(clone,
+                                                    PaintBox.ColorType.ACCENT);
+                                            break;
+                                        case 2:
+                                            permuteRandomColorType(clone,
+                                                    PaintBox.ColorType.HIGHLIGHT);
+                                            break;
+                                        case 3:
+                                        default:
+                                            permuteRandomColorType(clone,
+                                                    PaintBox.ColorType.BASE);
+                                            break;
+                                    }
+
+                                    p[i] = new Permutation(clone.getString(), name);
+                                }
+                                return p;
+                            }
+                        }, WatchFaceState::isDeveloperMode),
 
                 // Data for Fill Highlight Material sub-activity in settings Activity.
                 new ConfigActivityConfigItem(
