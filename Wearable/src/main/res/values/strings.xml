@@ -113,6 +113,8 @@
     <string name="config_configure_colors_materials_colorway">Colorway</string>
     <string name="config_configure_colors_materials_variant">Colorway Variant</string>
     <string name="config_configure_colors_materials_mutation">Random Colorway Mutations!</string>
+    <string name="config_configure_colors_materials_materials_mutation">Random Material
+        Mutations</string>
     <string name="config_configure_material">Configure Material</string>
     <string name="config_configure_material_subtitle">is used for the following elements:</string>
     <string name="config_configure_hands">Configure Hands</string>

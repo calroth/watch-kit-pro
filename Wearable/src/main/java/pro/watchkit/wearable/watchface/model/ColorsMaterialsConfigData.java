@@ -225,6 +225,39 @@ public class ColorsMaterialsConfigData extends ConfigData {
                         MaterialConfigData.BaseAccent.class,
                         ConfigActivity.class),
 
+                // Data for Random sub-activity in settings Activity.
+                new PickerConfigItem(
+                        R.string.config_configure_colors_materials_materials_mutation,
+                        R.drawable.ic_filter_tilt_shift,
+                        watchFaceGlobalDrawableFlags,
+                        WatchFaceSelectionActivity.class,
+                        new RandomMutator() {
+                            /**
+                             * A custom Mutator which offers random WatchFaceState permutations!
+                             *
+                             * @param clone WatchFaceState, which must be a clone, but in
+                             *              this case we'll ignore it...
+                             * @return A set of random permutations, good luck, have fun!
+                             */
+                            @NonNull
+                            @Override
+                            public Permutation[] getPermutations(@NonNull WatchFaceState clone) {
+                                final int SIZE = 16;
+                                Permutation[] p = new Permutation[SIZE];
+
+                                // Slot 0 is the current selection.
+                                p[0] = new Permutation(clone.getString(), "Current Watch Face");
+
+                                // Roll the dice and generate a bunch of random watch faces!
+                                for (int i = 1; i < SIZE; i++) {
+                                    String name = "Random Materials " + i;
+                                    permuteRandomMaterials(clone);
+                                    p[i] = new Permutation(clone.getString(), name);
+                                }
+                                return p;
+                            }
+                        }, WatchFaceState::isDeveloperMode),
+
                 // Help.
                 new HelpLabelConfigItem(R.string.config_configure_colors_materials_help)
         );
