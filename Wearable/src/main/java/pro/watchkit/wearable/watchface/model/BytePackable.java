@@ -25,6 +25,7 @@ import androidx.annotation.ArrayRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -896,13 +897,19 @@ public abstract class BytePackable {
             rewind();
         }
 
+        // https://stackoverflow.com/questions/9655181/how-to-convert-a-byte-array-to-a-hex-string-in-java
+        private static final byte[] HEX_ARRAY =
+                "0123456789abcdef".getBytes(StandardCharsets.US_ASCII);
+
         @NonNull
-        private String byteArrayToString(@NonNull byte[] a) {
-            StringBuilder sb = new StringBuilder(a.length * 2);
-            for (byte b : a) {
-                sb.append(String.format("%02x", b));
+        private String byteArrayToString(@NonNull byte[] bytes) {
+            byte[] hexChars = new byte[bytes.length * 2];
+            for (int j = 0; j < bytes.length; j++) {
+                int v = bytes[j] & 0xFF;
+                hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+                hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
             }
-            return sb.toString();
+            return new String(hexChars, StandardCharsets.UTF_8);
         }
 
         void rewind() {
