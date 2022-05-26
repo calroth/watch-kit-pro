@@ -19,6 +19,7 @@
 package pro.watchkit.wearable.watchface.util;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.widget.Toast;
 
 /**
@@ -52,6 +53,7 @@ public final class Toaster {
         cancelCurrent();
 
         mCurrentToast = Toast.makeText(context, text, duration);
+        mCurrentToast.setGravity(Gravity.BOTTOM, 0, 32);
         mCurrentToast.show();
     }
 
