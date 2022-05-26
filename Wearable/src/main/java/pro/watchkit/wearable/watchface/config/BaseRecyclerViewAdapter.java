@@ -292,6 +292,9 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 // Set layer type to hardware. We promise not to update this any more,
                 // so now Android can render this to a texture and leave it there.
                 mImageView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+            } else {
+                // We've recycled this ViewHolder. Cancel its background tasks.
+                mWatchFaceGlobalDrawable.cancelBackgroundTasks();
             }
             WatchFaceState w = mWatchFaceGlobalDrawable.getWatchFaceState();
             if (watchFaceStateString != null) {

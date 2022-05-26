@@ -88,7 +88,7 @@ public final class PaintBox {
     private final GradientPaint mFillHighlightPaint = new GradientPaint();
     @NonNull
     private final GradientPaint mAccentFillPaint = new GradientPaint();
-    private GradientPaint mBezelPaint1;
+    private final GradientPaint mBezelPaint1 = mAccentFillPaint;
     @NonNull
     private final GradientPaint mBezelPaint2 = new GradientPaint();
     @NonNull
@@ -1025,7 +1025,6 @@ public final class PaintBox {
                 mFillHighlightMaterialGradient, mFillHighlightMaterialTexture);
         mAccentFillPaint.setColors(mAccentSixBitColor, mFillSixBitColor,
                 mAccentFillMaterialGradient, mAccentFillMaterialTexture);
-        mBezelPaint1 = mAccentFillPaint;
         mBezelPaint2.setColors(mFillSixBitColor, mAccentSixBitColor,
                 mAccentFillMaterialGradient, mAccentFillMaterialTexture);
         mAccentHighlightPaint.setColors(mAccentSixBitColor, mHighlightSixBitColor,

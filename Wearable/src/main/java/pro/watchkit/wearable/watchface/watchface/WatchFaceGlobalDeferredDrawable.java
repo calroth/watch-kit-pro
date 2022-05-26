@@ -39,6 +39,7 @@ import androidx.annotation.NonNull;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
@@ -109,29 +110,31 @@ public class WatchFaceGlobalDeferredDrawable extends LayerDrawable {
         // Invalidate if complications, unread notifications or total notifications have changed.
         // Or the entire preset. Or if we've flipped between active and ambient.
         // Or anything else of interest in the WatchFaceState.
-        int currentSerial = Objects.hash(mWatchFaceState);
-        if (mPreviousSerial != currentSerial) {
-            // Keep track of what our ambient currently is, because we're about to draw them both.
-            boolean currentAmbient = mWatchFaceState.isAmbient();
+        synchronized (mWatchFaceState) {
+            int currentSerial = Objects.hash(mWatchFaceState);
+            if (mPreviousSerial != currentSerial) {
+                // Keep track of what our ambient currently is, because we're about to draw them both.
+                boolean currentAmbient = mWatchFaceState.isAmbient();
 
-            // Cache invalid. Draw into our cache canvas.
-            mCacheCanvas.drawColor(Color.TRANSPARENT, Mode.CLEAR); // Clear it first.
+                // Cache invalid. Draw into our cache canvas.
+                mCacheCanvas.drawColor(Color.TRANSPARENT, Mode.CLEAR); // Clear it first.
 
-            // Pre-cache our active canvas.
-            mWatchFaceState.setAmbient(false);
-            super.draw(mCacheCanvas);
+                // Pre-cache our active canvas.
+                mWatchFaceState.setAmbient(false);
+                super.draw(mCacheCanvas);
 
-            // And back to how we were.
-            mWatchFaceState.setAmbient(currentAmbient);
-            mPreviousSerial = currentSerial;
+                // And back to how we were.
+                mWatchFaceState.setAmbient(currentAmbient);
+                mPreviousSerial = currentSerial;
 
-            Bitmap.Config config = Bitmap.Config.ARGB_8888;
-            if (Build.VERSION.SDK_INT >= 26 && mWatchFaceState.isHardwareAccelerationEnabled()) {
-                // Hardware power!
-                config = Bitmap.Config.HARDWARE;
+                Bitmap.Config config = Bitmap.Config.ARGB_8888;
+                if (Build.VERSION.SDK_INT >= 26 && mWatchFaceState.isHardwareAccelerationEnabled()) {
+                    // Hardware power!
+                    config = Bitmap.Config.HARDWARE;
+                }
+                mHardwareCacheBitmap = mCacheBitmap.copy(config, false);
+                mHardwareCacheBitmap.prepareToDraw();
             }
-            mHardwareCacheBitmap = mCacheBitmap.copy(config, false);
-            mHardwareCacheBitmap.prepareToDraw();
         }
 
         // Force a redraw. "postInvalidate" is what you call from a non-UI thread.
@@ -142,6 +145,11 @@ public class WatchFaceGlobalDeferredDrawable extends LayerDrawable {
      * Our thread pool for background tasks.
      */
     private static final ExecutorService mExecutorService = Executors.newCachedThreadPool();
+
+    /**
+     * Our background task.
+     */
+    private Future<?> mBackgroundTask = null;
 
     /**
      * Draw into the given canvas. (Updates our cache bitmaps first, if necessary.)
@@ -155,13 +163,21 @@ public class WatchFaceGlobalDeferredDrawable extends LayerDrawable {
             // Something's changed (or we're drawing for the first time).
             drawPlaceholder(canvas);
 
-            // Schedule a background thread redraw.
-            mExecutorService.execute(this::regenerateCacheBitmaps);
+            // Schedule a background thread redraw -- if not already happening?
+            if (mBackgroundTask == null || mBackgroundTask.isDone()) {
+                mBackgroundTask = mExecutorService.submit(this::regenerateCacheBitmaps);
+            }
         } else {
             // Nothing's changed or we've finished our background draw.
             // Blit it to the screen.
             canvas.drawBitmap(mHardwareCacheBitmap != null ? mHardwareCacheBitmap : mCacheBitmap,
                     0, 0, null);
+        }
+    }
+
+    public void cancelBackgroundTasks() {
+        if (mBackgroundTask != null) {
+            mBackgroundTask.cancel(true);
         }
     }
 
