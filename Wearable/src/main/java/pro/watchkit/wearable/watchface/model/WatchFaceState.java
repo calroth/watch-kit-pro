@@ -1736,7 +1736,7 @@ public class WatchFaceState {
         regeneratePaints();
     }
 
-    MaterialGradient getBaseAccentMaterialGradient() {
+    public MaterialGradient getBaseAccentMaterialGradient() {
         return mWatchFacePreset.mBaseAccentMaterialGradient;
     }
 

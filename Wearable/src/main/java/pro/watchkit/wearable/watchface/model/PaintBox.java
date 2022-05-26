@@ -633,7 +633,8 @@ public final class PaintBox {
      * @return A color between colorA and colorB
      */
     @ColorInt
-    static int getIntermediateColorFast(@ColorInt int colorA, @ColorInt int colorB, double d) {
+    public static int getIntermediateColorFast(
+            @ColorInt int colorA, @ColorInt int colorB, double d) {
         // Clamp to [0, 1]
         if (d < 0) d = 0;
         else if (d > 1) d = 1;

@@ -96,6 +96,7 @@ import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.util.SharedPref;
 import pro.watchkit.wearable.watchface.util.Toaster;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
+import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDeferredDrawable;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -255,7 +256,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         final ImageView mImageView;
 
-        WatchFaceGlobalDrawable mWatchFaceGlobalDrawable;
+        WatchFaceGlobalDeferredDrawable mWatchFaceGlobalDrawable;
 
         @DrawableRes
         private int mDefaultComplicationDrawableId = -1;
@@ -282,10 +283,11 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         void setPreset(@Nullable String watchFaceStateString, int swatch) {
             if (mWatchFaceGlobalDrawable == null) {
-                mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(
+                mWatchFaceGlobalDrawable = new WatchFaceGlobalDeferredDrawable(
                         mImageView.getContext(),
                         // Always set PART_CLIP for this ImageView.
-                        mWatchFaceGlobalDrawableFlags | WatchFaceGlobalDrawable.PART_CLIP);
+                        mWatchFaceGlobalDrawableFlags | WatchFaceGlobalDrawable.PART_CLIP,
+                        mImageView);
                 mImageView.setImageDrawable(mWatchFaceGlobalDrawable);
                 // Set layer type to hardware. We promise not to update this any more,
                 // so now Android can render this to a texture and leave it there.
@@ -306,7 +308,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             mComplicationTextColor = w.getComplicationTextColor();
 
             // Initialise complications, just enough to be able to draw rings.
-            w.initializeComplications(mImageView.getContext());
+            w.initializeComplications(mImageView.getContext(), false);
         }
 
         void setPreset(@Nullable String watchFaceStateString) {
@@ -538,7 +540,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                     drawable.setBounds(0, 0, 960, 960);
 
                     // Initialise complications, just enough to be able to draw rings.
-                    watchFaceState.initializeComplications(context);
+                    watchFaceState.initializeComplications(context, false);
 
                     // Quick-and-dirty code to get complication IDs.
                     ProWatchFaceService p;
