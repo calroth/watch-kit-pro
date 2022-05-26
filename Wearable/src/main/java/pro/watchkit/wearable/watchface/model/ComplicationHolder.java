@@ -50,7 +50,7 @@ public final class ComplicationHolder {
     public boolean isActive = false;
     public ImageView background;
     private final int id;
-    @NonNull
+    @Nullable
     private final ComplicationDrawable mComplicationDrawable;
     private boolean mIsInAmbientMode = false;
     private boolean mLowBitAmbient = false;
@@ -58,11 +58,13 @@ public final class ComplicationHolder {
     private Rect mBounds, mInsetBounds;
     private Drawable mProviderIconDrawable;
 
-    ComplicationHolder(@Nullable Context context) {
+    ComplicationHolder(@Nullable Context context, boolean withComplicationDrawable) {
         id = BASE_ID;
         BASE_ID++;
 
-        if (context != null) {
+        if (!withComplicationDrawable) {
+            mComplicationDrawable = null;
+        } else if (context != null) {
             mComplicationDrawable = new ComplicationDrawable(context);
         } else {
             mComplicationDrawable = new ComplicationDrawable();
@@ -178,7 +180,10 @@ public final class ComplicationHolder {
     public void buildTimeDependentDecomposableComplication(
             @NonNull WatchFaceDecomposition.Builder builder, @NonNull Rect bounds,
             long currentTimeMillis, long maxTimeMillis, @NonNull AtomicInteger idA,
-            @NonNull PaintBox paintBox, @ColorInt int ambientTint/*, Context context*/) {
+            @NonNull PaintBox paintBox, @ColorInt int ambientTint) {
+        if (mComplicationDrawable == null) {
+            return;
+        }
         // All frame updates take place on TIME_DEPENDENT_UPDATE_RATE_MS boundaries.
         long initialOffset = currentTimeMillis % TIME_DEPENDENT_UPDATE_RATE_MS;
         // Frame time 0 is the time when frame 0 started being relevant. It may be in the past.
@@ -381,12 +386,18 @@ public final class ComplicationHolder {
     }
 
     boolean onDrawableTap(int x, int y) {
-        return mComplicationDrawable.onTap(x, y);
+        if (mComplicationDrawable != null) {
+            return mComplicationDrawable.onTap(x, y);
+        } else {
+            return false;
+        }
     }
 
     void setAmbientMode(boolean inAmbientMode) {
-        mComplicationDrawable.setInAmbientMode(inAmbientMode);
-        mComplicationDrawable.setRangedValueProgressHidden(false);
+        if (mComplicationDrawable != null) {
+            mComplicationDrawable.setInAmbientMode(inAmbientMode);
+            mComplicationDrawable.setRangedValueProgressHidden(false);
+        }
         mIsInAmbientMode = inAmbientMode;
     }
 
@@ -417,7 +428,7 @@ public final class ComplicationHolder {
         int insetY = (int) ((double) mBounds.height() * (1d - Math.sqrt(0.5d)) / 2d);
         mInsetBounds.inset(insetX, insetY);
 
-        if (dimensionsChanged) {
+        if (dimensionsChanged && mComplicationDrawable != null) {
             mComplicationDrawable.setBounds(mBounds);
             if (mProviderIconDrawable != null) {
                 mProviderIconDrawable.setBounds(mInset ? mInsetBounds : mBounds);
@@ -427,6 +438,9 @@ public final class ComplicationHolder {
 
     void setColors(@ColorInt int activeColor, @ColorInt int ambientColor,
                    @Nullable Typeface typeface) {
+        if (mComplicationDrawable == null) {
+            return;
+        }
         if (!isForeground) {
             // Set the default to black, in case the user-defined image takes a while to load.
             mComplicationDrawable.setBackgroundColorActive(Color.BLACK);
@@ -477,6 +491,7 @@ public final class ComplicationHolder {
         }
     }
 
+
     /**
      * If we're rendering a decomposition, it's rendered here.
      */
@@ -510,7 +525,9 @@ public final class ComplicationHolder {
     private Canvas mAmbientCacheCanvas2;
 
     void setComplicationData(ComplicationData complicationData) {
-        mComplicationDrawable.setComplicationData(complicationData);
+        if (mComplicationDrawable != null) {
+            mComplicationDrawable.setComplicationData(complicationData);
+        }
         mComplicationData = complicationData;
         mHasUpdatedComplicationDataObject = true;
     }
@@ -537,7 +554,7 @@ public final class ComplicationHolder {
             // Also if we're time-dependent, compare the current frame time 0 to the last one.
             return mHasUpdatedComplicationDataObject ||
                     getTimeDependentFrameTime0(currentTimeMillis) >= mLastTimeDependentFrameTime0;
-        } else if (mHasUpdatedComplicationDataObject) {
+        } else if (mHasUpdatedComplicationDataObject && mComplicationDrawable != null) {
             // For non-time-dependent complications, some more logic follows...
 
             // Wear OS can give us "updated" ComplicationData that hasn't actually changed.
@@ -620,8 +637,10 @@ public final class ComplicationHolder {
 
     public void setLowBitAmbientBurnInProtection(boolean lowBitAmbient, boolean burnInProtection) {
         mLowBitAmbient = lowBitAmbient;
-        mComplicationDrawable.setLowBitAmbient(lowBitAmbient);
-        mComplicationDrawable.setBurnInProtection(burnInProtection);
+        if (mComplicationDrawable != null) {
+            mComplicationDrawable.setLowBitAmbient(lowBitAmbient);
+            mComplicationDrawable.setBurnInProtection(burnInProtection);
+        }
     }
 
     @NonNull
@@ -647,7 +666,7 @@ public final class ComplicationHolder {
     public void draw(@NonNull Canvas canvas, long currentTimeMillis) {
         if (mProviderIconDrawable != null) {
             mProviderIconDrawable.draw(canvas);
-        } else {
+        } else if (mComplicationDrawable != null) {
             mComplicationDrawable.setBorderStyleAmbient(ComplicationDrawable.BORDER_STYLE_NONE);
             mComplicationDrawable.draw(canvas, currentTimeMillis);
         }

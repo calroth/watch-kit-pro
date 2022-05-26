@@ -209,7 +209,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
             setHardwareAccelerationEnabled(getWatchFaceState().isHardwareAccelerationEnabled());
 
             // Initialise complications
-            int[] complicationIds = getWatchFaceState().initializeComplications(context);
+            int[] complicationIds = getWatchFaceState().initializeComplications(context, true);
             // Set our active complications
             setActiveComplications(complicationIds);
             // Set our default complications
