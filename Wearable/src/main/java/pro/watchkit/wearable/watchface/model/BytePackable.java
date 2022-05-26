@@ -773,11 +773,12 @@ public abstract class BytePackable {
         private static final int LENGTH = 16;
         private byte[] mBytes;
         private int mBytePtr;
-        private SecretKeySpec mKey;
-        private Cipher mCipher;
+        private static Cipher mCipherDecrypt, mCipherEncrypt;
 
         BytePacker() {
-            setKey(getDefaultKey());
+            if (mCipherDecrypt == null || mCipherEncrypt == null) {
+                setKey(getDefaultKey());
+            }
             mBytes = new byte[LENGTH];
             rewind();
         }
@@ -806,7 +807,7 @@ public abstract class BytePackable {
         }
 
         @NonNull
-        private byte[] getDefaultKey() {
+        private static byte[] getDefaultKey() {
             try {
                 // Default key is the md5sum of John 3:16 (KJV).
                 // Not trying to be secure, just enough for a reversible hash.
@@ -827,19 +828,24 @@ public abstract class BytePackable {
         }
 
         @SuppressLint("GetInstance")
-        private void setKey(@NonNull byte[] key) {
+        private static void setKey(@NonNull byte[] key) {
             byte[] key1 = new byte[16];
             // Copy the first 16 bytes from key into key1.
             System.arraycopy(key, 0, key1, 0, 16);
             // And use that to seed our SecretKeySpec.
-            mKey = new SecretKeySpec(key1, "AES");
+            SecretKeySpec mKeyDecrypt = new SecretKeySpec(key1, "AES");
+            SecretKeySpec mKeyEncrypt = new SecretKeySpec(key1, "AES");
             try {
                 // Whilst we're here, create our cipher.
                 // Cipher is AES ECB. Use of ECB is notionally weak...
                 // But we don't mind, we're not trying to be crypto-strong or protect anything.
                 // We just want a reversible hash that evenly distributes amongst buckets.
-                mCipher = Cipher.getInstance("AES/ECB/NoPadding");
-            } catch (@NonNull NoSuchAlgorithmException | NoSuchPaddingException ex) {
+                mCipherDecrypt = Cipher.getInstance("AES/ECB/NoPadding");
+                mCipherDecrypt.init(Cipher.DECRYPT_MODE, mKeyDecrypt);
+                mCipherEncrypt = Cipher.getInstance("AES/ECB/NoPadding");
+                mCipherEncrypt.init(Cipher.ENCRYPT_MODE, mKeyEncrypt);
+            } catch (@NonNull NoSuchAlgorithmException | NoSuchPaddingException |
+                    InvalidKeyException ex) {
                 Log.d(TAG, "setKey: " + ex);
             }
         }
@@ -864,12 +870,9 @@ public abstract class BytePackable {
 
         @NonNull
         public String getString() {
-            //        Log.d(TAG, "Unencrypted: " + byteArrayToString(mBytes));
             try {
-                mCipher.init(Cipher.ENCRYPT_MODE, mKey);
-                //            Log.d(TAG, "Encrypted: " + result);
-                return byteArrayToString(mCipher.doFinal(mBytes));
-            } catch (@NonNull IllegalBlockSizeException | BadPaddingException | InvalidKeyException ex) {
+                return byteArrayToString(mCipherEncrypt.doFinal(mBytes));
+            } catch (@NonNull IllegalBlockSizeException | BadPaddingException ex) {
                 Log.d(TAG, "getString: " + ex);
                 return "0000000000000000";
             }
@@ -884,14 +887,9 @@ public abstract class BytePackable {
                         + Character.digit(s.charAt(i + 1), 16));
             }
 
-            // Log.d(TAG, "Encrypted: " + byteArrayToString(encrypted));
-
             try {
-                mCipher.init(Cipher.DECRYPT_MODE, mKey);
-                mBytes = mCipher.doFinal(encrypted);
-                //            Log.d(TAG, "Decrypted: " + byteArrayToString(mBytes));
-            } catch (@NonNull IllegalBlockSizeException
-                    | BadPaddingException | InvalidKeyException ex) {
+                mBytes = mCipherDecrypt.doFinal(encrypted);
+            } catch (@NonNull IllegalBlockSizeException | BadPaddingException ex) {
                 Log.d(TAG, "setString: " + ex);
             }
 
