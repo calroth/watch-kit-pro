@@ -22,19 +22,21 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PixelFormat;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.RadialGradient;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.SweepGradient;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
@@ -46,35 +48,33 @@ import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 /**
  * A WatchFaceGlobalDrawable that quickly renders a placeholder to begin with,
- * then does all the slow drawing on a background thread. When that's done, it
- * pings a callback to draw the result.
+ * then does all the slow drawing on a background thread. After each layer, it
+ * pings a callback to draw the result. So it incrementally updates until everything
+ * is drawn.
  */
-public class WatchFaceGlobalDeferredDrawable extends LayerDrawable {
+public class WatchFaceGlobalDeferredDrawable extends Drawable {
     private final WatchFaceState mWatchFaceState;
     private int mPreviousSerial = -1;
     private Bitmap mCacheBitmap;
     private Bitmap mHardwareCacheBitmap;
+    private final Object mHardwareCacheBitmapLock = new Object();
     private Canvas mCacheCanvas;
     @NonNull
     private final View mParentView;
     private WatchPartClipDrawable mClipDrawable;
+    @NonNull
+    private final Drawable[] mWatchPartDrawables;
 
     public WatchFaceGlobalDeferredDrawable(
             @NonNull Context context, int flags, @NonNull View parentView) {
-        this(context, WatchFaceGlobalDrawable.buildDrawables(null, flags), parentView);
-    }
-
-    private WatchFaceGlobalDeferredDrawable(
-            @NonNull Context context, @NonNull Drawable[] watchPartDrawables,
-            @NonNull View parentView) {
-        super(watchPartDrawables);
+        mWatchPartDrawables = WatchFaceGlobalDrawable.buildDrawables(null, flags);
 
         mWatchFaceState = new WatchFaceState(context);
         mParentView = parentView;
         Path mExclusionPath = new Path();
         Path mInnerGlowPath = new Path();
 
-        for (Drawable d : watchPartDrawables) {
+        for (Drawable d : mWatchPartDrawables) {
             if (d instanceof WatchPartDrawable) {
                 ((WatchPartDrawable) d).setWatchFaceState(
                         mWatchFaceState, mExclusionPath, mInnerGlowPath);
@@ -83,6 +83,22 @@ public class WatchFaceGlobalDeferredDrawable extends LayerDrawable {
                 }
             }
         }
+    }
+
+    @Override
+    public void setAlpha(int alpha) {
+        // Unused
+    }
+
+    @Override
+    public void setColorFilter(@Nullable ColorFilter colorFilter) {
+        // Unused
+    }
+
+    @Override
+    public int getOpacity() {
+        // No op.
+        return PixelFormat.UNKNOWN;
     }
 
     @NonNull
@@ -103,6 +119,14 @@ public class WatchFaceGlobalDeferredDrawable extends LayerDrawable {
         mCacheCanvas = new Canvas(mCacheBitmap);
 
         mPreviousSerial = -1;
+
+        // Pre-cache bounds change...
+        mWatchFaceState.getComplicationsForDrawing(bounds);
+
+        // Propagate our bounds change to our drawables.
+        for (Drawable d : mWatchPartDrawables) {
+            d.setBounds(bounds);
+        }
     }
 
     private void regenerateCacheBitmaps() {
@@ -113,6 +137,7 @@ public class WatchFaceGlobalDeferredDrawable extends LayerDrawable {
         synchronized (mWatchFaceState) {
             int currentSerial = Objects.hash(mWatchFaceState);
             if (mPreviousSerial != currentSerial) {
+                mPreviousSerial = currentSerial;
                 // Keep track of what our ambient currently is, because we're about to draw them both.
                 boolean currentAmbient = mWatchFaceState.isAmbient();
 
@@ -121,24 +146,41 @@ public class WatchFaceGlobalDeferredDrawable extends LayerDrawable {
 
                 // Pre-cache our active canvas.
                 mWatchFaceState.setAmbient(false);
-                super.draw(mCacheCanvas);
-
-                // And back to how we were.
-                mWatchFaceState.setAmbient(currentAmbient);
-                mPreviousSerial = currentSerial;
 
                 Bitmap.Config config = Bitmap.Config.ARGB_8888;
                 if (Build.VERSION.SDK_INT >= 26 && mWatchFaceState.isHardwareAccelerationEnabled()) {
                     // Hardware power!
                     config = Bitmap.Config.HARDWARE;
                 }
-                mHardwareCacheBitmap = mCacheBitmap.copy(config, false);
-                mHardwareCacheBitmap.prepareToDraw();
+
+                // Draw each of our layers.
+                // After each draw, post an invalidate so that it's copied to screen.
+                // So we incrementally draw each layer until it's all done.
+                for (Drawable d : mWatchPartDrawables) {
+                    d.draw(mCacheCanvas);
+                    if (d instanceof WatchPartClipDrawable) {
+                        continue; // I mean, don't blit the WatchPartClipDrawable to screen...
+                    }
+                    final Bitmap newHardwareCacheBitmap = mCacheBitmap.copy(config, false);
+                    newHardwareCacheBitmap.prepareToDraw();
+                    synchronized (mHardwareCacheBitmapLock) {
+                        // Quickly swap out the "old" mHardwareCacheBitmap with the new one.
+                        // Recycle the old one. So we don't have old bitmaps piling up.
+                        if (mHardwareCacheBitmap != null) {
+                            mHardwareCacheBitmap.recycle();
+                        }
+                        mHardwareCacheBitmap = newHardwareCacheBitmap;
+                        // We synchronise to ensure "mHardwareCacheBitmap" doesn't get recycled
+                        // whilst we're still drawing it.
+                    }
+                    // Force a redraw. "postInvalidate" is what you call from a non-UI thread.
+                    mParentView.postInvalidate();
+                }
+
+                // And back to how we were.
+                mWatchFaceState.setAmbient(currentAmbient);
             }
         }
-
-        // Force a redraw. "postInvalidate" is what you call from a non-UI thread.
-        mParentView.postInvalidate();
     }
 
     /**
@@ -167,11 +209,20 @@ public class WatchFaceGlobalDeferredDrawable extends LayerDrawable {
             if (mBackgroundTask == null || mBackgroundTask.isDone()) {
                 mBackgroundTask = mExecutorService.submit(this::regenerateCacheBitmaps);
             }
+        } else if (mHardwareCacheBitmap != null) {
+            // We've drawn something to the incremental bitmap. Display it.
+            synchronized (mHardwareCacheBitmapLock) {
+                // We synchronise to ensure "mHardwareCacheBitmap" doesn't get recycled
+                // whilst we're still drawing it.
+                if (!mHardwareCacheBitmap.isRecycled()) {
+                    canvas.drawBitmap(mHardwareCacheBitmap, 0, 0, null);
+                }
+            }
         } else {
-            // Nothing's changed or we've finished our background draw.
-            // Blit it to the screen.
-            canvas.drawBitmap(mHardwareCacheBitmap != null ? mHardwareCacheBitmap : mCacheBitmap,
-                    0, 0, null);
+            // We haven't yet drawn anything to the incremental bitmap.
+            // That's OK, sometimes it takes a while for PaintBox to init.
+            // Just draw the placeholder.
+            drawPlaceholder(canvas);
         }
     }
 
