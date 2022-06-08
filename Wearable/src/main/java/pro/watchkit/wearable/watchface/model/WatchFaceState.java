@@ -1099,6 +1099,10 @@ public class WatchFaceState {
         return isMinutePipsVisible() && mWatchFacePreset.mMinutePipOverride;
     }
 
+    public void setWatchFacePresetString(@NonNull String s) {
+        mWatchFacePreset.setString(s);
+    }
+
     public void setString(@Nullable String s) {
         if (s == null || s.length() == 0) return;
         String[] split = s.split("~");

@@ -122,6 +122,7 @@
     <string name="config_configure_typeface">Configure Typeface</string>
     <string name="config_view_history">View History</string>
     <string name="config_view_random_watch_face_presets">Random Watch Face Presets!</string>
+    <string name="config_view_gallery">Gallery</string>
     <string name="config_view_random_pips">Random Pips</string>
     <string name="config_view_random_hands">Random Hands</string>
 
@@ -638,6 +639,32 @@
         <item>Extra Large</item>
     </string-array>
 
+    <string-array name="gallery_presets">
+        <item>09205b00ef006e308b62bde66b384761</item>
+        <item>04941b40ef006610846065dcc6f81411</item>
+        <item>0cd71a20ef007c2008e2212a68384c01</item>
+        <item>155b4120e0004274fb8601d8cfb81001</item>
+        <item>1d404b6a6f0066f6b4aae8c459bf4ca0</item>
+        <item>02ca802a6f00660a816020713e059100</item>
+        <item>0c18f16a6f00647e9e26b6e753c55bd0</item>
+        <item>1da7d1a0e000666c9aa659b8ebf9e131</item>
+        <item>0c715920ef00668da2287543cdea0401</item>
+        <item>1efdc52a6f0060579464f49df16a12c0</item>
+    </string-array>
+
+    <string-array name="gallery_names">
+        <item>Bubblegum</item>
+        <item>Default 🅰</item>
+        <item>Default 🅱</item>
+        <item>Default 🅲</item>
+        <item>Default 🅳</item>
+        <item>From Inside Out</item>
+        <item>Hypnosis</item>
+        <item>Painted Desert</item>
+        <item>Project Stealth</item>
+        <item>Sewer Port</item>
+    </string-array>
+
     <integer-array name="colorway_colors">
         <item>0x6c5e01</item>
         <item>0xf41595</item>
@@ -655,13 +682,13 @@
         <item>0x0e216e</item>
         <item>0xe44711</item>
         <item>0xc000c0</item>
-        <!-- <item>0xPlaceholder C</item> -->
+        <item>0x3d617d</item>
 
         <item>0x993fca</item>
-        <item>0x129fcb</item>
+        <item>0x144aac</item>
         <item>0x414e40</item>
         <item>0x22012d</item>
-        <!-- <item>0xPlaceholder D</item> -->
+        <item>0xdc1a80</item>
     </integer-array>
 
     <string-array name="colorway_names">
@@ -681,13 +708,13 @@
         <item>Bougainvillea</item>
         <item>Venus Flytrap</item>
         <item>Tactician</item>
-        <!-- <item>Placeholder C</item> -->
+        <item>Sonic Shock</item>
 
         <item>Orchid Sky</item>
         <item>Mutagen</item>
         <item>Medallion</item>
         <item>Strawberry</item>
-        <!-- <item>Placeholder D</item> -->
+        <item>Ghost Rider</item>
     </string-array>
 
     <integer-array name="six_bit_colors">

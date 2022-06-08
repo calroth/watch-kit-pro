@@ -155,6 +155,44 @@ public class WatchFacePresetConfigData extends ConfigData {
                             }
                         }, WatchFaceState::isDeveloperMode),
 
+                // Data for Gallery sub-activity in settings Activity.
+                new PickerConfigItem(
+                        R.string.config_view_gallery,
+                        R.drawable.ic_browse_gallery,
+                        WatchFaceGlobalDrawable.PART_BACKGROUND |
+                                WatchFaceGlobalDrawable.PART_PIPS |
+                                WatchFaceGlobalDrawable.PART_HANDS |
+                                WatchFaceGlobalDrawable.PART_RINGS_ALL,
+                        WatchFaceSelectionActivity.class,
+                        new Mutator() {
+                            /**
+                             * A custom Mutator which allows you to view the gallery:
+                             * a set of watch face presets which we include with the package.
+                             *
+                             * @param clone WatchFaceState, which must be a clone, but in
+                             *              this case we'll ignore it...
+                             * @return Default WatchFaceState permutations for all slots
+                             */
+                            @NonNull
+                            @Override
+                            public Permutation[] getPermutations(@NonNull WatchFaceState clone) {
+                                final String[] galleryNames =
+                                        clone.getStringArrayResource(R.array.gallery_names);
+                                final String[] galleryPresets =
+                                        clone.getStringArrayResource(R.array.gallery_presets);
+
+                                Permutation[] p = new Permutation[galleryNames.length + 1];
+                                p[0] = new Permutation(clone.getString(), "Current Watch Face");
+                                for (int i = 0; i < galleryNames.length; i++) {
+                                    clone.setWatchFacePresetString(galleryPresets[i]);
+                                    p[i + 1] = new Permutation(clone.getString(),
+                                            galleryNames[i]);
+                                }
+
+                                return p;
+                            }
+                        }, WatchFaceState::isDeveloperMode),
+
                 // Help.
                 new HelpLabelConfigItem(R.string.config_configure_watch_face_preset_help)
         );
