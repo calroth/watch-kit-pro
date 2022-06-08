@@ -99,7 +99,7 @@ public final class ComplicationHolder {
 
     @Override
     public int hashCode() {
-        return Objects.hash(isForeground, isActive, id, mBounds);
+        return Objects.hash(isForeground, isActive, id);
     }
 
     @NonNull
