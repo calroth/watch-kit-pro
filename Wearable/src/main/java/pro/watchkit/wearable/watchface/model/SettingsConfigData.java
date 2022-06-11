@@ -182,38 +182,48 @@ public class SettingsConfigData extends ConfigData {
                         watchFaceState -> BuildConfig.DEBUG && watchFaceState.isDeveloperMode()),
 
                 new PickerConfigItem(
-                        R.string.config_reset_to_default,
+                        R.string.config_factory_reset,
                         R.drawable.ic_settings,
                         WatchFaceGlobalDrawable.PART_BACKGROUND |
                                 WatchFaceGlobalDrawable.PART_PIPS |
                                 WatchFaceGlobalDrawable.PART_HANDS |
                                 WatchFaceGlobalDrawable.PART_RINGS_ALL,
                         WatchFaceSelectionActivity.class,
-                        w -> new Permutation[]{
-                                /*
-                                 * A custom Mutator which "resets to default" by offering mutations
-                                 * corresponding to the default WatchFaceState for each slot
-                                 */
-                                new Permutation(
-                                        w.getStringResource(
-                                                R.string.watch_kit_pro_a_default_string),
-                                        w.getStringResource(
-                                                R.string.watch_face_service_label_a)),
-                                new Permutation(
-                                        w.getStringResource(
-                                                R.string.watch_kit_pro_b_default_string),
-                                        w.getStringResource(
-                                                R.string.watch_face_service_label_b)),
-                                new Permutation(
-                                        w.getStringResource(
-                                                R.string.watch_kit_pro_c_default_string),
-                                        w.getStringResource(
-                                                R.string.watch_face_service_label_c)),
-                                new Permutation(
-                                        w.getStringResource(
-                                                R.string.watch_kit_pro_d_default_string),
-                                        w.getStringResource(
-                                                R.string.watch_face_service_label_d))
+                        new MutatorWithPrefsAccess() {
+                            // A custom Mutator which "resets to default" by
+                            // offering mutations corresponding to the default
+                            // WatchFaceState for this slot
+
+                            private SharedPref mSharedPref;
+
+                            @Override
+                            public void setSharedPref(@NonNull SharedPref sharedPref) {
+                                mSharedPref = sharedPref;
+                            }
+
+                            @NonNull
+                            @Override
+                            public Permutation[] getPermutations(WatchFaceState w) {
+                                if (mSharedPref == null) {
+                                    return new Permutation[]{
+                                            new Permutation(
+                                                    w.getString(),
+                                                    w.getStringResource(
+                                                            R.string.config_current_watch_face))
+                                    };
+                                } else {
+                                    return new Permutation[]{
+                                            new Permutation(
+                                                    w.getString(),
+                                                    w.getStringResource(
+                                                            R.string.config_current_watch_face)),
+                                            new Permutation(
+                                                    mSharedPref.getDefaultFaceStateString(),
+                                                    w.getStringResource(
+                                                            R.string.config_factory_reset))
+                                    };
+                                }
+                            }
                         },
                         WatchFaceState::isDeveloperMode),
 

@@ -112,6 +112,16 @@ public final class SharedPref {
                 mContext.getString(R.string.saved_watch_face_state), mDefaultWatchFaceStateString);
     }
 
+    /**
+     * Get the current WatchFaceState string from preferences
+     *
+     * @return the current WatchFaceState string
+     */
+    @NonNull
+    public String getDefaultFaceStateString() {
+        return mDefaultWatchFaceStateString;
+    }
+
     @SuppressWarnings("SpellCheckingInspection")
     @NonNull
     private static final SimpleDateFormat mIso8601 =

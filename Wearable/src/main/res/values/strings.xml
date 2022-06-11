@@ -104,7 +104,8 @@
     <string name="config_use_legacy_material_drawing_label">Use Legacy Material Drawing Mode</string>
     <string name="config_use_legacy_effects_label">Use Legacy Effects</string>
     <string name="config_generate_icon_files">Generate Icon Files</string>
-    <string name="config_reset_to_default">Reset to Default</string>
+    <string name="config_factory_reset">Factory Reset</string>
+    <string name="config_current_watch_face">Current Watch Face</string>
 
     <string name="config_configure_settings">Configure Settings</string>
     <string name="config_configure_complications">Configure Complications</string>
