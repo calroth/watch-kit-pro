@@ -752,10 +752,11 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
     }
 
-    public class ConfigActivityViewHolder
-            extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ConfigActivityViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, WatchFaceStateListener {
 
         private final Button mButton;
+        private ConfigData.ConfigActivityConfigItem mConfigItem;
         private Class<? extends ConfigData> mConfigDataClass;
         private Class<ConfigActivity> mLaunchActivity;
 
@@ -767,14 +768,32 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         }
 
         void bind(@NonNull ConfigData.ConfigActivityConfigItem configItem) {
-            mButton.setText(itemView.getResources().getString(configItem.getNameResourceId()));
+            mConfigItem = configItem;
+
+            onWatchFaceStateChanged();
+
+            Drawable left = itemView.getContext().getDrawable(configItem.getIconResourceId());
+            if (left != null) {
+                left.setTint(mButton.getCurrentTextColor());
+            }
+            mButton.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
+            mConfigDataClass = configItem.getConfigDataClass();
+            mLaunchActivity = configItem.getActivityToChoosePreference();
+        }
+
+        public void onWatchFaceStateChanged() {
+            if (mConfigItem == null) {
+                return;
+            }
+
+            mButton.setText(itemView.getResources().getString(mConfigItem.getNameResourceId()));
 
             // This is a bit of a hack to display the current typeface name.
             // In future, we can generalise this to display any subtitle.
-            if (configItem.getNameResourceId() != R.string.config_configure_typeface) {
-                mButton.setText(itemView.getResources().getString(configItem.getNameResourceId()));
+            if (mConfigItem.getNameResourceId() != R.string.config_configure_typeface) {
+                mButton.setText(itemView.getResources().getString(mConfigItem.getNameResourceId()));
             } else {
-                String title = itemView.getResources().getString(configItem.getNameResourceId());
+                String title = itemView.getResources().getString(mConfigItem.getNameResourceId());
                 String subtitle;
                 if (mCurrentWatchFaceState.getTypefaceObject() != null) {
                     BytePackable.Typeface t = mCurrentWatchFaceState.getTypeface();
@@ -787,14 +806,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 CharSequence text = Html.fromHtml(title + subtitle, Html.FROM_HTML_MODE_LEGACY);
                 mButton.setText(text);
             }
-
-            Drawable left = itemView.getContext().getDrawable(configItem.getIconResourceId());
-            if (left != null) {
-                left.setTint(mButton.getCurrentTextColor());
-            }
-            mButton.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
-            mConfigDataClass = configItem.getConfigDataClass();
-            mLaunchActivity = configItem.getActivityToChoosePreference();
+            itemView.invalidate();
         }
 
         @Override
