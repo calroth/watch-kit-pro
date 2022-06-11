@@ -257,7 +257,7 @@ public class WatchFaceGlobalDeferredDrawable extends Drawable {
                 mPlaceholderPaint.setColor(colorA);
                 mPlaceholderPaint.setShader(null);
                 break;
-            case TRIANGLE:
+            case RIPPLE:
                 // For triangle, that's expensive, just draw flat something half A and half B.
                 mPlaceholderPaint.reset();
                 mPlaceholderPaint.setColor(

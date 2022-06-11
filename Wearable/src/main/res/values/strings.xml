@@ -582,7 +582,7 @@
         <item>Flat</item>
         <item>Sweep</item>
         <item>Radial</item>
-        <item>Triangle</item>
+        <item>Ripple</item>
     </string-array>
 
     <string-array name="WatchFacePreset_MaterialTexture">

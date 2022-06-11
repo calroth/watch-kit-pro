@@ -565,7 +565,7 @@ public abstract class BytePackable {
     }
 
     public enum MaterialGradient implements EnumResourceId {
-        FLAT, SWEEP, RADIAL, TRIANGLE;
+        FLAT, SWEEP, RADIAL, RIPPLE;
 
         private static final int bits = 2;
 

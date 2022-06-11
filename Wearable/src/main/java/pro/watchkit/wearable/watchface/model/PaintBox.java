@@ -102,7 +102,7 @@ public final class PaintBox {
     private static RenderScript mRenderScript;
     private static ScriptC_mapBitmap mScriptC_mapBitmap;
     @Nullable
-    private static WeakReference<Bitmap> mTriangleGradientBitmapRef;
+    private static WeakReference<Bitmap> mRippleGradientBitmapRef;
 
     /**
      * A gradient or a texture. Effectively an 8-bit greyscale mask that is used as a lookup to a
@@ -301,14 +301,14 @@ public final class PaintBox {
     };
 
     /**
-     * A gradient which looks like three triangles next to each other.
+     * A gradient which looks like three overlapping ripples in a pond.
      */
-    static GradTex mTriangleGrad = new GradTex() {
+    static GradTex mRippleGrad = new GradTex() {
         @Override
         void generate() {
-            // A new bitmap for the triangle gradient pattern.
-            // Unlike the triangle bitmap above (which will be transformed with our colors),
-            // this triangle gradient bitmap doesn't change from run to run. Therefore we cache it.
+            // A new bitmap for the ripple gradient pattern.
+            // Unlike the ripple bitmap above (which will be transformed with our colors),
+            // this ripple gradient bitmap doesn't change from run to run. Therefore we cache it.
 
             // Slow version which uses CIE LAB gradients, which look excellent. We draw
             // a black-to-white gradient then map that to a cLUT with the CIE LAB gradient.
@@ -1470,7 +1470,7 @@ public final class PaintBox {
         }
 
         @SuppressWarnings("unused")
-        private void addTriangleGradientFast(int colorA, int colorB) {
+        private void addRippleGradientFast(int colorA, int colorB) {
             // Fast version which uses sRGB gradients, which aren't very nice-looking.
             // The constants here can be tweaked a lot. Here's an initial implementation.
             int colorC = Color.TRANSPARENT;
@@ -1516,62 +1516,62 @@ public final class PaintBox {
                             Mode.OVERLAY));
         }
 
-        private void addTriangleGradient(int colorA, int colorB) {
-            setShader(new BitmapShader(generateTriangleGradient(colorA, colorB),
+        private void addRippleGradient(int colorA, int colorB) {
+            setShader(new BitmapShader(generateRippleGradient(colorA, colorB),
                     Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
         }
 
-        private Bitmap generateTriangleGradient(int colorA, int colorB) {
+        private Bitmap generateRippleGradient(int colorA, int colorB) {
             // Calculate a modified hash code where mMaterialTexture == MaterialTexture.NONE.
             int modifiedCustomHashCode = Objects.hash(
-                    colorA, colorB, MaterialGradient.TRIANGLE, MaterialTexture.NONE, height, width);
+                    colorA, colorB, MaterialGradient.RIPPLE, MaterialTexture.NONE, height, width);
             // Attempt to return an existing bitmap from the cache if we have one.
             WeakReference<Bitmap> cache = mBitmapCache.get(modifiedCustomHashCode);
             if (cache != null) {
                 // Well, we have an existing bitmap, but it may have been garbage collected...
                 Bitmap result = cache.get();
                 if (result != null) {
-//                    Log.d(TAG, "Returning cached triangle bitmap " + modifiedCustomHashCode);
+//                    Log.d(TAG, "Returning cached ripple bitmap " + modifiedCustomHashCode);
                     // It wasn't garbage collected! Return it.
                     return result;
                 }
             }
 
-            DebugTiming.start("PaintBox.generateTriangleGradient");
+            DebugTiming.start("PaintBox.generateRippleGradient");
 
             // Generate a new bitmap.
             // Extra padding to make width mod 4, for RenderScript.
             int extra = width % 4 == 0 ? 0 : 4 - width % 4;
-            Bitmap triangleBitmap = Bitmap.createBitmap(
+            Bitmap rippleBitmap = Bitmap.createBitmap(
                     width + extra, height, Bitmap.Config.ARGB_8888);
             // Cache it for next time's use.
-            mBitmapCache.put(modifiedCustomHashCode, new WeakReference<>(triangleBitmap));
+            mBitmapCache.put(modifiedCustomHashCode, new WeakReference<>(rippleBitmap));
 
-            // A new bitmap for the triangle gradient pattern.
-            // Unlike the triangle bitmap above (which will be transformed with our colors),
-            // this triangle gradient bitmap doesn't change from run to run. Therefore we cache it.
-            Bitmap triangleGradientBitmap = null;
-            if (mTriangleGradientBitmapRef != null) {
-                triangleGradientBitmap = mTriangleGradientBitmapRef.get();
+            // A new bitmap for the ripple gradient pattern.
+            // Unlike the ripple bitmap above (which will be transformed with our colors),
+            // this ripple gradient bitmap doesn't change from run to run. Therefore we cache it.
+            Bitmap rippleGradientBitmap = null;
+            if (mRippleGradientBitmapRef != null) {
+                rippleGradientBitmap = mRippleGradientBitmapRef.get();
             }
-//            if (mTriangleGradientBitmapRef == null) {
+//            if (mRippleGradientBitmapRef == null) {
 //                sb.append("(no weak ref) ");
-//            } else if (mTriangleGradientBitmapRef.get() == null) {
+//            } else if (mRippleGradientBitmapRef.get() == null) {
 //                sb.append("(garbage collected) ");
-//            } else if (triangleGradientBitmap.getHeight() != height) {
-//                sb.append("(height ").append(triangleGradientBitmap.getHeight());
+//            } else if (rippleGradientBitmap.getHeight() != height) {
+//                sb.append("(height ").append(rippleGradientBitmap.getHeight());
 //                sb.append(" != ").append(height).append(") ");
-//            } else if (triangleGradientBitmap.getWidth() != width + extra) {
-//                sb.append("(width ").append(triangleGradientBitmap.getWidth());
+//            } else if (rippleGradientBitmap.getWidth() != width + extra) {
+//                sb.append("(width ").append(rippleGradientBitmap.getWidth());
 //                sb.append(" != ").append(width + extra).append(") ");
 //            }
-            if (triangleGradientBitmap == null ||
-                    triangleGradientBitmap.getHeight() != height ||
-                    triangleGradientBitmap.getWidth() != width + extra) {
-                triangleGradientBitmap = Bitmap.createBitmap(
+            if (rippleGradientBitmap == null ||
+                    rippleGradientBitmap.getHeight() != height ||
+                    rippleGradientBitmap.getWidth() != width + extra) {
+                rippleGradientBitmap = Bitmap.createBitmap(
                         width + extra, height, Bitmap.Config.ARGB_8888);
-                mTriangleGradientBitmapRef = new WeakReference<>(triangleGradientBitmap);
-                Canvas triangleCanvas = new Canvas(triangleGradientBitmap);
+                mRippleGradientBitmapRef = new WeakReference<>(rippleGradientBitmap);
+                Canvas rippleCanvas = new Canvas(rippleGradientBitmap);
 
                 // Slow version which uses CIE LAB gradients, which look excellent. We draw
                 // a black-to-white gradient then map that to a cLUT with the CIE LAB gradient.
@@ -1614,8 +1614,8 @@ public final class PaintBox {
 //            prepareTempBitmapForUse();
 
                 // Draw the gradient to the temp bitmap.
-                triangleCanvas.drawColor(Color.WHITE);
-                triangleCanvas.drawPaint(mBrushedEffectPaint);
+                rippleCanvas.drawColor(Color.WHITE);
+                rippleCanvas.drawPaint(mBrushedEffectPaint);
             }
 
             DebugTiming.checkpoint("Gradient");
@@ -1625,15 +1625,15 @@ public final class PaintBox {
 
             DebugTiming.checkpoint("cLUT");
 
-//            nativeMapBitmap(triangleBitmap, cLUT);
+//            nativeMapBitmap(rippleBitmap, cLUT);
 
-//            // Go line by line through "triangleBitmap".
+//            // Go line by line through "rippleBitmap".
 //            // For each line, get its pixels, convert it, then write it back.
 //            // We unroll the loop to do 8 pixels at a time, which seems to help.
 //            int widthMod8 = width + (width % 8 == 0 ? 0 : 8 - width % 8);
 //            @ColorInt int[] pixels = new int[widthMod8];
 //            IntStream.iterate(0, j -> j += 1).limit(height).forEach(j -> {
-//                triangleBitmap.getPixels(pixels, 0, width, 0, j, width, 1);
+//                rippleBitmap.getPixels(pixels, 0, width, 0, j, width, 1);
 //                IntStream.iterate(0, i -> i += 8).limit(widthMod8 / 8)
 //                        .forEach(i -> {
 //                            pixels[i] = cLUT[pixels[i] & 0xFF];
@@ -1645,7 +1645,7 @@ public final class PaintBox {
 //                            pixels[i + 6] = cLUT[pixels[i + 6] & 0xFF];
 //                            pixels[i + 7] = cLUT[pixels[i + 7] & 0xFF];
 //                        });
-//                triangleBitmap.setPixels(pixels, 0, width, 0, j, width, 1);
+//                rippleBitmap.setPixels(pixels, 0, width, 0, j, width, 1);
 //            });
 //
 //            DebugTiming.log("p1");
@@ -1659,19 +1659,19 @@ public final class PaintBox {
 //            }
             DebugTiming.checkpoint("p2.2");
 
-            Allocation in = Allocation.createFromBitmap(mRenderScript, triangleGradientBitmap);
-            Allocation out = Allocation.createFromBitmap(mRenderScript, triangleBitmap);
+            Allocation in = Allocation.createFromBitmap(mRenderScript, rippleGradientBitmap);
+            Allocation out = Allocation.createFromBitmap(mRenderScript, rippleBitmap);
             mScriptC_mapBitmap.forEach_mapBitmap(in, out);
-            out.copyTo(triangleBitmap);
+            out.copyTo(rippleBitmap);
             in.destroy();
             out.destroy();
 
             DebugTiming.checkpoint("p2.3");
             DebugTiming.endAndWrite();
 
-            triangleBitmap.prepareToDraw();
+            rippleBitmap.prepareToDraw();
 
-            return triangleBitmap;
+            return rippleBitmap;
         }
 
         @Override
@@ -1711,8 +1711,8 @@ public final class PaintBox {
                         addRadialGradient(colorA, colorB);
                         DebugTiming.checkpoint("MaterialGradient.RADIAL");
                         break;
-                    case TRIANGLE:
-                        addTriangleGradient(colorA, colorB);
+                    case RIPPLE:
+                        addRippleGradient(colorA, colorB);
                         DebugTiming.checkpoint("MaterialGradient.TRIANGLE");
                         break;
                 }
@@ -1783,8 +1783,8 @@ public final class PaintBox {
                         DebugTiming.checkpoint("MaterialGradient.RADIAL");
                         break;
                     default:
-                    case TRIANGLE:
-                        gradientAllocation = mTriangleGrad.getAllocation(height, width);
+                    case RIPPLE:
+                        gradientAllocation = mRippleGrad.getAllocation(height, width);
                         DebugTiming.checkpoint("MaterialGradient.TRIANGLE");
                         break;
                 }
