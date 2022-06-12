@@ -201,18 +201,18 @@ public final class SharedPref {
             JSONArray jsonArray = new JSONArray(mSharedPreferences.getString(
                     mContext.getString(R.string.saved_watch_face_state_history), "[]"));
 
-            // Don't store the old value into history unless it's been more than 5 minutes.
-            // If we've made multiple changes, wait until we've had a stable value for 5 minutes
+            // Don't store the old value into history unless it's been more than 4 hours.
+            // If we've made multiple changes, wait until we've had a stable value for 4 hours
             // before storing that in history.
             if (jsonArray.length() > 0) {
                 // Get the time since the last change.
                 JSONObject jsonObject = jsonArray.getJSONObject(0);
                 try {
                     Date lastChange = mIso8601.parse(jsonObject.getString("date"));
-                    final long FIVE_MINUTES_IN_MILLISECONDS = 5L * 60L * 1000L;
+                    final long FOUR_HOURS_IN_MILLISECONDS = 4L * 3660L * 1000L;
                     if (lastChange != null) {
                         long millis = System.currentTimeMillis() - lastChange.getTime();
-                        historyNeedsUpdating = millis > FIVE_MINUTES_IN_MILLISECONDS;
+                        historyNeedsUpdating = millis > FOUR_HOURS_IN_MILLISECONDS;
                     }
                 } catch (@NonNull ParseException | JSONException e) {
                     // Can't parse it? Don't worry about it.
