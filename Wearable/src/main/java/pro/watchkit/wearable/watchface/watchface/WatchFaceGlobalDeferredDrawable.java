@@ -62,6 +62,7 @@ public class WatchFaceGlobalDeferredDrawable extends Drawable {
     @NonNull
     private final View mParentView;
     private WatchPartClipDrawable mClipDrawable;
+    private WatchPartComplicationsDrawable mComplicationsDrawable;
     @NonNull
     private final Drawable[] mWatchPartDrawables;
 
@@ -80,6 +81,8 @@ public class WatchFaceGlobalDeferredDrawable extends Drawable {
                         mWatchFaceState, mExclusionPath, mInnerGlowPath);
                 if (d instanceof WatchPartClipDrawable) {
                     mClipDrawable = (WatchPartClipDrawable) d;
+                } else if (d instanceof WatchPartComplicationsDrawable) {
+                    mComplicationsDrawable = (WatchPartComplicationsDrawable) d;
                 }
             }
         }
@@ -157,8 +160,11 @@ public class WatchFaceGlobalDeferredDrawable extends Drawable {
                 // After each draw, post an invalidate so that it's copied to screen.
                 // So we incrementally draw each layer until it's all done.
                 for (Drawable d : mWatchPartDrawables) {
+                    if (d == mComplicationsDrawable) {
+                        continue; // Don't even attempt to draw the complications (yet).
+                    }
                     d.draw(mCacheCanvas);
-                    if (d instanceof WatchPartClipDrawable) {
+                    if (d == mClipDrawable) {
                         continue; // I mean, don't blit the WatchPartClipDrawable to screen...
                     }
                     final Bitmap newHardwareCacheBitmap = mCacheBitmap.copy(config, false);
@@ -217,6 +223,10 @@ public class WatchFaceGlobalDeferredDrawable extends Drawable {
                 if (!mHardwareCacheBitmap.isRecycled()) {
                     canvas.drawBitmap(mHardwareCacheBitmap, 0, 0, null);
                 }
+            }
+            // Now draw the complications, if we have them.
+            if (mComplicationsDrawable != null) {
+                mComplicationsDrawable.draw(canvas);
             }
         } else {
             // We haven't yet drawn anything to the incremental bitmap.
