@@ -45,6 +45,51 @@ public class WatchFacePresetConfigData extends ConfigData {
                         WatchFaceGlobalDrawable.PART_PIPS |
                         WatchFaceGlobalDrawable.PART_HANDS),
 
+                // Data for Gallery sub-activity in settings Activity.
+                new PickerConfigItem(
+                        R.string.config_view_gallery,
+                        R.drawable.ic_browse_gallery,
+                        WatchFaceGlobalDrawable.PART_BACKGROUND |
+                                WatchFaceGlobalDrawable.PART_PIPS |
+                                WatchFaceGlobalDrawable.PART_HANDS |
+                                WatchFaceGlobalDrawable.PART_RINGS_ALL,
+                        WatchFaceSelectionActivity.class,
+                        new Mutator() {
+                            /**
+                             * A custom Mutator which allows you to view the gallery:
+                             * a set of watch face presets which we include with the package.
+                             *
+                             * @param clone WatchFaceState, which must be a clone, but in
+                             *              this case we'll ignore it...
+                             * @return Default WatchFaceState permutations for all slots
+                             */
+                            @NonNull
+                            @Override
+                            public Permutation[] getPermutations(@NonNull WatchFaceState clone) {
+                                Map<String, String> galleryEntries = clone.getGalleryEntries();
+
+                                Permutation[] p;
+                                int i;
+                                if (galleryEntries.containsValue(clone.getWatchFacePresetString())) {
+                                    // Current watch face is already in the gallery.
+                                    p = new Permutation[galleryEntries.size()];
+                                    i = 0;
+                                } else {
+                                    // Current watch face is something custom.
+                                    p = new Permutation[galleryEntries.size() + 1];
+                                    p[0] = new Permutation(clone.getString(), clone.getWatchFaceName());
+                                    i = 1;
+                                }
+
+                                for (Map.Entry<String, String> e : galleryEntries.entrySet()) {
+                                    clone.setWatchFacePresetString(e.getValue());
+                                    p[i++] = new Permutation(clone.getString(), e.getKey());
+                                }
+
+                                return p;
+                            }
+                        }),
+
                 // Data for Configure Colors and Materials sub-activity in settings Activity.
                 new ConfigActivityConfigItem(
                         R.string.config_configure_colors_materials,
@@ -152,51 +197,6 @@ public class WatchFacePresetConfigData extends ConfigData {
 
                                     p[i] = new Permutation(clone.getString(), name);
                                 }
-                                return p;
-                            }
-                        }, WatchFaceState::isDeveloperMode),
-
-                // Data for Gallery sub-activity in settings Activity.
-                new PickerConfigItem(
-                        R.string.config_view_gallery,
-                        R.drawable.ic_browse_gallery,
-                        WatchFaceGlobalDrawable.PART_BACKGROUND |
-                                WatchFaceGlobalDrawable.PART_PIPS |
-                                WatchFaceGlobalDrawable.PART_HANDS |
-                                WatchFaceGlobalDrawable.PART_RINGS_ALL,
-                        WatchFaceSelectionActivity.class,
-                        new Mutator() {
-                            /**
-                             * A custom Mutator which allows you to view the gallery:
-                             * a set of watch face presets which we include with the package.
-                             *
-                             * @param clone WatchFaceState, which must be a clone, but in
-                             *              this case we'll ignore it...
-                             * @return Default WatchFaceState permutations for all slots
-                             */
-                            @NonNull
-                            @Override
-                            public Permutation[] getPermutations(@NonNull WatchFaceState clone) {
-                                Map<String, String> galleryEntries = clone.getGalleryEntries();
-
-                                Permutation[] p;
-                                int i;
-                                if (galleryEntries.containsValue(clone.getWatchFacePresetString())) {
-                                    // Current watch face is already in the gallery.
-                                    p = new Permutation[galleryEntries.size()];
-                                    i = 0;
-                                } else {
-                                    // Current watch face is something custom.
-                                    p = new Permutation[galleryEntries.size() + 1];
-                                    p[0] = new Permutation(clone.getString(), clone.getWatchFaceName());
-                                    i = 1;
-                                }
-
-                                for (Map.Entry<String, String> e : galleryEntries.entrySet()) {
-                                    clone.setWatchFacePresetString(e.getValue());
-                                    p[i++] = new Permutation(clone.getString(), e.getKey());
-                                }
-
                                 return p;
                             }
                         }, WatchFaceState::isDeveloperMode),
