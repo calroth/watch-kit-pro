@@ -726,6 +726,35 @@
         <item>Ghost Rider</item>
     </string-array>
 
+    <string-array name="colorway_variant_names">
+        <item>🅰</item>
+        <item>🅱</item>
+        <item>🅲</item>
+        <item>🅳</item>
+        <item>🅴</item>
+        <item>🅵</item>
+        <item>🅶</item>
+        <item>🅷</item>
+        <item>🅸</item>
+        <item>🅹</item>
+        <item>🅺</item>
+        <item>🅻</item>
+        <item>🅼</item>
+        <item>🅽</item>
+        <item>🅾</item>
+        <item>🅿</item>
+        <item>🆀</item>
+        <item>🆁</item>
+        <item>🆂</item>
+        <item>🆃</item>
+        <item>🆄</item>
+        <item>🆅</item>
+        <item>🆆</item>
+        <item>🆇</item>
+        <item>🆈</item>
+        <item>🆉</item>
+    </string-array>
+
     <integer-array name="six_bit_colors">
         <item>0xFF000000</item>
         <item>0xFF000076</item>

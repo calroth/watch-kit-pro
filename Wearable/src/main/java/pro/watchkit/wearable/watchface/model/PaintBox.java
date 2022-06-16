@@ -1059,28 +1059,12 @@ public final class PaintBox {
         setPaintTextAttributes(mBezelPaint2);
         setPaintTextAttributes(mAccentHighlightPaint);
         setPaintTextAttributes(mBaseAccentPaint);
-
-//        android.util.Log.d("PaintBox", String.format(
-//                "regeneratePaints: %d %d %d %d --> #%03x%03x --> %s",
-//                mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor,
-//                (mFillSixBitColor << 6) + mAccentSixBitColor,
-//                (mHighlightSixBitColor << 6) + mBaseSixBitColor,
-//                getColorwayName(mFillSixBitColor, mAccentSixBitColor, mHighlightSixBitColor, mBaseSixBitColor)));
     }
 
     /**
      * Our colorway lookup table to map colorway value to colorway name.
      */
     private final static Map<Integer, String> mColorways = new HashMap<>();
-
-    /**
-     * Our hard-coded colorway variant names.
-     */
-    private final static char[] mColorwayVariants = {
-            ' ', // Variant 0 isn't used as it's not a variant!
-            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
-    };
 
     @NonNull
     String getColorwayName() {
@@ -1148,6 +1132,8 @@ public final class PaintBox {
             // Loop through each default colorway name and value.
             // Add all variants.
             StringBuilder sb = new StringBuilder();
+            final String[] colorwayVariants =
+                    mContext.getResources().getStringArray(R.array.colorway_variant_names);
             for (int i = 0; i < colorwayNames.length; i++) {
                 // Generate heaps of variants.
                 int[] p = getColorwayVariants(colorwayColors[i]);
@@ -1157,17 +1143,10 @@ public final class PaintBox {
                     // Generate the colorway name plus variant if applicable.
                     sb.append(colorwayNames[i]);
                     // Append variant name.
-                    sb.append(" (variant ").append(mColorwayVariants[j]).append(')');
+                    sb.append(' ').append(colorwayVariants[j - 1]);
                     mColorways.putIfAbsent(p[j], sb.toString());
                 }
             }
-
-//            sb.setLength(0);
-//            for (Map.Entry<Integer, String> e : mColorways.entrySet()) {
-//                sb.append(String.format("#%06x", e.getKey()));
-//                sb.append(" --> ").append(e.getValue()).append(System.lineSeparator());
-//            }
-//            android.util.Log.d("PaintBox", sb.toString());
         }
 
         if (mColorways.containsKey(colorway)) {
