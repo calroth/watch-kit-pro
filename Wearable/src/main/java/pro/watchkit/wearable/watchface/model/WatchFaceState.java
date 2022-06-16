@@ -476,7 +476,20 @@ public class WatchFaceState {
     }
 
     @NonNull
-    private final static Map<String, String> mGalleryEntries = new TreeMap<>();
+    private final static Map<String, String> mGalleryEntries = new TreeMap<>((o1, o2) -> {
+        // A comparator which sorts the characters 🅰, 🅱, 🅲, 🅳 etc. to the very top.
+        int c1 = (int) (o1.codePointAt(0));
+        int c2 = (int) (o2.codePointAt(0));
+        if (c1 > 0x1f000 && c2 > 0x1f000) {
+            return o1.compareTo(o2);
+        } else if (c1 > 0x1F000) {
+            return -1;
+        } else if (c2 > 0x1F000) {
+            return 1;
+        } else {
+            return o1.compareTo(o2);
+        }
+    });
     @NonNull
     private final static Map<String, String> mGalleryEntriesFlipped = new TreeMap<>();
     @NonNull
@@ -526,12 +539,12 @@ public class WatchFaceState {
         String zeroedString = getWatchFacePresetString();
         setWatchFacePresetString(currentString); // Restore current preset string.
         if (getGalleryEntriesFlippedZeroed().containsKey(zeroedString)) {
-            return getGalleryEntriesFlippedZeroed().get(zeroedString) + " + " +
+            return getGalleryEntriesFlippedZeroed().get(zeroedString) + " × " +
                     getPaintBox().getColorwayName();
         }
 
         // It's truly custom.
-        return "Current Watch Face (" + getHash() + ")";
+        return "Current Watch Face (#" + getHash() + ")";
     }
 
     /**
