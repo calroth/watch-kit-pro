@@ -42,6 +42,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Objects;
 import java.util.TimeZone;
+import java.util.TreeMap;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.BytePackable.ComplicationCount;
@@ -474,13 +475,64 @@ public class WatchFaceState {
         mComplications.forEach(c -> c.setColors(activeColor, ambientColor, typeface));
     }
 
-//    public Settings getSettings() {
-//        return mSettings;
-//    }
-//
-//    public WatchFacePreset getWatchFacePreset() {
-//        return mWatchFacePreset;
-//    }
+    @NonNull
+    private final static Map<String, String> mGalleryEntries = new TreeMap<>();
+    @NonNull
+    private final static Map<String, String> mGalleryEntriesFlipped = new TreeMap<>();
+    @NonNull
+    private final static Map<String, String> mGalleryEntriesFlippedZeroed = new TreeMap<>();
+
+    public Map<String, String> getGalleryEntries() {
+        if (mGalleryEntries.size() == 0) {
+            String currentString = getWatchFacePresetString(); // Preserve current preset string.
+            // Initialise on first use
+            final String[] galleryNames = getStringArrayResource(R.array.gallery_names);
+            final String[] galleryPresets = getStringArrayResource(R.array.gallery_presets);
+
+            // Loop through each default colorway name and value.
+            // Add original named colorways first, before we add any variants.
+            for (int i = 0; i < galleryNames.length; i++) {
+                mGalleryEntries.putIfAbsent(galleryNames[i], galleryPresets[i]);
+                mGalleryEntriesFlipped.putIfAbsent(galleryPresets[i], galleryNames[i]);
+                setWatchFacePresetString(galleryPresets[i]);
+                setColorway(0);
+                mGalleryEntriesFlippedZeroed.putIfAbsent(getWatchFacePresetString(), galleryNames[i]);
+            }
+
+            setWatchFacePresetString(currentString); // Restore current preset string.
+        }
+        return mGalleryEntries;
+    }
+
+    private Map<String, String> getGalleryEntriesFlipped() {
+        getGalleryEntries();
+        return mGalleryEntriesFlipped;
+    }
+
+    private Map<String, String> getGalleryEntriesFlippedZeroed() {
+        getGalleryEntries();
+        return mGalleryEntriesFlippedZeroed;
+    }
+
+    public String getWatchFaceName() {
+        // See if our watch face string is directly in the gallery.
+        String currentString = getWatchFacePresetString();
+        if (getGalleryEntriesFlipped().containsKey(currentString)) {
+            return getGalleryEntriesFlipped().get(currentString);
+        }
+
+        // It might be a different colorway. Try zeroing out the colorway and checking...
+        setColorway(0);
+        String zeroedString = getWatchFacePresetString();
+        setWatchFacePresetString(currentString); // Restore current preset string.
+        if (getGalleryEntriesFlippedZeroed().containsKey(zeroedString)) {
+            return getGalleryEntriesFlippedZeroed().get(zeroedString) + " + " +
+                    getPaintBox().getColorwayName();
+        }
+
+        // It's truly custom.
+        return "Current Watch Face (" + getHash() + ")";
+    }
 
     /**
      * Get the current ambient tint color. This depends on what the user has set, plus the time of
@@ -1097,6 +1149,10 @@ public class WatchFaceState {
 
     boolean isMinutePipsOverridden() {
         return isMinutePipsVisible() && mWatchFacePreset.mMinutePipOverride;
+    }
+
+    public String getWatchFacePresetString() {
+        return mWatchFacePreset.getString();
     }
 
     public void setWatchFacePresetString(@NonNull String s) {

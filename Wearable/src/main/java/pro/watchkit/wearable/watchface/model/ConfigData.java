@@ -9,9 +9,9 @@ import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -521,7 +521,8 @@ abstract public class ConfigData {
         @Override
         public abstract Permutation[] getPermutations(@NonNull WatchFaceState clone);
 
-        void permuteRandomColorwayAndVariant(@NonNull WatchFaceState clone, Set<Integer> colorways) {
+        void permuteRandomColorwayAndVariant(
+                @NonNull WatchFaceState clone, Collection<Integer> colorways) {
             // Permute colorway. Get a random element of "colorways",
             // or (if it fails for whatever reason) a random number.
             clone.setColorway(colorways.stream()

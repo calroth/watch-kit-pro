@@ -63,7 +63,7 @@ public class WatchPartPipsConfigData extends ConfigData {
                                 Permutation[] p = new Permutation[SIZE];
 
                                 // Slot 0 is the current selection.
-                                p[0] = new Permutation(clone.getString(), "Current Watch Face");
+                                p[0] = new Permutation(clone.getString(), clone.getWatchFaceName());
 
                                 // Roll the dice and generate a bunch of random watch faces!
                                 for (int i = 1; i < SIZE; i++) {

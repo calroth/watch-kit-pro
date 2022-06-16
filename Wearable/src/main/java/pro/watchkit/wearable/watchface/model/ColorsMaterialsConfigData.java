@@ -71,12 +71,12 @@ public class ColorsMaterialsConfigData extends ConfigData {
                             List<Permutation> s = w.getPaintBox().getOriginalColorways()
                                     .entrySet().stream().map(entry -> {
                                         // Set the colorway with this entry.
-                                        w.setColorway(entry.getKey());
+                                        w.setColorway(entry.getValue());
                                         // Mark "found" if this colorway is our current colorway.
                                         if (w.mostlyEquals(originalString)) {
                                             found.set(true);
                                         }
-                                        return new Permutation(w.getString(), entry.getValue());
+                                        return new Permutation(w.getString(), entry.getKey());
                                     }).collect(toList());
 
                             if (!found.get()) {
@@ -246,7 +246,7 @@ public class ColorsMaterialsConfigData extends ConfigData {
                                 Permutation[] p = new Permutation[SIZE];
 
                                 // Slot 0 is the current selection.
-                                p[0] = new Permutation(clone.getString(), "Current Watch Face");
+                                p[0] = new Permutation(clone.getString(), clone.getWatchFaceName());
 
                                 // Roll the dice and generate a bunch of random watch faces!
                                 for (int i = 1; i < SIZE; i++) {

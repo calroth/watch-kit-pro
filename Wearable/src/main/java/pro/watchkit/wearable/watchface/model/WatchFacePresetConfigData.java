@@ -21,8 +21,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import pro.watchkit.wearable.watchface.R;
@@ -127,11 +128,11 @@ public class WatchFacePresetConfigData extends ConfigData {
                             public Permutation[] getPermutations(@NonNull WatchFaceState clone) {
                                 final int SIZE = 16;
                                 Permutation[] p = new Permutation[SIZE];
-                                Set<Integer> colorways =
-                                        clone.getPaintBox().getOriginalColorways().keySet();
+                                Collection<Integer> colorways =
+                                        clone.getPaintBox().getOriginalColorways().values();
 
                                 // Slot 0 is the current selection.
-                                p[0] = new Permutation(clone.getString(), "Current Watch Face");
+                                p[0] = new Permutation(clone.getString(), clone.getWatchFaceName());
 
                                 // Roll the dice and generate a bunch of random watch faces!
                                 for (int i = 1; i < SIZE; i++) {
@@ -176,17 +177,24 @@ public class WatchFacePresetConfigData extends ConfigData {
                             @NonNull
                             @Override
                             public Permutation[] getPermutations(@NonNull WatchFaceState clone) {
-                                final String[] galleryNames =
-                                        clone.getStringArrayResource(R.array.gallery_names);
-                                final String[] galleryPresets =
-                                        clone.getStringArrayResource(R.array.gallery_presets);
+                                Map<String, String> galleryEntries = clone.getGalleryEntries();
 
-                                Permutation[] p = new Permutation[galleryNames.length + 1];
-                                p[0] = new Permutation(clone.getString(), "Current Watch Face");
-                                for (int i = 0; i < galleryNames.length; i++) {
-                                    clone.setWatchFacePresetString(galleryPresets[i]);
-                                    p[i + 1] = new Permutation(clone.getString(),
-                                            galleryNames[i]);
+                                Permutation[] p;
+                                int i;
+                                if (galleryEntries.containsValue(clone.getWatchFacePresetString())) {
+                                    // Current watch face is already in the gallery.
+                                    p = new Permutation[galleryEntries.size()];
+                                    i = 0;
+                                } else {
+                                    // Current watch face is something custom.
+                                    p = new Permutation[galleryEntries.size() + 1];
+                                    p[0] = new Permutation(clone.getString(), clone.getWatchFaceName());
+                                    i = 1;
+                                }
+
+                                for (Map.Entry<String, String> e : galleryEntries.entrySet()) {
+                                    clone.setWatchFacePresetString(e.getValue());
+                                    p[i++] = new Permutation(clone.getString(), e.getKey());
                                 }
 
                                 return p;

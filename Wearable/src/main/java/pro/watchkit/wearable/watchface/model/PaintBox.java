@@ -50,6 +50,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
+import java.util.TreeMap;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.BytePackable.DigitSize;
@@ -1103,9 +1104,9 @@ public final class PaintBox {
     }
 
     @NonNull
-    private final static Map<Integer, String> mOriginalColorways = new HashMap<>();
+    private final static Map<String, Integer> mOriginalColorways = new TreeMap<>();
 
-    Map<Integer, String> getOriginalColorways() {
+    Map<String, Integer> getOriginalColorways() {
         if (mOriginalColorways.size() == 0) {
             // Initialise on first use
             final String[] colorwayNames =
@@ -1116,7 +1117,7 @@ public final class PaintBox {
             // Loop through each default colorway name and value.
             // Add original named colorways first, before we add any variants.
             for (int i = 0; i < colorwayNames.length; i++) {
-                mOriginalColorways.putIfAbsent(colorwayColors[i], colorwayNames[i]);
+                mOriginalColorways.putIfAbsent(colorwayNames[i], colorwayColors[i]);
             }
         }
         return mOriginalColorways;
