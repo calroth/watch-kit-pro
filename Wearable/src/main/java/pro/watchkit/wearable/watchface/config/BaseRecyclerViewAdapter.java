@@ -56,9 +56,11 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.wearable.complications.ComplicationData;
@@ -653,15 +655,26 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 @ColorInt int color = mCurrentWatchFaceState.getColor(mConfigItem.getType());
 
                 // Draw a circle that's 20px from right, top and left borders.
-                float radius = (canvas.getClipBounds().height() / 2f) - 20f;
+                Rect r = canvas.getClipBounds();
+                float radius = (r.height() / 2f) - 20f;
                 if (mCirclePaint == null) {
                     // Initialise on first use.
                     mCirclePaint = new Paint();
                     mCirclePaint.setStyle(Paint.Style.FILL);
                     mCirclePaint.setAntiAlias(true);
                 }
+                float offset = 1.0f;
+                // Draw our bevels as follows:
+                // Draw a white circle offset northwest
+                mCirclePaint.setColor(Color.WHITE);
+                canvas.drawCircle(r.right - 20f - radius - offset,
+                        (r.top + r.bottom) / 2f - offset, radius, mCirclePaint);
+                // Draw a black circle offset southeast
+                mCirclePaint.setColor(Color.BLACK);
+                canvas.drawCircle(r.right - 20f - radius + offset,
+                        (r.top + r.bottom) / 2f + offset, radius, mCirclePaint);
+                // Now draw our swatch.
                 mCirclePaint.setColor(color);
-                android.graphics.Rect r = canvas.getClipBounds();
                 canvas.drawCircle(r.right - 20f - radius,
                         (r.top + r.bottom) / 2f, radius, mCirclePaint);
             }
