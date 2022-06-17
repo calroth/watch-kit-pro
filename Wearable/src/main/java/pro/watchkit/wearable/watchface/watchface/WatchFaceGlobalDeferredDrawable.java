@@ -172,9 +172,11 @@ public class WatchFaceGlobalDeferredDrawable extends Drawable {
                     synchronized (mHardwareCacheBitmapLock) {
                         // Quickly swap out the "old" mHardwareCacheBitmap with the new one.
                         // Recycle the old one. So we don't have old bitmaps piling up.
-                        if (mHardwareCacheBitmap != null) {
-                            mHardwareCacheBitmap.recycle();
-                        }
+                        // Temporarily commenting out whilst I can decide whether this is
+                        // causing bugs...
+//                        if (mHardwareCacheBitmap != null) {
+//                            mHardwareCacheBitmap.recycle();
+//                        }
                         mHardwareCacheBitmap = newHardwareCacheBitmap;
                         // We synchronise to ensure "mHardwareCacheBitmap" doesn't get recycled
                         // whilst we're still drawing it.
