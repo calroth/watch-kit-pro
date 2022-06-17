@@ -61,6 +61,7 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.wearable.complications.ComplicationData;
@@ -977,7 +978,9 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             if (left != null) {
                 left.setTint(mButton.getCurrentTextColor());
             }
-            mButton.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
+            Drawable right = mConfigItem instanceof ConfigData.PickerFourColorConfigItem ?
+                    mColorSwatchDrawable : null;
+            mButton.setCompoundDrawablesWithIntrinsicBounds(left, null, right, null);
 
             if (mConfigItem.isVisible(mCurrentWatchFaceState)) {
                 itemView.getLayoutParams().height = mVisibleLayoutHeight;
@@ -989,6 +992,70 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 itemView.setVisibility(View.GONE);
             }
         }
+
+        @NonNull
+        private final Drawable mColorSwatchDrawable = new Drawable() {
+            private Paint mCirclePaint;
+
+            @Override
+            public void draw(@NonNull Canvas canvas) {
+                ConfigData.PickerFourColorConfigItem ci =
+                        (ConfigData.PickerFourColorConfigItem) mConfigItem;
+                if (ci == null) return;
+
+                @ColorInt int colorA = ci.getColorACalculator().applyAsInt(mCurrentWatchFaceState);
+                @ColorInt int colorB = ci.getColorBCalculator().applyAsInt(mCurrentWatchFaceState);
+                @ColorInt int colorC = ci.getColorCCalculator().applyAsInt(mCurrentWatchFaceState);
+                @ColorInt int colorD = ci.getColorDCalculator().applyAsInt(mCurrentWatchFaceState);
+
+                // Draw a circle that's 20px from right, top and left borders.
+                Rect r = canvas.getClipBounds();
+                float radius = (r.height() / 2f) - 20f;
+                if (mCirclePaint == null) {
+                    // Initialise on first use.
+                    mCirclePaint = new Paint();
+                    mCirclePaint.setStyle(Paint.Style.FILL);
+                    mCirclePaint.setAntiAlias(true);
+                }
+                float offset = 1.0f;
+                // Draw our bevels as follows:
+                // Draw a white circle offset northwest
+                mCirclePaint.setColor(Color.WHITE);
+                canvas.drawCircle(r.right - 20f - radius - offset,
+                        (r.top + r.bottom) / 2f - offset, radius, mCirclePaint);
+                // Draw a black circle offset southeast
+                mCirclePaint.setColor(Color.BLACK);
+                canvas.drawCircle(r.right - 20f - radius + offset,
+                        (r.top + r.bottom) / 2f + offset, radius, mCirclePaint);
+                // Now draw our swatch.
+                RectF oval = new RectF(
+                        r.right - 20f - (2 * radius), (r.top + r.bottom) / 2f - radius,
+                        r.right - 20f, (r.top + r.bottom) / 2f + radius);
+                mCirclePaint.setColor(colorA);
+                canvas.drawArc(oval, 180f, 90f, true, mCirclePaint);
+                mCirclePaint.setColor(colorB);
+                canvas.drawArc(oval, 270f, 90f, true, mCirclePaint);
+                mCirclePaint.setColor(colorD);
+                canvas.drawArc(oval, 0f, 90f, true, mCirclePaint);
+                mCirclePaint.setColor(colorC);
+                canvas.drawArc(oval, 90f, 90f, true, mCirclePaint);
+            }
+
+            @Override
+            public void setAlpha(int alpha) {
+                // Unused
+            }
+
+            @Override
+            public void setColorFilter(@Nullable ColorFilter colorFilter) {
+                // Unused
+            }
+
+            @Override
+            public int getOpacity() {
+                return PixelFormat.OPAQUE;
+            }
+        };
 
         public void onWatchFaceStateChanged() {
             String oldText = mButton.getText().toString();

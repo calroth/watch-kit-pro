@@ -52,7 +52,7 @@ public class ColorsMaterialsConfigData extends ConfigData {
 //                        WatchFaceState::getColorwayName),
 
                 // Choose a new colorway?
-                new PickerConfigItem(
+                new PickerFourColorConfigItem(
                         R.string.config_configure_colors_materials_colorway,
                         R.drawable.ic_settings,
                         WatchFaceGlobalDrawable.PART_BACKGROUND |
@@ -85,10 +85,14 @@ public class ColorsMaterialsConfigData extends ConfigData {
                             }
 
                             return s.toArray(new Permutation[0]);
-                        }),
+                        },
+                        w -> w.getColor(PaintBox.ColorType.FILL),
+                        w -> w.getColor(PaintBox.ColorType.ACCENT),
+                        w -> w.getColor(PaintBox.ColorType.HIGHLIGHT),
+                        w -> w.getColor(PaintBox.ColorType.BASE)),
 
                 // Choose a new colorway variant?
-                new PickerConfigItem(
+                new PickerFourColorConfigItem(
                         R.string.config_configure_colors_materials_variant,
                         R.drawable.ic_settings,
                         WatchFaceGlobalDrawable.PART_BACKGROUND |
@@ -107,7 +111,11 @@ public class ColorsMaterialsConfigData extends ConfigData {
 
                                     return new Permutation(
                                             w.getString(), w.getColorwayName());
-                                }).toArray(Permutation[]::new)),
+                                }).toArray(Permutation[]::new),
+                        w -> w.getColor(PaintBox.ColorType.FILL),
+                        w -> w.getColor(PaintBox.ColorType.ACCENT),
+                        w -> w.getColor(PaintBox.ColorType.HIGHLIGHT),
+                        w -> w.getColor(PaintBox.ColorType.BASE)),
 
                 // Data for fill color UX in settings Activity.
                 new ColorPickerConfigItem(

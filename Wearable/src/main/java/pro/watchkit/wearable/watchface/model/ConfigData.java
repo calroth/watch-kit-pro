@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.function.ToIntFunction;
 
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
@@ -681,6 +682,63 @@ abstract public class ConfigData {
          */
         private <T> T random(T[] finalValues) {
             return finalValues[r.nextInt(finalValues.length)];
+        }
+    }
+
+    public static class PickerFourColorConfigItem extends PickerConfigItem {
+        private final ToIntFunction<WatchFaceState> mColorACalculator;
+        private final ToIntFunction<WatchFaceState> mColorBCalculator;
+        private final ToIntFunction<WatchFaceState> mColorCCalculator;
+        private final ToIntFunction<WatchFaceState> mColorDCalculator;
+
+        PickerFourColorConfigItem(
+                @StringRes int nameResourceId,
+                @DrawableRes int iconResourceId,
+                int watchFaceGlobalDrawableFlags,
+                @NonNull Class<WatchFaceSelectionActivity> activityToChoosePreference,
+                @NonNull Mutator watchFaceStateMutator,
+                @NonNull ToIntFunction<WatchFaceState> colorACCalculator,
+                @NonNull ToIntFunction<WatchFaceState> colorBDCalculator) {
+            super(nameResourceId, iconResourceId, watchFaceGlobalDrawableFlags,
+                    activityToChoosePreference, watchFaceStateMutator);
+            mColorACalculator = colorACCalculator;
+            mColorBCalculator = colorBDCalculator;
+            mColorCCalculator = colorACCalculator;
+            mColorDCalculator = colorBDCalculator;
+        }
+
+        PickerFourColorConfigItem(
+                @StringRes int nameResourceId,
+                @DrawableRes int iconResourceId,
+                int watchFaceGlobalDrawableFlags,
+                @NonNull Class<WatchFaceSelectionActivity> activityToChoosePreference,
+                @NonNull Mutator watchFaceStateMutator,
+                @NonNull ToIntFunction<WatchFaceState> colorACalculator,
+                @NonNull ToIntFunction<WatchFaceState> colorBCalculator,
+                @NonNull ToIntFunction<WatchFaceState> colorCCalculator,
+                @NonNull ToIntFunction<WatchFaceState> colorDCalculator) {
+            super(nameResourceId, iconResourceId, watchFaceGlobalDrawableFlags,
+                    activityToChoosePreference, watchFaceStateMutator);
+            mColorACalculator = colorACalculator;
+            mColorBCalculator = colorBCalculator;
+            mColorCCalculator = colorCCalculator;
+            mColorDCalculator = colorDCalculator;
+        }
+
+        public ToIntFunction<WatchFaceState> getColorACalculator() {
+            return mColorACalculator;
+        }
+
+        public ToIntFunction<WatchFaceState> getColorBCalculator() {
+            return mColorBCalculator;
+        }
+
+        public ToIntFunction<WatchFaceState> getColorCCalculator() {
+            return mColorCCalculator;
+        }
+
+        public ToIntFunction<WatchFaceState> getColorDCalculator() {
+            return mColorDCalculator;
         }
     }
 
