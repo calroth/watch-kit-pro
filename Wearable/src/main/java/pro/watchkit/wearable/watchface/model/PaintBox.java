@@ -146,9 +146,7 @@ public final class PaintBox {
          */
         @Override
         protected void finalize() {
-            if (m8BitAllocation != null) {
-                m8BitAllocation.destroy();
-            }
+            destroyAllocation(m8BitAllocation);
         }
 
         /**
@@ -177,9 +175,7 @@ public final class PaintBox {
                 m8BitBitmap = Bitmap.createBitmap(
                         currentWidth, currentHeight, Bitmap.Config.ARGB_8888);
                 m8BitCanvas = new Canvas(m8BitBitmap);
-                if (m8BitAllocation != null) {
-                    m8BitAllocation.destroy();
-                }
+                destroyAllocation(m8BitAllocation);
                 m8BitAllocation = Allocation.createFromBitmap(mRenderScript, m8BitBitmap);
 
                 generate();
@@ -450,6 +446,21 @@ public final class PaintBox {
             }
         }
     };
+
+    /**
+     * Destroy this allocation if it's destroyable. No operation if it's not, or null.
+     *
+     * @param allocation Allocation to destroy
+     */
+    private static void destroyAllocation(@Nullable Allocation allocation) {
+        if (allocation != null) {
+            try {
+                allocation.destroy();
+            } catch (android.renderscript.RSInvalidStateException ignored) {
+                // Don't worry if already destroyed.
+            }
+        }
+    }
 
     PaintBox(@NonNull Context context) {
         mContext = context;
@@ -1377,8 +1388,8 @@ public final class PaintBox {
         Allocation out = Allocation.createFromBitmap(mRenderScript, destBitmap);
         mScriptC_mapBitmap.forEach_mapBitmap(in, out);
         out.copyTo(destBitmap);
-        in.destroy();
-        out.destroy();
+        destroyAllocation(in);
+        destroyAllocation(out);
     }
 
     private class GradientPaint extends Paint {
@@ -1643,8 +1654,8 @@ public final class PaintBox {
             Allocation out = Allocation.createFromBitmap(mRenderScript, rippleBitmap);
             mScriptC_mapBitmap.forEach_mapBitmap(in, out);
             out.copyTo(rippleBitmap);
-            in.destroy();
-            out.destroy();
+            destroyAllocation(in);
+            destroyAllocation(out);
 
             DebugTiming.checkpoint("p2.3");
             DebugTiming.endAndWrite();
@@ -1726,9 +1737,7 @@ public final class PaintBox {
                 // Initialise output objects.
                 if (mOutputAllocation == null || mOutputBitmap == null) {
                     mOutputBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-                    if (mOutputAllocation != null) {
-                        mOutputAllocation.destroy();
-                    }
+                    destroyAllocation(mOutputAllocation);
                     mOutputAllocation = Allocation.createFromBitmap(mRenderScript, mOutputBitmap);
                 }
                 DebugTiming.checkpoint("init");
@@ -1824,20 +1833,8 @@ public final class PaintBox {
         protected void finalize() throws Throwable {
             super.finalize();
 
-            if (mLuvPaletteAllocation != null) {
-                try {
-                    mLuvPaletteAllocation.destroy();
-                } catch (android.renderscript.RSInvalidStateException ignored) {
-                    // Don't worry if already destroyed.
-                }
-            }
-            if (mOutputAllocation != null) {
-                try {
-                    mOutputAllocation.destroy();
-                } catch (android.renderscript.RSInvalidStateException ignored) {
-                    // Don't worry if already destroyed.
-                }
-            }
+            destroyAllocation(mLuvPaletteAllocation);
+            destroyAllocation(mOutputAllocation);
         }
 
         private BitmapShader generateSpunEffect() {
@@ -2369,8 +2366,8 @@ public final class PaintBox {
             Allocation out = Allocation.createFromBitmap(mRenderScript, sparkleEffectBitmap);
             mScriptC_mapBitmap.forEach_sparkle(in, out);
             out.copyTo(sparkleEffectBitmap);
-            in.destroy();
-            out.destroy();
+            destroyAllocation(in);
+            destroyAllocation(out);
 
             sparkleEffectBitmap.prepareToDraw();
 
