@@ -215,6 +215,7 @@ public class WatchFaceState {
      */
     public void setCurrentTimeToNow() {
         mCalendar.setTimeInMillis(System.currentTimeMillis());
+        // mCalendar.setTimeInMillis(1570365309000L); // For preview generation.
     }
 
     /**

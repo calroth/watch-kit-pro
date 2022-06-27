@@ -86,10 +86,14 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.concurrent.Executors;
 
+import pro.watchkit.wearable.watchface.BuildConfig;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.BytePackable;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
@@ -524,74 +528,100 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         @Override
         public void onClick(@NonNull View view) {
             // Temporary code to generate an icon?
-            if (mConfigItem.getLabelResourceId() == R.string.config_generate_icon_files) {
+            if (mConfigItem.getLabelResourceId() == R.string.config_generate_icon_files &&
+                    BuildConfig.DEBUG) {
                 Context context = itemView.getContext();
-                SharedPref.mWriteLayersToDisk = true;
+                SharedPref.mWriteLayersToDisk = false;
 
                 // Create our foreground drawable.
-                {
-                    int flags = WatchFaceGlobalDrawable.PART_BACKGROUND |
-                            WatchFaceGlobalDrawable.PART_PIPS |
-                            WatchFaceGlobalDrawable.PART_HANDS |
-                            WatchFaceGlobalDrawable.PART_RINGS_ACTIVE;
+                int count = 0;
+                for (Map.Entry<String, String> g :
+                        mCurrentWatchFaceState.getGalleryEntries().entrySet()) {
+                    for (Map.Entry<String, Integer> cw :
+                            mCurrentWatchFaceState.getPaintBox().getOriginalColorways().entrySet()) {
+                        int flags = WatchFaceGlobalDrawable.PART_BACKGROUND |
+                                WatchFaceGlobalDrawable.PART_PIPS |
+                                WatchFaceGlobalDrawable.PART_HANDS |
+                                WatchFaceGlobalDrawable.PART_RINGS_ACTIVE;
 
-                    WatchFaceGlobalDrawable drawable =
-                            new WatchFaceGlobalDrawable(context, flags);
+                        WatchFaceGlobalDrawable drawable =
+                                new WatchFaceGlobalDrawable(context, flags);
 
-                    WatchFaceState watchFaceState = drawable.getWatchFaceState();
-                    watchFaceState.setString(mCurrentWatchFaceState.getString());
-                    watchFaceState.setCurrentTime(1570365309000L); // 2019-10-06T23:35:09.000+1100
-                    watchFaceState.setNotifications(0, 0);
-                    watchFaceState.setAmbient(false);
-                    drawable.setBounds(0, 0, 960, 960);
+                        WatchFaceState watchFaceState = drawable.getWatchFaceState();
 
-                    // Initialise complications, just enough to be able to draw rings.
-                    watchFaceState.initializeComplications(context, false);
+                        // Quick-and-dirty code to get complication IDs.
+                        ProWatchFaceService p;
+                        if (count % 4 == 0) {
+                            watchFaceState.setString("04941b40ef006610846065dcc6f81411~" +
+                                    "16e1cf096cc000000000000000000001~0");
+                            p = new ProWatchFaceService.A();
+                        } else if (count % 4 == 1) {
+                            watchFaceState.setString("0cd71a20ef007c2008e2212a68384c01~" +
+                                    "1b434f0963c000000000000000000001~0");
+                            p = new ProWatchFaceService.B();
+                        } else if (count % 4 == 2) {
+                            watchFaceState.setString("155b4120e0004274fb8601d8cfb81001~" +
+                                    "1fe4ef0eba0000000000000000000001~0");
+                            p = new ProWatchFaceService.C();
+                        } else {
+                            watchFaceState.setString("1d404b6a6f0066f6b4aae8c459bf4ca0~" +
+                                    "13308f05084000000000000000000000~0");
+                            p = new ProWatchFaceService.D();
+                        }
+                        watchFaceState.setWatchFacePresetString(g.getValue());
+                        watchFaceState.setColorway(cw.getValue());
+                        watchFaceState.setCurrentTime(1570365309000L); // 2019-10-06T23:35:09.000+1100
+                        watchFaceState.setNotifications(0, 0);
+                        watchFaceState.setAmbient(false);
+                        drawable.setBounds(0, 0, 960, 960);
 
-                    // Quick-and-dirty code to get complication IDs.
-                    ProWatchFaceService p;
-                    if (mTitleLabel == R.string.watch_face_service_label_a) {
-                        p = new ProWatchFaceService.A();
-                    } else if (mTitleLabel == R.string.watch_face_service_label_b) {
-                        p = new ProWatchFaceService.B();
-                    } else if (mTitleLabel == R.string.watch_face_service_label_c) {
-                        p = new ProWatchFaceService.C();
-                    } else {
-                        p = new ProWatchFaceService.D();
-                    }
+                        // Initialise complications, just enough to be able to draw rings.
+                        watchFaceState.initializeComplications(context, false);
 
-                    // A dummy complication that won't be displayed.
-                    ComplicationData.Builder cb =
-                            new ComplicationData.Builder(TYPE_SHORT_TEXT);
-                    cb.setShortText(ComplicationText.plainText("x"));
-                    ComplicationData c = cb.build();
+                        // A dummy complication that won't be displayed.
+                        ComplicationData.Builder cb =
+                                new ComplicationData.Builder(TYPE_SHORT_TEXT);
+                        cb.setShortText(ComplicationText.plainText("x"));
+                        ComplicationData c = cb.build();
 
-                    // Get our complication IDs and default providers.
-                    int[] complicationIds = watchFaceState.getComplicationIds();
-                    int[][] defaultComplicationProviders =
-                            p.getDefaultSystemComplicationProviders();
+                        // Get our complication IDs and default providers.
+                        int[] complicationIds = watchFaceState.getComplicationIds();
+                        int[][] defaultComplicationProviders =
+                                p.getDefaultSystemComplicationProviders();
 
-                    for (int i = 0; i < complicationIds.length; i++) {
-                        // For each active complication, check for a corresponding default complication.
-                        // If it's there, set the system default complication provider accordingly.
-                        if (i < defaultComplicationProviders.length) {
-                            int[] complicationProvider = defaultComplicationProviders[i];
-                            if (complicationProvider.length >= 2 &&
-                                    complicationProvider[1] != TYPE_NOT_CONFIGURED) {
-                                // Activate one ring per active complication.
-                                // Activate them with a dummy complication that won't be displayed.
-                                watchFaceState.onComplicationDataUpdate(complicationIds[i], c);
+                        for (int i = 0; i < complicationIds.length; i++) {
+                            // For each active complication, check for a corresponding default complication.
+                            // If it's there, set the system default complication provider accordingly.
+                            if (i < defaultComplicationProviders.length) {
+                                int[] complicationProvider = defaultComplicationProviders[i];
+                                if (complicationProvider.length >= 2 &&
+                                        complicationProvider[1] != TYPE_NOT_CONFIGURED) {
+                                    // Activate one ring per active complication.
+                                    // Activate them with a dummy complication that won't be displayed.
+                                    watchFaceState.onComplicationDataUpdate(complicationIds[i], c);
+                                }
                             }
                         }
+
+                        // Create our canvas...
+                        Bitmap bitmap =
+                                Bitmap.createBitmap(960, 960, Bitmap.Config.ARGB_8888);
+                        Canvas canvas = new Canvas(bitmap);
+
+                        // Draw to the canvas!
+                        drawable.draw(canvas);
+
+                        // Export as PNG
+                        try {
+                            FileOutputStream out = watchFaceState.openFileOutput(
+                                    g.getKey() + " x " + cw.getKey() + ".png");
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                            out.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
-
-                    // Create our canvas...
-                    Bitmap bitmap =
-                            Bitmap.createBitmap(960, 960, Bitmap.Config.ARGB_8888);
-                    Canvas canvas = new Canvas(bitmap);
-
-                    // Draw to the canvas!
-                    drawable.draw(canvas);
+                    count++;
                 }
 
                 SharedPref.mWriteLayersToDisk = false;

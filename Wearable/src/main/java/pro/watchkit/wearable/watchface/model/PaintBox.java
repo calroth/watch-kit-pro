@@ -1101,7 +1101,7 @@ public final class PaintBox {
     @NonNull
     private final static Map<String, Integer> mOriginalColorways = new TreeMap<>();
 
-    Map<String, Integer> getOriginalColorways() {
+    public Map<String, Integer> getOriginalColorways() {
         if (mOriginalColorways.size() == 0) {
             // Initialise on first use
             final String[] colorwayNames =
