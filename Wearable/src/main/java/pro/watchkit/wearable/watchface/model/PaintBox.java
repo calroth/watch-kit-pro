@@ -36,6 +36,7 @@ import android.graphics.Typeface;
 import android.graphics.Xfermode;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
+import android.renderscript.RSRuntimeException;
 import android.renderscript.RenderScript;
 import android.renderscript.Short4;
 import android.renderscript.Type;
@@ -1735,7 +1736,8 @@ public final class PaintBox {
                 }
 
                 // Initialise output objects.
-                if (mOutputAllocation == null || mOutputBitmap == null) {
+                if (mOutputAllocation == null || mOutputBitmap == null ||
+                        mOutputBitmap.getWidth() != width || mOutputBitmap.getHeight() != height) {
                     mOutputBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                     destroyAllocation(mOutputAllocation);
                     mOutputAllocation = Allocation.createFromBitmap(mRenderScript, mOutputBitmap);
@@ -1803,19 +1805,27 @@ public final class PaintBox {
                 // We've generated our LUV palette with our selected colors.
                 // Now combine these to get an output!
                 mScriptC_mapBitmap.invoke_prepareLuvTransform(mLuvPaletteAllocation);
-                if (materialTexture != MaterialTexture.HEX) {
-                    // RenderScript transform the material according to our gradient and texture.
-                    mScriptC_mapBitmap.forEach_generateLuvTransform(
-                            gradientAllocation, textureAllocation, mOutputAllocation);
-                } else {
-                    // For HEX, we run a special RenderScript code path to make it sparkle.
-                    mScriptC_mapBitmap.forEach_generateLuvTransformAndSparkle(
-                            gradientAllocation, mOutputAllocation);
-                }
-                DebugTiming.checkpoint("prepare+generateLuvTransform");
+                try {
+                    if (materialTexture != MaterialTexture.HEX) {
+                        // RenderScript transform the material according to gradient and texture.
+                        mScriptC_mapBitmap.forEach_generateLuvTransform(
+                                gradientAllocation, textureAllocation, mOutputAllocation);
+                    } else {
+                        // For HEX, we run a special RenderScript code path to make it sparkle.
+                        mScriptC_mapBitmap.forEach_generateLuvTransformAndSparkle(
+                                gradientAllocation, mOutputAllocation);
+                    }
+                    DebugTiming.checkpoint("prepare+generateLuvTransform");
 
-                // RenderScript has done its magic. Copy the result back to our bitmap.
-                mOutputAllocation.copyTo(mOutputBitmap);
+                    // RenderScript has done its magic. Copy the result back to our bitmap.
+                    mOutputAllocation.copyTo(mOutputBitmap);
+                } catch (RSRuntimeException ex) {
+                    // Seen this crop up -- try to catch it.
+                    android.util.Log.d("PaintBox", "setColors", ex);
+                    // Erase to a flat color. Looks like a glitch but better than crashing?
+                    mOutputBitmap.eraseColor(this == mAccentHighlightPaint ? colorB : colorA);
+                    DebugTiming.checkpoint("EXCEPTION");
+                }
 
                 // And use this bitmap as a shader for our paint.
                 setShader(new BitmapShader(mOutputBitmap,
