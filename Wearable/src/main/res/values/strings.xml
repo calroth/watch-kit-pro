@@ -649,12 +649,15 @@
         <item>172a3fc0e00067dff6bd5e8ffe285401</item>
         <item>09205b00ef006e308b62bde66b384761</item>
         <item>0c84a420ef0026fce0b81eeb6029a951</item>
+        <item>15dc5e20ef002e6498660a8fb4395001</item>
         <item>02ca802a6f00660a816020713e059100</item>
         <item>0c18f16a6f00647e9e26b6e753c55bd0</item>
         <item>14fa920a6f005761f9761be6c42afeb0</item>
-        <item>1da7d1a0e000666c9aa659b8ebf9e131</item>
+        <item>15b4cc00e0006e779b26ecb9af560551</item>
+        <item>1da7d1a0e000666c9aa659b8ebfde131</item>
         <item>0c715920ef00668da2287543cdea0401</item>
         <item>1efdc52a6f0060579464f49df16a12c0</item>
+        <item>054415aa6f0066e234a868f4620482d0</item>
     </string-array>
 
     <string-array name="gallery_names">
@@ -666,64 +669,67 @@
         <item>Bradfield</item>
         <item>Bubblegum</item>
         <item>Carillon</item>
+        <item>Civilisation</item>
         <item>From Inside Out</item>
         <item>Hypnosis</item>
         <item>In One Spirit</item>
+        <item>Local Group</item>
         <item>Painted Desert</item>
         <item>Project Stealth</item>
         <item>Sewer Port</item>
+        <item>Strawberry</item>
     </string-array>
 
     <integer-array name="colorway_colors">
-        <item>0x6c5e01</item>
-        <item>0xf41595</item>
-        <item>0x43faab</item>
-        <item>0xe15a00</item>
-        <item>0xb11e36</item>
-
         <item>0x813e00</item>
-        <item>0x02aa55</item>
-        <item>0x458944</item>
-        <item>0x10f157</item>
+        <item>0xa17bd5</item>
         <item>0xe24150</item>
-
-        <item>0xf84e00</item>
+        <item>0xac6a03</item>
         <item>0x0e216e</item>
-        <item>0xe44711</item>
-        <item>0xc000c0</item>
-        <item>0x3d617d</item>
-
-        <item>0x993fca</item>
-        <item>0x144aac</item>
-        <item>0x414e40</item>
-        <item>0x22012d</item>
+        <item>0xf84e00</item>
+        <item>0xbf8f53</item>
         <item>0xdc1a80</item>
+        <item>0x458944</item>
+        <item>0xe15a00</item>
+        <item>0x43faab</item>
+        <item>0x414e40</item>
+        <item>0x144aac</item>
+        <item>0x10f157</item>
+        <item>0x993fca</item>
+        <item>0x6c5e01</item>
+        <item>0x02aa55</item>
+        <item>0x3d617d</item>
+        <item>0x22012d</item>
+        <item>0xc000c0</item>
+        <item>0xb11e36</item>
+        <item>0xe44711</item>
+        <item>0xf41595</item>
     </integer-array>
 
     <string-array name="colorway_names">
-        <item>Pacific Sunset</item>
-        <item>Via Lactea</item>
-        <item>Lavender Rose</item>
-        <item>Hawk</item>
-        <item>Tourmaline</item>
-
         <item>Amethyst Amber</item>
-        <item>Palladium</item>
-        <item>Guava</item>
-        <item>Neon Eyes</item>>
+        <item>Ancient Tome</item>
         <item>Applied Patina</item>
-
-        <item>Country Club</item>
+        <item>Atlantic Sunset</item>
         <item>Bougainvillea</item>
-        <item>Venus Flytrap</item>
-        <item>Tactician</item>
-        <item>Sonic Shock</item>
-
-        <item>Orchid Sky</item>
-        <item>Mutagen</item>
-        <item>Medallion</item>
-        <item>Strawberry</item>
+        <item>Country Club</item>
+        <item>Dust Storm</item>
         <item>Ghost Rider</item>
+        <item>Guava</item>
+        <item>Hawk</item>
+        <item>Lavender Rose</item>
+        <item>Medallion</item>
+        <item>Mutagen</item>
+        <item>Neon Eyes</item>
+        <item>Orchid Sky</item>
+        <item>Pacific Sunset</item>
+        <item>Palladium</item>
+        <item>Sonic Shock</item>
+        <item>Sun Conure</item>
+        <item>Tactician</item>
+        <item>Tourmaline</item>
+        <item>Venus Flytrap</item>
+        <item>Via Lactea</item>
     </string-array>
 
     <string-array name="colorway_variant_names">
