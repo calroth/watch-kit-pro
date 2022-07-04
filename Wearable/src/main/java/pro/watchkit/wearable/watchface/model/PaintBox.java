@@ -732,7 +732,7 @@ public final class PaintBox {
             mAccentHighlightMaterialGradient, mBaseAccentMaterialGradient;
     private MaterialTexture mFillHighlightMaterialTexture, mAccentFillMaterialTexture,
             mAccentHighlightMaterialTexture, mBaseAccentMaterialTexture;
-    private float mTextSize;
+    private DigitSize mDigitSize;
     @Nullable
     private Typeface mTypeface;
 
@@ -968,27 +968,7 @@ public final class PaintBox {
         mAccentFillMaterialTexture = accentFillMaterialTexture;
         mAccentHighlightMaterialTexture = accentHighlightMaterialTexture;
         mBaseAccentMaterialTexture = baseAccentMaterialTexture;
-
-        // Set digit sizes.
-        switch (digitSize) {
-            case SMALL: {
-                mTextSize = 4f * pc;
-                break;
-            }
-            case MEDIUM: {
-                mTextSize = 6f * pc;
-                break;
-            }
-            case LARGE: {
-                mTextSize = 8f * pc;
-                break;
-            }
-            default:
-            case X_LARGE: {
-                mTextSize = 10f * pc;
-                break;
-            }
-        }
+        mDigitSize = digitSize;
         mTypeface = typeface;
     }
 
@@ -1010,7 +990,7 @@ public final class PaintBox {
                 mAccentFillMaterialTexture,
                 mAccentHighlightMaterialTexture,
                 mBaseAccentMaterialTexture,
-                mTextSize,
+                mDigitSize,
                 mTypeface,
                 pc,
                 height, width);
@@ -1233,7 +1213,26 @@ public final class PaintBox {
     }
 
     private void setPaintTextAttributes(@NonNull Paint paint) {
-        paint.setTextSize(mTextSize);
+        // Set digit sizes.
+        switch (mDigitSize) {
+            case SMALL: {
+                paint.setTextSize(4f * pc);
+                break;
+            }
+            case MEDIUM: {
+                paint.setTextSize(6f * pc);
+                break;
+            }
+            case LARGE: {
+                paint.setTextSize(8f * pc);
+                break;
+            }
+            default:
+            case X_LARGE: {
+                paint.setTextSize(10f * pc);
+                break;
+            }
+        }
         paint.setTypeface(mTypeface);
         paint.setTextAlign(Paint.Align.CENTER);
     }
