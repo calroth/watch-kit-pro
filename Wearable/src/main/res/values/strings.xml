@@ -101,7 +101,6 @@
     <string name="config_stats_detail_label">Show Detailed Statistics</string>
     <string name="config_hide_pips_label">Hide Pips</string>
     <string name="config_hide_hands_label">Hide Hands</string>
-    <string name="config_use_legacy_material_drawing_label">Use Legacy Material Drawing Mode</string>
     <string name="config_use_legacy_effects_label">Use Legacy Effects</string>
     <string name="config_generate_icon_files">Generate Icon Files</string>
     <string name="config_factory_reset">Factory Reset</string>
