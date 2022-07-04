@@ -67,7 +67,7 @@ public class WatchPartDialConfigData extends ConfigData {
 
                                 // Roll the dice and generate a bunch of random watch faces!
                                 for (int i = 1; i < SIZE; i++) {
-                                    String name = "Random Pips " + i;
+                                    String name = "Random Dial " + i;
                                     permuteRandomPips(clone);
                                     p[i] = new Permutation(clone.getString(), name);
                                 }
