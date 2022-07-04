@@ -69,26 +69,18 @@ public final class PaintBox {
     private float pc = 0f; // percent, set to 0.01f * height, all units are based on percent
     private float mCenterX, mCenterY;
     @NonNull
-    private final Paint mFillPaint;
-    @NonNull
-    private final Paint mAccentPaint;
-    @NonNull
-    private final Paint mHighlightPaint;
-    @NonNull
-    private final Paint mBasePaint;
-    @NonNull
     private final Paint mAmbientPaint;
     @NonNull
     private final Paint mAmbientPaintFaded;
     @NonNull
     private final Paint mShadowPaint;
     @NonNull
-    private static final SparseArray<WeakReference<BitmapShader>> mBitmapShaderCache = new SparseArray<>();
+    private static final SparseArray<WeakReference<BitmapShader>> mBitmapShaderCache =
+            new SparseArray<>();
     @NonNull
     private final GradientPaint mFillHighlightPaint = new GradientPaint();
     @NonNull
     private final GradientPaint mAccentFillPaint = new GradientPaint();
-    private final GradientPaint mBezelPaint1 = mAccentFillPaint;
     @NonNull
     private final GradientPaint mBezelPaint2 = new GradientPaint();
     @NonNull
@@ -461,10 +453,6 @@ public final class PaintBox {
 
     PaintBox(@NonNull Context context) {
         mContext = context;
-        mFillPaint = newDefaultPaint();
-        mAccentPaint = newDefaultPaint();
-        mHighlightPaint = newDefaultPaint();
-        mBasePaint = newDefaultPaint();
 
         mAmbientPaint = newDefaultPaint();
         mAmbientPaint.setStyle(Paint.Style.STROKE);
@@ -912,7 +900,7 @@ public final class PaintBox {
     @NonNull
     public Paint getBezelPaint1() {
         regeneratePaints2();
-        return mBezelPaint1;
+        return mAccentFillPaint;
     }
 
     @NonNull
@@ -1005,11 +993,6 @@ public final class PaintBox {
 
         mPreviousSerial = currentSerial;
 
-        mFillPaint.setColor(getColor(mFillSixBitColor));
-        mAccentPaint.setColor(getColor(mAccentSixBitColor));
-        mHighlightPaint.setColor(getColor(mHighlightSixBitColor));
-        mBasePaint.setColor(getColor(mBaseSixBitColor));
-
         mFillHighlightPaint.setColors(mFillSixBitColor, mHighlightSixBitColor,
                 mFillHighlightMaterialGradient, mFillHighlightMaterialTexture);
         mAccentFillPaint.setColors(mAccentSixBitColor, mFillSixBitColor,
@@ -1033,17 +1016,12 @@ public final class PaintBox {
         mAmbientPaint.setStrokeWidth(AMBIENT_PAINT_STROKE_WIDTH_PERCENT * pc);
         mAmbientPaintFaded.setStrokeWidth(AMBIENT_PAINT_STROKE_WIDTH_PERCENT * pc);
 
-        setPaintTextAttributes(mFillPaint);
-        setPaintTextAttributes(mAccentPaint);
-        setPaintTextAttributes(mHighlightPaint);
-        setPaintTextAttributes(mBasePaint);
         setPaintTextAttributes(mAmbientPaint);
         setPaintTextAttributes(mAmbientPaintFaded);
         setPaintTextAttributes(mShadowPaint);
 
         setPaintTextAttributes(mFillHighlightPaint);
         setPaintTextAttributes(mAccentFillPaint);
-        setPaintTextAttributes(mBezelPaint1);
         setPaintTextAttributes(mBezelPaint2);
         setPaintTextAttributes(mAccentHighlightPaint);
         setPaintTextAttributes(mBaseAccentPaint);
