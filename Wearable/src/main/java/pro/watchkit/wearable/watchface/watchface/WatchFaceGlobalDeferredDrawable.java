@@ -150,6 +150,9 @@ public class WatchFaceGlobalDeferredDrawable extends Drawable {
                 // Pre-cache our active canvas.
                 mWatchFaceState.setAmbient(false);
 
+                // Quick hack: make sure the PaintBox is up-to-date with all our settings.
+                mWatchFaceState.getPaintBox(); // This calls "regeneratePaints".
+
                 Bitmap.Config config = Bitmap.Config.ARGB_8888;
                 if (Build.VERSION.SDK_INT >= 26 && mWatchFaceState.isHardwareAccelerationEnabled()) {
                     // Hardware power!
