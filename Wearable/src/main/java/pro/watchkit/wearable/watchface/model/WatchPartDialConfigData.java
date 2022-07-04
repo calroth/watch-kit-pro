@@ -26,7 +26,7 @@ import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
-public class WatchPartPipsConfigData extends ConfigData {
+public class WatchPartDialConfigData extends ConfigData {
     @NonNull
     @Override
     public List<ConfigItemType> getDataToPopulateAdapter() {
@@ -37,14 +37,14 @@ public class WatchPartPipsConfigData extends ConfigData {
 
         return Arrays.asList(
                 // Heading.
-                new HeadingLabelConfigItem(R.string.config_configure_pips),
+                new HeadingLabelConfigItem(R.string.config_configure_dial),
 
                 // A preview of the current watch face.
                 new WatchFaceDrawableConfigItem(watchFaceGlobalDrawableFlags),
 
                 // Data for Random sub-activity in settings Activity.
                 new PickerConfigItem(
-                        R.string.config_view_random_pips,
+                        R.string.config_view_random_dial,
                         R.drawable.ic_filter_tilt_shift,
                         watchFaceGlobalDrawableFlags,
                         WatchFaceSelectionActivity.class,
@@ -285,7 +285,7 @@ public class WatchPartPipsConfigData extends ConfigData {
 //                                WatchFaceState::setBackgroundMaterial)),
 
                 // Help.
-                new HelpLabelConfigItem(R.string.config_configure_pips_help)
+                new HelpLabelConfigItem(R.string.config_configure_dial_help)
         );
     }
 }

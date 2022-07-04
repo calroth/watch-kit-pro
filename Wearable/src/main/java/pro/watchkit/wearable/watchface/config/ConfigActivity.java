@@ -62,8 +62,8 @@ import pro.watchkit.wearable.watchface.model.MaterialConfigData;
 import pro.watchkit.wearable.watchface.model.SettingsConfigData;
 import pro.watchkit.wearable.watchface.model.TypefaceConfigData;
 import pro.watchkit.wearable.watchface.model.WatchFacePresetConfigData;
+import pro.watchkit.wearable.watchface.model.WatchPartDialConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartHandsConfigData;
-import pro.watchkit.wearable.watchface.model.WatchPartPipsConfigData;
 import pro.watchkit.wearable.watchface.util.SharedPref;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 
@@ -237,7 +237,7 @@ public class ConfigActivity extends Activity {
         MaterialAccentHighlight(MaterialConfigData.AccentHighlight.class, R.string.config_configure_material, -1),
         MaterialBaseAccent(MaterialConfigData.BaseAccent.class, R.string.config_configure_material, -1),
         WatchPartHands(WatchPartHandsConfigData.class, R.string.config_configure_hands, -1),
-        WatchPartPips(WatchPartPipsConfigData.class, R.string.config_configure_pips, -1),
+        WatchPartPips(WatchPartDialConfigData.class, R.string.config_configure_dial, -1),
         Typeface(TypefaceConfigData.class, R.string.config_configure_typeface, -1);
 
         @NonNull

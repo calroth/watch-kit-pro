@@ -118,12 +118,12 @@
     <string name="config_configure_material">Configure Material</string>
     <string name="config_configure_material_subtitle">is used for the following elements:</string>
     <string name="config_configure_hands">Configure Hands</string>
-    <string name="config_configure_pips">Configure Pips</string>
+    <string name="config_configure_dial">Configure Dial</string>
     <string name="config_configure_typeface">Configure Typeface</string>
     <string name="config_view_history">View History</string>
     <string name="config_view_random_watch_face_presets">Random Watch Face Presets!</string>
     <string name="config_view_gallery">Gallery</string>
-    <string name="config_view_random_pips">Random Pips</string>
+    <string name="config_view_random_dial">Random Dial</string>
     <string name="config_view_random_hands">Random Hands</string>
 
     <string name="config_configure_help">&lt;br /&gt;ℹ️️&lt;br /&gt;&lt;br /&gt;</string>
@@ -217,7 +217,7 @@
         &lt;br /&gt;
         By default, the minute and second hands follow the style of the hour hand. To make them
         different, use the &lt;i&gt;override&lt;/i&gt; switches.&lt;br /&gt;</string>
-    <string name="config_configure_pips_help">On this page, configure the:&lt;br /&gt;
+    <string name="config_configure_dial_help">On this page, configure the:&lt;br /&gt;
         &lt;br /&gt;
         pip area &lt;i&gt;margin&lt;/i&gt;;&lt;br /&gt;
         pip area &lt;i&gt;background material&lt;/i&gt;;&lt;br /&gt;

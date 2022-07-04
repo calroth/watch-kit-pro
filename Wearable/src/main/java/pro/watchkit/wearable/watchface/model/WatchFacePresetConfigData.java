@@ -106,9 +106,9 @@ public class WatchFacePresetConfigData extends ConfigData {
 
                 // Data for Configure Pips sub-activity in settings Activity.
                 new ConfigActivityConfigItem(
-                        R.string.config_configure_pips,
+                        R.string.config_configure_dial,
                         R.drawable.ic_pips,
-                        WatchPartPipsConfigData.class,
+                        WatchPartDialConfigData.class,
                         ConfigActivity.class),
 
                 // Data for View History sub-activity in settings Activity.
