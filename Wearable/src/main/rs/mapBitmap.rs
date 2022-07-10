@@ -133,8 +133,6 @@ uchar4 RS_KERNEL sparkle(uchar4 in, uint32_t x, uint32_t y) {
     return result;
 }
 
-uchar4 LuvMapping[256 * 256];
-
 // Reference constants "ref_U" and "ref_V" for the CIELUV colorspace conversions.
 float ref_U, ref_V;
 // Our LUV colors to interpolate between to generate a palette.
