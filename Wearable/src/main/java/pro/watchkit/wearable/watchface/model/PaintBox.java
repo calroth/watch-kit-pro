@@ -90,9 +90,10 @@ public final class PaintBox {
     private int mPreviousSerial = -1;
     @NonNull
     private final Context mContext;
-
-    private static RenderScript mRenderScript;
-    private static ScriptC_mapBitmap mScriptC_mapBitmap;
+    @NonNull
+    private final RenderScript mRenderScript;
+    @NonNull
+    private final ScriptC_mapBitmap mScriptC_mapBitmap;
 
     /**
      * A gradient or a texture. Effectively an 8-bit greyscale mask that is used as a lookup to a
@@ -101,19 +102,9 @@ public final class PaintBox {
      */
     private abstract static class GradTex {
         /**
-         * The height we've currently set this GradTex to.
+         * The RenderScript allocations of this GradTex, which holds the graphics data.
          */
-        int mInternalWidth = -1;
-
-        /**
-         * The width we've currently set this GradTex to.
-         */
-        int mInternalHeight = -1;
-
-        /**
-         * The RenderScript allocation of this GradTex, which holds the graphics data.
-         */
-        Allocation m8BitAllocation;
+        private final SparseArray<Allocation> m8BitAllocations = new SparseArray<>();
 
         /**
          * Bitmap representation of this GradTex, backed by the Allocation.
@@ -127,52 +118,55 @@ public final class PaintBox {
 
         /**
          * Generate this GradTex. Override and put class-specific drawing code here.
+         *
+         * @param height The requested height
+         * @param width  The requested width
          */
-        abstract void generate();
+        abstract void generate(float height, float width);
 
         /**
          * Finalize this GradTex; dispose of its allocation.
          */
         @Override
         protected void finalize() {
-            destroyAllocation(m8BitAllocation);
+            for (int i = 0; i < m8BitAllocations.size(); i++) {
+                destroyAllocation(m8BitAllocations.valueAt(i));
+            }
         }
 
         /**
          * Get the current Allocation for drawing and/or compositing a material. Will internally
          * call "generate" if not already done or if the height/width changed.
          *
-         * @param currentHeight The requested height
-         * @param currentWidth  The requested width
+         * @param height The requested height
+         * @param width  The requested width
+         * @param rs     The RenderScript to use
          * @return an Allocation that can be used to draw a material, or null
          */
-        Allocation getAllocation(int currentHeight, int currentWidth) {
-            if (currentHeight <= 0 || currentWidth <= 0 || mRenderScript == null) {
+        synchronized Allocation getAllocation(int height, int width, @NonNull RenderScript rs) {
+            if (height <= 0 || width <= 0) {
                 return null;
-            } else if (currentHeight != mInternalHeight || currentWidth != mInternalWidth) {
-                // Height or width have changed or were set for the first time.
-                // Create or regenerate ourselves.
-                mInternalHeight = currentHeight;
-                mInternalWidth = currentWidth;
-
-                // Initialise bitmap and canvas with new width and height.
-                if (m8BitBitmap != null) {
-                    m8BitBitmap.recycle();
-                }
-
-                // Note: should use Bitmap.Config.ALPHA_8, if we can modify our Canvas ops to suit.
-                m8BitBitmap = Bitmap.createBitmap(
-                        currentWidth, currentHeight, Bitmap.Config.ARGB_8888);
-                m8BitCanvas = new Canvas(m8BitBitmap);
-                destroyAllocation(m8BitAllocation);
-                m8BitAllocation = Allocation.createFromBitmap(mRenderScript, m8BitBitmap);
-
-                generate();
-                m8BitBitmap.prepareToDraw();
-                m8BitAllocation.copyFrom(m8BitBitmap);
             }
 
-            return m8BitAllocation;
+            int serial = Objects.hash(height, width, rs);
+            Allocation result = m8BitAllocations.get(serial); // Get pre-cached Allocation.
+            if (result == null) {
+                // Initialise bitmap and canvas with new width and height.
+                // Note: should use Bitmap.Config.ALPHA_8, if we can modify our Canvas ops to suit.
+                m8BitBitmap = Bitmap.createBitmap(
+                        width, height, Bitmap.Config.ARGB_8888);
+                m8BitCanvas = new Canvas(m8BitBitmap);
+                result = Allocation.createFromBitmap(rs, m8BitBitmap);
+
+                generate((float) height, (float) width);
+                m8BitBitmap.prepareToDraw();
+                result.copyFrom(m8BitBitmap);
+
+                // Cache for next time.
+                m8BitAllocations.put(serial, result);
+            }
+
+            return result;
         }
     }
 
@@ -181,7 +175,7 @@ public final class PaintBox {
      */
     static GradTex mFlatGradA = new GradTex() {
         @Override
-        void generate() {
+        void generate(float height, float width) {
             m8BitBitmap.eraseColor(0xFFFFFFFF);
         }
     };
@@ -191,7 +185,7 @@ public final class PaintBox {
      */
     static GradTex mFlatGradB = new GradTex() {
         @Override
-        void generate() {
+        void generate(float height, float width) {
             m8BitBitmap.eraseColor(0xFF000000);
         }
     };
@@ -201,7 +195,7 @@ public final class PaintBox {
      */
     static GradTex mSweepGrad = new GradTex() {
         @Override
-        void generate() {
+        void generate(float height, float width) {
             @ColorInt int colorA = Color.WHITE;
             @ColorInt int colorB = Color.BLACK;
 
@@ -229,8 +223,6 @@ public final class PaintBox {
                     getIntermediateColorFast(colorA, colorB, 1.0d), // Original
             };
 
-            float height = (float) mInternalHeight;
-            float width = (float) mInternalWidth;
             float mCenterX = width / 2f;
             float mCenterY = height / 2f;
             mBrushedEffectPaint.reset();
@@ -246,7 +238,7 @@ public final class PaintBox {
      */
     static GradTex mRadialGrad = new GradTex() {
         @Override
-        void generate() {
+        void generate(float height, float width) {
             @ColorInt int colorA = Color.WHITE;
             @ColorInt int colorB = Color.BLACK;
 
@@ -274,8 +266,6 @@ public final class PaintBox {
                     colorA // Original
             };
 
-            float height = (float) mInternalHeight;
-            float width = (float) mInternalWidth;
             float mCenterX = width / 2f;
             float mCenterY = height / 2f;
             mBrushedEffectPaint.reset();
@@ -291,7 +281,7 @@ public final class PaintBox {
      */
     static GradTex mRippleGrad = new GradTex() {
         @Override
-        void generate() {
+        void generate(float height, float width) {
             // A new bitmap for the ripple gradient pattern.
             // Unlike the ripple bitmap above (which will be transformed with our colors),
             // this ripple gradient bitmap doesn't change from run to run. Therefore we cache it.
@@ -318,8 +308,6 @@ public final class PaintBox {
                     Color.argb((int) (0.0f * 255f + 0.5f), 255, 255, 255), // Original
                     Color.argb((int) (0.0f * 255f + 0.5f), 255, 255, 255) // Original
             };
-            float height = (float) mInternalHeight;
-            float width = (float) mInternalWidth;
             float mCenterX = width / 2f;
             float mCenterY = height / 2f;
             float x1 = mCenterX - (mCenterX * (float) Math.sqrt(3) / 2f);
@@ -349,7 +337,7 @@ public final class PaintBox {
      */
     static GradTex mNoneTex = new GradTex() {
         @Override
-        void generate() {
+        void generate(float height, float width) {
             // Just use the middle grey, so no highlights or lowlights.
             m8BitBitmap.eraseColor(0xFF7F7F7F);
         }
@@ -360,12 +348,10 @@ public final class PaintBox {
      */
     static GradTex mSpunTex = new GradTex() {
         @Override
-        void generate() {
+        void generate(float height, float width) {
             // Start from middle grey, so no highlights or lowlights.
             m8BitBitmap.eraseColor(0xFF7F7F7F);
 
-            float height = (float) mInternalHeight;
-            float width = (float) mInternalWidth;
             float mCenterX = width / 2f;
             float mCenterY = height / 2f;
             float percent = mCenterX / 50f;
@@ -402,11 +388,9 @@ public final class PaintBox {
      */
     static GradTex mCrosshatchTex = new GradTex() {
         @Override
-        void generate() {
+        void generate(float height, float width) {
             m8BitBitmap.eraseColor(0xFF7F7F7F);
 
-            float height = (float) mInternalHeight;
-            float width = (float) mInternalWidth;
             float mCenterX = width / 2f;
             float percent = mCenterX / 50f;
             float offset = 0.25f * percent;
@@ -467,10 +451,8 @@ public final class PaintBox {
         mShadowPaint.setStyle(Paint.Style.FILL);
 
         // Initialise RenderScript access objects.
-        if (mRenderScript == null || mScriptC_mapBitmap == null) {
-            mRenderScript = RenderScript.create(mContext);
-            mScriptC_mapBitmap = new ScriptC_mapBitmap(mRenderScript);
-        }
+        mRenderScript = RenderScript.create(mContext);
+        mScriptC_mapBitmap = new ScriptC_mapBitmap(mRenderScript);
     }
 
     /**
@@ -1473,34 +1455,34 @@ public final class PaintBox {
                     // Set to "colorA", except if this is mAccentHighlightPaint.
                     // So our four paints have four distinct colors.
                     GradTex g = (this == mAccentHighlightPaint ? mFlatGradB : mFlatGradA);
-                    gradientAllocation = g.getAllocation(height, width);
+                    gradientAllocation = g.getAllocation(height, width, mRenderScript);
                     DebugTiming.checkpoint("MaterialGradient.FLAT");
                     break;
                 case SWEEP:
-                    gradientAllocation = mSweepGrad.getAllocation(height, width);
+                    gradientAllocation = mSweepGrad.getAllocation(height, width, mRenderScript);
                     DebugTiming.checkpoint("MaterialGradient.SWEEP");
                     break;
                 case RADIAL:
-                    gradientAllocation = mRadialGrad.getAllocation(height, width);
+                    gradientAllocation = mRadialGrad.getAllocation(height, width, mRenderScript);
                     DebugTiming.checkpoint("MaterialGradient.RADIAL");
                     break;
                 default:
                 case RIPPLE:
-                    gradientAllocation = mRippleGrad.getAllocation(height, width);
+                    gradientAllocation = mRippleGrad.getAllocation(height, width, mRenderScript);
                     DebugTiming.checkpoint("MaterialGradient.TRIANGLE");
                     break;
             }
             switch (materialTexture) {
                 case NONE:
-                    textureAllocation = mNoneTex.getAllocation(height, width);
+                    textureAllocation = mNoneTex.getAllocation(height, width, mRenderScript);
                     DebugTiming.checkpoint("MaterialTexture.NONE");
                     break;
                 case SPUN:
-                    textureAllocation = mSpunTex.getAllocation(height, width);
+                    textureAllocation = mSpunTex.getAllocation(height, width, mRenderScript);
                     DebugTiming.checkpoint("MaterialTexture.SPUN");
                     break;
                 case WEAVE:
-                    textureAllocation = mCrosshatchTex.getAllocation(height, width);
+                    textureAllocation = mCrosshatchTex.getAllocation(height, width, mRenderScript);
                     DebugTiming.checkpoint("MaterialTexture.WEAVE");
                     break;
                 default:
@@ -1993,12 +1975,12 @@ public final class PaintBox {
         return (short) (Math.pow(lum, 1d / SPARKLE_GAMMA) * SPARKLE_RANGE);
     }
 
-    private static boolean mIsSparkleEffectSetup = false;
+    private boolean mIsSparkleEffectSetup = false;
 
     /**
      * Set up our sparkle effect by deriving all our mapping tables.
      */
-    private static void setupSparkleEffect() {
+    private void setupSparkleEffect() {
         if (mIsSparkleEffectSetup)
             return;
 
