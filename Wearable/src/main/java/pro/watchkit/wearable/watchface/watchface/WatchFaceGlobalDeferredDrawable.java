@@ -137,60 +137,61 @@ public class WatchFaceGlobalDeferredDrawable extends Drawable {
         // Invalidate if complications, unread notifications or total notifications have changed.
         // Or the entire preset. Or if we've flipped between active and ambient.
         // Or anything else of interest in the WatchFaceState.
-        synchronized (mWatchFaceState) {
-            int currentSerial = Objects.hash(mWatchFaceState);
-            if (mPreviousSerial != currentSerial) {
-                mPreviousSerial = currentSerial;
-                // Keep track of what our ambient currently is, because we're about to draw them both.
-                boolean currentAmbient = mWatchFaceState.isAmbient();
+        int currentSerial = Objects.hash(mWatchFaceState);
+        if (mPreviousSerial != currentSerial) {
+            mPreviousSerial = currentSerial;
+            // Keep track of what our ambient currently is, because we're about to draw them both.
+            boolean currentAmbient = mWatchFaceState.isAmbient();
 
-                // Cache invalid. Draw into our cache canvas.
-                mCacheCanvas.drawColor(Color.TRANSPARENT, Mode.CLEAR); // Clear it first.
+            // Cache invalid. Draw into our cache canvas.
+            mCacheCanvas.drawColor(Color.TRANSPARENT, Mode.CLEAR); // Clear it first.
 
-                // Pre-cache our active canvas.
-                mWatchFaceState.setAmbient(false);
+            // Pre-cache our active canvas.
+            mWatchFaceState.setAmbient(false);
 
-                // Quick hack: make sure the PaintBox is up-to-date with all our settings.
-                mWatchFaceState.getPaintBox(); // This calls "regeneratePaints".
+            // Quick hack: make sure the PaintBox is up-to-date with all our settings.
+            mWatchFaceState.getPaintBox(); // This calls "regeneratePaints".
 
-                Bitmap.Config config = Bitmap.Config.ARGB_8888;
-                if (Build.VERSION.SDK_INT >= 26 && mWatchFaceState.isHardwareAccelerationEnabled()) {
-                    // Hardware power!
-                    config = Bitmap.Config.HARDWARE;
+            Bitmap.Config config = Bitmap.Config.ARGB_8888;
+            if (Build.VERSION.SDK_INT >= 26 && mWatchFaceState.isHardwareAccelerationEnabled()) {
+                // Hardware power!
+                config = Bitmap.Config.HARDWARE;
+            }
+
+            // Draw each of our layers.
+            // After each draw, post an invalidate so that it's copied to screen.
+            // So we incrementally draw each layer until it's all done.
+            for (Drawable d : mWatchPartDrawables) {
+                if (Thread.currentThread().isInterrupted()) {
+                    continue; // Oh, what do you mean I have to check on this for myself?
                 }
-
-                // Draw each of our layers.
-                // After each draw, post an invalidate so that it's copied to screen.
-                // So we incrementally draw each layer until it's all done.
-                for (Drawable d : mWatchPartDrawables) {
-                    if (d == mComplicationsDrawable) {
-                        continue; // Don't even attempt to draw the complications (yet).
-                    }
-                    d.draw(mCacheCanvas);
-                    if (d == mClipDrawable) {
-                        continue; // I mean, don't blit the WatchPartClipDrawable to screen...
-                    }
-                    final Bitmap newHardwareCacheBitmap = mCacheBitmap.copy(config, false);
-                    newHardwareCacheBitmap.prepareToDraw();
-                    synchronized (mHardwareCacheBitmapLock) {
-                        // Quickly swap out the "old" mHardwareCacheBitmap with the new one.
-                        // Recycle the old one. So we don't have old bitmaps piling up.
-                        // Temporarily commenting out whilst I can decide whether this is
-                        // causing bugs...
+                if (d == mComplicationsDrawable) {
+                    continue; // Don't even attempt to draw the complications (yet).
+                }
+                d.draw(mCacheCanvas);
+                if (d == mClipDrawable) {
+                    continue; // I mean, don't blit the WatchPartClipDrawable to screen...
+                }
+                final Bitmap newHardwareCacheBitmap = mCacheBitmap.copy(config, false);
+                newHardwareCacheBitmap.prepareToDraw();
+                synchronized (mHardwareCacheBitmapLock) {
+                    // Quickly swap out the "old" mHardwareCacheBitmap with the new one.
+                    // Recycle the old one. So we don't have old bitmaps piling up.
+                    // Temporarily commenting out whilst I can decide whether this is
+                    // causing bugs...
 //                        if (mHardwareCacheBitmap != null) {
 //                            mHardwareCacheBitmap.recycle();
 //                        }
-                        mHardwareCacheBitmap = newHardwareCacheBitmap;
-                        // We synchronise to ensure "mHardwareCacheBitmap" doesn't get recycled
-                        // whilst we're still drawing it.
-                    }
-                    // Force a redraw. "postInvalidate" is what you call from a non-UI thread.
-                    mParentView.postInvalidate();
+                    mHardwareCacheBitmap = newHardwareCacheBitmap;
+                    // We synchronise to ensure "mHardwareCacheBitmap" doesn't get recycled
+                    // whilst we're still drawing it.
                 }
-
-                // And back to how we were.
-                mWatchFaceState.setAmbient(currentAmbient);
+                // Force a redraw. "postInvalidate" is what you call from a non-UI thread.
+                mParentView.postInvalidate();
             }
+
+            // And back to how we were.
+            mWatchFaceState.setAmbient(currentAmbient);
         }
     }
 
