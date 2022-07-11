@@ -64,7 +64,7 @@ public final class PaintBox {
     // private static final String TAG = "PaintBox";
     private static final float AMBIENT_PAINT_STROKE_WIDTH_PERCENT = 0.333f; // 0.333%
     private static final float PAINT_STROKE_WIDTH_PERCENT = 0.5f; // 0.5%
-    private int height = -1, width = -1;
+    private int mHeight = -1, mWidth = -1;
 
     private float pc = 0f; // percent, set to 0.01f * height, all units are based on percent
     private float mCenterX, mCenterY;
@@ -717,12 +717,12 @@ public final class PaintBox {
     }
 
     public void onWidthAndHeightChanged(int width, int height) {
-        if (this.width == width && this.height == height) {
+        if (this.mWidth == width && this.mHeight == height) {
             return;
         }
 
-        this.width = width;
-        this.height = height;
+        this.mWidth = width;
+        this.mHeight = height;
         pc = 0.01f * Math.min(height, width);
         mCenterX = width / 2f;
         mCenterY = height / 2f;
@@ -963,13 +963,13 @@ public final class PaintBox {
                 mDigitSize,
                 mTypeface,
                 pc,
-                height, width);
+                mHeight, mWidth);
     }
 
     private void regeneratePaints2() {
         // Invalidate if any of our colors or styles have changed.
         int currentSerial = hashCode();
-        if (mPreviousSerial == currentSerial || width <= 0 || height <= 0) {
+        if (mPreviousSerial == currentSerial || mWidth <= 0 || mHeight <= 0) {
             return;
         }
 
@@ -1236,24 +1236,24 @@ public final class PaintBox {
     private void prepareTempBitmapForUse() {
         if (mTempBitmap == null) {
             // Initialise on first use.
-            mTempBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            mTempBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
             mTempCanvas = new Canvas(mTempBitmap);
-        } else if (mTempBitmap.getWidth() == width && mTempBitmap.getHeight() == height) {
+        } else if (mTempBitmap.getWidth() == mWidth && mTempBitmap.getHeight() == mHeight) {
             // Do nothing, our current bitmap is just right.
             // (Turn off overly nit-picky inspection. The logic reads better this way.)
             //noinspection UnnecessaryReturnStatement
             return;
-        } else if (mTempBitmap.getAllocationByteCount() > width * height) {
+        } else if (mTempBitmap.getAllocationByteCount() > mWidth * mHeight) {
             // Width and height changed and we can reconfigure to re-use this object.
             mTempCanvas.setBitmap(null);
             // Not sure above is technically needed but may cure esoteric bugs?
-            mTempBitmap.reconfigure(width, height, Bitmap.Config.ARGB_8888);
+            mTempBitmap.reconfigure(mWidth, mHeight, Bitmap.Config.ARGB_8888);
             mTempCanvas.setBitmap(mTempBitmap);
         } else {
             // Width and height changed and we can't re-use this object, need a new one.
             mTempCanvas.setBitmap(null);
             // Not sure above is technically needed but may cure esoteric bugs?
-            mTempBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            mTempBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
             mTempCanvas.setBitmap(mTempBitmap);
         }
     }
@@ -1411,7 +1411,7 @@ public final class PaintBox {
                        @NonNull MaterialGradient materialGradient,
                        @NonNull MaterialTexture materialTexture) {
             int customHashCode = Objects.hash(
-                    sixBitColorA, sixBitColorB, materialGradient, materialTexture, height, width);
+                    sixBitColorA, sixBitColorB, materialGradient, materialTexture, mHeight, mWidth);
             if (customHashCode == mCustomHashCode) {
                 return; // If there's no change, don't update.
             }
@@ -1430,8 +1430,8 @@ public final class PaintBox {
 
             // Initialise output objects.
             if (mOutputAllocation == null || mOutputBitmap == null ||
-                    mOutputBitmap.getWidth() != width || mOutputBitmap.getHeight() != height) {
-                mOutputBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+                    mOutputBitmap.getWidth() != mWidth || mOutputBitmap.getHeight() != mHeight) {
+                mOutputBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
                 destroyAllocation(mOutputAllocation);
                 mOutputAllocation = Allocation.createFromBitmap(mRenderScript, mOutputBitmap);
             }
@@ -1455,34 +1455,34 @@ public final class PaintBox {
                     // Set to "colorA", except if this is mAccentHighlightPaint.
                     // So our four paints have four distinct colors.
                     GradTex g = (this == mAccentHighlightPaint ? mFlatGradB : mFlatGradA);
-                    gradientAllocation = g.getAllocation(height, width, mRenderScript);
+                    gradientAllocation = g.getAllocation(mHeight, mWidth, mRenderScript);
                     DebugTiming.checkpoint("MaterialGradient.FLAT");
                     break;
                 case SWEEP:
-                    gradientAllocation = mSweepGrad.getAllocation(height, width, mRenderScript);
+                    gradientAllocation = mSweepGrad.getAllocation(mHeight, mWidth, mRenderScript);
                     DebugTiming.checkpoint("MaterialGradient.SWEEP");
                     break;
                 case RADIAL:
-                    gradientAllocation = mRadialGrad.getAllocation(height, width, mRenderScript);
+                    gradientAllocation = mRadialGrad.getAllocation(mHeight, mWidth, mRenderScript);
                     DebugTiming.checkpoint("MaterialGradient.RADIAL");
                     break;
                 default:
                 case RIPPLE:
-                    gradientAllocation = mRippleGrad.getAllocation(height, width, mRenderScript);
+                    gradientAllocation = mRippleGrad.getAllocation(mHeight, mWidth, mRenderScript);
                     DebugTiming.checkpoint("MaterialGradient.TRIANGLE");
                     break;
             }
             switch (materialTexture) {
                 case NONE:
-                    textureAllocation = mNoneTex.getAllocation(height, width, mRenderScript);
+                    textureAllocation = mNoneTex.getAllocation(mHeight, mWidth, mRenderScript);
                     DebugTiming.checkpoint("MaterialTexture.NONE");
                     break;
                 case SPUN:
-                    textureAllocation = mSpunTex.getAllocation(height, width, mRenderScript);
+                    textureAllocation = mSpunTex.getAllocation(mHeight, mWidth, mRenderScript);
                     DebugTiming.checkpoint("MaterialTexture.SPUN");
                     break;
                 case WEAVE:
-                    textureAllocation = mCrosshatchTex.getAllocation(height, width, mRenderScript);
+                    textureAllocation = mCrosshatchTex.getAllocation(mHeight, mWidth, mRenderScript);
                     DebugTiming.checkpoint("MaterialTexture.WEAVE");
                     break;
                 default:
@@ -1554,7 +1554,7 @@ public final class PaintBox {
             }
 
             // Generate a new bitmap.
-            Bitmap brushedEffectBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Bitmap brushedEffectBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
             Canvas brushedEffectCanvas = new Canvas(brushedEffectBitmap);
 
             float percent = mCenterX / 50f;
@@ -1566,7 +1566,7 @@ public final class PaintBox {
             int prevAlpha = getAlpha();
             int weaves = 9, fibres = 7;
 
-            float weaveSize = (float) width / (float) weaves;
+            float weaveSize = (float) mWidth / (float) weaves;
 
             Shader vignette = new RadialGradient(
                     mCenterX, mCenterY, mCenterY,
@@ -1577,7 +1577,7 @@ public final class PaintBox {
             mGradientH.setShader(new ComposeShader(
                     vignette,
                     new LinearGradient(
-                            width * 0.3f, 0f, width * 0.7f, height,
+                            mWidth * 0.3f, 0f, mWidth * 0.7f, mHeight,
                             new int[]{Color.TRANSPARENT, Color.BLACK, Color.TRANSPARENT},
                             new float[]{0.2f, 0.5f, 0.8f}, Shader.TileMode.CLAMP),
                     Mode.SRC_IN));
@@ -1587,7 +1587,7 @@ public final class PaintBox {
             mGradientV.setShader(new ComposeShader(
                     vignette,
                     new LinearGradient(
-                            0f, height * 0.7f, width, height * 0.3f,
+                            0f, mHeight * 0.7f, mWidth, mHeight * 0.3f,
                             new int[]{Color.TRANSPARENT, Color.BLACK, Color.TRANSPARENT},
                             new float[]{0.2f, 0.5f, 0.8f}, Shader.TileMode.CLAMP),
                     Mode.SRC_IN));
@@ -1645,7 +1645,7 @@ public final class PaintBox {
 
             // Horizontal
             for (int i = 0; i < weaves; i += 1) {
-                float heightI = height / (float) weaves;
+                float heightI = mHeight / (float) weaves;
                 float center = ((float) i + 0.5f) * heightI;
 
                 for (int j = fibres * 2 - 1; j > 0; j -= 2) {
@@ -1663,7 +1663,7 @@ public final class PaintBox {
 
                     mBrushedEffectPath.reset();
                     mBrushedEffectPath.addRect(
-                            0, center - h, width, center + h, Path.Direction.CW);
+                            0, center - h, mWidth, center + h, Path.Direction.CW);
 
                     mBrushedEffectPath.offset(-offset, -offset);
                     mBrushedEffectPaint.setColor(Color.WHITE);
@@ -1692,13 +1692,13 @@ public final class PaintBox {
             mBrushedEffectPaint.setStyle(Style.FILL);
             mBrushedEffectPaint.setXfermode(mClearMode);
             for (int i = 0; i < weaves; i++) {
-                float heightI = height / (float) weaves;
+                float heightI = mHeight / (float) weaves;
                 float centerI = ((float) i + 0.5f) * heightI;
                 float top = centerI - (heightI / 2f);
                 float bottom = centerI + (heightI / 2f);
 
                 for (int j = 0; j < weaves; j++) {
-                    float widthJ = width / (float) weaves;
+                    float widthJ = mWidth / (float) weaves;
                     float centerJ = ((float) j + 0.5f) * widthJ;
                     float left = centerJ - (widthJ / 2f);
                     float right = centerJ + (widthJ / 2f);
@@ -1726,7 +1726,7 @@ public final class PaintBox {
 
             // Vertical
             for (int i = 0; i < weaves; i += 1) {
-                float widthI = width / (float) weaves;
+                float widthI = mWidth / (float) weaves;
                 float center = ((float) i + 0.5f) * widthI;
 
                 for (int j = fibres * 2 - 1; j > 0; j -= 2) {
@@ -1744,7 +1744,7 @@ public final class PaintBox {
 
                     mBrushedEffectPath.reset();
                     mBrushedEffectPath.addRect(
-                            center - w, 0, center + w, height, Path.Direction.CW);
+                            center - w, 0, center + w, mHeight, Path.Direction.CW);
 
                     mBrushedEffectPath.offset(-offset, -offset);
                     mBrushedEffectPaint.setColor(Color.WHITE);
@@ -1773,13 +1773,13 @@ public final class PaintBox {
             mBrushedEffectPaint.setStyle(Style.FILL);
             mBrushedEffectPaint.setXfermode(mClearMode);
             for (int i = 0; i < weaves; i++) {
-                float heightI = height / (float) weaves;
+                float heightI = mHeight / (float) weaves;
                 float centerI = ((float) i + 0.5f) * heightI;
                 float top = centerI - (heightI / 2f);
                 float bottom = centerI + (heightI / 2f);
 
                 for (int j = 0; j < weaves; j++) {
-                    float widthJ = width / (float) weaves;
+                    float widthJ = mWidth / (float) weaves;
                     float centerJ = ((float) j + 0.5f) * widthJ;
                     float left = centerJ - (widthJ / 2f);
                     float right = centerJ + (widthJ / 2f);
@@ -1822,7 +1822,7 @@ public final class PaintBox {
                 }
             }
             if (res == null) {// Generate a new bitmap.
-                Bitmap hexEffectBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+                Bitmap hexEffectBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
                 Canvas hexEffectCanvas = new Canvas(hexEffectBitmap);
 
                 // Alpha value of the bezels.
@@ -1837,15 +1837,15 @@ public final class PaintBox {
                 final float hexSpacingY = hexSpacingX * (float) Math.sqrt(3d) / 2f;
 
                 // The number of rows and columns of hexes.
-                final int cols0 = (int) Math.ceil((double) width / (double) hexSpacingX);
+                final int cols0 = (int) Math.ceil((double) mWidth / (double) hexSpacingX);
                 final int cols = cols0 + cols0 % 2; // Make it always even, rounded up.
-                final int rows0 = (int) Math.ceil((double) height / (double) hexSpacingY);
+                final int rows0 = (int) Math.ceil((double) mHeight / (double) hexSpacingY);
                 final int rows = rows0 + 1 - rows0 % 2; // Make it always odd, rounded up.
 
                 // The initial offset of the first row and column, so there's always a hex in centre.
                 // These figures are negative because there's more hexes than can fit within bounds.
-                final float offsetX = ((float) width - ((float) (cols - 1) * hexSpacingX)) / 2f;
-                final float offsetY = ((float) height - ((float) (rows - 1) * hexSpacingY)) / 2f;
+                final float offsetX = ((float) mWidth - ((float) (cols - 1) * hexSpacingX)) / 2f;
+                final float offsetY = ((float) mHeight - ((float) (rows - 1) * hexSpacingY)) / 2f;
 
 //            Log.d(TAG, "cols = " + cols +
 //                    ", rows = " + rows +
