@@ -129,7 +129,7 @@ public final class PaintBox {
          */
         @Override
         protected void finalize() {
-            for (int i = 0; i < m8BitAllocations.size(); i++) {
+            for (int i = 0, n = m8BitAllocations.size(); i < n; i++) {
                 destroyAllocation(m8BitAllocations.valueAt(i));
             }
         }
