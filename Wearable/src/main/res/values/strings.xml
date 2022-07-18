@@ -106,22 +106,22 @@
     <string name="config_factory_reset">Factory Reset</string>
     <string name="config_current_watch_face">Current Watch Face</string>
 
-    <string name="config_configure_settings">Configure Settings</string>
-    <string name="config_configure_complications">Configure Complications</string>
-    <string name="config_configure_watch_face_preset">Configure Watch Face Preset</string>
-    <string name="config_configure_colors_materials">Configure Colors and Materials</string>
+    <string name="config_configure_settings">Settings</string>
+    <string name="config_configure_complications">Complications</string>
+    <string name="config_configure_watch_face_preset">Watch Face</string>
+    <string name="config_configure_colors_materials">Colors and Materials</string>
     <string name="config_configure_colors_materials_colorway">Colorway</string>
     <string name="config_configure_colors_materials_variant">Colorway Variant</string>
     <string name="config_configure_colors_materials_mutation">Random Colorway Mutations!</string>
     <string name="config_configure_colors_materials_materials_mutation">Random Material
         Mutations</string>
-    <string name="config_configure_material">Configure Material</string>
+    <string name="config_configure_material">Material</string>
     <string name="config_configure_material_subtitle">is used for the following elements:</string>
-    <string name="config_configure_hands">Configure Hands</string>
-    <string name="config_configure_dial">Configure Dial</string>
-    <string name="config_configure_typeface">Configure Typeface</string>
+    <string name="config_configure_hands">Hands</string>
+    <string name="config_configure_dial">Dial</string>
+    <string name="config_configure_typeface">Typeface</string>
     <string name="config_view_history">View History</string>
-    <string name="config_view_random_watch_face_presets">Random Watch Face Presets!</string>
+    <string name="config_view_random_watch_face_presets">Random Watch Faces!</string>
     <string name="config_view_gallery">Gallery</string>
     <string name="config_view_random_dial">Random Dial</string>
     <string name="config_view_random_hands">Random Hands</string>
@@ -138,7 +138,7 @@
         &lt;br /&gt;
         🃏️&lt;br /&gt;️</string>
     <string name="config_configure_complications_help">A &lt;i&gt;complication&lt;/i&gt; on a
-        watch face is a customisable feature for showing information. Tap on a complication to
+        watch face is a customisable display of information. Tap on a complication to
         choose what it shows.&lt;br /&gt;
         &lt;br /&gt;
         In addition, on this page, the display may be customised for:&lt;br /&gt;
@@ -148,22 +148,22 @@
         &lt;i&gt;text color&lt;/i&gt;; and&lt;br /&gt;
         &lt;i&gt;ring&lt;/i&gt; and &lt;i&gt;background&lt;/i&gt; material.&lt;br /&gt;
         &lt;br /&gt;
-        Your complication configuration is separate to the &lt;i&gt;watch face preset&lt;/i&gt;
-        you choose. You may select a new watch face preset, but your complications will remain as
+        Your complication configuration is separate to the &lt;i&gt;watch face&lt;/i&gt;
+        you choose. You may select a new watch face, but your complications will remain as
         you configured them.&lt;br /&gt;</string>
-    <string name="config_configure_watch_face_preset_help">A &lt;i&gt;watch face preset&lt;/i&gt;
-        is the visual design for a watch face. It consists of the following elements:&lt;br /&gt;
+    <string name="config_configure_watch_face_preset_help">The visual design of a
+        &lt;i&gt;watch face&lt;/i&gt; consists of the following elements:&lt;br /&gt;
         &lt;br /&gt;
         &lt;i&gt;colors&lt;/i&gt;;&lt;br /&gt;
         &lt;i&gt;materials&lt;/i&gt;;&lt;br /&gt;
         &lt;i&gt;hands&lt;/i&gt;; and&lt;br /&gt;
-        &lt;i&gt;pips&lt;/i&gt;.&lt;br /&gt;
+        the &lt;i&gt;dial&lt;/i&gt;.&lt;br /&gt;
         &lt;br /&gt;
         On this page, configure these or view a &lt;i&gt;visual history&lt;/i&gt; of previous watch
-        face presets.&lt;br /&gt;
+        faces.&lt;br /&gt;
         &lt;br /&gt;
-        Your watch face preset is separate to the &lt;i&gt;complication configuration&lt;/i&gt; you
-        choose. You may select a new watch face preset, but your complications will remain as you
+        Your watch face is separate to the &lt;i&gt;complications&lt;/i&gt; and &lt;i&gt;settings&lt;/i&gt; you
+        choose. You may select a new watch face, but your complications will remain as you
         configured them.&lt;br /&gt;</string>
     <string name="config_configure_colors_materials_help">On this page, configure the colorway of
         four &lt;i&gt;colors&lt;/i&gt; displayed in the watch face.&lt;br /&gt;
