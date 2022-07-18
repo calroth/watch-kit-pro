@@ -159,7 +159,7 @@ void prepareLuvPalette(float ar, float ag, float ab, float br, float bg, float b
 uchar4 RS_KERNEL generateLuvPalette(uint32_t x, uint32_t y) {
     float3 color = mix(luvColorB, luvColorA, x / 63.0f);
 
-    float lightnessModifier = ((float)y - 31.5f) / 31.5f; // Between [-1,1].
+    float lightnessModifier = ((float)y - 15.75f) / 15.75f; // Clamp to [-1,1].
     float3 lightness;
     lightness.x = lightnessModifier < 0.0f ? 0.0001f : 100.0f;
     lightness.y = lightnessModifier < 0.0f ? 0.0001f : 0.0001f;
