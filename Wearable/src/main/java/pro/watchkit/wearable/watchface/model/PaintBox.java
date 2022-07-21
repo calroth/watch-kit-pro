@@ -1441,9 +1441,17 @@ public final class PaintBox {
             double[] cA = convertSRGBToLUV(colorA);
             double[] cB = convertSRGBToLUV(colorB);
 
+            // For material textures that make the color lighter or darker, give us some headroom.
+            float dynamicRange = 0f;
+            if (materialTexture == MaterialTexture.SPUN
+                    || materialTexture == MaterialTexture.WEAVE) {
+                // Clamp the lightness components to between 10 and 90.
+                dynamicRange = 10f;
+            }
+
             mScriptC_mapBitmap.invoke_prepareLuvPalette(
                     (float) cA[1], (float) cA[2], (float) cA[3],
-                    (float) cB[1], (float) cB[2], (float) cB[3]);
+                    (float) cB[1], (float) cB[2], (float) cB[3], dynamicRange);
 
             mScriptC_mapBitmap.forEach_generateLuvPalette(mLuvPaletteAllocation);
             DebugTiming.checkpoint("generateLuvPalette");
@@ -1528,9 +1536,8 @@ public final class PaintBox {
             DebugTiming.endAndWrite();
         }
 
-        private Allocation mLuvPaletteAllocation;
-        private Bitmap mOutputBitmap;
-        private Allocation mOutputAllocation;
+        private Allocation mLuvPaletteAllocation, mOutputAllocation;
+        private Bitmap mLuvPaletteBitmap, mOutputBitmap;
 
         @Override
         protected void finalize() throws Throwable {

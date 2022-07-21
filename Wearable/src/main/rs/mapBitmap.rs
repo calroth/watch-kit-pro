@@ -136,9 +136,11 @@ uchar4 RS_KERNEL sparkle(uchar4 in, uint32_t x, uint32_t y) {
 // Reference constants "ref_U" and "ref_V" for the CIELUV colorspace conversions.
 float ref_U, ref_V;
 // Our LUV colors to interpolate between to generate a palette.
-float3 luvColorA, luvColorB;
+float3 luvColorA, luvColorB, luvDynMin, luvDynMax;
+float luvDynRange;
+uchar4 black;
 
-void prepareLuvPalette(float ar, float ag, float ab, float br, float bg, float bb) {
+void prepareLuvPalette(float ar, float ag, float ab, float br, float bg, float bb, float d) {
     // Reference constants for the CIELUV colorspace conversions. D65 illuminant, 2 degrees.
     float Reference_X = 95.047f, Reference_Y = 100.000f, Reference_Z = 108.883f;
 
@@ -154,17 +156,39 @@ void prepareLuvPalette(float ar, float ag, float ab, float br, float bg, float b
     luvColorB.r = br;
     luvColorB.g = bg;
     luvColorB.b = bb;
+
+    // Parameter "d" is the dynamic range which we clamp to.
+    // Between 0.0f and 50.0f. Lower = more range.
+    luvDynMin.r = d;
+    luvDynMin.g = -999.0f;
+    luvDynMin.b = -999.0f;
+    luvDynMax.r = 100.0f - d;
+    luvDynMax.g = 999.0f;
+    luvDynMax.b = 999.0f;
+    luvDynRange = d;
+    black.r = 0;
+    black.g = 0;
+    black.b = 0;
+    black.a = 255;
 }
 
-uchar4 RS_KERNEL generateLuvPalette(uint32_t x, uint32_t y) {
-    float3 color = mix(luvColorB, luvColorA, x / 63.0f);
+#define LUV_PALETTE_W 63.0f
+#define LUV_PALETTE_H 31.0f
 
-    float lightnessModifier = ((float)y - 15.75f) / 15.75f; // Clamp to [-1,1].
-    float3 lightness;
-    lightness.x = lightnessModifier < 0.0f ? 0.0001f : 100.0f;
-    lightness.y = lightnessModifier < 0.0f ? 0.0001f : 0.0001f;
-    lightness.z = lightnessModifier < 0.0f ? 0.0001f : 0.0001f; // Mix towards black or white.
-    color = mix(color, lightness, fabs(lightnessModifier) * 0.15f);
+#define LUV_PALETTE_W2 (LUV_PALETTE_W / 2.0f)
+#define LUV_PALETTE_H2 (LUV_PALETTE_H / 2.0f)
+
+uchar4 RS_KERNEL generateLuvPalette(uint32_t x, uint32_t y) {
+    float3 color = clamp(mix(luvColorB, luvColorA, x / LUV_PALETTE_W), luvDynMin, luvDynMax);
+    float lightnessModifier = ((float)y - LUV_PALETTE_H2) / LUV_PALETTE_H2; // Clamp to [-1,1].
+    float3 lightness; // A color that's either pure black or pure white
+    lightness.x = lightnessModifier < 0.0f ? 0.0f : 100.0f;
+    lightness.y = lightnessModifier < 0.0f ? 0.0f : 0.0001f;
+    lightness.z = lightnessModifier < 0.0f ? 0.0f : 0.0001f;
+    // Mix towards either pure black or pure white, with magnitude of luvDynRange.
+    color = mix(color, lightness, fabs(lightnessModifier) * luvDynRange * 0.01f);
+
+    if (color.x <= 0.0f) { return black; } // Avoid dividing by zero...
 
     float var_y = (color.x + 16.0f) / 116.0f;
     var_y = var_y > (6.0f / 29.0f) ?
