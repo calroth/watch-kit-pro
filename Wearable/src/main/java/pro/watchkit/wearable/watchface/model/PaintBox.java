@@ -243,27 +243,17 @@ public final class PaintBox {
             @ColorInt int colorB = Color.BLACK;
 
             int[] gradient = new int[]{
-                    colorB, // Original
-                    colorB,
-                    colorB,
-                    colorB,
-                    colorB,
-                    colorB, // Original
-                    colorB,
-                    colorB,
+                    colorB, // Inside
+                    getIntermediateColorFast(colorA, colorB, 0.00625d), // Taper it in
+                    getIntermediateColorFast(colorA, colorB, 0.0125d), // Taper it in
                     getIntermediateColorFast(colorA, colorB, 0.025d), // Taper it in
                     getIntermediateColorFast(colorA, colorB, 0.05d),
-                    getIntermediateColorFast(colorA, colorB, 0.1d), // Not original
+                    getIntermediateColorFast(colorA, colorB, 0.1d),
                     getIntermediateColorFast(colorA, colorB, 0.2d),
-                    getIntermediateColorFast(colorA, colorB, 0.4d),
-                    getIntermediateColorFast(colorA, colorB, 0.6d),
-                    getIntermediateColorFast(colorA, colorB, 0.8d),
-                    getIntermediateColorFast(colorA, colorB, 0.9d), // Not original
-                    getIntermediateColorFast(colorA, colorB, 0.95d),
-                    getIntermediateColorFast(colorA, colorB, 0.975d), // Taper it out
-                    colorA,
-                    colorA,
-                    colorA // Original
+                    getIntermediateColorFast(colorA, colorB, 0.5d),
+                    getIntermediateColorFast(colorA, colorB, 0.8d), // Taper it out
+                    getIntermediateColorFast(colorA, colorB, 0.9d), // Taper it out
+                    colorA // Outside
             };
 
             float mCenterX = width / 2f;
