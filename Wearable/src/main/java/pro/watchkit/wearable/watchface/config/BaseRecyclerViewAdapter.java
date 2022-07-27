@@ -820,7 +820,11 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             if (left != null) {
                 left.setTint(mButton.getCurrentTextColor());
             }
-            mButton.setCompoundDrawablesWithIntrinsicBounds(left, null, null, null);
+            Drawable right = itemView.getContext().getDrawable(R.drawable.ic_keyboard_arrow_right);
+            if (right != null) {
+                right.setTint(mButton.getCurrentTextColor());
+            }
+            mButton.setCompoundDrawablesWithIntrinsicBounds(left, null, right, null);
             mConfigDataClass = configItem.getConfigDataClass();
             mLaunchActivity = configItem.getActivityToChoosePreference();
         }
@@ -1008,8 +1012,15 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             if (left != null) {
                 left.setTint(mButton.getCurrentTextColor());
             }
-            Drawable right = mConfigItem instanceof ConfigData.PickerFourColorConfigItem ?
-                    mColorSwatchDrawable : null;
+            Drawable right;
+            if (mConfigItem instanceof ConfigData.PickerFourColorConfigItem) {
+                right = mColorSwatchDrawable;
+            } else {
+                right = itemView.getContext().getDrawable(R.drawable.ic_keyboard_arrow_right);
+                if (right != null) {
+                    right.setTint(mButton.getCurrentTextColor());
+                }
+            }
             mButton.setCompoundDrawablesWithIntrinsicBounds(left, null, right, null);
 
             if (mConfigItem.isVisible(mCurrentWatchFaceState)) {
