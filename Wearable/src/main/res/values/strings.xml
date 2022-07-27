@@ -314,6 +314,63 @@
     <string name="config_preset_base_accent_material_gradient">Base Accent Material Gradient</string>
     <string name="config_preset_base_accent_material_texture">Base Accent Material Texture</string>
 
+    <string name="config_licence">Attributions</string>
+    <string name="config_licence_1">The following components are licensed under the GNU General
+        Public License, version 3 or later&lt;br /&gt;
+&lt;br /&gt;
+&lt;b&gt;Watch Kit Pro&lt;/b&gt;, Copyright © 2018-2022 Terence Tan&lt;br /&gt;
+&lt;br /&gt;&lt;small&gt;&lt;small&gt;&lt;tt&gt;
+This file is free software: you may copy, redistribute and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation, either version 3 of the License, or (at your
+option) any later version.&lt;br /&gt;
+&lt;br /&gt;
+This file is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+General Public License for more details.&lt;br /&gt;
+&lt;br /&gt;
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see &amp;lt;http://www.gnu.org/licenses/&amp;gt;.&lt;/tt&gt;&lt;/small&gt;&lt;/small&gt;</string>
+    <string name="config_licence_2">The following components are licensed under the Apache
+        License, version 2.0&lt;br /&gt;
+&lt;br /&gt;
+&lt;b&gt;AOSP&lt;/b&gt;, Copyright © 2017 The Android Open Source Project&lt;br /&gt;
+&lt;br /&gt;&lt;small&gt;&lt;small&gt;&lt;tt&gt;
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at&lt;br /&gt;
+&lt;br /&gt;
+     http://www.apache.org/licenses/LICENSE-2.0&lt;br /&gt;
+&lt;br /&gt;
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.&lt;/tt&gt;&lt;/small&gt;&lt;/small&gt;</string>
+    <string name="config_licence_3">The following components are licensed under the MIT
+        License&lt;br /&gt;
+&lt;br /&gt;
+&lt;b&gt;solarpositioning&lt;/b&gt;, Copyright © 2013, Klaus A. Brunner&lt;br /&gt;
+&lt;br /&gt;&lt;small&gt;&lt;small&gt;&lt;tt&gt;
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:&lt;br /&gt;
+&lt;br /&gt;
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.&lt;br /&gt;
+&lt;br /&gt;
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.&lt;/tt&gt;&lt;/small&gt;&lt;/small&gt;</string>
+
     <string name="config_activity_label">Configure Watch Kit Pro</string>
 
     <string-array name="WatchFacePreset_PipsDisplay">
@@ -648,6 +705,7 @@
         <item>172a3fc0e00067dff6bd5e8ffe285401</item>
         <item>09205b00ef006e308b62bde66b384761</item>
         <item>0c84a420ef0026fce0b81eeb6029a951</item>
+        <item>0cca4520e00062d334ecab77257de001</item>
         <item>15dc5e20ef002e6498660a8fb4395001</item>
         <item>02ca802a6f00660a816020713e059100</item>
         <item>0c18f16a6f00647e9e26b6e753c55bd0</item>
@@ -669,6 +727,7 @@
         <item>Bubblegum</item>
         <item>Carillon</item>
         <item>Civilisation</item>
+        <item>Den of Lions</item>
         <item>From Inside Out</item>
         <item>Hypnosis</item>
         <item>In One Spirit</item>
@@ -684,12 +743,13 @@
         <item>0xa17bd5</item>
         <item>0xe24150</item>
         <item>0xac6a03</item>
+        <item>0x578f40</item>
         <item>0x0e216e</item>
         <item>0xf84e00</item>
         <item>0xbf8f53</item>
+        <item>0xfd9a95</item>
         <item>0xdc1a80</item>
         <item>0x458944</item>
-        <item>0xe15a00</item>
         <item>0x43faab</item>
         <item>0x414e40</item>
         <item>0x144aac</item>
@@ -710,12 +770,13 @@
         <item>Ancient Tome</item>
         <item>Applied Patina</item>
         <item>Atlantic Sunset</item>
+        <item>Aureolin</item>
         <item>Bougainvillea</item>
         <item>Country Club</item>
         <item>Dust Storm</item>
+        <item>Eucalyptus</item>
         <item>Ghost Rider</item>
         <item>Guava</item>
-        <item>Hawk</item>
         <item>Lavender Rose</item>
         <item>Medallion</item>
         <item>Mutagen</item>

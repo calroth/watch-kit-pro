@@ -55,6 +55,7 @@ import androidx.wear.widget.drawer.WearableNavigationDrawerView;
 import java.util.Arrays;
 
 import pro.watchkit.wearable.watchface.R;
+import pro.watchkit.wearable.watchface.model.AttributionConfigData;
 import pro.watchkit.wearable.watchface.model.ColorsMaterialsConfigData;
 import pro.watchkit.wearable.watchface.model.ComplicationConfigData;
 import pro.watchkit.wearable.watchface.model.ConfigData;
@@ -238,7 +239,8 @@ public class ConfigActivity extends Activity {
         MaterialBaseAccent(MaterialConfigData.BaseAccent.class, R.string.config_configure_material, -1),
         WatchPartHands(WatchPartHandsConfigData.class, R.string.config_configure_hands, -1),
         WatchPartPips(WatchPartDialConfigData.class, R.string.config_configure_dial, -1),
-        Typeface(TypefaceConfigData.class, R.string.config_configure_typeface, -1);
+        Typeface(TypefaceConfigData.class, R.string.config_configure_typeface, -1),
+        Attribution(AttributionConfigData.class, R.string.config_licence, -1);
 
         @NonNull
         static final ConfigSubActivity[] finalValues = values();

@@ -219,6 +219,13 @@ public class SettingsConfigData extends ConfigData {
                         },
                         WatchFaceState::isDeveloperMode),
 
+                // Data for Attributions sub-activity in settings Activity.
+                new ConfigActivityConfigItem(
+                        R.string.config_licence,
+                        R.drawable.ic_policy,
+                        AttributionConfigData.class,
+                        ConfigActivity.class),
+
                 // Scripture.
                 new TitleLabelConfigItem(R.string.config_scripture_0, randomScriptureVerse)
         );
