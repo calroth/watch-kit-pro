@@ -613,8 +613,13 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
                         // Export as PNG
                         try {
+                            String n = g.getKey()
+                                    .replace("🅰", "AA")
+                                    .replace("🅱", "AB")
+                                    .replace("🅲", "AC")
+                                    .replace("🅳", "AD");
                             FileOutputStream out = watchFaceState.openFileOutput(
-                                    g.getKey() + " x " + cw.getKey() + ".png");
+                                    n + " x " + cw.getKey() + ".png");
                             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
                             out.close();
                         } catch (IOException e) {
