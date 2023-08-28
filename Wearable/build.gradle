@@ -47,11 +47,11 @@ def getGitDate = { ->
 
 android {
     namespace 'pro.watchkit.wearable.watchface'
-    compileSdkVersion 32
+    compileSdkVersion 33
 
     defaultConfig {
         // Ref: https://developer.android.com/training/wearables/apps/packaging#specify-a-version-code
-        versionCode 320800100
+        versionCode 330800100
         versionName "8.0a"
 
         resValue "string", "git_hash", "${getGitHash()}"
@@ -59,7 +59,7 @@ android {
         resValue "string", "version_name", versionName
 
         minSdkVersion 25 // Wear OS 2.0
-        targetSdkVersion 32
+        targetSdkVersion 33
 
         multiDexEnabled true
     }
