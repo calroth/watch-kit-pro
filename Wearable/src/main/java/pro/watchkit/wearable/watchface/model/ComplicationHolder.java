@@ -412,7 +412,7 @@ public final class ComplicationHolder {
         return mBounds;
     }
 
-    void setBounds(Rect bounds) {
+    void setBounds(@NonNull Rect bounds) {
         boolean dimensionsChanged = true;
         if (mBounds != null) {
             dimensionsChanged = !mBounds.equals(bounds);
@@ -554,6 +554,10 @@ public final class ComplicationHolder {
             // Also if we're time-dependent, compare the current frame time 0 to the last one.
             return mHasUpdatedComplicationDataObject ||
                     getTimeDependentFrameTime0(currentTimeMillis) >= mLastTimeDependentFrameTime0;
+        } else if (mBounds == null) {
+            // Not sure what code path would call this before we've set our bounds for the first
+            // time, but someone in the world got a NullPointerException this way, so check...
+            return false;
         } else if (mHasUpdatedComplicationDataObject && mComplicationDrawable != null) {
             // For non-time-dependent complications, some more logic follows...
 
