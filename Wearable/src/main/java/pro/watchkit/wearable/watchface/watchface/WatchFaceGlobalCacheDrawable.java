@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2022 Terence Tan
+ * Copyright (C) 2019-2023 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -157,6 +157,16 @@ class WatchFaceGlobalCacheDrawable extends LayerDrawable
         // Or anything else of interest in the WatchFaceState.
         int currentSerial = Objects.hash(mWatchFaceState);
         if (mPreviousSerial != currentSerial) {
+            // Recycle our previous hardware bitmaps, to keep our memory usage down.
+            if (mActiveHardwareCacheBitmap != null) {
+                mActiveHardwareCacheBitmap.recycle();
+                mActiveHardwareCacheBitmap = null;
+            }
+            if (mAmbientHardwareCacheBitmap != null) {
+                mAmbientHardwareCacheBitmap.recycle();
+                mAmbientHardwareCacheBitmap = null;
+            }
+
             // Keep track of what our ambient currently is, because we're about to draw them both.
             boolean currentAmbient = mWatchFaceState.isAmbient();
 
