@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2022 Terence Tan
+ * Copyright (C) 2018-2023 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -41,6 +41,7 @@ final class WatchPartComplicationsDrawable extends WatchPartDrawable
     @Override
     public void draw2(@NonNull Canvas canvas) {
         mWatchFaceState.getComplicationsForDrawing(getBounds())
+                .stream().filter(c -> c.isForeground)
                 .forEach(c -> c.draw(canvas, mWatchFaceState.getTimeInMillis()));
     }
 

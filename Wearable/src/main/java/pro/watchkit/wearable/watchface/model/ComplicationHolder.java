@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2022 Terence Tan
+ * Copyright (C) 2018-2023 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -670,7 +670,7 @@ public final class ComplicationHolder {
     public void draw(@NonNull Canvas canvas, long currentTimeMillis) {
         if (mProviderIconDrawable != null) {
             mProviderIconDrawable.draw(canvas);
-        } else if (mComplicationDrawable != null) {
+        } else if (mComplicationDrawable != null && isActive) {
             mComplicationDrawable.setBorderStyleAmbient(ComplicationDrawable.BORDER_STYLE_NONE);
             mComplicationDrawable.draw(canvas, currentTimeMillis);
         }
