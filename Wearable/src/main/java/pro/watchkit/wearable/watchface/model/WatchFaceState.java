@@ -477,10 +477,13 @@ public class WatchFaceState {
      */
     public void setComplicationColors() {
         @ColorInt int activeColor = getComplicationTextColor();
+        @ColorInt int activeColorAlt1 = getComplicationTextColorAlt1();
+        @ColorInt int activeColorAlt2 = getComplicationTextColorAlt2();
         @ColorInt int ambientColor = Color.WHITE;
         @Nullable android.graphics.Typeface typeface = getTypefaceObject();
 
-        mComplications.forEach(c -> c.setColors(activeColor, ambientColor, typeface));
+        mComplications.forEach(c -> c.setColors(
+                activeColor, activeColorAlt1, activeColorAlt2, ambientColor, typeface));
     }
 
     @NonNull
@@ -1019,6 +1022,36 @@ public class WatchFaceState {
             default:
                 return mPaintBox.getContrastingColor(complicationBackgroundMaterial,
                         getBaseAccentMaterialGradient());
+        }
+    }
+
+    @ColorInt
+    public int getComplicationTextColorAlt1() {
+        Material complicationBackgroundMaterial = getComplicationBackgroundMaterial();
+        switch (complicationBackgroundMaterial) {
+            case FILL_HIGHLIGHT:
+                return mPaintBox.getColor(getSixBitColor(ColorType.FILL));
+            case ACCENT_FILL:
+            case ACCENT_HIGHLIGHT:
+                return mPaintBox.getColor(getSixBitColor(ColorType.ACCENT));
+            case BASE_ACCENT:
+            default:
+                return mPaintBox.getColor(getSixBitColor(ColorType.BASE));
+        }
+    }
+
+    @ColorInt
+    public int getComplicationTextColorAlt2() {
+        Material complicationBackgroundMaterial = getComplicationBackgroundMaterial();
+        switch (complicationBackgroundMaterial) {
+            case FILL_HIGHLIGHT:
+            case ACCENT_HIGHLIGHT:
+                return mPaintBox.getColor(getSixBitColor(ColorType.HIGHLIGHT));
+            case ACCENT_FILL:
+                return mPaintBox.getColor(getSixBitColor(ColorType.FILL));
+            case BASE_ACCENT:
+            default:
+                return mPaintBox.getColor(getSixBitColor(ColorType.ACCENT));
         }
     }
 

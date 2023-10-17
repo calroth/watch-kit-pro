@@ -442,8 +442,23 @@ public final class ComplicationHolder {
         }
     }
 
-    void setColors(@ColorInt int activeColor, @ColorInt int ambientColor,
-                   @Nullable Typeface typeface) {
+    @ColorInt
+    int mActiveColor, mActiveColorAlt1, mActiveColorAlt2, mAmbientColor;
+    @Nullable
+    Typeface mTypeface;
+
+    void setColors(@ColorInt int activeColor,
+                   @ColorInt int activeColorAlt1, @ColorInt int activeColorAlt2,
+                   @ColorInt int ambientColor, @Nullable Typeface typeface) {
+        mActiveColor = activeColor;
+        mActiveColorAlt1 = activeColorAlt1;
+        mActiveColorAlt2 = activeColorAlt2;
+        mAmbientColor = ambientColor;
+        mTypeface = typeface;
+        setColorsBeforeDraw(mActiveColor);
+    }
+
+    private void setColorsBeforeDraw(@ColorInt int activeColor) {
         if (mComplicationDrawable == null) {
             return;
         }
@@ -473,30 +488,29 @@ public final class ComplicationHolder {
             mComplicationDrawable.setIconColorActive(fadedActiveColor);
             mComplicationDrawable.setRangedValuePrimaryColorActive(activeColor);
             mComplicationDrawable.setRangedValueSecondaryColorActive(superFadedActiveColor);
-            mComplicationDrawable.setTextTypefaceActive(typeface);
-            mComplicationDrawable.setTitleTypefaceActive(typeface);
+            mComplicationDrawable.setTextTypefaceActive(mTypeface);
+            mComplicationDrawable.setTitleTypefaceActive(mTypeface);
 
-            // Generate a faded ambient color that is exactly the same as "ambientColor"
+            // Generate a faded ambient color that is exactly the same as "mAmbientColor"
             // only the alpha is 2/3 the value.
             @ColorInt int fadedAmbientColor = Color.argb(
-                    (int) ((double) Color.alpha(ambientColor) * 2d / 3d),
-                    Color.red(ambientColor),
-                    Color.green(ambientColor),
-                    Color.blue(ambientColor));
+                    (int) ((double) Color.alpha(mAmbientColor) * 2d / 3d),
+                    Color.red(mAmbientColor),
+                    Color.green(mAmbientColor),
+                    Color.blue(mAmbientColor));
 
             // Ambient mode colors
             mComplicationDrawable.setBorderStyleAmbient(ComplicationDrawable.BORDER_STYLE_NONE);
-            mComplicationDrawable.setTextColorAmbient(ambientColor);
+            mComplicationDrawable.setTextColorAmbient(mAmbientColor);
             mComplicationDrawable.setTitleColorAmbient(fadedAmbientColor);
             mComplicationDrawable.setIconColorAmbient(fadedAmbientColor);
             mComplicationDrawable.setRangedValuePrimaryColorAmbient(Color.BLACK);
             mComplicationDrawable.setRangedValueSecondaryColorAmbient(Color.BLACK);
             mComplicationDrawable.setRangedValueProgressHidden(false);
-            mComplicationDrawable.setTextTypefaceAmbient(typeface);
-            mComplicationDrawable.setTitleTypefaceAmbient(typeface);
+            mComplicationDrawable.setTextTypefaceAmbient(mTypeface);
+            mComplicationDrawable.setTitleTypefaceAmbient(mTypeface);
         }
     }
-
 
     /**
      * If we're rendering a decomposition, it's rendered here.
@@ -673,11 +687,30 @@ public final class ComplicationHolder {
         return id;
     }
 
+//    private final Rect mComplicationDrawableBounds = new Rect(),
+//            mComplicationDrawableBoundsAlt1 = new Rect(),
+//            mComplicationDrawableBoundsAlt2 = new Rect();
+
     public void draw(@NonNull Canvas canvas, long currentTimeMillis) {
         if (mProviderIconDrawable != null) {
             mProviderIconDrawable.draw(canvas);
         } else if (mComplicationDrawable != null && isActive) {
             mComplicationDrawable.setBorderStyleAmbient(ComplicationDrawable.BORDER_STYLE_NONE);
+            if (!mIsInAmbientMode) {
+                canvas.save();
+                // Draw Alt1.
+                canvas.translate(-1, -1);
+                setColorsBeforeDraw(mActiveColorAlt1);
+                mComplicationDrawable.draw(canvas, currentTimeMillis);
+                // Draw Alt2.
+                canvas.translate(2, 2);
+                setColorsBeforeDraw(mActiveColorAlt2);
+                mComplicationDrawable.draw(canvas, currentTimeMillis);
+                // And draw the original over the top of it all.
+                canvas.restore();
+                android.util.Log.d("ComplicationHolder", "Draw: " + this);
+            }
+            setColorsBeforeDraw(mActiveColor);
             mComplicationDrawable.draw(canvas, currentTimeMillis);
         }
     }
