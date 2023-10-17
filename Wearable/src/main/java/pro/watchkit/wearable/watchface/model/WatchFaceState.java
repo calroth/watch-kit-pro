@@ -23,6 +23,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface.Builder;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.wearable.complications.ComplicationData;
 
@@ -228,7 +229,8 @@ public class WatchFaceState {
     }
 
     public void onComplicationDataUpdate(
-            int complicationId, @NonNull ComplicationData complicationData) {
+            int complicationId, @NonNull ComplicationData complicationData,
+            @Nullable Drawable.Callback cb) {
         // Updates correct ComplicationDrawable with updated data.
         ComplicationHolder c = getComplicationWithId(complicationId);
         if (c != null) {
@@ -246,6 +248,11 @@ public class WatchFaceState {
                 }
             }
             c.setComplicationData(complicationData);
+        }
+
+        // Set the callback drawable for all complications.
+        if (cb != null) {
+            mComplications.forEach(k -> k.setComplicationDrawableCallback(cb));
         }
     }
 

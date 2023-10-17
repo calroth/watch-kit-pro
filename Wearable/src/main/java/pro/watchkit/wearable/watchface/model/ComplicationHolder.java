@@ -71,6 +71,12 @@ public final class ComplicationHolder {
         }
     }
 
+    public void setComplicationDrawableCallback(Drawable.Callback cb) {
+        if (mComplicationDrawable != null) {
+            mComplicationDrawable.setCallback(cb);
+        }
+    }
+
     public void setProviderIconDrawable(@NonNull Drawable providerIconDrawable, boolean inset) {
         mProviderIconDrawable = providerIconDrawable;
         mInset = inset;

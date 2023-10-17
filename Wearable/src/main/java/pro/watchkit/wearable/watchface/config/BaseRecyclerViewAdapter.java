@@ -600,7 +600,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                                         complicationProvider[1] != TYPE_NOT_CONFIGURED) {
                                     // Activate one ring per active complication.
                                     // Activate them with a dummy complication that won't be displayed.
-                                    watchFaceState.onComplicationDataUpdate(complicationIds[i], c);
+                                    watchFaceState.onComplicationDataUpdate(complicationIds[i], c, null);
                                 }
                             }
                         }

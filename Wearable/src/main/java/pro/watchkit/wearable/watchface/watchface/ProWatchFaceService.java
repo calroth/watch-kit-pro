@@ -43,6 +43,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -402,6 +403,23 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
             SharedPref.setIsOffloadSupported(offloadSupported);
         }
 
+        private final Drawable.Callback mInvalidateCallback = new Drawable.Callback() {
+            @Override
+            public void invalidateDrawable(@NonNull Drawable who) {
+                android.util.Log.d("ProWatchFaceService",
+                        "Drawable invalidated: " + who);
+                invalidate();
+            }
+
+            @Override
+            public void scheduleDrawable(@NonNull Drawable who, @NonNull Runnable what, long when) {
+            }
+
+            @Override
+            public void unscheduleDrawable(@NonNull Drawable who, @NonNull Runnable what) {
+            }
+        };
+
         /*
          * Called when there is updated data for a complication id.
          */
@@ -410,7 +428,8 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
                 int complicationId, @NonNull ComplicationData complicationData) {
 
             // Adds/updates active complication data in the array.
-            getWatchFaceState().onComplicationDataUpdate(complicationId, complicationData);
+            getWatchFaceState().onComplicationDataUpdate(
+                    complicationId, complicationData, mInvalidateCallback);
 
             WatchPartStatsDrawable.mInvalidTrigger = WatchPartStatsDrawable.INVALID_COMPLICATION;
             invalidate();
