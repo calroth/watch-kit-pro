@@ -172,6 +172,32 @@ void prepareLuvPalette(float ar, float ag, float ab, float br, float bg, float b
     black.a = 255;
 }
 
+void prepareOklabPalette(float ar, float ag, float ab, float br, float bg, float bb, float d) {
+    luvColorA.r = ar;
+    luvColorA.g = ag;
+    luvColorA.b = ab;
+    luvColorB.r = br;
+    luvColorB.g = bg;
+    luvColorB.b = bb;
+
+    // For Oklab, modify our lightness dynamic range from 0..100 down to 0..4.6.
+    d = d / 100.0f * 4.641596888f;
+
+    // Parameter "d" is the dynamic range which we clamp to.
+    // Between 0.0f and 50.0f. Lower = more range.
+    luvDynMin.r = d;
+    luvDynMin.g = -999.0f;
+    luvDynMin.b = -999.0f;
+    luvDynMax.r = 4.641596888f - d;
+    luvDynMax.g = 999.0f;
+    luvDynMax.b = 999.0f;
+    luvDynRange = d;
+    black.r = 0;
+    black.g = 0;
+    black.b = 0;
+    black.a = 255;
+}
+
 #define LUV_PALETTE_W 63.0f
 #define LUV_PALETTE_H 31.0f
 
@@ -204,6 +230,63 @@ uchar4 RS_KERNEL generateLuvPalette(uint32_t x, uint32_t y) {
     // Convert XYZ to sRGB...
     float var_x = X / 100.0f;
     //var_y = Y / 100.0f;
+    float var_z = Z / 100.0f;
+
+    float4 var_RGB;
+    var_RGB.r = var_x * 3.2406f + var_y * -1.5372f + var_z * -0.4986f;
+    var_RGB.g = var_x * -0.9689f + var_y * 1.8758f + var_z * 0.0415f;
+    var_RGB.b = var_x * 0.0557f + var_y * -0.2040f + var_z * 1.0570f;
+    var_RGB.a = 1.0f; // Note to self, this could probably be a matrix multiply.
+
+    var_RGB.r = var_RGB.r > 0.0031308f ?
+       1.055f * pow(var_RGB.r, 1.0f / 2.4f) - 0.055f : 12.92f * var_RGB.r;
+    var_RGB.g = var_RGB.g > 0.0031308f ?
+       1.055f * pow(var_RGB.g, 1.0f / 2.4f) - 0.055f : 12.92f * var_RGB.g;
+    var_RGB.b = var_RGB.b > 0.0031308f ?
+       1.055f * pow(var_RGB.b, 1.0f / 2.4f) - 0.055f : 12.92f * var_RGB.b;
+
+    // Clamp the final RGB values to [0, 1] and scale to [0, 255].
+    var_RGB = clamp(var_RGB, 0.0f, 1.0f) * 255.0f;
+    var_RGB.a = 255.0f;
+
+    // And return.
+    return convert_uchar4(var_RGB);
+}
+
+uchar4 RS_KERNEL generateOklabPalette(uint32_t x, uint32_t y) {
+    float3 color = clamp(mix(luvColorB, luvColorA, x / LUV_PALETTE_W), luvDynMin, luvDynMax);
+    float lightnessModifier = ((float)y - LUV_PALETTE_H2) / LUV_PALETTE_H2; // Clamp to [-1,1].
+    float3 lightness; // A color that's either pure black or pure white
+    lightness.x = lightnessModifier < 0.0f ? 0.0f : 100.0f;
+    lightness.y = lightnessModifier < 0.0f ? 0.0f : 0.0001f;
+    lightness.z = lightnessModifier < 0.0f ? 0.0f : 0.0001f;
+    // Mix towards either pure black or pure white, with magnitude of luvDynRange.
+    color = mix(color, lightness, fabs(lightnessModifier) * luvDynRange * 0.01f);
+
+    if (color.x <= 0.0f) { return black; } // Avoid dividing by zero...
+
+//    float var_y = (color.x + 16.0f) / 116.0f;
+//    var_y = var_y > (6.0f / 29.0f) ?
+//       pown(var_y, 3) : ((var_y - 16.0f / 116.0f) * 3132.0f / 24389.0f);
+//
+//    float var_U = color.y / (13.0f * color.x) + ref_U;
+//    float var_V = color.z / (13.0f * color.x) + ref_V;
+
+//    float Y = var_y * 100.0f;
+//    float X = 0.0f - (9.0f * Y * var_U) / ((var_U - 4.0f) * var_V - var_U * var_V);
+//    float Z = (9.0f * Y - (15.0f * var_V * Y) - (var_V * X)) / (3.0f * var_V);
+
+    float l = pow(0.9999999984f * color.x + 0.3963377922f * color.y + 0.2158037581f * color.z, 3.0f);
+    float m = pow(1.0000000089f * color.x - 0.1055613423f * color.y - 0.0638541748f * color.z, 3.0f);
+    float s = pow(1.0000000547f * color.x - 0.0894841821f * color.y - 1.2914855379f * color.z, 3.0f);
+
+    float X =  1.2270138511f * l - 0.5577999807f * m + 0.2812561490f * s;
+    float Y = -0.0405801784f * l + 1.1122568696f * m - 0.0716766787f * s;
+    float Z = -0.0763812845f * l - 0.4214819784f * m + 1.5861632204f * s;
+
+    // Convert XYZ to sRGB...
+    float var_x = X / 100.0f;
+    float var_y = Y / 100.0f;
     float var_z = Z / 100.0f;
 
     float4 var_RGB;

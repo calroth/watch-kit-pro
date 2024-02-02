@@ -463,6 +463,8 @@ public final class PaintBox {
     private final static double ref_V =
             (9d * Reference_Y) / (Reference_X + (15d * Reference_Y) + (3d * Reference_Z));
 
+    private final static boolean USE_OKLAB = true;
+
     /**
      * Converts the given color from the sRGB colorspace to CIELUV.
      *
@@ -498,17 +500,31 @@ public final class PaintBox {
         double Y = var_R * 0.2126d + var_G * 0.7152d + var_B * 0.0722d;
         double Z = var_R * 0.0193d + var_G * 0.1192d + var_B * 0.9505d;
 
-        // Convert XYZ to LUV...
-        double var_U = (4d * X) / (X + (15d * Y) + (3d * Z));
-        double var_V = (9d * Y) / (X + (15d * Y) + (3d * Z));
+        double CIE_L, CIE_u, CIE_v;
 
-        double var_Y = Y / 100d;
-        var_Y = var_Y > (216d / 24389d) ?
-                Math.pow(var_Y, 1d / 3d) : ((var_Y * 24389d / 3132d) + (16d / 116d));
+        if (!USE_OKLAB) {
+            // Convert XYZ to LUV...
+            double var_U = (4d * X) / (X + (15d * Y) + (3d * Z));
+            double var_V = (9d * Y) / (X + (15d * Y) + (3d * Z));
 
-        double CIE_L = (116d * var_Y) - 16d;
-        double CIE_u = 13d * CIE_L * (var_U - ref_U);
-        double CIE_v = 13d * CIE_L * (var_V - ref_V);
+            double var_Y = Y / 100d;
+            var_Y = var_Y > (216d / 24389d) ?
+                    Math.pow(var_Y, 1d / 3d) : ((var_Y * 24389d / 3132d) + (16d / 116d));
+
+            CIE_L = (116d * var_Y) - 16d;
+            CIE_u = 13d * CIE_L * (var_U - ref_U);
+            CIE_v = 13d * CIE_L * (var_V - ref_V);
+        } else {
+            // Convert XYZ to Oklab...
+            // Matrix constants from https://bottosson.github.io/posts/oklab/
+            double l_dash = Math.cbrt(0.8189330101d * X + 0.3618667424d * Y - 0.1288597137d * Z);
+            double m_dash = Math.cbrt(0.0329845436d * X + 0.9293118715d * Y + 0.0361456387d * Z);
+            double s_dash = Math.cbrt(0.0482003018d * X + 0.2643662691d * Y + 0.6338517070d * Z);
+
+            CIE_L = 0.2104542553d * l_dash + 0.7936177850d * m_dash - 0.0040720468d * s_dash;
+            CIE_u = 1.9779984951d * l_dash - 2.4285922050d * m_dash + 0.4505937099d * s_dash;
+            CIE_v = 0.0259040371d * l_dash + 0.7827717662d * m_dash - 0.8086757660d * s_dash;
+        }
 
         return new double[]{(double) sRGB_A, CIE_L, CIE_u, CIE_v};
     }
@@ -522,21 +538,38 @@ public final class PaintBox {
      */
     @ColorInt
     private static int convertLUVToSRGB(double[] LUV) {
-        // Convert LUV to XYZ...
-        double var_Y = (LUV[1] + 16d) / 116d;
-        var_Y = Math.pow(var_Y, 3d) > (216d / 24389d) ?
-                Math.pow(var_Y, 3d) : ((var_Y - 16d / 116d) * 3132d / 24389d);
+        double X, Y, Z;
 
-        double var_U = LUV[2] / (13d * LUV[1]) + ref_U;
-        double var_V = LUV[3] / (13d * LUV[1]) + ref_V;
+        if (!USE_OKLAB) {
+            // Convert LUV to XYZ...
+            double var_Y = (LUV[1] + 16d) / 116d;
+            var_Y = Math.pow(var_Y, 3d) > (216d / 24389d) ?
+                    Math.pow(var_Y, 3d) : ((var_Y - 16d / 116d) * 3132d / 24389d);
 
-        double Y = var_Y * 100d;
-        double X = 0d - (9d * Y * var_U) / ((var_U - 4d) * var_V - var_U * var_V);
-        double Z = (9d * Y - (15d * var_V * Y) - (var_V * X)) / (3d * var_V);
+            double var_U = LUV[2] / (13d * LUV[1]) + ref_U;
+            double var_V = LUV[3] / (13d * LUV[1]) + ref_V;
+
+            Y = var_Y * 100d;
+            X = 0d - (9d * Y * var_U) / ((var_U - 4d) * var_V - var_U * var_V);
+            Z = (9d * Y - (15d * var_V * Y) - (var_V * X)) / (3d * var_V);
+        } else {
+            // Convert XYZ to Oklab...
+            // Matrix constants calculated as inverses from matrix in "convertSRGBToLUV"
+            double l = Math.pow(0.9999999984d * LUV[1] + 0.3963377922d * LUV[2]
+                    + 0.2158037581d * LUV[3], 3d);
+            double m = Math.pow(1.0000000089d * LUV[1] - 0.1055613423d * LUV[2]
+                    - 0.0638541748d * LUV[3], 3d);
+            double s = Math.pow(1.0000000547d * LUV[1] - 0.0894841821d * LUV[2]
+                    - 1.2914855379d * LUV[3], 3d);
+
+            X = 1.2270138511d * l - 0.5577999807d * m + 0.2812561490d * s;
+            Y = -0.0405801784d * l + 1.1122568696d * m - 0.0716766787d * s;
+            Z = -0.0763812845d * l - 0.4214819784d * m + 1.5861632204d * s;
+        }
 
         // Convert XYZ to sRGB...
         double var_X = X / 100d;
-        var_Y = Y / 100d;
+        double var_Y = Y / 100d;
         double var_Z = Z / 100d;
 
         double var_R = var_X * 3.2406d + var_Y * -1.5372d + var_Z * -0.4986d;
@@ -1439,12 +1472,19 @@ public final class PaintBox {
                 dynamicRange = 10f;
             }
 
-            mScriptC_mapBitmap.invoke_prepareLuvPalette(
-                    (float) cA[1], (float) cA[2], (float) cA[3],
-                    (float) cB[1], (float) cB[2], (float) cB[3], dynamicRange);
-
-            mScriptC_mapBitmap.forEach_generateLuvPalette(mLuvPaletteAllocation);
-            DebugTiming.checkpoint("generateLuvPalette");
+            if (!USE_OKLAB) {
+                mScriptC_mapBitmap.invoke_prepareLuvPalette(
+                        (float) cA[1], (float) cA[2], (float) cA[3],
+                        (float) cB[1], (float) cB[2], (float) cB[3], dynamicRange);
+                mScriptC_mapBitmap.forEach_generateLuvPalette(mLuvPaletteAllocation);
+                DebugTiming.checkpoint("generateLuvPalette");
+            } else {
+                mScriptC_mapBitmap.invoke_prepareOklabPalette(
+                        (float) cA[1], (float) cA[2], (float) cA[3],
+                        (float) cB[1], (float) cB[2], (float) cB[3], dynamicRange);
+                mScriptC_mapBitmap.forEach_generateOklabPalette(mLuvPaletteAllocation);
+                DebugTiming.checkpoint("generateOklabPalette");
+            }
 
             // Get Allocations for our material gradient and material texture.
             Allocation gradientAllocation, textureAllocation;
