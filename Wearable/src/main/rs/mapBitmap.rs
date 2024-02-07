@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2022 Terence Tan
+ * Copyright (C) 2019-2024 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -133,148 +133,54 @@ uchar4 RS_KERNEL sparkle(uchar4 in, uint32_t x, uint32_t y) {
     return result;
 }
 
-// Reference constants "ref_U" and "ref_V" for the CIELUV colorspace conversions.
-float ref_U, ref_V;
-// Our LUV colors to interpolate between to generate a palette.
-float3 luvColorA, luvColorB, luvDynMin, luvDynMax;
-float luvDynRange;
+// Our Oklab colors to interpolate between to generate a palette.
+float3 oklabColorA, oklabColorB, oklabDynMin, oklabDynMax;
+float oklabDynRange;
 uchar4 black;
 
-void prepareLuvPalette(float ar, float ag, float ab, float br, float bg, float bb, float d) {
-    // Reference constants for the CIELUV colorspace conversions. D65 illuminant, 2 degrees.
-    float Reference_X = 95.047f, Reference_Y = 100.000f, Reference_Z = 108.883f;
-
-    // Reference constant "ref_U" for the CIELUV colorspace conversions.
-    ref_U = (4.0f * Reference_X) / (Reference_X + (15.0f * Reference_Y) + (3.0f * Reference_Z));
-
-    // Reference constant "ref_V" for the CIELUV colorspace conversions.
-    ref_V = (9.0f * Reference_Y) / (Reference_X + (15.0f * Reference_Y) + (3.0f * Reference_Z));
-
-    luvColorA.r = ar;
-    luvColorA.g = ag;
-    luvColorA.b = ab;
-    luvColorB.r = br;
-    luvColorB.g = bg;
-    luvColorB.b = bb;
-
-    // Parameter "d" is the dynamic range which we clamp to.
-    // Between 0.0f and 50.0f. Lower = more range.
-    luvDynMin.r = d;
-    luvDynMin.g = -999.0f;
-    luvDynMin.b = -999.0f;
-    luvDynMax.r = 100.0f - d;
-    luvDynMax.g = 999.0f;
-    luvDynMax.b = 999.0f;
-    luvDynRange = d;
-    black.r = 0;
-    black.g = 0;
-    black.b = 0;
-    black.a = 255;
-}
-
 void prepareOklabPalette(float ar, float ag, float ab, float br, float bg, float bb, float d) {
-    luvColorA.r = ar;
-    luvColorA.g = ag;
-    luvColorA.b = ab;
-    luvColorB.r = br;
-    luvColorB.g = bg;
-    luvColorB.b = bb;
+    oklabColorA.r = ar;
+    oklabColorA.g = ag;
+    oklabColorA.b = ab;
+    oklabColorB.r = br;
+    oklabColorB.g = bg;
+    oklabColorB.b = bb;
 
     // For Oklab, modify our lightness dynamic range from 0..100 down to 0..4.6.
     d = d / 100.0f * 4.641596888f;
 
     // Parameter "d" is the dynamic range which we clamp to.
     // Between 0.0f and 50.0f. Lower = more range.
-    luvDynMin.r = d;
-    luvDynMin.g = -999.0f;
-    luvDynMin.b = -999.0f;
-    luvDynMax.r = 4.641596888f - d;
-    luvDynMax.g = 999.0f;
-    luvDynMax.b = 999.0f;
-    luvDynRange = d;
+    oklabDynMin.r = d;
+    oklabDynMin.g = -999.0f;
+    oklabDynMin.b = -999.0f;
+    oklabDynMax.r = 4.641596888f - d;
+    oklabDynMax.g = 999.0f;
+    oklabDynMax.b = 999.0f;
+    oklabDynRange = d;
     black.r = 0;
     black.g = 0;
     black.b = 0;
     black.a = 255;
 }
 
-#define LUV_PALETTE_W 63.0f
-#define LUV_PALETTE_H 31.0f
+#define OKLAB_PALETTE_W 63.0f
+#define OKLAB_PALETTE_H 31.0f
 
-#define LUV_PALETTE_W2 (LUV_PALETTE_W / 2.0f)
-#define LUV_PALETTE_H2 (LUV_PALETTE_H / 2.0f)
-
-uchar4 RS_KERNEL generateLuvPalette(uint32_t x, uint32_t y) {
-    float3 color = clamp(mix(luvColorB, luvColorA, x / LUV_PALETTE_W), luvDynMin, luvDynMax);
-    float lightnessModifier = ((float)y - LUV_PALETTE_H2) / LUV_PALETTE_H2; // Clamp to [-1,1].
-    float3 lightness; // A color that's either pure black or pure white
-    lightness.x = lightnessModifier < 0.0f ? 0.0f : 100.0f;
-    lightness.y = lightnessModifier < 0.0f ? 0.0f : 0.0001f;
-    lightness.z = lightnessModifier < 0.0f ? 0.0f : 0.0001f;
-    // Mix towards either pure black or pure white, with magnitude of luvDynRange.
-    color = mix(color, lightness, fabs(lightnessModifier) * luvDynRange * 0.01f);
-
-    if (color.x <= 0.0f) { return black; } // Avoid dividing by zero...
-
-    float var_y = (color.x + 16.0f) / 116.0f;
-    var_y = var_y > (6.0f / 29.0f) ?
-       pown(var_y, 3) : ((var_y - 16.0f / 116.0f) * 3132.0f / 24389.0f);
-
-    float var_U = color.y / (13.0f * color.x) + ref_U;
-    float var_V = color.z / (13.0f * color.x) + ref_V;
-
-    float Y = var_y * 100.0f;
-    float X = 0.0f - (9.0f * Y * var_U) / ((var_U - 4.0f) * var_V - var_U * var_V);
-    float Z = (9.0f * Y - (15.0f * var_V * Y) - (var_V * X)) / (3.0f * var_V);
-
-    // Convert XYZ to sRGB...
-    float var_x = X / 100.0f;
-    //var_y = Y / 100.0f;
-    float var_z = Z / 100.0f;
-
-    float4 var_RGB;
-    var_RGB.r = var_x * 3.2406f + var_y * -1.5372f + var_z * -0.4986f;
-    var_RGB.g = var_x * -0.9689f + var_y * 1.8758f + var_z * 0.0415f;
-    var_RGB.b = var_x * 0.0557f + var_y * -0.2040f + var_z * 1.0570f;
-    var_RGB.a = 1.0f; // Note to self, this could probably be a matrix multiply.
-
-    var_RGB.r = var_RGB.r > 0.0031308f ?
-       1.055f * pow(var_RGB.r, 1.0f / 2.4f) - 0.055f : 12.92f * var_RGB.r;
-    var_RGB.g = var_RGB.g > 0.0031308f ?
-       1.055f * pow(var_RGB.g, 1.0f / 2.4f) - 0.055f : 12.92f * var_RGB.g;
-    var_RGB.b = var_RGB.b > 0.0031308f ?
-       1.055f * pow(var_RGB.b, 1.0f / 2.4f) - 0.055f : 12.92f * var_RGB.b;
-
-    // Clamp the final RGB values to [0, 1] and scale to [0, 255].
-    var_RGB = clamp(var_RGB, 0.0f, 1.0f) * 255.0f;
-    var_RGB.a = 255.0f;
-
-    // And return.
-    return convert_uchar4(var_RGB);
-}
+#define OKLAB_PALETTE_W2 (OKLAB_PALETTE_W / 2.0f)
+#define OKLAB_PALETTE_H2 (OKLAB_PALETTE_H / 2.0f)
 
 uchar4 RS_KERNEL generateOklabPalette(uint32_t x, uint32_t y) {
-    float3 color = clamp(mix(luvColorB, luvColorA, x / LUV_PALETTE_W), luvDynMin, luvDynMax);
-    float lightnessModifier = ((float)y - LUV_PALETTE_H2) / LUV_PALETTE_H2; // Clamp to [-1,1].
+    float3 color = clamp(mix(oklabColorB, oklabColorA, x / OKLAB_PALETTE_W), oklabDynMin, oklabDynMax);
+    float lightnessModifier = ((float)y - OKLAB_PALETTE_H2) / OKLAB_PALETTE_H2; // Clamp to [-1,1].
     float3 lightness; // A color that's either pure black or pure white
     lightness.x = lightnessModifier < 0.0f ? 0.0f : 100.0f;
     lightness.y = lightnessModifier < 0.0f ? 0.0f : 0.0001f;
     lightness.z = lightnessModifier < 0.0f ? 0.0f : 0.0001f;
-    // Mix towards either pure black or pure white, with magnitude of luvDynRange.
-    color = mix(color, lightness, fabs(lightnessModifier) * luvDynRange * 0.01f);
+    // Mix towards either pure black or pure white, with magnitude of oklabDynRange.
+    color = mix(color, lightness, fabs(lightnessModifier) * oklabDynRange * 0.01f);
 
     if (color.x <= 0.0f) { return black; } // Avoid dividing by zero...
-
-//    float var_y = (color.x + 16.0f) / 116.0f;
-//    var_y = var_y > (6.0f / 29.0f) ?
-//       pown(var_y, 3) : ((var_y - 16.0f / 116.0f) * 3132.0f / 24389.0f);
-//
-//    float var_U = color.y / (13.0f * color.x) + ref_U;
-//    float var_V = color.z / (13.0f * color.x) + ref_V;
-
-//    float Y = var_y * 100.0f;
-//    float X = 0.0f - (9.0f * Y * var_U) / ((var_U - 4.0f) * var_V - var_U * var_V);
-//    float Z = (9.0f * Y - (15.0f * var_V * Y) - (var_V * X)) / (3.0f * var_V);
 
     float l = pow(0.9999999984f * color.x + 0.3963377922f * color.y + 0.2158037581f * color.z, 3.0f);
     float m = pow(1.0000000089f * color.x - 0.1055613423f * color.y - 0.0638541748f * color.z, 3.0f);
@@ -310,18 +216,18 @@ uchar4 RS_KERNEL generateOklabPalette(uint32_t x, uint32_t y) {
     return convert_uchar4(var_RGB);
 }
 
-rs_allocation luvPalette;
+rs_allocation oklabPalette;
 
-void prepareLuvTransform(rs_allocation palette) {
-    luvPalette = palette;
+void prepareOklabTransform(rs_allocation palette) {
+    oklabPalette = palette;
 }
 
-uchar4 RS_KERNEL generateLuvTransform(uchar4 gradient, uchar4 texture) {
-    return rsGetElementAt_uchar4(luvPalette, gradient.r / 4, texture.r / 8);
+uchar4 RS_KERNEL generateOklabTransform(uchar4 gradient, uchar4 texture) {
+    return rsGetElementAt_uchar4(oklabPalette, gradient.r / 4, texture.r / 8);
 }
 
-uchar4 RS_KERNEL generateLuvTransformAndSparkle(uchar4 gradient, uint32_t x, uint32_t y) {
-    uchar4 in = rsGetElementAt_uchar4(luvPalette, gradient.r / 4, 128 / 8);
+uchar4 RS_KERNEL generateOklabTransformAndSparkle(uchar4 gradient, uint32_t x, uint32_t y) {
+    uchar4 in = rsGetElementAt_uchar4(oklabPalette, gradient.r / 4, 128 / 8);
 
     // Simple fast PRNG for RenderScript -- https://stackoverflow.com/a/28117959
     uint32_t t = r0 ^ (r0 << 11);
