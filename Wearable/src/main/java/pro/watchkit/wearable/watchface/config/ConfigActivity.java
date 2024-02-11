@@ -59,8 +59,8 @@ import pro.watchkit.wearable.watchface.model.AttributionConfigData;
 import pro.watchkit.wearable.watchface.model.ColorsMaterialsConfigData;
 import pro.watchkit.wearable.watchface.model.ComplicationConfigData;
 import pro.watchkit.wearable.watchface.model.ConfigData;
+import pro.watchkit.wearable.watchface.model.ConfigurationConfigData;
 import pro.watchkit.wearable.watchface.model.MaterialConfigData;
-import pro.watchkit.wearable.watchface.model.SettingsConfigData;
 import pro.watchkit.wearable.watchface.model.TypefaceConfigData;
 import pro.watchkit.wearable.watchface.model.WatchFacePresetConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartDialConfigData;
@@ -228,7 +228,7 @@ public class ConfigActivity extends Activity {
     }
 
     private enum ConfigSubActivity {
-        Settings(SettingsConfigData.class, R.string.config_configure_settings, R.drawable.ic_settings),
+        Settings(ConfigurationConfigData.class, R.string.config_configure_settings, R.drawable.ic_settings),
         WatchFacePresets(WatchFacePresetConfigData.class, R.string.config_configure_watch_face_preset, R.drawable.ic_hands_pips),
         Complications(ComplicationConfigData.class, R.string.config_configure_complications, R.drawable.ic_complications),
         // N.B. As a shortcut, put items NOT in the NavigationAdapter at the end of this list.

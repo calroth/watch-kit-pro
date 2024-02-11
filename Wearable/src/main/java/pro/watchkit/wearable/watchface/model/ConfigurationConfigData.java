@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2021 Terence Tan
+ * Copyright (C) 2018-2024 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -49,7 +49,7 @@ import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
 import pro.watchkit.wearable.watchface.util.SharedPref;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
-public class SettingsConfigData extends ConfigData {
+public class ConfigurationConfigData extends ConfigData {
     @NonNull
     @Override
     public List<ConfigItemType> getDataToPopulateAdapter() {
