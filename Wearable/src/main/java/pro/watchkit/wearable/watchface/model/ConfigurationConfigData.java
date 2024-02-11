@@ -43,7 +43,6 @@ import java.util.Random;
 
 import pro.watchkit.wearable.watchface.BuildConfig;
 import pro.watchkit.wearable.watchface.R;
-import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
 import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
 import pro.watchkit.wearable.watchface.util.SharedPref;
@@ -62,47 +61,28 @@ public class ConfigurationConfigData extends ConfigData {
                 scriptureVerses[new Random().nextInt(scriptureVerses.length)];
         return Arrays.asList(
                 // Heading.
-                new HeadingLabelConfigItem(R.string.config_configure_settings),
+                new HeadingLabelConfigItem(R.string.config_configure_configuration),
 
-                // Data for 'Unread Notifications' UX (toggle) in settings Activity.
-                new ToggleConfigItem(
-                        R.string.config_unread_notifications_label,
-                        R.drawable.ic_notifications,
-                        R.drawable.ic_notifications_off,
-                        new BooleanMutator(WatchFaceState::setShowUnreadNotifications)),
-
-                // Data for Configure Typeface sub-activity in settings Activity.
+                // Data for Watch Face sub-activity in Configuration Activity.
                 new ConfigActivityConfigItem(
-                        R.string.config_configure_typeface,
-                        R.drawable.ic_font,
-                        TypefaceConfigData.class,
+                        R.string.config_configure_watch_face_preset,
+                        R.drawable.ic_hands_pips,
+                        WatchFacePresetConfigData.class,
                         ConfigActivity.class),
 
-                // Data for base color UX in settings Activity.
-                new ColorPickerConfigItem(
-                        R.string.config_ambient_day_color_label,
-                        R.drawable.ic_color_lens,
-                        PaintBox.ColorType.AMBIENT_DAY,
-                        ColorSelectionActivity.class),
+                // Data for Complications sub-activity in Configuration Activity.
+                new ConfigActivityConfigItem(
+                        R.string.config_configure_complications,
+                        R.drawable.ic_complications,
+                        ComplicationConfigData.class,
+                        ConfigActivity.class),
 
-                // Data for base color UX in settings Activity.
-                new ColorPickerConfigItem(
-                        R.string.config_ambient_night_color_label,
-                        R.drawable.ic_color_lens,
-                        PaintBox.ColorType.AMBIENT_NIGHT,
-                        ColorSelectionActivity.class),
-
-                // Second Hand in Ambient Mode
-                new ToggleConfigItem(
-                        R.string.config_ambient_second_label,
-                        R.string.config_ambient_second_alert_message,
-                        R.drawable.ic_settings_outline,
+                // Data for Settings sub-activity in Configuration Activity.
+                new ConfigActivityConfigItem(
+                        R.string.config_configure_settings,
                         R.drawable.ic_settings,
-                        new BooleanMutator(WatchFaceState::setUseDecomposition),
-                        SharedPref::isOffloadSupported),
-
-                // Help.
-                new HelpLabelConfigItem(R.string.config_configure_settings_help),
+                        SettingsConfigData.class,
+                        ConfigActivity.class),
 
                 // About!
                 new TitleLabelConfigItem(R.string.config_about_heading, R.string.version_name),

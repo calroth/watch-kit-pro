@@ -106,6 +106,7 @@
     <string name="config_factory_reset">Factory Reset</string>
     <string name="config_current_watch_face">Current Watch Face</string>
 
+    <string name="config_configure_configuration">Configuration</string>
     <string name="config_configure_settings">Settings</string>
     <string name="config_configure_complications">Complications</string>
     <string name="config_configure_watch_face_preset">Watch Face</string>

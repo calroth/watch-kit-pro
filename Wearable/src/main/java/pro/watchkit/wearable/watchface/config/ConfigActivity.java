@@ -61,6 +61,7 @@ import pro.watchkit.wearable.watchface.model.ComplicationConfigData;
 import pro.watchkit.wearable.watchface.model.ConfigData;
 import pro.watchkit.wearable.watchface.model.ConfigurationConfigData;
 import pro.watchkit.wearable.watchface.model.MaterialConfigData;
+import pro.watchkit.wearable.watchface.model.SettingsConfigData;
 import pro.watchkit.wearable.watchface.model.TypefaceConfigData;
 import pro.watchkit.wearable.watchface.model.WatchFacePresetConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartDialConfigData;
@@ -125,26 +126,9 @@ public class ConfigActivity extends Activity {
                     .ifPresent(c -> mCurrentSubActivity = c);
         }
 
-        // If we couldn't get mCurrentSubActivity, try to get it from preferences.
-        if (mCurrentSubActivity == null) {
-            String configDataString = sharedPref.getMostRecentConfigPageString();
-            Arrays.stream(ConfigSubActivity.finalValues)
-                    .filter(c -> c.mClassName.equals(configDataString))
-                    .filter(c -> c.mDrawableId != -1) // Filter these "non-navigation" activities
-                    .findFirst()
-                    .ifPresent(c -> mCurrentSubActivity = c);
-        }
-
         // Well, if we don't have mCurrentSubActivity by now, set it to default...
         if (mCurrentSubActivity == null) {
-            mCurrentSubActivity = ConfigSubActivity.Settings;
-        }
-
-        // Save out our most recent selected config page, for next time.
-        if (mCurrentSubActivity.mDrawableId != -1) {
-            // Only if we're in the navigation. Otherwise we'll be trapped there with no
-            // way to leave...
-            sharedPref.putMostRecentConfigPageString(mCurrentSubActivity.mClassName);
+            mCurrentSubActivity = ConfigSubActivity.Configuration;
         }
 
         if (mConfigData == null) {
@@ -228,10 +212,11 @@ public class ConfigActivity extends Activity {
     }
 
     private enum ConfigSubActivity {
-        Settings(ConfigurationConfigData.class, R.string.config_configure_settings, R.drawable.ic_settings),
+        Settings(SettingsConfigData.class, R.string.config_configure_settings, R.drawable.ic_settings),
         WatchFacePresets(WatchFacePresetConfigData.class, R.string.config_configure_watch_face_preset, R.drawable.ic_hands_pips),
         Complications(ComplicationConfigData.class, R.string.config_configure_complications, R.drawable.ic_complications),
         // N.B. As a shortcut, put items NOT in the NavigationAdapter at the end of this list.
+        Configuration(ConfigurationConfigData.class, R.string.config_configure_configuration, -1),
         ColorsMaterials(ColorsMaterialsConfigData.class, R.string.config_configure_colors_materials, -1),
         MaterialFillHighlight(MaterialConfigData.FillHighlight.class, R.string.config_configure_material, -1),
         MaterialAccentFill(MaterialConfigData.AccentFill.class, R.string.config_configure_material, -1),
