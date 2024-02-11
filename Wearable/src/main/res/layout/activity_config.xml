@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright (C) 2018-2022 Terence Tan
+ Copyright (C) 2018-2024 Terence Tan
 
   This file is free software: you may copy, redistribute and/or modify it
   under the terms of the GNU General Public License as published by the
@@ -32,36 +32,19 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<androidx.wear.widget.drawer.WearableDrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+<androidx.wear.widget.WearableRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/wearable_recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".config.WatchFaceSelectionActivity"
-    tools:deviceIds="wear">
+    android:background="@color/dark_grey"
+    android:paddingTop="@dimen/activity_config_top_padding"
+    android:paddingBottom="@dimen/activity_config_bottom_padding"
+    android:paddingStart="@dimen/activity_config_sides_padding"
+    android:paddingEnd="@dimen/activity_config_sides_padding"
+    android:scrollbars="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
-    <androidx.wear.widget.WearableRecyclerView
-        android:id="@+id/wearable_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/dark_grey"
-        android:paddingTop="@dimen/activity_config_top_padding"
-        android:paddingBottom="@dimen/activity_config_bottom_padding"
-        android:paddingStart="@dimen/activity_config_sides_padding"
-        android:paddingEnd="@dimen/activity_config_sides_padding"
-        android:scrollbars="vertical"
-        android:focusable="true"
-        android:focusableInTouchMode="true">
+    <requestFocus />
 
-        <requestFocus />
-
-    </androidx.wear.widget.WearableRecyclerView>
-
-    <androidx.wear.widget.drawer.WearableNavigationDrawerView
-        android:id="@+id/top_navigation_drawer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/light_grey"
-        app:navigationStyle="singlePage" />
-</androidx.wear.widget.drawer.WearableDrawerLayout>
+</androidx.wear.widget.WearableRecyclerView>

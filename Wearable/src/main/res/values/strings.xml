@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright (C) 2018-2022 Terence Tan
+ Copyright (C) 2018-2024 Terence Tan
 
   This file is free software: you may copy, redistribute and/or modify it
   under the terms of the GNU General Public License as published by the
@@ -39,11 +39,6 @@
     <string name="watch_face_service_label_b">Watch Kit Pro 🅱</string>
     <string name="watch_face_service_label_c">Watch Kit Pro 🅲</string>
     <string name="watch_face_service_label_d">Watch Kit Pro 🅳</string>
-
-    <string name="watch_face_service_short_label_a">🅰</string>
-    <string name="watch_face_service_short_label_b">🅱</string>
-    <string name="watch_face_service_short_label_c">🅲</string>
-    <string name="watch_face_service_short_label_d">🅳</string>
 
     <string name="watch_kit_pro_a_preference_file_key">pro.watchkit.wearable.watchface.WATCH_KIT_PRO_A_PREFERENCE_FILE_KEY</string>
     <string name="watch_kit_pro_b_preference_file_key">pro.watchkit.wearable.watchface.WATCH_KIT_PRO_B_PREFERENCE_FILE_KEY</string>

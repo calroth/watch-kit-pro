@@ -34,23 +34,17 @@
 package pro.watchkit.wearable.watchface.config;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.wearable.complications.ComplicationProviderInfo;
 import android.support.wearable.complications.ProviderChooserIntent;
-import android.view.View;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.wear.widget.WearableRecyclerView;
-import androidx.wear.widget.drawer.WearableNavigationDrawerView;
 
 import java.util.Arrays;
 
@@ -66,7 +60,6 @@ import pro.watchkit.wearable.watchface.model.TypefaceConfigData;
 import pro.watchkit.wearable.watchface.model.WatchFacePresetConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartDialConfigData;
 import pro.watchkit.wearable.watchface.model.WatchPartHandsConfigData;
-import pro.watchkit.wearable.watchface.util.SharedPref;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 
 /**
@@ -86,36 +79,28 @@ public class ConfigActivity extends Activity {
     @Nullable
     private ConfigData mConfigData;
 
-    private WearableNavigationDrawerView mWearableNavigationDrawer;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Try to get the watch face slot from our activity intent.
         Class<? extends ProWatchFaceService> watchFaceServiceClass = ProWatchFaceService.A.class;
-        @StringRes int slotLabel = R.string.watch_face_service_short_label_a;
         if (getIntent().getAction() != null) {
             switch (getIntent().getAction()) {
                 case "pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_B": {
                     watchFaceServiceClass = ProWatchFaceService.B.class;
-                    slotLabel = R.string.watch_face_service_short_label_b;
                     break;
                 }
                 case "pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_C": {
                     watchFaceServiceClass = ProWatchFaceService.C.class;
-                    slotLabel = R.string.watch_face_service_short_label_c;
                     break;
                 }
                 case "pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_D": {
                     watchFaceServiceClass = ProWatchFaceService.D.class;
-                    slotLabel = R.string.watch_face_service_short_label_d;
                     break;
                 }
             }
         }
-
-        SharedPref sharedPref = new SharedPref(this, watchFaceServiceClass);
 
         // Try to get mCurrentSubActivity from our activity intent.
         if (mCurrentSubActivity == null) {
@@ -152,33 +137,6 @@ public class ConfigActivity extends Activity {
         wearableRecyclerView.setHasFixedSize(false);
 
         wearableRecyclerView.setAdapter(mAdapter);
-
-        mWearableNavigationDrawer = findViewById(R.id.top_navigation_drawer);
-        // Only if we're part of the main navigation.
-        if (mCurrentSubActivity.mDrawableId != -1) {
-            // Set up our navigation drawer at the top of the view.
-            mWearableNavigationDrawer.setAdapter(new NavigationAdapter(this, slotLabel));
-            mWearableNavigationDrawer.setCurrentItem(mCurrentSubActivity.ordinal(), false);
-            mWearableNavigationDrawer.addOnItemSelectedListener(pos -> {
-                String configData = ConfigSubActivity.finalValues[pos].mClassName;
-
-                Intent launchIntent =
-                        new Intent(mWearableNavigationDrawer.getContext(), ConfigActivity.class);
-
-                // Add an intent to the launch to point it towards our sub-activity.
-                launchIntent.putExtra(CONFIG_DATA, configData);
-                launchIntent.setAction(getIntent().getAction());
-
-                Activity activity = (Activity) mWearableNavigationDrawer.getContext();
-                activity.startActivity(launchIntent);
-                finish(); // Remove this from the "back" stack, so it's a direct switch.
-            });
-
-            // Give a hint it's there.
-            mWearableNavigationDrawer.getController().peekDrawer();
-        } else {
-            mWearableNavigationDrawer.setVisibility(View.GONE);
-        }
     }
 
     @Override
@@ -254,54 +212,6 @@ public class ConfigActivity extends Activity {
             } catch (@NonNull IllegalAccessException | InstantiationException e) {
                 return null;
             }
-        }
-    }
-
-    private static final class NavigationAdapter
-            extends WearableNavigationDrawerView.WearableNavigationDrawerAdapter {
-
-        private final Context mContext;
-        @StringRes
-        private final int mSlotLabel;
-
-        NavigationAdapter(final Context context, final int slotLabel) {
-            mContext = context;
-            mSlotLabel = slotLabel;
-        }
-
-        /**
-         * Just the ConfigSubActivity objects we actually want to present in this
-         * NavigationAdapter.
-         */
-        private final ConfigSubActivity[] mNavigationActivities = new ConfigSubActivity[]{
-                ConfigSubActivity.Settings,
-                ConfigSubActivity.WatchFacePresets,
-                ConfigSubActivity.Complications
-        };
-
-        @NonNull
-        @Override
-        public String getItemText(int index) {
-            return mContext.getString(mSlotLabel) + " " +
-                    mContext.getString(mNavigationActivities[index].mTitleId);
-        }
-
-        @ColorInt
-        private final static int mDrawableTint = Color.BLACK;
-
-        @Nullable
-        @Override
-        public Drawable getItemDrawable(int index) {
-            Drawable result = mContext.getDrawable(mNavigationActivities[index].mDrawableId);
-            if (result != null) {
-                result.setTint(mDrawableTint);
-            }
-            return result;
-        }
-
-        @Override
-        public int getCount() {
-            return mNavigationActivities.length;
         }
     }
 }
