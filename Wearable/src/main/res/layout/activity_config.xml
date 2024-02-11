@@ -36,7 +36,7 @@
     android:id="@+id/wearable_recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_grey"
+    android:background="@color/black"
     android:paddingTop="@dimen/activity_config_top_padding"
     android:paddingBottom="@dimen/activity_config_bottom_padding"
     android:paddingStart="@dimen/activity_config_sides_padding"
