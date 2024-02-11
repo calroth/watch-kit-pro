@@ -84,6 +84,9 @@ public class ConfigurationConfigData extends ConfigData {
                         SettingsConfigData.class,
                         ConfigActivity.class),
 
+                // Help.
+                new HelpLabelConfigItem(R.string.config_configure_configuration_help),
+
                 // About!
                 new TitleLabelConfigItem(R.string.config_about_heading, R.string.version_name),
 

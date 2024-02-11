@@ -123,6 +123,16 @@
     <string name="config_view_random_hands">Random Hands</string>
 
     <string name="config_configure_help">&lt;br /&gt;ℹ️️&lt;br /&gt;&lt;br /&gt;</string>
+    <string name="config_configure_configuration_help">On this page, configure
+        Watch Kit Pro. You can change:&lt;br /&gt;
+        &lt;br /&gt;
+        the visual design of the &lt;i&gt;watch face&lt;/i&gt;;&lt;br /&gt;
+        the &lt;i&gt;complications&lt;/i&gt; displayed on the watch face; and&lt;br /&gt;
+        the &lt;i&gt;settings&lt;/i&gt; for how the watch face operates.&lt;br /&gt;
+        &lt;br /&gt;
+        Swipe to go back.&lt;br /&gt;
+        &lt;br /&gt;
+        🃏️&lt;br /&gt;️</string>
     <string name="config_configure_settings_help">On this page, configure
         &lt;i&gt;settings&lt;/i&gt; for how the watch face operates. You can
         change:&lt;br /&gt;
@@ -130,9 +140,7 @@
         whether &lt;i&gt;unread notifications&lt;/i&gt; are indicated;&lt;br /&gt;
         the &lt;i&gt;typeface&lt;/i&gt;; and&lt;br /&gt;
         the colors for &lt;i&gt;ambient day&lt;/i&gt; and &lt;i&gt;ambient night&lt;/i&gt;
-        display.&lt;br /&gt;
-        &lt;br /&gt;
-        🃏️&lt;br /&gt;️</string>
+        display.&lt;br /&gt;</string>
     <string name="config_configure_complications_help">A &lt;i&gt;complication&lt;/i&gt; on a
         watch face is a customisable display of information. Tap on a complication to
         choose what it shows.&lt;br /&gt;
@@ -314,7 +322,7 @@
     <string name="config_licence_1">The following components are licensed under the GNU General
         Public License, version 3 or later&lt;br /&gt;
 &lt;br /&gt;
-&lt;b&gt;Watch Kit Pro&lt;/b&gt;, Copyright © 2018-2022 Terence Tan&lt;br /&gt;
+&lt;b&gt;Watch Kit Pro&lt;/b&gt;, Copyright © 2018-2024 Terence Tan&lt;br /&gt;
 &lt;br /&gt;&lt;small&gt;&lt;small&gt;&lt;tt&gt;
 This file is free software: you may copy, redistribute and/or modify it
 under the terms of the GNU General Public License as published by the
