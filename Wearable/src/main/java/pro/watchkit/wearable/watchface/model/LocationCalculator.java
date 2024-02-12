@@ -60,22 +60,19 @@ public final class LocationCalculator {
             return 90d;
         }
 
-        boolean regenerateSunAltitude = false;
-
         // Regenerate every 900 ms. Calls prior to this return cached value.
-        if (mCalendar.getTimeInMillis() > previousSunAltitudeTime + 900) {
-            regenerateSunAltitude = true;
-        }
+        boolean regenerateSunAltitude =
+                mCalendar.getTimeInMillis() > previousSunAltitudeTime + 900;
 
         if (regenerateSunAltitude) {
             previousSunAltitude = 90d - SPA.calculateSolarPosition(
-                    mCalendar,
+                    mCalendar.toZonedDateTime(),
                     mLocation.getLatitude(),
                     mLocation.getLongitude(),
                     mLocation.getAltitude(),
-                    DeltaT.estimate(mCalendar),
+                    DeltaT.estimate(mCalendar.toZonedDateTime().toLocalDate()),
                     1000,
-                    20).getZenithAngle();
+                    20).zenithAngle();
             previousSunAltitudeTime = mCalendar.getTimeInMillis();
         }
 
