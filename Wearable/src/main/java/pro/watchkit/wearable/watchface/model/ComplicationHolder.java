@@ -687,10 +687,6 @@ public final class ComplicationHolder {
         return id;
     }
 
-//    private final Rect mComplicationDrawableBounds = new Rect(),
-//            mComplicationDrawableBoundsAlt1 = new Rect(),
-//            mComplicationDrawableBoundsAlt2 = new Rect();
-
     public void draw(@NonNull Canvas canvas, long currentTimeMillis) {
         if (mProviderIconDrawable != null) {
             mProviderIconDrawable.draw(canvas);
@@ -708,7 +704,6 @@ public final class ComplicationHolder {
                 mComplicationDrawable.draw(canvas, currentTimeMillis);
                 // And draw the original over the top of it all.
                 canvas.restore();
-                android.util.Log.d("ComplicationHolder", "Draw: " + this);
             }
             setColorsBeforeDraw(mActiveColor);
             mComplicationDrawable.draw(canvas, currentTimeMillis);

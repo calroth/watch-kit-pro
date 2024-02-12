@@ -34,6 +34,7 @@
 
 package pro.watchkit.wearable.watchface.watchface;
 
+
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -54,6 +55,7 @@ import android.support.wearable.complications.SystemProviders;
 import android.support.wearable.watchface.WatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
 import android.support.wearable.watchface.decomposition.WatchFaceDecomposition;
+import android.util.Log;
 import android.view.SurfaceHolder;
 
 import androidx.annotation.NonNull;
@@ -68,6 +70,7 @@ import com.google.android.gms.location.LocationServices;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.TimeUnit;
 
+import pro.watchkit.wearable.watchface.BuildConfig;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.util.SharedPref;
 import pro.watchkit.wearable.watchface.util.Toaster;
@@ -406,8 +409,10 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
         private final Drawable.Callback mInvalidateCallback = new Drawable.Callback() {
             @Override
             public void invalidateDrawable(@NonNull Drawable who) {
-                android.util.Log.d("ProWatchFaceService",
-                        "Drawable invalidated: " + who);
+                if (BuildConfig.DEBUG) {
+                    Log.d("ProWatchFaceService",
+                            "Drawable invalidated: " + who);
+                }
                 invalidate();
             }
 
