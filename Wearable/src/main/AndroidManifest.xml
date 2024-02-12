@@ -175,11 +175,14 @@
             </intent-filter>
         </service>
 
-        <activity android:name="android.support.wearable.complications.ComplicationHelperActivity"/>
+        <activity
+            android:name="android.support.wearable.complications.ComplicationHelperActivity"
+            android:taskAffinity=".main" />
 
         <activity
             android:name=".config.ConfigActivity"
             android:label="@string/config_activity_label"
+            android:taskAffinity=".main"
             android:exported="true">
             <intent-filter>
                 <action android:name="pro.watchkit.wearable.watchface.CONFIG_WATCH_KIT_PRO_A" />
@@ -192,8 +195,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".config.ColorSelectionActivity"/>
+        <activity
+            android:name=".config.ColorSelectionActivity"
+            android:taskAffinity=".main" />
 
-        <activity android:name=".config.WatchFaceSelectionActivity" />
+        <activity
+            android:name=".config.WatchFaceSelectionActivity"
+            android:taskAffinity=".main" />
     </application>
 </manifest>
