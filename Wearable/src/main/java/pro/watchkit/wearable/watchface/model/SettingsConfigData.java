@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2021 Terence Tan
+ * Copyright (C) 2018-2024 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -41,13 +41,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import pro.watchkit.wearable.watchface.BuildConfig;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ColorSelectionActivity;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
-import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
 import pro.watchkit.wearable.watchface.util.SharedPref;
-import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
 
 public class SettingsConfigData extends ConfigData {
     @NonNull
@@ -102,132 +99,7 @@ public class SettingsConfigData extends ConfigData {
                         SharedPref::isOffloadSupported),
 
                 // Help.
-                new HelpLabelConfigItem(R.string.config_configure_settings_help),
-
-                // About!
-                new TitleLabelConfigItem(R.string.config_about_heading, R.string.version_name),
-
-                // Credits!
-                new TitleLabelConfigItem(R.string.config_credits_1, R.string.config_credits_2),
-
-                // Australia Represent
-                new TitleLabelConfigItem(R.string.config_country_1, R.string.config_country_2),
-
-                // Git hash.
-                new TitleLabelConfigItem(
-                        BuildConfig.DEBUG ? R.string.config_git_debug : R.string.config_git_hash,
-                        R.string.git_hash),
-
-                // Git date.
-                new TitleLabelConfigItem(R.string.config_git_date, R.string.git_date),
-
-                // Data for 'Developer Mode' UX (toggle) in settings Activity.
-                new ToggleConfigItem(
-                        R.string.config_developer_mode_label,
-                        R.drawable.ic_settings,
-                        R.drawable.ic_settings,
-                        new BooleanMutator(WatchFaceState::setDeveloperMode),
-                        WatchFaceState::isDeveloperMode),
-
-                // Data for 'Stats' UX (toggle) in settings Activity.
-                new ToggleConfigItem(
-                        R.string.config_stats_label,
-                        R.drawable.ic_settings,
-                        R.drawable.ic_settings,
-                        new BooleanMutator(WatchFaceState::setStats),
-                        WatchFaceState::isDeveloperMode),
-
-                // Data for 'Stats (Detailed)' UX (toggle) in settings Activity.
-                new ToggleConfigItem(
-                        R.string.config_stats_detail_label,
-                        R.drawable.ic_settings,
-                        R.drawable.ic_settings,
-                        new BooleanMutator(WatchFaceState::setStatsDetail),
-                        WatchFaceState::isDeveloperMode),
-
-                // Data for 'Hide Pips' UX (toggle) in settings Activity.
-                new ToggleConfigItem(
-                        R.string.config_hide_pips_label,
-                        R.drawable.ic_settings,
-                        R.drawable.ic_settings,
-                        new BooleanMutator(WatchFaceState::setHidePips),
-                        WatchFaceState::isDeveloperMode),
-
-                // Data for 'Hide Hands' UX (toggle) in settings Activity.
-                new ToggleConfigItem(
-                        R.string.config_hide_hands_label,
-                        R.drawable.ic_settings,
-                        R.drawable.ic_settings,
-                        new BooleanMutator(WatchFaceState::setHideHands),
-                        WatchFaceState::isDeveloperMode),
-
-                // Data for 'Sparkle Effect' in settings Activity.
-                new ToggleConfigItem(
-                        R.string.config_use_legacy_effects_label,
-                        R.drawable.ic_settings,
-                        R.drawable.ic_settings,
-                        new BooleanMutator(WatchFaceState::setUseLegacyEffects),
-                        WatchFaceState::isDeveloperMode),
-
-                // Generate icon files.
-                new LabelConfigItem(R.string.config_generate_icon_files,
-                        watchFaceState -> BuildConfig.DEBUG && watchFaceState.isDeveloperMode()),
-
-                new PickerConfigItem(
-                        R.string.config_factory_reset,
-                        R.drawable.ic_settings,
-                        WatchFaceGlobalDrawable.PART_BACKGROUND |
-                                WatchFaceGlobalDrawable.PART_PIPS |
-                                WatchFaceGlobalDrawable.PART_HANDS |
-                                WatchFaceGlobalDrawable.PART_RINGS_ALL,
-                        WatchFaceSelectionActivity.class,
-                        new MutatorWithPrefsAccess() {
-                            // A custom Mutator which "resets to default" by
-                            // offering mutations corresponding to the default
-                            // WatchFaceState for this slot
-
-                            private SharedPref mSharedPref;
-
-                            @Override
-                            public void setSharedPref(@NonNull SharedPref sharedPref) {
-                                mSharedPref = sharedPref;
-                            }
-
-                            @NonNull
-                            @Override
-                            public Permutation[] getPermutations(WatchFaceState w) {
-                                if (mSharedPref == null) {
-                                    return new Permutation[]{
-                                            new Permutation(
-                                                    w.getString(),
-                                                    w.getStringResource(
-                                                            R.string.config_current_watch_face))
-                                    };
-                                } else {
-                                    return new Permutation[]{
-                                            new Permutation(
-                                                    w.getString(),
-                                                    w.getStringResource(
-                                                            R.string.config_current_watch_face)),
-                                            new Permutation(
-                                                    mSharedPref.getDefaultFaceStateString(),
-                                                    w.getStringResource(
-                                                            R.string.config_factory_reset))
-                                    };
-                                }
-                            }
-                        },
-                        WatchFaceState::isDeveloperMode),
-
-                // Data for Attributions sub-activity in settings Activity.
-                new ConfigActivityConfigItem(
-                        R.string.config_licence,
-                        R.drawable.ic_policy,
-                        AttributionConfigData.class,
-                        ConfigActivity.class),
-
-                // Scripture.
-                new TitleLabelConfigItem(R.string.config_scripture_0, randomScriptureVerse)
+                new HelpLabelConfigItem(R.string.config_configure_settings_help)
         );
     }
 }

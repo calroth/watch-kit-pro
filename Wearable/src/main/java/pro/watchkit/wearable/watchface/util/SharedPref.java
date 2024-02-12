@@ -257,28 +257,6 @@ public final class SharedPref {
     }
 
     /**
-     * Get the most recent config page string from preferences
-     *
-     * @return the most recent config page string
-     */
-    @Nullable
-    public String getMostRecentConfigPageString() {
-        return mSharedPreferences.getString(
-                mContext.getString(R.string.saved_most_recent_config_page), null);
-    }
-
-    /**
-     * Store the given recent config page string into preferences
-     *
-     * @param value the recent config page string to store
-     */
-    public void putMostRecentConfigPageString(@NonNull String value) {
-        SharedPreferences.Editor editor = mSharedPreferences.edit();
-        editor.putString(mContext.getString(R.string.saved_most_recent_config_page), value);
-        editor.apply();
-    }
-
-    /**
      * Whether we support sending code to the device's offload processor. We keep our own
      * static version here, since it's flagged by WatchFaceService, but required by other
      * Activities that aren't WatchFaceService.
