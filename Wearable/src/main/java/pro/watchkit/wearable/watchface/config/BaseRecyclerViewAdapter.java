@@ -330,7 +330,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             if (WatchFaceState.mostlyEquals(
                     mSharedPref.getWatchFaceStateString(), watchFaceStateString)) {
                 itemView.setBackground(itemView.getContext().
-                        getDrawable(android.R.drawable.screen_background_dark_transparent));
+                        getDrawable(android.R.drawable.screen_background_light_transparent));
             } else {
                 itemView.setBackground(null);
             }
@@ -707,8 +707,8 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 mCirclePaint.setColor(Color.WHITE);
                 canvas.drawCircle(r.right - 20f - radius - offset,
                         (r.top + r.bottom) / 2f - offset, radius, mCirclePaint);
-                // Draw a black circle offset southeast
-                mCirclePaint.setColor(Color.BLACK);
+                // Draw a dark gray circle offset southeast
+                mCirclePaint.setColor(Color.DKGRAY);
                 canvas.drawCircle(r.right - 20f - radius + offset,
                         (r.top + r.bottom) / 2f + offset, radius, mCirclePaint);
                 // Now draw our swatch.
@@ -1071,8 +1071,8 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 mCirclePaint.setColor(Color.WHITE);
                 canvas.drawCircle(r.right - 20f - radius - offset,
                         (r.top + r.bottom) / 2f - offset, radius, mCirclePaint);
-                // Draw a black circle offset southeast
-                mCirclePaint.setColor(Color.BLACK);
+                // Draw a dark gray circle offset southeast
+                mCirclePaint.setColor(Color.DKGRAY);
                 canvas.drawCircle(r.right - 20f - radius + offset,
                         (r.top + r.bottom) / 2f + offset, radius, mCirclePaint);
                 // Now draw our swatch.

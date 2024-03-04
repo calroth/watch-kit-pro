@@ -310,8 +310,8 @@ public class ColorSelectionActivity extends Activity {
 //                                    cx - 0.2f * pc, cy - 0.2f * pc, radius,
 //                                    (0xFFFFFF & o.getColor())));
 
-                            // Draw a black circle offset +0.2%, +0.2%
-                            o.setColor(Color.BLACK);
+                            // Draw a dark gray circle offset +0.2%, +0.2%
+                            o.setColor(Color.DKGRAY);
                             canvas.drawCircle(cx + 0.2f * pc, cy + 0.2f * pc, radius2, o);
 //                            android.util.Log.d("ColorSelectionActivity", String.format(
 //                                    "<circle cx=\"%f\" cy=\"%f\" r=\"%f\" fill=\"#%06X\" />",
