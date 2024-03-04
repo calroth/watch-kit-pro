@@ -395,12 +395,8 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
             boolean burnInProtection = properties.getBoolean(PROPERTY_BURN_IN_PROTECTION, false);
             boolean offloadSupported = properties.getBoolean(PROPERTY_OFFLOAD_SUPPORTED, false);
 
-            // Set low-bit ambient on our ambient watch face paint as required.
-            getWatchFaceState().getPaintBox().getAmbientPaint().setAntiAlias(!lowBitAmbient);
-
-            // Set low-bit ambient and burn-in protection on our complications as required.
-            getWatchFaceState().getComplications().forEach(
-                    c -> c.setLowBitAmbientBurnInProtection(lowBitAmbient, burnInProtection));
+            // Set low-bit ambient and burn-in protection on our watch face.
+            getWatchFaceState().setBurnInProtection(lowBitAmbient, burnInProtection);
 
             // Set offload support!
             SharedPref.setIsOffloadSupported(offloadSupported);

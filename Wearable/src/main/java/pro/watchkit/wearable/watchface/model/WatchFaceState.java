@@ -109,6 +109,7 @@ public class WatchFaceState {
     private int mUnreadNotifications = 0;
     private int mTotalNotifications = 0;
     private boolean mAmbient = false;
+    private boolean mBurnInProtection = false;
     private final GregorianCalendar mCalendar = new GregorianCalendar();
     private final LocationCalculator mLocationCalculator = new LocationCalculator(mCalendar);
     @NonNull
@@ -123,7 +124,8 @@ public class WatchFaceState {
                 mPaintBox,
                 mComplications,
                 mUnreadNotifications,
-                mTotalNotifications);
+                mTotalNotifications,
+                mBurnInProtection);
     }
 
     @NonNull
@@ -226,6 +228,21 @@ public class WatchFaceState {
      */
     public void setCurrentTime(long millis) {
         mCalendar.setTimeInMillis(millis);
+    }
+
+    public void setBurnInProtection(boolean lowBitAmbient, boolean burnInProtection) {
+        mBurnInProtection = burnInProtection;
+
+        // Set low-bit ambient on our ambient watch face paint as required.
+        getPaintBox().getAmbientPaint().setAntiAlias(!lowBitAmbient);
+
+        // Set low-bit ambient and burn-in protection on our complications as required.
+        getComplications().forEach(
+                c -> c.setLowBitAmbientBurnInProtection(lowBitAmbient, burnInProtection));
+    }
+
+    public boolean getBurnInProtection() {
+        return mBurnInProtection;
     }
 
     public void onComplicationDataUpdate(
