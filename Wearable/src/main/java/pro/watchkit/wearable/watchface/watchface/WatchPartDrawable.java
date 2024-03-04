@@ -78,10 +78,10 @@ abstract class WatchPartDrawable extends Drawable {
     private final Path mNorthWestBezel = new Path();
     @NonNull
     private final Path mSouthEastBezel = new Path();
-    //    @NonNull
-//    private final Path mNorthEastBezel = new Path();
-//    @NonNull
-//    private final Path mSouthWestBezel = new Path();
+    @NonNull
+    private final Path mNorthEastBezel = new Path();
+    @NonNull
+    private final Path mSouthWestBezel = new Path();
     @NonNull
     private final Path mShapeCutout = new Path();
     @NonNull
@@ -90,10 +90,6 @@ abstract class WatchPartDrawable extends Drawable {
     private Path mInnerGlowPath = new Path();
     @NonNull
     private final Path mDrawPath = new Path();
-    @NonNull
-    private final Paint mNorthEastBezelPaint = new Paint();
-    @NonNull
-    private final Paint mSouthWestBezelPaint = new Paint();
 
     /**
      * Reset our current direction. Call this before starting any drawing, so we get consistency
@@ -104,7 +100,7 @@ abstract class WatchPartDrawable extends Drawable {
     }
 
 
-    private static final float mBevelOffset = 0.3333333f; // 0.33%
+    private static final float mBevelOffset = 0.25f; // 0.25%
 
     // Stats start
     long mLastStatsTime = 0;
@@ -263,35 +259,35 @@ abstract class WatchPartDrawable extends Drawable {
 
 //        boolean altDrawing = mWatchFaceState.isDeveloperMode() && mWatchFaceState.isAltDrawing();
 //        if (!altDrawing) {
-//            // Do it again: only this time for NE and SW bezels
-//
-//            mTempMatrix1.reset();
-//            mTempMatrix2.reset();
-//
-//            mTempMatrix1.postRotate(degrees, mCenterX, mCenterY);
-//            mTempMatrix1.postTranslate(mBevelOffset * pc, -(mBevelOffset * pc));
-//            mTempMatrix1.postRotate(-degrees, mCenterX, mCenterY);
-//
-//            mTempMatrix2.postRotate(degrees, mCenterX, mCenterY);
-//            mTempMatrix2.postTranslate(-(mBevelOffset * pc), mBevelOffset * pc);
-//            mTempMatrix2.postRotate(-degrees, mCenterX, mCenterY);
-//
-//            p.transform(mTempMatrix1, mNorthEastBezel);
-//            p.transform(mTempMatrix2, mSouthWestBezel);
-//
-//            // Draw NW and SE bezels as paths.
-//
-//            // Calculate the intersection of NE and SW bezels.
-//            mTempPath.set(mNorthEastBezel);
-//            mTempPath.op(mSouthWestBezel, Path.Op.INTERSECT);
-//
-//            // Punch that intersection out of NE and SW bevels.
-//            mNorthEastBezel.op(mTempPath, Path.Op.DIFFERENCE);
-//            mSouthWestBezel.op(mTempPath, Path.Op.DIFFERENCE);
-//
-//            // And clip the NE and SW bezels to the original paths.
-//            mNorthEastBezel.op(p, Path.Op.INTERSECT);
-//            mSouthWestBezel.op(p, Path.Op.INTERSECT);
+        // Do it again: only this time for NE and SW bezels
+
+        mTempMatrix1.reset();
+        mTempMatrix2.reset();
+
+        mTempMatrix1.postRotate(degrees, mCenterX, mCenterY);
+        mTempMatrix1.postTranslate(mBevelOffset * pc, -(mBevelOffset * pc));
+        mTempMatrix1.postRotate(-degrees, mCenterX, mCenterY);
+
+        mTempMatrix2.postRotate(degrees, mCenterX, mCenterY);
+        mTempMatrix2.postTranslate(-(mBevelOffset * pc), mBevelOffset * pc);
+        mTempMatrix2.postRotate(-degrees, mCenterX, mCenterY);
+
+        p.transform(mTempMatrix1, mNorthEastBezel);
+        p.transform(mTempMatrix2, mSouthWestBezel);
+
+        // Draw NW and SE bezels as paths.
+
+        // Calculate the intersection of NE and SW bezels.
+        mTempPath.set(mNorthEastBezel);
+        mTempPath.op(mSouthWestBezel, Path.Op.INTERSECT);
+
+        // Punch that intersection out of NE and SW bevels.
+        mNorthEastBezel.op(mTempPath, Path.Op.DIFFERENCE);
+        mSouthWestBezel.op(mTempPath, Path.Op.DIFFERENCE);
+
+        // And clip the NE and SW bezels to the original paths.
+        mNorthEastBezel.op(p, Path.Op.INTERSECT);
+        mSouthWestBezel.op(p, Path.Op.INTERSECT);
 //        }
     }
 
@@ -358,12 +354,26 @@ abstract class WatchPartDrawable extends Drawable {
 //            // Draw NE and SW bezels as paths.
 //            // They're drawn first so they're overdrawn by NW and SE.
 //            if (!altDrawing) {
+            {
+                // Retrieve our paints and set them to fill.
+                Paint bezelPaint1 = mWatchFaceState.getPaintBox().getBezelPaint1();
+                Paint bezelPaint2 = mWatchFaceState.getPaintBox().getBezelPaint2();
+                bezelPaint1.setStyle(Paint.Style.FILL);
+                int alpha1 = bezelPaint1.getAlpha();
+                bezelPaint1.setAlpha(127); // Draw at half-intensity
+                bezelPaint2.setStyle(Paint.Style.FILL);
+                int alpha2 = bezelPaint2.getAlpha();
+                bezelPaint2.setAlpha(127);
+
 //                // Right, all done, draw them!
-//                mNorthEastBezel.transform(mTempMatrix2, mTempPath);
-//                canvas.drawPath(mTempPath, mNorthEastBezelPaint);
-//                mSouthWestBezel.transform(mTempMatrix2, mTempPath);
-//                canvas.drawPath(mTempPath, mSouthWestBezelPaint);
-//            }
+                mNorthEastBezel.transform(mTempMatrix2, mTempPath);
+                canvas.drawPath(mTempPath, bezelPaint1);
+                mSouthWestBezel.transform(mTempMatrix2, mTempPath);
+                canvas.drawPath(mTempPath, bezelPaint2);
+
+                bezelPaint1.setAlpha(alpha1);
+                bezelPaint2.setAlpha(alpha2);
+            }
 
             // Draw NW and SE bezels as paths.
             {
@@ -446,15 +456,6 @@ abstract class WatchPartDrawable extends Drawable {
         RectF boundsF = new RectF(bounds);
         boundsF.inset(-10f * pc, -10f * pc);
         mInnerGlowPath.addRect(boundsF, getDirection());
-
-        // Set up our alt bezel paints.
-        mNorthEastBezelPaint.setColor(Color.argb(127, 255, 255, 255));
-        mSouthWestBezelPaint.setColor(Color.argb(127, 0, 0, 0));
-
-        mNorthEastBezelPaint.setStyle(Paint.Style.FILL);
-        mSouthWestBezelPaint.setStyle(Paint.Style.FILL);
-        mNorthEastBezelPaint.setAntiAlias(true);
-        mSouthWestBezelPaint.setAntiAlias(true);
     }
 
     @Override
