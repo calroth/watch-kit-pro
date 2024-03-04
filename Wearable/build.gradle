@@ -5,7 +5,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.2.2'
+        classpath 'com.android.tools.build:gradle:8.3.0'
     }
 }
 
@@ -25,7 +25,6 @@ dependencies {
     implementation 'net.e175.klaus:solarpositioning:2.0.2'
     implementation 'androidx.annotation:annotation:1.7.1'
     implementation 'androidx.core:core-splashscreen:1.1.0-alpha02'
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
 }
 
 // https://stackoverflow.com/questions/28498688#35041457
@@ -68,9 +67,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     buildTypes {
