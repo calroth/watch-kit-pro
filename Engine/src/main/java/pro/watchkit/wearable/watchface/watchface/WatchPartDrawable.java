@@ -40,7 +40,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
-import pro.watchkit.wearable.watchface.util.SharedPref;
+//import pro.watchkit.wearable.watchface.util.SharedPref;
 
 abstract class WatchPartDrawable extends Drawable {
     WatchFaceState mWatchFaceState;
@@ -121,7 +121,7 @@ abstract class WatchPartDrawable extends Drawable {
         // Stats end
 
         Rect bounds = canvas.getClipBounds();
-        if (SharedPref.mWriteLayersToDisk && bounds.width() != 0 && bounds.height() != 0) {
+        if (/*SharedPref.mWriteLayersToDisk && */bounds.width() != 0 && bounds.height() != 0) {
             // Create "mWriteBitmap" on first use or dimension change.
             if (mWriteBitmap == null || bounds.width() != mWriteBitmap.getWidth() ||
                     bounds.height() != mWriteBitmap.getHeight()) {

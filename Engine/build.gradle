@@ -1,0 +1,54 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.3.0'
+    }
+}
+
+apply plugin: 'com.android.library'
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'com.google.android.wearable:wearable:2.9.0'
+    implementation 'com.google.android.support:wearable:2.9.0'
+    implementation 'net.e175.klaus:solarpositioning:2.0.2'
+//    implementation 'androidx.annotation:annotation:1.7.1'
+}
+
+android {
+    namespace 'pro.watchkit.wearable.watchface'
+
+    defaultConfig {
+        minSdkVersion 25 // Wear OS 2.0
+        //noinspection OldTargetApi
+        targetSdkVersion 33
+        compileSdk 34
+
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    buildFeatures {
+        renderScript true
+        buildConfig true
+    }
+}
