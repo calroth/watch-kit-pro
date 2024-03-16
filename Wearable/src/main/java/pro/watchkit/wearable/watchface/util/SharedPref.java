@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2021 Terence Tan
+ * Copyright (C) 2019-2024 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -45,13 +45,6 @@ import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
  * and presents neat interfaces for getting and putting any preference we might want.
  */
 public final class SharedPref {
-    /**
-     * Should we draw all our layers to PNG files and write them to disk?
-     * A useful thing to do if we're debugging or writing our web site.
-     * Not useful during general use.
-     */
-    public static boolean mWriteLayersToDisk = false;
-
     /**
      * Internal copy of our Context for future reference.
      */

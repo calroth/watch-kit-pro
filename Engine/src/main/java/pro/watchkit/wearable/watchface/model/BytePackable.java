@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2022 Terence Tan
+ * Copyright (C) 2018-2024 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -36,7 +36,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
-import pro.watchkit.wearable.watchface.R;
+import pro.watchkit.wearable.R;
 
 public abstract class BytePackable {
     private static final String TAG = "BytePackable";

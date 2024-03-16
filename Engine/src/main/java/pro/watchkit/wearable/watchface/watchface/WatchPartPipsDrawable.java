@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2021 Terence Tan
+ * Copyright (C) 2018-2024 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -35,6 +35,7 @@
 package pro.watchkit.wearable.watchface.watchface;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -44,7 +45,7 @@ import androidx.annotation.NonNull;
 import pro.watchkit.wearable.watchface.model.BytePackable.Material;
 import pro.watchkit.wearable.watchface.model.BytePackable.PipShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.PipSize;
-import pro.watchkit.wearable.watchface.model.WatchFaceState;
+import pro.watchkit.wearable.watchface.model.WatchFaceStateBase;
 
 abstract class WatchPartPipsDrawable extends WatchPartDrawable {
     abstract protected boolean isVisible(int tickIndex);
@@ -87,9 +88,9 @@ abstract class WatchPartPipsDrawable extends WatchPartDrawable {
 
         // Get our dimensions.
         final float pipWidth =
-                WatchFaceState.getPipThickness(pipShape, pipSize) * pc * mod;
+                WatchFaceStateBase.getPipThickness(pipShape, pipSize) * pc * mod;
         final float pipSizeDimen =
-                WatchFaceState.getPipHalfLength(pipShape, pipSize) * pc * mod;
+                WatchFaceStateBase.getPipHalfLength(pipShape, pipSize) * pc * mod;
         final float pipBandStart = mWatchFaceState.getPipBandStart(pc) * pc * mod;
         final float pipBandHeight = mWatchFaceState.getPipBandHeight(pc) * pc * mod;
         final float pipRadiusPositionDimen = pipBandStart + (pipBandHeight / 2f);

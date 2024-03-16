@@ -28,6 +28,7 @@ import androidx.annotation.NonNull;
 import java.util.Collection;
 
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
+import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 final class WatchPartRingsDrawable extends WatchPartDrawable {
     @NonNull
@@ -59,9 +60,9 @@ final class WatchPartRingsDrawable extends WatchPartDrawable {
     @Override
     public void draw2(@NonNull Canvas canvas) {
         Collection<ComplicationHolder> complications =
-                mWatchFaceState.getComplicationsForDrawing(getBounds());
+                ((WatchFaceState)mWatchFaceState).getComplicationsForDrawing(getBounds());
 
-        if (complications.size() == 0) {
+        if (complications.isEmpty()) {
             // Early finish if we don't actually have any complications.
             return;
         }

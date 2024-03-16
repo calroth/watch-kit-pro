@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2022 Terence Tan
+ * Copyright (C) 2018-2024 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -18,24 +18,16 @@
 
 package pro.watchkit.wearable.watchface.watchface;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
-import android.graphics.RectF;
-import android.graphics.drawable.Icon;
-import android.support.wearable.watchface.decomposition.ImageComponent;
-import android.support.wearable.watchface.decomposition.WatchFaceDecomposition;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import pro.watchkit.wearable.watchface.model.BytePackable;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandCutoutShape;
@@ -44,11 +36,9 @@ import pro.watchkit.wearable.watchface.model.BytePackable.HandShape;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandStalk;
 import pro.watchkit.wearable.watchface.model.BytePackable.HandThickness;
 import pro.watchkit.wearable.watchface.model.BytePackable.Material;
-import pro.watchkit.wearable.watchface.model.WatchFaceState;
-//import pro.watchkit.wearable.watchface.util.SharedPref;
+import pro.watchkit.wearable.watchface.model.WatchFaceStateBase;
 
-abstract class WatchPartHandsDrawable extends WatchPartDrawable
-        implements WatchFaceGlobalDrawable.WatchFaceDecompositionComponent {
+class WatchPartHandsDrawable extends WatchPartDrawable {
     private static final float HUB_RADIUS_PERCENT = 3f; // 3% // 1.5f; // 1.5%
     private static final float HOUR_MINUTE_HAND_MIDPOINT = 0.333f;
     private static final float ROUND_RECT_RADIUS_PERCENT = 1.5f;
@@ -61,8 +51,8 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable
     @NonNull
     private final Path mHandTwoToneCutoutPath = new Path();
     @NonNull
-    private final Path mHandAmbientPath = new Path();
-    private int mPreviousSerial = -1;
+    final Path mHandAmbientPath = new Path();
+    int mPreviousSerial = -1;
     @NonNull
     private final Path mStalk = new Path();
     @NonNull
@@ -78,6 +68,264 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable
     @NonNull
     private final Matrix m2 = new Matrix();
 
+    public WatchPartHandsDrawable(HandType handType) {
+        super();
+
+        mHand = switch (handType) {
+            case HOUR -> new Hand() {
+                @NonNull
+                @Override
+                String getStatsName() {
+                    return "Hour";
+                }
+
+                @Override
+                HandShape getHandShape() {
+                    return mWatchFaceState.getHourHandShape();
+                }
+
+                @Override
+                HandLength getHandLength() {
+                    return mWatchFaceState.getHourHandLength();
+                }
+
+                @Override
+                HandThickness getHandThickness() {
+                    return mWatchFaceState.getHourHandThickness();
+                }
+
+                @Override
+                HandStalk getHandStalk() {
+                    return mWatchFaceState.getHourHandStalk();
+                }
+
+                @NonNull
+                @Override
+                HandCutoutShape getHandCutout() {
+                    return mWatchFaceState.getHourHandCutoutShape();
+                }
+
+                @Override
+                Material getHandMaterial() {
+                    return mWatchFaceState.getHourHandMaterial();
+                }
+
+                @NonNull
+                @Override
+                Material getHandCutoutMaterial() {
+                    return mWatchFaceState.getHourHandCutoutMaterialAsMaterial();
+                }
+
+                @Override
+                void punchHub(@NonNull Path active, @NonNull Path ambient) {
+                    // Punch the hub out of the hour hand in ambient and active modes.
+                    ambient.op(getHub(), Path.Op.DIFFERENCE);
+                    active.op(getHub(), Path.Op.DIFFERENCE);
+                }
+
+                @Override
+                float getDegreesRotation() {
+                    final float seconds = mWatchFaceState.getSecondsDecimal();
+                    final float secondsRotation = seconds * 6f;
+
+                    final float minuteHandOffset = secondsRotation / 60f;
+                    final float minutesRotation = mWatchFaceState.getMinutes() * 6f + minuteHandOffset;
+
+                    final float hourHandOffset = minutesRotation / 12f;
+                    final float hoursRotation = mWatchFaceState.getHours() * 30f + hourHandOffset;
+
+                    return hoursRotation;
+                }
+
+                /**
+                 * The number of degrees per day that this watch hand rotates.
+                 *
+                 * @return the number of degrees
+                 */
+                @Override
+                float getDegreesPerDay() {
+                    return 360f * 2f;
+                }
+
+                @Override
+                HandType getHandType() {
+                    return HandType.HOUR;
+                }
+            };
+            case MINUTE -> new Hand() {
+                @NonNull
+                @Override
+                String getStatsName() {
+                    return "Minute";
+                }
+
+                @Override
+                HandShape getHandShape() {
+                    return mWatchFaceState.getMinuteHandShape();
+                }
+
+                @Override
+                HandLength getHandLength() {
+                    return mWatchFaceState.getMinuteHandLength();
+                }
+
+                @Override
+                HandThickness getHandThickness() {
+                    return mWatchFaceState.getMinuteHandThickness();
+                }
+
+                @Override
+                HandStalk getHandStalk() {
+                    return mWatchFaceState.getMinuteHandStalk();
+                }
+
+                @NonNull
+                @Override
+                HandCutoutShape getHandCutout() {
+                    return mWatchFaceState.getMinuteHandCutoutShape();
+                }
+
+                @Override
+                Material getHandMaterial() {
+                    return mWatchFaceState.getMinuteHandMaterial();
+                }
+
+                @NonNull
+                @Override
+                Material getHandCutoutMaterial() {
+                    return mWatchFaceState.getMinuteHandCutoutMaterialAsMaterial();
+                }
+
+                @Override
+                void punchHub(@NonNull Path active, @NonNull Path ambient) {
+                    // Add the hub to the Minute hand in ambient and active modes.
+                    ambient.op(getHub(), Path.Op.UNION);
+                    active.op(getHub(), Path.Op.UNION);
+                }
+
+                @Override
+                float getDegreesRotation() {
+                    final float seconds = mWatchFaceState.getSecondsDecimal();
+                    final float secondsRotation = seconds * 6f;
+
+                    final float minuteHandOffset = secondsRotation / 60f;
+                    final float minutesRotation = mWatchFaceState.getMinutes() * 6f + minuteHandOffset;
+//
+//        final float hourHandOffset = minutesRotation / 12f;
+//        final float hoursRotation = mWatchFaceState.getHours() * 30f + hourHandOffset;
+
+                    return minutesRotation;
+                }
+
+                /**
+                 * The number of degrees per day that this watch hand rotates.
+                 *
+                 * @return the number of degrees
+                 */
+                @Override
+                float getDegreesPerDay() {
+                    return 360f * 2f * 12f;
+                }
+
+                @Override
+                HandType getHandType() {
+                    return HandType.MINUTE;
+                }
+            };
+            case SECOND -> new Hand() {
+                @NonNull
+                @Override
+                String getStatsName() {
+                    return "Second";
+                }
+
+                @NonNull
+                @Override
+                HandShape getHandShape() {
+                    return mWatchFaceState.getSecondHandShape();
+                }
+
+                @NonNull
+                @Override
+                HandLength getHandLength() {
+                    return mWatchFaceState.getSecondHandLength();
+                }
+
+                @NonNull
+                @Override
+                HandThickness getHandThickness() {
+                    return mWatchFaceState.getSecondHandThickness();
+                }
+
+                @NonNull
+                @Override
+                HandStalk getHandStalk() {
+                    return BytePackable.HandStalk.NONE; // Don't have this for the seconds hand.
+                }
+
+                @NonNull
+                @Override
+                HandCutoutShape getHandCutout() {
+                    return HandCutoutShape.TIP; // Don't have this for the seconds hand either.
+                }
+
+                @NonNull
+                @Override
+                Material getHandMaterial() {
+                    return mWatchFaceState.getSecondHandMaterial();
+                }
+
+                @NonNull
+                @Override
+                Material getHandCutoutMaterial() {
+                    return mWatchFaceState.getSecondHandMaterial();
+                }
+
+                @Override
+                void punchHub(@NonNull Path active, @NonNull Path ambient) {
+                    // Punch the hub out of the seconds hand in ambient and active modes.
+                    ambient.op(getHub(), Path.Op.DIFFERENCE);
+                    active.op(getHub(), Path.Op.DIFFERENCE);
+                }
+
+                @Override
+                float getDegreesRotation() {
+                    final float seconds = mWatchFaceState.getSecondsDecimal();
+                    final float secondsRotation = seconds * 6f;
+
+//        final float minuteHandOffset = secondsRotation / 60f;
+//        final float minutesRotation = mWatchFaceState.getMinutes() * 6f + minuteHandOffset;
+//
+//        final float hourHandOffset = minutesRotation / 12f;
+//        final float hoursRotation = mWatchFaceState.getHours() * 30f + hourHandOffset;
+
+                    return secondsRotation;
+                }
+
+                /**
+                 * The number of degrees per day that this watch hand rotates.
+                 *
+                 * @return the number of degrees
+                 */
+                @Override
+                float getDegreesPerDay() {
+                    return 360f * 2f * 12f * 60f;
+                }
+
+                @Override
+                HandType getHandType() {
+                    return HandType.SECOND;
+                }
+            };
+        };
+    }
+
+    @NonNull
+    @Override
+    String getStatsName() {
+        return mHand.getStatsName();
+    }
+
     @Override
     public void draw2(@NonNull Canvas canvas) {
         if (mWatchFaceState.isDeveloperMode() && mWatchFaceState.isHideHands()) {
@@ -85,10 +333,15 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable
             return;
         }
 
+        // Special case: Only draw seconds hand if not ambient.
+        if (mHand.getHandType() == HandType.SECOND && mWatchFaceState.isAmbient()) {
+            return;
+        }
+
         // Reset the exclusion path. We ignore it for this layer up!
         resetExclusionPath();
 
-        Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(getHandMaterial());
+        Paint paint = mWatchFaceState.getPaintBox().getPaintFromPreset(mHand.getHandMaterial());
         Path path = getHandPath();
         drawPath(canvas, path, paint);
 
@@ -99,7 +352,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable
             // Here we treat "mHandBottomCutout" as a cheap throwaway path.
             mHandTwoToneCutoutPath.transform(m2, mHandBottomCutout);
             canvas.drawPath(mHandBottomCutout,
-                    mWatchFaceState.getPaintBox().getPaintFromPreset(getHandCutoutMaterial()));
+                    mWatchFaceState.getPaintBox().getPaintFromPreset(mHand.getHandCutoutMaterial()));
         }
     }
 
@@ -115,7 +368,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable
      * @return Whether we have a cutout
      */
     private boolean isCutout() {
-        return !getHandCutoutMaterial().equals(getHandMaterial());
+        return !mHand.getHandCutoutMaterial().equals(mHand.getHandMaterial());
     }
 
     /**
@@ -127,7 +380,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable
      */
     private boolean isTwoToneCutout() {
         return isCutout() &&
-                !getHandCutoutMaterial().equals(mWatchFaceState.getBackgroundMaterial());
+                !mHand.getHandCutoutMaterial().equals(mWatchFaceState.getBackgroundMaterial());
     }
 
     @Override
@@ -144,68 +397,54 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable
         return mHub;
     }
 
-    abstract HandShape getHandShape();
-
-    abstract HandLength getHandLength();
-
-    abstract HandThickness getHandThickness();
-
-    abstract HandStalk getHandStalk();
-
-    @NonNull
-    abstract HandCutoutShape getHandCutout();
-
-    abstract Material getHandMaterial();
-
-    @NonNull
-    abstract Material getHandCutoutMaterial();
-
-    abstract void punchHub(Path active, Path ambient);
-
-    boolean isMinuteHand() {
-        return false;
+    public enum HandType {
+        HOUR, MINUTE, SECOND
     }
 
-    boolean isSecondHand() {
-        return false;
+    @NonNull
+    private final Hand mHand;
+
+    private abstract static class Hand {
+        abstract String getStatsName();
+
+        abstract HandShape getHandShape();
+
+        abstract HandLength getHandLength();
+
+        abstract HandThickness getHandThickness();
+
+        abstract HandStalk getHandStalk();
+
+        @NonNull
+        abstract HandCutoutShape getHandCutout();
+
+        abstract Material getHandMaterial();
+
+        @NonNull
+        abstract Material getHandCutoutMaterial();
+
+        abstract void punchHub(Path active, Path ambient);
+
+        abstract float getDegreesRotation();
+
+        abstract float getDegreesPerDay();
+
+        abstract HandType getHandType();
     }
-
-    /**
-     * The bounds of the path of this hand.
-     */
-    private final RectF mHandAmbientPathBounds = new RectF();
-
-    /**
-     * The bounds of the path of this hand, as a proportion of the full watchface.
-     */
-    private final RectF mHandAmbientPathProportion = new RectF();
 
     /**
      * The number of degrees per day that this watch hand rotates.
      *
      * @return the number of degrees
      */
-    abstract float getDegreesPerDay();
+    float getDegreesPerDay() {
+        return mHand.getDegreesPerDay();
+    }
 
-    /**
-     * If we're rendering a decomposition, it's rendered here.
-     */
-    @Nullable
-    private Bitmap mDecompositionSourceBitmap;
-
-    /**
-     * If we're rendering a decomposition, it's rendered into
-     * "mDecompositionSourceBitmap", then mapped to 16 colors here.
-     */
-    @Nullable
-    private Bitmap mDecompositionDestBitmap;
-
-    /**
-     * If we're rendering a decomposition, we draw here, which
-     * renders into "mDecompositionDestBitmap".
-     */
-    @Nullable
-    private Canvas mDecompositionSourceCanvas;
+    @Override
+    float getDegreesRotation() {
+        return mHand.getDegreesRotation();
+    }
 
     /**
      * A private copy of our current ambient tint. Useful for caching.
@@ -213,126 +452,8 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable
     @ColorInt
     int mCurrentAmbientTint;
 
-    /**
-     * Build this watch face decomposition component into "builder".
-     *
-     * @param builder WatchFaceDecomposition builder to build into.
-     * @param idA     AtomicInteger for the component ID, which we will increment
-     * @return The time at which this component expires, at which point (or before),
-     * call this again
-     */
-    @Override
-    public long buildWatchFaceDecompositionComponents(
-            @NonNull WatchFaceDecomposition.Builder builder, @NonNull AtomicInteger idA) {
-        int baseId = idA.getAndIncrement();
-        // Regenerate the hand path if required.
-        getHandPath();
-
-        // Regenerate the decomposition if our ambient tint color has changed.
-        // This happens regularly during dusk and dawn.
-        if (mCurrentAmbientTint != mWatchFaceState.getAmbientTint()) {
-            regenerateDecomposition();
-        }
-
-        ImageComponent.Builder iBuilder = new ImageComponent.Builder();
-        iBuilder.setComponentId(baseId).setZOrder(baseId);
-
-        // OK, set the builder accordingly. Start by setting our bitmap...
-        iBuilder.setImage(Icon.createWithBitmap(mDecompositionDestBitmap));
-
-        // The bounds is the proportion of the entire watch face that this hand takes up.
-        float entireWidth = (float) (getBounds().width());
-        float entireHeight = (float) (getBounds().height());
-        mHandAmbientPathProportion.set(mHandAmbientPathBounds.left / entireWidth,
-                mHandAmbientPathBounds.top / entireHeight,
-                mHandAmbientPathBounds.right / entireWidth,
-                mHandAmbientPathBounds.bottom / entireHeight);
-        iBuilder.setBounds(mHandAmbientPathProportion);
-
-        // Set rotation for the hand.
-        iBuilder.setDegreesPerDay(getDegreesPerDay());
-        if (getDegreesPerDay() > 360f * 2f * 12f) {
-            // For seconds hands, set degrees per step.
-            iBuilder.setDegreesPerStep(6f); // 1fps
-        }
-
-        builder.addImageComponents(iBuilder.build());
-
-        // This doesn't need updating on a schedule.
-        return Long.MAX_VALUE;
-    }
-
-    /**
-     * Regenerate the decomposition bitmap "mDecompositionDestBitmap" if anything has
-     * changed with the hands, such as its shape, size, or dusk/dawn tint.
-     */
-    private void regenerateDecomposition() {
-        // Compute the bounds for the path, make sure we don't render more than we need.
-        mHandAmbientPath.computeBounds(mHandAmbientPathBounds, true);
-        // Round "mHandAmbientPathBounds" height and width up to an alignment of 4.
-        float outsetX = mHandAmbientPathBounds.width() -
-                (float) Math.ceil(mHandAmbientPathBounds.width() / 4f) * 4f;
-        float outsetY = mHandAmbientPathBounds.height() -
-                (float) Math.ceil(mHandAmbientPathBounds.height() / 4f) * 4f;
-
-        mHandAmbientPathBounds.inset(outsetX / 2f, outsetY / 2f); // Round fractions up; adds padding.
-
-        int bitmapWidth = (int) mHandAmbientPathBounds.width();
-        int bitmapHeight = (int) mHandAmbientPathBounds.height();
-
-        // Render into a new bitmap. Use a Canvas to draw the Path.
-        if (mDecompositionSourceBitmap == null ||
-                mDecompositionSourceCanvas == null ||
-                mDecompositionDestBitmap == null ||
-                mDecompositionSourceBitmap.getWidth() != bitmapWidth ||
-                mDecompositionSourceBitmap.getHeight() != bitmapHeight) {
-            // Initialise our bitmaps and canvas on first use.
-            mDecompositionSourceBitmap =
-                    Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.ARGB_8888);
-            mDecompositionSourceCanvas = new Canvas(mDecompositionSourceBitmap);
-            // Translate, to ensure our painting happens within bounds.
-            mDecompositionSourceCanvas.translate(
-                    -mHandAmbientPathBounds.left,
-                    -mHandAmbientPathBounds.top);
-            mDecompositionDestBitmap =
-                    Bitmap.createBitmap(bitmapWidth, bitmapHeight, Bitmap.Config.ARGB_8888);
-        } else {
-            // Re-use the canvas, but clear it first.
-            mDecompositionSourceCanvas.drawColor(Color.BLACK);
-        }
-        assert mDecompositionSourceBitmap != null;
-        assert mDecompositionDestBitmap != null;
-        assert mDecompositionSourceCanvas != null;
-
-        // Draw our hand!
-
-        mDecompositionSourceCanvas.drawPath(mHandAmbientPath, getAmbientPaint());
-
-        // Reduce our bit depth to 16 levels, which is what decomposable bitmaps require.
-        mWatchFaceState.getPaintBox().mapBitmapWith8LevelsFromTransparent(
-                mWatchFaceState.getAmbientTint(),
-                mDecompositionSourceBitmap, mDecompositionDestBitmap);
-
-        // Save a copy of the ambient tint we used to draw this.
-        mCurrentAmbientTint = mWatchFaceState.getAmbientTint();
-    }
-
-    /**
-     * Does this WatchFaceDecomposition component have an update available? We ask because if
-     * there are no updates available, we want to avoid sending updates to the offload
-     * processor.
-     *
-     * @param currentTimeMillis The time when we're asking if there's an update available
-     * @return Whether the update is available?
-     */
-    @Override
-    public boolean hasDecompositionUpdateAvailable(long currentTimeMillis) {
-        int currentSerial = Objects.hash(mWatchFaceState);
-        return mPreviousSerial != currentSerial;
-    }
-
     @NonNull
-    private Path getHandPath() {
+    Path getHandPath() {
         // Regenerate "mHandActivePath" and "mHandAmbientPath" if we need to.
         int currentSerial = Objects.hash(mWatchFaceState);
 
@@ -343,7 +464,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable
             regenerateActivePath();
             mHandAmbientPath.reset();
             mHandAmbientPath.addPath(mHandActivePath);
-            punchHub(mHandActivePath, mHandAmbientPath);
+            mHand.punchHub(mHandActivePath, mHandAmbientPath);
             // Regenerate our bezels too.
             regenerateBezels();
             if (mWatchFaceState.getUseDecomposition()/* && SharedPref.isOffloadSupported()*/) {
@@ -357,17 +478,21 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable
             return mHandActivePath;
     }
 
-    private void regenerateActivePath() {
-        HandShape handShape = getHandShape();
-        HandLength handLength = getHandLength();
-        HandThickness handThickness = getHandThickness();
-        HandStalk handStalk = getHandStalk();
-        HandCutoutShape handCutoutShape = getHandCutout();
+    void regenerateDecomposition() {
+        // Not needed for the base case -- needed for legacy decomposition.
+    }
 
-        float thickness = WatchFaceState.getHandThickness(handShape, handThickness);
-        float length = WatchFaceState.getHandLength(handLength);
+    private void regenerateActivePath() {
+        HandShape handShape = mHand.getHandShape();
+        HandLength handLength = mHand.getHandLength();
+        HandThickness handThickness = mHand.getHandThickness();
+        HandStalk handStalk = mHand.getHandStalk();
+        HandCutoutShape handCutoutShape = mHand.getHandCutout();
+
+        float thickness = WatchFaceStateBase.getHandThickness(handShape, handThickness);
+        float length = WatchFaceStateBase.getHandLength(handLength);
         float top, bottom;
-        if (isMinuteHand() || isSecondHand()) {
+        if (mHand.getHandType() == HandType.MINUTE || mHand.getHandType() == HandType.SECOND) {
             length = length * 12.5f * pc; // 12.5%
             // Min multiplier is 2.7 (for hand length short) so that'd be 33.75%
             // Max multiplier is 4 (for hand length x-long) so that'd be 50%.
@@ -375,7 +500,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable
             length = length * 12.5f * pc * 0.61803398875f; // 12.5% - golden ratio
         }
 
-        if (isSecondHand()) {
+        if (mHand.getHandType() == HandType.SECOND) {
             // Second hands are automatically thinner.
             thickness /= 3;
         }
@@ -387,7 +512,7 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable
         // in order that the union works OK without gaps.
         // For the stalk thickness, use the width of the Straight hand shape, but only half.
         final float stalkThickness = pc * 0.5f *
-                WatchFaceState.getHandThickness(BytePackable.HandShape.STRAIGHT, handThickness);
+                WatchFaceStateBase.getHandThickness(BytePackable.HandShape.STRAIGHT, handThickness);
 
         mStalk.reset();
         mStalkCutout.reset();

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2021 Terence Tan
+ * Copyright (C) 2018-2024 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -39,11 +39,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 
-import pro.watchkit.wearable.watchface.model.WatchFaceState;
-//import pro.watchkit.wearable.watchface.util.SharedPref;
+import pro.watchkit.wearable.watchface.model.WatchFaceStateBase;
 
-abstract class WatchPartDrawable extends Drawable {
-    WatchFaceState mWatchFaceState;
+public abstract class WatchPartDrawable extends Drawable {
+    WatchFaceStateBase mWatchFaceState;
     float pc = 0f; // percent, set to 0.01f * height, all units are based on percent
     float mCenterX, mCenterY;
 
@@ -99,7 +98,6 @@ abstract class WatchPartDrawable extends Drawable {
         mDirection = Path.Direction.CCW;
     }
 
-
     private static final float mBevelOffset = 0.25f; // 0.25%
 
     // Stats start
@@ -111,6 +109,13 @@ abstract class WatchPartDrawable extends Drawable {
     @NonNull
     private final Matrix mTempMatrix2 = new Matrix();
 
+    /**
+     * Should we draw all our layers to PNG files and write them to disk?
+     * A useful thing to do if we're debugging or writing our web site.
+     * Not useful during general use.
+     */
+    public static boolean mWriteLayersToDisk = false;
+
     private static Canvas mWriteCanvas;
     private static Bitmap mWriteBitmap;
 
@@ -121,7 +126,7 @@ abstract class WatchPartDrawable extends Drawable {
         // Stats end
 
         Rect bounds = canvas.getClipBounds();
-        if (/*SharedPref.mWriteLayersToDisk && */bounds.width() != 0 && bounds.height() != 0) {
+        if (mWriteLayersToDisk && bounds.width() != 0 && bounds.height() != 0) {
             // Create "mWriteBitmap" on first use or dimension change.
             if (mWriteBitmap == null || bounds.width() != mWriteBitmap.getWidth() ||
                     bounds.height() != mWriteBitmap.getHeight()) {
@@ -474,7 +479,7 @@ abstract class WatchPartDrawable extends Drawable {
         return PixelFormat.UNKNOWN;
     }
 
-    void setWatchFaceState(@NonNull WatchFaceState watchFaceState, @NonNull Path exclusionPath,
+    void setWatchFaceState(@NonNull WatchFaceStateBase watchFaceState, @NonNull Path exclusionPath,
                            @NonNull Path innerGlowPath) {
         mWatchFaceState = watchFaceState;
         mExclusionPath = exclusionPath;

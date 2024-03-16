@@ -53,7 +53,7 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.TreeMap;
 
-import pro.watchkit.wearable.watchface.R;
+import pro.watchkit.wearable.R;
 import pro.watchkit.wearable.watchface.model.BytePackable.DigitSize;
 import pro.watchkit.wearable.watchface.model.BytePackable.Material;
 import pro.watchkit.wearable.watchface.model.BytePackable.MaterialGradient;

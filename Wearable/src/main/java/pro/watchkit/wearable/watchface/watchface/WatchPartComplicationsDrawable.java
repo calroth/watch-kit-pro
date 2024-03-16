@@ -29,9 +29,10 @@ import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
+import pro.watchkit.wearable.watchface.model.WatchFaceState;
 
 final class WatchPartComplicationsDrawable extends WatchPartDrawable
-        implements WatchFaceGlobalDrawable.WatchFaceDecompositionComponent {
+        implements LegacyWatchFaceGlobalDrawable.WatchFaceDecompositionComponent {
     @NonNull
     @Override
     String getStatsName() {
@@ -40,7 +41,7 @@ final class WatchPartComplicationsDrawable extends WatchPartDrawable
 
     @Override
     public void draw2(@NonNull Canvas canvas) {
-        mWatchFaceState.getComplicationsForDrawing(getBounds())
+        ((WatchFaceState)mWatchFaceState).getComplicationsForDrawing(getBounds())
                 .stream().filter(c -> c.isForeground)
                 .forEach(c -> c.draw(canvas, mWatchFaceState.getTimeInMillis()));
     }
@@ -76,7 +77,7 @@ final class WatchPartComplicationsDrawable extends WatchPartDrawable
         TreeSet<ComplicationFrame> frames = new TreeSet<>();
 
         // Fill "frames" with every frame in every time-dependent complication.
-        mWatchFaceState.getComplicationsForDrawing(getBounds())
+        ((WatchFaceState)mWatchFaceState).getComplicationsForDrawing(getBounds())
                 .stream().filter(c1 -> c1.isForeground && c1.isTimeDependent())
                 .forEach(c1 -> {
                     long frameTime0 = c1.getTimeDependentFrameTime0(currentTimeMillis);
@@ -125,7 +126,7 @@ final class WatchPartComplicationsDrawable extends WatchPartDrawable
             maxTimeMillis = budget.last().mFrameTime;
         }
 
-        mWatchFaceState.getComplicationsForDrawing(getBounds())
+        ((WatchFaceState)mWatchFaceState).getComplicationsForDrawing(getBounds())
                 .stream().filter(c -> c.isForeground && c.isTimeDependent())
                 .forEach(c -> {
                     // Terence temporary hack
@@ -147,7 +148,7 @@ final class WatchPartComplicationsDrawable extends WatchPartDrawable
     @Override
     public boolean hasDecompositionUpdateAvailable(long currentTimeMillis) {
         // Are there any updated time-dependent complications?
-        return mWatchFaceState.getComplications().stream()
+        return ((WatchFaceState)mWatchFaceState).getComplications().stream()
                 .filter(c -> c.isForeground && c.isTimeDependent())
                 .map(c -> c.checkUpdatedComplicationData(currentTimeMillis))
                 .reduce(false, (a, b) -> a || b);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2022 Terence Tan
+ * Copyright (C) 2018-2024 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -93,7 +93,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.concurrent.Executors;
 
-import pro.watchkit.wearable.watchface.BuildConfig;
+import pro.watchkit.wearable.BuildConfig;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.model.BytePackable;
 import pro.watchkit.wearable.watchface.model.ComplicationHolder;
@@ -102,9 +102,11 @@ import pro.watchkit.wearable.watchface.model.PaintBox;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.util.SharedPref;
 import pro.watchkit.wearable.watchface.util.Toaster;
+import pro.watchkit.wearable.watchface.watchface.LegacyWatchFaceGlobalDrawable;
 import pro.watchkit.wearable.watchface.watchface.ProWatchFaceService;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDeferredDrawable;
 import pro.watchkit.wearable.watchface.watchface.WatchFaceGlobalDrawable;
+import pro.watchkit.wearable.watchface.watchface.WatchPartDrawable;
 
 abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     /**
@@ -533,7 +535,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             if (mConfigItem.getLabelResourceId() == R.string.config_generate_icon_files &&
                     BuildConfig.DEBUG) {
                 Context context = itemView.getContext();
-                SharedPref.mWriteLayersToDisk = false;
+                WatchPartDrawable.mWriteLayersToDisk = false;
 
                 // Create our foreground drawable.
                 int count = 0;
@@ -547,9 +549,9 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                                 WatchFaceGlobalDrawable.PART_RINGS_ACTIVE;
 
                         WatchFaceGlobalDrawable drawable =
-                                new WatchFaceGlobalDrawable(context, flags);
+                                new LegacyWatchFaceGlobalDrawable(context, flags);
 
-                        WatchFaceState watchFaceState = drawable.getWatchFaceState();
+                        WatchFaceState watchFaceState = (WatchFaceState) drawable.getWatchFaceState();
 
                         // Quick-and-dirty code to get complication IDs.
                         ProWatchFaceService p;
@@ -631,7 +633,7 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                     count++;
                 }
 
-                SharedPref.mWriteLayersToDisk = false;
+                WatchPartDrawable.mWriteLayersToDisk = false;
                 return;
             }
             if (mCurrentWatchFaceState.isDeveloperMode()) {

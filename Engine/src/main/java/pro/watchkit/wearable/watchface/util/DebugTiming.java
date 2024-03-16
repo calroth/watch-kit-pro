@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Terence Tan
+ * Copyright (C) 2022-2024 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -20,7 +20,7 @@ package pro.watchkit.wearable.watchface.util;
 
 import android.util.Log;
 
-import pro.watchkit.wearable.watchface.BuildConfig;
+import pro.watchkit.wearable.BuildConfig;
 
 /**
  * Utility class for timing.

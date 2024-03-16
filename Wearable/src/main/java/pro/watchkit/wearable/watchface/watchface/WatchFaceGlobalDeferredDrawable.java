@@ -68,7 +68,7 @@ public class WatchFaceGlobalDeferredDrawable extends Drawable {
 
     public WatchFaceGlobalDeferredDrawable(
             @NonNull Context context, int flags, @NonNull View parentView) {
-        mWatchPartDrawables = WatchFaceGlobalDrawable.buildDrawables(null, flags);
+        mWatchPartDrawables = LegacyWatchFaceGlobalDrawable.buildDrawables(null, flags);
 
         mWatchFaceState = new WatchFaceState(context);
         mParentView = parentView;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2022 Terence Tan
+ * Copyright (C) 2018-2024 Terence Tan
  *
  *  This file is free software: you may copy, redistribute and/or modify it
  *  under the terms of the GNU General Public License as published by the
@@ -43,6 +43,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -70,7 +71,7 @@ import com.google.android.gms.location.LocationServices;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.TimeUnit;
 
-import pro.watchkit.wearable.watchface.BuildConfig;
+import pro.watchkit.wearable.BuildConfig;
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
 import pro.watchkit.wearable.watchface.util.SharedPref;
 import pro.watchkit.wearable.watchface.util.Toaster;
@@ -138,7 +139,7 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
         };
         private final IntentFilter mActionTimezoneChangedIntentFilter =
                 new IntentFilter(Intent.ACTION_TIMEZONE_CHANGED);
-        private WatchFaceGlobalDrawable mWatchFaceGlobalDrawable;
+        private LegacyWatchFaceGlobalDrawable mWatchFaceGlobalDrawable;
 
         /**
          * SharedPreferences object to retrieve our WatchFaceState out of preferences.
@@ -199,8 +200,8 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
                             .setViewProtectionMode(WatchFaceStyle.PROTECT_STATUS_BAR)
                             .build());
 
-            mWatchFaceGlobalDrawable = new WatchFaceGlobalDrawable(context,
-                    new WatchFaceGlobalCacheDrawable(
+            mWatchFaceGlobalDrawable = new LegacyWatchFaceGlobalDrawable(context,
+                    new LegacyWatchFaceGlobalCacheDrawable(
                             WatchFaceGlobalDrawable.PART_BACKGROUND |
                                     WatchFaceGlobalDrawable.PART_NOTIFICATIONS |
                                     WatchFaceGlobalDrawable.PART_RINGS_ACTIVE |
@@ -247,10 +248,14 @@ public abstract class ProWatchFaceService extends HardwareAcceleratedCanvasWatch
         private void scheduleNextUpdateDecomposableAlarm(long nextUpdateTime) {
             // Cancel if it's set, we'll reset.
             mDecomposableUpdateAlarmManager.cancel(mDecomposableUpdatePendingIntent);
-            mDecomposableUpdateAlarmManager.setAlarmClock(
-                    new AlarmManager.AlarmClockInfo(
-                            nextUpdateTime, mDecomposableUpdatePendingIntent),
-                    mDecomposableUpdatePendingIntent);
+            try {
+                mDecomposableUpdateAlarmManager.setAlarmClock(
+                        new AlarmManager.AlarmClockInfo(
+                                nextUpdateTime, mDecomposableUpdatePendingIntent),
+                        mDecomposableUpdatePendingIntent);
+            } catch (SecurityException ex) {
+                // No worries, it just won't work.
+            }
         }
 
         /**

@@ -41,7 +41,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import pro.watchkit.wearable.watchface.BuildConfig;
+import pro.watchkit.wearable.BuildConfig;
 import pro.watchkit.wearable.watchface.R;
 import pro.watchkit.wearable.watchface.config.ConfigActivity;
 import pro.watchkit.wearable.watchface.config.WatchFaceSelectionActivity;
