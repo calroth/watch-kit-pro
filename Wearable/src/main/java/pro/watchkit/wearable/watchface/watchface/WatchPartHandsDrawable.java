@@ -100,6 +100,8 @@ abstract class WatchPartHandsDrawable extends WatchPartDrawable
             mHandTwoToneCutoutPath.transform(m2, mHandBottomCutout);
             canvas.drawPath(mHandBottomCutout,
                     mWatchFaceState.getPaintBox().getPaintFromPreset(getHandCutoutMaterial()));
+            drawPathForExport(mWriteCCanvas, mHandBottomCutout,
+                    mWatchFaceState.getPaintBox().getPaintFromPreset(getHandCutoutMaterial()));
         }
     }
 

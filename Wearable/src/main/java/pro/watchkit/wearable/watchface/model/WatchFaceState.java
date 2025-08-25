@@ -217,8 +217,8 @@ public class WatchFaceState {
      * having different elements out of sync with each other.
      */
     public void setCurrentTimeToNow() {
-        mCalendar.setTimeInMillis(System.currentTimeMillis());
-        // mCalendar.setTimeInMillis(1570365309000L); // For preview generation.
+        //mCalendar.setTimeInMillis(System.currentTimeMillis());
+         mCalendar.setTimeInMillis(1570366800000L); // For preview generation.
     }
 
     /**
@@ -227,7 +227,7 @@ public class WatchFaceState {
      * @param millis The time in UTC milliseconds since epoch
      */
     public void setCurrentTime(long millis) {
-        mCalendar.setTimeInMillis(millis);
+        mCalendar.setTimeInMillis(1570366800000L);
     }
 
     public void setBurnInProtection(boolean lowBitAmbient, boolean burnInProtection) {

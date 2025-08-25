@@ -18,10 +18,20 @@
 
 package pro.watchkit.wearable.watchface.watchface;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.Rect;
+import android.os.SystemClock;
 
 import androidx.annotation.NonNull;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import pro.watchkit.wearable.watchface.model.BytePackable;
+import pro.watchkit.wearable.watchface.util.SharedPref;
 
 final class WatchPartBackgroundDrawable extends WatchPartDrawable {
     @NonNull
@@ -42,6 +52,125 @@ final class WatchPartBackgroundDrawable extends WatchPartDrawable {
         } else {
             canvas.drawPaint(mWatchFaceState.getPaintBox().getPaintFromPreset(
                     mWatchFaceState.getBackgroundMaterial()));
+        }
+
+        Rect bounds = canvas.getClipBounds();
+        if (SharedPref.mWriteLayersToDisk && bounds.width() != 0 && bounds.height() != 0) {
+            Bitmap writeBitmap = Bitmap.createBitmap(
+                    bounds.height(), bounds.width(), Bitmap.Config.ARGB_8888);
+            Canvas writeCanvas = new Canvas(writeBitmap);
+
+            {
+                // Clear out "mWriteCanvas".
+                writeCanvas.drawColor(Color.BLACK, PorterDuff.Mode.CLEAR);
+                writeCanvas.drawPaint(mWatchFaceState.getPaintBox().getPaintFromPreset(BytePackable.Material.FILL_HIGHLIGHT));
+
+                try {
+                    FileOutputStream out = mWatchFaceState.openFileOutput(
+                            SystemClock.elapsedRealtimeNanos() +
+                                    "-Fill-Highlight.png");
+                    writeBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            {
+                // Clear out "mWriteCanvas".
+                writeCanvas.drawColor(Color.BLACK, PorterDuff.Mode.CLEAR);
+                writeCanvas.drawPaint(mWatchFaceState.getPaintBox().getPaintFromPreset(BytePackable.Material.BASE_ACCENT));
+
+                try {
+                    FileOutputStream out = mWatchFaceState.openFileOutput(
+                            SystemClock.elapsedRealtimeNanos() +
+                                    "-Base-Accent.png");
+                    writeBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            {
+                // Clear out "mWriteCanvas".
+                writeCanvas.drawColor(Color.BLACK, PorterDuff.Mode.CLEAR);
+                writeCanvas.drawPaint(mWatchFaceState.getPaintBox().getPaintFromPreset(BytePackable.Material.ACCENT_HIGHLIGHT));
+
+                try {
+                    FileOutputStream out = mWatchFaceState.openFileOutput(
+                            SystemClock.elapsedRealtimeNanos() +
+                                    "-Accent-Highlight.png");
+                    writeBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            {
+                // Clear out "mWriteCanvas".
+                writeCanvas.drawColor(Color.BLACK, PorterDuff.Mode.CLEAR);
+                writeCanvas.drawPaint(mWatchFaceState.getPaintBox().getPaintFromPreset(BytePackable.Material.ACCENT_FILL));
+
+                try {
+                    FileOutputStream out = mWatchFaceState.openFileOutput(
+                            SystemClock.elapsedRealtimeNanos() +
+                                    "-Accent-Fill.png");
+                    writeBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            {
+                // Clear out "mWriteCanvas".
+                writeCanvas.drawColor(Color.BLACK, PorterDuff.Mode.CLEAR);
+                writeCanvas.drawPaint(mWatchFaceState.getPaintBox().getBezelPaint2());
+
+                try {
+                    FileOutputStream out = mWatchFaceState.openFileOutput(
+                            SystemClock.elapsedRealtimeNanos() +
+                                    "-Bezel2.png");
+                    writeBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            {
+                // Clear out "mWriteCanvas".
+                writeCanvas.drawColor(Color.BLACK, PorterDuff.Mode.CLEAR);
+                writeCanvas.drawPaint(getAmbientPaint());
+
+                try {
+                    FileOutputStream out = mWatchFaceState.openFileOutput(
+                            SystemClock.elapsedRealtimeNanos() +
+                                    "-Ambient.png");
+                    writeBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            {
+                // Clear out "mWriteCanvas".
+                writeCanvas.drawColor(Color.BLACK, PorterDuff.Mode.CLEAR);
+                writeCanvas.drawPaint(mWatchFaceState.getPaintBox().getShadowPaint());
+
+                try {
+                    FileOutputStream out = mWatchFaceState.openFileOutput(
+                            SystemClock.elapsedRealtimeNanos() +
+                                    "-Shadow.png");
+                    writeBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

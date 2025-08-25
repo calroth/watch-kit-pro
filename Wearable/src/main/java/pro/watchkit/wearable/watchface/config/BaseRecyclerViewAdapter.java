@@ -533,14 +533,14 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             if (mConfigItem.getLabelResourceId() == R.string.config_generate_icon_files &&
                     BuildConfig.DEBUG) {
                 Context context = itemView.getContext();
-                SharedPref.mWriteLayersToDisk = false;
+                SharedPref.mWriteLayersToDisk = true;
 
                 // Create our foreground drawable.
-                int count = 0;
-                for (Map.Entry<String, String> g :
-                        mCurrentWatchFaceState.getGalleryEntries().entrySet()) {
-                    for (Map.Entry<String, Integer> cw :
-                            mCurrentWatchFaceState.getPaintBox().getOriginalColorways().entrySet()) {
+//                int count = 0;
+//                for (Map.Entry<String, String> g :
+//                        mCurrentWatchFaceState.getGalleryEntries().entrySet()) {
+//                    for (Map.Entry<String, Integer> cw :
+//                            mCurrentWatchFaceState.getPaintBox().getOriginalColorways().entrySet()) {
                         int flags = WatchFaceGlobalDrawable.PART_BACKGROUND |
                                 WatchFaceGlobalDrawable.PART_PIPS |
                                 WatchFaceGlobalDrawable.PART_HANDS |
@@ -553,29 +553,30 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
                         // Quick-and-dirty code to get complication IDs.
                         ProWatchFaceService p;
-                        if (count % 4 == 0) {
-                            watchFaceState.setString("04941b40ef006610846065dcc6f81411~" +
-                                    "16e1cf096cc000000000000000000001~0");
-                            p = new ProWatchFaceService.A();
-                        } else if (count % 4 == 1) {
-                            watchFaceState.setString("0cd71a20ef007c2008e2212a68384c01~" +
-                                    "1b434f0963c000000000000000000001~0");
-                            p = new ProWatchFaceService.B();
-                        } else if (count % 4 == 2) {
-                            watchFaceState.setString("155b4120e0004274fb8601d8cfb81001~" +
-                                    "1fe4ef0eba0000000000000000000001~0");
-                            p = new ProWatchFaceService.C();
-                        } else {
+//                        if (count % 4 == 0) {
+//                            watchFaceState.setString("04941b40ef006610846065dcc6f81411~" +
+//                                    "16e1cf096cc000000000000000000001~0");
+//                            p = new ProWatchFaceService.A();
+//                        } else if (count % 4 == 1) {
+//                            watchFaceState.setString("0cd71a20ef007c2008e2212a68384c01~" +
+//                                    "1b434f0963c000000000000000000001~0");
+//                            p = new ProWatchFaceService.B();
+//                        } else if (count % 4 == 2) {
+//                            watchFaceState.setString("155b4120e0004274fb8601d8cfb81001~" +
+//                                    "1fe4ef0eba0000000000000000000001~0");
+//                            p = new ProWatchFaceService.C();
+//                        } else {
                             watchFaceState.setString("1d404b6a6f0066f6b4aae8c459bf4ca0~" +
                                     "13308f05084000000000000000000000~0");
                             p = new ProWatchFaceService.D();
-                        }
-                        watchFaceState.setWatchFacePresetString(g.getValue());
-                        watchFaceState.setColorway(cw.getValue());
-                        watchFaceState.setCurrentTime(1570365309000L); // 2019-10-06T23:35:09.000+1100
+//                        }
+//                        watchFaceState.setWatchFacePresetString(g.getValue());
+//                        watchFaceState.setColorway(cw.getValue());
+//                        watchFaceState.setCurrentTime(1570365309000L); // 2019-10-06T23:35:09.000+1100
+                        watchFaceState.setCurrentTime(1570366800000L); // 2019-10-07T00:00:00.000+1100
                         watchFaceState.setNotifications(0, 0);
                         watchFaceState.setAmbient(false);
-                        drawable.setBounds(0, 0, 960, 960);
+                        drawable.setBounds(0, 0, 450, 450);
 
                         // Initialise complications, just enough to be able to draw rings.
                         watchFaceState.initializeComplications(context, false);
@@ -607,29 +608,29 @@ abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
                         // Create our canvas...
                         Bitmap bitmap =
-                                Bitmap.createBitmap(960, 960, Bitmap.Config.ARGB_8888);
+                                Bitmap.createBitmap(450, 450, Bitmap.Config.ARGB_8888);
                         Canvas canvas = new Canvas(bitmap);
 
                         // Draw to the canvas!
                         drawable.draw(canvas);
 
                         // Export as PNG
-                        try {
-                            String n = g.getKey()
-                                    .replace("🅰", "AA")
-                                    .replace("🅱", "AB")
-                                    .replace("🅲", "AC")
-                                    .replace("🅳", "AD");
-                            FileOutputStream out = watchFaceState.openFileOutput(
-                                    n + " x " + cw.getKey() + ".png");
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-                            out.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    count++;
-                }
+//                        try {
+//                            String n = g.getKey()
+//                                    .replace("🅰", "AA")
+//                                    .replace("🅱", "AB")
+//                                    .replace("🅲", "AC")
+//                                    .replace("🅳", "AD");
+//                            FileOutputStream out = watchFaceState.openFileOutput(
+//                                    n + " x " + cw.getKey() + ".png");
+//                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+//                            out.close();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    count++;
+//                }
 
                 SharedPref.mWriteLayersToDisk = false;
                 return;

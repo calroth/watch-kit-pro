@@ -30,6 +30,7 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.SystemClock;
 
 import androidx.annotation.NonNull;
@@ -37,6 +38,7 @@ import androidx.annotation.Nullable;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Objects;
 
 import pro.watchkit.wearable.watchface.model.WatchFaceState;
@@ -111,8 +113,8 @@ abstract class WatchPartDrawable extends Drawable {
     @NonNull
     private final Matrix mTempMatrix2 = new Matrix();
 
-    private static Canvas mWriteCanvas;
-    private static Bitmap mWriteBitmap;
+    static Canvas mWriteCanvas, mWriteB1Canvas, mWriteB2Canvas, mWritePCanvas, mWriteACanvas, mWriteSCanvas, mWriteCCanvas;
+    static Bitmap mWriteBitmap, mWriteB1Bitmap, mWriteB2Bitmap, mWritePBitmap, mWriteABitmap, mWriteSBitmap, mWriteCBitmap;
 
     @Override
     final public void draw(@NonNull Canvas canvas) {
@@ -128,20 +130,69 @@ abstract class WatchPartDrawable extends Drawable {
                 mWriteBitmap = Bitmap.createBitmap(
                         bounds.height(), bounds.width(), Bitmap.Config.ARGB_8888);
                 mWriteCanvas = new Canvas(mWriteBitmap);
+                mWriteB1Bitmap = Bitmap.createBitmap(bounds.height(), bounds.width(), Bitmap.Config.ARGB_8888);
+                mWriteB1Canvas = new Canvas(mWriteB1Bitmap);
+                mWriteB2Bitmap = Bitmap.createBitmap(bounds.height(), bounds.width(), Bitmap.Config.ARGB_8888);
+                mWriteB2Canvas = new Canvas(mWriteB2Bitmap);
+                mWritePBitmap = Bitmap.createBitmap(bounds.height(), bounds.width(), Bitmap.Config.ARGB_8888);
+                mWritePCanvas = new Canvas(mWritePBitmap);
+                mWriteABitmap = Bitmap.createBitmap(bounds.height(), bounds.width(), Bitmap.Config.ARGB_8888);
+                mWriteACanvas = new Canvas(mWriteABitmap);
+                mWriteSBitmap = Bitmap.createBitmap(bounds.height(), bounds.width(), Bitmap.Config.ARGB_8888);
+                mWriteSCanvas = new Canvas(mWriteSBitmap);
+                mWriteCBitmap = Bitmap.createBitmap(bounds.height(), bounds.width(), Bitmap.Config.ARGB_8888);
+                mWriteCCanvas = new Canvas(mWriteCBitmap);
             }
 
             // Clear out "mWriteCanvas".
             mWriteCanvas.drawColor(Color.BLACK, Mode.CLEAR);
+            mWriteB1Canvas.drawColor(Color.BLACK, Mode.CLEAR);
+            mWriteB2Canvas.drawColor(Color.BLACK, Mode.CLEAR);
+            mWritePCanvas.drawColor(Color.BLACK, Mode.CLEAR);
+            mWriteACanvas.drawColor(Color.BLACK, Mode.CLEAR);
+            mWriteSCanvas.drawColor(Color.BLACK, Mode.CLEAR);
+            mWriteCCanvas.drawColor(Color.BLACK, Mode.CLEAR);
 
             // Draw to "mWriteCanvas" too!
             draw2(mWriteCanvas);
 
             try {
                 FileOutputStream out = mWatchFaceState.openFileOutput(
-                        SystemClock.elapsedRealtimeNanos() +
-                                "-" + this.getClass().getSimpleName() +
+                        this.getClass().getSimpleName() +
                                 ".png");
                 mWriteBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                out.close();
+                out = mWatchFaceState.openFileOutput(
+                        this.getClass().getSimpleName().toLowerCase() +
+                                "_b1.png");
+                mWriteB1Bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                out.close();
+                out = mWatchFaceState.openFileOutput(
+                        this.getClass().getSimpleName().toLowerCase() +
+                                "_b2.png");
+                mWriteB2Bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                out.close();
+                out = mWatchFaceState.openFileOutput(
+                        this.getClass().getSimpleName().toLowerCase() +
+                                "_p.png");
+                mWritePBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                out.close();
+                out = mWatchFaceState.openFileOutput(
+                        this.getClass().getSimpleName().toLowerCase() +
+                                "_a.png");
+                mWriteABitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                out.close();
+                if (enablePathShadows()) {
+                    out = mWatchFaceState.openFileOutput(
+                            this.getClass().getSimpleName().toLowerCase() +
+                                    "_s.png");
+                    mWriteSBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+                    out.close();
+                }
+                out = mWatchFaceState.openFileOutput(
+                        this.getClass().getSimpleName().toLowerCase() +
+                                "_c.png");
+                mWriteCBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
                 out.close();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -348,8 +399,11 @@ abstract class WatchPartDrawable extends Drawable {
             if (enablePathShadows()) {
                 canvas.drawPath(mTempPath,
                         mWatchFaceState.getPaintBox().getShadowPaint());
+                drawPathForExport(mWriteSCanvas, mTempPath, mWatchFaceState.getPaintBox().getShadowPaint());
             }
             canvas.drawPath(mTempPath, paint);
+            drawPathForExport(mWritePCanvas, mTempPath, paint);
+            drawPathForExportAmbient(mWriteACanvas, mTempPath);
 
 //            // Draw NE and SW bezels as paths.
 //            // They're drawn first so they're overdrawn by NW and SE.
@@ -368,8 +422,10 @@ abstract class WatchPartDrawable extends Drawable {
 //                // Right, all done, draw them!
                 mNorthEastBezel.transform(mTempMatrix2, mTempPath);
                 canvas.drawPath(mTempPath, bezelPaint1);
+                drawPathForExport(mWriteB1Canvas, mTempPath, bezelPaint1);
                 mSouthWestBezel.transform(mTempMatrix2, mTempPath);
                 canvas.drawPath(mTempPath, bezelPaint2);
+                drawPathForExport(mWriteB2Canvas, mTempPath, bezelPaint2);
 
                 bezelPaint1.setAlpha(alpha1);
                 bezelPaint2.setAlpha(alpha2);
@@ -386,14 +442,52 @@ abstract class WatchPartDrawable extends Drawable {
                 // Right, all done, draw them!
                 mNorthWestBezel.transform(mTempMatrix2, mTempPath);
                 canvas.drawPath(mTempPath, bezelPaint1);
+                drawPathForExport(mWriteB1Canvas, mTempPath, bezelPaint1);
                 mSouthEastBezel.transform(mTempMatrix2, mTempPath);
                 canvas.drawPath(mTempPath, bezelPaint2);
+                drawPathForExport(mWriteB1Canvas, mTempPath, bezelPaint2);
             }
         } else {
             // Ambient.
             // The path itself.
             mDrawPath.transform(mTempMatrix2, mTempPath);
             canvas.drawPath(mTempPath, getAmbientPaint());
+        }
+    }
+
+    private void drawPathForExportAmbient(Canvas canvas, Path path) {
+        if (SharedPref.mWriteLayersToDisk) {
+            Paint p = new Paint();
+            p.setColor(Color.RED);
+            p.setStrokeJoin(Paint.Join.ROUND);
+            p.setStrokeCap(Paint.Cap.ROUND);
+            p.setAntiAlias(true);
+            p.setTextAlign(Paint.Align.CENTER);
+            p.setStyle(Paint.Style.STROKE);
+            p.setStrokeWidth(2.0f); // thiccc
+
+            canvas.drawPath(path, p);
+        }
+    }
+
+    void drawPathForExport(Canvas canvas, Path path, Paint paint) {
+        if (SharedPref.mWriteLayersToDisk) {
+            Paint p = new Paint();
+            p.setColor(Color.BLACK);
+            p.setStrokeJoin(Paint.Join.ROUND);
+            p.setStrokeCap(Paint.Cap.ROUND);
+            p.setAntiAlias(true);
+            p.setTextAlign(Paint.Align.CENTER);
+            p.setAlpha(paint.getAlpha());
+            p.setStyle(paint.getStyle());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                p.setShadowLayer(paint.getShadowLayerRadius(), paint.getShadowLayerDx(), paint.getShadowLayerDy(), paint.getShadowLayerColor());
+                if (p.getShadowLayerRadius() > 0f) {
+                    p.setAlpha(0);
+                }
+            }
+
+            canvas.drawPath(path, p);
         }
     }
 
